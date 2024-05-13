@@ -1,0 +1,346 @@
+## Chapter 9 The Discrete Fourier Transform
+
+In our discussions so far, we saw that transform techniques play a very useful role in the analysis of linear time-invariant systems. Among their many applications are the spectral analysis of signals, solution of differential or difference equations, and analysis of systems in terms of a frequency response or transfer function. With the tremendous increase in the use of digital hardware in recent years, the use of transforms that are especially suited for machine computation has become of great interest. In this chapter, we study one such transform, namely, the discrete Fourier transform (DFT), which can be viewed as a logical extension of the Fourier transforms discussed earlier.
+
+In order to motivate our definition of the DFT, let us assume that we are interested in finding the Fourier transform of analog signal \(x_{a}(t)\) using a digital computer. Since a digital computer can only store and manipulate a finite set of numbers, it is necessary to represent \(x_{a}(t)\) by a finite set of values. The first step in doing so is to sample the signal to obtain a discrete sequence \(x_{a}(n)\). Since the analog signal may not be time-limited, the next step is to obtain a finite set of samples of the discrete sequence by a process of truncating. Without loss of generality, we can assume that these samples are defined for \(n\) in the range \([0,N-1]\). Let us denote this finite sequence by \(x\left(n\right)\). We can consider \(x\left(n\right)\) to be the product of infinite sequence \(x_{a}(n)\) and _window_ function \(w\left(n\right)\), which is defined as
+
+\[w\left(n\right)=\begin{cases}1,&0\leq n\leq N-1\\ 0,&\text{otherwise}\end{cases} \tag{9.1.1}\]
+
+so that
+
+\[x\left(n\right)=x_{a}(n)w\left(n\right) \tag{9.1.2}\]Since we now have a discrete sequence, we can take the discrete-time Fourier transform of the sequence as
+
+\[X\left(\Omega\right)=\sum_{n\,=\,0}^{N\,-\,1}x\left(n\right)\,\exp\left[\,-j \Omega n\,\right] \tag{9.1.3}\]
+
+This is still not in a form suitable for machine computation, since \(\Omega\) is a continuous variable taking values in \(\left[0,\,2\pi\right]\). The final step, therefore, is to evaluate \(X\left(\Omega\right)\) at only a finite number of values, \(\Omega_{k}\), by a process of sampling uniformly in the range \(\left[0,\,2\pi\right]\) as
+
+\[X\left(\Omega_{k}\right)=\sum_{n\,=\,0}^{N\,-\,1}x\left(n\right)\,\exp\left[\,- j\Omega_{k}n\,\right],\qquad k=0,\,1,\,\ldots\,,\,M-1 \tag{9.1.4}\]
+
+where
+
+\[\Omega_{k}=\frac{2\pi}{M}\,k \tag{9.1.5}\]
+
+The number of frequency samples, \(M\), can be any value. However, we choose it to be the same as the number of time samples, \(N\). With this modification, and writing \(X\left(\Omega_{k}\right)\) as \(X\left(k\right)\), we finally have
+
+\[X\left(k\right)=\sum_{n\,=\,0}^{N\,-\,1}x\left(n\right)\,\exp\left[\,-j\frac{2 \pi}{N}\,nk\,\right] \tag{9.1.6}\]
+
+An assumption that is implicit in our derivations is that \(x\left(n\right)\) can take any value in the range \(\left(-\,\infty,\,\infty\right)\), that is, that \(x\left(n\right)\) can be represented to infinite precision. However, the computer can use only a finite word-length representation. This is accomplished by a process of _quantization_ of the dynamic range of the signal to a finite number of levels. In many applications, the error in representing an infinite-precision number by a finite word can be made small, in comparison to the errors introduced by sampling, by a suitable choice of quantization levels. We therefore assume that \(x\left(n\right)\) can assume any value in \(\left(-\,\infty,\,\infty\right)\).
+
+Although Equation (9.1.6) can be considered to be an approximation to the continuous-time Fourier transform of signal \(x_{a}(t)\), it defines the discrete Fourier transform of the \(N\)-point sequence \(x\left(n\right)\). We will investigate the nature of this approximation in Section 9.6, where we consider the spectral estimation of analog signals using the DFT. However, as we see in subsequent sections, although the DFT is similar to the discrete-time Fourier transform that we studied in Chapter 7, some of its properties are quite different. We start our discussion of the DFT by considering some of its properties in Section 9.3.
+
+One of the reasons for the widespread use of the DFT and other discrete transforms is the existence of algorithms for their fast and efficient computation on a computer. For the DFT, these algorithms collectively go under the name of fast Fourier transform (FFT) algorithms. We discuss two popular versions of the FFT in Section 9.5.
+
+### The Discrete Fourier Transform and Its Inverse
+
+Let \(x\left(n\right)\), \(n=0,\,1,\,2\,\ldots\,\), \(N-1\), be an \(N\)-point sequence. We define its discrete Fourier transform as
+
+\[X\left(k\right)=\sum_{n\,=\,0}^{N-1}x\left(n\right)\,\exp\left[\,-j\frac{2\pi}{ N}\,nk\,\right] \tag{9.2.1}\]
+
+The inverse discrete Fourier-transform (IDFT) relation is given by
+
+\[x\left(n\right)=\frac{1}{N}\sum_{k\,=\,0}^{N-1}X\left(k\right)\exp\left[\,j \frac{2\pi}{N}nk\,\right] \tag{9.2.2}\]
+
+To derive this relation, we replace \(n\) by \(p\) in the right side of Equation (9.2.1) and multiply by \(\exp\left[\,j\frac{2\pi}{N}nk\,\right]\) to get
+
+\[X\left(k\right)\,\exp\left[\,j\frac{2\pi}{N}nk\,\right]=\sum_{p\,=\,0}^{N-1}x \left(p\right)\,\exp\left[\,j\frac{2\pi}{N}k\left(n-p\right)\right] \tag{9.2.3}\]
+
+If we now sum over \(k\) in the range \(\left[0,\,N-1\right]\), we get
+
+\[\sum_{k\,=\,0}^{N-1}X\left(k\right)\,\exp\left[\,j\frac{2\pi}{N}nk\,\right]= \sum_{p\,=\,0}^{N-1}\sum_{k\,=\,0}^{N-1}x\left(p\right)\,\exp\left[\,j\frac{2 \pi}{N}k\left(n-p\right)\right] \tag{9.2.4}\]
+
+In Equation (7.2.12) we saw that
+
+\[\sum_{k\,=\,0}^{N-1}\exp\left[\,j\frac{2\pi}{N}k\left(n-p\right)\right]=\begin{cases} 0,&n\neq p\\ N,&n=p\end{cases}\]
+
+so that the right-hand side of Equation (9.2.4) evaluates to \(Nx\left(n\right)\) and Equation (9.2.2) follows.
+
+We saw that \(X\left(\Omega\right)\) is periodic in \(\Omega\) with period \(2\pi\), so that \(X\left(\Omega_{k}\right)=X\left(\Omega_{k}+2\pi\right)\). This can be written as
+
+\[X\left(k\right)=X\left(\Omega_{k}\right)=X\left(\Omega_{k}+2\pi\right)=X \left(\frac{2\pi}{N}\left(k+N\right)\right)=X\left(k\,+N\right) \tag{9.2.5}\]
+
+That is, \(X\left(k\right)\) is periodic with period \(N\).
+
+We now show that \(x\left(n\right)\) as determined from Equation (9.2.2) is also periodic with period \(N\). From Equation (9.2.2), we have
+
+\[x\left(n+N\right) =\sum_{k\,=\,0}^{N-1}X\left(k\right)\,\exp\left[\,j\frac{2\pi}{ N}\overset{\cdot}{\left(n+N\right)}k\,\right]\] \[=\sum_{k\,=\,0}^{N-1}X\left(k\right)\,\exp\left[\,j\frac{2\pi}{N }nk\,\right]\] \[=x\left(n\right) \tag{9.2.6}\]
+
+That is, the IDFT operation yields a periodic sequence, of which only the first \(N\) values, corresponding to one period, are evaluated. Thus, in all operations involving the DFTand the IDFT, we are effectively replacing finite sequence \(x\left(n\right)\) by its periodic extension. We can therefore expect that there is a connection between the Fourier-series expansion of periodic discrete-time sequences that we discussed in Chapter 7 and the DFT. In fact, comparison of Equations (9.2.1) and (9.2.2) with Equations (7.2.15) and (7.2.16) shows that DFT \(X\left(k\right)\) of finite sequence \(x\left(n\right)\) can be interpreted as the coefficient \(a_{k}\) in the Fourier series representation of its periodic extension, \(x_{p}(n)\), multiplied by the period \(N\). (The two can be made identical by including the factor \(1/N\) with the DFT rather than with the IDFT.)
+
+### 9.3 DFT PROPERTIES.
+
+We now consider some of the more important properties of the DFT. As can be expected, these properties closely parallel those of the discrete-time Fourier transform. In considering these properties, it is helpful to remember that we are in essence replacing an \(N\)-point sequence by its periodic extension. Thus, operations such as time shifting must be considered to be operations on a periodic sequence. However, we are only interested in the range \(\left[0,\,N-1\right]\), so that the shift can be interpreted as a circular shift, as explained in Section 6.4.1.
+
+Since the DFT is evaluated at frequencies in the range \(\left[0,2\pi\right]\), which are spaced apart by \(2\pi/N\), in considering the DFT of two signals simultaneously, the frequencies corresponding to the DFT must be the same for any operation to be meaningful. This means that the length of the sequences considered must be the same. If this is not the case, it is usual to augment the signals by an appropriate number of zeros, so that all the signals considered are of the same length. (Since it is assumed that the signals are of finite length, adding zeros does not change the essential nature of the signal.)
+
+#### Linearity
+
+Let \(X_{1}(k)\) and \(X_{2}(k)\) be the DFTs of the two sequences \(x_{1}(n)\) and \(x_{2}(n)\). Then
+
+\[DFT\left[a_{1}x_{1}(n)+a_{2}x_{2}(n)\right]=a_{1}X_{1}(k)+a_{2}X_{2}(k) \tag{9.3.1}\]
+
+for any constants \(a_{1}\) and \(a_{2}\).
+
+#### Time Shifting
+
+For any real integer \(n_{0}\),
+
+\[DFT\left[x(n+n_{0})\right] = \sum_{n=0}^{N-1}x\left(n+n_{0}\right)\exp\left[-j\frac{2\pi}{N}kn\,\right] \tag{9.3.2}\] \[= \sum_{<N>}x\left(m\right)\exp\left[-j\frac{2\pi}{N}k(m-n_{0})\right]\] \[= \exp\left[\,j\frac{2\pi}{N}kn_{0}\,\right]X\left(k\right)\]
+
+where, as explained before, the shift is a circular shift.
+
+#### Alternate Inversion Formula
+
+By writing the IDFT formula, Equation (9.2.2), as
+
+\[x\left(n\right) =\frac{1}{N}\,\left[\sum_{k\,=\,0}^{N-1}X^{\ast}\left(k\right)\, \exp\left[\,-j\cdot\frac{2\pi}{N}\,\,nk\,\right]\right]^{\ast}\] \[=\frac{1}{N}\,\left\{DFT\left[X^{\ast}\left(k\right)\right]\right\} ^{\ast} \tag{9.3.3}\]
+
+we can interpret \(x\left(n\right)\) as the complex conjugate of the DFT of \(X\left(k\right)\) multiplied by \(1/N\). Thus, the same algorithm used to calculate the DFT can be used to evaluate the IDFT.
+
+#### Time Convolution
+
+We saw in our earlier discussions of different transforms that the inverse transform of the product of two transforms corresponds to a convolution of the corresponding time functions. With this in view, let us determine IDFT of the function \(Y\left(k\right)=H\left(k\right)X\left(k\right)\) as
+
+\[y\left(n\right) =\text{IDFT}\left[Y\left(k\right)\right]\] \[=\frac{1}{N}\sum_{k\,=\,0}^{N-1}Y\left(k\right)\,\exp\left[\,j \frac{2\pi}{N}nk\,\right]\] \[=\frac{1}{N}\sum_{k\,=\,0}^{N-1}H\left(k\right)X\left(k\right)\, \exp\left[\,j\frac{2\pi}{N}nk\,\right]\]
+
+By using the definition of \(H\left(k\right)\), we get
+
+\[y\left(n\right)=\frac{1}{N}\sum_{k\,=\,0}^{N-1}\left(\sum_{m\,=\,0}^{N-1}h \left(m\right)\,\exp\left[\,-j\frac{2\pi}{N}\,\,mk\,\right]\right)\,X\left(k \right)\,\exp\left[\,j\frac{2\pi}{N}nk\,\right]\]
+
+By interchanging the orders of summation and using Equation (9.2.2), we get
+
+\[y\left(n\right)=\sum_{m\,=\,0}^{N-1}h\left(m\right)x\left(n-m\right) \tag{9.3.4}\]
+
+Comparison with Equation (6.4.1) shows that the right-hand side of Equation (9.3.4) corresponds to the periodic convolution of the two sequences \(x\left(n\right)\) and \(h\left(n\right)\).
+
+**Example 9.4.1**: We consider the periodic convolution \(y\left(n\right)\) of the two sequences
+
+\[h\left(n\right)=\left\{1,3,-1,-2\right\}\quad\text{ and }\quad\quad x\left(n \right)=\
+
+\[y_{a}(n) = h_{a}(0)\,x_{a}(n)+\ldots\,+h_{a}(n)\,x_{a}(0)+h_{a}(n+1)\,x_{a}(M+ N-2) \tag{9.4.5}\] \[+h_{a}(n+2)\,x_{a}(M+N-3)+\ldots\,+h_{a}(M+N-2)\,x_{a}(n+1)\]
+
+Now, if we use the fact that
+
+\[h_{a}(n) = \begin{cases}h\,(n),&0\leq n\leq M-1\\ 0,&\text{otherwise}\end{cases}\] \[x_{a}(n) = \begin{cases}x\,(n),&0\leq n\leq N-1\\ 0,&\text{otherwise}\end{cases} \tag{9.4.6}\]
+
+we can easily verify that \(y_{a}(n)\) in the range \(0\!\leq\!n\!\leq\!M\!+\!N\!-\!2\) is exactly the same as \(y_{t}(n)\).
+
+In summary, to perform a linear convolution of the two sequences \(h\,(n)\) and \(x\,(n)\) by using the DFT, we augment both sequences with zeros to form the \((M\!+\!N\!-\!1)\)-point sequences \(h_{a}(n)\) and \(x_{a}(n)\), respectively, and determine the product \(H_{a}(k)\,X_{a}(k)\). Then
+
+\[y_{t}(n)=\text{IDFT}\left[H_{a}(k)\,X_{a}(k)\right] \tag{9.4.7}\]
+
+## 9.5 Fast Fourier Transforms
+
+As indicated earlier, one of the main reasons for the popularity of the DFT is the existence of efficient algorithms for its computation. We recall that the DFT of sequence \(x\,(n)\) is given by
+
+\[X(k)=\sum_{n\,=\,0}^{N-1}x\,(n)\,\exp\left[-j\frac{2\pi}{N}nk\,\right],\qquad k =0,\,1,\,2,\,\ldots\,,\,N-1 \tag{9.5.1}\]
+
+For convenience, let us denote \(\exp\left[-j\,2\pi/N\right]\) by \(W_{N}\), so that
+
+\[X(k)=\sum_{n\,=\,0}^{N-1}x\,(n)\,\,W_{N}^{kn},\qquad k=0,\,1,\,2,\,\,\ldots\, \,,\,N-1 \tag{9.5.2}\]
+
+which can be explicitly written as
+
+\[X(k) = x\,(0)\,\,W_{N}^{0}+x\,(1)\,\,W_{N}^{k}+x\,(2)\,\,W_{N}^{2k} \tag{9.5.3}\] \[+\ldots\,+x\,(N-1)\,\,W_{N}^{(N-1)k}.\]
+
+It follows from Equation (9.5.3) that the determination of each \(X\,(k)\) requires \(N\) complex multiplications and \(N\) complex additions, where we have also included trivial multiplications by \(\pm 1\) or \(\pm j\) in the count, in order to have a simple method for comparing the computational complexity of different algorithms. Since we have to evaluate \(X\,(k)\) for \(k\!=\!0,\,1,\,\ldots\,,\,N\!-\!1\), it follows that the direct determination of the DFT requires \(N^{2}\) complex multiplications and \(N^{2}\) complex additions, which can become prohibitive for large values of \(N\). Thus, procedures that reduce the computational burden are of considerable interest. These procedures are known as the fast Fourier-transform (FFT) algorithms. The basic idea in all these approaches is to divide the given sequence into subsequences of smaller length. We then combine these smaller DFTs suitably to obtain the DFT of the original sequence.
+
+In this section, we derive two versions of the FFT algorithm, where we assume that the data length \(N\) is a power of 2, so that \(N\) is of the form \(N=2^{P}\), where \(P\) is a positive integer. That is, \(N=2,\,4,\,8,\,16,\,32,\,\) etc. As such, the algorithms are referred to as radix-2 algorithms.
+
+#### The Decimation-in-Time (DIT) Algorithm
+
+In the decimation-in-time algorithm, we divide \(x\left(n\right)\) into two subsequences, each of length- \(N/2\), by grouping the even-indexed samples and the odd-indexed samples together. We can then write \(X\left(k\right)\) in Equation (9.5.3) as
+
+\[X\left(k\right)=\sum_{n\text{ even}}x\left(n\right)\,W_{N}^{nk}+\sum_{n\text{ odd}}x\left(n\right)\,W_{N}^{nk} \tag{9.5.4}\]
+
+By letting \(n=2r\) in the first sum and \(n=2r+1\) in the second sum, we can write
+
+\[X(k) =\sum_{r\,=\,0}^{N/2-1}x\left(2r\right)W_{N}^{2rk}+\sum_{r\,=\,0} ^{N/2-1}x\left(2r\,+1\right)W_{N}^{(2r+1)k}\] \[=\sum_{r\,=\,0}^{N/2-1}g\left(r\right)W_{N}^{2rk}+W_{N}^{k}\sum_{ r\,=\,0}^{N/2-1}h\left(r\right)W_{N}^{2rk} \tag{9.5.5}\]
+
+where \(g\left(r\right)=x\left(2r\right)\) and \(h\left(r\right)=x\left(2r+1\right)\).
+
+We note that for an \(N/2\)-point sequence \(y\left(n\right)\), the DFT is given by
+
+\[Y\left(k\right) =\sum_{n\,=\,0}^{N/2-1}y\left(n\right)W_{N/2}^{nk}\] \[=\sum_{n\,=\,0}^{N/2-1}y\left(n\right)W_{N}^{2nk} \tag{9.5.6}\]
+
+where the last step follows from
+
+\[W_{N/2}=\exp\left[-j\frac{2\pi}{N/2}\right]=(\exp\left[-j\frac{2\pi}{N}\right] )^{2}=W_{N}^{2} \tag{9.5.7}\]
+
+Thus Equation (9.5.5) can be written as
+
+\[X\left(k\right)=G\left(k\right)+W_{N}^{k}H\left(k\right),\qquad k=0,1,\,\, \ldots\,\,,\,N-1 \tag{9.5.8}\]
+
+where \(G\left(k\right)\) and \(H\left(k\right)\) denote the \(N/2\)-point DFTs of the sequences \(g\left(r\right)\) and \(h\left(r\right)\). Since \(G\left(k\right)\) and \(H\left(k\right)\) are periodic with period \(N/2\), we can write Equation (9.5.8) as
+
+\[X\left(k\right)=G\left(k\right)+W_{N}^{k}\,H\left(k\right),\qquad k=0,1,\, \ldots\,\,,\,\,\frac{N}{2}-1\]
+
+\[X\left(k\,+\,\frac{N}{2}\right)=G\left(k\right)+W_{N}^{k+N/2}H\left(k\right) \tag{9.5.9}\]
+
+The steps involved in determining \(X\left(k\right)\) can be illustrated by drawing a _signal-flow graph_ corresponding to Equation (9.5.9). In the graph, we associate a _node_ with each signal. The interrelations between the nodes are indicated by drawing appropriate lines(branches) with arrows pointing in the direction of signal flow. Thus, each branch has an input signal and an output signal. We associate a weight with each branch that determines the transmittance between the input and output signals. When not indicated on the graph, the transmittance of any branch is assumed to be 1. The signal at any node is the sum of the outputs of all the branches entering the node. These concepts are illustrated in Figure 9.5.1, which shows the signal-flow graph for the computations involved in Equation (9.5.9) for a particular value of \(k\). Figure 9.5.2 shows the signal-flow graph for computing \(X(k)\) for an eight-point sequence. As can be seen from the graph, to determine \(X(k)\), we first compute the 2 four-point DFTs \(G\left(k\right)\) and \(H(k)\) of the sequences \(g\left(r\right)=\left\{x\left(0\right)\), \(x\left(2\right)\), \(x\left(4\right)\), \(x\left(6\right)\right\}\) and \(h\left(r\right)=\left\{x\left(1\right)\), \(x\left(3\right)\), \(x\left(5\right)\), \(x\left(7\right)\right\}\) and combine them appropriately.
+
+Figure 9.5.2: Flow graph for first stage of DIT algorithm for \(N=8\).
+
+We can determine the number of computations required to find \(X\left(k\right)\) using this procedure. Each of the two DFTs requires \(\left(N/2\right)^{2}\) complex multiplications and \(\left(N/2\right)^{2}\) complex additions. Combining the two DFTs requires \(N\) complex multiplications and N complex additions. Thus, computation of \(X\left(k\right)\) using Equation (9.5.8) requires \(N+N^{2}/2\) complex additions and multiplications, as compared to \(N^{2}\) complex multiplications and additions for direct computation.
+
+Since \(N/2\) is also even, we can consider using the same procedure for determining the \(N/2\)-point DFTs \(G\left(k\right)\) and \(H\left(k\right)\) by first determining the \(N/4\)-point DFTs of appropriately chosen sequences and combining them. For \(N=8\), this involves dividing sequence \(g\left(r\right)\) into the two sequences \(\left\{x\left(0\right)\), \(x\left(4\right)\right\}\) and \(\left\{x\left(2\right)\), \(x\left(6\right)\right\}\) and sequence \(h\left(r\right)\) into \(\left\{\overset{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{ \smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{ \smash{\smash{\smash{\smash{\smash \smash }}}}}}}}}}}}}}}}}\right\}\) into \(\left\{\overset{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{ \smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{ \smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{\smash{ \smash{ \smash{ \smash{ \smash{ }}}}}}}}}}}}}}}}}}}}}\right\}\) and \(\left\{x\left(3\right)\), \(x\left(7\right)\right\}\). The resulting computations for finding \(G\left(k\right)\) and \(H\left(k\right)\) are illustrated in Figure 9.5.3.
+
+Clearly, this procedure can be continued by further subdividing the subsequences until we get a set of two-point sequences. Figure 9.5.4 illustrates the computation of the
+
+Figure 9.5.3: Flow graph for computation of four-point DFT.
+
+DFT of a two-point sequence \(y\left(n\right)=\left\{y\left(0\right),\,y\left(1\right)\right\}\). The complete flow graph for the computation of an eight-point DFT is shown in Figure 9.5.5.
+
+A careful examination of the flow graph in Figure 9.5.5 leads to several observations. First, the number of stages in the graph is 3, which equals \(\log_{2}8\). In general, the number of stages is equal to \(\log_{2}N\). Second, each stage of the computation requires eight complex multiplications and additions. For general \(N\), we require \(N\) complex multiplications and additions, leading to a total of \(N\)\(\log_{2}N\) operations.
+
+The ordering of the input to the flow graph, which is \(0,4,2,6,1,5,3,7\), is determined by _bit reversing_ the natural numbers \(0,1,2,3,4,5,6,7\). To obtain the bit reversed order, we reverse the bits in the binary representation of the numbers in natural order and obtain their decimal equivalents, as illustrated in Table 9-1.
+
+Finally, the procedure permits _in-place computation_. That is, the results of the computations at any stage can be stored in the same locations as those of the input to that stage. To illustrate this, let us consider the computation of \(X\left(0\right)\) and \(X\left(4\right)\). Both these computations require as inputs the quantities \(G\left(0\right)\) and \(H\left(0\right)\). Since \(G\left(0\right)\) and \(H\left(0\right)\) are not required for determining any other value of \(X\left(k\right)\), once \(X\left(0\right)\) and \(X\left(4\right)\) have been determined, they can be stored in the same locations as \(G\left(0\right)\) and \(H\left(0\right)\). Similarly, the locations of \(G\left(1\right)\) and \(H\left(1\right)\) can be used to store \(X\left(1\right)\) and \(X\left(5\right)\), and so on. Thus, only \(2N\) storage locations are needed to complete the computations.
+
+#### The Decimation-in-Frequency (DIF) Algorithm
+
+The decimation-in-frequency algorithm is obtained by essentially dividing output sequence \(X\left(k\right)\), rather than input sequence \(x\left(n\right)\), into smaller subsequences. To derive this algorithm, we group the first \(N/2\) points and the last N/2 points of sequence \(x\left(n\right)\) together and write
+
+\[X\left(k\right) =\sum_{n\,=\,0}^{\left(N/2\right)-1}x\left(n\right)W_{N}^{nk}+ \sum_{n\,=\,N/2}^{N/2-1}x\left(n\right)W_{N}^{nk}\] \[=\sum_{n\,=\,0}^{N/2-1}x\left(n\right)W_{N}^{nk}+W_{N}^{N/2\,k} \sum_{n\,=\,0}^{\frac{N}{2}\,-\,1}x\left(n\,+\,\frac{N}{2}\right)\,W_{N}^{nk} \tag{9.5.10}\]
+
+Comparison with Equation (9.5.6) shows that even though the two sums in the right side of Equation (9.5.10) are taken over \(N/2\) values of \(n\), they do not represent DFTs. We can combine the two terms in Equation (9.5.10) by noting that \(W_{N}^{nk/2}=\left(-1\right)^{k}\) to get
+
+\[X\left(k\right)=\sum_{n\,=\,0}^{\left(N/2\right)-\,1}\left[x\left(n\right)+ \left(-1\right)^{k}x\left(n\,+\,\frac{N}{2}\right)\right]\,W_{N}^{nk} \tag{9.5.11}\]
+
+Let
+
+\begin{table}
+\begin{tabular}{c c c c c} \hline Decimal & Binary & Bit-Reversed & Decimal \\ Number & Representation & Representation & Equivalent \\ \hline
+0 & 0 0 0 & 0 0 0 & 0 \\
+1 & 0 0 1 & 1 0 0 & 4 \\
+2 & 0 1 0 & 0 1 0 & 2 \\
+3 & 0 1 1 & 1 1 0 & 6 \\
+4 & 1 0 0 & 0 0 1 & 1 \\
+5 & 1 0 1 & 1 0 1 & 5 \\
+6 & 1 1 0 & 0 1 1 & 3 \\
+7 & 1 1 1 & 1 1 1 & 7 \\ \hline \end{tabular}.
+
+\end{table}
+Table 9-1: Bit-reversed order for \(N=8\)\[g\left(n\right)=x\left(n\right)+x\left(n\,+\,\frac{N}{2}\right)\]
+
+and
+
+\[h\left(n\right)=\left[x\left(n\right)-x\left(n\,+\,\frac{N}{2}\right)\right]\,W_{ N}^{n} \tag{9.5.12}\]
+
+where \(0\leq n\leq\left(N/2\right)-1\).
+
+For \(k\) even, we can set \(k=2r\) and write Equation (9.5.11) as
+
+\[X\left(2r\right)=\sum_{n\,=\,0}^{\left(N/2\right)-\,1}g\left(n\right)\,W_{N}^{ 2rn}=\sum_{n\,=\,0}^{\left(N/2\right)-\,1}g\left(n\right)\,W_{N/2}^{rn} \tag{9.5.13}\]
+
+Similarly, setting \(k=2r+1\) gives the expression for odd values of \(k\) as
+
+\[X\left(2r\,+\,1\right)=\sum_{n\,=\,0}^{\left(N/2\right)-\,1}h\left(n\right)\, W_{N}^{2rn}=\sum_{n\,=\,0}^{\left(N/2\right)-\,1}h\left(n\right)\,W_{N/2}^{rn} \tag{9.5.14}\]
+
+Equations (9.5.13) and (9.5.14) represent the \(\left(N/2\right)\)-point DFTs of sequences \(G\left(k\right)\) and \(H\left(k\right)\), respectively. Thus, computation of \(X\left(k\right)\) involves first forming sequences \(g\left(n\right)\) and \(h\left(n\right)\) and computing their DFTs to obtain the even and odd values of \(X\left(k\right)\). This is illustrated in Figure 9.5.6 for the case \(N=8\). From the figure, we see that \(G\left(0\right)=X\left(0\right)\), \(G\left(1\right)=X\left(2\right)\), \(G\left(2\right)=X\left(4\right)\), \(G\left(3\right)=X\left(6\right)\), \(H\left(0\right)=X\left(1\right)\), \(H\left(1\right)=X\left(3\right)\), \(H\left(2\right)=X\left(5\right)\), and \(H\left(3\right)=X\left(7\right)\).
+
+Figure 9.5.6: First stage of DIF flow graph.
+
+We can proceed to determine the two \((N/2)\)-point DFTs \(G\left(k\right)\) and \(H\left(k\right)\) by computing the even and odd values separately using a similar procedure. That is, we form the sequences
+
+\[g_{1}(n)=g\left(n\right)+g\left(n+\frac{N}{4}\right)\] \[g_{2}(n)=[g\left(n\right)-g\left(n+\frac{N}{4}\right)]\ W_{N/2}^{n} \tag{9.5.15}\]
+
+and
+
+\[h_{1}(n)=h\left(n\right)+h\left(n+\frac{N}{4}\right)\] \[h_{2}(n)=[h\left(n\right)-h\left(n+\frac{N}{4}\right)]\ W_{N/2}^{n} \tag{9.5.16}\]
+
+Then the \((N/4)\)-point DFTs, \(G_{1}(k)\), \(G_{2}(k)\) and \(H_{1}(k)\), \(H_{2}(k)\), correspond to the even and odd values of \(G\left(k\right)\) and \(H\left(k\right)\) respectively, as shown in Figure 9.5.7 for \(N=8\).
+
+Figure 9.5.7: Flow graph for the \(N/4\)-point DFTs of \(G(k)\) and \(H(k)\), \(N=8\).
+
+We can continue this procedure until we have a set of two-point sequences, which, as can be seen from Figure 9.5.4, are implemented by adding and subtracting the input values. Figure 9.5.8 shows the complete flow graph for the computation of an eight-point DFT. As can be seen from the figure, the input in this case is in natural order, and the output is in bit-reversed order. However, the other observations made in reference to the DIT algorithm, such as the number of computations, and the in-place nature of the computations apply to the DIF algorithm also. We can modify the signal-flow graph of Figure 9.5.7 to get a DIF algorithm in which the input is in scrambled (bit-reversed) order, and the output is in natural order. We can also obtain a DIT algorithm for which the input is in natural order. In both cases, we can modify the graphs to give an algorithm in which both the input and the ouput are in natural order. However, in this case, the in-place property of the algorithm will no longer hold. Finally, as noted earlier, (see Equation (9.3.3), the FFT algorithm can be used to find the IDFT in an efficient manner.
+
+### 9.6 Spectral Estimation of Analog Signals Using
+
+The DFT represents a transformation into the frequency domain of a finite-length discrete-time signal \(x\left(n\right)\) and is similar to the other frequency-domain transforms that we have discussed, with some significant differences. As we saw, however, for analog
+
+Figure 9.5.8: Complete flow graph for DIF algorithm, \(N=8\).
+
+Figure 9.6.1: Discrete Fourier transform of an analog signal. (Adapted with permission from E. Oran Brigham, _The Fourier Transform_, Prentice-Hall, 1987.)
+
+and Figure 9.6.1(e) shows the truncated sampled function. The corresponding Fourier transform is obtained as the convolution of the two transforms \(X_{s}(\omega)\) and \(W_{R}(\omega)\). The effect of this convolution is to introduce a ripple in the spectrum.
+
+The final step is to sample the spectrum at equally spaced points in the frequency domain. Since the number of frequency points in the range \(0\leq\omega<\omega_{s}\) is equal to the number of data points \(N\), the spacing between frequency samples is \(\omega_{s}/N\) or, equivalently, \(2\pi/T_{0}\), as can be seen by using Equation (9.6.3). Just as we assumed that the sampled signal in the time domain could be modeled as the modulation (multiplication) of analog signal \(x_{a}(t)\) by impulse train \(p_{T}(t)\), the sampling operation in the frequency domain can be modeled as the multiplication of transform \(X_{s}(\omega)*W_{R}(\omega)\) by the impulse train in the frequency domain:
+
+\[p_{T_{0}}(\omega)=\frac{2\pi}{T_{0}}\sum_{m=-\infty}^{\infty}\delta(\omega-m \ \frac{2\pi}{T_{0}}) \tag{9.6.6}\]
+
+with the inverse transform, which is also an impulse train, as shown in Figure 9.6.1(f):
+
+\[p_{T_{0}}(t)=\sum_{m=-\infty}^{\infty}\delta(t-mT_{0}) \tag{9.6.7}\]
+
+Since multiplication in the frequency domain corresponds to convolution in the time domain, the sampling operation in the frequency domain yields the convolution of signal \(x_{s}(t)w_{R}(t)\) and impulse train \(p_{T_{0}}(t)\). The result, as shown in Figure 9.6.1(g), is the periodic extension of signal \(x_{s}(t)w_{R}(t)\), with period \(T_{0}\). This result also follows from the symmetry between time-domain and frequency-domain operations, from which it can be expected that sampling in the frequency domain causes aliasing in the time domain. This is a restatement of our earlier conclusion that in operations involving the DFT, the original sequence is replaced by its periodic extension.
+
+As can be seen from Figure 9.6.1, for a general analog signal \(x_{a}(t)\), the spectrum as obtained by the DFT is somewhat different from the true spectrum, \(X_{s}(\omega)\). There are two principal sources of error introduced in the process of determining the DFT of \(x_{a}(t)\). The first, of course, is the aliasing error introduced by sampling. As discussed earlier, we can reduce aliasing errors by either increasing the sampling rate or by prefiltering the signal to eliminate the high-frequency components in the signal.
+
+The second source of error is the windowing operation. Windowing is equivalent to convolving the spectrum of the sampled signal with the Fourier transform of the window signal, and introduces ripples in the spectrum. This is due to the convolution operation causing the signal component in \(x_{s}(t)\) at any frequency to be spread over, or _leaking_ into, other frequencies. For there to be no leakage, the Fourier transform of the window function must be a delta function. This corresponds to a window function that is constant for all time, which implies no windowing. Thus, windowing necessarily causes leakage. We can seek to minimize this effect by choosing a window function whose Fourier transform is as close to a delta function as possible. The rectangular window function is not generally used, since it does not approximate a delta function very well.
+
+For the rectangular window defined as
+
+\[w_{R}(n)=\begin{cases}1,&0\leq n\leq N-1\\ 0,&\text{otherwise}\end{cases} \tag{9.6.8}\]the frequency response is given by
+
+\[W_{R}(\Omega)=\exp{[-j\Omega\frac{(N\!-\!1)}{2}]}\ \frac{\sin{\Omega N\!/2}}{\sin{ \Omega/2}} \tag{9.6.9}\]
+
+Figure 9.6.2 shows \(\left|W_{R}(\Omega)\right|\), which consists of a main lobe extending from \(\Omega\!=\!-2\pi/N\) to \(2\pi/N\), and a set of side lobes. The area under the side lobes, which is a significant percentage of the area under the main lobe, contributes to the smearing of the DFT spectrum.
+
+It can be shown that window functions that taper smoothly to zero at both ends give much better results. For these windows, the area under the side lobes is a much smaller percentage of the area under the main lobes. An example is the Hamming window, defined as
+
+\[w_{H}(n)=0.54-0.46\ \mathrm{cos}\ \frac{2\pi(n+0.5)}{N},\ \ \ \ \ 0\ \leq n\leq N-1 \tag{9.6.10}\]
+
+Figure 9.6.3(a) shows the Hamming window. Figures 9.6.3(b) and 9.6.3(c) show the magnitude spectra of the rectangular and Hamming windows, respectively. These are conventionally plotted in units of decibels (dB), as shown. As can be seen from the figure, whereas the rectangular window has a narrower main lobe than the Hamming window, the attenuation of the side lobes is much higher with the Hamming window.
+
+A factor that has to be considered is the _frequency resolution_, which refers to the spacing between samples in the frequency domain. If the frequency resolution is too low, the frequency samples may be too far apart and we may miss critical information in the spectrum. For example, we may assume a single peak exists at a frequency where there actually are two closely spaced peaks in the spectrum. The frequency resolution is given by
+
+\[\Delta\omega=\frac{\omega_{s}}{N}=\frac{2\pi}{NT}=\frac{2\pi}{T_{0}} \tag{9.6.11}\]
+
+Figure 9.6.2: Magnitude spectrum of a rectangular window.
+
+Figure 9.6.3: Comparison of (a) rectangular and (b) Hamming windows. (a) Time functions, (b) spectrum of rectangular window, and (c) spectrum of Hamming window.
+
+where \(T_{0}\) refers to the length of the data window. It is clear from Equation (9.6.11) that to improve the frequency resolution, we have to use a longer data record. If the record length is fixed and we need a higher resolution in the spectrum, we can consider padding the data sequence with zeros, thereby increasing the number of samples from \(N\) to some new value \(N_{0}>N\). This is equivalent to using a longer-duration window \(T_{1}>T_{0}\) on the modified signal \(x(t)\) defined as
+
+\[x(t)=\begin{cases}x_{a}(t),&0\leq t\leq T_{0}\\ 0,&T_{0}<t\leq T_{1}\end{cases} \tag{9.6.12}\]
+
+We want to use the DFT to find the spectrum of an analog signal that has been prefiltered by passing it through a low-pass filter with a cutoff of 10 kHz. The desired frequency resolution is less than 0.1 Hz.
+
+The sampling theorem gives the minimum sampling frequency for this example as \(f_{s}=20\) kHz, so that
+
+\[T\leq 0.05\text{ ms}\]
+
+The duration of the data window can be determined from the desired frequency resolution \(\Delta f\) as
+
+\[T_{0}=\frac{1}{\Delta f}\geq 10\text{ s}\]
+
+from which
+
+\[N=\frac{T_{0}}{T}\geq 2\times 10^{5}\]
+
+Assuming we want to use a radix-2 FFT routine, we choose \(N\) to be 262,144 (= \(2^{18}\)), which is the smallest power of 2 satisfying the constraint on \(N\). If we choose \(f_{s}=20\) kHz, \(T_{0}\) must be chosen to be 13.1072 s.
+
+### 9.7 Summary
+
+* The discrete Fourier transform (DFT) of finite-length sequence \(x(n)\) of length \(N\) is defined as \[X(k)=\sum_{n=0}^{N-1}x(n)W_{N}^{nk}\] where \[W_{N}=\exp\left[-j\frac{2\pi}{N}\right]\]
+* The inverse discrete Fourier transform (IDFT) is defined by \[x\left(n\right)=\frac{1}{N}\sum_{n=0}^{N-1}X\left(k\right)W_{N}^{-nk}\]
+* The DFT of an \(N\)-point sequence is related to its \(Z\)-transform as \[X\left(k\right)=X\left(z\right)\big{|}_{z=W_{N}^{\pm}}\]
+* Sequence \(X\left(k\right)\), \(k\)=0, 1, 2,..., \(N-1\), is periodic with period \(N\). Sequence \(x\left(n\right)\) obtained by determining the IDFT of \(X\left(k\right)\) is also periodic with period \(N\).
+* In all operations involving the DFT and the IDFT, sequence \(x\left(n\right)\) is effectively replaced by its periodic extension \(x_{p}(n)\).
+* \(X\left(k\right)\) is equal to \(Na_{k}\), where \(a_{k}\) is the coefficient of the discrete-time Fourier-series representation of \(x_{p}(n)\).
+* The properties of the DFT are similar to those of the other Fourier transforms, with some significant differences. In particular, the DFT performs cyclic or periodic convolution instead of the linear convolution needed for analysis of LTI systems.
+* To perform a linear convolution of an \(N\)-point sequence with an \(M\)-point sequence, the sequences must be padded with zeros so that both are of length (\(N+M-1\)).
+* Algorithms for efficient and fast machine computation of the DFT are known as fast Fourier-transform (FFT) algorithms.
+* For sequences whose length is an integer power of 2, the most commonly used FFT algorithms are the decimation-in-time (DIT) and decimation-in-frequency (DIF) algorithms.
+* For in-place computation using either the DIT or the DIF algorithm, either the input or the output must be in bit-reversed order.
+* The DFT provides a convenient method for the approximate determination of the spectra of analog signals. Care must be taken however, to minimize errors caused by sampling and windowing the analog signal to obtain a finite-length discrete-time sequence.
+* Aliasing errors can be reduced by choosing a higher sampling rate or by prefiltering the analog signal. Windowing errors can be reduced by choosing a window function that tapers smoothly to zero at both ends.
+* The spectral resolution in the analog domain is directly proportional to the data length.
+
+### CHECKLIST OF IMPORTANT TERMS
+
+\begin{tabular}{l l}
+**Aliasing** & **In-place computation** \\
+**Analog spectrum** & **Linear convolution** \\
+**Bit-reversed order** & **Periodic convolution** \\
+**Decimation-in-frequency algorithm** & **Periodicity of DFT and IDFT** \\ \end{tabular}

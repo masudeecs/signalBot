@@ -1,0 +1,1097 @@
+## Chapter 9 Introduction
+
+In the preceding chapters, we have seen that the tools of Fourier analysis are extremely useful in the study of many problems of practical importance involving signals and LTI systems. This is due in large part to the fact that broad classes of signals can be represented as linear combinations of periodic complex exponentials and that complex exponentials are eigenfunctions of LTI systems. The continuous-time Fourier transform provides us with a representation for signals as linear combinations of complex exponentials of the form \(e^{st}\) with \(s\ =\ j\omega\). However the eigenfunction property introduced in Section 3.2 and many of its consequences apply as well for arbitrary values of \(s\) and not only those values that are purely imaginary. This observation leads to a generalization of the continuous-time Fourier transform, known as the Laplace transform, which we develop in this chapter. In the next chapter we develop the corresponding discrete-time generalization known as the \(z\)-transform.
+
+As we will see, the Laplace and \(z\)-transforms have many of the properties that make Fourier analysis so useful. Moreover, not only do these transforms provide additional tools and insights for signals and systems that can be analyzed using the Fourier transform, but they also can be applied in some very important contexts in which Fourier transforms cannot. For example Laplace and \(z\)-transforms can be applied to the analysis of many unstable systems and consequently play an important role in the investigation of the stability or instability of systems. This fact, combined with the algebraic properties that Laplace and \(z\)-transforms share with Fourier transforms, leads to a very important set of tools for system analysis and in particular for the analysis of feedback systems, which we develop in Chapter 11.
+
+### The Laplace Transform
+
+In Chapter 3, we saw that the response of a linear time-invariant system with impulse response \(h(t)\) to a complex exponential input of the form \(e^{st}\) is
+
+\[y(t)\,=\,H(s)e^{st}, \tag{11}\]
+
+where
+
+\[H(s)\,=\,\int_{-\infty}^{\infty}h(t)e^{-st}\,dt. \tag{12}\]
+
+For \(s\) imaginary (i.e., \(s=j\omega\)), the integral in eq. (12) corresponds to the Fourier transform of \(h(t)\). For general values of the complex variable \(s\), it is referred to as the _Laplace transform_ of the impulse response \(h(t)\).
+
+The Laplace transform of a general signal \(x(t)\) is defined as1
+
+Footnote 1: The transform defined by eq. (13) is often called the _bilateral Laplace transform_, to distinguish it from the unilateral Laplace transform, which we discuss in Section 9.9. The bilateral transform in eq. (13) involves an integration from \(-\infty\) to \(+\infty\), while the unilateral transform has a form similar to that in eq. (13), but with limits of integration from 0 to \(+\infty\). As we are primarily concerned with the bilateral transform, we will omit the word “bilateral,” except where it is needed in Section 9.9 to avoid ambiguity.
+
+\[\boxed{\begin{array}{c}X(s)\,\stackrel{{\triangle}}{{=}}\, \int_{-\infty}^{+\infty}x(t)e^{-st}\,dt,\end{array}} \tag{13}\]
+
+and we note in particular that it is a function of the independent variable \(s\) corresponding to the complex variable in the exponent of \(e^{-st}\). The complex variable \(s\) can be written as \(s=\sigma+j\omega\), with \(\sigma\) and \(\omega\) the real and imaginary parts, respectively. For convenience, we will sometimes denote the Laplace transform in operator form as \(\mathcal{L}\{x(t)\}\) and denote the transform relationship between \(x(t)\) and \(X(s)\) as
+
+\[x(t)\,\stackrel{{\mathcal{L}}}{{\longleftrightarrow}}\,X(s). \tag{14}\]
+
+When \(s\,=\,j\omega\), eq. (13) becomes
+
+\[X(j\omega)\,=\,\int_{-\infty}^{+\infty}x(t)e^{-j\omega t}\,dt, \tag{15}\]
+
+which corresponds to the _Fourier transform_ of \(x(t)\); that is,
+
+\[X(s)|_{s\,=\,j\omega}\,=\,\mathbb{F}\{x(t)\}. \tag{16}\]
+
+The Laplace transform also bears a straightforward relationship to the Fourier transform when the complex variable \(s\) is not purely imaginary. To see this relationship, consider \(X(s)\) as specified in eq. (13) with \(s\) expressed as \(s\,=\,\sigma\,+\,j\omega\), so that
+
+\[X(\sigma\,+\,j\omega)\,=\,\int_{-\infty}^{+\infty}x(t)e^{-(\sigma\,+\,j\omega )t}\,dt, \tag{17}\]
+
+### Example 9.3
+
+In this example, we consider a signal that is the sum of two real exponentials:
+
+\[x(t)\,=\,3e^{-2t}u(t)\,-\,2e^{-t}u(t). \tag{9.20}\]
+
+The algebraic expression for the Laplace transform is then
+
+\[\begin{split} X(s)&\,=\,\int_{-x}^{\times}\bigg{[}3 e^{-2t}u(t)\,-\,2e^{-t}u(t)\bigg{]}e^{-st}\,dt\\ &\,=\,3\int_{-x}^{\times}e^{-2t}e^{-st}u(t)\,dt\,-\,2\int_{-x}^{ \times}e^{-t}e^{-st}u(t)\,dt.\end{split} \tag{9.21}\]
+
+Each of the integrals in eq. (9.21) is of the same form as the integral in eq. (9.10), and consequently, we can use the result in Example 9.1 to obtain
+
+\[X(s)\,=\,\frac{3}{s+2}\,-\,\frac{2}{s+1}. \tag{9.22}\]
+
+To determine the ROC we note that \(x(t)\) is a sum of two real exponentials, and from eq. (9.21) we see that \(X(s)\) is the sum of the Laplace transforms of each of the individual terms. The first term is the Laplace transform of \(3e^{-2t}u(t)\) and the second term the Laplace transform of \(-2e^{-t}u(t)\). From Example 9.1, we know that
+
+\[\begin{split} e^{-t}u(t)\,\stackrel{{\bar{x}}}{{ \longleftrightarrow}}\,\frac{1}{s+1},&\quad\quad\quad\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,
+
+transforms also arise when we consider LTI systems specified in terms of linear constant-coefficient differential equations. Except for a scale factor, the numerator and denominator polynomials in a rational Laplace transform can be specified by their roots; thus, marking the locations of the roots of \(N(s)\) and \(D(s)\) in the \(s\)-plane and indicating the ROC provides a convenient pictorial way of describing the Laplace transform. For example, in Figure 9.2(a) we show the \(s\)-plane representation of the Laplace transform of Example 9.3, with the location of each root of the denominator polynomial in eq. (9.23) indicated with "\(\times\)" and the location of the root of the numerator polynomial in eq. (9.23) indicated with "\(\circ\)." The corresponding plot of the roots of the numerator and denominator polynomials for the Laplace transform in Example 9.4 is given in Figure 9.2(b). The region of convergence for each of these examples is shaded in the corresponding plot.
+
+For rational Laplace transforms, the roots of the numerator polynomial are commonly referred to as the _zeros_ of \(X(s)\), since, for those values of \(s\), \(X(s)=0\). The roots of the denominator polynomial are referred to as the _poles_ of \(X(s)\), and for those values of \(s\), \(X(s)\) is infinite. The poles and zeros of \(X(s)\) in the finite \(s\)-plane completely characterize the algebraic expression for \(X(s)\) to within a scale factor. The representation of \(X(s)\) through its poles and zeros in the \(s\)-plane is referred to as the _pole-zero plot_ of \(X(s)\).
+
+Figure 9.2: \(s\)-plane representation of the Laplace transforms for (a) Example 9.3 and (b) Example 9.4. Each \(\times\) in these figures marks the location of a pole of the corresponding Laplace transform—i.e., a root of the denominator. Similarly, each \(\circ\) marks a zero—i.e., a root of the the numerator. The shaded regions indicate the ROCs.
+
+Recall from eq. (9.6) that, for \(s=j\omega\), the Laplace transform corresponds to the Fourier transform. However, if the ROC of the Laplace transform does not include the \(j\omega\)-axis, (i.e., if \(\Omega e\{s\}=0\)), then the Fourier transform does not converge. As we see from Figure 9.3, this, in fact, is the case for Example 9.5, which is consistent with the fact that the term \((1/3)e^{2t}u(t)\) in \(x(t)\) does not have a Fourier transform. Note also in this example that the two zeros in eq. (9.35) occur at the same value of \(s\). In general, we will refer to the _order_ of a pole or zero as the number of times it is repeated at a given location. In Example 9.5 there is a second-order zero at \(s=1\) and two first-order poles, one at \(s=-1\), the other at \(s=2\). In this example the ROC lies to the right of the rightmost pole. In general, for rational Laplace transforms, there is a close relationship between the locations of the poles and the possible ROCs that can be associated with a given pole-zero plot. Specific constraints on the ROC are closely associated with time-domain properties of \(x(t)\). In the next section, we explore some of these constraints and properties.
+
+### The region of convergence for Laplace transforms
+
+In the preceding section, we saw that a complete specification of the Laplace transform requires not only the algebraic expression for \(X(s)\), but also the associated region of convergence. As evidenced by Examples 9.1 and 9.2, two very different signals can have identical algebraic expressions for \(X(s)\), so that their Laplace transforms are distinguishable _only_ by the region of convergence. In this section, we explore some specific constraints on the ROC for various classes of signals. As we will see, an understanding of these constraints often permits us to specify implicitly or to reconstruct the ROC from knowledge of only the algebraic expression for \(X(s)\) and certain general characteristics of \(x(t)\) in the time domain.
+
+**Property 1:** The ROC of \(X(s)\) consists of strips parallel to the \(j\omega\)-axis in the \(s\)-plane.
+
+The validity of this property stems from the fact that the ROC of \(X(s)\) consists of those values of \(s=\sigma+j\omega\) for which the Fourier transform of \(x(t)e^{-\sigma t}\) converges. That
+
+Figure 9.3: Pole-zero plot and ROC for Example 9.5.
+
+is, the ROC of the Laplace transform of \(x(t)\) consists of those values of \(s\) for which \(x(t)e^{-\sigma t}\) is absolutely integrable:2
+
+Footnote 2: For a more thorough and formal treatment of Laplace transforms and their mathematical properties, including convergence, see E. D. Rainville, _The Laplace Transform: An Introduction_ (New York: Macmillan, 1963), and R. V. Churchill and J. W. Brown, _Complex Variables and Applications_ (5th ed.) (New York: McGraw-Hill, 1990). Note that the condition of absolute integrability is one of the Dirichlet conditions introduced in Section 4.1 in the context of our discussion of the convergence of Fourier transforms.
+
+\[\int_{-\infty}^{+\infty}|x(t)|e^{-\sigma t}\,dt<\infty. \tag{9.36}\]
+
+Property 1 then follows, since this condition depends only on \(\sigma\), the real part of \(s\).
+
+**Property 2:** For rational Laplace transforms, the ROC does not contain any poles.
+
+Property 2 is easily observed in all the examples studied thus far. Since \(X(s)\) is infinite at a pole, the integral in eq. (9.3) clearly does not converge at a pole, and thus the ROC cannot contain values of \(s\) that are poles.
+
+**Property 3:** If \(x(t)\) is of finite duration and is absolutely integrable, then the ROC is the entire \(s\)-plane.
+
+The intuition behind this result is suggested in Figures 9.4 and 9.5. Specifically, a finite-duration signal has the property that it is zero outside an interval of finite duration, as illustrated in Figure 9.4. In Figure 9.5(a), we have shown \(x(t)\) of Figure 9.4 multiplied by a decaying exponential, and in Figure 9.5(b) the same signal multiplied by a growing
+
+Figure 9.5: (a) Finite-duration signal of Figure 9.4 multiplied by a decaying exponential; (b) finite-duration signal of Figure 9.4 multiplied by a growing exponential.
+
+It is important to recognize that, to ensure that the exponential weighting is bounded over the interval in which \(x(t)\) is nonzero, the preceding discussion relies heavily on the fact that \(x(t)\) is of finite duration. In the next two properties, we consider modifications of the result in Property 3 when \(x(t)\) is of finite extent in only the positive-time or negative-time direction.
+
+**Property 4:** If \(x(t)\) is right sided, and if the line \(\mathcal{R}e\{s\}=\sigma_{0}\) is in the ROC, then all values of \(s\) for which \(\mathcal{R}e\{s\}>\sigma_{0}\) will also be in the ROC.
+
+A _right-sided_ signal is a signal for which \(x(t)=0\) prior to some finite time \(T_{1}\), as illustrated in Figure 9.6. It is possible that, for such a signal, there is no value of \(s\) for which the Laplace transform will converge. One example is the signal \(x(t)=e^{t^{2}}u(t)\). However, suppose that the Laplace transform converges for some value of \(\sigma\), which we denote by \(\sigma_{0}\). Then
+
+\[\int_{-\infty}^{+\infty}|x(t)|e^{-\sigma_{0}t}\,dt<\infty, \tag{9.44}\]
+
+or equivalently, since \(x(t)\) is right sided,
+
+\[\int_{T_{1}}^{+\infty}|x(t)|e^{-\sigma_{0}t}\,dt<\infty. \tag{9.45}\]
+
+Then if \(\sigma_{1}>\sigma_{0}\), it must also be true that \(x(t)e^{-\sigma_{1}t}\) is absolutely integrable, since \(e^{-\sigma_{1}t}\) decays faster than \(e^{-\sigma_{0}t}\) as \(t\longrightarrow+\infty\), as illustrated in Figure 9.7. Formally, we can say that with \(\sigma_{1}>\sigma_{0}\),
+
+\[\begin{split}\int_{T_{1}}^{\infty}|x(t)|e^{-\sigma_{1}t}\,dt& =\int_{T_{1}}^{\infty}|x(t)|e^{-\sigma_{0}t}e^{-(\sigma_{1}- \sigma_{0})t}\,dt\\ &\leq\,e^{-(\sigma_{1}-\sigma_{0})T_{1}}\int_{T_{1}}^{\infty}|x (t)|e^{-\sigma_{0}t}\,dt.\end{split} \tag{9.46}\]
+
+Since \(T_{1}\) is finite, it follows from eq. (9.45) that the right side of the inequality in eq. (9.46) is finite, and hence, \(x(t)e^{-\sigma_{1}t}\) is absolutely integrable.
+
+Note that in the preceding argument we explicitly rely on the fact that \(x(t)\) is right sided, so that, although with \(\sigma_{1}>\sigma_{0}\), \(e^{-\sigma_{1}t}\) diverges faster than \(e^{-\sigma_{0}t}\) as \(t\rightarrow-\infty\), \(x(t)e^{-\sigma_{1}t}\) cannot grow without bound in the negative-time direction, since \(x(t)=0\) for
+
+Figure 9.6: Right-sided signal.
+
+\(t<T_{1}\). Also, in this case, if a point \(s\) is in the ROC, then all the points to the right of \(s\), i.e., all points with larger real parts, are in the ROC. For this reason, the ROC in this case is commonly referred to as a _right-half plane_.
+
+**Property 5:** If \(x(t)\) is left sided, and if the line \(\Re e\{s\}=\sigma_{0}\) is in the ROC, then all values of \(s\) for which \(\Re e\{s\}<\sigma_{0}\) will also be in the ROC.
+
+A _left-sided_ signal is a signal for which \(x(t)=0\) after some finite time \(T_{2}\), as illustrated in Figure 9.8. The argument and intuition behind this property are exactly analogous to the argument and intuition behind Property 4. Also, for a left-sided signal, the ROC is commonly referred to as a _left-half plane,_ as if a point \(s\) is in the ROC, then all points to the left of \(s\) are in the ROC.
+
+A _two-sided_ signal is a signal that is of infinite extent for both \(t>0\) and \(t<0\), as illustrated in Figure 9.9(a). For such a signal, the ROC can be examined by choosing an arbitrary time \(T_{0}\) and dividing \(x(t)\) into the sum of a right-sided signal \(x_{R}(t)\) and a left-sided signal \(x_{L}(t)\), as indicated in Figures 9.9(b) and 9.9(c). The Laplace transform of \(x(t)\) converges for values of \(s\) for which the transforms of _both_\(x_{R}(t)\) and \(x_{L}(t)\) converge. From Property 4, the ROC of \(\mathcal{E}\{x_{R}(t)\}\) consists of a half-plane \(\Re e\{s\}>\sigma_{R}\) for some value \(\sigma_{R}\), and from Property 5, the ROC of \(\mathcal{E}\{x_{L}(t)\}\) consists of a half-plane \(\Re e\{s\}<\sigma_{L}\) for some value \(\sigma_{L}\). The ROC of \(\mathcal{E}\{x(t)\}\) is then the overlap of these two half-planes, as indicated in Figure 9.10. This assumes, of course, that \(\sigma_{R}<\sigma_{L}\), so that there is some overlap. If this is not the case, then even if the Laplace transforms of \(x_{R}(t)\) and \(x_{L}(t)\) individually exist, the Laplace transform of \(x(t)\) does not.
+
+Figure 9.8: Left-sided signal.
+
+Figure 9.9: Two-sided signal divided into the sum of a right-sided and left-sided signal: (a) two-sided signal \(x(t)\); (b) the right-sided signal equal to \(x(t)\) for \(t>T_{0}\) and equal to \(0\) for \(t<T_{0}\); (c) the left-sided signal equal to \(x(t)\) for \(t<T_{0}\) and equal to \(0\) for \(t>T_{0}\).
+
+Figure 9.10: (a) ROC for \(x_{R}(t)\) in Figure 9.9; (b) ROC for \(x_{L}(t)\) in Figure 9.9; (c) the ROC for \(x(t)=x_{R}(t)+x_{L}(t)\), assuming that the ROCs in (a) and (b) overlap.
+
+**Example 9.7**: Let
+
+\[x(t)\,=\,e^{-b|t|}, \tag{9.47}\]
+
+as illustrated in Figure 9.11 for both \(b>0\) and \(b<0\). Since this is a two-sided signal, let us divide it into the sum of a right-sided and left-sided signal; that is,
+
+\[x(t)\,=\,e^{-bt}u(t)\,+\,e^{+bt}u(-t). \tag{9.48}\]
+
+From Example 9.1,
+
+\[e^{-bt}u(t)\,\stackrel{{\mathcal{L}}}{{\longleftrightarrow}} \,\frac{1}{s+b},\quad\partial\epsilon\{s\}>-b, \tag{9.49}\]
+
+and from Example 9.2,
+
+\[e^{+bt}u(-t)\,\stackrel{{\mathcal{L}}}{{\longleftrightarrow}} \,\frac{-1}{s-b},\quad\partial\epsilon\{s\}<+b. \tag{9.50}\]
+
+Although the Laplace transforms of each of the individual terms in eq. (9.48) have a region of convergence, there is no _common_ region of convergence if \(b\leq 0\), and thus, for those values of \(b\), \(x(t)\) has no Laplace transform. If \(b>0\), the Laplace transform of \(x(t)\) is
+
+\[e^{-b|t|}\,\stackrel{{\mathcal{L}}}{{\longleftrightarrow}} \,\frac{1}{s+b}\,-\,\frac{1}{s-b}\,=\,\frac{-2b}{s^{2}-b^{2}},\quad-b< \partial\epsilon\{s\}<+b. \tag{9.51}\]
+
+The corresponding pole-zero plot is shown in Figure 9.12, with the shading indicating the ROC.
+
+transform of this signal converges. Figure 9.13(c) corresponds to a left-sided signal and Figure 9.13(d) to a two-sided signal. Neither of these two signals have Fourier transforms, since their ROCs do not include the \(j\omega\)-axis.
+
+### 9.3 The inverse Laplace transform
+
+In Section 9.1 we discussed the interpretation of the Laplace transform of a signal as the Fourier transform of an exponentially weighted version of the signal; that is, with \(s\) expressed as \(s\,=\,\sigma\,+\,j\omega\), the Laplace transform of a signal \(x(t)\) is
+
+\[X(\sigma\,+\,j\omega)\,=\,\mathfrak{F}\{x(t)e^{-\sigma t}\}\,=\,\int_{-\infty }^{+\infty}x(t)e^{-\sigma t}e^{-j\omega t}\,dt \tag{9.53}\]
+
+for values of \(s\,=\,\sigma\,+\,j\omega\) in the ROC. We can invert this relationship using the inverse Fourier transform as given in eq. (4.9). We have
+
+\[x(t)e^{-\sigma t}\,=\,\mathfrak{F}^{-1}\{X(\sigma\,+\,j\omega)\}\,=\,\frac{1} {2\pi}\int_{-\infty}^{+\infty}X(\sigma\,+\,j\omega)e^{j\omega t}\,d\omega, \tag{9.54}\]
+
+or, multiplying both sides by \(e^{\sigma t}\), we obtain
+
+\[x(t)\,=\,\frac{1}{2\pi}\int_{-\infty}^{+\infty}X(\sigma\,+\,j\omega)e^{( \sigma\,+\,j\omega)t}\,d\omega. \tag{9.55}\]
+
+Figure 9.13: (a) Pole-zero pattern for Example 9.8; (b) ROC corresponding to a right-sided sequence; (c) ROC corresponding to a left-sided sequence; (d) ROC corresponding to a two-sided sequence.
+
+That is, we can recover \(x(t)\) from its Laplace transform evaluated for a set of values of \(s=\sigma+j\omega\) in the ROC, with \(\sigma\) fixed and \(\omega\) varying from \(-\infty\) to \(+\infty\). We can highlight this and gain additional insight into recovering \(x(t)\) from \(X(s)\) by changing the variable of integration in eq. (9.55) from \(\omega\) to \(s\) and using the fact that \(\sigma\) is constant, so that \(ds\,=\,j\,d\omega\). The result is the basic inverse Laplace transform equation:
+
+\[\boxed{\,x(t)\,=\,\frac{1}{2\pi j}\int_{\sigma-\,j\infty}^{\sigma+j\infty}X(s )e^{st}\,ds.} \tag{9.56}\]
+
+This equation states that \(x(t)\) can be represented as a weighted integral of complex exponentials. The contour of integration in eq. (9.56) is the straight line in the \(s\)-plane corresponding to all points \(s\) satisfying \(\langle\Re e\{s\}\rangle=\sigma\). This line is parallel to the \(j\omega\)-axis. Furthermore, we can choose any such line in the ROC--i.e., we can choose any value of \(\sigma\) such that \(X(\sigma+j\omega)\) converges. The formal evaluation of the integral for a general \(X(s)\) requires the use of contour integration in the complex plane, a topic that we will not consider here. However, for the class of rational transforms, the inverse Laplace transform can be determined without directly evaluating eq. (9.56) by using the technique of partial-fraction expansion in a manner similar to that used in Chapter 4 to determine the inverse Fourier transform. Basically, the procedure consists of expanding the rational algebraic expression into a linear combination of lower order terms.
+
+For example, assuming no multiple-order poles, and assuming that the order of the denominator polynomial is greater than the order of the numerator polynomial, we can expand \(X(s)\) in the form
+
+\[X(s)\,=\,\sum_{i\,=\,1}^{m}\frac{A_{i}}{s+a_{i}}. \tag{9.57}\]
+
+From the ROC of \(X(s)\), the ROC of each of the individual terms in eq. (9.57) can be inferred, and then, from Examples 9.1 and 9.2, the inverse Laplace transform of each of these terms can be determined. There are two possible choices for the inverse transform of each term \(A_{i}/(s+a_{i})\) in the equation. If the ROC is to the right of the pole at \(s\,=\,-a_{i}\), then the inverse transform of this term is \(A_{i}e^{-a_{i}t}u(t)\), a right-sided signal. If the ROC is to the left of the pole at \(s\,=\,-a_{i}\), then the inverse transform of the term is \(-A_{i}e^{-a_{i}t}u(-t)\), a left-sided signal. Adding the inverse transforms of the individual terms in eq. (9.57) then yields the inverse transform of \(X(s)\). The details of this procedure are best presented through a number of examples.
+
+**Example 9.9**
+
+Let
+
+\[X(s)\,=\,\frac{1}{(s+1)(s+2)},\qquad\langle\Re e\{s\}>-1. \tag{9.58}\]
+
+To obtain the inverse Laplace transform, we first perform a partial-fraction expansion to obtain
+
+\[X(s)\,=\,\frac{1}{(s+1)(s+2)}\,=\,\frac{A}{s+1}\,+\,\frac{B}{s+2}. \tag{9.59}\]As discussed in the appendix, we can evaluate the coefficients A and B by multiplying both sides of eq. (9.59) by \((s+1)(s+2)\) and then equating coefficients of equal powers of \(s\) on both sides. Alternatively, we can use the relation
+
+\[A = \left[(s+1)X(s)\right]_{|_{s-1}\,=\,1}\,=\,1, \tag{9.60}\] \[B = \left[(s+2)X(s)\right]_{|_{s-2}\,=\,-1}\,=\,-1. \tag{9.61}\]
+
+Thus, the partial-fraction expansion for \(X(s)\) is
+
+\[X(s)\,=\,\frac{1}{s+1}\,-\,\frac{1}{s+2}. \tag{9.62}\]
+
+From Examples 9.1 and 9.2, we know that there are two possible inverse transforms for a transform of the form \(1/(s+a)\), depending on whether the ROC is to the left or the right of the pole. Consequently, we need to determine which ROC to associate with each of the individual first-order terms in eq. (9.62). This is done by reference to the properties of the ROC developed in Section 9.2. Since the ROC for \(X(s)\) is \(\langle 0\!e\{s\}>-1\), the ROC for the individual terms in the partial-fraction expansion of eq. (9.62) includes \(\langle 0\!e\{s\}>-1\). The ROC for each term can then be extended to the left or right (or both) to be bounded by a pole or infinity. This is illustrated in Figure 9.14. Figure 9.14(a) shows the pole-zero plot and ROC for \(X(s)\), as specified in eq. (9.58). Figure 9.14(b) and 9.14(c) represent the individual terms in the partial-fraction expansion in eq. (9.62). The ROC for the sum is indicated with lighter shading. For the term represented by Figure 9.14(c), the ROC for the sum can be extended to the left as shown, so that it is bounded by a pole.
+
+Figure 9.14: Construction of the ROCs for the individual terms in the partial-fraction expansion of \(X(s)\) in Example 9.8: (a) pole-zero plot and ROC for \(X(s)\); (b) pole at \(s=-1\) and its ROC; (c) pole at \(s=-2\) and its ROC.
+
+Since the ROC is to the right of both poles, the same is true for each of the individual terms, as can be seen in Figures 9.14(b) and (c). Consequently, from Property 8 in the preceding section, we know that each of these terms corresponds to a right-sided signal. The inverse transform of the individual terms in eq. (9.62) can then be obtained by reference to Example 9.1:
+
+\[e^{-t}u(t) \xleftrightarrow{\mathcal{E}}\ \frac{1}{s+1},\qquad\langle\Re e \{s\}>\ -1, \tag{9.63}\] \[e^{-2t}u(t) \xleftrightarrow{\mathcal{E}}\ \frac{1}{s+2},\qquad\langle\Re e \{s\}>\ -2. \tag{9.64}\]
+
+We thus obtain
+
+\[[e^{-t}-e^{-2t}]u(t) \xleftrightarrow{\mathcal{E}}\ \frac{1}{(s+1)(s+2)},\qquad\langle\Re e \{s\}>-1. \tag{9.65}\]
+
+## Example 9.10
+
+Let us now suppose that the algebraic expression for \(X(s)\) is again given by eq. (9.58), but that the ROC is now the left-half plane \(\Re e\{s\}<-2\). The partial-fraction expansion for \(X(s)\) relates only to the algebraic expression, so eq. (9.62) is still valid. With this new ROC, however, the ROC is to the _left_ of both poles and thus, the same must be true for each of the two terms in the equation. That is, the ROC for the term corresponding to the pole at \(s\ =\ -1\) is \(\Re e\{s\}<-1\), while the ROC for the term with pole at \(s\ =\ -2\) is \(\langle\Re e\{s\}<-2\). Then, from Example 9.2,
+
+\[-e^{-t}u(-t) \xleftrightarrow{\mathcal{E}}\ \frac{1}{s+1},\quad\langle\Re e \{s\}<-1, \tag{9.66}\] \[-e^{-2t}u(-t) \xleftrightarrow{\mathcal{E}}\ \frac{1}{s+2},\quad\langle\Re e \{s\}<-2, \tag{9.67}\]
+
+so that
+
+\[x(t)\ =\ [-e^{-t}+e^{-2t}]u(-t)\xleftrightarrow{\mathcal{E}}\ \frac{1}{(s+1)(s+2)},\quad \langle\Re e\{s\}<-2. \tag{9.68}\]
+
+## Example 9.11
+
+Finally, suppose that the ROC of \(X(s)\) in eq. (9.58) is \(-2<\Re e\{s\}<-1\). In this case, the ROC is to the left of the pole at \(s\ =\ -1\) so that this term corresponds to the left-sided signal in eq. (9.66), while the ROC is to the right of the pole at \(s\ =\ -2\) so that this term corresponds to the right-sided signal in eq. (9.64). Combining these, we find that
+
+\[x(t)\ =\ -e^{-t}u(-t)-e^{-2t}u(t)\xleftrightarrow{\mathcal{E}}\ \frac{1}{(s+1)(s+2)},\quad-2<\Re e\{s\}<-1. \tag{9.69}\]
+
+As discussed in the appendix, when \(X(s)\) has multiple-order poles, or when the denominator is not of higher degree than the numerator, the partial-fraction expansion of \(X(s)\) will include other terms in addition to the first-order terms considered in Examples 9.9-9.11. In Section 9.5, after discussing properties of the Laplace transform, we develop some other Laplace transform pairs that, in conjunction with the properties, allow us to extend the inverse transform method outlined in Example 9.9 to arbitrary rational transforms.
+
+(or both), corresponding to some of the \(\alpha_{\,j}\)'s being equal to each other or some of the \(\beta_{\,i}\)'s being equal to each other (or both), the lengths and angles of the vectors from each of these poles or zeros must be included a number of times equal to the order of the pole or zero.
+
+**Example 9.12**
+
+Let
+
+\[X(s)\,=\,\frac{1}{s\,+\,\frac{1}{2}},\qquad\langle\Phi e\{s\}>-\,\frac{1}{2}. \tag{9.71}\]
+
+The Fourier transform is \(X(s)|_{s\,-\,j\omega}\). For this example, then, the Fourier transform is
+
+\[X(j\omega)\,=\,\frac{1}{j\omega\,+\,1/2}. \tag{9.72}\]
+
+The pole-zero plot for \(X(s)\) is shown in Figure 9.16. To determine the Fourier transform graphically, we construct the pole vector as indicated. The magnitude of the Fourier transform at frequency \(\omega\) is the reciprocal of the length of the vector from the pole to the point \(j\omega\) on the imaginary axis. The phase of the Fourier transform is the negative of the angle of the vector. Geometrically, from Figure 9.16, we can write
+
+\[|X(j\omega)|^{2}\,=\,\frac{1}{\omega^{2}\,+\,(1/2)^{2}} \tag{9.73}\]
+
+and
+
+\[\begin{split}\Im X(j\omega)\,=\,-\tan^{-1}2\omega.\end{split} \tag{9.74}\]
+
+Often, part of the value of the geometric determination of the Fourier transform lies in its usefulness in obtaining an approximate view of the overall characteristics of the transform. For example, in Figure 9.16, it is readily evident that the length of the pole vector monotonically increases with increasing \(\omega\), and thus, the magnitude of the Fourier
+
+Figure 9.16: Pole-zero plot for Example 9.12. \(|X(j\omega)|\) is the reciprocal of the length of the vector shown, and \(\Im X(j\omega)\) is the negative of the angle of the vector.
+
+transform will monotonically _decrease_ with increasing \(\omega\). The ability to draw general conclusions about the behavior of the Fourier transform from the pole-zero plot is further illustrated by a consideration of general first- and second-order systems.
+
+#### First-Order Systems
+
+As a generalization of Example 9.12, let us consider the class of first-order systems that was discussed in some detail in Section 6.5.1. The impulse response for such a system is
+
+\[h(t)\,=\,\frac{1}{\tau}e^{-t/\tau}u(t), \tag{9.75}\]
+
+and its Laplace transform is
+
+\[H(s)\,=\,\frac{1}{s\tau+1},\qquad\varhe\{s\}>-\frac{1}{\tau}. \tag{9.76}\]
+
+The pole-zero plot is shown in Figure 9.17. Note from the figure that the length of the pole vector is minimal for \(\omega\,=\,0\) and increases monotonically as \(\omega\) increases. Also, the angle of the pole increases monotonically from 0 to \(\pi/2\) as \(\omega\) increases from 0 to \(\infty\).
+
+From the behavior of the pole vector as \(\omega\) varies, it is clear that the magnitude of the frequency response \(H(j\omega)\) monotonically decreases as \(\omega\) increases, while \(\varhe H(j\omega)\) monotonically decreases from 0 to \(-\pi/2\), as shown in the Bode plots for this system in Figure 9.18. Note also that when \(\omega\,=\,1/\tau\), the real and imaginary parts of the pole vector are equal, yielding a value of the magnitude of the frequency response that is reduced by a factor of \(\sqrt{2}\), or approximately 3 dB, from its maximum at \(\omega\,=\,0\) and a value of \(\pi/4\) for the angle of the frequency response. This is consistent with our examination of first-order systems in Section 6.5.1, where we noted that \(\omega\,=\,1/\tau\) is often referred to as the 3-dB point or the break frequency--i.e., the frequency at which the straight-line approximation of the Bode plot of \(|H(j\omega)|\) has a break in its slope. As we also saw in Section 6.5.1, the time constant \(\tau\) controls the speed of response of first-order systems, and we now see that
+
+Figure 9.17: Pole-zero plot for first-order system of eq. (9.76).
+
+the pole of such a system at \(s=-1/\tau\) is on the negative real axis, at a distance to the origin that is the reciprocal of the time constant.
+
+From our graphical interpretation, we can also see how changing the time constant or, equivalently, the position of the pole of \(H(s)\) changes the characteristics of a first-order system. In particular, as the pole moves farther into the left-half plane, the break frequency and, hence, the effective cutoff frequency of the system increases. Also, from eq. (109) and from Figure 18, we see that this same movement of the pole to the left corresponds to a decrease in the time constant \(\tau\), resulting in a faster decay of the impulse response and a correspondingly faster rise time in the step response. This relationship between the real part of the pole locations and the speed of the system response holds more generally; that is, poles farther away from the \(j\omega\)-axis are associated with faster response terms in the impulse response.
+
+#### Second-Order Systems
+
+Let us next consider the class of second-order systems, which was discussed in some detail in Section 2. The impulse response and frequency response for the system, originally given in eqs. (6.37) and (6.33), respectively, are
+
+\[h(t)\,=\,M[e^{c_{1}t}-e^{c_{2}t}]u(t), \tag{9.77}\]
+
+where
+
+\[c_{1} = -\xi\omega_{n}+\omega_{n}\sqrt{\zeta^{2}-1},\] \[c_{2} = -\xi\omega_{n}-\omega_{n}\sqrt{\zeta^{2}-1},\] \[M = \frac{\omega_{n}}{2\sqrt{\zeta^{2}-1}},\]
+
+and
+
+\[H(j\omega)\,=\,\frac{\omega_{n}^{2}}{(j\omega)^{2}+2\zeta\omega_{n}(j\omega)+ \omega_{n}^{2}}. \tag{9.78}\]
+
+The Laplace transform of the impulse response is
+
+\[H(s)\,=\,\frac{\omega_{n}^{2}}{s^{2}+2\xi\omega_{n}s+\omega_{n}^{2}}\,=\,\frac {\omega_{n}^{2}}{(s-c_{1})(s-c_{2})}. \tag{9.79}\]
+
+For \(\zeta>1\), \(c_{1}\) and \(c_{2}\) are real and thus both poles lie on the real axis, as indicated in Figure 9.19(a). The case of \(\zeta>1\) is essentially a product of two first-order terms, as in Section 9.4.1. Consequently, in this case \(|H(j\omega)|\) decreases monotonically as \(|\omega|\) increases, while \(\sphericalangle H(j\omega)\) varies from 0 at \(\omega=0\) to \(-\pi\) as \(\omega\to\infty\). This can be verified from Figure 9.19(a) by observing that the length of the vector from each of the two poles to the point \(s\,=\,j\omega\) increases monotonically as \(\omega\) increases from 0, and the angle of each of these vectors increases from 0 to \(\pi/2\) as \(\omega\) increases from 0 to \(\infty\). Note also that as \(\zeta\) increases, one pole moves closer to the \(j\omega\)-axis, indicative of a term in the impulse response that decays more slowly, and the other pole moves farther into the left-half plane, indicative of a term in the impulse response that decays more rapidly. Thus, for large values of \(\zeta\), it is the pole close to the \(j\omega\)-axis that dominates the system response for large time. Similarly, from a consideration of the pole vectors for \(\zeta>\!\!>1\), as indicated in Figure 9.19(b), for low frequencies the length and angle of the vector for the pole close to the \(j\omega\)-axis are much more sensitive to changes in \(\omega\) than the length and angle of the vector for the pole far from the \(j\omega\)-axis. Hence, we see that for low frequencies, the characteristics of the frequency response are influenced principally by the pole close to the \(j\omega\)-axis.
+
+For \(0<\zeta<1\), \(c_{1}\) and \(c_{2}\) are complex, so that the pole-zero plot is that shown in Figure 9.19(c). Correspondingly, the impulse response and step response have oscillatory parts. We note that the two poles occur in complex conjugate locations. In fact, as we discuss in Section 9.5.5, the complex poles (and zeros) for a real-valued signal always occur in complex conjugate pairs. From the figure--particularly when \(\zeta\) is small, so that the poles are close to the \(j\omega\)-axis--as \(\omega\) approaches \(\omega_{n}\sqrt{1-\zeta^{2}}\), the behavior of the frequency response is dominated by the pole vector in the second quadrant, and in Figure 9.19: (a) Pole-zero plot for a second-order system with \(\zeta>1\); (b) pole vectors for \(\zeta\gg 1\); (c) pole-zero plot for a second-order system with \(0<\zeta<1\); (d) pole vectors for \(0<\zeta<1\) and for \(\omega=\omega_{n}\sqrt{1-\xi^{2}}\) and \(\omega=\omega_{n}\sqrt{1-\xi^{2}}\pm\xi_{0n}\).
+
+particular, the length of that pole vector has a minimum at \(\omega=\omega_{n}\sqrt{1-\zeta^{2}}\). Thus, qualitatively, we would expect the magnitude of the frequency response to exhibit a peak in the vicinity of that frequency. Because of the presence of the other pole, the peak will occur not exactly at \(\omega=\omega_{n}\sqrt{1-\zeta^{2}}\), but at a frequency slightly less than this. A careful sketch of the magnitude of the frequency response is shown in Figure 9.20(a) for \(\omega_{n}=1\) and several values of \(\zeta\) where the expected behavior in the vicinity of the poles is clearly evident. This is consistent with our analysis of second-order systems in Section 6.5.2.
+
+Figure 9.20: (a) Magnitude and (b) phase of the frequency response for a second-order system with \(0<\zeta<1\).
+
+Thus, for \(0<\zeta<1\), the second-order system is a nonideal bandpass filter, with the parameter \(\zeta\) controlling the sharpness and width of the peak in the frequency response. In particular, from the geometry in Figure 9.19(d), we see that the length of the pole vector from the second-quadrant pole increases by a factor of \(\sqrt{2}\) from its minimum at \(\omega=\omega_{n}\sqrt{1-\zeta^{2}}\) when \(\omega\) increases or decreases from this value by \(\zeta\omega_{n}\). Consequently, for small \(\zeta\), and neglecting the effect of the distant third-quadrant pole, \(|H(j\omega)|\) is within a factor of \(\sqrt{2}\) of its peak value over the frequency range
+
+\[\omega_{n}\sqrt{1-\zeta^{2}}-\zeta\omega_{n}<\omega<\omega_{n}\sqrt{1-\zeta^{ 2}}+\zeta\omega_{n}.\]
+
+If we define the relative bandwidth \(B\) as the length of this frequency interval divided by the undamped natural frequency \(\omega_{n}\), we see that
+
+\[B\,=\,2\zeta.\]
+
+Thus, the closer \(\zeta\) is to zero, the sharper and narrower the peak in the frequency response is. Note also that B is the reciprocal of the quality measure \(Q\) for second-order systems defined in Section 6.5.2. Thus, as the quality increases, the relative bandwidth decreases and the filter becomes increasingly frequency selective.
+
+An analogous picture can be developed for \(\mathcal{K}H(\omega)\), which is plotted in Figure 9.20(b) for \(\omega_{n}=1\) and several values of \(\zeta\). As can be seen from Figure 9.19(d), the angle of the second-quadrant pole vector changes from \(-\pi/4\) to \(0\) to \(\pi/4\) as \(\omega\) changes from \(\omega_{n}\sqrt{1-\xi^{2}}-\zeta\omega_{n}\) to \(\omega_{n}\sqrt{1-\xi^{2}}\) to \(\omega_{n}\sqrt{1-\xi^{2}}+\zeta\omega_{n}\). For small values of \(\zeta\), the angle for the third-quadrant pole changes very little over this frequency interval, resulting in a rapid change in \(\mathcal{K}H(j\omega)\) of approximately \(\pi/2\) over the interval, as captured in the figure.
+
+Varying \(\omega_{n}\) with \(\zeta\) fixed only changes the frequency scale in the preceding discussion--i.e., \(|H(\omega)|\) and \(\mathcal{K}H(\omega)\) depend only on \(\omega/\omega_{n}\). From Figure 9.19(c), we also can readily determine how the poles and system characteristics change as we vary \(\zeta\), keeping \(\omega_{n}\) constant. Since \(\cos\theta=\zeta\), the poles move along a semicircle with fixed radius \(\omega_{n}\). For \(\zeta=0\), the two poles are on the imaginary axis. Correspondingly, in the time domain, the impulse response is sinusoidal with no damping. As \(\zeta\) increases from \(0\) to \(1\), the two poles remain complex and move into the left-half plane, and the vectors from the origin to the poles maintain a constant overall magnitude \(\omega_{n}\). As the real part of the poles becomes more negative, the associated time response will decay more quickly as \(t\to\infty\). Also, as we have seen, as \(\zeta\) increases from \(0\) toward \(1\), the relative bandwidth of the frequency response increases, and the frequency response becomes less sharp and less frequency selective.
+
+#### All-Pass Systems
+
+As a final illustration of the geometric evaluation of the frequency response, let us consider a system for which the Laplace transform of the impulse response has the pole-zero plot shown in Figure 9.21(a). From this figure, it is evident that for any point along the \(j\omega\)-axis, the pole and zero vectors have equal length, and consequently, the magnitude of the frequency response is constant and independent of frequency. Such a system is comonly referred to as an _all-pass system,_ since it passes all frequencies with equal gain (or attenuation). The phase of the frequency response is \(\theta_{1}\,-\,\theta_{2}\), or, since \(\theta_{1}\,=\,\pi\,-\,\theta_{2}\),
+
+\[\mathscr{K}H(j\omega)\,=\,\pi\,-\,2\theta_{2}. \tag{9.80}\]
+
+From Figure 9.21(a), \(\theta_{2}\,=\,\tan^{-1}(\omega/a)\), and thus,
+
+\[\mathscr{K}H(j\omega)\,=\,\pi\,-\,2\tan^{-1}\left(\frac{\omega}{a}\right). \tag{9.81}\]
+
+The magnitude and phase of \(H(j\omega)\) are illustrated in Figure 9.21(b).
+
+### 9.5 Properties of the Laplace Transform
+
+In exploiting the Fourier transform, we relied heavily on the set of properties developed in Section 4.3. In the current section, we consider the corresponding set of properties for
+
+Figure 9.21: (a) Pole-zero plot for an all-pass system; (b) magnitude and phase of an all-pass frequency response.
+
+the Laplace transform. The derivations of many of these results are analogous to those of the corresponding properties for the Fourier transform. Consequently, we will not present the derivations in detail, some of which are left as exercises at the end of the chapter. (See Problems 9.52-9.54.)
+
+#### Linearity of the Laplace Transform
+
+If
+
+\[x_{1}(t)\ \xleftrightarrow{\mathcal{L}}\ X_{1}(s)\] with a region of convergence that will be denoted as
+
+\[R_{1}\]
+
+and
+
+\[x_{2}(t)\ \xleftrightarrow{\mathcal{L}}\ X_{2}(s)\] with a region of convergence that will be denoted as
+
+\[R_{2}\]
+
+, then
+
+\[ax_{1}(t)+bx_{2}(t)\ \xleftrightarrow{\mathcal{L}}\ aX_{1}(s)+bX_{2}(s),\ \text{with ROC} \tag{9.82}\]
+
+As indicated, the region of convergence of \(X(s)\) is at least the intersection of \(R_{1}\) and \(R_{2}\), which could be empty, in which case \(X(s)\) has no region of convergence--i.e., \(x(t)\) has no Laplace transform. For example, for \(x(t)\) as in eq. (9.47) of Example 9.7, with \(b>0\) the ROC for \(X(s)\) is the intersection of the ROCs for the two terms in the sum. If \(b<0\), there are no common points in \(R_{1}\) and \(R_{2}\); that is, the intersection is empty, and thus, \(x(t)\) has no Laplace transform. The ROC can also be larger than the intersection. As a simple example, for \(x_{1}(t)=x_{2}(t)\) and \(a=-b\) in eq. (9.82), \(x(t)=0\), and thus, \(X(s)=0\). The ROC of \(X(s)\) is then the entire \(s\)-plane.
+
+The ROC associated with a linear combination of terms can always be constructed by using the properties of the ROC developed in Section 9.2. Specifically, from the intersection of the ROCs for the individual terms (assuming that it is not empty), we can find a line or strip that is in the ROC of the linear combination. We then extend this to the right (\(\Re e\{s\}\) increasing) and to the left (\(\Re e\{s\}\) decreasing) to the nearest poles (which may be at infinity).
+
+**Example 9.13**: In this example, we illustrate the fact that the ROC for the Laplace transform of a linear combination of signals can sometimes extend beyond the intersection of the ROCs for the individual terms. Consider
+
+\[x(t)=x_{1}(t)-x_{2}(t), \tag{9.83}\]where the Laplace transforms of \(x_{1}(t)\) and \(x_{2}(t)\) are, respectively,
+
+\[X_{1}(s)\,=\,\frac{1}{s+1},\qquad\langle\mathbb{R}e\{s\}>-1, \tag{9.84}\]
+
+and
+
+\[X_{2}(s)\,=\,\frac{1}{(s+1)(s+2)},\qquad\langle\mathbb{R}e\{s\}>-1. \tag{9.85}\]
+
+The pole-zero plot, including the ROCs for \(X_{1}(s)\) and \(X_{2}(s)\), is shown in Figures 9.22(a) and (b). From eq. (9.82),
+
+\[X(s)\,=\,\frac{1}{s+1}\,-\,\frac{1}{(s+1)(s+2)}\,=\,\frac{s+1}{(s+1)(s+2)}\,=\, \frac{1}{s+2}. \tag{9.86}\]
+
+Thus, in the linear combination of \(x_{1}(t)\) and \(x_{2}(t)\), the pole at \(s=\,-1\) is canceled by a zero at \(s=\,-1\). The pole-zero plot for \(X(s)\,=\,X_{1}(s)-X_{2}(s)\) is shown in Figure 9.22(c). The intersection of the ROCs for \(X_{1}(s)\) and \(X_{2}(s)\) is \(\langle\mathbb{R}e\{s\}>-1\). However, since the ROC is always bounded by a pole or infinity, for this example the ROC for \(X(s)\) can be extended to the left to be bounded by the pole at \(s=-2\), as a result of the pole-zero cancellation at \(s=\,-1\).
+
+#### Time Shifting
+
+If
+
+\[x(t)\,\stackrel{{\mathcal{L}}}{{\longleftrightarrow}}\,X(s), \qquad\text{with ROC}\,=\,R,\]
+
+then
+
+\[\boxed{x(t-t_{0})\,\stackrel{{\mathcal{L}}}{{\longleftrightarrow}}\,e^{ -st_{0}}X(s),\quad\text{with ROC}\,=\,R.} \tag{9.87}\]
+
+Figure 9.22: Pole-zero plots and ROCs for Example 9.13: (a) \(X_{1}(s)\); (b) \(X_{2}(s)\); (c) \(X_{1}(s)-X_{2}(s)\). The ROC for \(X_{1}(s)-X_{2}(s)\) includes the intersection of \(R_{1}\) and \(R_{2}\), which can then be extended to be bounded by the pole at \(s=\,-2\).
+
+#### Shifting in the \(s\)-Domain
+
+If
+
+\[x(t)\ \stackrel{{\mathcal{L}}}{{\longleftrightarrow}}\ X(s),\qquad \text{with ROC}\,=\,R,\]
+
+then
+
+\[\boxed{e^{s_{0}t}x(t)\ \stackrel{{\mathcal{L}}}{{ \longleftrightarrow}}\ X(s-s_{0}),\quad\text{with ROC}\,=\,R\,+\,\mathcal{O}e \{s_{0}\}.} \tag{9.88}\]
+
+That is, the ROC associated with \(X(s-s_{0})\) is that of \(X(s)\), shifted by \(\mathcal{O}e\{s_{0}\}\). Thus, for any value \(s\) that is in \(R\), the value \(s\,+\,\mathcal{O}e\{s_{0}\}\) will be in \(R_{1}\). This is illustrated in Figure 9.23. Note that if \(X(s)\) has a pole or zero at \(s\,=\,a\), then \(X(s-s_{0})\) has a pole or zero at \(s-s_{0}\,=\,a\)--i.e., \(s\,=\,a\,+\,s_{0}\).
+
+An important special case of eq. (9.88) is when \(s_{0}\,=\,j\omega_{0}\)--i.e., when a signal \(x(t)\) is used to modulate a periodic complex exponential \(e^{j\omega_{0}t}\). In this case, eq. (9.88) becomes
+
+\[e^{j\omega_{0}t}x(t)\ \stackrel{{\mathcal{L}}}{{ \longleftrightarrow}}\ X(s-\,j\omega_{0}),\quad\text{with ROC}\,=\,R. \tag{9.89}\]
+
+The right-hand side of eq. (9.89) can be interpreted as a shift in the \(s\)-plane parallel to the \(j\omega\)-axis. That is, if the Laplace transform of \(x(t)\) has a pole or zero at \(s\,=\,a\), then the Laplace transform of \(e^{j\omega_{0}t}x(t)\) has a pole or zero at \(s\,=\,a\,+\,j\omega_{0}\).
+
+#### Time Scaling
+
+If
+
+\[x(t)\ \stackrel{{\mathcal{L}}}{{\longleftrightarrow}}\ X(s), \quad\text{with ROC}\,=\,R,\]
+
+Figure 9.23: Effect on the ROC of shifting in the \(s\)-domain: (a) the ROC of \(X(s)\); (b) the ROC of \(X(s-s_{0})\).
+
+then
+
+\[x(at)\ \stackrel{{\mathcal{E}}}{{\longleftrightarrow}}\ \frac{1}{|a|}X\left(\frac{s}{a}\right),\quad\text{ with ROC }R_{1}\ =\ aR. \tag{9.90}\]
+
+That is, for any value \(s\) in \(R\) [which is illustrated in Figure 9.24(a)], the value \(a/s\) will be in \(R_{1}\), as illustrated in Figure 9.24(b) for a positive value of \(a<1\). Note that, for \(0<a<1\), there is a compression in the size of the ROC of \(X(s)\) by a factor of \(a\), as depicted in Figure 9.24(b), while for a \(>1\), the ROC is expanded by a factor of \(a\). Also, eq. (9.90) implies that if \(a\) is negative, the ROC undergoes a reversal plus a scaling. In particular, as depicted in Figure 9.24(c), the ROC of \(1/|a|X(s/a)\) for \(0>a>-1\) involvesa reversal about the \(j\omega\)-axis, together with a change in the size of the ROC by a factor of \(|a|\). Thus, time reversal of \(x(t)\) results in a reversal of the ROC. That is,
+
+\[x(-t)\ \stackrel{{\mathcal{E}}}{{\longleftrightarrow}}\ X(-s), \quad\text{ with ROC }=\ -R. \tag{9.91}\]
+
+#### Conjugation
+
+If
+
+\[x(t)\ \stackrel{{\mathcal{E}}}{{\longleftrightarrow}}\ X(s), \quad\text{ with ROC }=\ R, \tag{9.92}\]
+
+then
+
+\[x^{*}(t)\ \stackrel{{\mathcal{E}}}{{\longleftrightarrow}}\ X^{*}(s^{*}), \quad\text{ with ROC }=\ R. \tag{9.93}\]
+
+Therefore,
+
+\[X(s)\,=\,X^{*}(s^{*})\quad\text{when }\,x(t)\text{ is real}. \tag{9.94}\]
+
+Consequently, if \(x(t)\) is real and if \(X(s)\) has a pole or zero at \(s=s_{0}\) (i.e., if \(X(s)\) is unbounded or zero at \(s=s_{0}\)), then \(X(s)\) also has a pole or zero at the complex conjugate point \(s=s_{0}^{*}\). For example, the transform \(X(s)\) for the real signal \(x(t)\) in Example 9.4 has poles at \(s=1\pm 3\,j\) and zeros at \(s=(-5\pm j\sqrt{71})/2\).
+
+#### Convolution Property
+
+If
+
+\[x_{1}(t)\ \stackrel{{\mathcal{E}}}{{\longleftrightarrow}}\ X_{1}(s), \qquad\text{ with }ROC\,=\ R_{1},\]
+
+and
+
+\[x_{2}(t)\ \stackrel{{\mathcal{E}}}{{\longleftrightarrow}}\ X_{2}(s), \qquad\text{ with }ROC\,=\ R_{2},\]
+
+then
+
+\[x_{1}(t)*x_{2}(t)\ \stackrel{{\mathcal{E}}}{{\longleftrightarrow}}\ X_{1}(s)X_{2}(s), \quad\text{ with ROC containing }R_{1}\cap R_{2}. \tag{9.95}\]
+
+In a manner similar to the linearity property set forth in Section 9.5.1, the ROC of \(X_{1}(s)X_{2}(s)\) includes the intersection of the ROCs of \(X_{1}(s)\) and \(X_{2}(s)\) and may be larger if pole-zero cancellation occurs in the product. For example, if
+
+\[X_{1}(s)\,=\,\frac{s+1}{s+2},\qquad\langle\Phi e\{s\}>-2, \tag{9.96}\]and
+
+\[X_{2}(s)\,=\,\frac{s+2}{s+1},\qquad(\Omega e\{s\}>-1, \tag{9.97}\]
+
+then \(X_{1}(s)X_{2}(s)\,=\,1\), and its ROC is the entire \(s\)-plane.
+
+As we saw in Chapter 4, the convolution property in the context of the Fourier transform plays an important role in the analysis of linear time-invariant systems. In Sections 9.7 and 9.8 we will exploit in some detail the convolution property for Laplace transforms for the analysis of LTI systems in general and, more specifically, for the class of systems represented by linear constant-coefficient differential equations.
+
+#### Differentiation in the Time Domain
+
+If
+
+\[x(t)\,\stackrel{{\mathcal{L}}}{{\longleftrightarrow}}\,X(s), \qquad\text{ with ROC }=\,R,\]
+
+then
+
+\[\boxed{\begin{array}{l}\frac{dx(t)}{dt}\,\stackrel{{ \mathcal{L}}}{{\longleftrightarrow}}\,sX(s),\qquad\text{ with ROC containing }R.\end{array}} \tag{9.98}\]
+
+This property follows by differentiating both sides of the inverse Laplace transform as expressed in equation (9.56). Specifically, let
+
+\[x(t)\,=\,\frac{1}{2\pi j}\int_{\sigma^{-}j^{\infty}}^{\sigma+j^{\infty}}X(s) e^{st}ds.\]
+
+Then
+
+\[\frac{dx(t)}{dt}\,=\,\frac{1}{2\pi j}\int_{\sigma^{-}j^{\infty}}^{\sigma+j^{ \infty}}sX(s)e^{st}ds. \tag{9.99}\]
+
+Consequently, \(dx(t)/dt\) is the inverse Laplace transform of \(sX(s)\). The ROC of \(sX(s)\) includes the ROC of \(X(s)\) and may be larger if \(X(s)\) has a first-order pole at \(s=0\) that is canceled by the multiplication by \(s\). For example, if \(x(t)\,=\,u(t)\), then \(X(s)\,=\,1/s\), with an ROC that is \(\Omega e\{s\}>0\). The derivative of \(x(t)\) is an impulse with an associated Laplace transform that is unity and an ROC that is the entire \(s\)-plane.
+
+#### Differentiation in the s-Domain
+
+Differentiating both sides of the Laplace transform equation (9.3), i.e.,
+
+\[X(s)\,=\,\int_{-\infty}^{+\infty}x(t)e^{-st}dt,\]
+
+we obtain
+
+\[\frac{dX(s)}{ds}\,=\,\int_{-\infty}^{+\infty}(-t)x(t)e^{-st}dt.\]Consequently, if
+
+\[x(t)\;\stackrel{{\mathcal{E}}}{{\longleftrightarrow}}\;X(s),\qquad \text{with ROC}\;=\;R,\]
+
+then
+
+\[-tx(t)\;\stackrel{{\mathcal{E}}}{{\longleftrightarrow}}\;\frac{ dX(s)}{ds},\qquad\text{with ROC}\;=\;R. \tag{9.100}\]
+
+The next two examples illustrate the use of this property.
+
+**Example 9.14**: Let us find the Laplace transform of
+
+\[x(t)\;=\;te^{-at}u(t). \tag{9.101}\]
+
+Since
+
+\[e^{-at}u(t)\;\stackrel{{\mathcal{E}}}{{\longleftrightarrow}}\; \frac{1}{s+a},\qquad\langle\mathfrak{R}e\{s\}>-a,\]
+
+it follows from eq. (9.100) that
+
+\[te^{-at}u(t)\;\stackrel{{\mathcal{E}}}{{\longleftrightarrow}}\;- \frac{d}{ds}\left[\frac{1}{s+a}\,\right]=\;\frac{1}{(s+a)^{2}},\qquad\langle \mathfrak{R}e\{s\}>-a. \tag{9.102}\]
+
+In fact, by repeated application of eq. (9.100), we obtain
+
+\[\frac{t^{2}}{2}e^{-at}u(t)\;\stackrel{{\mathcal{E}}}{{ \longleftrightarrow}}\;\frac{1}{(s+a)^{3}},\qquad\langle\mathfrak{R}e\{s\}>-a, \tag{9.103}\]
+
+and, more generally,
+
+\[\frac{t^{n-1}}{(n-1)!}e^{-at}u(t)\;\stackrel{{\mathcal{E}}}{{ \longleftrightarrow}}\;\frac{1}{(s+a)^{n}},\qquad\langle\mathfrak{R}e\{s\}>-a. \tag{9.104}\]
+
+As the next example illustrates, this specific Laplace transform pair is particularly useful when applying partial-fraction expansion to the determination of the inverse Laplace transform of a rational function with multiple-order poles.
+
+**Example 9.15**: Consider the Laplace transform
+
+\[X(s)\;=\;\frac{2s^{2}+5s+5}{(s+1)^{2}(s+2)},\quad\langle\mathfrak{R}e\{s\}>-1.\]
+
+Applying the partial-fraction expansion method described in the appendix, we can write
+
+\[X(s)\;=\;\frac{2}{(s+1)^{2}}\;-\;\frac{1}{(s+1)}\;+\;\frac{3}{s+2},\quad \langle\mathfrak{R}e\{s\}>-1. \tag{9.105}\]
+
+considerable information about a signal and its transform that can be useful either in characterizing the signal or in checking a calculation. In Sections 9.7 and 9.8 and in some of the problems at the end of this chapter, we give several other examples of the uses of these properties.
+
+### Some Laplace Transform Pairs
+
+As we indicated in Section 9.3, the inverse Laplace transform can often be easily evaluated by decomposing \(X(s)\) into a linear combination of simpler terms, the inverse transform of each of which can be recognized. Listed in Table 9.2 are a number of useful Laplace
+
+\begin{table}
+\begin{tabular}{l|c|c|l} \hline
+**Transform** & & & \\
+**pair** & **Signal** & **Transform** & **ROC** \\ \hline
+1 & \(\delta(t)\) & 1 & All \(s\) \\
+2 & \(u(t)\) & \(\frac{1}{s}\) & \(\Re e(s)>0\) \\
+3 & \(-u(-t)\) & \(\frac{1}{s}\) & \(\Re e(s)<0\) \\
+4 & \(\frac{t^{n-1}}{(n-1)!}u(t)\) & \(\frac{1}{s^{n}}\) & \(\Re e(s)>0\) \\
+5 & \(-\frac{t^{n-1}}{(n-1)!}u(-t)\) & \(\frac{1}{s^{n}}\) & \(\Re e(s)<0\) \\
+6 & \(e^{-at}u(t)\) & \(\frac{1}{s+\alpha}\) & \(\Re e(s)>-\alpha\) \\
+7 & \(-e^{-at}u(-t)\) & \(\frac{1}{s+\alpha}\) & \(\Re e(s)<-\alpha\) \\
+8 & \(\frac{t^{n-1}}{(n-1)!}e^{-at}u(t)\) & \(\frac{1}{(s+\alpha)^{n}}\) & \(\Re e(s)>-\alpha\) \\
+9 & \(-\frac{t^{n-1}}{(n-1)!}e^{-at}u(-t)\) & \(\frac{1}{(s+\alpha)^{n}}\) & \(\Re e(s)<-\alpha\) \\
+10 & \(\delta(t-T)\) & \(e^{-iT}\) & All \(s\) \\
+11 & \([\cos\omega_{0}t]u(t)\) & \(\frac{s}{s^{2}+\omega_{0}^{2}}\) & \(\Re e(s)>0\) \\
+12 & \([\sin\omega_{0}t]u(t)\) & \(\frac{\omega_{0}}{s^{2}+\omega_{0}^{2}}\) & \(\Re e(s)>0\) \\
+13 & \([e^{-at}\cos\omega_{0}t]u(t)\) & \(\frac{s+\alpha}{(s+\alpha)^{2}+\omega_{0}^{2}}\) & \(\Re e(s)>-\alpha\) \\
+14 & \([e^{-at}\sin\omega_{0}t]u(t)\) & \(\frac{\omega_{0}}{(s+\alpha)^{2}+\omega_{0}^{2}}\) & \(\Re e(s)>-\alpha\) \\
+15 & \(u_{e}(t)\,=\,\frac{d^{*}\delta(t)}{dt^{n}}\) & \(s^{n}\) & All \(s\) \\
+16 & \(u_{-n}(t)\,=\,\underbrace{u(t)*\cdots*u(t)}_{n\text{ times}}\) & \(\frac{1}{s^{n}}\) & \(\Re e(s)>0\) \\ \end{tabular}
+\end{table}
+Table 9.2: LAPLACE TRANSFORMS OF ELEMENTARY FUNCTIONStransform pairs. Transform pair 1 follows directly from eq. (9.3). Transform pairs 2 and 6 follow directly from Example 9.1 with \(a=0\) and \(a=\alpha\), respectively. Transform pair 4 was developed in Example 9.14 using the differentiation property. Transform pair 8 follows from transform pair 4 using the property set forth in Section 9.5.3. Transform pairs 3, 5, 7, and 9 are based on transform pairs 2, 4, 6 and 8, respectively, together with the time-scaling property of section 9.5.4 with \(a=-1\). Similarly, transform pairs 10 through 16 can all be obtained from earlier ones in the table using appropriate properties in Table 9.1 (see Problem 9.55).
+
+### Analysis and Characterization of LTI Systems Using the Laplace Transform
+
+One of the important applications of the Laplace transform is in the analysis and characterization of LTI systems. Its role for this class of systems stems directly from the convolution property (Section 9.5.6). Specifically, the Laplace transforms of the input and output of an LTI system are related through multiplication by the Laplace transform of the impulse response of the system. Thus,
+
+\[Y(s)=H(s)X(s). \tag{9.112}\]
+
+where \(X(s)\), \(Y(s)\), and \(H(s)\) are the Laplace transforms of the input, output, and impulse response of the system, respectively. Equation (9.112) is the counterpart, in the context of Laplace transforms, of eq. (4.56) for Fourier transform. Also, from our discussion in Section 3.2 on the response of LTI systems to complex exponentials, if the input to an LTI system is \(x(t)=e^{st}\), with \(s\) in the ROC of \(H(s)\), then the output will be \(H(s)e^{st}\); i.e., \(e^{st}\) is an eigenfunction of the system with eigenvalue equal to the Laplace transform of the impulse response.
+
+If the ROC of \(H(s)\) includes the imaginary axis, then for \(s=j\omega\), \(H(s)\) is the frequency response of the LTI system. In the broader context of the Laplace transform, \(H(s)\) is commonly referred to as the system function or, alternatively, the _transfer function_. Many properties of LTI systems can be closely associated with the characteristics of the _system function_ in the \(s\)-plane. We illustrate this next by examining several important properties and classes of systems.
+
+#### Causality
+
+For a causal LTI system, the impulse response is zero for \(t<0\) and thus is right sided. Consequently, from the discussion in Section 9.2, we see that
+
+The ROC associated with the system function for a causal system is a right-half plane.
+
+It should be stressed, however, that the converse of this statement is not necessarily true. That is, as illustrated in Example 9.19 to follow, an ROC to the right of the rightmost pole does not guarantee that a system is causal; rather, it guarantees only that the impulse response is right sided. However, if \(H(s)\) is _rational_, then, as illustrated in Examples 9.17 and 9.18 to follow, we can determine whether the system is causal simply by checking to see if its ROC is a right-half plane. Specifically,
+
+\[\boxed{\begin{array}{l}\mbox{For a system with a rational system function, causality}\\ \mbox{of the system is equivalent to the ROC being the right-half plane to the right of the rightmost pole.}\end{array}}\]
+
+### Example 9.17
+
+Consider a system with impulse response
+
+\[h(t)\,=\,e^{-t}u(t). \tag{9.113}\]
+
+Since \(h(t)\,=\,0\) for \(t<0\), this system is causal. Also, the system function can be obtained from Example 9.1:
+
+\[H(s)\,=\,\frac{1}{s+1},\qquad\Im\mbox{e}\{s\}>-1. \tag{9.114}\]
+
+In this case, the system function is rational and the ROC in eq. (9.114) is to the right of the rightmost pole, consistent with our statement that causality for systems with rational system functions is equivalent to the ROC being to the right of the rightmost pole.
+
+### Example 9.18
+
+Consider a system with impulse response
+
+\[h(t)\,=\,e^{-|t|}.\]
+
+Since \(h(t)\neq 0\) for \(t<0\), this system is not causal. Also, from Example 9.7, the system function is
+
+\[H(s)\,=\,\frac{-2}{s^{2}-1},\quad\,-1<\Re\mbox{e}\{s\}<+1.\]
+
+Thus, \(H(s)\) is rational and has an ROC that is _not_ to the right of the the rightmost pole, consistent with the fact that the system is not causal.
+
+### Example 9.19
+
+Consider the system function
+
+\[H(s)\,=\,\frac{e^{s}}{s+1},\qquad\Im\mbox{e}\{s\}>-1. \tag{9.115}\]
+
+For this system, the ROC is to the right of the rightmost pole. Therefore, the impulse response must be right sided. To determine the impulse response, we first use the result of Example 9.1:
+
+\[e^{-t}u(t)\ \stackrel{{\mathcal{L}}}{{\longleftrightarrow}}\ \frac{1}{s+1},\qquad(\Re e \{s\}>-1. \tag{9.116}\]
+
+Next, from the time-shifting property of Section 9.5.2 [eq. (9.87)], the factor \(e^{s}\) in eq. (9.115) can be accounted for by a shift in the time function in eq. (9.116). Then
+
+\[e^{-(t+1)}u(t+1)\ \stackrel{{\mathcal{L}}}{{\longleftrightarrow}}\ \frac{e^{s}}{s+1},\qquad(\Re e\{s\}>-1, \tag{9.117}\]
+
+so that the impulse response associated with the system is
+
+\[h(t)\,=\,e^{-(t+1)}u(t+1), \tag{9.118}\]
+
+which is nonzero for \(-1<t<0\). Hence, the system is not causal. This example serves as a reminder that causality implies that the ROC is to the right of the rightmost pole, but the converse is not in general true, unless the system function is rational.
+
+In an exactly analogous manner, we can deal with the concept of anticausality. A system is _anticausal_ if its impulse response \(h(t)=0\) for \(t>0\). Since in that case \(h(t)\) would be left sided, we know from Section 9.2 that the ROC of the system function \(H(s)\) would have to be a left-half plane. Again, in general, the converse is not true. That is, if the ROC of \(H(s)\) is a left-half plane, all we know is that \(h(t)\) is left sided. However, if \(H(s)\) is rational, then having an ROC to the left of the leftmost pole is equivalent to the system being anticausal.
+
+#### Stability
+
+The ROC of \(H(s)\) can also be related to the stability of a system. As mentioned in Section 2.3.7, the stability of an LTI system is equivalent to its impulse response being absolutely integrable, in which case (Section 4.4) the Fourier transform of the impulse response converges. Since the Fourier transform of a signal equals the Laplace transform evaluated along the \(j\omega\)-axis, we have the following:
+
+An LTI system is stable if and only if the ROC of its system function H(s) includes the entire \(j\omega\)-axis [i.e., \(\Re e\{s\}=0\)].
+
+### Example 9.20
+
+Let us consider an LTI system with system function
+
+\[H(s)\,=\,\frac{s-1}{(s+1)(s-2)}. \tag{9.119}\]
+
+Since the ROC has not been specified, we know from our discussion in Section 9.2 that there are several different ROCs and, consequently, several different system impulse responses that can be associated with the algebraic expression for \(H(s)\) given in eq. (9.119).
+
+It is perfectly possible, of course, for a system to be stable (or unstable) and have a system function that is not rational. For example, the system function in eq. (9.115) is not rational, and its impulse response in eq. (9.118) is absolutely integrable, indicating that the system is stable. However, for systems with rational system functions, stability is easily interpreted in terms of the poles of the system. For example, for the pole-zero plot in Figure 9.25, stability corresponds to the choice of an ROC that is between the two poles, so that the \(j\omega\)-axis is contained in the ROC.
+
+For one particular and very important class of systems, stability can be characterized very simply in terms of the locations of the poles. Specifically, consider a causal LTI system with a rational system function \(H(s)\). Since the system is causal, the ROC is to the right of the rightmost pole. Consequently, for this system to be stable (i.e., for the ROC to include the \(j\omega\)-axis), the rightmost pole of \(H(s)\) must be to the _left_ of the \(j\omega\)-axis. That is,
+
+A causal system with rational system function \(H(s)\) is stable if and only if all of the poles of \(H(s)\) lie in the left-half of the \(s\)-plane--i.e., all of the poles have negative real parts.
+
+### Example 9.21
+
+Consider again the causal system in Example 9.17. The impulse response in eq. (9.113) is absolutely integrable, and thus the system is stable. Consistent with this, we see that the pole of \(H(s)\) in eq. (9.114) is at \(s=-1\), which is in the left-half of the \(s\)-plane. In contrast, the causal system with impulse response
+
+\[h(t)\,=\,e^{2t}u(t)\]
+
+is unstable, since \(h(t)\) is not absolutely integrable. Also, in this case
+
+\[H(s)\,=\,\frac{1}{s-2},\qquad\langle\mathfrak{Re}\{s\}>2,\]
+
+so the system has a pole at \(s=2\) in the right half of the \(s\)-plane.
+
+### Example 9.22
+
+Let us consider the class of causal second-order systems previously discussed in Sections 9.4.2 and 6.5.2. The impulse response and system function are, respectively,
+
+\[h(t)\,=\,M[e^{c_{1}t}-e^{c_{2}t}]u(t) \tag{9.121}\]
+
+and
+
+\[H(s)\,=\,\frac{\omega_{n}^{2}}{s^{2}+2\xi\omega_{n}s+\omega_{n}^{2}}\,=\, \frac{\omega_{n}^{2}}{(s-c_{1})(s-c_{2})}, \tag{9.122}\]
+
+where
+
+\[c_{1} \,=\,-\xi\omega_{n}+\omega_{n}\sqrt{\xi^{2}-1}, \tag{9.123}\] \[c_{2} \,=\,-\xi\omega_{n}-\omega_{n}\sqrt{\xi^{2}-1},\] (9.124) \[M \,=\,\frac{\omega_{n}}{2\sqrt{\xi^{2}-1}}. \tag{9.125}\]In Figure 9.19, we illustrated the pole locations for \(\zeta>0\). In Figure 9.26, we illustrate the pole locations for \(\zeta<0\). As is evident from the latter figure and from eqs. (9.124) and (9.125), for \(\zeta<0\) both poles have positive real parts. Consequently, for \(\zeta<0\), the causal second-order system cannot be stable. This is also evident in eq. (9.121), since, with \(\Omega e\{c_{1}\}>0\) and \(\Omega e\{c_{2}\}>0\), each term grows exponentially as \(t\) increases, and thus \(h(t)\) cannot be absolutely integrable.
+
+### 9.7.3 LTI Systems Characterized by Linear Constant-Coefficient Differential Equations
+
+In Section 4.7, we discussed the use of the Fourier transform to obtain the frequency response of an LTI system characterized by a linear constant-coefficient differential equation without first obtaining the impulse response or time-domain solution. In an exactly analogous manner, the properties of the Laplace transform can be exploited to directly obtain the system function for an LTI system characterized by a linear constant-coefficient differential equation. We illustrate this procedure in the next example.
+
+**Example 9.23**: Consider an LTI system for which the input \(x(t)\) and output \(y(t)\) satisfy the linear constant-coefficient differential equation
+
+\[\frac{dy(t)}{dt}+3y(t)\,=\,x(t). \tag{9.126}\]
+
+Figure 9.26: Pole locations and ROC for a causal second-order system with \(\zeta<0\).
+
+Thus, the system function for a system specified by a differential equation is always rational, with zeros at the solutions of
+
+\[\sum_{k\,=\,0}^{M}b_{k}s^{k}\,=\,0 \tag{9.134}\]
+
+and poles at the solutions of
+
+\[\sum_{k\,=\,0}^{N}a_{k}s^{k}\,=\,0. \tag{9.135}\]
+
+Consistently with our previous discussion, eq. (9.133) does not include a specification of the region of convergence of \(H(s)\), since the linear constant-coefficient differential equation by itself does not constrain the region of convergence. However, with additional information, such as knowledge about the stability or causality of the system, the region of convergence can be inferred. For example, if we impose the condition of initial rest on the system, so that it is causal, the ROC will be to the right of the rightmost pole.
+
+### Example 9.24
+
+An \(RLC\) circuit whose capacitor voltage and inductor current are initially zero constitutes an LTI system describable by a linear constant-coefficient differential equation. Consider the series \(RLC\) circuit in Figure 9.27. Let the voltage across the voltage source be the input signal \(x(t)\), and let the voltage measured across the capacitor be the output signal \(\dot{y}(t)\). Equating the sum of the voltages across the resistor, inductor, and capacitor with the source voltage, we obtain
+
+\[RC\frac{dy(t)}{dt}\,+\,LC\frac{d^{2}y(t)}{dt^{2}}\,+\,y(t)\,=\,x(t). \tag{9.136}\]
+
+Applying eq. (9.133), we obtain
+
+\[H(s)\,=\,\frac{1/LC}{s^{2}\,+\,(R/L)s+\,(1/LC)}. \tag{9.137}\]
+
+As shown in Problem 9.64, if the values of \(R\), \(L\), and \(C\) are all positive, the poles of this system function will have negative real parts, and consequently, the system will be stable.
+
+Figure 9.27: A series \(RLC\) circuit.
+
+#### Examples Relating System Behavior to the System Function
+
+As we have seen, system properties such as causality and stability can be directly related to the system function and its characteristics. In fact, each of the properties of Laplace transforms that we have described can be used in this way to relate the behavior of the system to the system function. In this section, we give several examples illustrating this.
+
+**Example 9.25**: \[\mbox{Suppose we know that if the input to an LTI system is
+
+\[x(t)\,=\,e^{-3t}u(t),\]
+
+then the output is
+
+\[y(t)\,=\,[e^{-t}-e^{-2t}]u(t).\]
+
+As we now show, from this knowledge we can determine the system function for this system and from this can immediately deduce a number of other properties of the system.
+
+Taking Laplace transforms of \(x(t)\) and \(y(t)\), we get
+
+\[X(s)\,=\,\frac{1}{s+3},\qquad\langle\Re e\{s\}>-3,\]
+
+and
+
+\[Y(s)\,=\,\frac{1}{(s+1)(s+2)},\qquad\langle\Re e\{s\}>-1.\]
+
+From eq. (9.112), we can then conclude that
+
+\[H(s)\,=\,\frac{Y(s)}{X(s)}\,=\,\frac{s+3}{(s+1)(s+2)}\,=\,\frac{s+3}{s^{2}\,+ 3s+2}.\]
+
+Furthermore, we can also determine the ROC for this system. In particular, we know from the convolution property set forth in Section 9.5.6 that the ROC of \(Y(s)\) must include at least the intersections of the ROCs of \(X(s)\) and \(H(s)\). Examining the three possible choices for the ROC of \(H(s)\) (i.e., to the left of the pole at \(s\,=\,-2\), between the poles at \(-2\) and \(-1\), and to the right of the pole at \(s\,=\,-1\)), we see that the only choice that is consistent with the ROCs of \(X(s)\) and \(Y(s)\) is \(\Re e\{s\}>-1\). Since this is to the right of the rightmost pole of \(H(s)\), we conclude that \(H(s)\) is causal, and since both poles of \(H(s)\) have negative real parts, it follows that the system is stable. Moreover, from the relationship between eqs. (9.131) and (9.133), we can specify the differential equation that, together with the condition of initial rest, characterizes the system:
+
+\[\frac{d^{2}y(t)}{dt^{2}}+3\frac{dy(t)}{dt}\,+\,2y(t)\,=\,\frac{d\,x(t)}{dt}\, +\,3x(t).\]
+
+**Example 9.26**: \[\mbox{Suppose that we are given the following information about an LTI system:}\]
+
+1. The system is causal.
+2. The system function is rational and has only two poles, at \(s\,=\,-2\) and \(s\,=\,4\)
+
+**3.**: If \(x(t)=1\), then \(y(t)=0\).
+**4.**: The value of the impulse response at \(t=0^{+}\) is 4.
+
+From this information we would like to determine the system function of the system.
+
+From the first two facts, we know that the system is unstable (since it is causal and has a pole at \(s=4\) with positive real part) and that the system function is of the form
+
+\[H(s)=\frac{p(s)}{(s+2)(s-4)}=\frac{p(s)}{s^{2}-2s-8},\]
+
+where \(p(s)\) is a polynomial in \(s\). Because the response \(y(t)\) to the input \(x(t)=1=e^{0\cdot t}\) must equal \(H(0)\cdot e^{0\cdot t}=H(0)\), we conclude, from fact 3, that \(p(0)=0\)--i.e., that \(p(s)\) must have a root at \(s=0\) and thus is of the form
+
+\[p(s)=sq(s),\]
+
+where \(q(s)\) is another polynomial in \(s\).
+
+Finally, from fact 4 and the initial-value theorem in Section 9.5.10, we see that
+
+\[\lim_{s\to\infty}sH(s)=\lim_{s\to\infty}\frac{s^{2}q(s)}{s^{2}-2s-8}=4. \tag{9.138}\]
+
+As \(s\to\infty\), the terms of highest power in \(s\) in both the numerator and the denominator of \(sH(s)\) dominate and thus are the only ones of importance in evaluating eq. (9.138). Furthermore, if the numerator has higher degree than the denominator, the limit will diverge. Consequently, we can obtain a finite nonzero value for the limit only if the degree of the numerator of \(sH(s)\) is the same as the degree of the denominator. Since the degree of the denominator is 2, we conclude that, for eq. (9.138) to hold, \(q(s)\) must be a constant--i.e., \(q(s)=K\). We can evaluate this constant by evaluating
+
+\[\lim_{s\to\infty}\frac{Ks^{2}}{s^{2}-2s-8}=\lim_{s\to\infty}\frac{Ks^{2}}{s^{2 }}=K. \tag{9.139}\]
+
+Equating eqs. (9.138) and (9.139), we see that \(K=4\), and thus,
+
+\[H(s)=\frac{4s}{(s+2)(s-4)}.\]
+
+### Example 9.27
+
+Consider a stable and causal system with impulse response \(h(t)\) and system function \(H(s)\). Suppose \(H(s)\) is rational, contains a pole at \(s=-2\), and does not have a zero at the origin. The location of all other poles and zeros is unknown. For each of the following statements let us determine whether we can definitely say that it is true, whether we can definitely say that it is false, or whether there is insufficient information to ascertain the statement's truth:
+
+**(a)**: \(\mathcal{F}\left[\,h(t)e^{3t}\right]\) converges.
+**(b)**: \(\int_{-\infty}^{+\infty}h(t)\,dt=0\).
+**(c)**: \(th(t)\) is the impulse response of a causal and stable system.
+
+**(d)**: \(dh(t)/dt\) contains at least one pole in its Laplace transform.
+**(e)**: \(h(t)\) has finite duration.
+**(f)**: \(H(s)\,=\,H(-s)\).
+**(g)**: \(\lim_{s\to\times}\,H(s)\,=\,2\).
+
+Statement (a) is false, since \(\widehat{\Im}\{h(t)e^{3t}\}\) corresponds to the value of the Laplace transform of \(h(t)\) at \(s=-3\). If this converges, it implies that \(s=-3\) is in the ROC. A causal and stable system must always have its ROC to the _right_ of all of its poles. However, \(s\,=\,-3\) is not to the right of the pole at \(s\,=\,-2\).
+
+Statement (b) is false, because it is equivalent to stating that \(H(0)\,=\,0\). This contradicts the fact that \(H(s)\) does not have a zero at the origin.
+
+Statement (c) is true. According to Table 1, the property set forth in Section 9.5.8, the Laplace transform of \(th(t)\) has the same ROC as that of \(H(s)\). This ROC includes the \(j\omega\)-axis, and therefore, the corresponding system is stable. Also, \(h(t)\,=\,0\) for \(t<0\) implies that \(th(t)\,=\,0\) for \(t<0\). Thus, \(th(t)\) represents the impulse response of a causal system.
+
+Statement (d) is true. According to Table 1, \(dh(t)/dt\) has the Laplace transform \(sH(s)\). The multiplication by \(s\) does not eliminate the pole at \(s\,=\,-2\).
+
+Statement (e) is false. If \(h(t)\) is of finite duration, then if its Laplace transform has any points in its ROC, the ROC must be the entire \(s\)-plane. However, this is not consistent with \(H(s)\) having a pole at \(s\,=\,-2\).
+
+Statement (f) is false. If it were true, then, since \(H(s)\) has a pole at \(s\,=\,-2\), it must also have a pole at \(s\,=\,2\). This is inconsistent with the fact that all the poles of a causal and stable system must be in the left half of the \(s\)-plane.
+
+The truth of statement (g) cannot be ascertained with the information given. The statement requires that the degree of the numerator and denominator of \(H(s)\) be equal, and we have insufficient information about \(H(s)\) to determine whether this is the case.
+
+#### Butterworth Filters
+
+In Example 6.3 we briefly introduced the widely-used class of LTI systems known as Butterworth filters. The filters in this class have a number of properties, including the characteristics of the magnitude of the frequency response of each of these filters in the passband, that make them attractive for practical implementation. As a further illustration of the usefulness of Laplace transforms, in this section we use Laplace transform techniques to determine the system function of a Butterworth filter from the specification of its frequency response magnitude.
+
+An \(N\)th-order lowpass Butterworth filter has a frequency response the square of whose magnitude is given by
+
+\[|B(j\omega)|^{2}\,=\,\frac{1}{1\,+\,(j\omega/j\omega_{c})^{2N}}, \tag{9.140}\]
+
+where \(N\) is the order of the filter. From eq. (9.140), we would like to determine the system function \(B(s)\) that gives rise to \(|B(j\omega)|^{2}\). We first note that, by definition,
+
+\[|B(j\omega)|^{2}\,=\,B(j\omega)B^{*}(j\omega). \tag{9.141}\]
+
+In Figure 9.29 we show the poles associated with \(B(s)\) for each of these values of \(N\). The corresponding transfer functions are:
+
+\[N\,=\,1\mbox{:}\qquad B(s)\,=\,\frac{\omega_{c}}{s+\omega_{c}}\mbox{;} \tag{9.149}\]
+
+\[N\,=\,2\mbox{:}\qquad B(s)\,=\,\frac{\omega_{c}^{2}}{(s+\omega_{c}e^{j(\pi/4)}) (s+\omega_{c}e^{-j(\pi/4)})}\]
+
+\[\,=\,\frac{\omega_{c}^{2}}{s^{2}+\sqrt{2}\omega_{c}s\,+\,\omega_{c}^{2}}\mbox{ ;} \tag{9.150}\]
+
+\[N\,=\,3\mbox{:}\qquad B(s)\,=\,\frac{\omega_{c}^{3}}{(s+\omega_{c})(s+\omega_{ c}e^{j(\pi/3)})(s+\omega_{c}e^{-j(\pi/3)})}\]
+
+\[\,=\,\frac{\omega_{c}^{3}}{(s+\omega_{c})(s^{2}+\omega_{c}s\,+\,\omega_{c}^{2})} \tag{9.151}\]
+
+\[\,=\,\frac{\omega_{c}^{3}}{s^{3}+2\omega_{c}s^{2}\,+2\,\omega_{c}^{2}s\,+\, \omega_{c}^{3}}\mbox{.}\]
+
+Based on the discussion in Section 9.7.3, from \(B(s)\) we can determine the associated linear constant-coefficient differential equation. Specifically, for the foregoing three values
+
+Figure 9.28: Position of the poles of \(B(s)B(-s)\) for \(N=1,2,3\), and \(6\).
+
+of \(N\), the corresponding differential equations are:
+
+\[N\,=\,1\,: \qquad\frac{d\,y(t)}{dt}+\omega_{c}y(t)\,=\,\omega_{c}x(t); \tag{9.152}\] \[N\,=\,2\,: \qquad\frac{d^{2}y(t)}{dt^{2}}+\sqrt{2}\omega_{c}\frac{d\,y(t)}{dt }+\omega_{c}^{2}y(t)\,=\,\omega_{c}^{2}x(t);\] (9.153) \[N\,=\,3\,: \qquad\frac{d^{3}y(t)}{dt^{3}}+2\omega_{c}\frac{d^{2}y(t)}{dt^{2 }}\,+\,2\omega_{c}^{2}\frac{d\,y(t)}{dt}\,+\,\omega_{c}^{3}y(t)\,=\,\omega_{c} ^{3}x(t). \tag{9.154}\]
+
+### System function algebra and block diagram representations
+
+The use of the Laplace transform allows us to replace time-domain operations such as differentiation, convolution, time shifting, and so on, with algebraic operations. We have already seen many of the benefits of this in terms of analyzing LTI systems, and in this section we take a look at another important use of system function algebra, namely, in analyzing interconnections of LTI systems and synthesizing systems as interconnections of elementary system building blocks.
+
+Figure 9.29: Position of the poles of \(B(s)\) for \(N=1\), \(2\), and \(3\).
+
+#### System Functions for Interconnections of LTI Systems
+
+Consider the parallel interconnection of two systems, as shown in Figure 9.30(a). The impulse response of the overall system is
+
+\[h(t)\,=\,h_{1}(t)\,+\,h_{2}(t), \tag{9.155}\]
+
+and from the linearity of the Laplace transform,
+
+\[H(s)\,=\,H_{1}(s)+H_{2}(s). \tag{9.156}\]
+
+Similarly, the impulse response of the series interconnection in Figure 9.30(b) is
+
+\[h(t)\,=\,h_{1}(t)*h_{2}(t), \tag{9.157}\]
+
+and the associated system function is
+
+\[H(s)\,=\,H_{1}(s)H_{2}(s). \tag{9.158}\]
+
+The utility of the Laplace transform in representing combinations of linear systems through algebraic operations extends to far more complex interconnections than the simple parallel and series combinations in Figure 9.30. To illustrate this, consider the feedback interconnection of two systems, as indicated in Figure 9.31. The design, applications, and analysis of such interconnections are treated in detail in Chapter 11. While analysis of the system in the time domain is not particularly simple, determining the overall system function from input \(x(t)\) to output \(y(t)\) is a straightforward algebraic manipulation. Specifically, from Figure 9.31,
+
+\[Y(s)\,=\,H_{1}(s)E(s), \tag{9.159}\] \[E(s)\,=\,X(s)-Z(s), \tag{9.160}\]\[Z(s)\,=\,H_{2}(s)Y(s), \tag{9.161}\]
+
+from which we obtain the relation
+
+\[Y(s)\,=\,H_{1}(s)[X(s)-H_{2}(s)Y(s)], \tag{9.162}\]
+
+or
+
+\[\frac{Y(s)}{X(s)}\,=\,H(s)\,=\,\frac{H_{1}(s)}{1+H_{1}(s)H_{2}(s)}. \tag{9.163}\]
+
+#### Block Diagram Representations for Causal LTI Systems
+
+Described by Differential Equations and Rational
+
+System Functions
+
+In Section 2.4.3, we illustrated the block diagram representation of an LTI system described by a first-order differential equation using the basic operations of addition, multiplication by a coefficient, and integration. These same three operations can also be used to build block diagrams for higher order systems, and in this section we illustrate this in several examples.
+
+Example 9.28: Consider the causal LTI system with system function
+
+\[H(s)\,=\,\frac{1}{s+3}.\]
+
+From Section 9.7.3, we know that this system can also be described by the differential equation
+
+\[\frac{dy(t)}{dt}\,+\,3y(t)\,=\,x(t),\]
+
+together with the condition of initial rest. In Section 2.4.3 we constructed a block diagram representation, shown in Figure 2.32, for a first-order system such as this. An equivalent block diagram (corresponding to Figure 2.32 with \(a=3\) and \(b=1\)) is shown in
+
+Figure 9.31: Feedback interconnection of two LTI systems.
+
+Figure 9.32(a). Here, \(1/s\) is the system function of a system with impulse response \(u(t)\), i.e., it is the system function of an integrator. Also, the system function \(-3\) in the feedback path in Figure 9.32(a) corresponds to multiplication by the coefficient \(-3\). The block diagram in the figure involves a feedback loop much as we considered in the previous subsection and as pictured in Figure 9.31, the sole difference being that the two signals that are the inputs to the adder in Figure 9.32(a) are added, rather than subtracted as in Figure 9.31. However, as illustrated in Figure 9.32(b), by changing the sign of the coefficient in the multiplication in the feedback path, we obtain a block diagram representation of exactly the same form as Figure 9.31. Consequently, we can apply eq. (9.163) to verify that
+
+\[H(s)\,=\,\frac{1/s}{1\,+\,3/s}\,=\,\frac{1}{s+3}.\]
+
+### Example 9.29
+
+Consider now the causal LTI system with system function
+
+\[H(s)\,=\,\frac{s+2}{s+3}\,=\,\biggl{(}\frac{1}{s+3}\biggr{)}(s+2). \tag{9.164}\]
+
+As suggested by eq. (9.164), this system can be thought of as a cascade of a system with system function \(1/(s+3)\) followed by a system with system function \(s+2\), and
+
+Figure 9.32: (a) Block diagram representation of the causal LTI system in Example 9.28; (b) equivalent block diagram representation.
+
+we have illustrated this in Figure 9.33(a), in which we have used the block diagram in Figure 9.32(a) to represent 1/(\(s\) + 3).
+
+It is also possible to obtain an alternative block diagram representation for the system in eq. (9.164). Using the linearity and differentiation properties of the Laplace transform, we know that \(y(t)\) and \(z(t)\) in Figure 9.33 (a) are related by
+
+\[y(t)\,=\,\frac{dz(t)}{dt}\,+\,2z(t).\]
+
+However, the input \(e(t)\) to the integrator is exactly the derivative of the output \(z(t)\), so that
+
+\[y(t)\,=\,e(t)\,+\,2z(t),\]
+
+which leads directly to the alternative block diagram representation shown in Figure 9.33(b). Note that the block diagram in Figure 9.33(a) requires the differentiation of \(z(t)\), since
+
+\[y(t)\,=\,\frac{dz(t)}{dt}\,+\,2z(t)\]
+
+In contrast, the block diagram in Figure 9.33(b) does not involve the explicit differentiation of any signal.
+
+Figure 9.33: (a) Block diagram representations for the system in Example 9.29; (b) equivalent block diagram representation.
+
+### Example 9.30
+
+Consider next a causal second-order system with system function
+
+\[H(s)\,=\,\frac{1}{(s+1)(s+2)}\,=\,\frac{1}{s^{2}+3s+2}. \tag{9.165}\]
+
+The input \(x(t)\) and output \(y(t)\) for this system satisfy the differential equation
+
+\[\frac{d^{2}y(t)}{dt^{2}}+3\frac{dy(t)}{dt}+2y(t)\,=\,x(t). \tag{9.166}\]
+
+By employing similar ideas to those used in the preceding examples, we obtain the block diagram representation for this system shown in Figure 9.34(a).
+
+Specifically, since the
+
+Figure 9.34: Block diagram representations for the system in Example 9.30: (a) direct form; (b) cascade form; (c) parallel form.
+
+did in Example 9.29, we can extract the derivatives required for this second system by "tapping" the signals appearing as the inputs to the integrators in the first system. The details of this construction are examined in Problem 9.36, and the result is the direct-form block diagram shown in Figure 9.35. Once again, in the direct-form representation the coefficients appearing in the block diagram can be determined by inspection from the coefficients in the system function in eq. (9.167).
+
+Alternatively, we can write \(H(s)\) in the form
+
+\[H(s)\,=\,\left(\frac{2(s-1)}{s+2}\right)\!\left(\frac{s+3}{s+1}\right) \tag{9.168}\]
+
+or
+
+\[H(s)\,=\,2\,+\,\frac{6}{s+2}\,-\,\frac{8}{s+1}. \tag{9.169}\]
+
+The first of these suggests a cascade-form representation, while the second leads to a parallel-form block diagram. These are also considered in Problem 9.36.
+
+The methods for constructing block diagram representations for causal LTI systems described by differential equations and rational system functions can be applied equally well to higher order systems. In addition, there is often considerable flexibility in how this is done. For example, by reversing the numerators in eq. (9.168), we can write
+
+\[H(s)\,=\,\left(\frac{s\,+\,3}{s\,+\,2}\right)\!\left(\frac{2(s-1)}{s+2}\right)\!,\]
+
+which suggests a different cascade form. Also, as illustrated in Problem 9.38, a fourth-order system function can be written as the product of two second-order system functions, each of which can be represented in a number of ways (e.g., direct form, cascade, or parallel), and it can also be written as the sum of lower order terms, each of which has several different representations. In this way, simple low-order systems can serve as building blocks for the implementation of more complex, higher order systems.
+
+Figure 9.35: Direct-form representation for the system in Example 9.31.
+
+### The Unilateral Laplace Transform
+
+In the preceding sections of this chapter, we have dealt with what is commonly called the bilateral Laplace transform. In this section, we introduce and examine a somewhat different transform, the _unilateral Laplace transform_, which is of considerable value in analyzing causal systems and, particularly, systems specified by linear constant-coefficient differential equations with nonzero initial conditions (i.e., systems that are not initially at rest).
+
+The unilateral Laplace transform of a continuous-time signal \(x(t)\) is defined as
+
+\[\mathcal{C}(s)\,\stackrel{{\Delta}}{{=}}\,\int_{0^{-}}^{\infty}x (t)e^{-st}\,dt, \tag{9.170}\]
+
+where the lower limit of integration, \(0^{-}\), signifies that we include in the interval of integration any impulses or higher order singularity functions concentrated at \(t=0\). Once again we adopt a convenient shorthand notation for a signal and its unilateral Laplace transform:
+
+\[x(t)\,\stackrel{{\mathcal{U}\mathcal{U}}}{{\longleftrightarrow}} \,\mathcal{C}(s)\,=\,\mathcal{U}\mathcal{L}\mathcal{Q}\big{[}\,x(t)\big{]}. \tag{9.171}\]
+
+Comparing eqs. (9.170) and (9.3), we see that the difference in the definitions of the unilateral and bilateral Laplace transform lies in the lower limit on the integral. The bilateral transform depends on the entire signal from \(t\,=\,-\infty\) to \(t\,=\,+\infty\), whereas the unilateral transform depends only on the signal from \(t\,=\,0^{-}\) to \(\infty\). Consequently, two signals that differ for \(t<0\), but that are identical for \(t\,\cong\,0\), will have different bilateral Laplace transforms, but identical unilateral transforms. Similarly, any signal that is identically zero for \(t<0\) has identical bilateral and unilateral transforms.
+
+Since the unilateral transform of \(x(t)\) is identical to the bilateral transform of the signal obtained from \(x(t)\) by setting its value to \(0\) for all \(t<0\), many of the insights, concepts, and results pertaining to bilateral transforms can be directly adapted to the unilateral case. For example, using Property 4 in Section 9.2 for right-sided signals, we see that the ROC for eq. (9.170) is always a right-half plane. The evaluation of the inverse unilateral Laplace transforms is also the same as for bilateral transforms, with the constraint that the ROC for a unilateral transform must always be a right-half plane.
+
+#### Examples of Unilateral Laplace Transforms
+
+To illustrate the unilateral Laplace transform, let us consider the following examples:
+
+**Example 9.32**: Consider the signal
+
+\[x(t)\,=\,\frac{t^{n-1}}{(n-1)!}e^{-at}u(t). \tag{9.172}\]Since \(x(t)\,=\,0\) for \(t<0\), the unilateral and bilateral transforms are identical. Thus, from Table 9.2,
+
+\[\mathfrak{C}(s)\,=\,\frac{1}{(s\,+\,a)^{n}},\qquad\mathfrak{R}e\{s\}> \,-a. \tag{9.173}\]
+
+**Example 9.33**
+
+Consider next
+
+\[x(t)\,=\,e^{-\alpha(t+1)}u(t+1). \tag{9.174}\]
+
+The _bilateral_ transform \(X(s)\) for this example can be obtained from Example 9.1 and the time-shifting property (Section 9.5.2):
+
+\[X(s)\,=\,\frac{e^{s}}{s\,+\,a},\qquad\mathfrak{R}e\{s\}>\,-a. \tag{9.175}\]
+
+By contrast, the unilateral transform is
+
+\[\mathfrak{C}(s)\,=\,\int_{0^{-}}^{\,\,\,\,\,\,\,\,\,\,\,\,\,\, \mathfrak{R}e\{s\}>\,-a. \tag{9.176}\]
+
+Thus, in this example, the unilateral and bilateral Laplace transforms are clearly different. In fact, we should recognize \(\mathfrak{C}(s)\) as the bilateral transform not of \(x(t)\), but of \(x(t)u(t)\), consistent with our earlier comment that the unilateral transform is the bilateral transform of a signal whose values for \(t<0^{-}\) have been set to zero.
+
+**Example 9.34**
+
+Consider the signal
+
+\[x(t)\,=\,\delta(t)\,+\,2u_{1}(t)\,+\,e^{t}u(t). \tag{9.177}\]
+
+Since \(x(t)\,=\,0\) for \(t<0\), and since singularities at the origin are included in the interval of integration, the unilateral transform for \(x(t)\) is the same as the bilateral transform. Specifically, using the fact (transform pair 15 in Table 9.2) that the bilateral transform of \(u_{n}(t)\) is \(s^{n}\), we have
+
+\[\mathfrak{C}(s)\,=\,X(s)\,=\,1\,+\,2s\,+\,\frac{1}{s-1}\,=\,\frac{s(2s-1)}{s- 1},\qquad\mathfrak{R}e\{s\}>1. \tag{9.178}\]
+
+**Example 9.35**
+
+Consider the unilateral Laplace transform
+
+\[\mathfrak{C}(s)\,=\,\frac{1}{(s\,+\,1)(s+2)}. \tag{9.179}\]In Example 9.9, we considered the inverse transform for a bilateral Laplace transform of the exact form as that in eq. (9.179) and for several ROCs. For the unilateral transform, the ROC must be the right-half plane to the right of the rightmost pole of \(\mathfrak{C}(s)\); i.e., in this case, the ROC consists of all points \(s\) with \(\mathfrak{R}e\{s\}>-1\). We can then invert this unilateral transform exactly as in Example 9.9 to obtain
+
+\[x(t)\,=\,[e^{-t}\,-\,e^{-2t}]u(t)\quad\text{for}\quad t>0^{-}, \tag{9.180}\]
+
+where we have emphasized the fact that unilateral Laplace transforms provide us with information about signals only for \(t>0^{-}\).
+
+### Example 9.36
+
+Consider the unilateral transform
+
+\[\mathfrak{C}(s)\,=\,\frac{s^{2}-3}{s+2}. \tag{9.181}\]
+
+Since the degree of the numerator of \(\mathfrak{C}(s)\) is not strictly less than the degree of the denominator, we expand \(\mathfrak{C}(s)\) as
+
+\[\mathfrak{C}(s)\,=\,A\,+\,Bs\,+\,\frac{C}{s+2}. \tag{9.182}\]
+
+Equating eqs. (9.181) and (9.182), and clearing denominators, we obtain
+
+\[s^{2}-3\,=\,(A\,+\,Bs)(s+2)\,+\,C, \tag{9.183}\]
+
+and equating coefficients for each power of \(s\) yields
+
+\[\mathfrak{C}(s)\,=\,-2+s\,+\,\frac{1}{s+2}, \tag{9.184}\]
+
+with an ROC of \(\mathfrak{R}e\{s\}>-2\). Taking inverse transforms of each term results in
+
+\[x(t)\,=\,-2\delta(t)\,+\,u_{1}(t)\,+\,e^{-2t}u(t)\quad\text{for}\quad t>0^{-}. \tag{9.185}\]
+
+#### Properties of the Unilateral Laplace Transform
+
+As with the bilateral Laplace transform, the unilateral Laplace transform has a number of important properties, many of which are the same as their bilateral counterparts and several of which differ in significant ways. Table 9.3 summarizes these properties. Note that we have not included a column explicitly identifying the ROC for the unilateral Laplace transform for each signal, since the ROC of any unilateral Laplace transform is always a right-half plane. For example the ROC for a rational unilateral Laplace transform is always to the right of the rightmost pole.
+
+Contrasting Table 9.3 with Table 9.1 for the bilateral transform, we see that, with the caveat that ROCs for unilateral Laplace transforms are always right-half planes, the linearity, \(s\)-domain shifting, time-scaling, conjugation and differentiation in the \(s\)-domain
+
+then
+
+\[x_{1}(t)*x_{2}(t)\,\stackrel{{\mathcal{U}\mathcal{L}}}{{ \longleftrightarrow}}\,\mathfrak{C}_{1}(s)\mathfrak{C}_{2}(s). \tag{9.187}\]
+
+Equation (9.187) follows immediately from the bilateral convolution property, since, under the conditions of eq. (9.186), the unilateral and bilateral transforms are identical for each of the signals \(x_{1}(t)\) and \(x_{2}(t)\). Thus, the system analysis tools and system function algebra developed and used in this chapter apply without change to unilateral transforms, as long as we deal with causal LTI systems (for which the system function is _both_ the bilateral _and_ the unilateral transform of the impulse response) with inputs that are identically zero for \(t<0\). An example of this is the integration property in Table 9.3: If \(x(t)\,=\,0\) for \(t<0\), then
+
+\[\int_{0^{-}}^{t}x(\tau)\,d\tau\,=\,x(t)*u(t)\,\,\stackrel{{ \mathcal{U}\mathcal{L}}}{{\longleftrightarrow}}\,\mathfrak{C}(s) \,\mathcal{U}(s)\,=\,\frac{1}{s}\mathfrak{C}(s) \tag{9.188}\]
+
+As a second case in point, consider the following example:
+
+**Example 9.37**
+
+Suppose a causal LTI system is described by the differential equation
+
+\[\frac{d^{2}y(t)}{dt^{2}}+3\frac{dy(t)}{dt}+2y(t)\,=\,x(t), \tag{9.189}\]
+
+together with the condition of initial rest. Using eq. (9.133), we find that the system function for this system is
+
+\[\mathcal{H}(s)\,=\,\frac{1}{s^{2}+3s+2}. \tag{9.190}\]
+
+Let the input to this system be \(x(t)=\alpha u(t)\). In this case, the unilateral (and bilateral) Laplace transform of the output \(y(t)\) is
+
+\[\mathfrak{H}(s) \,=\,\mathcal{H}(s)\mathfrak{C}(s)\,=\,\frac{\alpha}{s(s+1)(s+2)}\] \[\,=\,\frac{\alpha/2}{s}\,-\,\frac{\alpha}{s+1}\,+\,\frac{\alpha/ 2}{s+2}. \tag{9.191}\]
+
+Applying Example 9.32 to each term of eq. (9.191) yields
+
+\[y(t)\,=\,\alpha\left[\frac{1}{2}\,-\,e^{-t}\,+\,\frac{1}{2}e^{-2t}\right]u(t). \tag{9.192}\]
+
+It is important to note that the convolution property for unilateral Laplace transforms applies only if the signals \(x_{1}(t)\) and \(x_{2}(t)\) in eq. (9.187) are both zero for \(t<0\). That is, while we have seen that the bilateral Laplace transform of \(x_{1}(t)*x_{2}(t)\) always equals the product of the bilateral transforms of \(x_{1}(t)\) and \(x_{2}(t)\), the unilateral transform of \(x_{1}(t)*x_{2}(t)\) in general does _not_ equal the product of the unilateral transforms if either \(x_{1}(t)\) or \(x_{2}(t)\) is nonzero for \(t<0\). (See, for example, Problem 9.39).
+
+A particularly important difference between the properties of the unilateral and bilateral transforms is the differentiation property. Consider a signal \(x(t)\) with unilateral Laplace transform \(\mathfrak{C}(s)\). Then, integrating by parts, we find that the unilateral transform of \(d\,x(t)/dt\) is given by
+
+\[\begin{array}{rcl}\int_{0^{-}}^{\infty}\frac{d\,x(t)}{dt}e^{-st}\,dt&=&x(t)e^{ -st}\bigg{|}_{0^{-}}^{\infty}\,+\,s\int_{0^{-}}^{\infty}x(t)e^{-st}\,dt\\ &=&s\mathfrak{C}(s)\,-\,x(0^{-}).\end{array} \tag{9.193}\]
+
+Similarly, a second application of this would yield the unilateral Laplace transform of \(d^{2}\,x(t)/dt^{2}\), i.e.,
+
+\[s^{2}\mathfrak{C}(s)\,-\,sx(0^{-})\,-\,x^{\prime}(0^{-}), \tag{9.194}\]
+
+where \(x^{\prime}(0^{-})\) denotes the derivative of \(x(t)\) evaluated at \(t\,=\,0^{-}\). Clearly, we can continue the procedure to obtain the unilateral transform of higher derivatives.
+
+#### Solving Differential Equations Using the Unilateral Laplace Transform
+
+A primary use of the unilateral Laplace transform is in obtaining the solution of linear constant-coefficient differential equations with nonzero initial conditions. We illustrate this in the following example:
+
+**Example 9.38**: Consider the system characterized by the differential equation (9.189) with initial conditions
+
+\[y(0^{-})\,=\,\beta,\qquad y^{\prime}(0^{-})\,=\,\gamma. \tag{9.195}\]
+
+Let \(x(t)=\alpha\,u(t)\). Then, applying the unilateral transform to both sides of eq. (9.189), we obtain
+
+\[s^{2}\mathfrak{H}(s)\,-\,\beta s\,-\,\gamma\,+\,3s^{3}\mathfrak{H}(s)\,-\,3 \beta\,+\,2^{3}\mathfrak{H}(s)\,=\,\frac{\alpha}{s}, \tag{9.196}\]
+
+or
+
+\[\mathfrak{H}(s)\,=\,\frac{\beta(s+3)}{(s+1)(s+2)}\,+\,\frac{\gamma}{(s+1)(s+2) }\,+\,\frac{\alpha}{s(s+1)(s+2)}, \tag{9.197}\]
+
+where \(\mathfrak{H}(s)\) is the unilateral Laplace transform of \(y(t)\).
+
+Referring to Example 9.37 and, in particular, to eq. (9.191), we see that the last term on the right-hand side of eq. (9.197) is precisely the unilateral Laplace transform of the response of the system when the initial conditions in eq. (9.195) are both zero (\(\beta=\gamma=0\)). That is, the last term represents the response of the causal LTI system described by eq. (9.189) and the condition of initial rest. This response is often referred

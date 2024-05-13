@@ -1,0 +1,101 @@
+## Chapter 1 Complex Numbers
+
+Many engineering problems can be treated and solved by methods of complex analysis. Roughly speaking, these problems can be subdivided into two large classes. The first class consists of elementary problems for which the knowledge of complex numbers and calculus is sufficient. Applications of this class of problems are in differential equations, electric circuits, and the analysis of signals and systems. The second class of problems requires detailed knowledge of the theory of complex analytic functions. Problems in areas such as electrostatics, electromagnetics, and heat transfer belong to this category.
+
+In this appendix we concern ourselves with problems of the first class. Problems of the second class are beyond the scope of this text.
+
+### 1 Definition
+
+A complex number \(z=x+jy\), where \(j=\sqrt{-1}\), consists of two parts, a real part \(x\) and an imaginary part \(y\)1. This form of representation for complex numbers is called the rectangular or cartesian form since \(z\) can be represented in rectangular coordinates by the point \((x,\,y)\), as shown in Figure 1.
+
+Footnote 1: Mathematicaus use \(i\) to represent \(\zeta_{-1}\), and electrical engineers use \(j\) for this purpose because \(i\) is usually used to represent current in electric circuits.
+
+The horizontal \(x\) axis is called the real axis, and the vertical \(y\) axis is called the imaginary axis. The \(x-y\) plane in which the complex numbers are represented in this way is called the complex plane. Two complex numbers are equal if their real parts are equal and their imaginary parts are equal.
+
+The complex number \(z\) can also be written in polar form. The polar coordinates \(r\) and \(\theta\) are related to the cartesian coordinates \(x\) and \(y\) by\[x=r\cos\theta\qquad\text{and}\qquad y=r\sin\theta\] (A.1)
+
+Hence, a complex number \(z=x+jy\) can be written as
+
+\[z=r\cos\theta+\,jr\sin\theta\] (A.2)
+
+This is known as the polar form or trigonometric form of a complex number. By using Euler's identity,
+
+\[\exp\left[\,j\theta\right]=\,\cos\theta+j\sin\theta\]
+
+we can express the complex \(z\) number in Equation (A.2) in exponential form as
+
+\[z=r\exp\left[\,j\theta\right]\] (A.3)
+
+where \(r\) is the magnitude of \(z\) and is denoted by \(\,\left|\,z\,\right|\). From Figure A.1,
+
+\[\left|\,z\,\right|=r=\sqrt{x^{2}+y^{2}}\] (A.4)
+
+\[\theta=\arctan\frac{y}{x}=\arcsin\frac{y}{r}=\arccos\frac{x}{r}\] (A.5)
+
+angle \(\theta\) is called the argument of \(z\), denoted \(\triangleleft\,z\), and measured in radians. The argument is defined only for nonzero complex numbers and is determined only up to integer multiples of \(2\pi\). The value of \(\theta\) that lies in the interval
+
+\[-\pi<\theta\leq\pi\]
+
+is called the principal value of the argument of \(z\). Geometrically, \(\left|\,z\,\right|\) is the length of the vector from the origin to point \(z\) in the complex plane, and \(\theta\) is the directed angle from the positive \(x\) axis to point \(z\).
+
+For the complex number \(z=1+j\sqrt{3}\)
+
+\[r=\sqrt{1^{2}+\left(\sqrt{3}\right)^{2}}=2\qquad\text{and}\qquad\triangleleft\, z=\arctan\sqrt{3}\,=\frac{\pi}{3}+2n\pi\]
+
+The principal value of \(\triangleleft\,z\) is \(\pi/3\) and, therefore,
+
+\[z=2\left(\cos\pi/3+j\sin\pi/3\,\right)\]
+
+The complex conjugate of \(z\), denoted by \(z^{*}\), is defined as \[z^{*}=x-jy\] (A.6)
+
+Since
+
+\[z+z^{*}=2x\qquad\text{and}\qquad z-z^{*}=2jy\] (A.7)
+
+it follows that
+
+\[\text{Re}\{z\,\}=x=\frac{1}{2}\;(z+z^{*}),\qquad\text{and}\qquad\text{Im}\;\{z\, \}=y=\frac{1}{2j}\;(z-z^{*})\] (A.8)
+
+Note that if \(z=z^{*}\), then the number is real, and if \(z=-z^{*}\), then the number is pure imaginary.
+
+### A.2 Arithmetical Operations
+
+#### A.2.1 Addition and Subtraction
+
+The sum and difference of two complex numbers are defined by
+
+\[z_{1}+z_{2} =(x_{1}+x_{2})+j(y_{1}+y_{2})\] (A.9) \[z_{1}-z_{2} =(x_{1}-x_{2})+j(y_{1}-y_{2})\] (A.10)
+
+This is demonstrated geometrically in Figure A.2 and can be interpreted in accordance with the "parallelogram law" by which forces are added in mechanics.
+
+#### A.2.2 Multiplication
+
+The product \(z_{1}z_{2}\) is given by
+
+\[z_{1}z_{2} =(x_{1}+jy_{1})(x_{2}+jy_{2})\] \[=(x_{1}x_{2}-y_{1}y_{2})+j(x_{1}y_{2}+x_{2}y_{1})\] (A.11)
+
+Figure A.2: Addition and subtraction of complex numbers.
+
+In polar form, this becomes
+
+\[z_{1}z_{2}=r_{1}\exp\left[\,j\theta_{1}\right]r_{2}\,\exp\left[\,j\theta_{2} \right]=r_{1}\,r_{2}\,\exp\left[\,j(\theta_{1}+\theta_{2})\right]\] (A.12)
+
+that is, the magnitude of the product of two complex numbers is the product of the magnitudes of the two numbers, and the angle of the product is the sum of the two angles.
+
+#### Division
+
+This operation is defined as the inverse operation of multiplication. The quotient \(z_{1}/z_{2}\) is obtained by multiplying both the numerator and denominator of the quotient by the conjugate of \(z_{2}\):
+
+\[\frac{z_{1}}{z_{2}} =\frac{(x_{1}+jy_{1})}{(x_{2}+jy_{2})}\] \[=\frac{(x_{1}+jy_{1})\,(x_{2}-jy_{2})}{x_{2}^{2}+y_{2}^{2}}\] \[=\frac{x_{1}x_{2}+y_{1}y_{2}}{x_{2}^{2}+y_{2}^{2}}+j\,\frac{x_{2} y_{1}-x_{1}y_{2}}{x_{2}^{2}+y_{2}^{2}}\] (A.13)
+
+Division is performed easily in polar form as follows:
+
+\[\frac{z_{1}}{z_{2}} =\frac{r_{1}\exp\left[\,j\theta_{1}\right]}{r_{2}\exp\left[\,j \theta_{2}\right]}\] \[=\frac{r_{1}}{r_{2}}\exp\left[\,j(\theta_{1}-\theta_{2})\right]\] (A.14)
+
+that is, the magnitude of the quotient is the quotient of the magnitudes, and the angle of the quotient is the difference of the angle of the numerator and the angle of the denominator.
+
+For any complex numbers \(z_{1}\), \(z_{2}\), and \(z_{3}\), we have the following:
+
+* Commutative laws: \[\begin{cases}z_{1}+z_{2}&=z_{2}+z_{1}\\ z_{1}z_{2}&=z_{2}z_{1}\end{cases}\] (A.15)
+* Associative laws: \[\begin{cases}(z_{1}+z_{2})+z_{3}&=z_{1}+(z_{2}+z_{3})\\ z_{1}\,(z_{2}+z_{3})&=z_{1}(z_{2}z_{3})\end{cases}\] (A.16)
+* Distributive law: \[z_{1}\,(z_{2}+z_{3})=z_{1}z_{2}+z_{1}z_{3}\] (A.17)

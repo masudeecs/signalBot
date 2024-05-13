@@ -1,0 +1,785 @@
+## Chapter The Discrete-Time Fourier Transform
+
+In Chapter 4, we introduced the continuous-time Fourier transform and developed the many characteristics of that transform which make the methods of Fourier analysis of such great value in analyzing and understanding the properties of continuous-time signals and systems. In the current chapter, we complete our development of the basic tools of Fourier analysis by introducing and examining the discrete-time Fourier transform.
+
+In our discussion of Fourier series in Chapter 3, we saw that there are many similarities and strong parallels in analyzing continuous-time and discrete-time signals. However, there are also important differences. For example, as we saw in Section 3.6, the Fourier series representation of a discrete-time periodic signal is a _finite_ series, as opposed to the infinite series representation required for continuous-time periodic signals. As we will see in this chapter, there are corresponding differences between continuous-time and discrete-time Fourier transforms.
+
+In the remainder of the chapter, we take advantage of the similarities between continuous-time and discrete-time Fourier analysis by following a strategy essentially identical to that used in Chapter 4. In particular, we begin by extending the Fourier series description of periodic signals in order to develop a Fourier transform representation for discrete-time aperiodic signals, and we follow with an analysis of the properties and characteristics of the discrete-time Fourier transform that parallels that given in Chapter 4. By doing this, we not only will enhance our understanding of the basic concepts of Fourier analysis that are common to both continuous and discrete time, but also will contrast their differences in order to deepen our understanding of the distinct characteristics of each.
+
+### Representation of aperiodic signals:
+
+The discrete-time Fourier transform
+
+#### Development of the Discrete-Time Fourier Transform
+
+In Section 4.1 [eq. (4.2) and Figure 4.2], we saw that the Fourier series coefficients for a continuous-time periodic square wave can be viewed as samples of an envelope function and that, as the period of the square wave increases, these samples become more and more finely spaced. This property suggested representing an aperiodic signal \(x(t)\) by first constructing a periodic signal \(\tilde{x}(t)\) that equaled \(x(t)\) over one period. Then, as this period approached infinity, \(\tilde{x}(t)\) was equal to \(x(t)\) over larger and larger intervals of time, and the Fourier series representation for \(\tilde{x}(t)\) converged to the Fourier transform representation for \(x(t)\). In this section, we apply an analogous procedure to discrete-time signals in order to develop the Fourier transform representation for discrete-time aperiodic sequences.
+
+Consider a general sequence \(x[n]\) that is of finite duration. That is, for some integers \(N_{1}\) and \(N_{2}\), \(x[n]\,=\,0\) outside the range \(-N_{1}\,\,\approx\,n\,\,\leq\,N_{2}\). A signal of this type is illustrated in Figure 5.1(a). From this aperiodic signal, we can construct a periodic sequence \(\tilde{x}[n]\) for which \(x[n]\) is one period, as illustrated in Figure 5.1(b). As we choose the period \(N\) to be larger, \(\tilde{x}[n]\) is identical to \(x[n]\) over a longer interval, and as \(N\,\rightarrow\,\infty\), \(\tilde{x}[n]\,=\,x[n]\) for any finite value of \(n\).
+
+Let us now examine the Fourier series representation of \(\tilde{x}[n]\). Specifically, from eqs. (3.94) and (3.95), we have
+
+\[\tilde{x}[n]\,=\,\sum_{k\,=\,\langle N\rangle}a_{k}\,e^{jk(2\pi/N)n}, \tag{5.1}\]
+
+Figure 5.1: (a) Finite-duration signal \(x[n]\); (b) periodic signal \(\tilde{x}[n]\) constructed to be equal to \(x[n]\) over one period.
+
+\[a_{k}\,=\,\frac{1}{N}\sum_{n\,=\,\langle N\rangle}\bar{x}[n]e^{-jk(2\pi/N)n}. \tag{5.2}\]
+
+Since \(x[n]=\bar{x}[n]\) over a period that includes the interval \(-N_{1}\leq n\leq N_{2}\), it is convenient to choose the interval of summation in eq. (5.2) to include this interval, so that \(\bar{x}[n]\) can be replaced by \(x[n]\) in the summation. Therefore,
+
+\[a_{k}\,=\,\frac{1}{N}\sum_{n\,=\,-N_{1}}^{N_{2}}x[n]e^{-jk(2\pi/N)n}\,=\,\frac{ 1}{N}\sum_{n\,=\,-\,\infty}^{+\,\infty}x[n]e^{-jk(2\pi/N)n}, \tag{5.3}\]
+
+where in the second equality in eq. (5.3) we have used the fact that \(x[n]\) is zero outside the interval \(-N_{1}\,\leq\,n\,\leq\,N_{2}\). Defining the function
+
+\[X(e^{j\omega})\,=\,\sum_{n\,=\,-\,\infty}^{+\,\infty}x[n]e^{-j\omega n}, \tag{5.4}\]
+
+we see that the coefficients \(a_{k}\) are proportional to samples of \(X(e^{j\omega})\), i.e.,
+
+\[a_{k}\,=\,\frac{1}{N}X(e^{j\omega_{0}}), \tag{5.5}\]
+
+where \(\omega_{0}\,=\,2\pi/N\) is the spacing of the samples in the frequency domain. Combining eqs. (5.1) and (5.5) yields
+
+\[\bar{x}[n]\,=\,\sum_{k\,=\,\langle N\rangle}\frac{1}{N}X(e^{j\,k\omega_{0}})e^ {j\,k\omega_{0}n}. \tag{5.6}\]
+
+Since \(\omega_{0}\,=\,2\pi/N\), or equivalently, \(1/N\,=\,\omega_{0}/2\pi\), eq. (5.6) can be rewritten as
+
+\[\bar{x}[n]\,=\,\frac{1}{2\pi}\sum_{k\,=\,\langle N\rangle}X(e^{jk\omega_{0}}) e^{jk\omega_{0}n}\omega_{0}. \tag{5.7}\]
+
+As with eq. (4.7), as \(N\) increases \(\omega_{0}\) decreases, and as \(N\,\rightarrow\,\infty\) eq. (5.7) passes to an integral. To see this more clearly, consider \(X(e^{j\omega})e^{j\omega n}\) as sketched in Figure 5.2.
+
+Fromeq. (5.4), \(X(e^{j\omega})\) is seen to be periodic in \(\omega\) with period \(2\pi\), and so is \(e^{j\omega n}\). Thus, the product \(X(e^{j\omega})e^{j\omega n}\) will also be periodic. As depicted in the figure, each term in the summation in eq. (5.7) represents the area of a rectangle of height \(X(e^{jk\omega_{0}})e^{j\omega_{0}n}\) and width \(\omega_{0}\). As \(\omega_{0}\to 0\), the summation becomes an integral. Furthermore, since the summation is carried out over \(N\) consecutive intervals of width \(\omega_{0}\,=\,2\pi/N\), the total interval of integration will always have a width of \(2\pi\). Therefore, as \(N\,\to\,\infty\), \(\tilde{x}[n]\,=\,x[n]\), and eq. (5.7) becomes
+
+\[x[n]\,=\,\frac{1}{2\pi}\int_{2\pi}X(e^{j\omega})e^{j\omega n}\,d\omega,\]
+
+where, since \(X(e^{j\omega})e^{j\omega n}\) is periodic with period \(2\pi\), the interval of integration can be taken as _any_ interval of length \(2\pi\). Thus, we have the following pair of equations:
+
+\[x[n]\,=\,\frac{1}{2\pi}\int_{2\pi}X(e^{j\omega})e^{j\omega n}\,d\omega, \tag{5.8}\]
+
+\[X(e^{j\omega})\,=\,\sum_{n\,=\,-\infty}^{+\infty}x[n]e^{-j\omega n}. \tag{5.9}\]
+
+Equations (5.8) and (5.9) are the discrete-time counterparts of eqs. (4.8) and (4.9). The function \(X(e^{j\omega})\) is referred to as the _discrete-time Fourier transform_ and the pair of equations as the _discrete-time Fourier transform pair_. Equation (5.8) is the _synthesis equation_, eq. (5.9) the _analysis equation_. Our derivation of these equations indicates how an aperiodic sequence can be thought of as a linear combination of complex exponentials. In particular, the synthesis equation is in effect a representation of \(x[n]\) as a linear combination of complex exponentials infinitesimally close in frequency and with amplitudes \(X(e^{j\omega})(d\omega/2\pi)\). For this reason, as in continuous time, the Fourier transform \(X(e^{j\omega})\) will often be referred to as the _spectrum_ of \(x[n]\), because it provides us with the information on how \(x[n]\) is composed of complex exponentials at different frequencies.
+
+Note also that, as in continuous time, our derivation of the discrete-time Fourier transform provides us with an important relationship between discrete-time Fourier series and transforms. In particular, the Fourier coefficients \(a_{k}\) of a periodic signal \(\tilde{x}[n]\) can be expressed in terms of equally spaced _samples_ of the Fourier transform of a finite-duration, aperiodic signal \(x[n]\) that is equal to \(\tilde{x}[n]\) over one period and is zero otherwise. This fact is of considerable importance in practical signal processing and Fourier analysis, and we look at it further in Problem 5.41.
+
+As our derivation indicates, the discrete-time Fourier transform shares many similarities with the continuous-time case. The major differences between the two are the periodicity of the discrete-time transform \(X(e^{j\omega})\) and the finite interval of integration in the synthesis equation. Both of these stem from a fact that we have noted several times before: Discrete-time complex exponentials that differ in frequency by a multiple of \(2\pi\) are identical. In Section 3.6 we saw that, for periodic discrete-time signals, the implications of this statement are that the Fourier series coefficients are periodic and that the Fourier series representation is a finite sum. For aperiodic signals, the analogous implications are that \(X(e^{j\omega})\) is periodic (with period \(2\pi\)) and that the synthesis equation involves an integration only over a frequency interval that produces distinct complex exponentials (i.e., any interval of length \(2\pi\)). In Section 1.3.3, we noted one further consequence of the periodicity of \(e^{jun}\) as a function of \(\omega\): \(\omega=0\) and \(\omega=2\pi\) yield the same signal. Signals at frequencies near these values or any other even multiple of \(\pi\) are slowly varying and therefore are all appropriately thought of as low-frequency signals. Similarly, the high frequencies in discrete time are the values of \(\omega\) near odd multiples of \(\pi\). Thus, the signal \(x_{1}[n]\) shown in Figure 3(a) with Fourier transform depicted in Figure 3(b) varies more slowly than the signal \(x_{2}[n]\) in Figure 3(c) whose transform is shown in Figure 3(d).
+
+#### Examples of Discrete-Time Fourier Transforms
+
+To illustrate the discrete-time Fourier transform, let us consider several examples.
+
+**Example 5.1**: Consider the signal
+
+\[x[n]\,=\,a^{n}u[n],\qquad|a|<1.\]
+
+Making the substitution of variables \(m\,=\,-n\) in the second summation, we obtain \[X(e^{j\omega})\,=\,\sum_{n\,=\,0}^{\infty}(ae^{-j\omega})^{n}\,+\,\sum_{m\,=\,1}^ {\infty}(ae^{j\omega})^{m}.\] Both of these summations are infinite geometric series that we can evaluate in closed form, yielding \[X(e^{j\omega})\,=\,\frac{1}{1-ae^{-j\omega}}\,+\,\frac{ae^{j\omega} }{1-ae^{j\omega}}\] \[\,=\,\frac{1-a^{2}}{1-2a\cos\omega\,+\,a^{2}}.\] In this case, \(X(e^{j\omega})\) is real and is illustrated in Figure 5.5(b), again for \(0<a<1\).
+
+### Example 5.3
+
+Consider the rectangular pulse
+
+\[x[n]\,=\,\left\{\begin{array}{ll}1,&|n|\,\leq\,N_{1}\\ 0,&|n|>N_{1}\end{array},\right. \tag{5.10}\]
+
+which is illustrated in Figure 5.6(a) for \(N_{1}\,=\,2\). In this case,
+
+\[X(e^{j\omega})\,=\,\sum_{n\,=\,-\,N_{1}}^{N_{1}}e^{-j\omega n}. \tag{5.11}\]
+
+Figure 5.6: (a) Rectangular pulse signal of Example 5.3 for \(N_{1}\,=\,2\) and (b) its Fourier transform.
+
+Using calculations similar to those employed in obtaining eq. (3.104) in Example 3.12, we can write
+
+\[X(e^{j\omega})\,=\,\frac{\sin\omega\left(N_{1}\,+\,\frac{1}{2}\right)}{\sin( \omega/2)}. \tag{5.12}\]
+
+This Fourier transform is sketched in Figure 5.6(b) for \(N_{1}\,=\,2\). The function in eq. (5.12) is the discrete-time counterpart of the sinc function, which appears in the Fourier transform of the continuous-time rectangular pulse (see Example 4.4). An important difference between these two functions is that the function in eq. (5.12) is periodic with period \(2\pi\), whereas the sinc function is aperiodic.
+
+#### Convergence Issues Associated
+
+with the Discrete-Time Fourier Transform
+
+Although the argument we used to derive the discrete-time Fourier transform in Section 5.1.1 was constructed assuming that \(x[n]\) was of arbitrary but finite duration, eqs. (5.8) and (5.9) remain valid for an extremely broad class of signals with infinite duration (such as the signals in Examples 5.1 and 5.2). In this case, however, we again must consider the question of convergence of the infinite summation in the analysis equation (5.9). The conditions on \(x[n]\) that guarantee the convergence of this sum are direct counterparts of the convergence conditions for the continuous-time Fourier transform.1 Specifically, eq. (5.9) will converge either if \(x[n]\) is absolutely summable, that is,
+
+Footnote 1: For discussions of the convergence issues associated with the discrete-time Fourier transform, see A. V. Oppenheim and R. W. Schafer, _Discrete-Time Signal Processing_ (Englewood Cliffs, NJ: Prentice-Hall, Inc., 1989), and L. R. Rabiner and B. Gold, _Theory and Application of Digital Signal Processing_ (Englewood Cliffs, NJ: Prentice-Hall, Inc., 1975).
+
+\[\sum_{n\,=\,-\infty}^{+\infty}|x[n]|<\infty, \tag{5.13}\]
+
+or if the sequence has finite energy, that is,
+
+\[\sum_{n\,=\,-\infty}^{+\infty}|x[n]|^{2}<\infty. \tag{5.14}\]
+
+In contrast to the situation for the analysis equation (5.9), there are generally no convergence issues associated with the synthesis equation (5.8), since the integral in this equation is over a finite interval of integration. This is very much the same situation as for the discrete-time Fourier series synthesis equation (3.94), which involves a finite sum and consequently has no issues of convergence associated with it either. In particular, if we approximate an aperiodic signal \(x[n]\) by an integral of complex exponentials with frequencies taken over the interval \(|\omega|\,\leq\,W\), i.e.,
+
+\[\hat{x}[n]\,=\,\frac{1}{2\pi}\,\int_{-W}^{W}X(e^{j\omega})e^{j\omega n}\,d\omega, \tag{5.15}\]then \(\hat{x}[n]=x[n]\) for \(W=\pi\). Thus, much as in Figure 3.18, we would expect not to see any behavior like the Gibbs phenomenon in evaluating the discrete-time Fourier transform synthesis equation. This is illustrated in the following example.
+
+**Example 5.4**: Let \(x[n]\) be the unit impulse; that is,
+
+\[x[n]=\delta[n].\]
+
+In this case the analysis equation (5.9) is easily evaluated, yielding
+
+\[X(e^{j\omega})=1.\]
+
+In other words, just as in continuous time, the unit impulse has a Fourier transform representation consisting of equal contributions at all frequencies. If we then apply eq. (5.15) to this example, we obtain
+
+\[\hat{x}[n]=\frac{1}{2\pi}\int_{-W}^{W}e^{j\omega\pi}\,d\omega=\frac{\sin Wn}{ \pi n}. \tag{5.16}\]
+
+This is plotted in Figure 5.7 for several values of \(W\). As can be seen, the frequency of the oscillations in the approximation increases as \(W\) is increased, which is similar to what we observed in the continuous-time case. On the other hand, in contrast to the continuous-time case, the amplitude of these oscillations decreases relative to the magnitude of \(\hat{x}[0]\) as \(W\) is increased, and the oscillations disappear entirely for \(W=\pi\).
+
+### The Fourier Transform for Periodic Signals
+
+As in the continuous-time case, discrete-time periodic signals can be incorporated within the framework of the discrete-time Fourier transform by interpreting the transform of a periodic signal as an impulse train in the frequency domain. To derive the form of this representation, consider the signal
+
+\[x[n]=e^{j\omega_{0}n}. \tag{5.17}\]
+
+In continuous time, we saw that the Fourier transform of \(e^{j\omega_{0}t}\) can be interpreted as an impulse at \(\omega=\omega_{0}\). Therefore, we might expect the same type of transform to result for the discrete-time signal of eq. (5.17). However, the discrete-time Fourier transform must be periodic in \(\omega\) with period \(2\pi\). This then suggests that the Fourier transform of \(x[n]\) in eq. (5.17) should have impulses at \(\omega_{0}\), \(\omega_{0}\pm 2\pi\), \(\omega_{0}\pm 4\pi\), and so on. In fact, the Fourier transform of \(x[n]\) is the impulse train
+
+\[X(e^{j\omega})=\sum_{l=-\infty}^{+\infty}2\pi\,\delta(\omega-\omega_{0}-2\pi l), \tag{5.18}\]Figure 5.7: Approximation to the unit sample obtained as in eq. (5.16) using complex exponentials with frequencies \(|\omega|\leq W\): (a) \(\dot{W}=\pi/4\); (b) \(W=3\pi/8\); (c) \(W=\pi/2\); (d) \(W=3\pi/4\); (e) \(\dot{W}=7\pi/8\); (f) \(W=\pi\). Note that for \(W=\pi\), \(\dot{\mathbb{x}}[n]=\delta[n]\).
+
+which is illustrated in Figure 5.8. In order to check the validity of this expression, we must evaluate its inverse transform. Substituting eq. (5.18) into the synthesis equation (5.8), we find that
+
+\[\frac{1}{2\pi}\int_{2\pi}X(e^{j\omega})e^{j\omega n}\,d\omega\;=\;\frac{1}{2\pi }\int_{2\pi}\sum_{l\,=\,-\infty}^{+\infty}2\pi\,\delta(\omega\,-\omega_{0}-2 \pi l)e^{j\omega n}\,d\omega.\]
+
+Note that any interval of length \(2\pi\) includes exactly one impulse in the summation given in eq. (5.18). Therefore, if the interval of integration chosen includes the impulse located at \(\omega_{0}\,+\,2\pi r\), then
+
+\[\frac{1}{2\pi}\int_{2\pi}X(e^{j\omega})e^{j\omega n}\,d\omega\;=\;e^{j(\omega_ {0}+2\pi r)n}\;=\;e^{j\omega_{0}n}.\]
+
+Now consider a periodic sequence \(x[n]\) with period \(N\) and with the Fourier series representation
+
+\[x[n]\,=\,\sum_{k\,=\,\langle N\rangle}a_{k}e^{jk(2\pi l/N)n}. \tag{5.19}\]
+
+In this case, the Fourier transform is
+
+\[X(e^{j\omega})\,=\,\sum_{k\,=\,-\infty}^{+\infty}2\pi a_{k}\,\delta\left( \omega\,-\,\frac{2\pi k}{N}\right), \tag{5.20}\]
+
+so that the Fourier transform of a periodic signal can be directly constructed from its Fourier coefficients.
+
+To verify that eq. (5.20) is in fact correct, note that \(x[n]\) in eq. (5.19) is a linear combination of signals of the form in eq. (5.17), and thus the Fourier transform of \(x[n]\) must be a linear combination of transforms of the form of eq. (5.18). In particular, suppose that we choose the interval of summation in eq. (5.19) as \(k\,=\,0,1,\ldots,N-1\), so that
+
+\[\begin{split} x[n]\,=&\ a_{0}\,+\,a_{1}e^{j(2\pi l/ N)n}\,+\,a_{2}e^{j(2\pi l/N)n}\\ &\,+\,\cdots\,+\,a_{N-1}e^{j(N-1)(2\pi l/N)n}.\end{split} \tag{5.21}\]Thus, \(x[n]\) is a linear combination of signals, as in eq. (5.17), with \(\omega_{0}=0,2\pi/N\), \(4\pi/N,\ldots,(N-1)2\pi/N\). The resulting Fourier transform is illustrated in Figure 5.9. In Figure 5.9(a), we have depicted the Fourier transform of the first term on the right-hand side of eq. (5.21): The Fourier transform of the constant signal \(a_{0}\,=\,a_{0}e^{j0\cdot n}\) is a periodic impulse train, as in eq. (5.18), with \(\omega_{0}\,=\,0\) and a scaling of \(2\pi a_{0}\) on each of the impulses. Moreover, from Chapter 4 we know that the Fourier series coefficients \(a_{k}\) are periodic with period \(N\), so that \(2\pi a_{0}\,=\,2\pi a_{N}\,=\,2\pi a_{-N}\). In Figure 5.9(b) we have illustrated the Fourier transform of the second term in eq. (5.21), where we have again used eq. (5.18),
+
+Figure 5.9: Fourier transform of a discrete-time periodic signal: (a) Fourier transform of the first term on the right-hand side of eq. (5.21); (b) Fourier transform of the second term in eq. (5.21); (c) Fourier transform of the last term in eq. (5.21); (d) Fourier transform of \(x[n]\) in eq (5.21).
+
+in this case for \(a_{1}e^{j(2\pi/N)n}\), and the fact that \(2\pi a_{1}=2\pi a_{N+1}=2\pi a_{-N+1}\). Similarly, Figure 5.9(c) depicts the final term. Finally, Figure 5.9(d) depicts the entire expression for \(X(e^{j\omega})\). Note that because of the periodicity of the \(a_{k},X(e^{j\omega})\) can be interpreted as a train of impulses occurring at multiples of the fundamental frequency \(2\pi/N\), with the area of the impulse located at \(\omega\,=\,2\pi\,k/N\) being \(2\pi a_{k}\), which is exactly what is stated in eq. (5.20).
+
+**Example 5.5**: Consider the periodic signal
+
+\[x[n]\,=\,\cos\omega_{0}n\,=\,\frac{1}{2}e^{j\omega_{0}n}+\,\frac{1}{2}e^{-j \omega_{0}n},\qquad\mbox{with}\quad\omega_{0}\,=\,\frac{2\pi}{5}. \tag{5.22}\]
+
+From eq. (5.18), we can immediately write
+
+\[X(e^{j\omega})\,=\,\sum_{l\,=\,-\,\infty}^{+\,\infty}\pi\,\delta\,\bigg{(} \omega\,-\,\frac{2\pi}{5}\,-\,2\pi l\bigg{)}+\,\sum_{l\,=\,-\,\infty}^{+\, \infty}\pi\,\delta\,\bigg{(}\omega\,+\,\frac{2\pi}{5}\,-\,2\pi l\bigg{)}. \tag{5.23}\]
+
+That is,
+
+\[X(e^{j\omega})\,=\,\pi\,\delta\,\bigg{(}\omega\,-\,\frac{2\pi}{5}\bigg{)}+\, \pi\,\delta\,\bigg{(}\omega\,+\,\frac{2\pi}{5}\bigg{)},\qquad-\pi\,\leq\, \omega\,<\pi, \tag{5.24}\]
+
+and \(X(e^{j\omega})\) repeats periodically with a period of \(2\pi\), as illustrated in Figure 5.10.
+
+### Example 5.6
+
+The discrete-time counterpart of the periodic impulse train of Example 4.8 is the sequence
+
+\[x[n]\,=\,\sum_{k\,=\,-\,\infty}^{+\,\infty}\delta[n\,-\,kN], \tag{5.25}\]
+
+as sketched in Figure 5.11(a). The Fourier series coefficients for this signal can be calculated directly from eq. (3.95):
+
+\[a_{k}\,=\,\frac{1}{N}\sum_{n\,=\,(N)}x[n]e^{-jk(2\pi/N)n}.\]Choosing the interval of summation as \(0\,\leq\,n\,\leq\,N-1\), we have
+
+\[a_{k}\,=\,\frac{1}{N}. \tag{5.26}\]
+
+Using eqs. (5.26) and (5.20), we can then represent the Fourier transform of the signal as
+
+\[X(e^{j\omega})\,=\,\frac{2\pi}{N}\sum_{k\,=\,-\infty}^{+\infty}\delta\,\bigg{(} \omega\,-\,\frac{2\pi k}{N}\bigg{)}, \tag{5.27}\]
+
+which is illustrated in Figure 5.11(b).
+
+### Properties of the Discrete-Time Fourier Transform
+
+As with the continuous-time Fourier transform, a variety of properties of the discrete-time Fourier transform provide further insight into the transform and, in addition, are often useful in reducing the complexity in the evaluation of transforms and inverse transforms. In this and the following two sections we consider these properties, and in Table 5.1 we present a concise summary of them. By comparing this table with Table 4.1, we can get a clear picture of some of the similarities and differences between continuous-time and discrete-time Fourier transform properties. When the derivation or interpretation of a discrete-time Fourier transform property is essentially identical to its continuous-time counterpart, we will simply state the property. Also, because of the close relationship between the Fourier series and the Fourier transform, many of the transform properties
+
+Figure 5.11: (a) Discrete-time periodic impulse train; (b) its Fourier transform.
+
+translate directly into corresponding properties for the discrete-time Fourier series, which we summarized in Table 3.2 and briefly discussed in Section 3.7.
+
+In the following discussions, it will be convenient to adopt notation similar to that used in Section 4.3 to indicate the pairing of a signal and its transform. That is,
+
+\[X(e^{j\omega}) = \mathbb{F}\{x[n]\},\] \[x[n] = \mathbb{F}^{-1}\{X(e^{j\omega})\},\] \[x[n] \stackrel{{\mathbb{F}}}{{\longleftrightarrow}}X(e^{ j\omega}).\]
+
+#### Periodicity of the Discrete-Time Fourier Transform
+
+As we discussed in Section 5.1, the discrete-time Fourier transform is _always_ periodic in \(\omega\) with period \(2\pi\); i.e.,
+
+\[X(e^{j(\omega+2\pi)})=X(e^{j\omega}). \tag{5.28}\]
+
+This is in contrast to the continuous-time Fourier transform, which in general is not periodic.
+
+#### Linearity of the Fourier Transform
+
+If
+
+\[x_{1}[n]\stackrel{{\mathbb{F}}}{{\longleftrightarrow}}X_{1}(e^{ j\omega})\]
+
+and
+
+\[x_{2}[n]\stackrel{{\mathbb{F}}}{{\longleftrightarrow}}X_{2}(e^{ j\omega}),\]
+
+then
+
+\[ax_{1}[n]+bx_{2}[n]\stackrel{{\mathbb{F}}}{{\longleftrightarrow}}aX_{1}( e^{j\omega})+bX_{2}(e^{j\omega}). \tag{5.29}\]
+
+#### Time Shifting and Frequency Shifting
+
+If
+
+\[x[n]\stackrel{{\mathbb{F}}}{{\longleftrightarrow}}X(e^{j\omega }),\]
+
+then
+
+\[x[n-n_{0}]\stackrel{{\mathbb{F}}}{{\longleftrightarrow}}e^{-j \omega n_{0}}X(e^{j\omega}) \tag{5.30}\]and
+
+\[e^{j\omega_{0}n}x[n]\stackrel{{\mathcal{G}}}{{ \longleftrightarrow}}X(e^{j(\omega-\omega_{0})}). \tag{5.31}\]
+
+Equation (5.30) can be obtained by direct substitution of \(x[n-n_{0}]\) into the analysis equation (5.9), while eq. (5.31) is derived by substituting \(X(e^{j(\omega-\omega_{0})})\) into the synthesis equation (5.8).
+
+As a consequence of the periodicity and frequency-shifting properties of the discrete-time Fourier transform, there exists a special relationship between ideal lowpass and ideal highpass discrete-time filters. This is illustrated in the next example.
+
+### Example 5.7
+
+In Figure 5.12(a) we have depicted the frequency response \(H_{\mathrm{lp}}(e^{j\omega})\) of a lowpass filter with cutoff frequency \(\omega_{c}\), while in Figure 5.12(b) we have displayed \(H_{\mathrm{lp}}(e^{j(\omega-\pi)})\)--that is, the frequency response \(H_{\mathrm{lp}}(e^{j\omega})\) shifted by one-half period, i.e., by \(\pi\). Since high frequencies in discrete time are concentrated near \(\pi\) (and other odd multiples of \(\pi\)), the filter in Figure 5.12(b) is an ideal highpass filter with cutoff frequency \(\pi-\omega_{c}\). That is,
+
+\[H_{\mathrm{hp}}(e^{j(\omega)})\,=\,H_{\mathrm{lp}}(e^{j(\omega-\pi)}). \tag{5.32}\]
+
+As we can see from eq. (3.122), and as we will discuss again in Section 5.4, the frequency response of an LTI system is the Fourier transform of the impulse response of the system. Thus, if \(h_{\mathrm{lp}}[n]\) and \(h_{\mathrm{hp}}[n]\) respectively denote the impulse responses of
+
+Figure 5.12: (a) Frequency response of a lowpass filter; (b) frequency response of a highpass filter obtained by shifting the frequency response in (a) by \(\omega=\pi\) corresponding to one-half period.
+
+Figure 5.12, eq. (5.32) and the frequency-shifting property imply that the lowpass and highpass filters in
+
+\[h_{\mathrm{hp}}[n] = e^{j\pi n}h_{\mathrm{lp}}[n] \tag{5.33}\] \[= (-1)^{n}h_{\mathrm{lp}}[n]. \tag{5.34}\]
+
+#### Conjugation and Conjugate Symmetry
+
+If
+
+\[x[n]\stackrel{{\mathcal{F}}}{{\longleftrightarrow}}X(e^{j \omega}),\]
+
+then
+
+\[x^{*}[n]\stackrel{{\mathcal{F}}}{{\longleftrightarrow}}X^{*}(e^{- j\omega}). \tag{5.35}\]
+
+Also, if \(x[n]\) is real valued, its transform \(X(e^{j\omega})\) is conjugate symmetric. That is,
+
+\[X(e^{j\omega})\,=\,X^{*}(e^{-j\omega})\quad[x[n]\mathrm{real}]. \tag{5.36}\]
+
+From this, it follows that \(\mathcal{R}e\{X(e^{j\omega})\}\) is an even function of \(\omega\) and \(\mathcal{G}m\{X(e^{j\omega})\}\) is an odd function of \(\omega\). Similarly, the magnitude of \(X(e^{j\omega})\) is an even function and the phase angle is an odd function. Furthermore,
+
+\[\mathcal{E}v\{x[n]\}\stackrel{{\mathcal{F}}}{{\longleftrightarrow}} \mathcal{R}e\{X(e^{j\omega})\}\]
+
+and
+
+\[\mathcal{O}d\{x[n]\}\stackrel{{\mathcal{F}}}{{\longleftrightarrow }}j\mathcal{G}m\{X(e^{j\omega})\},\]
+
+where \(\mathcal{E}v\) and \(\mathcal{O}d\) denote the even and odd parts, respectively, of \(x[n]\). For example, if \(x[n]\) is real and even, its Fourier transform is also real and even. Example 5.2 illustrates this symmetry for \(x[n]\,=\,a^{|n|}\).
+
+#### Differencing and Accumulation
+
+In this subsection, we consider the discrete-time counterpart of integration--that is, accumulation--and its inverse, first differencing. Let \(x[n]\) be a signal with Fourier transform \(X(e^{j\omega})\). Then, from the linearity and time-shifting properties, the Fourier transform pair for the first-difference signal \(x[n]-x[n-1]\) is given by
+
+\[x[n]-x[n-1]\stackrel{{\mathcal{F}}}{{\longleftrightarrow}}(1-e ^{-j\omega})X(e^{j\omega}). \tag{5.37}\]
+
+That is,
+
+\[x[-n]\stackrel{{\mathcal{G}}}{{\longleftrightarrow}}X(e^{-j\omega}). \tag{5.42}\]
+
+#### Time Expansion
+
+Because of the discrete nature of the time index for discrete-time signals, the relation between time and frequency scaling in discrete time takes on a somewhat different form from its continuous-time counterpart. Specifically, in Section 4.3.5 we derived the continuous-time property
+
+\[x(at)\stackrel{{\mathcal{G}}}{{\longleftrightarrow}}\frac{1}{|a| }X\bigg{(}\frac{j\omega}{a}\bigg{)}. \tag{5.43}\]
+
+However, if we try to define the signal \(x[an]\), we run into difficulties if \(a\) is not an integer. Therefore, we cannot slow down the signal by choosing \(a<1\). On the other hand, if we let \(a\) be an integer other than \(\pm 1\)--for example, if we consider \(x[2n]\)--we do not merely speed up the original signal. That is, since \(n\) can take on only integer values, the signal \(x[2n]\) consists of the even samples of \(x[n]\) alone.
+
+There is a result that does closely parallel eq. (5.43), however. Let \(k\) be a positive integer, and define the signal
+
+\[x_{(k)}[n]\,=\,\left\{\begin{array}{ll}x[n/k],&\mbox{if $n$ is a multiple of $k$}\\ 0,&\mbox{if $n$ is not a multiple of $k$.}\end{array}\right. \tag{5.44}\]
+
+As illustrated in Figure 5.13 for \(k\,=\,3\), \(x_{(k)}[n]\) is obtained from \(x[n]\) by placing \(k-1\) zeros between successive values of the original signal. Intuitively, we can think of \(x_{(k)}[n]\) as a slowed-down version of \(x[n]\). Since \(x_{(k)}[n]\) equals \(0\) unless \(n\) is a multiple of \(k\), i.e., unless \(n\,=\,rk\), we see that the Fourier transform of \(x_{(k)}[n]\) is given by
+
+\[X_{(k)}(e^{j\omega})\,=\,\sum_{n\,=\,-\infty}^{+\infty}x_{(k)}[n]e^{-j\omega n }\,=\,\sum_{r\,=\,-\infty}^{+\infty}x_{(k)}[rk]e^{-j\omega rk}.\]
+
+Figure 5.13: The signal \(x_{(3)}[n]\) obtained from \(x[n]\) by inserting two zeros between successive values of the original signal.
+
+Furthermore, since \(x_{(k)}[rk]\,=\,x[r]\), we find that
+
+\[X_{(k)}(e^{j\omega})\,=\,\sum_{r\,=\,-\infty}^{+\infty}x[r]e^{-j(k \omega)r}\,=\,X(e^{j\omega}).\]
+
+That is,
+
+\[\boxed{x_{(k)}[n]\stackrel{{\mathfrak{G}}}{{ \longleftrightarrow}}X(e^{jk\omega}).} \tag{5.45}\]
+
+Note that as the signal is spread out and slowed down in time by taking \(k>1\), its Fourier transform is compressed. For example, since \(X(e^{j\omega})\) is periodic with period \(2\pi\), \(X(e^{jk\omega})\) is periodic with period \(2\pi/k\). This property is illustrated in Figure 5.14 for a rectangular pulse.
+
+Figure 5.14: Inverse relationship between the time and frequency domains: As \(k\) increases, \(x_{(k)}[n]\) spreads out while its transform is compressed.
+
+## Example 5.9
+
+As an illustration of the usefulness of the time-expansion property in determining Fourier transforms, let us consider the sequence \(x[n]\) displayed in Figure 5.15(a). This sequence can be related to the simpler sequence \(y[n]\) depicted in Figure 5.15(b). In particular
+
+\[x[n]\,=\,y_{(2)}[n]+2y_{(2)}[n-1],\]
+
+where
+
+\[y_{(2)}[n]\,=\,\left\{\begin{array}{ll}y[n/2],&\mbox{if $n$ is even}\\ 0,&\mbox{if $n$ is odd}\end{array}\right.\]
+
+and \(y_{(2)}[n-1]\) represents \(y_{(2)}[n]\) shifted one unit to the right. The signals \(y_{(2)}[n]\) and \(2y_{(2)}[n-1]\) are depicted in Figures 5.15(c) and (d), respectively.
+
+Next, note that \(y[n]\,=\,g[n-2]\), where \(\,g[n]\) is a rectangular pulse as considered in Example 5.3 (with \(N_{1}=2\)) and as depicted in Figure 5.6(a). Consequently, from Example 5.3 and the time-shifting property, we see that
+
+\[Y(e^{j\omega})\,=\,e^{-j2\omega}\,\frac{\sin(5\omega/2)}{\sin(\omega/2)}.\]
+
+Figure 5.15: (a) The signal \(x[n]\) in Example 5.9; (b) the signal \(y[n]\); (c) the signal \(y_{(2)}[n]\) obtained by inserting one zero between successive values of \(y[n]\); and (d) the signal \(2y_{(2)}[n-1]\).
+
+Parseval's relation states that this energy can also be determined by integrating the energy per unit frequency, \(|X(e^{j\omega})|^{2}/2\pi\), over a full \(2\pi\) interval of distinct discrete-time frequencies. In analogy with the continuous-time case, \(|X(e^{j\omega})|^{2}\) is referred to as the _energy-density spectrum_ of the signal \(x[n]\). Note also that eq. (5.47) is the counterpart for aperiodic signals of Parseval's relation, eq. (3.110), for periodic signals, which equates the average power in a periodic signal with the sum of the average powers of its individual harmonic components.
+
+Given the Fourier transform of a sequence, it is possible to use Fourier transform properties to determine whether a particular sequence has a number of different properties. To illustrate this idea, we present the following example.
+
+**Example 5.10**: Consider the sequence \(x[n]\) whose Fourier transform \(X(e^{j\omega})\) is depicted for \(-\pi\leq\omega\ \leq\ \pi\) in Figure 5.16. We wish to determine whether or not, in the time domain, \(x[n]\) is periodic, real, even, and/or of finite energy.
+
+**Figure 5.16**: Magnitude and phase of the Fourier transform for Example 5.10.
+
+Accordingly, we note first that periodicity in the time domain implies that the Fourier transform is zero, except possibly for impulses located at various integer multiples of the fundamental frequency. This is not true for \(X(e^{j\omega})\). We conclude, then, that \(x[n]\) is _not_ periodic.
+
+Next, from the symmetry properties for Fourier transforms, we know that a real-valued sequence must have a Fourier transform of even magnitude and a phase function that is odd. This is true for the given \(|X(e^{j\omega})|\) and \(\mathcal{K}X(e^{j\omega})\). We thus conclude that \(x[n]\) is real.
+
+Third, if \(x[n]\) is an even function, then, by the symmetry properties for real signals, \(X(e^{j\omega})\) must be real and even. However, since \(X(e^{j\omega})\,=\,|X(e^{j\omega})|e^{-j2\omega}\), \(X(e^{j\omega})\) is not a real-valued function. Consequently, \(x[n]\) is not even.
+
+Finally, to test for the finite-energy property, we may use Parseval's relation,
+
+\[\sum_{n\,=\,-\,\infty}^{\infty}|x[n]|^{2}\,=\,\frac{1}{2\pi}\int_{2\pi}|X(e^{j \omega})|^{2}d\omega.\]
+
+It is clear from Figure 5.16 that integrating \(|X(e^{j\omega})|^{2}\) from \(-\pi\) to \(\pi\) will yield a finite quantity. We conclude that \(x[n]\) has finite energy.
+
+In the next few sections, we consider several additional properties. The first two of these are the convolution and multiplication properties, similar to those discussed in Sections 4.4 and 4.5. The third is the property of duality, which is examined in Section 5.7, where we consider not only duality in the discrete-time domain, but also the duality that exists _between_ the continuous-time and discrete-time domains.
+
+### The Convolution Property
+
+In Section 4.4, we discussed the importance of the continuous-time Fourier transform with regard to its effect on the operation of convolution and its use in dealing with continuous-time LTI systems. An identical relation applies in discrete time, and this is one of the principal reasons that the discrete-time Fourier transform is of such great value in representing and analyzing discrete-time LTI systems. Specifically, if \(x[n]\), \(h[n]\), and \(y[n]\) are the input, impulse response, and output, respectively, of an LTI system, so that
+
+\[y[n]\,=\,x[n]*h[n],\]
+
+then
+
+\[\boxed{Y(e^{j\omega})\,=\,X(e^{j\omega})H(e^{j\omega}),} \tag{5.48}\]
+
+where \(X(e^{j\omega})\), \(H(e^{j\omega})\), and \(Y(e^{j\omega})\) are the Fourier transforms of \(x[n]\), \(h[n]\), and \(y[n]\), respectively. Furthermore, comparing eqs. (3.122) and (5.9), we see that the frequency response of a discrete-time LTI system, as first defined in Section 3.8, is the Fourier transform of the impulse response of the system.
+
+The derivation of eq. (5.48) exactly parallels that carried out in Section 4.4. In particular, as in continuous time, the Fourier synthesis equation (5.8) for \(x[n]\) can be inter 
+
+response and frequency response of an LTI system are a Fourier transform pair, we can determine the impulse response of the ideal lowpass filter from the frequency response using the Fourier transform synthesis equation (5.8). In particular, using \(-\pi\,\leq\,\omega\,\leq\,\pi\) as the interval of integration in that equation, we see from Figure 5.17(a) that
+
+\[\begin{split} h[n]&=\,\frac{1}{2\pi}\int_{-\pi}^{\pi} H(e^{j\omega})e^{j\omega n}d\omega\,=\,\frac{1}{2\pi}\int_{-\omega_{c}}^{\omega_{c}}e^{ j\omega n}d\omega\\ &=\,\frac{\sin\omega_{c}n}{\pi n},\end{split} \tag{5.50}\]
+
+which is shown in Figure 5.17(b).
+
+In Figure 5.17, we come across many of the same issues that surfaced with the continuous-time ideal lowpass filter in Example 4.18. First, since \(h[n]\) is not zero for \(n<0\), the ideal lowpass filter is not causal. Second, even if causality is not an important issue, there are other reasons, including ease of implementation and preferable time domain characteristics, that nonideal filters are generally used to perform frequency-selective filtering. In particular, the impulse response of the ideal lowpass filter in Figure 5.17(b) is oscillatory, a characteristic that is undesirable in some applications. In such cases, a trade-off between frequency-domain objectives such as frequency selectivity and time-domain properties such as nonoscillatory behavior must be made. In Chapter 6, we will discuss these and related ideas in more detail.
+
+As the following example illustrates, the convolution property can also be of value in facilitating the calculation of convolution sums.
+
+Figure 5.17: (a) Frequency response of a discrete-time ideal lowpass filter; (b) impulse response of the ideal lowpass filter.
+
+### Example 5.13
+
+Consider an LTI system with impulse response
+
+\[h[n]\,=\,\alpha^{n}u[n],\]
+
+with \(|\alpha|<1\), and suppose that the input to this system is
+
+\[x[n]\,=\,\beta^{n}u[n],\]
+
+with \(|\beta|<1\). Evaluating the Fourier transforms of \(h[n]\) and \(x[n]\), we have
+
+\[H(e^{j\alpha})\,=\,\frac{1}{1-\alpha e^{-j\alpha}} \tag{5.51}\]
+
+and
+
+\[X(e^{j\alpha})\,=\,\frac{1}{1-\beta e^{-j\alpha}}, \tag{5.52}\]
+
+so that
+
+\[Y(e^{j\alpha})\,=\,H(e^{j\alpha})X(e^{j\alpha})\,=\,\frac{1}{(1-\alpha e^{-j \alpha})(1-\beta e^{-j\alpha})}. \tag{5.53}\]
+
+As with Example 4.19, determining the inverse transform of \(Y(e^{j\alpha})\) is most easily done by expanding \(Y(e^{j\alpha})\) by the method of partial fractions. Specifically, \(Y(e^{j\alpha})\) is a ratio of polynomials in powers of \(e^{-j\alpha}\), and we would like to express this as a sum of simpler terms of this type so that we can find the inverse transform of each term by inspection (together, perhaps, with the use of the frequency differentiation property of Section 5.3.8). The general algebraic procedure for rational transforms is described in the appendix. For this example, if \(\alpha\neq\beta\), the partial fraction expansion of \(Y(e^{j\alpha})\) is of the form
+
+\[Y(e^{j\alpha})\,=\,\frac{A}{1-\alpha e^{-j\alpha}}\,+\,\frac{B}{1-\beta e^{-j \alpha}}. \tag{5.54}\]
+
+Equating the right-hand sides of eqs (5.53) and (5.54), we find that
+
+\[A\,=\,\frac{\alpha}{\alpha-\beta},\quad B\,=\,-\frac{\beta}{\alpha-\beta}.\]
+
+Therefore, from Example 5.1 and the linearity property, we can obtain the inverse transform of eq. (5.54) by inspection:
+
+\[\begin{split} y[n]\,=\,\frac{\alpha}{\alpha-\beta}\alpha^{n}u[n ]-\frac{\beta}{\alpha-\beta}\,\beta^{n}u[n]\\ \,=\,\frac{1}{\alpha-\beta}[\alpha^{n+1}u[n]-\beta^{n+1}u[n]]. \end{split} \tag{5.55}\]
+
+For \(\alpha=\beta\), the partial-fraction expansion in eq. (5.54) is not valid. However, in this case,
+
+\[Y(e^{j\alpha})\,=\left(\frac{1}{1-\alpha e^{-j\alpha}}\right)^{\!2},\]which can be expressed as
+
+\[Y(e^{j\omega})\,=\,\frac{j}{\alpha}e^{j\omega}\,\frac{d}{d\omega}\,\bigg{(}\frac{ 1}{1-\alpha e^{-j\omega}}\bigg{)}. \tag{5.56}\]
+
+As in Example 4.19, we can use the frequency differentiation property, eq. (5.46), together with the Fourier transform pair
+
+\[\alpha^{n}u[n]\,\stackrel{{\mathcal{G}}}{{\longleftrightarrow}} \,\frac{1}{1-\alpha e^{-j\omega}},\]
+
+to conclude that
+
+\[n\alpha^{n}u[n]\,\stackrel{{\mathcal{G}}}{{\longleftrightarrow}} \,j\,\frac{d}{d\omega}\,\bigg{(}\frac{1}{1-\alpha e^{-j\omega}}\bigg{)}.\]
+
+To account for the factor \(e^{j\omega}\), we use the time-shifting property to obtain
+
+\[(n+1)\alpha^{n+1}u[n+1]\,\stackrel{{\mathcal{G}}}{{ \longleftrightarrow}}\,je^{j\omega}\,\frac{d}{d\omega}\,\bigg{(}\frac{1}{1- \alpha e^{-j\omega}}\bigg{)},\]
+
+and finally, accounting for the factor \(1/\alpha\), in eq. (5.56), we obtain
+
+\[y[n]\,=\,(n+1)\alpha^{n}u[n+1]. \tag{5.57}\]
+
+It is worth noting that, although the right-hand side is multiplied by a step that begins at \(n=-1\), the sequence \((n+1)\alpha^{n}u[n+1]\) is still zero prior to \(n=0\), since the factor \(n+1\) is zero at \(n=-1\). Thus, we can alternatively express \(y[n]\) as
+
+\[y[n]\,=\,(n+1)\alpha^{n}u[n]. \tag{5.58}\]
+
+As illustrated in the next example, the convolution property, along with other Fourier transform properties, is often useful in analyzing system interconnections.
+
+### Example 5.14
+
+Consider the system shown in Figure 5.18(a) with input \(x[n]\) and output \(y[n]\). The LTI systems with frequency response \(H_{lp}(e^{j\omega})\) are ideal lowpass filters with cutoff frequency \(\pi/4\) and unity gain in the passband.
+
+Let us first consider the top path in Figure 5.18(a). The Fourier transform of the signal \(w_{1}[n]\) can be obtained by noting that \((-1)^{n}=e^{j\pi n}\) so that \(w_{1}[n]=e^{j\pi n}x[n]\). Using the frequency-shifting property, we then obtain
+
+\[W_{1}(e^{j\omega})\,=\,X(e^{j(\omega-\pi)}).\]
+
+The convolution property yields
+
+\[W_{2}(e^{j\omega})\,=\,H_{lp}(e^{j\omega})X(e^{j(\omega-\pi)}).\]
+
+Since \(w_{3}[n]\,=\,e^{j\pi n}w_{2}[n]\), we can again apply the frequency-shifting property to obtain
+
+\[W_{3}(e^{j\omega}) \,=\,W_{2}(e^{j(\omega-\pi)})\] \[\,=\,H_{lp}(e^{j(\omega-\pi)})X(e^{j(\omega-2\pi)}).\]Since discrete-time Fourier transforms are always periodic with period \(2\pi\),
+
+\[W_{3}(e^{j\omega})\,=\,H_{lp}(e^{j(\omega-\pi)})X(e^{j\omega}).\]
+
+Applying the convolution property to the lower path, we get
+
+\[W_{4}(e^{j\omega})\,=\,H_{lp}(e^{j\omega})X(e^{j\omega}).\]
+
+From the linearity property of the Fourier transform, we obtain
+
+\[Y(e^{j\omega}) \,=\,W_{3}(e^{j\omega})\,+\,W_{4}(e^{j\omega})\] \[\,=\,[H_{lp}(e^{j(\omega-\pi)})\,+\,H_{lp}(e^{j\omega})]X(e^{j \omega}).\]
+
+Consequently, the overall system in Figure 18(a) has the frequency response
+
+\[H(e^{j\omega})\,=\,[H_{lp}(e^{j(\omega-\pi)})\,+\,H_{lp}(e^{j\omega})]\]
+
+which is shown in Figure 18(b).
+
+As we saw in Example 5.7, \(H_{lp}(e^{j(\omega-\pi)})\) is the frequency response of an ideal highpass filter. Thus, the overall system passes both low and high frequencies and stops frequencies between these two passbands. That is, the filter has what is often referred to as an _ideal bandstop characteristic,_ where the stopband is the region \(\pi/4<|\omega|<3\pi/4\).
+
+It is important to note that, as in continuous time, not every discrete-time LTI system has a frequency response. For example, the LTI system with impulse response \(h[n]=2^{n}u[n]\) does not have a finite response to sinusoidal inputs, which is reflected in the fact
+
+Figure 18: (a) System interconnection for Example 5.14; (b) the overall frequency response for this system.
+
+that the Fourier transform analysis equation for \(h[n]\) diverges. However, if an LTI system is stable, then, from Section 2.3.7, its impulse response is absolutely summable; that is,
+
+\[\sum_{n\,=\,-\infty}^{+\infty}|h[n]|<\infty. \tag{5.59}\]
+
+Therefore, the frequency response always converges for stable systems. In using Fourier methods, we will be restricting ourselves to systems with impulse responses that have well-defined Fourier transforms. In Chapter 10, we will introduce an extension of the Fourier transform referred to as the \(z\)-transform that will allow us to use transform techniques for LTI systems for which the frequency response does not converge.
+
+### The Multiplication Property
+
+In Section 4.5, we introduced the multiplication property for continuous-time signals and indicated some of its applications through several examples. An analogous property exists for discrete-time signals and plays a similar role in applications. In this section, we derive this result directly and give an example of its use. In Chapters 7 and 8, we will use the multiplication property in the context of our discussions of sampling and communications.
+
+Consider \(y[n]\) equal to the product of \(x_{1}[n]\) and \(x_{2}[n]\), with \(Y(e^{j\omega})\), \(X_{1}(e^{j\omega})\), and \(X_{2}(e^{j\omega})\) denoting the corresponding Fourier transforms. Then
+
+\[Y(e^{j\omega})\,=\,\sum_{n\,=\,-\infty}^{+\infty}y[n]e^{-j\omega n}\,=\,\sum_ {n\,=\,-\infty}^{+\infty}x_{1}[n]x_{2}[n]e^{-j\omega n},\]
+
+or since
+
+\[x_{1}[n]\,=\,\frac{1}{2\pi}\int_{2\pi}X_{1}(e^{j\theta})e^{j \theta n}d\theta, \tag{5.60}\]
+
+it follows that
+
+\[Y(e^{j\omega})\,=\,\sum_{n\,=\,-\infty}^{+\infty}x_{2}[n]\Bigg{ }\,\Bigg{\{}\,\frac{1}{2\pi}\int_{2\pi}X_{1}(e^{j\theta})e^{j\theta n}d\theta \Bigg{\}}\,e^{-j\omega n}. \tag{5.61}\]
+
+Interchanging the order of summation and integration, we obtain
+
+\[Y(e^{j\omega})\,=\,\frac{1}{2\pi}\int_{2\pi}X_{1}(e^{j\theta}) \Bigg{[}\sum_{n\,=\,-\infty}^{+\infty}x_{2}[n]e^{-j(\omega-\theta)n}\Bigg{]}d\theta. \tag{5.62}\]
+
+The bracketed summation is \(X_{2}(e^{j(\omega-\theta)})\), and consequently, eq. (5.62) becomes
+
+\[\boxed{\,\,\,\,Y(e^{j\omega})\,=\,\frac{1}{2\pi}\int_{2\pi}X_{1} (e^{j\theta})X_{2}(e^{j(\omega-\theta)})d\theta. \tag{5.63}\]Equation (5.63) corresponds to a _periodic_ convolution of \(X_{1}(e^{j\omega})\) and \(X_{2}(e^{j\omega})\), and the integral in this equation can be evaluated over any interval of length \(2\pi\). The usual form of convolution (in which the integral ranges from \(-\infty\) to \(+\infty\)) is often referred to as aperiodic convolution to distinguish it from periodic convolution. The mechanics of periodic convolution are most easily illustrated through an example.
+
+**Example 5.15**: Consider the problem of finding the Fourier transform \(X(e^{j\omega})\) of a signal \(x[n]\) which is the product of two other signals; that is,
+
+\[x[n]\;=\;x_{1}[n]x_{2}[n],\]
+
+where
+
+\[x_{1}[n]\;=\;\frac{\sin(3\pi n/4)}{\pi n}\]
+
+and
+
+\[x_{2}[n]\;=\;\frac{\sin(\pi n/2)}{\pi n}.\]
+
+From the multiplication property given in eq. (5.63), we know that \(X(e^{j\omega})\) is the periodic convolution of \(X_{1}(e^{j\omega})\) and \(X_{2}(e^{j\omega})\), where the integral in eq. (5.63) can be taken over any interval of length \(2\pi\). Choosing the interval \(-\pi\;<\theta\;\mbox{\raisebox{-2.15pt}{$\stackrel{{ \mbox{\tiny$\frown$}}}{{=}}$}}\;\pi\), we obtain
+
+\[X(e^{j\omega})\;=\;\frac{1}{2\pi}\int_{-\pi}^{\pi}X_{1}(e^{j\theta})X_{2}(e^{j \omega-\theta})d\theta. \tag{5.64}\]
+
+Equation (5.64) resembles aperiodic convolution, except for the fact that the integration is limited to the interval \(-\pi\;<\;\theta\;\mbox{\raisebox{-2.15pt}{$\stackrel{{ \mbox{\tiny$\frown$}}}{{=}}$}}\;\;\pi\). However, we can convert the equation into an ordinary convolution by defining
+
+\[\hat{X}_{1}(e^{j\omega})\;=\;\left\{\begin{array}{ll}X_{1}(e^{j\omega})& \mbox{for $-\pi<\omega\;\leq\;\pi$}\\ 0&\mbox{otherwise}\end{array}.\right.\]
+
+Then, replacing \(X_{1}(e^{j\theta})\) in eq. (5.64) by \(\hat{X}_{1}(e^{j\theta})\), and using the fact that \(\hat{X}_{1}(e^{j\theta})\) is zero for \(\mid\theta\mid>\;\pi\), we see that
+
+\[X(e^{j\omega}) \;=\;\frac{1}{2\pi}\int_{-\pi}^{\pi}\hat{X}_{1}(e^{j\theta})X_{2} (e^{j(\omega-\theta)})d\theta\] \[\;=\;\frac{1}{2\pi}\int_{-\infty}^{\infty}\hat{X}_{1}(e^{j\theta} )X_{2}(e^{j(\omega-\theta)})d\theta.\]
+
+Thus, \(X(e^{j\omega})\) is \(1/2\pi\) times the aperiodic convolution of the rectangular pulse \(\hat{X}_{1}(e^{j\omega})\) and the periodic square wave \(X_{2}(e^{j\omega})\), both of which are shown in Figure 5.19. The result of this convolution is the Fourier transform \(X(e^{j\omega})\) shown in Figure 5.20.
+
+### Tables of Fourier Transform Properties and Basic Fourier Transform Pairs
+
+In Table 5.1, we summarize a number of important properties of the discrete-time Fourier transform and indicate the section of the text in which each is discussed. In Table 5.2, we summarize some of the basic and most important discrete-time Fourier transform pairs. Many of these have been derived in examples in the chapter.
+
+### Duality
+
+In considering the continuous-time Fourier transform, we observed a symmetry or duality between the analysis equation (4.9) and the synthesis equation (4.8). No corresponding duality exists between the analysis equation (5.9) and the synthesis equation (5.8) for the discrete-time Fourier transform. However, there _is_ a duality in the discrete-time Fourier _series_ equations (3.94) and (3.95), which we develop in Section 5.7.1. In addition, there is
+
+Figure 5.20: Result of the periodic convolution in Example 5.15.
+
+a duality relationship between the discrete-time Fourier transform and the continuous-time Fourier series. This relation is discussed in Section 5.7.2.
+
+#### Duality in the Discrete-Time Fourier Series
+
+Since the Fourier series coefficients \(a_{k}\) of a periodic signal \(x[n]\) are themselves a periodic sequence, we can expand the sequence \(a_{k}\) in a Fourier series. The duality property for discrete-time Fourier series implies that the Fourier series coefficients for the periodic sequence \(a_{k}\) are the values of \((1/N)x[-n]\) (i.e., are proportional to the values of the original
+
+\begin{table}
+\begin{tabular}{c l l l} \hline
+**Section** & **Property** & **Aperiodic Signal** & **Fourier Transform** \\ \hline \multirow{6}{*}{5.3.2} & & \(x[n]\) & \(X(e^{j\omega})\) periodic with \\  & & \(y[n]\) & \(Y(e^{j\omega})\) period \(2\pi\) \\
+5.3.2 & Linearity & \(ax[n]+by[n]\) & \(aX(e^{j\omega})+bY(e^{j\omega})\) \\
+5.3.3 & Time Shifting & \(x[n-n_{0}]\) & \(e^{-j\omega n_{0}}X(e^{j\omega})\) \\
+5.3.3 & Frequency Shifting & \(e^{j\omega n_{0}}x[n]\) & \(X(e^{j\omega-\omega n_{0}})\) \\
+5.3.4 & Conjugation & \(x^{*}[n]\) & \(X^{*}(e^{-j\omega})\) \\
+5.3.6 & Time Reversal & \(x[-n]\) & \(X(e^{j\omega})\) \\
+5.3.7 & Time Expansion & \(x_{\{k\}}[n]=\left\{\begin{array}{ll}x[n/k],&\text{if $n=$ multiple of $k$}\\ 0,&\text{if $n\neq$ multiple of $k$}\end{array}\right.\) \\
+5.4 & Convolution & \(x[n]*y[n]\) & \(X(e^{j\omega})Y(e^{j\omega})\) \\
+5.5 & Multiplication & \(x[n]y[n]\) & \(\frac{1}{2\pi}\int_{2\pi}X(e^{j\pi})Y(e^{j\omega-\theta})d\theta\) \\
+5.3.5 & Differencing in Time & \(x[n]-x[n-1]\) & \((1-e^{-j\omega})X(e^{j\omega})\) \\
+5.3.5 & Accumulation & \(\sum_{k=-\infty}^{n}x[k]\) & \(\frac{1}{1-e^{-j\omega}}X(e^{j\omega})\) \\  & & & \(+\pi X(e^{j\omega})\sum_{k=-\infty}^{i+\infty}\delta(\omega-2\pi k)\) \\
+5.3.8 & Differentiation in Frequency & \(nx[n]\) & \(j\frac{dX(e^{j\omega})}{d\omega}\) \\ \hline \multirow{6}{*}{5.3.4} & & & \(\left\{\begin{array}{ll}X(e^{j\omega})=X^{*}(e^{-j\omega})\\ \mathfrak{R}e[X(e^{j\omega})]=\mathfrak{R}e[X(e^{-j\omega})]\\ \mathfrak{R}m[X(e^{j\omega})]=-\mathfrak{R}m[X(e^{-j\omega})]\\ \mathfrak{R}X(e^{j\omega})=-\mathfrak{R}X(e^{-j\omega})\\ \mathfrak{R}X(e^{j\omega})=-\mathfrak{R}X(e^{-j\omega})\end{array}\right.\) \\  & & & \(X(e^{j\omega})\) real and even \\
+5.3.4 & Conjugate Symmetry for & \(x[n]\) real & \(x[n]\) real \\  & Real Signals & & \\
+5.3.4 & Symmetry for Real, Even & \(x[n]\) real an even & \(X(e^{j\omega})\) real and even \\  & Signals & & \\
+5.3.4 & Even-odd Decomposition & \(x_{c}[n]=\mathfrak{S}e\{x[n]\}\) & \([x[n]\text{ real}]\) \\  & of Real Signals & \(x_{c}[n]=\mathfrak{O}d\{x[n]\}\) & \([x[n]\text{ real}]\) \\
+5.3.9 & Parseval’s Relation for Aperiodic Signals & & \\ & & \(\sum_{n=-\infty}^{i+\infty}|x[n]|^{2}=\frac{1}{2\pi}\int_{2\pi}|X(e^{j\omega})|^ {2}d\omega\) \\ \hline \end{tabular}
+\end{table}
+Table 5.1: PROPERTIES OF THE DISCREETE-TIME FOURIER TRANSFORM
+
+\begin{table}
+\begin{tabular}{l|c|l} \hline
+**Signal** & **Fourier Transform** & **Fourier Series Coefficients (if periodic)** \\ \hline \(\sum\limits_{k=\,n\,\left(N\right)}a_{k}e^{ik\left(2\pi N\right)n}\) & \(2\pi\sum\limits_{k=\,-\,n}^{+\,\leftrightarrow}a_{k}\delta\left(\omega-\frac{2 \pi k}{N}\right)\) & \(a_{k}\) \\ \hline \(e^{\mu n\omega n}\) & \(2\pi\sum\limits_{l=\,-\,n}^{+\,\leftrightarrow}\delta\left(\omega-\omega_{0}-2 \pi l\right)\) & \(\begin{array}{l}\text{(a)}\quad\omega_{0}\quad=\,\frac{2\pi n}{N}\\ \text{a}_{k}\quad=\,-\left\{\begin{array}{l}1,\quad k=\,m,\,m\pm N,\,m\pm 2N,\, \ldots\\ 0,\quad\text{otherwise}\end{array}\right.\\ \text{(b)}\quad\frac{\omega_{0}}{2\pi}\text{ irrational}\,\gg\,\,\text{ The signal is aperiodic}\end{array}\) \\ \hline \(\cos\omega_{0}n\) & \(\pi\sum\limits_{l=\,-\,n}^{+\,\leftrightarrow}\left\{\delta\left(\omega-\omega_{0}-2 \pi l\right)+\delta\left(\omega+\omega_{0}-2\pi l\right)\right\}\) & \(\begin{array}{l}\text{(a)}\quad\omega_{0}\quad=\,\frac{2\pi n}{N}\\ \text{a}_{k}\quad=\,-\left\{\begin{array}{l}\frac{1}{2},\quad k=\,\pm m,\, \pm m\pm N,\,\pm m\pm 2N,\ldots\\ 0,\quad\text{otherwise}\end{array}\right.\\ \text{(b)}\quad\frac{\omega_{0}}{2\pi}\text{ irrational}\,\gg\,\,\text{ The signal is aperiodic}\end{array}\) \\ \hline \(\sin\omega_{0}n\) & \(\frac{\pi}{j}\sum\limits_{l=\,-\,n}^{+\,\leftrightarrow}\delta\left(\omega- \omega_{0}-2\pi l\right)-\delta\left(\omega+\omega_{0}-2\pi l\right)\) & \(a_{k}\quad=\,\begin{cases}\frac{1}{2j},\quad k=\,r,\pm N,\,r\pm 2N,\,\ldots\\ -\,\frac{1}{2j},\quad k=\,-r,-r\pm N,-r\pm 2N,\ldots\\ 0,\quad\text{otherwise}\end{cases}\) \\ \hline \(x[n]\,=\,1\) & \(2\pi\sum\limits_{l=\,-\,n}^{+\,\leftrightarrow}\delta\left(\omega-2\pi l \right)\) & \(a_{k}\quad=\,\begin{cases}1,\quad k=\,0,\,\pm N,\,\pm 2N,\ldots\\ 0,\quad\text{otherwise}\end{cases}\) \\ \hline \(\sum\limits_{k=\,-\,n}^{+\,\leftrightarrow}\delta\left(n-kN\right)\) & \(\frac{2\pi}{N}\sum\limits_{k=\,-\,n}^{+\,\leftrightarrow}\delta\left(\omega- \frac{2\pi k}{N}\right)\) & \(a_{k}\quad=\,\frac{1}{N}\text{ for all }k\) \\ \hline \(a^{n}u[n]\quad|a|<1\) & \(\frac{1}{1-ae^{-j\omega}}\) & — \\ \hline \(x[n]\left[\begin{array}{l}1,\quad|n|\,\approx\,N_{1}\\ 0,\quad|n|>N_{1}\end{array}\right.\) & \(\frac{\sin[\omega(N_{1}+\frac{1}{2})]}{\sin(\omega/2)}\) & — \\ \hline \(\sin\omega_{n}\,=\,\frac{W}{\pi}\,\text{sinc}\,\left(\frac{W\pi}{\pi}\right)\) & \(X(\omega)=\left\{\begin{array}{l}1,\quad 0\,\,\approx\,|\omega|\,\leq\,W\\ 0,\,\,\,W<\,|\omega|\,\leq\,\pi\\ \text{periodic with period }2\pi\end{array}\right.\) & — \\ \hline \(\delta[n]\) & \(1\) & — \\ \hline \(u[n]\) & \(\frac{1}{1-e^{-j\omega}}+\sum\limits_{k=\,-\,n}^{+\,\leftrightarrow}\pi \delta\left(\omega-2\pi k\right)\) & — \\ \hline \(\delta[n-n_{0}]\) & \(e^{-j\omega n_{1}}\) & — \\ \hline \((n+1)a^{n}u[n]\), \(|a|<1\) & \(\frac{1}{(1-ae^{-j\omega})^{2}}\) & — \\ \hline \((n+r-1)!\) & \(a^{n}u[n]\), \(|a|<1\) & \(\frac{1}{(1-ae^{-j\omega})}\) & — \\ \hline \(n(r-1)!\) & \(a^{n}u[n]\), \(|a|<1\) & \(\frac{1}{(1-ae^{-j\omega})}\) & — \\ \hline \end{tabular}
+\end{table}
+Table 5.2: BASIC DISCREETE-TIME FOURIER TRANSFORM PAIRSsignal, reversed in time). To see this in more detail, consider two periodic sequences with period \(N\), related through the summation
+
+\[f[m]\,=\,\frac{1}{N}\sum_{r\,=\,\langle N\rangle}g[r]e^{-jr(2\pi/N)m}. \tag{5.65}\]
+
+If we let \(m\,=\,k\) and \(r\,=\,n\), eq. (5.65) becomes
+
+\[f[k]\,=\,\frac{1}{N}\sum_{n\,=\,\langle N\rangle}g[n]e^{-jk(2\pi/N)n}.\]
+
+Comparing this with eq. (3.95), we see that the sequence \(f[k]\) corresponds to the Fourier series coefficients of the signal \(g[n]\). That is, if we adopt the notation
+
+\[x[n]\stackrel{{\mathfrak{F}S}}{{\longleftrightarrow}}a_{k}\]
+
+introduced in Chapter 3 for a periodic discrete-time signal and its set of Fourier coefficients, the two periodic sequences related through eq. (5.65) satisfy
+
+\[g[n]\stackrel{{\mathfrak{F}S}}{{\longleftrightarrow}}f[k]. \tag{5.66}\]
+
+Alternatively, if we let \(m\,=\,n\) and \(r\,=\,-k\), eq. (5.65) becomes
+
+\[f[n]\,=\,\sum_{k\,=\,\langle N\rangle}\frac{1}{N}g[-k]e^{jk(2\pi/N)n}.\]
+
+Comparing this with eq. (3.94), we find that \((1/N)g[-k]\) corresponds to the sequence of Fourier series coefficients of \(f[n]\). That is,
+
+\[f[n]\stackrel{{\mathfrak{F}S}}{{\longleftrightarrow}}\frac{1} {N}g[-k]. \tag{5.67}\]
+
+As in continuous time, this duality implies that every property of the discrete-time Fourier series has a dual. For example, referring to Table 3.2, we see that the pair of properties
+
+\[x[n-n_{0}]\stackrel{{\mathfrak{F}S}}{{\longleftrightarrow}}a_{k }e^{-jk(2\pi/N)n_{0}} \tag{5.68}\]
+
+and
+
+\[e^{jm(2\pi/N)n}x[n]\stackrel{{\mathfrak{F}S}}{{\longleftrightarrow }}a_{k-m} \tag{5.69}\]
+
+are dual. Similarly, from the same table, we can extract another pair of dual properties:
+
+\[\sum_{r\,=\,\langle N\rangle}x[r]y[n-r]\stackrel{{\mathfrak{F}S} }{{\longleftrightarrow}}Na_{k}b_{k} \tag{5.70}\]
+
+and
+
+\[x[n]y[n]\stackrel{{\mathfrak{F}S}}{{\longleftrightarrow}}\sum_{ l\,=\,\langle N\rangle}a_{l}b_{k-l}. \tag{5.71}\]In addition to its consequences for the properties of discrete-time Fourier series, duality can often be useful in reducing the complexity of the calculations involved in determining Fourier series representations. This is illustrated in the following example.
+
+**Example 5.16**: Consider the following periodic signal with a period of \(N\,=\,9\):
+
+\[x[n]\,=\,\left\{\begin{array}{ll}{\frac{1}{9}\,\frac{\sin(5\pi n /9)}{\sin(\pi n/9)},}&n\neq\,\mbox{multiple of 9}\\ {\frac{5}{9},}&n\,=\,\mbox{multiple of 9}\end{array}\right. \tag{5.72}\]
+
+In Chapter 3, we found that a rectangular square wave has Fourier coefficients in a form much as in eq. (5.72). Duality, then, suggests that the coefficients for \(x[n]\) must be in the form of a rectangular square wave. To see this more precisely, let \(g[n]\) be a rectangular square wave with period \(N\,=\,9\) such that
+
+\[g[n]\,=\,\left\{\begin{array}{ll}1,&|n|\,\leq\,2\\ 0,&2<|n|\,\leq\,4.\end{array}\right.\]
+
+The Fourier series coefficients \(b_{k}\) for \(g[n]\) can be determined from Example 3.12 as
+
+\[b_{k}\,=\,\left\{\begin{array}{ll}{\frac{1}{9}\,\frac{\sin(5 \pi k/9)}{\sin(\pi k/9)},}&k\neq\,\mbox{multiple of 9}\\ {\frac{5}{9},}&k\,=\,\mbox{multiple of 9}\end{array}\right.\]
+
+The Fourier series analysis equation (3.95) for \(g[n]\) can now be written as
+
+\[b_{k}\,=\,{\frac{1}{9}\,\sum_{n\,=\,-\,2}^{2}\,(1)e^{-j\,2\pi nk /9}.}\]
+
+Interchanging the names of the variables \(k\) and \(n\) and noting that \(x[n]\,=\,b_{n}\), we find that
+
+\[x[n]\,=\,{\frac{1}{9}\,\sum_{k\,=\,-\,2}^{2}\,(1)e^{-j\,2\pi nk /9}.}\]
+
+Letting \(k^{\prime}\,=\,-\,k\) in the sum on the right side, we obtain
+
+\[x[n]\,=\,{\frac{1}{9}\,\sum_{k^{\prime}\,=\,-\,2}^{2}\,e^{+\,j \,2\pi nk^{\prime}/9}.}\]
+
+Finally, moving the factor 1/9 inside the summation, we see that the right side of this equation has the form of the synthesis equation (3.94) for \(x[n]\). We thus conclude that the Fourier coefficients of \(x[n]\) are given by
+
+\[a_{k}\,=\,\left\{\begin{array}{ll}\mbox{1/9,}&|k|\,\leq\,2\\ 0,&2<|k|\,\leq\,4,\end{array}\right.\]
+
+and, of course, are periodic with period \(N\,=\,9\).
+
+#### Duality between the Discrete-Time Fourier Transform
+
+and the Continuous-Time Fourier Series
+
+In addition to the duality for the discrete Fourier series, there is a duality between the _discrete-time_ Fourier _transform_ and the _continuous-time_ Fourier _series_. Specifically, let us compare the continuous-time Fourier series equations (3.38) and (3.39) with the discrete-time Fourier transform equations (5.8) and (5.9). We repeat these equations here for convenience:
+
+[eq. (5.8)] \[x[n] = \frac{1}{2\pi}\int_{2\pi}X(e^{j\omega})e^{j\omega n}d\omega,\] (5.73) \[X(e^{j\omega}) = \sum_{n\,=\,-\,-\,-\,\omega}^{+\infty}x[n]e^{-j\omega n},\] (5.74) \[x(t) = \sum_{k\,=\,-\,-\,\omega}^{+\infty}a_{k}e^{jka_{0}t},\] (5.75) \[a_{k} = \frac{1}{T}\int_{T}x(t)e^{-jka_{0}t}dt.\] (5.76)
+
+Note that eqs. (5.73) and (5.76) are very similar, as are eqs. (5.74) and (5.75), and in fact, we can interpret eqs. (5.73) and (5.74) as a _Fourier series_ representation of the periodic frequency response \(X(e^{j\omega})\). In particular, since \(X(e^{j\omega})\) is a periodic function of \(\omega\) with period \(2\pi\), it has a Fourier series representation as a weighted sum of harmonically related periodic exponential functions of \(\omega\), all of which have the common period of \(2\pi\). That is, \(X(e^{j\omega})\) can be represented in a Fourier series as a weighted sum of the signals \(e^{j\omega n}\), \(n=0,\,\pm 1,\,\pm 2,\,\dots\). From eq. (5.74), we see that the \(n\)th Fourier coefficient in this expansion--i.e., the coefficient multiplying \(e^{j\omega n}\)--is \(x[-n]\). Furthermore, since the period of \(X(e^{j\omega})\) is \(2\pi\), eq. (5.73) can be interpreted as the Fourier series analysis equation for the Fourier series coefficient \(x[n]\)--i.e., for the coefficient multiplying \(e^{-j\omega n}\) in the expression for \(X(e^{j\omega})\) in eq. (5.74). The use of this duality relationship is best illustrated with an example.
+
+### Example 5.17
+
+The duality between the discrete-time Fourier transform synthesis equation and the continuous-time Fourier series analysis equation may be exploited to determine the discrete-time Fourier transform of the sequence
+
+\[x[n] = \frac{\sin(\pi n/2)}{\pi n}.\]
+
+To use duality, we first must identify a continuous-time signal \(g(t)\) with period \(T\,=\,2\pi\) and Fourier coefficients \(a_{k}\,=\,x[k]\). From Example 3.5, we know that if \(g(t)\) is a periodic square wave with period \(2\pi\) (or, equivalently, with fundamental frequency \(\omega_{0}\,=\,1\)) and with
+
+\[g(t) = \left\{\begin{array}{ll}1,&|t|\,\leq\,T_{1}\\ 0,&T_{1}<|t|\,\leq\,\pi\end{array}\right.,\]
+
+then the Fourier series coefficients of \(g(t)\) are\[a_{k}\,=\,\frac{\sin(kT_{1})}{k\pi}\]
+
+Consequently, if we take \(T_{1}=\pi/2\), we will have \(a_{k}\,=\,x[k]\). In this case the analysis equation for \(g(t)\) is
+
+\[\frac{\sin\left(\pi k/2\right)}{\pi k}\,=\,\frac{1}{2\pi}\,\int_{-\pi}^{\pi}g(t )e^{-jkt}dt\,=\,\frac{1}{2\pi}\,\int_{-\pi/2}^{\pi/2}(1)e^{-jkt}dt.\]
+
+Renaming \(k\) as \(n\) and \(t\) as \(\omega\), we have
+
+\[\frac{\sin\left(\pi n/2\right)}{\pi n}\,=\,\frac{1}{2\pi}\,\int_{-\pi/2}^{\pi/ 2}(1)e^{-jm\omega}d\omega. \tag{5.77}\]
+
+Replacing \(n\) by \(-n\) on both sides of eq. (5.77) and noting that the sinc function is even, we obtain
+
+\[\frac{\sin\left(\pi n/2\right)}{\pi n}\,=\,\frac{1}{2\pi}\,\int_{-\pi/2}^{\pi/ 2}(1)e^{jm\omega}d\omega.\]
+
+The right-hand side of this equation has the form of the Fourier transform synthesis equation for \(x[n]\), where
+
+\[X(e^{j\omega})\,=\,\left\{\begin{array}{ll}1&|\omega|\,\leq\,\pi/2\\ 0&\pi/2<|\omega|\,\leq\,\pi\end{array}\right..\]
+
+In Table 5.3, we present a compact summary of the Fourier series and Fourier transform expressions for both continuous-time and discrete-time signals, and we also indicate the duality relationships that apply in each case.
+
+### Systems Characterized by Linear Constant-Coefficient Difference Equations
+
+A general linear constant-coefficient difference equation for an LTI system with input \(x[n]\) and output \(y[n]\) is of the form
+
+\begin{table}
+\begin{tabular}{c|l l l l l} \hline  & & \multicolumn{2}{c||}{Continuous time} & \multicolumn{2}{c}{Discrete time} \\ \cline{2-5}  & **Time domain** & & **Frequency domain** & **Time domain** & **Frequency domain** \\ \hline  & \(x(t)=\) & & & & \\  & \(\sum_{k-\infty}^{+\infty}a_{k}e^{j\omega t}\) & & & & & \\ Fourier & & & & & & \\ Series & continuous time & & & & & \\  & & & & & & \\  & & & & & & \\ Series & continuous time & & & & & \\  & periodic in time & & & & & \\  & & & & & & \\ \hline  & \(x(t)=\) & & & & & \\  & \(\frac{1}{2\pi}\,\int_{-\pi}^{+\infty}X(ju)e^{j\omega t}da\) & & & & & \\  & \(\sum_{k-\infty}^{+\infty}a_{k}e^{-j\omega t}da\) & & & & & \\  & & & & & & \\ Transform & continuous time & & & & & \\  & aperiodic in time & & & & & \\  & & & & & & \\ \hline \end{tabular}
+\end{table}
+Table 5.3: SUMMARY OF FOURIER SERIES AND TRANSFORM EXPRESSIONS\[\sum_{k\,=\,0}^{N}a_{k}y[n\,-\,k]\,=\,\sum_{k\,=\,0}^{M}b_{k}x[n\,-\,k]. \tag{5.78}\]
+
+The class of systems described by such difference equations is quite an important and useful one. In this section, we take advantage of several of the properties of the discrete-time Fourier transform to determine the frequency response \(H(e^{j\omega})\) for an LTI system described by such an equation. The approach we follow closely parallels the discussion in Section 4.7 for continuous-time LTI systems described by linear constant-coefficient differential equations.
+
+There are two related ways in which to determine \(H(e^{j\omega})\). The first of these, which we illustrated in Section 3.11 for several simple difference equations, explicitly uses the fact that complex exponentials are eigenfunctions of LTI systems. Specifically, if \(x[n]\,=\,e^{j\omega n}\) is the input to an LTI system, then the output must be of the form \(H(e^{j\omega})e^{j\omega n}\). Substituting these expressions into eq. (5.78) and performing some algebra allows us to solve for \(H(e^{j\omega})\). In this section, we follow a second approach making use of the convolution, linearity, and time-shifting properties of the discrete-time Fourier transform. Let \(X(e^{j\omega})\), \(Y(e^{j\omega})\), and \(H(e^{j\omega})\) denote the Fourier transforms of the input \(x[n]\), output \(y[n]\), and impulse response \(h[n]\), respectively. The convolution property, eq. (5.48), of the discrete-time Fourier transform then implies that
+
+\[H(e^{j\omega})\,=\,\frac{Y(e^{j\omega})}{X(e^{j\omega})}. \tag{5.79}\]
+
+Applying the Fourier transform to both sides of eq. (5.78) and using the linearity and time-shifting properties, we obtain the expression
+
+\[\sum_{k\,=\,0}^{N}a_{k}e^{-\,jk\omega}Y(e^{j\omega})\,=\,\sum_{k\,=\,0}^{M}b_{ k}e^{-\,jk\omega}X(e^{j\omega}),\]
+
+or equivalently,
+
+\[H(e^{j\omega})\,=\,\frac{Y(e^{j\omega})}{X(e^{j\omega})}\,=\,\frac{\sum_{k\,= \,0}^{M}b_{k}e^{-\,jk\omega}}{\sum_{k\,=\,0}^{N}a_{k}e^{-\,jk\omega}}. \tag{5.80}\]
+
+Comparing eq. (5.80) with eq. (4.76), we see that, as in the case of continuous time, \(H(e^{j\omega})\) is a ratio of polynomials, but in discrete time the polynomials are in the variable \(e^{-j\omega}\). The coefficients of the numerator polynomial are the same coefficients as appear on the right side of eq. (5.78), and the coefficients of the denominator polynomial are the same as appear on the left side of that equation. Therefore, the frequency response of the LTI system specified by eq. (5.78) can be written down by inspection.
+
+The difference equation (5.78) is generally referred to as an \(N\)th-order difference equation, as it involves delays in the output \(y[n]\) of up to \(N\) time steps. Also, the denominator of \(H(e^{j\omega})\) in eq. (5.80) is an \(N\)th-order polynomial in \(e^{-\,j\omega}\).
+
+**Example 5.18**
+
+Consider the causal LTI system that is characterized by the difference equation
+
+\[y[n]\,-\,ay[n\,-\,1]\,=\,x[n], \tag{5.81}\]with \(|a|<1\). From eq. (5.80), the frequency response of this system is
+
+\[H(e^{j\omega})\,=\,\frac{1}{1-ae^{-j\omega}}. \tag{5.82}\]
+
+Comparing this with Example 5.1, we recognize it as the Fourier transform of the sequence \(a^{n}u[n]\). Thus, the impulse response of the system is
+
+\[h[n]\,=\,a^{n}u[n]. \tag{5.83}\]
+
+### Example 5.19
+
+Consider a causal LTI system that is characterized by the difference equation
+
+\[y[n]-\frac{3}{4}y[n-1]+\frac{1}{8}y[n-2]\,=\,2x[n]. \tag{5.84}\]
+
+From eq. (5.80), the frequency response is
+
+\[H(e^{j\omega})\,=\,\frac{2}{1-\frac{3}{4}e^{-j\omega}+\frac{1}{8}e^{-j2\omega}}. \tag{5.85}\]
+
+As a first step in obtaining the impulse response, we factor the denominator of eq. (5.85):
+
+\[H(e^{j\omega})\,=\,\frac{2}{(1-\frac{1}{2}e^{-j\omega})(1-\frac{1}{4}e^{-j \omega})}. \tag{5.86}\]
+
+\(H(e^{j\omega})\) can be expanded by the method of partial fractions, as in Example A.3 in the appendix. The result of this expansion is
+
+\[H(e^{j\omega})\,=\,\frac{4}{1-\frac{1}{2}e^{-j\omega}}\,-\,\frac{2}{1-\frac{ 1}{4}e^{-j\omega}}. \tag{5.87}\]
+
+The inverse transform of each term can be recognized by inspection, with the result that
+
+\[h[n]\,=\,4\!\left(\frac{1}{2}\right)^{\!n}u[n]-2\!\left(\frac{1}{4}\right)^{\! n}u[n]. \tag{5.88}\]
+
+The procedure followed in Example 5.19 is identical in style to that used in continuous time. Specifically, after expanding \(H(e^{j\omega})\) by the method of partial fractions, we can find the inverse transform of each term by inspection. The same approach can be applied to the frequency response of any LTI system described by a linear constant-coefficient difference equation in order to determine the system impulse response. Also, as illustrated in the next example, if the Fourier transform \(X(e^{j\omega})\) of the input to such a system is a ratio of polynomials in \(e^{-j\omega}\), then \(Y(e^{j\omega})\) is as well. In this case, we can use the same technique to find the response \(y[n]\) to the input \(x[n]\).
+
+### Example 5.20
+
+Consider the LTI system of Example 5.19, and let the input to this system be
+
+\[x[n]\,=\,\left(\frac{1}{4}\right)^{\!n}u[n].\]Then, using eq. (5.80) and Example 5.1 or 5.18, we obtain
+
+\[\begin{split} Y(e^{j\omega})\,=\,H(e^{j\omega})X(e^{j\omega})& \,=\,\left[\frac{2}{(1-\frac{1}{2}e^{-j\omega})(1-\frac{1}{4}e^{-j \omega})}\right]\!\!\left[\frac{1}{1-\frac{1}{4}e^{-j\omega}}\right]\\ &\,=\,\frac{2}{(1-\frac{1}{2}e^{-j\omega})(1-\frac{1}{4}e^{- \omega\omega})^{2}}.\end{split} \tag{5.89}\]
+
+As described in the appendix, the form of the partial-fraction expansion in this case is
+
+\[Y(e^{j\omega})\,=\,\frac{B_{11}}{1-\frac{1}{4}e^{-j\omega}}\,+\,\frac{B_{12}}{ (1-\frac{1}{4}e^{-j\omega})^{2}}\,+\,\frac{B_{21}}{1-\frac{1}{2}e^{-j\omega}}, \tag{5.90}\]
+
+where the constants \(B_{11},\ B_{12}\), and \(B_{21}\) can be determined using the techniques described in the appendix. This particular expansion is worked out in detail in Example A.4, and the values obtained are
+
+\[B_{11}\,=\,-4,\quad B_{12}\,=\,-2,\quad B_{21}\,=\,8,\]
+
+so that
+
+\[Y(e^{j\omega})\,=\,-\frac{4}{1-\frac{1}{4}e^{-j\omega}}\,-\,\frac{2}{(1-\frac {1}{4}e^{-j\omega})^{2}}\,+\,\frac{8}{1-\frac{1}{2}e^{-j\omega}}. \tag{5.91}\]
+
+The first and third terms are of the same type as those encountered in Example 5.19, while the second term is of the same form as one seen in Example 5.13. Either from these examples or from Table 5.2, we can invert each of the terms in eq. (5.91) to obtain the inverse transform
+
+\[y[n]\,=\,\left\{\,-4\!\left(\frac{1}{4}\right)^{\!n}\!-2(n+1)\!\left(\frac{1}{ 4}\right)^{\!n}\!+8\!\left(\frac{1}{2}\right)^{\!n}\!\right\}\,u[n]. \tag{5.92}\]
+
+### Summary
+
+In this chapter, we have paralleled Chapter 4 as we developed the Fourier transform for discrete-time signals and examined many of its important properties. Throughout the chapter, we have seen a great many similarities between continuous-time and discrete-time Fourier analysis, and we have also seen some important differences. For example, the relationship between Fourier series and Fourier transforms in discrete time is exactly analogous to that in continuous time. In particular, our derivation of the discrete-time Fourier transform for aperiodic signals from the discrete-time Fourier series representations is very much the same as the corresponding continuous-time derivation. Furthermore, many of the properties of continuous-time transforms have exact discrete-time counterparts. On the other hand, in contrast to the continuous-time case, the discrete-time Fourier transform of an aperiodic signal is always periodic with period \(2\pi\). In addition to similarities and differences such as these, we have described the duality relationships among the Fourier representations of continuous-time and discrete-time signals.
+
+The most important similiarities between continuous- and discrete-time Fourier analysis are in their uses in analyzing and representing signals and LTI systems. Specifically, the convolution property provides us with the basis for the frequency-domain analysis of LTI systems. We have already seen some of the utility of this approach in our discussion of

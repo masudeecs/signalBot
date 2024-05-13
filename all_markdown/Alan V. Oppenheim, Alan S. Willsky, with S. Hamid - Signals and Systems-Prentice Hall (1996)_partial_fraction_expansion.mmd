@@ -1,0 +1,319 @@
+## Appendix A Partial-fraction Expansion
+
+### A.1 Introduction
+
+The purpose of this appendix is to describe the technique of partial-fraction expansion. This tool is of great value in the study of signals and systems; in particular, it is very useful in inverting Fourier, Laplace, or \(z\)-transforms and in analyzing LTI systems described by linear constant-coefficient differential or difference equations. The method of partial-fraction expansion consists of taking a function that is the ratio of polynomials and expanding it as a linear combination of simpler terms of the same type. The determination of the coefficients in the linear combination is the basic problem to be solved in obtaining the expansion. As we will see, this is a relatively straightforward problem in algebra that can be solved very efficiently with a bit of "bookkeeping."
+
+To illustrate the basic idea behind and role of partial-fraction expansion, consider the analysis developed in Section 6.5.2 for a second-order continuous-time LTI system specified by the differential equation
+
+\[\frac{d^{2}y(t)}{dt^{2}}+2\zeta\omega_{n}\frac{dy(t)}{dt}+\omega_{n}^{2}y(t)\,= \,\omega_{n}^{2}x(t).\] (A.1)
+
+The frequency response of this system is
+
+\[H(j\omega)\,=\,\frac{\omega_{n}^{2}}{(j\omega)^{2}+2\zeta\omega_{n}(j\omega)+ \omega_{n}^{2}},\] (A.2)
+
+or, if we factor the denominator,
+
+\[H(j\omega)\,=\,\frac{\omega_{n}^{2}}{(j\omega-c_{1})(j\omega-c_{2})},\] (A.3)
+
+where
+
+\[c_{1} = -\zeta\omega_{n}+\omega_{n}\sqrt{\zeta^{2}-1},\] \[c_{2} = -\zeta\omega_{n}-\omega_{n}\sqrt{\zeta^{2}-1}.\] (A.4)
+
+Having \(H(j\omega)\), we are in a position to answer a variety of questions related to the system. For example, to determine the impulse response of the system, recall that for any number \(\alpha\) with \(\mathcal{O}\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\! \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\! \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\! \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\! \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\! \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\! \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\! \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\! \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\! \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\! \!\!
+
+## Appendix A Appendix
+
+### A.1 Partial-fraction expansion and continuous-time signals and systems
+
+For our purposes, it is convenient to consider rational functions in one of two standard forms. The second of these, which is often useful in the analysis of discrete-time signals and systems, will be discussed shortly. The first of the standard forms is
+
+\[G(v)\,=\,\frac{b_{n-1}v^{n-1}+b_{n-2}v^{n-2}+\ldots+b_{1}v+b_{0}}{v^{n}+a_{n-1} v^{n-1}+\ldots+a_{1}v+a_{0}}.\] (A.12)In this form the coefficient of the highest order term in the denominator is 1, and the order of the numerator is at least one less than the order of the denominator. (The order of the numerator will be less than \(n-1\) if \(b_{n-1}=0\).)
+
+If we are given \(H(\nu)\) in the form of eq. (A.11), we can obtain a rational function of the form of eq. (A.12) by performing two straightforward calculations. First, we divide both the numerator and the denominator of \(H(\nu)\) by \(\alpha_{n}\). This yields
+
+\[H(\nu)\,=\,\frac{\gamma_{m}\nu^{m}+\gamma_{m-1}\nu^{m-1}+\ldots+\gamma_{1}\nu+ \gamma_{0}}{\nu^{n}+a_{n-1}\nu^{n-1}+\ldots+a_{1}\nu+a_{0}},\] (A.13)
+
+where
+
+\[\gamma_{m}\,=\,\frac{\beta_{m}}{\alpha_{n}},\qquad\quad\gamma_{m-1}\,=\, \frac{\beta_{m-1}}{\alpha_{n}},\qquad\ldots,\]
+
+\[a_{n-1}\,=\,\frac{\alpha_{n-1}}{\alpha_{n}},\qquad\,a_{n-2}\,=\,\frac{\alpha_{ n-2}}{\alpha_{n}},\qquad\ldots.\]
+
+If \(m<n\), \(H(\nu)\) is called a _strictly proper_ rational function, and in this case, letting \(b_{0}=\gamma_{0}\), \(b_{1}=\gamma_{1}\), \(\ldots\), \(b_{m}=\gamma_{m}\), and setting any remaining \(b\)'s equal to zero, we see that \(H(\nu)\) in eq. (A.13) is already of the form of eq. (A.12). In most of the discussions in this book in which rational functions are considered, we are concerned primarily with strictly proper rational functions. However, if \(H(\nu)\) is not proper (i.e., if \(m\,\geq\,n\)), we can perform a preliminary calculation that allows us to write \(H(\nu)\) as the sum of a polynomial in \(\nu\) and a strictly proper rational function. That is,
+
+\[\begin{split} H(\nu)\,=\,&\,c_{m-n}\nu^{m-n}+c_{m-n- 1}\nu^{m-n-1}+\ldots+c_{1}\nu+c_{0}\\ &+\,\frac{b_{n-1}\nu^{n-1}+b_{n-2}\nu^{n-2}+\ldots+b_{1}\nu+b_{0} }{\nu^{n}+a_{n-1}\nu^{n-1}+\ldots+a_{1}\nu+a_{0}}.\end{split}\] (A.14)
+
+The coefficients \(c_{0},\,c_{1},\ldots,\,c_{m-n}\) and \(b_{0},\,b_{1},\ldots,\,b_{n-1}\) can be obtained by equating eqs. (A.13) and (A.14) and then multiplying through by the denominator. This yields
+
+\[\begin{split}\gamma_{m}\nu^{m}+\ldots+\gamma_{1}\nu+\gamma_{0}\,= \,&\,b_{n-1}\nu^{n-1}+\ldots+b_{1}\nu+b_{0}\\ &+(c_{m-n}\nu^{m-n}+\ldots+c_{0})(\nu^{n}+a_{n-1}\nu^{n-1}+ \ldots+a_{0}).\end{split}\] (A.15)
+
+By equating the coefficients of equal powers of \(\nu\) on both sides of eq. (A.15), we can determine the \(c\)'s and \(b\)'s in terms of the \(a\)'s and \(\gamma\)'s. For example, if \(m=2\) and \(n=1\), so that
+
+\[H(\nu)\,=\,\frac{\gamma_{2}\nu^{2}+\gamma_{1}\nu+\gamma_{0}}{\nu+a_{1}}\,=\,c_ {1}\nu+c_{0}+\frac{b_{0}}{\nu+a_{1}},\] (A.16)
+
+then eq. (A.15) becomes
+
+\[\begin{split}\gamma_{2}\nu^{2}+\gamma_{1}\nu+\gamma_{0}\,=\,b_{0 }+(c_{1}\nu+c_{0})(\nu+a_{1})\\ \,=\,b_{0}+c_{1}\nu^{2}+(c_{0}+a_{1}c_{1})\nu+a_{1}c_{0}.\end{split}\]
+
+Equating the coefficients of equal powers of \(\nu\), we obtain the equations
+
+\[\begin{split}\gamma_{2}\,=\,c_{1},\\ \gamma_{1}\,=\,c_{0}+a_{1}c_{1},\\ \gamma_{0}\,=\,b_{0}+a_{1}c_{0}.\end{split}\]The first equation yields the value of \(c_{1}\), which can then be used in the second to solve for \(c_{0}\), which in turn can be used in the third to solve for \(b_{0}\). The result is
+
+\[c_{1} = \gamma_{2},\] \[c_{0} = \gamma_{1}-a_{1}\gamma_{2},\] \[b_{0} = \gamma_{0}-a_{1}(\gamma_{1}-a_{1}\gamma_{2}).\]
+
+The general case of eq. (A.15) can be solved in an analogous fashion.
+
+Our goal now is to focus on the proper rational function \(G(\nu)\) in eq. (A.12) and to expand it into a sum of simpler proper rational functions. To see how this can be done, consider the case of \(n=3\), so that eq. (A.12) reduces to
+
+\[G(\nu)=\frac{b_{2}\nu^{2}+b_{1}\nu+b_{0}}{\nu^{3}+a_{2}\nu^{2}+a_{1}\nu+a_{0}}.\] (A.17)
+
+As a first step, we factor the denominator of \(G(\nu)\) in order to write it in the form
+
+\[G(\nu)=\frac{b_{2}\nu^{2}+b_{1}\nu+b_{0}}{(\nu-\rho_{1})(\nu-\rho_{2})(\nu- \rho_{3})}.\] (A.18)
+
+Assuming for the moment that the roots \(\rho_{1}\), \(\rho_{2}\), and \(\rho_{3}\) of the denominator are all distinct, we would like to expand \(G(\nu)\) into a sum of the form
+
+\[G(\nu)=\frac{A_{1}}{\nu-\rho_{1}}+\frac{A_{2}}{\nu-\rho_{2}}+\frac{A_{3}}{\nu -\rho_{3}}.\] (A.19)
+
+The problem, then, is to determine the constants \(A_{1}\), \(A_{2}\), and \(A_{3}\). One approach is to equate eqs. (A.18) and (A.19) and to multiply through the denominator. In this case, we obtain the equation
+
+\[\begin{split} b_{2}\nu^{2}+b_{1}\nu+b_{0}&=A_{1}( \nu-\rho_{2})(\nu-\rho_{3})\\ &+A_{2}(\nu-\rho_{1})(\nu-\rho_{3})\\ &+A_{3}(\nu-\rho_{1})(\nu-\rho_{2}).\end{split}\] (A.20)
+
+By expanding the right-hand side of eq. (A.20) and then equating coefficients of equal powers of \(\nu\), we obtain a set of linear equations that can be solved for \(A_{1}\), \(A_{2}\), and \(A_{3}\).
+
+Although this approach always works, there is a much easier method. Consider eq. (A.19), and suppose that we would like to calculate \(A_{1}\). Then, multiplying through by \(\nu-\rho_{1}\), we obtain
+
+\[(\nu-\rho_{1})G(\nu)=A_{1}+\frac{A_{2}(\nu-\rho_{1})}{\nu-\rho_{2}}+\frac{A_{ 3}(\nu-\rho_{1})}{\nu-\rho_{3}}.\] (A.21)
+
+Since \(\rho_{1}\), \(\rho_{2}\), and \(\rho_{3}\) are distinct, the last two terms on the right-hand side of eq. (A.21) are zero for \(\nu=\rho_{1}\). Therefore,
+
+\[A_{1}=[(\nu-\rho_{1})G(\nu)]|_{\nu=\rho_{1}},\] (A.22)
+
+or, using eq. (A.18),
+
+\[A_{1}=\frac{b_{2}\rho_{1}^{2}+b_{1}\rho_{1}+b_{0}}{(\rho_{1}-\rho_{2})(\rho_{ 1}-\rho_{3})}.\] (A.23)Similarly,
+
+\[A_{2} = [(\nu-\rho_{2})G(\nu)]|_{\nu=\rho_{2}}\,=\,\frac{b_{2}\rho_{2}^{2}+b_ {1}\rho_{2}+b_{0}}{(\rho_{2}-\rho_{1})(\rho_{2}-\rho_{3})},\] (A.24) \[A_{3} = [(\nu-\rho_{3})G(\nu)]|_{\nu=\rho_{3}}\,=\,\frac{b_{2}\rho_{3}^{2}+ b_{1}\rho_{3}+b_{0}}{(\rho_{3}-\rho_{1})(\rho_{3}-\rho_{2})}.\] (A.25)
+
+Suppose now that \(\rho_{1}\,=\,\rho_{3}\neq\rho_{2}\); that is,
+
+\[G(\nu)\,=\,\frac{b_{2}\nu^{2}+b_{1}\nu+b_{0}}{(\nu-\rho_{1})^{2}(\nu-\rho_{2})}.\] (A.26)
+
+In this case, we look for an expansion of the form
+
+\[G(\nu)\,=\,\frac{A_{11}}{\nu-\rho_{1}}+\frac{A_{12}}{(\nu-\rho_{1})^{2}}\,+ \,\frac{A_{21}}{\nu-\rho_{2}}.\] (A.27)
+
+Here, we need the \(1/(\nu-\rho_{1})^{2}\) term in order to obtain the correct denominator in eq. (A.26) when we collect terms over a least common denominator. We also need to include the \(1/(\nu-\rho_{1})\) term in general. To see why this is so, consider equating eqs. (A.26) and (A.27) and multiplying them through by the denominator of eq. (A.26):
+
+\[\begin{split} b_{2}\nu^{2}+b_{1}\nu+b_{0}&=\,A_{11 }(\nu-\rho_{1})(\nu-\rho_{2})\\ &\quad+\,A_{12}(\nu-\rho_{2})+A_{21}(\nu-\rho_{1})^{2}.\end{split}\] (A.28)
+
+Again, if we equate coefficients of equal powers of \(\nu\), we obtain three equations (for the coefficients of the \(\nu^{0}\), \(\nu^{1}\), and \(\nu^{2}\) terms). If we omit the \(A_{11}\) term in eq. (A.27), we will then have three equations in two unknowns, which in general will not have a solution. By including this term, we can always find a solution. In this case also, however, there is a much simpler method. Consider eq. (A.27) and multiply through by \((\nu-\rho_{1})^{2}\):
+
+\[(\nu-\rho_{1})^{2}G(\nu)\,=\,A_{11}(\nu-\rho_{1})\,+\,A_{12}\,+\,\frac{A_{21} (\nu-\rho_{1})^{2}}{\nu-\rho_{2}}.\] (A.29)
+
+From the preceding example, we see immediately how to determine \(A_{12}\):
+
+\[A_{12}\,=\,[(\nu-\rho_{1})^{2}G(\nu)]|_{\nu-\rho_{1}}\,=\,\frac{b_{2}\rho_{1} ^{2}+b_{1}\rho_{1}+b_{0}}{\rho_{1}-\rho_{2}}.\] (A.30)
+
+As for \(A_{11}\), suppose that we differentiate eq. (A.29) with respect to \(\nu\):
+
+\[\frac{d}{dv}[(\nu-\rho_{1})^{2}G(\nu)]\,=\,A_{11}\,+\,A_{21}\Bigg{[}\frac{2( \nu-\rho_{1})}{\nu-\rho_{2}}-\frac{(\nu-\rho_{1})^{2}}{(\nu-\rho_{2})^{2}} \,\Bigg{]}.\] (A.31)
+
+It is then apparent that the final term in eq. (A.31) is zero for \(\nu\,=\,\rho_{1}\), and therefore,
+
+\[\begin{split} A_{11}&=\,\bigg{[}\frac{d}{dv}(\nu- \rho_{1})^{2}G(\nu)\bigg{]}\bigg{|}_{\nu=\rho_{1}}\\ &=\,\frac{2b_{2}\rho_{1}+b_{1}}{\rho_{1}-\rho_{2}}\,-\,\frac{b_{2 }\rho_{1}^{2}+b_{1}\rho_{1}+b_{0}}{(\rho_{1}-\rho_{2})^{2}}.\end{split}\] (A.32)Finally, by multiplying eq. (A.27) by \(\mathbf{v}-\rho_{2}\), we find that
+
+\[A_{21}\,=\,[(\mathbf{v}-\rho_{2})G(\mathbf{v})]|_{\mathbf{v}\,=\,\rho_{2}}\,=\,\frac{b_{2} \rho_{2}^{2}+\,b_{1}\rho_{2}+\,b_{0}}{(\rho_{2}-\rho_{1})^{2}}.\] (A.33)
+
+This example illustrates all of the basic ideas behind partial-fraction expansion in the general case. Specifically, suppose that the denominator of \(G(\mathbf{v})\) in eq. (A.12) has distinct roots \(\rho_{1}\),..., \(\rho_{\tau}\) with _multiplicities_\(\sigma_{1},\ldots,\sigma_{\tau}\); that is,
+
+\[G(\mathbf{v})\,=\,\frac{b_{n-1}\mathbf{v}^{n-1}+\ldots+\,b_{1}\mathbf{v}+\,b_{0}}{(\mathbf{v}- \rho_{1})^{\sigma_{1}}(\mathbf{v}-\rho_{2})^{\sigma_{2}}\ldots(\mathbf{v}-\rho_{r})^{ \sigma_{r}}}.\] (A.34)
+
+In this case, \(G(\mathbf{v})\) has a partial-fraction expansion of the form
+
+\[\begin{split} G(\mathbf{v})\,=&\,\frac{A_{11}}{\mathbf{v}- \rho_{1}}\,+\,\frac{A_{12}}{(\mathbf{v}-\rho_{1})^{2}}\,+\ldots\,+\,\frac{A_{1 \sigma_{1}}}{(\mathbf{v}-\rho_{1})^{\sigma_{1}}}\\ &\,+\,\frac{A_{21}}{\mathbf{v}-\rho_{2}}\,+\ldots\,+\,\frac{A_{2 \sigma_{2}}}{(\mathbf{v}-\rho_{2})^{\sigma_{2}}}\\ &\,+\,\ldots\,+\,\frac{A_{r1}}{\mathbf{v}-\rho_{r}}\,+\ldots\,+\, \ldots\,+\,\frac{A_{r\sigma_{r}}}{(\mathbf{v}-\rho_{r})^{\sigma_{r}}}\\ &\,=\,\sum_{i=1}^{r}\sum_{k=1}^{\sigma_{i}}\frac{A_{ik}}{(\mathbf{v}- \rho_{i})^{k}},\end{split}\] (A.35)
+
+where the \(A_{ik}\) are computed from the equation1
+
+Footnote 1: Here, we use the factorial notation \(r!\) for the product \(r(r-1)(r-2)\ldots 2\cdot 1\). The quantity \(0!\) is defined to be equal to \(1\).
+
+\[\boxed{\begin{array}{l}A_{ik}\,=\,\frac{1}{(\sigma_{i}-k)!}\,\left[\,\frac{d ^{\sigma_{i}-k}}{d\mathbf{v}^{\sigma_{i}-k}}[(\mathbf{v}-\rho_{i})^{\sigma_{i}}G(\mathbf{ v})]\,\right]\,\Bigr{|}_{\mathbf{v}\,=\,\mathbf{\rho}_{i}}.\end{array}}\] (A.36)
+
+This result can be checked much as in the example: Multiply both sides of eq. (A.35) by \((\mathbf{v}-\rho_{i})^{\sigma_{i}}\) and differentiate repeatedly, until \(A_{ik}\) is no longer multiplied by a power of \(\mathbf{v}-\rho_{i}\). Then set \(\mathbf{v}\,=\,\rho_{i}\).
+
+## Appendix A.1 Example A.1
+
+In Example 4.25, we examine an LTI system described by the differential equation
+
+\[\frac{d^{2}y(t)}{dt^{2}}\,+\,4\frac{dy(t)}{dt}\,+\,3\,y(t)\,=\,\frac{dx(t)}{ dt}\,+\,2\,x(t).\] (A.37)
+
+The frequency response of this system is
+
+\[H(j\mathbf{\omega})\,=\,\frac{j\mathbf{\omega}\,+\,2}{(j\mathbf{\omega})^{2}+4\,j\mathbf{ \omega}\,+\,3}.\] (A.38)
+
+To determine the impulse response for this system, we expand \(H(j\mathbf{\omega})\) into a sum of simpler terms whose inverse transforms can be obtained by inspection. Making the substitution of \(\mathbf{v}\) for \(j\mathbf{\omega}\), we obtain the function Appendix
+
+\[G(v)\,=\,\frac{v+2}{v^{2}+4v+3}\,=\,\frac{v+2}{(v+1)(v+3)}.\] (A.39)
+
+The partial-fraction expansion for \(G(v)\) is then
+
+\[G(v)\,=\,\frac{A_{11}}{v+1}\,+\,\frac{A_{21}}{v+3},\] (A.40)
+
+where
+
+\[A_{11}\,=\,[(v+1)G(v)]\mid_{v\,=\,-\,1}\,=\,\frac{-1+2}{-1+3}\,=\,\frac{1}{2},\] (A.41)
+
+\[A_{21}\,=\,[(v+3)G(v)]\mid_{v\,=\,-\,3}\,=\,\frac{-3+2}{-3+1}\,=\,\frac{1}{2}.\] (A.42)
+
+Thus,
+
+\[H(j\omega)\,=\,\frac{\frac{1}{2}}{j\omega+1}\,+\,\frac{\frac{1}{2}}{j\omega+3},\] (A.43)
+
+and the impulse response of the system, obtained by inverting eq. (A.43), is
+
+\[h(t)\,=\,\frac{1}{2}\,e^{-t}u(t)+\frac{1}{2}e^{-3t}u(t).\] (A.44)
+
+The system described by eq. (A.37) can also be analyzed using the techniques of Laplace transform analysis, as developed in Chapter 9. The system function for this system is
+
+\[H(s)\,=\,\frac{s+2}{s^{2}+4s+3},\] (A.45)
+
+and if we substitute \(v\) for \(s\), we obtain the same \(G(v)\) given in eq. (A.39). Thus, the partial-fraction expansion proceeds exactly as in eqs. (A.40)-(A.42), with the result that
+
+\[H(s)\,=\,\frac{\frac{1}{2}}{s+1}\,+\,\frac{\frac{1}{2}}{s+3}.\] (A.46)
+
+Inverting this transform, we again obtain the impulse response, as given in eq. (A.44).
+
+## Appendix A.2
+
+We now illustrate the method of partial-fraction expansion when there are repeated factors in the denominator. In Example 4.26, we considered the response of the system described in eq. (A.37) when the input was
+
+\[x(t)\,=\,e^{-t}u(t).\] (A.47)
+
+From eq. 4.81, the Fourier transform of the output of the system is
+
+\[Y(j\omega)\,=\,\frac{j\omega\,+\,2}{(j\omega\,+\,1)^{2}(j\omega\,+\,3)}.\] (A.48)
+
+Substituting \(v\) for \(j\omega\), we obtain the rational function
+
+\[G(v)\,=\,\frac{v+2}{(v+1)^{2}(v+3)}.\] (A.49)The partial-fraction expansion for this function is
+
+\[G(\nu)\,=\,\frac{A_{11}}{\nu+1}\,+\,\frac{A_{12}}{(\nu+1)^{2}}\,+\,\frac{A_{21}}{ \nu+3},\] (A.50)
+
+where, from eq. (A.36),
+
+\[A_{11}\,=\,\frac{1}{(2-1)!}\frac{d}{d\nu}[(\nu+1)^{2}G(\nu)]\mid_{ \nu\,=\,-1}\,=\,\frac{1}{4},\] (A.51) \[A_{12}\,=\,[(\nu+1)^{2}G(\nu)]\mid_{\nu\,=\,-1}\,=\,\frac{1}{2},\] (A.52) \[A_{12}\,=\,[(\nu+3)G(\nu)]\mid_{\nu\,=\,-3}\,=\,-\frac{1}{4}.\] (A.53)
+
+Therefore,
+
+\[Y(j\omega)\,=\,\frac{\frac{1}{4}}{j\omega\,+\,1}\,+\,\frac{\frac{1}{2}}{(j \omega+1)^{2}}\,-\,\frac{\frac{1}{4}}{j\omega+3},\] (A.54)
+
+and taking inverse transforms, we get
+
+\[y(t)\,=\,\biggl{[}\frac{1}{4}e^{-t}\,+\,\frac{1}{2}te^{-t}\,-\,\frac{1}{4}e^{- 3t}\biggr{]}u(t).\] (A.55)
+
+Again, this analysis could also have been performed using Laplace transforms, and the algebra would be identical to that given in eqs. (A.49)-(A.55).
+
+### Partial-fraction expansion and discrete-time signals and systems
+
+As mentioned previously, in performing partial-fraction expansions for discrete-time Fourier transforms or for \(z\)-transforms, it is often more convenient to deal with a slightly different form for rational functions. Suppose, then, that we have a rational function in the form
+
+\[G(\nu)\,=\,\frac{d_{n-1}\nu^{n-1}\,+\,\ldots\,+\,d_{1}\nu\,+\,d_{0}}{f_{n}\nu ^{n}\,+\,\ldots\,+\,f_{1}\nu\,+\,1}.\] (A.56)
+
+This form for \(G(\nu)\) can be obtained from \(G(\nu)\) in eq. (A.12) by dividing the numerator and denominator by \(a_{0}\).
+
+With \(G(\nu)\) as in eq. (A.56), the corresponding factorization of the denominator is of the form
+
+\[G(\nu)\,=\,\frac{d_{n-1}\nu^{n-1}\,+\,\ldots\,+\,d_{1}\nu\,+\,d_{0}}{(1-\, \rho_{1}^{-1}\nu)^{\sigma_{1}}(1-\rho_{2}^{-1}\nu)^{\sigma_{2}}\ldots(1-\rho_ {r}^{-1}\nu)^{\sigma_{r}}},\] (A.57)
+
+and the form of the partial-fraction expansion that results is
+
+\[G(\nu)\,=\,\sum_{i\,=\,1}^{r}\sum_{k\,=\,1}^{\sigma_{i}}\frac{B_{ik}}{(1-\rho _{i}^{-1}\nu)^{k}}.\] (A.58)
+
+equations. Applying those techniques to this example, we find that the system function can be determined by inspection from eq. (A.60) and is
+
+\[H(z)\,=\,\frac{2}{1-\frac{3}{4}z^{-1}+\frac{1}{8}z^{-2}}.\] (A.68)
+
+Then, substituting \(\nu\) for \(z^{-1}\), we obtain \(G(\nu)\) as in eq. (A.62). Thus, using the partial-fraction expansion calculations in eqs. (A.63)-(A.65), we find that
+
+\[H(z)\,=\,\frac{4}{1-\frac{1}{2}z^{-1}}\,-\,\frac{2}{1-\frac{1}{4}z^{-1}},\] (A.69)
+
+which, when inverted, again yields the unit impulse response of eq. (A.67).
+
+### Example A.4
+
+Suppose that the input to the system considered in Example A.3 is
+
+\[x[n]\,=\,\left(\frac{1}{4}\right)^{n}u[n].\] (A.70)
+
+Then from Example 5.20, the Fourier transform of the output is
+
+\[Y(e^{j\omega})\,=\,\frac{2}{(1-\frac{1}{2}e^{-j\omega})(1-\frac{1}{4}e^{-j \omega})^{2}}.\] (A.71)
+
+Substituting \(\nu\) for \(e^{-j\omega}\) yields
+
+\[G(\nu)\,=\,\frac{2}{(1-\frac{1}{2}\nu)(1-\frac{1}{4}\nu)^{2}}.\] (A.72)
+
+Thus, using eqs. (A.58) and (A.59), we obtain the partial-fraction expansion
+
+\[G(\nu)\,=\,\frac{B_{11}}{1-\frac{1}{4}\nu}+\frac{B_{12}}{(1-\frac{1}{4}\nu)^{ 2}}+\,\frac{B_{21}}{1-\frac{1}{2}\nu}\] (A.73)
+
+and find
+
+\[B_{11}\,=\,(-4)\left[\frac{d}{d\nu}\left(1-\frac{1}{4}\nu\right)^{2}G(\nu) \right]\right|_{\nu=4}\,=\,-4,\] (A.74)
+
+\[B_{12}\,=\,\left[\left(1-\frac{1}{4}\nu\right)^{2}G(\nu)\right]\right|_{\nu= 4}\,=\,-2,\] (A.75)
+
+\[B_{21}\,=\,\left[\left(1-\frac{1}{2}\nu\right)G(\nu)\right]\right|_{\nu=2}\, =\,8.\] (A.76)
+
+Therefore,
+
+\[Y(j\omega)\,=\,-\,\frac{4}{1-\frac{1}{4}e^{-j\omega}}\,-\,\frac{2}{(1-\frac{ 1}{4}e^{-j\omega})^{2}}\,+\,\frac{8}{1-\frac{1}{2}e^{-j\omega}},\] (A.77)which can be inverted by inspection as follows, using the Fourier transform pairs in Table 4.2:
+
+\[y[n]\,=\,\Bigg{\{}\,-4\bigg{(}\frac{1}{4}\bigg{)}^{n}-2(n+1)\bigg{(}\frac{1}{4} \bigg{)}^{n}+8\bigg{(}\frac{1}{2}\bigg{)}^{n}\,\Bigg{\}}\,u[n].\] (A.78)
+
+## Example A.5
+
+Improper rational functions are often encountered in the analysis of discrete-time systems. To illustrate this, and also to show how they can be analyzed using the techniques developed here, consider the causal LTI system characterized by the difference equation
+
+\[y[n]+\frac{5}{6}y[n-1]+\frac{1}{6}y[n-2]\,=\,x[n]+3x[n-1]+\frac{11}{6}\,x[n-2]+ \frac{1}{3}\,x[n-3].\]
+
+The frequency response of this system is
+
+\[H(e^{j\omega})\,=\,\frac{1+3e^{-j\omega}\,+\,\frac{11}{6}\,e^{-j2\omega}\,+\, \frac{1}{3}\,e^{-j3\omega}}{1+\,\frac{5}{6}e^{-j\omega}+\,\frac{1}{6}e^{-j2 \omega}}.\] (A.79)
+
+Substituting \(v\) for \(e^{-j\omega}\), we obtain
+
+\[G(v)\,=\,\frac{1+3v+\frac{11}{6}v^{2}+\frac{1}{3}v^{3}}{1+\frac{5}{6}v+\frac{ 1}{6}v^{2}}.\] (A.80)
+
+This rational function can be written as the sum of a polynomial and a proper rational function:
+
+\[G(v)\,=\,c_{0}+c_{1}v+\frac{b_{1}v+b_{0}}{1+\frac{5}{6}v+\frac{1}{6}v^{2}}.\] (A.81)
+
+Equating eqs. (A.80) and (A.81), and multiplying by \(1+\frac{5}{6}v+\frac{1}{6}v^{2}\), we obtain
+
+\[\begin{split} 1\,+\,3v\,+\,\frac{11}{6}v^{2}\,+\,\frac{1}{3}v^{3}\,=& \,(c_{0}+b_{0})+\bigg{(}\frac{5}{6}c_{0}+c_{1}+b_{1}\bigg{)}v\\ &+\bigg{(}\frac{1}{6}c_{0}+\frac{5}{6}c_{1}\bigg{)}v^{2}\,+\, \frac{1}{6}c_{1}v^{3}.\end{split}\] (A.82)
+
+Equating coefficients, we see that
+
+\[\begin{split}\frac{1}{6}c_{1}\,=\,\frac{1}{3}\,\to\,c_{1}\,=\,2, \\ \frac{1}{6}c_{0}+\frac{5}{6}c_{1}\,=\,\frac{11}{6}\,\to\,c_{0}\,=\,1,\\ \frac{5}{6}c_{0}+c_{1}+b_{1}\,=\,3\,\to\,b_{1}\,=\,\frac{1}{6}, \\ c_{0}+b_{0}\,=\,1\,\to b_{0}\,=\,0.\end{split}\] (A.83)
+
+Thus,
+
+\[H(e^{j\omega})\,=\,1\,+\,2e^{-j\omega}\,+\,\frac{\frac{1}{6}e^{-j\omega}}{1+ \frac{5}{6}e^{-j\omega}+\,\frac{1}{6}e^{-j2\omega}}.\] (A.84)Also, we can use the method developed here to expand the proper rational function in eq. (A.81):
+
+\[\frac{\frac{1}{6}\mathbf{v}}{1+\frac{5}{6}\mathbf{v}+\frac{1}{6}\mathbf{v}^{2}}\,=\,\frac{ \frac{1}{6}\mathbf{v}}{(1+\frac{1}{3}\mathbf{v})(1+\frac{1}{2}\mathbf{v})}\,=\,\frac{B_{11}} {(1+\frac{1}{3}\mathbf{v})}\,+\,\frac{B_{21}}{(1+\frac{1}{2}\mathbf{v})}.\] (A.85)
+
+The coefficients are
+
+\[B_{11}\,=\,\left(\frac{\frac{1}{6}\mathbf{v}}{1+\frac{1}{2}\mathbf{v}}\right)\Bigg{|}_ {v=\,-\,3}\,=\,1,\]
+
+\[B_{21}\,=\,\left(\frac{\frac{1}{6}\mathbf{v}}{1+\frac{1}{3}\mathbf{v}}\right)\Bigg{|}_ {v=\,-\,2}\,=\,-1.\]
+
+Therefore, we find that
+
+\[H(e^{j\omega})\,=\,1\,+\,2e^{-/\!\!\!\!/\omega}\,+\,\frac{1}{1+\frac{1}{3}\mathbf{ e}^{-j\omega}}\,-\,\frac{1}{1+\frac{1}{2}\mathbf{e}^{-j\omega}},\] (A.86)
+
+and by inspection, we can determine the impulse response of this system:
+
+\[h[n]\,=\,\delta[n]\,+\,2\delta[n\,-\,1]\,+\,\left[\left(-\,\frac{1}{3}\right) ^{\!\!n}-\left(-\,\frac{1}{2}\right)^{\!\!n}\,\right]\!u[n].\] (A.87)

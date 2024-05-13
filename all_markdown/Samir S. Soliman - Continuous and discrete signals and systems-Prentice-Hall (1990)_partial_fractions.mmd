@@ -1,0 +1,125 @@
+## Partial Fractions
+
+Expansion in partial fractions is a technique used to reduce proper 1 rational functions of the form \(N\left(s\right)/D\left(s\right)\) into sums of simple terms. Each term by itself is a proper rational function with denominator of degree 2 or less. More specifically, if \(N\left(s\right)\) and \(D\left(s\right)\) are polynomials and the degree of \(N\left(s\right)\) is less than the degree of \(D\left(s\right)\), then it follows from the theorem of algebra that
+
+Footnote 1: A proper rational function is a ratio of two polynomials, with the degree of the numerator less than the degree of the denominator.
+
+\[\frac{N\left(s\right)}{D\left(s\right)}=T_{1}+T_{2}+\ \cdots\ +T_{k}\] (D.1)
+
+where each \(T_{i}\) has one of the forms
+
+\[\frac{A}{\left(s+b\right)^{\mu}}\quad\text{or}\quad\frac{Bs+C}{\left(s^{2}+ps+ q\right)^{\nu}}\]
+
+Polynomial \(s^{2}+ps+q\) is irreducible and \(\mu\), \(\nu\) are some nonnegative integers. The sum in the right-hand side of Equation (D.1) is called the partial-fraction decomposition of \(N\left(s\right)/D\left(s\right)\), and each \(T_{i}\) is called a partial fraction. By using long division, improper rational functions can be written as a sum of a polynomial of degree \(M-N\) and a proper rational function, where \(M\) is the degree of polynomial \(N\left(s\right)\), and \(N\) is the degree of polynomial \(D\left(s\right)\). For example, given
+
+\[\frac{s^{4}+3s^{3}-5s^{2}-1}{s^{3}+2s^{2}-s+1}\]
+
+we obtain by long division
+
+\[\frac{s^{4}+3s^{3}-5s^{2}-1}{s^{3}+2s^{2}-s+1}=s+1-\frac{6s^{2}-2s-2}{s^{3}+2 s^{2}-s+1}\]The partial-fraction decomposition is then found for \((6s^{2}-2s-2)/(s^{3}+2s^{2}-s+1)\).
+
+Partial fractions are very useful in integration and also in finding the inverse of many transforms such as Laplace, Fourier, and \(Z\) transforms. All these operators share one property in common, that is, linearity.
+
+The first step in the partial-fraction technique is to express \(D\left(s\right)\) as a product of factors \(s+b\) or irreducible quadratic factors \(s^{2}+ps+q\). Repeated factors are then collected, so that \(D\left(s\right)\) is a product of different factors of the form \((s+b)^{\mu}\) or \((s^{2}+ps+q)^{\nu}\), where \(\mu\) and \(\nu\) are nonnegative integers. The form of the partial fractions depends on the type of factors we have for \(D\left(s\right)\). There are four different cases:
+
+### CASE I: Nonrepeated Linear Factors
+
+To every nonrepeated factor \(s+b\) of \(D\left(s\right)\), there corresponds a partial fraction \(A/(s+b)\). In general, the rational function can be written as
+
+\[\frac{N\left(s\right)}{D\left(s\right)}=\frac{A}{s+b}+R\left(s\right)\]
+
+where \(A\) is given by
+
+\[A=\ \left(\frac{\left(s+b\right)N\left(s\right)}{D\left(s\right)}\right)_{s=-b}\] (D.2)
+
+Consider the rational function
+
+\[\frac{37-11s}{s^{3}-4s^{2}+s+6}\]
+
+The denominator has the factored form \((s+1)(s-2)(s-3)\). All these factors are linear nonrepeated factors. Thus, for the factor \(s+1\) there corresponds a partial fraction of the form \(A/(s+1)\). Similarly, for the factors \(s-1\) and \(s-3\), there correspond partial fractions \(B/(s-2)\) and \(C/(s-3)\), respectively. The decomposition of Equation (D.1) then has the form
+
+\[\frac{37-11s}{s^{3}-4s^{2}+s+6}=\frac{A}{s+1}+\frac{B}{s-2}+\frac{C}{s-3}\]
+
+The values of \(A\), \(B\), and \(C\) are obtained using Equation (D.2)
+
+\[A = \left(\frac{37-11s}{(s-2)(s-3)}\right)_{s=-1}\overset{.}{=}4\] \[B = \left(\frac{37-11s}{(s+1)(s-3)}\right)_{s=2}=-5\] \[C = \left(\frac{37-11s}{(s+1)(s-2)}\right)_{s=3}=1\]
+
+The partial-fraction decomposition is, therefore,
+
+\[\frac{37-11s}{s^{3}-4s^{2}+s+6}=\frac{4}{s+1}-\frac{5}{s-2}+\frac{1}{s-3}\]
+
+**Example D.2**: Let us find the partial-fraction decomposition of
+
+\[\frac{2s+1}{s^{3}+3s^{2}-4s}\]
+
+We factor the polynomial as
+
+\[D\left(s\right)=s^{3}+3s^{2}-4s=s\left(s+4\right)(s-1)\]
+
+and then use the partial-fraction form
+
+\[\frac{2s+1}{s^{3}+3s^{2}-4s}=\frac{A}{s}+\frac{B}{s+4}+\frac{C}{s-1}\]
+
+By using Equation (D.2), coefficients \(A,\ B\) and \(C\) are
+
+\[A=\left(\frac{2s+1}{\left(s+4\right)(s-1)}\right)_{s=0}=-\frac{1}{4}\] \[B=\left(\frac{2s+1}{s\left(s-1\right)}\right)_{s=-4}=\frac{7}{20}\] \[C=\left(\frac{2s+1}{s\left(s+4\right)}\right)_{s=1}=\frac{3}{5}\]
+
+The partial-fraction decomposition is, therefore,
+
+\[\frac{2s+1}{s^{3}+3s^{2}-4s}=-\frac{1}{4s}+\frac{7}{20(s+4)}+\frac{3}{5(s-1)}\]
+
+### Case II: Repeated Linear Factors
+
+To each repeated factor \(\left(s+b\right)^{\mu}\) there corresponds the partial fraction
+
+\[\frac{A_{1}}{s+b}+\frac{A_{2}}{\left(s+b\right)^{2}}+\ldots+\frac{A_{\mu}}{ \left(s+b\right)^{\mu}}\]
+
+Coefficients \(A_{k}\) can be determined by the formula
+
+\[A_{\mu}=\left(\frac{\left(s+b\right)^{\mu}N\left(s\right)}{D\left(s \right)}\right)_{s=-b}\] (D.3) \[A_{k}=\left(\frac{1}{\left(\mu-k\right)!}\ \frac{d^{\mu-k}}{ds^{\mu-k}}\ \ \frac{ \left(s+b\right)^{\mu}N\left(s\right)}{D\left(s\right)}\right)_{s=-b,}\ k= 1,2,\ \ldots\,\mu-1\] (D.4)
+
+**Example D.3**: Consider the rational function
+
+\[\frac{2s^{2}-25s-33}{s^{3}-3s^{2}-9s-5}\]
+
+The denominator has the factored form \(D\left(s\right)=(s+1)^{2}(s-5)\). For the factor \(s-5\) there corresponds a partial fraction of the \(\left(\text{\rm{\small{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{ \rm{\rm{\rm{ \rm{ \rm{ \rm{ \rmrm{                   }}}}}}}}}}} \left(s+1)\right)\left(\right)\left(s+1\right)^{2}}\). The factor \(\left(s+1\right)^{2}\) is the \(\left(\text{\rm{\small{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{ \rm{ \rm{ \rm{ \rm{      \rm{           }}}}}}}}}}} \left(s+1)\right)\left(s+1\right)^{2}}\). The factor \(\left(s+1\right)^{2}\) is the \(\left(\text{\rm{\small{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{ \rm{ \rm{ \rm{  \rm{          }}}}}}}}}}}}} \left(s+1)\right)^{2}}\). The factor \(\left(s+1\right)^{2}\) is the \(\left(\text{\rm{\small{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\rm{\
+
+In many cases, it is much easier to use the following technique especially after finding all but one coefficient. Multiplying both sides of Equation (D.6) by \((s+1)(s-2)^{3}\) gives
+
+\[3s^{3}-18s^{2}+9s-4=B(s-2)^{3}+A_{1}(s+1)(s-2)^{2}+A^{2}(s+1)(s-2)+A_{3}(s+1)\]
+
+If we compare the coefficient of \(s^{3}\) in both sides, we obtain
+
+\[3=B+A_{1}\]
+
+Since \(B=2\), it follows that \(A_{1}=1\). The resulting partial-fraction decomposition is then
+
+\[.\qquad\frac{3s^{3}-18s^{2}+9s-4}{s^{4}-5s^{3}+6s^{2}+20s+8}=\frac{2}{s+1}+ \frac{1}{s-2}-\frac{3}{(s-2)^{2}}+\frac{2}{(s-2)^{3}}\]
+
+### Case III: Nonrepeated Irreducible Second-
+
+Degree Factors
+
+In the case of a nonrepeated irreducible second-degree polynomial, we set up fractions of the form
+
+\[\frac{As+B}{(s^{2}+ps+q)}\] (D.7)
+
+The best way to find the coefficients is to equate the coefficients of different powers of \(s\), as is demonstrated in the following example.
+
+**Example D.5**: Consider the rational function
+
+\[\frac{s^{2}-s-21}{2s^{3}-s^{2}+8s-4}\]
+
+We factor the polynomial as \(D\left(s\right)=(s^{2}+4)(2s-1)\) and use the partial-fraction form:
+
+\[\frac{s^{2}-s-21}{2s^{3}-s^{2}+8s-4}=\frac{As+B}{s^{2}+4}+\frac{C}{2s-1}\]
+
+Multiplying by the lowest common denominator gives
+
+\[s^{2}-s-21=(As+B)(2s-1)+C\ (s^{2}+4)\] (D.8)
+
+The values of \(A\), \(B\), and \(C\) can be found by comparing the coefficients of different powers of \(s\) or by substituting values for \(s\) that make various factors zero. For example, substituting \(s=1/2\), we obtain \((\frac{1}{4})-(\frac{1}{2})-21=(17/4)C\), which has the solution \(C=-\,5\). The remaining coefficients can be found by comparing different powers of \(s\). Rearranging the right-hand side of Equation (D.8) gives
+
+\[s^{2}-s-21=(2A+C)\,s^{2}+(\neg A+B)\,s-B+4\,C\]
+
+Comparing the coefficient of \(s^{2}\), we see that \(2A+C=1\). Knowing \(C\) results in \(A=3\). Similarly, comparing the constant terms yields \(-B+4C=-21\) or \(B=1\). Thus, the 

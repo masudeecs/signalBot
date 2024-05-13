@@ -1,0 +1,1062 @@
+## Chapter Sampling: The Bridge from Continuous to Discrete
+
+A continuous-time signal can be processed by applying its samples through a discrete-time system. For this purpose, it is important to maintain the signal sampling rate high enough to permit the reconstruction of the original signal from these samples without error (or with an error within a given tolerance). The necessary quantitative framework for this purpose is provided by the sampling theorem derived in Sec. 8.1.
+
+Sampling theory is the bridge between the continuous-time and discrete-time worlds. The information inherent in a sampled continuous-time signal is equivalent to that of a discrete-time signal. A sampled continuous-time signal is a sequence of impulses, while a discrete-time signal presents the same information as a sequence of numbers. These are basically two different ways of presenting the same data. Clearly, all the concepts in the analysis of sampled signals apply to discrete-time signals. We should not be surprised to see that the Fourier spectra of the two kinds of signal are also the same (within a multiplicative constant).
+
+### 8.1 The Sampling Theorem
+
+We now show that a real signal whose spectrum is bandlimited to \(B\) Hz [\(X(\omega)=0\) for \(|\omega|>2\pi B\)] can be reconstructed exactly (without any error) from its samples taken uniformly at a rate \(f_{s}>2B\) samples per second. In other words, the minimum sampling frequency is \(f_{s}=2B\) Hz.1
+
+Footnote 1: The theorem stated here (and proved subsequently) applies to lowpass signals. A bandpass signal whose spectrum exists over a frequency band \(f_{c}-(B/2)<|f|<\)\(f_{c}+(B/2)\) has a bandwidth of \(B\) Hz. Such a signal is uniquely determined by \(2B\) samples per second. In general, the sampling scheme is a bit more complex in this case. It uses two interlaced sampling trains, each at a rate of \(B\) samples per second. See, for example, [1].
+
+To prove the sampling theorem, consider a signal \(x(t)\) (Fig. 8.1a) whose spectrum is bandlimited to \(B\) Hz (Fig. 8.1b).2 For convenience, spectra are shown as functions of \(\omega\) as well as of \(f\) (hertz). Sampling \(x(t)\) at a rate of \(f_{s}\) Hz (\(f_{s}\) samples per second) can be accomplished by multiplying \(x(t)\) by an impulse train \(\delta_{T}(t)\) (Fig. 8.1c), consisting of unit impulses repeating periodically every \(T\) seconds, where \(T=1/f_{s}\). The schematic of a sampler is shown in Fig. 8.1d. The resulting sampled signal \(\overline{x}(t)\) is shown in Fig. 8.1e. The sampled signal consists of impulses
+
+### 8.1 The Sampling Theorem
+
+The sampling interval \(\delta_{T}(t)\) is a periodic signal of period \(T\), it can be expressed as a trigonometric Fourier series like that already obtained in Ex. 6.9 [Eq. (6.25)],
+
+\[\delta_{T}(t)=\frac{1}{T}[1+2\cos\omega_{s}t+2\cos 2\omega_{s}t+2\cos 3\omega_{ s}t+\cdot\cdot\cdot]\qquad\omega_{s}=\frac{2\pi}{T}=2\pi f_{s}\]
+
+Therefore,
+
+\[\overline{x}(t)=x(t)\delta_{T}(t)=\frac{1}{T}[x(t)+2x(t)\cos\omega_{s}t+2x(t) \cos 2\omega_{s}t+2x(t)\cos 3\omega_{s}t+\cdot\cdot\cdot] \tag{8.1}\]
+
+To find \(\overline{X}(\omega)\), the Fourier transform of \(\overline{x}(t)\), we take the Fourier transform of the right-hand side of Eq. (8.1), term by term. The transform of the first term in the brackets is \(X(\omega)\). The transform
+
+Figure 8.1: Sampled signal and its Fourier spectrum.
+
+of the second term \(2x(t)\cos\omega_{s}t\) is \(X(\omega-\omega_{s})+X(\omega+\omega_{s})\) [see Eq. (7.32)]. This represents spectrum \(X(\omega)\) shifted to \(\omega_{s}\) and \(-\omega_{s}\). Similarly, the transform of the third term \(2x(t)\cos 2\omega_{s}t\) is \(X(\omega-2\omega_{s})+X(\omega+2\omega_{s})\), which represents the spectrum \(X(\omega)\) shifted to \(2\omega_{s}\) and \(-2\omega_{s}\), and so on to infinity. This result means that the spectrum \(\overline{X}(\omega)\) consists of \(X(\omega)\) repeating periodically with period \(\omega_{s}=2\pi/T\) rad/s, or \(f_{s}=1/T\) Hz, as depicted in Fig. 8.1f. There is also a constant multiplier \(1/T\) in Eq. (8.1). Therefore,
+
+\[\overline{X}(\omega)=\frac{1}{T}\sum_{n=-\infty}^{\infty}X(\omega-n\omega_{s}) \tag{8.2}\]
+
+If we are to reconstruct \(x(t)\) from \(\overline{x}(t)\), we should be able to recover \(X(\omega)\) from \(\overline{X}(\omega)\). This recovery is possible if there is no overlap between successive cycles of \(\overline{X}(\omega)\). Figure 8.1f indicates that this requires
+
+\[f_{s}>2B \tag{8.3}\]
+
+Also, the sampling interval \(T=1/f_{s}\). Therefore,
+
+\[T<\frac{1}{2B}\]
+
+Thus, as long as the sampling frequency \(f_{s}\) is greater than twice the signal bandwidth \(B\) (in hertz), \(\overline{X}(\omega)\) consists of nonoverlapping repetitions of \(X(\omega)\). Figure 8.1f shows that the gap between the two adjacent spectral repetitions is \(f_{s}-2B\) Hz, and \(x(t)\) can be recovered from its samples \(\overline{x}(t)\) by passing the sampled signal \(\overline{x}(t)\) through an ideal lowpass filter having a bandwidth of any value between \(B\) and \(f_{s}-B\) Hz. The minimum sampling rate \(f_{s}=2B\) required to recover \(x(t)\) from its samples \(\overline{x}(t)\) is called the _Nyquist rate_ for \(x(t)\), and the corresponding sampling interval \(T=1/2B\) is called the _Nyquist interval_ for \(x(t)\). Samples of a signal taken at its Nyquist rate are the _Nyquist samples_ of that signal.
+
+We are saying that the Nyquist rate \(2B\) Hz is the minimum sampling rate required to preserve the information of \(x(t)\). This contradicts Eq. (8.3), where we showed that to preserve the information of \(x(t)\), the sampling rate \(f_{s}\) needs to be greater than \(2B\) Hz. Strictly speaking, Eq. (8.3) is the correct statement. However, if the spectrum \(X(\omega)\) contains no impulse or its derivatives at the highest frequency \(B\) Hz, then the minimum sampling rate \(2B\) Hz is adequate. In practice, it is rare to observe \(X(\omega)\) with an impulse or its derivatives at the highest frequency. If the contrary situation were to occur, we should use Eq. (8.3).+The sampling theorem proved here uses samples taken at uniform intervals. This condition is not necessary. Samples can be taken arbitrarily at any instants as long as the sampling instants are recorded and there are, on average, \(2B\) samples per second [2]. The essence of the sampling theorem was known to mathematicians for a long time in the form of the _interpolation formula_ [see later, Eq. (8.6)]. The origin of the sampling theorem was attributed by H. S. Black to Cauchy in 1841. The essential idea of the sampling theorem was rediscovered in the 1920s by Carson, Nyquist, and Hartley.
+
+**EXAMPLE 8.1 Sampling at, Below, and Above the Nyquist Rate**
+
+In this example, we examine the effects of sampling a signal at the Nyquist rate, below the Nyquist rate (undersampling), and above the Nyquist rate (oversampling). Consider a signal \(x(t)=\operatorname{sinc}^{2}\left(5\pi\,t\right)\) (Fig. 8.2a) whose spectrum is \(X(\omega)=0.2\,\Delta(\omega/20\pi)\) (Fig. 8.2b). The bandwidth of this signal is 5 Hz (\(10\pi\) rad/s). Consequently, the Nyquist rate is 10 Hz; that is, we must sample the signal at a rate no less than 10 samples/s. The Nyquist interval is \(T=1/2B=0.1\) second.
+
+Recall that the sampled signal spectrum consists of \((1/T)X(\omega)=(0.2/T)\,\Delta(\omega/20\pi)\) repeating periodically with a period equal to the sampling frequency \(f_{s}\) Hz. For the three sampling rates \(f_{s}=5\) Hz (undersampling), 10 Hz (Nyquist rate), and 20 Hz (oversampling), we see that
+
+\begin{tabular}{l l l l} \hline \hline \(f_{s}\) (Hz) & \(T=\frac{1}{f_{s}}\) (s) & \(\frac{1}{T}X(\omega)\) & **Comments** \\ \hline
+5 & 0.2 & \(\Delta\left(\frac{\omega}{20\pi}\right)\) & Undersampling \\
+10 & 0.1 & \(2\Delta\left(\frac{\omega}{20\pi}\right)\) & Nyquist rate \\
+20 & 0.05 & \(4\Delta\left(\frac{\omega}{20\pi}\right)\) & Oversampling \\ \hline \hline \end{tabular}
+
+In the first case (undersampling), the sampling rate is 5 Hz (5 samples/s), and the spectrum \((1/T)X(\omega)\) repeats every 5 Hz (\(10\pi\) rad/s). The successive spectra overlap, as depicted in Fig. 8.2d, and the spectrum \(X(\omega)\) are not recoverable from \(\overline{X}(\omega)\); that is, \(x(t)\) cannot be reconstructed from its samples \(\overline{x}(t)\) in Fig. 8.2c. In the second case, we use the Nyquist sampling rate of 10 Hz (Fig. 8.2e). The spectrum \(\overline{X}(\omega)\) consists of back-to-back, nonoverlapping repetitions of \((1/T)X(\omega)\) repeating every 10 Hz. Hence, \(X(\omega)\) can be recovered
+Figure 8.2: Effects of undersampling and oversampling.
+
+from \(\overline{X}(\omega)\) using an ideal lowpass filter of bandwidth 5 Hz (Fig. 8.2f). Finally, in the last case of oversampling (sampling rate 20 Hz), the spectrum \(\overline{X}(\omega)\) consists of nonoverlapping repetitions of \((1/T)X(\omega)\) (repeating every 20 Hz) with empty bands between successive cycles (Fig. 8.2h). Hence, \(X(\omega)\) can be recovered from \(\overline{X}(\omega)\) by using an ideal lowpass filter or even a practical lowpass filter (shown dashed in Fig. 8.2h).+
+
+Footnote †: The filter should have a constant gain between 0 and 5 Hz and zero gain beyond 10 Hz. In practice, the gain beyond 10 Hz can be made negligibly small, but not zero.
+
+## 8.1 Nyquist Sampling
+
+Find the Nyquist rate and the Nyquist sampling interval for the signals \(\mathrm{sinc}\left(100\pi t\right)+\mathrm{sinc}\left(50\pi t\right)\).
+
+### Answers
+
+The Nyquist sampling interval is 0.01 s and the Nyquist sampling rate is 100 Hz for both signals.
+
+For Skeptics Only
+
+Rare is the reader who, at first encounter, is not skeptical of the sampling theorem. It seems impossible that Nyquist samples can define the one and the only signal that passes through those sample values. We can easily picture infinite number of signals passing through a given set of samples. However, among all these (infinite number of) signals, only one has the minimum bandwidth \(B\leq 1/2T\) Hz, where \(T\) is the sampling interval. See Prob. 8.2-15.
+
+To summarize, for a given set of samples taken at a rate \(f_{s}\) Hz, there is only one signal of bandwidth \(B\leq f_{s}/2\) that passes through those samples. All other signals that pass through those samples have bandwidth higher than \(f_{s}/2\), and the samples are sub-Nyquist rate samples for those signals.
+
+### Practical Sampling
+
+In proving the sampling theorem, we assumed ideal samples obtained by multiplying a signal \(x(t)\) by an impulse train that is physically unrealizable. In practice, we multiply a signal \(x(t)\) by a train of pulses of finite width, depicted in Fig. 8.3c. The sampler is shown in Fig. 8.3d. The sampled signal \(\overline{x}(t)\) is illustrated in Fig. 8.3e. We wonder whether it is possible to recover or reconstruct \(x(t)\) from this \(\overline{x}(t)\). Surprisingly, the answer is affirmative, provided the sampling rate is not below the Nyquist rate. The signal \(x(t)\) can be recovered by lowpass filtering \(\overline{x}(t)\) as if it were sampled by impulse train.
+
+The plausibility of this result becomes apparent when we consider the fact that reconstruction of \(x(t)\) requires the knowledge of the Nyquist sample values. This information is available or built into the sampled signal \(\overline{x}(t)\) in Fig. 8.3e because the \(n\)th sampled pulse strength is \(x(nT)\). To prove the result analytically, we observe that the sampling pulse train \(p_{T}(t)\) depicted in Fig. 8.3c, being a periodic signal, can be expressed as a trigonometric Fourier series
+
+\[p_{T}(t)=C_{0}+\sum_{n=1}^{\infty}C_{n}\cos\left(n\omega_{s}t+\theta_{n} \right)\qquad\omega_{s}=\frac{2\pi}{T}\]
+
+Thus,
+
+\[\overline{x}(t) =x(t)p_{T}(t)=x(t)\left[C_{0}+\sum_{n=1}^{\infty}C_{n}\cos\left(n \omega_{s}t+\theta_{n}\right)\right]\] \[=C_{0}x(t)+\sum_{n=1}^{\infty}C_{n}x(t)\cos\left(n\omega_{s}t+ \theta_{n}\right)\]
+
+Figure 8.3: Effect of practical sampling.
+
+The sampled signal \(\overline{x}(t)\) consists of \(C_{0}x(t)\), \(C_{1}x(t)\cos\left(\omega_{s}t+\theta_{1}\right)\), \(C_{2}x(t)\cos\left(2\omega_{s}t+\theta_{2}\right)\), \(\ldots\). Note that the first term \(C_{0}x(t)\) is the desired signal and all the other terms are modulated signals with spectra centered at \(\pm\omega_{s},\pm 2\omega_{s},\pm 3\omega_{s},\ldots\), as illustrated in Fig. 8.3f. Clearly the signal \(x(t)\) can be recovered by lowpass filtering of \(\overline{x}(t)\), as shown in Fig. 8.3d. As before, it is necessary that \(\omega_{s}>4\pi\,B\) (or \(f_{s}>2B\)).
+
+### Practical Sampling
+
+Demonstrate practical sampling by sampling signal \(x(t)=\mathrm{sinc}^{2}(5\pi\,t)\) with the rectangular pulse sequence \(p_{T}(t)\) illustrated in Fig. 8.4c. Sketch the original and sampled signals and their spectra, and discuss recovery of \(x(t)\) from its samples.
+
+Figure 8.4: An example of practical sampling.
+
+The signal \(x(t)\) and its spectrum are shown in Figs. 8.4a and 8.4b, respectively.
+
+The period of \(p_{T}(t)\) is 0.1 second so that the fundamental frequency (which is the sampling frequency) is 10 Hz. Hence, \(\omega_{s}=20\pi\). The Fourier series for \(p_{T}(t)\) can be expressed as
+
+\[p_{T}(t)=C_{0}+\sum_{n=1}^{\infty}C_{n}\cos n\omega_{s}t\]
+
+Hence,
+
+\[\begin{split}\overline{x}(t)&=x(t)p_{T}(t)\\ &=C_{1}x(t)+C_{1}x(t)\cos 20\pi\,t+C_{2}x(t)\cos 40\pi\,t+C_{3}x(t )\cos 60\pi\,t+\cdot\cdot\cdot\cdot\end{split}\]
+
+Use of Eq. (6.14) yields \(C_{0}=\frac{1}{4}\) and \(C_{n}=\frac{2}{n\pi}\sin\left(\frac{n\pi}{4}\right)\). Consequently, we have
+
+\[\begin{split}\overline{x}(t)&=x(t)p_{T}(t)\\ &=\frac{1}{4}x(t)+C_{1}x(t)\cos 20\pi\,t+C_{2}x(t)\cos 40\pi\,t+C_{ 3}x(t)\cos 60\pi\,t+\cdot\cdot\cdot\end{split}\]
+
+and
+
+\[\begin{split}\overline{X}(\omega)&=\frac{1}{4}X( \omega)+\frac{C_{1}}{2}[X(\omega-20\pi)+X(\omega+20\pi)]+\frac{C_{2}}{2}[X( \omega-40\pi)\\ &\quad+X(\omega+40\pi)]+\frac{C_{3}}{2}[X(\omega-60\pi)+X( \omega+60\pi\,)]+\cdot\cdot\cdot\end{split}\]
+
+where \(C_{n}=(2/n\pi)\sin(n\pi/4)\). The sampled signal and its spectrum are shown in Figs. 8.4d and 8.4e, respectively.
+
+The spectrum \(\overline{X}(\omega)\) consists of \(X(\omega)\) repeating periodically at the interval of \(20\pi\) rad/s (10 Hz). Hence, there is no overlap between cycles, and \(X(\omega)\) can be recovered by using an ideal lowpass filter of bandwidth 5 Hz. An ideal lowpass filter of unit gain (and bandwidth 5 Hz) will allow the first term on the right-hand side of the foregoing equation to pass fully and suppress all the other terms. Hence, the output \(y(t)\) is
+
+\[y(t)=\tfrac{1}{4}x(t)\]
+
+## 8 The Role of Sampling Pulse Area
+
+Show that the basic pulse \(p(t)\) used in the sampling pulse train in Fig. 8.4c cannot have zero area if we wish to reconstruct \(x(t)\) by lowpass-filtering the sampled signal.
+
+## 8.2 Signal Reconstruction
+
+The process of reconstructing a continuous-time signal \(x(t)\) from its samples is also known as _interpolation_. In Sec. 8.1, we saw that a signal \(x(t)\) bandlimited to \(B\) Hz can be reconstructed (interpolated) exactly from its samples if the sampling frequency \(f_{s}\) exceeds \(2B\) Hz or the sampling interval \(T\) is less than \(1/2B\). This reconstruction is accomplished by passing the sampled signal through an ideal lowpass filter of gain \(T\) and having a bandwidth of any value between \(B\) and \(f_{s}-B\) Hz. From a practical viewpoint, a good choice is the middle \(f_{s}/2=1/2T\) Hz or \(\pi/T\) rad/s. This value allows for small deviations in the ideal filter characteristics on either side of the cutoff frequency. With this choice of cutoff frequency and gain \(T\), the ideal lowpass filter required for signal reconstruction (or interpolation) is
+
+\[H(\omega)=T\,{\rm rect}\left(\frac{\omega}{2\pi f_{s}}\right)=T\,{\rm rect} \left(\frac{\omega T}{2\pi}\right) \tag{8.4}\]
+
+The interpolation process here is expressed in the frequency domain as a filtering operation. Now we shall examine this process from the time-domain viewpoint.
+
+### Time-Domain View: A Simple Interpolation
+
+Consider the interpolation system shown in Fig. 8.5a. We start with a very simple interpolating filter, whose impulse response is \({\rm rect}\left(t/T\right)\), depicted in Fig. 8.5b. This is a gate pulse centered at the origin, having unit height, and width \(T\) (the sampling interval). We shall find the output of this filter when the input is the sampled signal \(\overline{x}(t)\) consisting of an impulse train with the \(n\)th impulse at \(t=nT\) with strength \(x(nT)\). Each sample in \(\overline{x}(t)\), being an impulse, produces at the output a gate pulse of height equal to the strength of the sample. For instance, the \(n\)th sample is an impulse of strength \(x(nT)\) located at \(t=nT\) and can be expressed as \(x(nT)\delta(t-nT)\). When this impulse passes through the filter, it produces at the output a gate pulse of height \(x(nT)\), centered at \(t=nT\) (shaded in Fig. 8.5c). Each sample in \(\overline{x}(t)\) will generate a corresponding gate pulse, resulting in the filter output that is a staircase approximation of \(x(t)\), shown dotted in Fig. 8.5c. This filter thus gives a crude form of interpolation.
+
+The frequency response of this filter \(H(\omega)\) is the Fourier transform of the impulse response \({\rm rect}\left(t/T\right)\). Thus,
+
+\[h(t)={\rm rect}\left(\frac{t}{T}\right)\qquad{\rm and}\qquad H(\omega)=T{ \rm sinc}\left(\frac{\omega T}{2}\right) \tag{8.5}\]
+
+The amplitude response \(|H(\omega)|\) for this filter, illustrated in Fig. 8.5d, explains the reason for the crudeness of this interpolation. This filter, also known as the _zero-order hold_ (ZOH) filter, is a poor form of the ideal lowpass filter (shaded in Fig. 8.5d) required for exact interpolation.1
+
+Footnote 1: Figure 8.5b shows that the impulse response of this filter is noncausal, and this filter is not realizable. In practice, we make it realizable by delaying the impulse response by \(T/2\). This merely delays the output of the filter by \(T/2\).
+
+We can improve on the ZOH filter by using a _first-order hold_ filter, which results in a linear interpolation instead of a staircase interpolation. A linear interpolator, whose impulse response is a triangle pulse \(\Delta(t/2T)\), results in an interpolation in which successive sample tops are connected by straight-line segments (see Prob. 8.2-3).
+
+### Time-Domain View: An Ideal Interpolation
+
+The ideal interpolation filter frequency response obtained in Eq. (8.4) is illustrated in Fig. 8.6a. The impulse response of this filter, the inverse Fourier transform of \(H(\omega)\) is
+
+\[h(t)=\operatorname{sinc}\left(\frac{\pi t}{T}\right)\]
+
+For the Nyquist sampling rate, \(T=1/2B\), and
+
+\[h(t)=\ \operatorname{sinc}\left(2\pi Bt\right)\]
+
+This \(h(t)\) is depicted in Fig. 8.6b. Observe the interesting fact that \(h(t)=0\) at all Nyquist sampling instants (\(t=\pm n/2B\)) except at \(t=0\). When the sampled signal \(\bar{x}(t)\) is applied at the input of this filter, the output is \(x(t)\). Each sample in \(\bar{x}(t)\), being an impulse, generates a sinc pulse of height equal to the strength of the sample, as illustrated in Fig. 8.6c. The process is identical to that depicted in Fig. 8.5c, except that \(h(t)\) is a sinc pulse instead of a gate pulse. Addition of the sinc
+
+Figure 8.5: Simple interpolation by means of a zero-order hold (ZOH) circuit. **(a)** ZOH interpolator. **(b)** Impulse response of a ZOH circuit. **(c)** Signal reconstruction by ZOH, as viewed in the time domain. **(d)** Frequency response of a ZOH.
+
+pulses generated by all the samples results in \(x(t)\). The \(n\)th sample of the input \(\overline{x}(t)\) is the impulse \(x(nT)\delta(t-nT)\); the filter output of this impulse is \(x(nT)h(t-nT)\). Hence, the filter output to \(\overline{x}(t)\), which is \(x(t)\), can now be expressed as a sum
+
+\[x(t)=\sum_{n}x(nT)h(t-nT)=\sum_{n}x(nT)\operatorname{sinc}\biggl{[}\frac{ \pi}{T}(t-nT)\biggr{]}\]
+
+For the case of Nyquist sampling rate, \(T=1/2B\), this expression simplifies to
+
+\[x(t)=\sum_{n}x(nT)\operatorname{sinc}(2\pi Bt-n\pi) \tag{8.6}\]
+
+Equation (8.6) is the _interpolation formula_, which yields values of \(x(t)\) between samples as a weighted sum of all the sample values.
+
+**EXAMPLE 8.3**: **Bandlimited Interpolation of the Kronecker Delta Function**
+
+Find a signal \(x(t)\) that is bandlimited to \(B\) Hz, and whose samples are
+
+\[x(0)=1\qquad\text{and}\qquad x(\pm T)=x(\pm 2T)=x(\pm 3T)=\cdots=0\]
+
+Figure 8.6: Ideal interpolation for Nyquist sampling rate.
+
+where the sampling interval \(T\) is the Nyquist interval for \(x(t)\), that is, \(T=1/2B\).
+
+Because we are given the Nyquist sample values, we use the interpolation formula of Eq. (8.6) to construct \(x(t)\) from its samples. Since all but one of the Nyquist samples are zero, only one term (corresponding to \(n=0\)) in the summation on the right-hand side of Eq. (8.6) survives. Thus,
+
+\[x(t)=\mbox{sinc}\left(2\pi Bt\right)\]
+
+This signal is illustrated in Fig. 8.6b. Observe that this is the only signal that has a bandwidth \(B\) Hz and the sample values \(x(0)=1\) and \(x(nT)=0\left(n\neq 0\right)\). No other signal satisfies these conditions.
+
+### 8.2-1 Practical Difficulties in Signal Reconstruction
+
+Consider the signal reconstruction procedure illustrated in Fig. 8.7a. If \(x(t)\) is sampled at the Nyquist rate \(f_{s}=2B\) Hz, the spectrum \(\overline{X}(\omega)\) consists of repetitions of \(X(\omega)\) without any gap between successive cycles, as depicted in Fig. 8.7b. To recover \(x(t)\) from \(\overline{x}(t)\), we need to pass the sampled signal \(\overline{x}(t)\) through an ideal lowpass filter, shown dotted in Fig. 8.7b. As seen in Sec. 7.5, such a filter is unrealizable; it can be closely approximated only with infinite time delay in the response. In other words, we can recover the signal \(x(t)\) from its samples with infinite time delay. A practical solution to this problem is to sample the signal at a rate higher than the Nyquist rate (\(f_{s}\succ 2B\) or \(\omega_{s}\succ 4\pi B\)). The result is \(\overline{X}(\omega)\), consisting of repetitions of \(X(\omega)\) with a finite bandgap between successive cycles, as illustrated in Fig. 8.7c. Now, we can recover \(X(\omega)\) from \(\overline{X}(\omega)\) using a lowpass filter with a gradual cutoff characteristic, shown dotted in Fig. 8.7c. But even in this case, if the unwanted spectrum is to be suppressed, the filter gain must be zero beyond some frequency (see Fig. 8.7c). According to the Paley-Wiener criterion [Eq. (7.43)], it is impossible to realize even this filter. The only advantage in this case is that the required filter can be closely approximated with a smaller time delay. All this means that it is impossible in practice to recover a bandlimited signal \(x(t)\) exactly from its samples, even if the sampling rate is higher than the Nyquist rate. However, as the sampling rate increases, the recovered signal approaches the desired signal more closely.
+
+### The Treachery of Aliasing
+
+There is another fundamental practical difficulty in reconstructing a signal from its samples. The sampling theorem was proved on the assumption that the signal \(x(t)\) is bandlimited. _All practical signals are timelimited_; that is, they are of finite duration or width. We can demonstrate (see Prob. 8.2-20) that a signal cannot be timelimited and bandlimited simultaneously. If a signal is timelimited, it cannot be bandlimited, and vice versa (but it can be simultaneously nontimelimited and nonbandlimited). Clearly, all practical signals, which are necessarily timelimited, are nonbandlimited, as shown in Fig. 8.8a; they have infinite bandwidth, and the spectrum \(\overline{X}(\omega)\) consists of overlapping cycles of \(X(\omega)\) repeating every \(f_{s}\) Hz (the sampling frequency), as illustrated in Fig. 8.8b.+ Because of infinite bandwidth in this case, the spectral overlap is unavoidable, regardless of the sampling rate. Sampling at a higher rate reduces but does not eliminate overlapping between repeating spectral cycles. Because of the overlapping tails, \(\overline{X}(\omega)\) no longer has complete information about \(X(\omega)\), and it is no longer possible, even theoretically, to recover \(x(t)\) exactly from the sampled signal \(\overline{x}(t)\). If the sampled signal is passed through an ideal lowpass filter of cutoff frequency \(f_{s}/2\) Hz, the output is not \(X(\omega)\) but \(X_{a}(\omega)\) (Fig. 8.8c), which is a version of \(X(\omega)\) distorted as a result of two separate causes:
+
+Footnote †: Figure 8.8b shows that from the infinite number of repeating cycles, only the neighboring spectral cycles overlap. This is a somewhat simplified picture. In reality, all the cycles overlap and interact with every other cycle because of the infinite width of all practical signal spectra. Fortunately, all practical spectra also must decay at higher frequencies. This results in insignificant amount of interference from cycles other than the immediate neighbors. When such an assumption is not justified, aliasing computations become little more involved.
+
+1. The loss of the tail of \(X(\omega)\) beyond \(|f|>f_{s}/2\) Hz.
+2. The reappearance of this tail inverted or folded onto the spectrum. Note that the spectra cross at frequency \(f_{s}/2=1/2T\) Hz. This frequency is called the _folding_ frequency.
+
+Figure 8.7: **(a)** Signal reconstruction from its samples. **(b)** Spectrum of a signal sampled at the Nyquist rate. **(c)** Spectrum of a signal sampled above the Nyquist rate.
+
+Figure 8.8: Aliasing effect. **(a)** Spectrum of a practical signal \(x(t)\). **(b)** Spectrum of sampled \(x(t)\). **(c)** Reconstructed signal spectrum. **(d)** Sampling scheme using anti-aliasing filter. **(e)** Sampled signal spectrum (dotted) and the reconstructed signal spectrum (solid) when anti-aliasing filter is used.
+
+The spectrum may be viewed as if the lost tail is folding back onto itself at the folding frequency. For instance, a component of frequency \((f_{s}/2)+f_{z}\) shows up as or "impersonates" a component of lower frequency \((f_{s}/2)-f_{z}\) in the reconstructed signal. Thus, the components of frequencies above \(f_{s}/2\) reappear as components of frequencies below \(f_{s}/2\). This tail inversion, known as _spectral folding_ or _aliasing,_ is shown shaded in Fig. 8.8b and also in Fig. 8.8c. In the process of aliasing, not only are we losing all the components of frequencies above the folding frequency \(f_{s}/2\) Hz, but these very components reappear (aliased) as lower-frequency components, as shown in Figs. 8.8b and 8.8c. Such aliasing destroys the integrity of the frequency components below the folding frequency \(f_{s}/2\), as depicted in Fig. 8.8c.
+
+The aliasing problem is analogous to that of an army with a platoon that has secretly defected to the enemy side. The platoon is, however, ostensibly loyal to the army. The army is in double jeopardy. First, the army has lost this platoon as a fighting force. In addition, during actual fighting, the army will have to contend with sabotage by the defectors and will have to find another loyal platoon to neutralize the defectors. Thus, the army has lost two platoons in nonproductive activity.
+
+## Defectors Eliminated: The Anti-aliasing Filter
+
+If you were the commander of the betrayed army, the solution to the problem would be obvious. As soon as the commander got wind of the defection, he would incapacitate, by whatever means, the defecting platoon _before the fighting begins_. This way he loses only one (the defecting) platoon. This is a partial solution to the double jeopardy of betrayal and sabotage, a solution that partly rectifies the problem and cuts the losses to half.
+
+We follow exactly the same procedure. The potential defectors are all the frequency components beyond the folding frequency \(f_{s}/2=1/2T\) Hz. We should eliminate (suppress) these components from \(x(t)\)_before sampling_\(x(t)\). Such suppression of higher frequencies can be accomplished by an ideal lowpass filter of cutoff \(f_{s}/2\) Hz, as shown in Fig. 8.8d. This is called the _anti-aliasing filter_. Figure 8.8d also shows that anti-aliasing filtering is performed before sampling. Figure 8.8e shows the sampled signal spectrum (dotted) and the reconstructed signal \(X_{aa}(\omega)\) when an anti-aliasing scheme is used. An anti-aliasing filter essentially bandlimits the signal \(x(t)\) to \(f_{s}/2\) Hz. This way, we lose only the components beyond the folding frequency \(f_{s}/2\) Hz. These suppressed components now cannot reappear to corrupt the components of frequencies below the folding frequency. Clearly, use of an anti-aliasing filter results in the reconstructed signal spectrum \(X_{aa}(\omega)=X(\omega)\) for \(|f|<\)\(f_{s}/2\). Thus, although we lost the spectrum beyond \(f_{s}/2\) Hz, the spectrum for all the frequencies below \(f_{s}/2\) remains intact. The effective aliasing distortion is cut in half owing to elimination of folding. We stress again that the anti-aliasing operation must be performed _before the signal is sampled_.
+
+An anti-aliasing filter also helps to reduce noise. Noise, generally, has a wideband spectrum, and without anti-aliasing, the aliasing phenomenon itself will cause the noise lying outside the desired band to appear in the signal band. Anti-aliasing suppresses the entire noise spectrum beyond frequency \(f_{s}/2\).
+
+The anti-aliasing filter, being an ideal filter, is unrealizable. In practice, we use a steep cutoff filter, which leaves a sharply attenuated spectrum beyond the folding frequency \(f_{s}/2\).
+
+## Sampling Forces Nonbandlimited Signals
+
+to Appear Bandlimited
+
+Figure 8.8b shows that the spectrum of a signal \(x(t)\) consists of overlapping cycles of \(X(\omega)\). This means that \(\overline{x}(t)\) are sub-Nyquist samples of \(x(t)\). However, we may also view the spectrum in Fig. 8.8b as the spectrum \(X_{a}(\omega)\) (Fig. 8.8c), repeating periodically every \(f_{s}\) Hz without overlap. The spectrum \(X_{a}(\omega)\) is bandlimited to \(f_{s}/2\) Hz. Hence, these (sub-Nyquist) samples of \(x(t)\) are actually the Nyquist samples for signal \(x_{a}(t)\). In conclusion, sampling a nonbandlimited signal \(x(t)\) at a rate \(f_{s}\) Hz makes the samples appear to be the Nyquist samples of some signal \(x_{a}(t)\), bandlimited to \(f_{s}/2\) Hz. In other words, sampling makes a nonbandlimited signal appear to be a bandlimited signal \(x_{a}(t)\) with bandwidth \(f_{s}/2\) Hz. A similar conclusion applies if \(x(t)\) is bandlimited but sampled at a sub-Nyquist rate.
+
+### Verification of Aliasing in Sinusoids
+
+We showed in Fig. 8.8b how sampling a signal below the Nyquist rate causes aliasing, which makes a signal of higher frequency \((f_{s}/2)+f_{z}\) Hz masquerade as a signal of lower frequency \((f_{s}/2)-f_{z}\) Hz. Figure 8.8b demonstrates this result in the frequency domain. Let us now verify it in the time domain to gain a deeper appreciation of aliasing.
+
+We can prove our proposition by showing that samples of sinusoids of frequencies \((\omega_{s}/2)+\omega_{z}\) and \((\omega_{s}/2)-\omega_{z}\) are identical when the sampling frequency is \(f_{s}=\omega_{s}/2\pi\) Hz.
+
+For a sinusoid \(x(t)=\cos\omega t\), sampled at intervals of \(T\) seconds, \(x(nT)\), its \(n\)th sample (at \(t=nT\)) is
+
+\[x(nT)=\cos\omega nT\qquad n\ {\rm integer}\]
+
+Hence, samples of sinusoids of frequency \(\omega=(\omega_{s}/2)\pm\omega_{z}\) are+
+
+Footnote †: \({}^{\ddagger}\) The reader is encouraged to verify this result graphically by plotting the spectrum of a sinusoid of frequency \((\omega_{s}/2)+\omega_{z}\) (impulses at \(\pm[(\omega_{s}/2)+\omega_{z}]\)) and its periodic repetition at intervals \(\omega_{s}\). Although the result is valid for all values of \(\omega_{z}\), consider the case of \(\omega_{z}<\omega_{s}/2\) to simplify the graphics.
+
+\[x(nT)=\cos\left(\frac{\omega_{s}}{2}\pm\omega_{z}\right)nT=\cos\left(\frac{ \omega_{s}}{2}\right)nT\cos\omega_{z}nT\mp\sin\left(\frac{\omega_{s}}{2} \right)nT\sin\omega_{z}nT\]
+
+Recognizing that \(\omega_{s}T=2\pi f_{s}T=2\pi\), and \(\sin\left(\omega_{s}/2\right)nT=\sin\pi n=0\) for all integer \(n\), we obtain
+
+\[x(nT)=\cos\left(\frac{\omega_{s}}{2}\right)nT\cos\omega_{z}nT\]
+
+Clearly, the samples of a sinusoid of frequency \((f_{s}/2)+f_{z}\) are identical to the samples of a sinusoid \((f_{s}/2)-f_{z}\).+ For instance, when a sinusoid of frequency 100 Hz is sampled at a rate of 120 Hz, the apparent frequency of the sinusoid that results from reconstruction of the samples is 20 Hz. This follows from the fact that here, \(100=(f_{s}/2)+f_{z}=60+f_{z}\) so that \(f_{z}=40\). Hence, \((f_{s}/2)-f_{z}=20\). Such would precisely be the conclusion arrived at from Fig. 8.8b.
+
+This discussion again shows that sampling a sinusoid of frequency \(f\) aliasing can be avoided if the sampling rate \(f_{s}>2f\) Hz.
+
+\[0\leq f<\frac{f_{s}}{2}\qquad\mbox{or}\qquad 0\leq\omega<\frac{\pi}{T}\]
+
+Violating this condition leads to aliasing, implying that the samples appear to be those of a lower-frequency signal. Because of this loss of identity, it is impossible to reconstruct the signal faithfully from its samples.
+
+### General Condition for Aliasing in Sinusoids
+
+We can generalize the foregoing result by showing that samples of a sinusoid of frequency \(f_{0}\) are identical to those of a sinusoid of frequency \(f_{0}+mf_{s}\) Hz (integer \(m\)), where \(f_{s}\) is the sampling frequency. The samples of \(\cos 2\pi\,(f_{0}+mf_{s})t\) are
+
+\[\cos 2\pi\,(f_{0}+mf_{s})nT=\cos\,(2\pi f_{0}nT+2\pi\,mn)=\cos\,2\pi f_{0}nT\]
+
+The result follows because \(mn\) is an integer and \(f_{s}T=1\). This result shows that sinusoids of frequencies that differ by an integer multiple of \(f_{s}\) result in identical set of samples. In other words, samples of sinusoids separated by frequency \(f_{s}\) Hz are identical. This implies that samples of sinusoids in any frequency band of \(f_{s}\) Hz are unique; that is, no two sinusoids in that band have the same samples (when sampled at a rate \(f_{s}\) Hz). For instance, frequencies in the band from \(-f_{s}/2\) to \(f_{s}/2\) have unique samples (at the sampling rate \(f_{s}\)). This band is called the _fundamental band_. Recall also that \(f_{s}/2\) is the folding frequency.
+
+From the discussion thus far, we conclude that if a continuous-time sinusoid of frequency \(f\) Hz is sampled at a rate of \(f_{s}\) Hz (samples/s), the resulting samples would appear as samples of a continuous-time sinusoid of frequency \(f_{a}\) in the fundamental band, where
+
+\[f_{a}= f-mf_{s}\qquad-\frac{f_{s}}{2}\leq f_{a}<\frac{f_{s}}{2}\qquad m\mbox{ an integer} \tag{8.7}\]
+
+The frequency \(f_{a}\) lies in the fundamental band from \(-f_{s}/2\) to \(f_{s}/2\). Figure 8.9a shows the plot of \(f_{a}\) versus \(f\), where \(f\) is the actual frequency and \(f_{a}\) is the corresponding fundamental band frequency, whose samples are identical to those of the sinusoid of frequency \(f\), when the sampling rate is \(f_{s}\) Hz.
+
+Recall, however, that the sign change of a frequency does not alter the actual frequency of the waveform. This is because
+
+\[\cos(-\omega_{a}t+\theta)=\cos\,(\omega_{a}t-\theta)\]
+
+Clearly the _apparent frequency_ of a sinusoid of frequency \(-f_{a}\) is also \(f_{a}\). However, its phase undergoes a sign change. This means the apparent frequency of any sampled sinusoid lies in the range from 0 to \(f_{s}/2\) Hz. To summarize, if a continuous-time sinusoid of frequency \(f\) Hz is sampled at a rate of \(f_{s}\) Hz (samples/second), the resulting samples would appear as samples of a continuous-time sinusoid of frequency \(|f_{a}|\) that lies in the band from 0 to \(f_{s}/2\). According to Eq. (8.7),
+
+\[|f_{a}|=|f-mf_{s}|\qquad|f_{a}|\leq\frac{f_{s}}{2}\qquad m\mbox{ an integer}\]The plot of the apparent frequency \(|f_{a}|\) versus \(f\) is shown in Fig. 8.9b.1 As expected, the apparent frequency \(|f_{a}|\) of any sampled sinusoid, regardless of its frequency, is always in the range of 0 to \(f_{s}/2\) Hz. However, when \(f_{a}\) is negative, the phase of the apparent sinusoid undergoes a sign change. The frequency belts in which such phase changes occur are shown shaded in Fig. 8.9b.
+
+Footnote 1: The plots in Figs. 8.9 and 5.17 are identical. This is because a sampled sinusoid is basically a discrete-time sinusoid.
+
+Consider, for example, a sinusoid \(\cos\left(2\pi ft+\theta\right)\) with \(f\!=\!8000\) Hz sampled at a rate \(f_{s}=3000\) Hz. Using Eq. (8.7), we obtain \(f_{a}=8000-3\times 3000=-1000\). Hence, \(|f_{a}|=1000\). The samples would appear to have come from a sinusoid \(\cos\left(2000\pi t-\theta\right)\). Observe the sign change of the phase because \(f_{a}\) is negative.2
+
+Footnote 2: For phase sign change, we are assuming that the signal has the form \(\cos\left(2\pi ft+\theta\right)\). If the form is \(\sin\left(2\pi ft+\theta\right)\), the rule changes slightly. It is left as an exercise for the reader to show that when \(f_{a}<0\), this sinusoid appears as \(-\sin(2\pi\,|f_{a}|t-\theta)\). Thus, in addition to phase change, the amplitude also changes sign.
+
+In the light of the foregoing development, let us consider a sinusoid of frequency \(f=(f_{s}/2)+f_{z}\), sampled at a rate of \(f_{s}\) Hz. According to Eq. (8.7),
+
+\[f_{a}=\frac{f_{s}}{2}+f_{z}-(1\times f_{s})=-\frac{f_{s}}{2}+f_{z}\]
+
+Hence, the apparent frequency is \(|f_{a}|=(f_{s}/2)-f_{z}\), confirming our earlier result. However, the phase of the sinusoid will suffer a sign change because \(f_{a}\) is negative.
+
+Figure 8.10 shows how samples of sinusoids of two different frequencies (sampled at the same rate) generate identical sets of samples. Both the sinusoids are sampled at a rate \(f_{s}=5\) Hz (\(T=0.2\) second). The frequencies of the two sinusoids, 1 Hz (period 1) and 6 Hz (period 1/6), differ by \(f_{s}=5\) Hz.
+
+The reason for aliasing can be clearly seen in Fig. 8.10. The root of the problem is the sampling rate, which may be adequate for the lower-frequency sinusoid but is clearly inadequate for the higher-frequency sinusoid. The figure clearly shows that between the successive samples of the higher-frequency sinusoid, there are wiggles, which are bypassed or ignored, and are unrepresented in the samples, indicating a sub-Nyquist rate of sampling. The frequency of the apparent signal \(x_{a}(t)\) is always the lowest possible frequency that lies within the band \(|f|\leq\)\(f_{s}/2\). Thus, the apparent frequency of the samples in this example is 1 Hz. If these samples are chosen to reconstruct a signal using a lowpass filter of bandwidth \(f_{s}/2\), we shall obtain a sinusoid of frequency 1 Hz.
+
+## Example 8.4 Apparent Frequency of Sampled Sinusoids
+
+A continuous-time sinusoid \(\cos\left(2\pi ft+\theta\right)\) is sampled at a rate \(f_{s}=1000\) Hz. Determine the apparent (aliased) sinusoid of the resulting samples if the input signal frequency \(f\) is **(a)** 400 Hz, **(b)** 600 Hz, **(c)** 1000 Hz, and **(d)** 2400 Hz.
+
+The folding frequency is \(f_{s}/2=500\). Hence, sinusoids below 500 Hz (frequency within the fundamental band) will not be aliased and sinusoids of frequency above 500 Hz will be aliased.
+
+**(a)** Since \(f=400\) Hz is less than 500 Hz, there is no aliasing. The apparent sinusoid is \(\cos\left(2\pi ft+\theta\right)\) with \(f=400\).
+
+**(b)** Since \(f=600\) Hz can be expressed as \(600=-400+1000\), we see that \(f_{a}=-400\). Hence, the aliased frequency is 400 Hz and the phase changes sign. The apparent (aliased) sinusoid is \(\cos\left(2\pi ft-\theta\right)\) with \(f=400\).
+
+**(c)** Since \(f=1000\) Hz can be expressed as \(1000=0+1000\), we see that \(f_{a}=0\). Hence, the aliased frequency is 0 Hz (dc), and there is no phase sign change. The apparent sinusoid is \(y(t)=\cos\left(0\pi t\pm\theta\right)=\cos\left(\theta\right)\). This is a dc signal with constant sample values for all \(n\).
+
+Figure 8.10: Demonstration of aliasing.
+
+**(d)** Here, \(f=2400\) Hz can be expressed as \(2400=400+(2\times 1000)\) so that \(f_{a}=400\). Hence, the aliased frequency is \(400\) Hz and there is no sign change for the phase. The apparent sinusoid is \(\cos{(2\pi ft+\theta)}\) with \(f=400\).
+
+We could have found these answers directly from Fig. 8.9b. For example, for case (b), we read \(|f_{a}|=400\) corresponding to \(f=600\). Moreover, \(f=600\) lies in the shaded belt. Hence, there is a phase sign change.
+
+### 8.3 A Case of Identical Sampled Sinusoids
+
+Show that samples of \(90\) Hz and \(110\) Hz sinusoids of the form \(\cos{\omega t}\) are identical when sampled at a rate \(200\) Hz.
+
+### 8.4 Apparent Frequency of Sampled Sinusoids
+
+A sinusoid of frequency \(f_{0}\) Hz is sampled at a rate of \(100\) Hz. Determine the apparent frequency of the samples if \(f_{0}\) is **(a)** 40 Hz, **(b)** 60 Hz, **(c)** 140 Hz, and **(d)** 160 Hz.
+
+**ANSWERS**
+
+All four cases have an apparent frequency of \(40\) Hz.
+
+### 8.2-2 Some Applications of the Sampling Theorem
+
+The sampling theorem is very important in signal analysis, processing, and transmission because it allows us to replace a continuous-time signal with a discrete sequence of numbers. Processing a continuous-time signal is therefore equivalent to processing a discrete sequence of numbers. Such processing leads us directly into the area of digital filtering. In the field of communication, the transmission of a continuous-time message reduces to the transmission of a sequence of numbers by means of pulse trains. The continuous-time signal \(x(t)\) is sampled, and sample values are used to modify certain parameters of a periodic pulse train. We may vary the amplitudes (Fig. 8.11b), widths (Fig. 8.11c), or positions (Fig. 8.11d) of the pulses in proportion to the sample values of the signal \(x(t)\). Accordingly, we may have _pulse-amplitude modulation_ (PAM), _pulse-width modulation_ (PWM), or _pulse-position modulation_ (PPM). The most important form of pulse modulation today is _pulse-code modulation_ (PCM), discussed in Sec. 8.3 in connection with Fig. 8.14b. In all these cases, instead of transmitting \(x(t)\), we transmit the corresponding pulse-modulated signal. At the receiver, we read the information of the pulse-modulated signal and reconstruct the analog signal \(x(t)\).
+
+One advantage of using pulse modulation is that it permits the simultaneous transmission of several signals on a time-sharing basis--_time-division multiplexing_ (TDM). Because a pulse-modulated signal occupies only a part of the channel time, we can transmit several pulse-modulated signals on the same channel by interweaving them. Figure 8.12 shows the TDM of two PAM signals. In this manner, we can multiplex several signals on the same channel by reducing pulse widths.2
+
+Footnote 2: Another method of transmitting several baseband signals simultaneously is frequency-division multiplexing (FDM) discussed in Sec. 7.7-4. In FDM, various signals are multiplexed by sharing the channel bandwidth. The spectrum of each message is shifted to a specific band not occupied by any other signal. The information of various signals is located in nonoverlapping frequency bands of the channel (Fig. 7.45). In a way, TDM and FDM are duals of each other.
+
+Digital signals also offer an advantage in the area of communications, where signals must travel over distances. Transmission of digital signals is more rugged than that of analog signals because digital signals can withstand channel noise and distortion much better as long as the noise
+
+Figure 8.11: Pulse-modulated signals. **(a)** The signal. **(b)** The PAM signal. **(c)** The PWM (PDM) signal. **(d)** The PAM signal.
+
+and the distortion are within limits. An analog signal can be converted to digital binary form through sampling and quantization (rounding off), as explained in the next section. The digital (binary) message in Fig. 8.13a is distorted by the channel, as illustrated in Fig. 8.13b. Yet if the distortion remains within a limit, we can recover the data without error because we need only make a simple binary decision: Is the received pulse positive or negative? Figure 8.13c shows the same data with channel distortion and noise. Here again, the data can be recovered correctly as long as the distortion and the noise are within limits. Such is not the case with analog messages. Any distortion or noise, no matter how small, will distort the received signal.
+
+The greatest advantage of digital communication over the analog counterpart, however, is the viability of regenerative repeaters in the former. In an analog transmission system, a message signal grows progressively weaker as it travels along the channel (transmission path), whereas the channel noise and the signal distortion, being cumulative, become progressively stronger. Ultimately, the signal, overwhelmed by noise and distortion, is mutilated. Amplification is of little help because it enhances the signal and the noise in the same proportion. Consequently, the distance over which an analog message can be transmitted is limited by the transmitted power. If a transmission path is long enough, the channel distortion and noise will accumulate sufficiently to overwhelm even a
+
+Figure 8.12: Time-division multiplexing of two signals.
+
+Figure 8.13: Digital signal transmission: **(a)** at the transmitter, **(b)** received distorted signal (without noise), **(c)** received distorted signal (with noise), and **(d)** regenerated signal at the receiver.
+
+digital signal. The trick is to set up repeaters along the transmission path at distances short enough to permit detection of signal pulses before the noise and distortion have a chance to accumulate sufficiently. At each repeater, the pulses are detected, and new, clean pulses are transmitted to the next repeater, which, in turn, duplicates the same process. If the noise and distortion remain within limits (which is possible because of the closely spaced repeaters), pulses can be detected correctly.1 This way the digital messages can be transmitted over longer distances with greater reliability. In contrast, analog messages cannot be cleaned up periodically, and their transmission is therefore less reliable. The most significant error in digitized signals comes from quantizing (rounding off). This error, discussed in Sec. 8.3, can be reduced as much as desired by increasing the number of quantization levels, at the cost of an increased bandwidth of the transmission medium (channel).
+
+Footnote 1: The error in pulse detection can be made negligible.
+
+## 8.3 Analog-to-Digital (A/D) Conversion
+
+The amplitude of an _analog_ signal can take on any value over a continuous range. Hence, analog signal amplitude can take on an infinite number of values. In contrast, a _digital_ signal amplitude can take on only a finite number of values. An analog signal can be converted into a digital signal by means of sampling and _quantizing_ (rounding off). Sampling an analog signal alone will not yield a digital signal because a sample of analog signal can still take on any value in a continuous range. It is digitized by rounding off its value to one of the closest permissible numbers (or _quantized levels_), as illustrated in Fig. 8.14a, which represents one possible quantizing scheme. The amplitudes of the analog signal \(x(t)\) lie in the range \((-V,V)\). This range is partitioned into \(L\) subintervals, each of magnitude \(\Delta=2V/L\). Next, each sample amplitude is approximated by the midpoint value of the subinterval in which the sample falls (see Fig. 8.14a for \(L=16\)). It is clear that each sample is approximated to one of the \(L\) numbers. Thus, the signal is digitized with quantized samples taking on any one of the \(L\) values. This is an \(L\)-ary digital signal (see Sec. 1.3-2). Each sample can now be represented by one of \(L\) distinct pulses.
+
+From a practical viewpoint, dealing with a large number of distinct pulses is difficult. We prefer to use the smallest possible number of distinct pulses, the very smallest number being 2. A digital signal using only two symbols or values is the binary signal. A binary digital signal (a signal that can take on only two values) is very desirable because of its simplicity, economy, and ease of engineering. We can convert an \(L\)-ary signal into a binary signal by using pulse coding. Figure 8.14b shows one such code for the case of \(L=16\). This code, formed by binary representation of the 16 decimal digits from 0 to 15, is known as the _natural binary code (NBC)_. For \(L\) quantization levels, we need a minimum of \(b\) binary code digits, where \(2^{b}=L\) or \(b=\log_{2}L\).
+
+Each of the 16 levels is assigned one binary code word of four digits. Thus, each sample in this example is encoded by four binary digits. To transmit or digitally process the binary data, we need to assign a distinct electrical pulse to each of the two binary states. One possible way is to assign a negative pulse to a binary **0** and a positive pulse to a binary **1** so that each sample is now represented by a group of four binary pulses (pulse code), as depicted in Fig. 8.14b. The resulting binary signal is a digital signal obtained from the analog signal \(x(t)\) through A/D conversion. In communications jargon, such a signal is known as a pulse-code-modulated (PCM) signal.
+
+Figure 8.14: Analog-to-digital (A/D) conversion of a signal: **(a)** quantizing and **(b)** pulse coding.
+
+The convenient contraction of "binary digiri" to _bit_ has become an industry standard abbreviation.
+
+The audio signal bandwidth is about 15 kHz, but subjective tests show that signal articulation (intelligibility) is not affected if all the components above 3400 Hz are suppressed [3]. Since the objective in telephone communication is intelligibility rather than high fidelity, the components above 3400 Hz are eliminated by a lowpass filter.2 The resulting signal is then sampled at a rate of 8000 samples/s (8 kHz). This rate is intentionally kept higher than the Nyquist sampling rate of 6.8 kHz to avoid unrealizable filters required for signal reconstruction. Each sample is finally quantized into 256 levels (\(L=256\)), which requires a group of eight binary pulses to encode each sample (\(2^{8}=256\)). Thus, a digitized telephone signal consists of data amounting to 8 \(\times\) 8000 = 64,000 or 64 kbit/s, requiring 64,000 binary pulses per second for its transmission.
+
+Footnote 2: Components below 300 Hz may also be suppressed without affecting the articulation.
+
+The compact disc (CD), a high-fidelity application of A/D conversion, requires the audio signal bandwidth of 20 kHz. Although the Nyquist sampling rate is only 40 kHz, an actual sampling rate of 44.1 kHz is used for the reason mentioned earlier. The signal is quantized into a rather large number of levels (\(L=65\),536) to reduce quantizing error. The binary-coded samples are now recorded on the CD.
+
+## Appendix A Historical Note
+
+The binary system of representing any number by using **1**s and **0**s was invented in India by Pingala (ca. 200 bce). It was again worked out independently in the West by Gottfried Wilhelm Leibniz (1646-1716). He felt a spiritual significance in this discovery, reasoning that **1** representing unity was clearly a symbol for God, while **0** represented the nothingness. He reasoned that if all numbers can be represented merely by the use of **1** and **0**, this surely proves that God created the universe out of nothing!
+
+## Example 8.5 ADC Bit Number and Bit Rate
+
+A signal \(x(t)\) bandlimited to 3 kHz is sampled at a rate 33\(\frac{1}{3}\)% higher than the Nyquist rate. The maximum acceptable error in the sample amplitude (the maximum error due to quantization) is 0.5% of the peak amplitude \(V\). The quantized samples are binary-coded. Find the required sampling rate, the number of bits required to encode each sample, and the bit rate of the resulting PCM signal.
+
+The Nyquist sampling rate is \(f_{\rm Nyq}=2\times 3000=6000\) Hz (samples/s). The actual sampling rate is \(f_{A}=6000\times(1\frac{1}{3})=8000\) Hz.
+
+The quantization step is \(\Delta\), and the maximum quantization error is \(\pm\Delta/2\), where \(\Delta=2V/L\). The maximum error due to quantization, \(\Delta/2\), should be no greater than 0.5% of the signal peak amplitude \(V\). Therefore, \[\frac{\Delta}{2}=\frac{V}{L}=\frac{0.5}{100}V\quad\Longrightarrow\quad L=200\] For binary coding, \(L\) must be a power of 2. Hence, the next higher value of \(L\) that is a power of 2 is \(L=256\). Because \(\log_{2}256=8\), we need 8 bits to encode each sample. Therefore the bit rate of the PCM signal is \[8000\times 8=64,000\text{ bits/s}\]
+
+\begin{tabular}{|l|} \hline
+**DRIL 8.5 Bit Number and Bit Rate for ASCII** \\ \hline The American Standard Code for Information Interchange (ASCII) has 128 characters, which are binary-coded. A certain computer generates 100,000 characters per second. Show that \\  **(a)**: 7 bits (binary digits) are required to encode each character \\  **(b)**: 700,000 bits/s are required to transmit the computer output. \\ \end{tabular}
+
+### 8.4 Dual of Time Sampling: Spectral Sampling
+
+As in other cases, the sampling theorem has its dual. In Sec. 8.1, we discussed the time-sampling theorem and showed that a signal bandlimited to \(B\) Hz can be reconstructed from the signal samples taken at a rate of \(f_{s}>2B\) samples/s. Note that the signal spectrum exists over the frequency range (in hertz) of \(-B\) to \(B\). Therefore, \(2B\) is the spectral width (not the bandwidth, which is \(B\)) of the signal. This fact means that a signal \(x(t)\) can be reconstructed from samples taken at a rate \(f_{s}>\) the spectral width of \(X(\omega)\) in hertz (\(f_{s}>2B\)).
+
+We now prove the dual of the time-sampling theorem. This is the _spectral sampling theorem_, which applies to timelimited signals (the dual of bandlimited signals). A timelimited signal \(x(t)\) exists only over a finite interval of \(\tau\) seconds, as shown in Fig. 8.15a. Generally, a timelimited signal is characterized by \(x(t)=0\) for \(t<T_{1}\) and \(t>T_{2}\) (assuming \(T_{2}>T_{1}\)). The signal width or duration is \(\tau=T_{2}-T_{1}\) seconds.
+
+The spectral sampling theorem states that the spectrum \(X(\omega)\) of a signal \(x(t)\) timelimited to a duration of \(\tau\) seconds can be reconstructed from the samples of \(X(\omega)\) taken at a rate \(R\) samples/Hz, where \(R>\tau\) (the signal width or duration) in seconds.
+
+Figure 8.15a shows a timelimited signal \(x(t)\) and its Fourier transform \(X(\omega)\). Although \(X(\omega)\) is complex in general, it is adequate for our line of reasoning to show \(X(\omega)\) as a real function.
+
+\[X(\omega)=\int_{-\infty}^{\infty}x(t)e^{-j\omega t}dt=\int_{0}^{\tau}x(t)e^{- j\omega t}dt \tag{8.8}\]We now construct \(x_{T_{0}}(t)\), a periodic signal formed by repeating \(x(t)\) every \(T_{0}\) seconds (\(T_{0}>\tau\)), as depicted in Fig. 8.15b. This periodic signal can be expressed by the exponential Fourier series
+
+\[x_{T_{0}}(t)=\sum_{n=-\infty}^{\infty}D_{n}e^{in\omega_{0}t}\qquad\omega_{0}= \frac{2\pi}{T_{0}}\]
+
+where (assuming \(T_{0}>\tau\))
+
+\[D_{n}=\frac{1}{T_{0}}\int_{0}^{T_{0}}x(t)e^{-jm\omega_{0}t}dt=\frac{1}{T_{0}} \int_{0}^{\tau}x(t)e^{-jm\omega_{0}t}dt\]
+
+From Eq. (8.8), it follows that
+
+\[D_{n}=\frac{1}{T_{0}}X(n\omega_{0})\]
+
+This result indicates that the coefficients of the Fourier series for \(x_{T_{0}}(t)\) are \((1/T_{0})\) times the sample values of the spectrum \(X(\omega)\) taken at intervals of \(\omega_{0}\). This means that the spectrum of the periodic signal \(x_{T_{0}}(t)\) is the sampled spectrum \(X(\omega)\), as illustrated in Fig. 8.15b. Now as long as \(T_{0}>\tau\), the successive cycles of \(x(t)\) appearing in \(x_{T_{0}}(t)\) do not overlap, and \(x(t)\) can be recovered from \(x_{T_{0}}(t)\). Such recovery implies indirectly that \(X(\omega)\) can be reconstructed from its samples. These samples are separated by the fundamental frequency \(f_{0}=1/T_{0}\) Hz of the periodic signal \(x_{T_{0}}(t)\). Hence, the condition for recovery is \(T_{0}>\tau\); that is,
+
+\[f_{0}<\frac{1}{\tau}\,\mathrm{Hz}\]
+
+Therefore, to be able to reconstruct the spectrum \(X(\omega)\) from the samples of \(X(\omega)\), the samples should be taken at frequency intervals \(f_{0}<1/\tau\) Hz. If \(R\) is the sampling rate (samples/Hz), then
+
+\[R=\frac{1}{f_{0}}>\tau\text{ samples/Hz}\]
+
+Figure 8.15: Periodic repetition of a signal amounts to sampling its spectrum.
+
+## Spectral Interpolation
+
+Consider a signal timelimited to \(\tau\) seconds and centered at \(T_{c}\). We now show that the spectrum \(X(\omega)\) of \(x(t)\) can be reconstructed from the samples of \(X(\omega)\). For this case, using the dual of the approach employed to derive the signal interpolation formula in Eq. (8.6), we obtain the spectral interpolation formula1
+
+Footnote 1: This can be obtained by observing that the Fourier transform of \(x_{T_{0}}(t)\) is \(2\pi\sum_{n}D_{n}\delta(\omega-n\omega_{0})\) [see Eq. (7.22)]. We can recover \(x(t)\) from \(x_{T_{0}}(t)\) by multiplying the latter with \(\mathrm{rect}(t-T_{c})/T_{0}\), whose Fourier transform is \(T_{0}\,\mathrm{sinc}(\omega T_{0}/2)e^{-j\omega T_{c}}\). Hence, \(X(\omega)\) is \(1/2\pi\) times the convolution of these two Fourier transforms, which yields Eq. (8.9).
+
+\[X(\omega)=\sum_{n=-\infty}^{\infty}X(n\omega_{0})\,\mathrm{sinc}\bigg{(}\frac{ \omega T_{0}}{2}-n\pi\bigg{)}e^{-j(\omega-n\omega_{0})Tc}\qquad\omega_{0}= \frac{2\pi}{T_{0}}\qquad T_{0}>\tau \tag{8.9}\]
+
+For the case in Fig. 8.15, \(T_{c}=T_{0}/2\). If the pulse \(x(t)\) were to be centered at the origin, then \(T_{c}=0\), and the exponential term at the extreme right in Eq. (8.9) would vanish. In such a case, Eq. (8.9) would be the exact dual of Eq. (8.6).
+
+## Example 8.6 Spectral Sampling and Interpolation
+
+The spectrum \(X(\omega)\) of a unit-duration signal \(x(t)\), centered at the origin, is sampled at the intervals of \(1\) Hz or \(2\pi\) rad/s (the Nyquist rate). The samples are
+
+\[X(0)=1\qquad\text{ and }\qquad X(\pm 2\pi\,n)=0\qquad n=1,2,3,\ldots\]
+
+Find \(x(t)\).
+
+We use the interpolation formula Eq. (8.9) (with \(T_{c}=0\)) to construct \(X(\omega)\) from its samples. Since all but one of the Nyquist samples are zero, only one term (corresponding to \(n=0\)) in the summation on the right-hand side of Eq. (8.9) survives. Thus, with \(X(0)=1\) and \(\tau=T_{0}=1\), we obtain
+
+\[X(\omega)=\mathrm{sinc}\bigg{(}\frac{\omega}{2}\bigg{)}\qquad\text{and}\qquad x (t)=\mathrm{rect}(t)\]
+
+For a signal of unit duration, this is the only spectrum with the sample values \(X(0)=1\) and \(X(2\pi\,n)=0\,(n\neq 0)\). No other spectrum satisfies these conditions.
+
+## 8.5 Numerical Computation of the Fourier Transform: The Discrete Fourier Transform
+
+Numerical computation of the Fourier transform of \(x(t)\) requires sample values of \(x(t)\) because a digital computer can work only with discrete data (sequence of numbers). Moreover, a computer can compute \(X(\omega)\) only at some discrete values of \(\omega\) [samples of \(X(\omega)\)]. We therefore need to relate the samples of \(X(\omega)\) to samples of \(x(t)\). This task can be accomplished by using the results of the two sampling theorems developed in Secs. 8.1 and 8.4.
+
+We begin with a timelimited signal \(x(t)\) (Fig. 8.16a) and its spectrum \(X(\omega)\) (Fig. 8.16b). Since \(x(t)\) is timelimited, \(X(\omega)\) is nonbandlimited. For convenience, we shall show all spectra as functions of the frequency variable \(f\) (in hertz) rather than \(\omega\). According to the sampling theorem, the spectrum \(\overline{X}(\omega)\) of the sampled signal \(\overline{x}(t)\) consists of \(X(\omega)\) repeating every \(f_{s}\) Hz, where \(f_{s}=1/T\), as depicted in Fig. 8.16d.1 In the next step, the sampled signal in Fig. 8.16c is repeated periodically every \(T_{0}\) seconds, as illustrated in Fig. 8.16e. According to the spectral sampling theorem, such an operation results in sampling the spectrum at a rate of \(T_{0}\) samples/Hz. This sampling rate means that the samples are spaced at \(f_{0}=1/T_{0}\) Hz, as depicted in Fig. 8.16f.
+
+Footnote 1: There is a multiplying constant \(1/T\) for the spectrum in Fig. 8.16d [see Eq. (8.2)], but this is irrelevant to our discussion here.
+
+The foregoing discussion shows that when a signal \(x(t)\) is sampled and then periodically repeated, the corresponding spectrum is also sampled and periodically repeated. Our goal is to relate the samples of \(x(t)\) to the samples of \(X(\omega)\).
+
+### Number of Samples
+
+One interesting observation from Figs. 8.16e and 8.16f is that \(N_{0}\), the number of samples of the signal in Fig. 8.16e in one period \(T_{0}\), is identical to \(N_{0}^{\prime}\), the number of samples of the spectrum in Fig. 8.16f in one period \(f_{s}\). To see this, we notice that
+
+\[N_{0}=\frac{T_{0}}{T}\quad N_{0}^{\prime}=\frac{f_{s}}{f_{0}}\quad f_{s}=\frac {1}{T}\quad\mbox{ and }\quad f_{0}=\frac{1}{T_{0}} \tag{8.10}\]
+
+Using these relations, we see that
+
+\[N_{0}=\frac{T_{0}}{T}=\frac{f_{s}}{f_{0}}=N_{0}^{\prime}\]
+
+Aliasing and Leakage in Numerical Computation
+
+Figure 8.16f shows the presence of aliasing in the samples of the spectrum \(X(\omega)\). This aliasing error can be reduced as much as desired by increasing the sampling frequency \(f_{s}\) (decreasing the sampling interval \(T=1/f_{s}\)). The aliasing can never be eliminated for timelimited \(x(t)\), however, because its spectrum \(X(\omega)\) is nonbandlimited. Had we started with a signal having a bandlimited spectrum \(X(\omega)\), there would be no aliasing in the spectrum in Fig. 8.16f. Unfortunately, such a signal is nontimelimited, and its repetition (in Fig. 8.16e) would result in signal overlapping (aliasing in the time domain). In this case, we shall have to contend with errors in signalFigure 8.16: Relationship between samples of \(x(t)\) and \(X(\omega)\).
+
+samples. In other words, in computing the direct or inverse Fourier transform numerically, we can reduce the error as much as we wish, but the error can never be eliminated. This is true of numerical computation of the direct and inverse Fourier transforms, regardless of the method used. For example, if we determine the Fourier transform by direct integration numerically, by using Eq. (7.9), there will be an error because the interval of integration \(\Delta t\) can never be made zero. Similar remarks apply to numerical computation of the inverse transform. Therefore, we should always keep in mind the nature of this error in our results. In our discussion (Fig. 8.16), we assumed \(x(t)\) to be a timelimited signal. If \(x(t)\) were not timelimited, we would need to timelimit it because numerical computations can work only with finite data. Furthermore, this data truncation causes error because of spectral spreading (smearing) and leakage, as discussed in Sec. 7.8. The leakage also causes aliasing. Leakage can be reduced by using a tapered window for signal truncation. But this choice increases spectral spreading or smearing. Spectral spreading can be reduced by increasing the window width (i.e., more data), which increases \(T_{0}\), and reduces \(f_{0}\) (increases _spectral_ or _frequency resolution_).
+
+### Piket Fence Effect
+
+The numerical computation method yields only the uniform sample values of \(X(\omega)\). The major peaks or valleys of \(X(\omega)\) can lie between two samples and may remain hidden, giving a false picture of reality. Viewing samples is like viewing the signal and its spectrum through a "picket fence" with upright posts that are very wide and placed close together. What is hidden behind the pickets is much more than what we can see. Such misleading results can be avoided by using a sufficiently large \(N_{0}\), the number of samples, to increase resolution. We can also use zero padding (discussed later) or the spectral interpolation formula [Eq. (8.9)] to determine the values of \(X(\omega)\) between samples.
+
+### Points of Discontinuity
+
+If \(x(t)\) or \(X(\omega)\) has a jump discontinuity at a sampling point, the sample value should be taken as the average of the values on the two sides of the discontinuity because the Fourier representation at a point of discontinuity converges to the average value.
+
+Derivation of the Discrete Fourier Transform (DFT)
+
+If \(x(nT)\) and \(X(ro_{0})\) are the \(n\)th and \(r\)th samples of \(x(t)\) and \(X(\omega)\), respectively, then we define new variables \(x_{n}\) and \(X_{r}\) as
+
+\[x_{n}=Tx(nT)=\frac{T_{0}}{N_{0}}x(nT) \tag{8.11}\]
+
+and
+
+\[X_{r}=X(r\omega_{0})\]
+
+where
+
+\[\omega_{0}=2\pi f_{0}=\frac{2\pi}{T_{0}}\]We shall now show that \(x_{n}\) and \(X_{r}\) are related by the following equations+:
+
+Footnote †: margin: \(\Box\)
+
+\[X_{r}=\sum_{n=0}^{N_{0}-1}x_{n}e^{-j\nu\Omega_{0}n} \tag{8.12}\]
+
+and
+
+\[x_{n}=\frac{1}{N_{0}}\sum_{r=0}^{N_{0}-1}X_{r}e^{j\tau\Omega_{0}n} \tag{8.13}\]
+
+where
+
+\[\Omega_{0}=\omega_{0}T=\frac{2\pi}{N_{0}}\]
+
+These equations define the direct and the inverse _discrete Fourier transforms,_ with \(X_{r}\) the direct discrete Fourier transform (DFT) of \(x_{n}\), and \(x_{n}\) the inverse discrete Fourier transform (IDFT) of \(X_{r}\). The notation
+
+\[x_{n}\Longleftrightarrow X_{r}\]
+
+is also used to indicate that \(x_{n}\) and \(X_{r}\) are a DFT pair. Remember that \(x_{n}\) is \(T_{0}/N_{0}\) times the \(n\)th sample of \(x(t)\) and \(X_{r}\) is the \(r\)th sample of \(X(\omega)\). Knowing the sample values of \(x(t)\), we can use the DFT to compute the sample values of \(X(\omega)\)--and vice versa. Note, however, that \(x_{n}\) is a function of \(n\) (\(n=0,1,2,\ldots,N_{0}-1\)) rather than of \(t\) and that \(X_{r}\) is a function of \(r\) (\(r=0,1,2,\ldots,N_{0}-1\)) rather than of \(\omega\). Moreover, both \(x_{n}\) and \(X_{r}\) are periodic sequences of period \(N_{0}\) (Figs. 8.16e, 8.16f). Such sequences are called \(N_{0}\)_-periodic sequences_. The proof of the DFT relationships in Eqs. (8.12) and (8.13) follows directly from the results of the sampling theorem. The sampled signal \(\overline{x}(t)\) (Fig. 8.16c) can be expressed as
+
+\[\overline{x}(t)=\sum_{n=0}^{N_{0}-1}x(nT)\delta\left(t-nT\right)\]
+
+Since \(\delta\left(t-nT\right)\Longleftrightarrow e^{-jna\alpha T}\), applying the Fourier transform yields
+
+\[\overline{X}(\omega)=\sum_{n=0}^{N_{0}-1}x(nT)e^{-jna\alpha T}\]
+
+But from Fig. 8.1f [or Eq. (8.2)], it is clear that over the interval \(|\omega|\leq\omega_{s}/2\), \(\overline{X}(\omega)\), the Fourier transform of \(\overline{x}(t)\) is \(X(\omega)/T\), assuming negligible aliasing. Hence,
+
+\[X(\omega)=T\overline{X}(\omega)=T\sum_{n=0}^{N_{0}-1}x(nT)e^{-jna\alpha T} \qquad|\omega|\leq\frac{\omega_{s}}{2}\]and
+
+\[X_{r}=X(r\omega_{0})=T\sum_{n=0}^{N_{0}-1}x(nT)e^{-nkr\omega_{0}T} \tag{8.14}\]
+
+If we let \(\omega_{0}T=\Omega_{0}\), then from Eq. (8.10),
+
+\[\Omega_{0}=\omega_{0}T=2\pi f_{0}T=\frac{2\pi}{N_{0}}\]
+
+Also, from Eq. (8.11),
+
+\[Tx(nT)=x_{n}\]
+
+Therefore, Eq. (8.14) becomes
+
+\[X_{r}=\sum_{n=0}^{N_{0}-1}x_{n}e^{-jr\Omega_{0}n}\qquad\Omega_{0}=\frac{2\pi}{ N_{0}}\]
+
+This is Eq. (8.12), which we set to prove.
+
+The inverse transform relationship of Eq. (8.13) can be derived by using a similar procedure with the roles of \(t\) and \(\omega\) reversed, but here we shall use a more direct proof. To prove Eq. (8.13), we multiply both sides of Eq. (8.12) by \(e^{im\Omega_{0}r}\) and sum over \(r\) as
+
+\[\sum_{r=0}^{N_{0}-1}X_{r}e^{jm\Omega_{0}r}=\sum_{r=0}^{N_{0}-1}\left[\sum_{n= 0}^{N_{0}-1}x_{n}e^{-jr\Omega_{0}n}\right]e^{jm\Omega_{0}r}\]
+
+By interchanging the order of summation on the right-hand side, we have
+
+\[\sum_{r=0}^{N_{0}-1}X_{r}e^{jm\Omega_{0}r}=\sum_{n=0}^{N_{0}-1}x_{n}\left[ \sum_{r=0}^{N_{0}-1}e^{j(m-n)\Omega_{0}r}\right]\]
+
+As the footnote below readily shows, the inner sum on the right-hand side is zero for \(n\neq m\) and is \(N_{0}\) when \(n=m\).2
+
+Footnote 2: We show that
+
+\[\sum_{n=0}^{N_{0}-1}e^{i\hat{k}\Omega_{0}n}=\begin{cases}N_{0}&k=0,\,\pm N_{0 },\,\pm 2N_{0},\,\ldots\\ 0&\text{otherwise}\end{cases}\]
+
+ Recall that \(\Omega_{0}N_{0}=2\pi\). So \(e^{i\hat{k}\Omega_{0}n}=1\) when \(k=0,\pm N_{0},\pm 2N_{0},\ldots\). Hence, the sum on the left-hand side of Eq. (8.15) is \(N_{0}\). To compute the sum for other values of \(k\), we note that the sum on the left-hand side of Eq. (8.15) is a geometric progression with common ratio \(\alpha=e^{ik\Omega_{0}}\). Therefore, (see Sec. B.8-3) \[\sum_{n=0}^{N_{0}-1}e^{i\hat{k}\Omega_{0}n}=\frac{e^{ik\Omega_{0}N_{0}}-1}{e^ {ik\Omega_{0}}-1}=0\qquad(e^{ik\Omega_{0}N_{0}}=e^{i2\pi m}=1)\]
+
+ \(\hat{k}\Omega_{0}=\frac{2\pi}{N_{0}}\). Thus, the outer sum will have only one nonzero term when \(n=m\), and it is \(N_{0}x_{n}=N_{0}x_{m}\). Therefore,
+
+\[x_{m}=\frac{1}{N_{0}}\sum_{r=0}^{N_{0}-1}X_{r}e^{im\Omega_{0}r}\qquad\Omega_{0}= \frac{2\pi}{N_{0}}\]
+
+Because \(X_{r}\) is \(N_{0}\) periodic, we need to determine the values of \(X_{r}\) over any one period. It is customary to determine \(X_{r}\) over the range \((0,N_{0}-1)\), rather than over the range \((-N_{0}/2,(N_{0}/2)-1)\).1
+
+Footnote 1: The DFT of Eq. (8.12) and the IDFT of Eq. (8.13) represent a transform in their own right, and they are exact. There is no approximation. However, \(x_{n}\) and \(X_{r}\), thus obtained, are only approximations to the actual samples of a signal \(x(t)\) and of its Fourier transform \(X(\omega)\).
+
+### Choice of \(T\) and \(T_{0}\)
+
+In DFT computation, we first need to select suitable values for \(N_{0}\) and \(T\) or \(T_{0}\). For this purpose, we begin by deciding on \(B\), the essential bandwidth (in hertz) of the signal. The sampling frequency \(f_{s}\) must be at least \(2B\), that is,
+
+\[\frac{f_{s}}{2}\geq B\]
+
+Moreover, the sampling interval \(T=1/f_{s}\) [Eq. (8.10)], and
+
+\[T\leq\frac{1}{2B} \tag{8.16}\]
+
+Once we pick \(B\), we can choose \(T\) according to Eq. (8.16). Also,
+
+\[f_{0}=\frac{1}{T_{0}} \tag{8.17}\]
+
+where \(f_{0}\) is the _frequency resolution_ [separation between samples of \(X(\omega)\)]. Hence, if \(f_{0}\) is given, we can pick \(T_{0}\) according to Eq. (8.17). Knowing \(T_{0}\) and \(T\), we determine \(N_{0}\) from
+
+\[N_{0}=\frac{T_{0}}{T}\]
+
+### Zero Padding
+
+Recall that observing \(X_{r}\) is like observing the spectrum \(X(\omega)\) through a picket fence. If the frequency sampling interval \(f_{0}\) is not sufficiently small, we could miss out on some significant details and obtain a misleading picture. To obtain a higher number of samples, we need to reduce \(f_{0}\). Because \(f_{0}=1/T_{0}\), a higher number of samples requires us to increase the value of \(T_{0}\), the period of repetition for \(x(t)\). This option increases \(N_{0}\), the number of samples of \(x(t)\), by adding dummy samples of \(0\) value. This addition of dummy samples is known as _zero padding_. Thus, zero padding increases the number of samples and may help in getting a better idea of the spectrum \(X(\omega)\) from its samples \(X_{r}\). To continue with our picket fence analogy, zero padding is like using more, and narrower, pickets.
+
+## Zero Padding Does Not Improve Accuracy or Resolution
+
+Actually, we are not observing \(X(\omega)\) through a picket fence. We are observing a distorted version of \(X(\omega)\) resulting from the truncation of \(x(t)\). Hence, we should keep in mind that even if the fence were transparent, we would see a reality distorted by aliasing. Seeing through the picket fence just gives us an imperfect view of the imperfectly represented reality. Zero padding only allows us to look at more samples of that imperfect reality. It can never reduce the imperfection in what is behind the fence. The imperfection, which is caused by aliasing, can be lessened only by reducing the sampling interval \(T\). Observe that reducing \(T\) also increases \(N_{0}\), the number of samples, and is like increasing the number of pickets while reducing their width. But in this case, the reality behind the fence is also better dressed and we see more of it.
+
+### Number of Samples and Frequency Resolution
+
+A signal \(x(t)\) has a duration of 2 ms and an essential bandwidth of 10 kHz. It is desirable to have a frequency resolution of 100 Hz in the DFT (\(f_{0}=100\)). Determine \(N_{0}\).
+
+To have \(f_{0}=100\) Hz, the effective signal duration \(T_{0}\) must be
+
+\[T_{0}=\frac{1}{f_{0}}=\frac{1}{100}=10\,\,\mathrm{ms}\]
+
+Since the signal duration is only 2 ms, we need zero padding over 8 ms. Also, \(B=10,\!000\). Hence, \(f_{s}=2B=20,\!000\) and \(T=1/\!f_{s}=50\)\(\mu\)s. Furthermore,
+
+\[N_{0}=\frac{f_{s}}{f_{0}}=\frac{20,\!000}{100}=200\]
+
+The _fast Fourier transform_ (FFT) algorithm (discussed later; see Sec. 8.6) is used to compute DFT, where it proves convenient (although not necessary) to select \(N_{0}\) as a power of 2; that is, \(N_{0}=2^{n}\) (\(n\), integer). Let us choose \(N_{0}=256\). Increasing \(N_{0}\) from 200 to 256 can be used to reduce aliasing error (by reducing \(T\)), to improve resolution (by increasing \(T_{0}\) using zero padding), or a combination of both.
+
+**Reducing Aliasing Error.**: We maintain the same \(T_{0}\) so that \(f_{0}=100\). Hence,
+
+\[f_{s}=N_{0}f_{0}=256\times 100=25,\!600\qquad\mathrm{and}\qquad T=\frac{1}{f_ {s}}=39\,\mu\mathrm{s}\]
+
+Thus, increasing \(N_{0}\) from 200 to 256 permits us to reduce the sampling interval \(T\) from 50 \(\mu\)s to 39 \(\mu\)s while maintaining the same frequency resolution (\(f_{0}=100\)).
+**Improving Resolution.**: Here, we maintain the same \(T=50\)\(\mu\)s, which yields
+
+\[T_{0}=N_{0}T=256(50\times 10^{-6})=12.8\,\,\mathrm{ms}\qquad\mathrm{and} \qquad f_{0}=\frac{1}{T_{0}}=78.125\,\,\mathrm{Hz}\]Thus, increasing \(N_{0}\) from 200 to 256 can improve the frequency resolution from 100 to 78.125 Hz while maintaining the same aliasing error (\(T=50\)\(\mu\)s).
+
+**Combination of Reducing Aliasing Error and Improving Resolution.** To simultaneously reduce alias error and improve resolution, we could choose \(T=45\)\(\mu\)s and \(T_{0}=11.5\) ms so that \(f_{0}=86.96\) Hz. Many other combinations exist as well.
+
+**EXAMPLE 8.8 DFT to Compute the Fourier Transform of an Exponential**
+
+Use the DFT to compute (samples of) the Fourier transform of \(e^{-2t}u(t)\). Plot the resulting Fourier spectra.
+
+We first determine \(T\) and \(T_{0}\). The Fourier transform of \(e^{-2t}u(t)\) is \(1/(j\omega+2)\). This lowpass signal is not bandlimited. In Sec. 7.6, we used the energy criterion to compute the essential bandwidth of a signal. Here, we shall present a simpler, but workable alternative to the energy criterion. The essential bandwidth of a signal will be taken as the frequency at which \(|X(\omega)|\) drops to 1% of its peak value (see the footnote on page 736). In this case, the peak value occurs at \(\omega=0\), where \(|X(0)|=0.5\). Observe that
+
+\[|X(\omega)|=\frac{1}{\sqrt{\omega^{2}+4}}\approx\frac{1}{\omega}\qquad\omega \gg 2\]
+
+Also, 1% of the peak value is \(0.01\times 0.5=0.005\). Hence, the essential bandwidth \(B\) is at \(\omega=2\pi B\), where
+
+\[|X(\omega)|\approx\frac{1}{2\pi B}=0.005\quad\Rightarrow\quad B=\frac{100}{ \pi}\;\mbox{Hz}\]
+
+and from Eq. (8.16),
+
+\[T\leq\frac{1}{2B}=\frac{\pi}{200}=0.015708\]
+
+Had we used 1% energy criterion to determine the essential bandwidth, following the procedure in Ex. 7.20, we would have obtained \(B=20.26\) Hz, which is somewhat smaller than the value just obtained by using the 1% amplitude criterion.
+
+The second issue is to determine \(T_{0}\). Because the signal is not timelimited, we have to truncate it at \(T_{0}\) such that \(x(T_{0})\ll 1\). A reasonable choice would be \(T_{0}=4\) because \(x(4)=e^{-8}=0.000335\ll 1\). The result is \(N_{0}=T_{0}/T=254.6\), which is not a power of 2. Hence, we choose \(T_{0}=4\), and \(T=0.015625=1/64\), yielding \(N_{0}=256\), which is a power of 2.
+
+Note that there is a great deal of flexibility in determining \(T\) and \(T_{0}\), depending on the accuracy desired and the computational capacity available. We could just as well have chosen \(T=0.03125\), yielding \(N_{0}=128\), although this choice would have given a slightly higher aliasing error.
+
+Because the signal has a jump discontinuity at \(t=0\), the first sample (at \(t=0\)) is 0.5, the averages of the values on the two sides of the discontinuity. We compute \(X_{r}\) (the DFT) from the samples of \(e^{-2t}u(t)\) according to Eq. (8.12). Note that \(X_{r}\) is the \(r\)th sample of \(X(\omega)\), and these samples are spaced at \(f_{0}=1/T_{0}=0.25\) Hz (\(\omega_{0}=\pi/2\) rad/s).
+
+Because \(X_{r}\) is \(N_{0}\) periodic, \(X_{r}=X_{(r+256)}\) so that \(X_{256}=X_{0}\). Hence, we need to plot \(X_{r}\) over the range \(r=0\) to 255 (not 256). Moreover, because of this periodicity, \(X_{-r}=X_{(-r+256)}\), and the values of \(X_{r}\) over the range \(r=-127\) to \(-1\) are identical to those over the range \(r=129\) to 255. Thus, \(X_{-127}=X_{129},X_{-126}=X_{130},\ldots,X_{-1}=X_{255}\). In addition, because of the property of conjugate symmetry of the Fourier transform, \(X_{-r}=X_{r}^{*}\), it follows that \(X_{-1}=X_{1}^{*},X_{-2}=X_{2}^{*},\ldots,X_{-128}=X_{128}^{*}\). Thus, we need \(X_{r}\) only over the range \(r=0\) to \(N_{0}/2\) (128 in this case).
+
+Figure 8.17 shows the computed plots of \(|X_{r}|\) and \(\measuredangle X_{r}\). The exact spectra are depicted by continuous curves for comparison. Note the nearly perfect agreement between the two sets of spectra. We have depicted the plot of only the first 28 points rather than all 128 points, which would have made the figure very crowded, resulting in loss of clarity. The points are at the intervals of \(1/T_{0}=1/4\) Hz or \(\omega_{0}=1.5708\) rad/s. The 28 samples, therefore, exhibit the plots over the range \(\omega=0\) to \(\omega=28(1.5708)\approx 44\) rad/s or 7 Hz.
+
+Figure 8.17: Discrete Fourier transform of an exponential signal \(e^{-2t}u(t)\).
+
+In this example, we knew \(X(\omega)\) beforehand; hence we could make intelligent choices for \(B\) (or the sampling frequency \(f_{s}\)). In practice, we generally do not know \(X(\omega)\) beforehand. In fact, that is the very thing we are trying to determine. In such a case, we must make an intelligent guess for \(B\) or \(f_{s}\) from circumstantial evidence. We should then continue reducing the value of \(T\) and recomputing the transform until the result stabilizes within the desired number of significant digits.
+
+Using MATLAB to Compute and Plot the Results
+
+Let us now use MATLAB to confirm the results of this example. First, parameters are defined and MATLAB's fft command is used to compute the DFT.
+
+>> T_0 = 4; N_0 = 256; T = T_0/N_0; t = (0:T:T*(N_0-1))'; >> x = T*exp(-2*t); x(1) = x(1)/2; >> X_r = fft(x); r = [-N_0/2:N_0/2-1]'; omega_r = r*2*pi/T_0; The true Fourier transform is also computed for comparison.
+
+>> omega = linspace(-pi/T,pi/T,5001); X = 1./(j*omega+2); For clarity, we display spectrum over a restricted frequency range.
+
+>> subplot(1,2,1); stem(omega_r,fftshift(abs(X_r)),'k.'); >> line(omega,abs(X),'color',[0 0 0]); axis([-0.01 44 -0.01 0.51]); >> xlabel('\omega'); ylabel('|X(\omega'ega)|'); >> subplot(1,2,2); stem(omega_r,fftshift(angle(X_r)),'k.'); >> line(omega,angle(X),'color',[0 0 0]); axis([-0.01 44 -pi/2-0.01 0.01]); >> xlabel('\omega'); ylabel('\angle X(\omega')'); The results, shown in Fig. 8.18, match the earlier results shown in Fig. 8.17.
+
+Figure 8.18: MATLAB-computed DFT of an exponential signal \(e^{-2t}u(t)\).
+
+### 8.9 DFT to Compute the Fourier Transform of a Rectangular Pulse
+
+Use the DFT to compute the Fourier transform of \(8\,\mathrm{rect}(t)\). This gate function and its Fourier transform are illustrated in Figs. 8.19a and 8.19b. To determine the value of the sampling interval \(T\), we must first decide on the essential bandwidth \(B\). In Fig. 8.19b, we see that \(X(\omega)\) decays rather slowly with \(\omega\). Hence, the essential bandwidth \(B\) is rather large. For instance, at \(B=15.5\) Hz (97.39 rad/s), \(X(\omega)=-0.1643\), which is about 2% of the peak at \(X(0)\). Hence, the essential bandwidth is well above 16 Hz if we use the 1% of the peak amplitude criterion for computing the essential bandwidth. However, we shall deliberately take \(B=4\) for two reasons: to show the effect of aliasing and because the use of \(B>4\) would give an enormous number of samples, which could not be conveniently displayed on the page without losing sight of the essentials. Thus, we shall intentionally accept approximation to graphically clarify the concepts of the DFT.
+
+The choice of \(B=4\) results in the sampling interval \(T=1/2B=1/8\). Looking again at the spectrum in Fig. 8.19b, we see that the choice of the frequency resolution \(f_{0}=1/4\) Hz is reasonable. Such a choice gives us four samples in each lobe of \(X(\omega)\). In this case \(T_{0}=1/f_{0}=4\) seconds and \(N_{0}=T_{0}/T=32\). The duration of \(x(t)\) is only 1 second. We must repeat it every 4 seconds (\(T_{0}=4\)), as depicted in Fig. 8.19c, and take samples every \(1/8\) second. This choice yields 32 samples (\(N_{0}=32\)). Also,
+
+\[x_{n}=Tx(nT)=\tfrac{1}{8}x(nT)\]
+
+Since \(x(t)=8\,\mathrm{rect}\,(t)\), the values of \(x_{n}\) are 1, 0, or 0.5 (at the points of discontinuity), as illustrated in Fig. 8.19c, where \(x_{n}\) is depicted as a function of \(t\) as well as \(n\), for convenience.
+
+In the derivation of the DFT, we assumed that \(x(t)\) begins at \(t=0\) (Fig. 8.16a), and then took \(N_{0}\) samples over the interval \((0,\,T_{0})\). In the present case, however, \(x(t)\) begins at \(-1/2\). This difficulty is easily resolved when we realize that the DFT obtained by this procedure is actually the DFT of \(x_{n}\) repeating periodically every \(T_{0}\) seconds. Figure 8.19c clearly indicates that periodic repeating the segment of \(x_{n}\) over the interval from \(-2\) to \(2\) seconds yields the same signal as the periodic repeating the segment of \(x_{n}\) over the interval from \(0\) to \(4\) seconds. Hence, the DFT of the samples taken from \(-2\) to \(2\) seconds is the same as that of the samples taken from \(0\) to \(4\) seconds. Therefore, regardless of where \(x(t)\) starts, we can always take the samples of \(x(t)\) and its periodic extension over the interval from \(0\) to \(T_{0}\). In the present example, the 32 sample values are
+
+\[x_{n}=\begin{cases}1&0\leq n\leq 3\quad\text{and}\quad 29\leq n\leq 31\\ 0&5\leq n\leq 27\\ 0.5&n=4,28\end{cases}\]Figure 8.19: Discrete Fourier transform of a gate pulse.
+
+Observe that the last sample is at \(t=31/8\), not at 4, because the signal repetition starts at \(t=4\), and the sample at \(t=4\) is the same as the sample at \(t=0\). Now, \(N_{0}=32\) and \(\Omega_{0}=2\pi/32=\pi/16\). Therefore [see Eq. (8.12)],
+
+\[X_{r}=\sum_{n=0}^{31}x_{n}e^{-jr(\pi/16)n}\]
+
+Values of \(X_{r}\) are computed according to this equation and plotted in Fig. 8.19d.
+
+The samples \(X_{r}\) are separated by \(f_{0}=1/T_{0}\) Hz. In this case \(T_{0}=4\), so the frequency resolution \(f_{0}\) is \(1/4\) Hz, as desired. The folding frequency \(f_{s}/2=B=4\) Hz corresponds to \(r=N_{0}/2=16\). Because \(X_{r}\) is \(N_{0}\) periodic (\(N_{0}=32\)), the values of \(X_{r}\) for \(r=-16\) to \(n=-1\) are the same as those for \(r=16\) to \(n=31\). For instance, \(X_{17}=X_{-15}\), \(X_{18}=X_{-14}\), and so on. The DFT gives us the samples of the spectrum \(X(\omega)\).
+
+For the sake of comparison, Fig. 8.19d also shows the shaded curve \(8\,\mathrm{sinc}(\omega/2)\), which is the Fourier transform of \(8\,\mathrm{rect}(t)\). The values of \(X_{r}\) computed from the DFT equation show aliasing error, which is clearly seen by comparing the two superimposed plots. The error in \(X_{2}\) is just about \(1.3\%\). However, the aliasing error increases rapidly with \(r\). For instance, the error in \(X_{6}\) is about \(12\%\), and the error in \(X_{10}\) is \(33\%\). The error in \(X_{14}\) is a whopping \(72\%\). The percent error increases rapidly near the folding frequency (\(r=16\)) because \(x(t)\) has a jump discontinuity, which makes \(X(\omega)\) decay slowly as \(1/\omega\). Hence, near the folding frequency, the inverted tail (due to aliasing) is very nearly equal to \(X(\omega)\) itself. Moreover, the final values are the difference between the exact and the folded values (which are very close to the exact values). Hence, the percent error near the folding frequency (\(r=16\) in this case) is very high, although the absolute error is very small. Clearly, for signals with jump discontinuities, the aliasing error near the folding frequency will always be high (in percentage terms), regardless of the choice of \(N_{0}\). To ensure a negligible aliasing error at any value \(r\), we must make sure that \(N_{0}\gg r\). This observation is valid for all signals with jump discontinuities.
+
+Using MATLAB to Compute and Plot the Results
+
+Once again, MATLAB lets us easily confirm the results of this example. First, parameters are defined and MATLAB's fft command is used to compute the DFT.
+
+>> T_0 = 4; N_0 = 32; T = T_0/N_0; >> x_n = [ones(1,4) 0.5 zeros(1,23) 0.5 ones(1,3)]'; >> X_r = fft(x_n); r = [-N_0/2:N_0/2-1]'; omega_r = r*2*pi/T_0; The true Fourier transform is also computed for comparison.
+
+>> omega = linspace(-pi/T,pi/T,5001); X = 8*sinc(omega/(2*pi)); Since it is real, we can display the resulting spectrum using a single plot.
+
+>> clf; stem(omega_r,fftshift(real(X_r)),'k.'); >> line(omega,X,'color',[0 0 0]);* >> xlabel('\omega'); ylabel('X(\omega)'); axis tight The result, shown in Fig. 8.20, matches the earlier result shown in Fig. 8.19d. The DFT approximation does not perfectly follow the true Fourier transform, especially at high frequencies, because the parameter \(B\) is deliberately set too small.
+
+### 8.5-1 Some Properties of the DFT
+
+The discrete Fourier transform is basically the Fourier transform of a sampled signal repeated periodically. Hence, the properties derived earlier for the Fourier transform apply to the DFT as well.
+
+#### Linearity
+
+If \(x_{n}\Longleftrightarrow X_{r}\) and \(g_{n}\Longleftrightarrow G_{r}\), then
+
+\[a_{1}x_{n}+a_{2}g_{n}\Longleftrightarrow a_{1}X_{r}+a_{2}G_{r}\]
+
+The proof is trivial.
+
+##### Conjugate Symmetry
+
+From the conjugation property \(x^{*}(t)\Longleftrightarrow X^{*}(-\omega)\), we have
+
+\[x^{*}_{n}\longleftrightarrow X^{*}_{-r}\]
+
+From this equation and the time-reversal property, we obtain
+
+\[x^{*}_{-n}\longleftrightarrow X^{*}_{r}\]
+
+Figure 8.20: MATLAB-computed DFT of a gate pulse.
+
+When \(x(t)\) is real, then the conjugate-symmetry property states that \(X^{*}(\omega)=X(-\omega)\). Hence, for real \(x_{n}\),
+
+\[X^{*}_{r}=X_{-r}\]
+
+Moreover, \(X_{r}\) is \(N_{0}\) periodic. Hence,
+
+\[X^{*}_{r}=X_{N_{0}-r}\]
+
+Because of this property, we need compute only half the DFTs for real \(x_{n}\). The other half are the conjugates.
+
+### Time Shifting
+
+The time-shifting (circular shifting) property states+
+
+Footnote †: \({}^{\dagger}\)Time shifting is also known as circular shifting because such a shift can be interpreted as a circular shift of the \(N_{0}\) samples in the first cycle \(0\leq n\leq N_{0}-1\).
+
+\[x_{n-k}\Longleftrightarrow X_{r}e^{-jr\Omega_{0}k}\]
+
+Proof.: We use Eq. (8.13) to find the inverse DFT of \(X_{r}e^{-jr\Omega_{0}k}\) as
+
+\[\frac{1}{N_{0}}\sum_{r=0}^{N_{0}-1}X_{r}e^{-jr\Omega_{0}k}e^{jr\omega_{0}n}= \frac{1}{N_{0}}\sum_{r=0}^{N_{0}-1}X_{r}e^{jr\Omega_{0}(n-k)}=x_{n-k}\]
+
+### Frequency Shifting
+
+A dual of the time-shifting property, the frequency-shifting property states
+
+\[x_{n}e^{in\Omega_{0}m}\Longleftrightarrow X_{r-m}\]
+
+Proof.: This proof is identical to that of the time-shifting property except that we start with Eq. (8.12).
+
+### Circular Convolution
+
+The circular (or periodic) convolution property states
+
+\[x_{n}\circledS g_{n}\Longleftrightarrow X_{r}G_{r} \tag{8.18}\]
+
+and
+
+\[x_{n}g_{n}\Longleftrightarrow\frac{1}{N_{0}}X_{r}\circledS G_{r} \tag{8.19}\]
+
+For two \(N_{0}\)-periodic sequences \(x_{n}\) and \(g_{n}\), circular (or periodic) convolution is defined by
+
+\[x_{n}\circledS g_{n}=\sum_{k=0}^{N_{0}-1}x_{k}g_{n-k}=\sum_{k=0}^{N_{0}-1}g_{k} x_{n-k} \tag{8.20}\]To prove Eq. (8.18), we find the DFT of the circular convolution \(x_{n}\)(\(\circled{\xi}\))\(g_{n}\) as
+
+\[\sum_{n=0}^{N_{0}-1}\left(\sum_{k=0}^{N_{0}-1}x_{k}g_{n-k}\right)e^ {-jra_{0}n} =\sum_{k=0}^{N_{0}-1}x_{k}\left(\sum_{n=0}^{N_{0}-1}g_{n-k}e^{-jra_ {0}n}\right)\] \[=\sum_{k=0}^{N_{0}-1}x_{k}(G_{r}e^{-jr\Omega_{0}k})=X_{r}G_{r}\]
+
+Equation (8.19) can be proved in the same way.
+
+For periodic sequences, the convolution can be visualized in terms of two sequences, with one sequence fixed and the other inverted and moved past the fixed sequence, one digit at a time. If the two sequences are \(N_{0}\) periodic, the same configuration will repeat after \(N_{0}\) shifts of the sequence. Clearly the convolution \(x_{n}\)(\(\circled{\xi}\))\(g_{n}\) becomes \(N_{0}\) periodic. Such convolution can be conveniently visualized in terms of \(N_{0}\) sequences, as illustrated in Fig. 8.21, for the case of \(N_{0}=4\). The inner \(N_{0}\)-point sequence \(x_{n}\) is clockwise and fixed. The outer \(N_{0}\)-point sequence \(g_{n}\) is inverted so that it becomes counterclockwise. This sequence is now rotated clockwise 1 unit at a time. We multiply the overlapping numbers and add. For example, the value of \(x_{n}\)(\(\circled{\xi}\))\(g_{n}\) at \(n=0\) (Fig. 8.21) is
+
+\[x_{0}g_{0}+x_{1}g_{3}+x_{2}g_{2}+x_{3}g_{1}\]
+
+and the value of \(x_{n}\)(\(\circled{\xi}\))\(g_{n}\) at \(n=1\) is (Fig. 8.21)
+
+\[x_{0}g_{1}+x_{1}g_{0}+x_{2}g_{3}+x_{3}g_{2}\]
+
+and so on.
+
+### 8.5-2 Some Applications of the DFT
+
+The DFT is useful not only in the computation of direct and inverse Fourier transforms, but also in other applications such as convolution, correlation, and filtering. Use of the efficient FFT algorithm, discussed shortly (Sec. 8.6), makes it particularly appealing.
+
+Figure 8.21: Graphical depictions of circular convolution.
+
+## Linear Convolution
+
+Let \(x(t)\) and \(g(t)\) be the two signals to be convolved. In general, these signals may have different time durations. To convolve them by using their samples, they must be sampled at the same rate (not below the Nyquist rate of either signal). Let \(x_{n}\) (\(0\leq n\leq N_{1}-1\)) and \(g_{n}\) (\(0\leq n\leq N_{2}-1\)) be the corresponding discrete sequences representing these samples. Now,
+
+\[c(t)=x(t)*g(t)\]
+
+and if we define three sequences as \(x_{n}=Tx(nT)\), \(g_{n}=Tg(nT)\), and \(c_{n}=Tc(nT)\), then+
+
+Footnote †: We can show that \(c_{n}=\lim_{T\to 0}x_{n}*g_{n}\); [see 4]. Error is inherent in any numerical method used to compute convolution of continuous-time signals; since \(T\neq 0\) in practice, there will be some error in this equation.
+
+\[c_{n}=x_{n}*g_{n}\]
+
+where we define the linear convolution sum of two discrete sequences \(x_{n}\) and \(g_{n}\) as
+
+\[c_{n}=x_{n}*g_{n}=\sum_{k=-\infty}^{\infty}x_{k}g_{n-k}\]
+
+Because of the width property of the convolution, \(c_{n}\) exists for \(0\leq n\leq N_{1}+N_{2}-1\). To be able to use the DFT circular convolution technique, we must make sure that the circular convolution will yield the same result as does linear convolution. In other words, the signal resulting from the circular convolution must have the same length (\(N_{1}+N_{2}-1\)) as that of the signal resulting from linear convolution. This step can be accomplished by adding \(N_{2}-1\) dummy samples of zero value to \(x_{n}\) and \(N_{1}-1\) dummy samples of zero value to \(g_{n}\) (zero padding). This procedure changes the length of both \(x_{n}\) and \(g_{n}\) to \(N_{1}+N_{2}-1\). The circular convolution now is identical to the linear convolution except that it repeats periodically with period \(N_{1}+N_{2}-1\). A little reflection will show that in such a case the circular convolution procedure in Fig. 8.21 over one cycle (\(0\leq n\leq N_{1}+N_{2}-1\)) is identical to the linear convolution of the two sequences \(x_{n}\) and \(g_{n}\). We can use the DFT to find the convolution \(x_{n}*g_{n}\) in three steps, as follows:
+
+1. Find the DFTs \(X_{r}\) and \(G_{r}\) corresponding to suitably padded \(x_{n}\) and \(g_{n}\).
+2. Multiply \(X_{r}\) by \(G_{r}\).
+3. Find the IDFT of \(X_{r}G_{r}\). This procedure of convolution, when implemented by the fast Fourier transform algorithm (discussed later), is known as _fast convolution_.
+
+## Filtering
+
+We generally think of filtering in terms of a hardware-oriented solution (e.g., building a circuit with \(RLC\) components and operational amplifiers). However, filtering also has a software-oriented solution [a computer algorithm that yields the filtered output \(y(t)\) for a given input \(x(t)\)]. This goal can be conveniently accomplished by using the DFT. If \(x(t)\) is the signal to be filtered, then \(X_{r}\), the DFT of \(x_{n}\), is found. The spectrum \(X_{r}\) is then shaped (filtered) as desired by multiplying \(X_{r}\) by \(H_{r}\), where \(H_{r}\) are the samples of \(H(\omega)\) for the filter [\(H_{r}=H(r\omega_{0})\)]. Finally, we take the IDFT of \(X_{r}H_{r}\) to obtain the filtered output \(y_{n}[y_{n}=Ty(nT)]\). This procedure is demonstrated in the following example.
+
+## Example 8.10 DFT to Determine Filter Output
+
+The signal \(x(t)\) in Fig. 8.22a is passed through an ideal lowpass filter of frequency response \(H(\omega)\) depicted in Fig. 8.22b. Use the DFT to find the sampled version of the filter output.
+
+We have already found the 32-point DFT of \(x(t)\) (see Fig. 8.19d). Next we multiply \(X_{r}\) by \(H_{r}\). To find \(H_{r}\), we recall using \(f_{0}=1/4\) in computing the 32-point DFT of \(x(t)\). Because \(X_{r}\) is 32-periodic, \(H_{r}\) must also be 32-periodic with samples separated by \(1/4\) Hz. This fact means
+
+Figure 8.22: DFT solution for filtering \(x(t)\) through \(H(\omega)\).
+
+that \(H_{r}\) must be repeated every 8 Hz or \(16\pi\) rad/s (see Fig. 8.22c). The resulting 32 samples of \(H_{r}\) over (\(0\leq\omega\leq 16\pi\) ) are as follows:
+
+\[H_{r}=\begin{cases}1&0\leq r\leq 7\quad\text{ and }\quad 25\leq r\leq 31\\ 0&9\leq r\leq 23\\ 0.5&r=8,24\end{cases}\]
+
+We multiply \(X_{r}\) with \(H_{r}\). The desired output signal samples \(y_{n}\) are found by taking the inverse DFT of \(X_{r}H_{r}\). The resulting output signal is illustrated in Fig. 8.22d.
+
+It is quite simple to verify the results of this filtering example using MATLAB. First, parameters are defined, and MATLAB's fft command is used to compute the DFT of \(x_{n}\).
+
+>> T_0 = 4; N_0 = 32; T = T_0/N_0; n = (0:N_0-1); r = n; >> x_n = [ones(1,4) 0.5 zeros(1,23) 0.5 ones(1,3)]'; X_r = fft(x_n); The DFT of the filter's output is just the product of the filter response \(H_{r}\) and the input DFT \(X_{r}\). The output \(y_{n}\) is obtained using the ifft command and then plotted.
+
+>> H_r = [ones(1,8) 0.5 zeros(1,15) 0.5 ones(1,7)]'; >> Y_r = H_r.*X_r; y_n = ifft(Y_r); >> clf; stem(n,real(y_n),'k.'); >> xlabel('n'); ylabel('y_n'); axis([0 31 -.1 1.1]); The result, shown in Fig. 8.23, matches the earlier result shown in Fig. 8.22d. Recall, this DFT-based approach shows the samples \(y_{n}\) of the filter output \(y(t)\) (sampled in this case at a rate \(T=\frac{1}{8}\)) over \(0\leq n\leq N_{0}-1=31\) when the input pulse \(x(t)\) is periodically replicated to form samples \(x_{n}\) (see Fig. 8.19c).
+
+Figure 8.23: Using MATLAB and the DFT to determine filter output.
+
+## Chapter 8 Sampling: the Bridge from Continuous to Discrete
+
+### 8.6 The Fast Fourier Transform (FFT)
+
+The number of computations required in performing the DFT was dramatically reduced by an algorithm developed by Cooley and Tukey in 1965 [5]. This algorithm, known as the _fast Fourier transform_ (FFT), reduces the number of computations from something on the order of \(N_{0}^{2}\) to \(N_{0}\log N_{0}\). To compute one sample \(X_{r}\) from Eq. (8.12), we require \(N_{0}\) complex multiplications and \(N_{0}-1\) complex additions. To compute \(N_{0}\) such values (\(X_{r}\) for \(r=0,1,\ldots,N_{0}-1\)), we require a total of \(N_{0}^{2}\) complex multiplications and \(N_{0}(N_{0}-1)\) complex additions. For a large \(N_{0}\), these computations can be prohibitively time-consuming, even for a high-speed computer. The FFT algorithm is what made the use of Fourier transform accessible for digital signal processing.
+
+### How Does the FFT Reduce the Number of Computations?
+
+It is easy to understand the magic of the FFT. The secret is in the linearity of the Fourier transform and also of the DFT. Because of linearity, we can compute the Fourier transform of a signal \(x(t)\) as a sum of the Fourier transforms of segments of \(x(t)\) of shorter duration. The same principle applies to the computation of the DFT. Consider a signal of length \(N_{0}=16\) samples. As seen earlier, DFT computation of this sequence requires \(N_{0}^{2}=256\) multiplications and \(N_{0}(N_{0}-1)=240\) additions. We can split this sequence into two shorter sequences, each of length \(8\). To compute DFT of each of these segments, we need \(64\) multiplications and \(56\) additions. Thus, we need a total of \(128\) multiplications and \(112\) additions. Suppose, we split the original sequence in four segments of length \(4\) each. To compute the DFT of each segment, we require \(16\) multiplications and \(12\) additions. Hence, we need a total of \(64\) multiplications and \(48\) additions. If we split the sequence in eight segments of length \(2\) each, we need \(4\) multiplications and \(2\) additions for each segment, resulting in a total of \(32\) multiplications and \(8\) additions. Thus, we have been able to reduce the number of multiplications from \(256\) to \(32\) and the number of additions from \(240\) to \(8\). Moreover, some of these multiplications turn out to be multiplications by \(1\) or \(-1\). All this fantastic economy in the number of computations is realized by the FFT without any approximation! The values obtained by the FFT are identical to those obtained by the DFT. In this example, we considered a relatively small value of \(N_{0}=16\). The reduction in the number of computations is much more dramatic for higher values of \(N_{0}\).
+
+The FFT algorithm is simplified if we choose \(N_{0}\) to be a power of \(2\), although such a choice is not essential. For convenience, we define
+
+\[W_{N_{0}}=e^{-(j2\pi/N_{0})}=e^{-j\Omega_{0}}\]
+
+so that
+
+\[X_{r}=\sum_{n=0}^{N_{0}-1}x_{n}W_{N_{0}}^{nr}\qquad 0\leq r\leq N_{0}-1 \tag{8.21}\]
+
+and
+
+\[x_{n}=\frac{1}{N_{0}}\sum_{r=0}^{N_{0}-1}X_{r}W_{N_{0}}^{-nr}\qquad 0\leq n \leq N_{0}-1 \tag{8.22}\]
+
+Although there are many variations of the Tukey-Cooley algorithm, these can be grouped into two basic types: _decimation in time_ and _decimation in frequency_.
+
+## Chapter The Excitation-in-Time Algorithm
+
+Here we divide the \(N_{0}\)-point data sequence \(x_{n}\) into two \((N_{0}/2)\)-point sequences consisting of even- and odd-numbered samples, respectively, as follows:
+
+\[\underbrace{x_{0},x_{2},x_{4},\ldots,x_{N_{0}-2}}_{\text{sequence $g_{n}$}}, \underbrace{x_{1},x_{3},x_{5},\ldots,x_{N_{0}-1}}_{\text{sequence $h_{n}$}}\]
+
+Then, from Eq. (8.21),
+
+\[X_{r}=\sum_{n=0}^{(N_{0}/2)-1}x_{2n}W_{N_{0}}^{2nr}+\sum_{n=0}^{(N_{0}/2)-1}x_ {2n+1}W_{N_{0}}^{(2n+1)r}\]
+
+Also, since
+
+\[W_{N_{0}/2}=W_{N_{0}}^{2}\]
+
+we have
+
+\[X_{r} =\sum_{n=0}^{(N_{0}/2)-1}x_{2n}W_{N_{0}/2}^{nr}+W_{N_{0}}^{r} \sum_{n=0}^{(N_{0}/2)-1}x_{2n+1}W_{N_{0}/2}^{nr}\] \[=G_{r}+W_{N_{0}}^{r}H_{r}\qquad 0\leq r\leq N_{0}-1 \tag{8.23}\]
+
+where \(G_{r}\) and \(H_{r}\) are the \((N_{0}/2)\)-point DFTs of the even- and odd-numbered sequences, \(g_{n}\) and \(h_{n}\), respectively. Also, \(G_{r}\) and \(H_{r}\), being the \((N_{0}/2)\)-point DFTs, are \((N_{0}/2)\) periodic. Hence,
+
+\[G_{r+(N_{0}/2)}=G_{r}\qquad\text{and}\qquad H_{r+(N_{0}/2)}=H_{r} \tag{8.24}\]
+
+Moreover,
+
+\[W_{N_{0}}^{r+(N_{0}/2)}=W_{N_{0}}^{N_{0}/2}W_{N_{0}}^{r}=e^{-j\pi}W_{N_{0}}^{ r}=-W_{N_{0}}^{r} \tag{8.25}\]
+
+From Eqs. (8.23), (8.24), and (8.25), we obtain
+
+\[X_{r+(N_{0}/2)}=G_{r}-W_{N_{0}}^{r}H_{r} \tag{8.26}\]
+
+This property can be used to reduce the number of computations. We can compute the first \(N_{0}/2\) points \((0\leq n\leq(N_{0}/2)-1)\) of \(X_{r}\) by using Eq. (8.23) and the last \(N_{0}/2\) points by using Eq. (8.26) as
+
+\[\begin{array}{ll}X_{r}=G_{r}+W_{N_{0}}^{r}H_{r}&\quad 0\leq r\leq\frac{N_{0}}{2 }-1\\ X_{r+(N_{0}/2)}=G_{r}-W_{N_{0}}^{r}H_{r}&\quad 0\leq r\leq\frac{N_{0}}{2}-1 \end{array} \tag{8.27}\]
+
+Figure 8.24: Butterfly signal flow graph.
+
+Figure 8.25: Successive steps in an 8-point FFT.
+
+Thus, an \(N_{0}\)-point DFT can be computed by combining the two (\(N_{0}/2\))-point DFTs, as in Eq. (8.27). These equations can be represented conveniently by the _signal flow_ graph depicted in Fig. 8.24. This structure is known as a _butterfly_. Figure 8.25a shows the implementation of Eq. (8.24) for the case of \(N_{0}=8\).
+
+The next step is to compute the (\(N_{0}/2\))-point DFTs \(G_{r}\) and \(H_{r}\). We repeat the same procedure by dividing \(g_{n}\) and \(h_{n}\) into two (\(N_{0}/4\))-point sequences corresponding to the even- and odd-numbered samples. Then we continue this process until we reach the one-point DFT. These steps for the case of \(N_{0}=8\) are shown in Figs. 8.25a, 8.25b, and 8.25c. Figure 8.25c shows that the two-point DFTs require no multiplication.
+
+To count the number of computations required in the first step, assume that \(G_{r}\) and \(H_{r}\) are known. Equation (8.27) clearly shows that to compute all the \(N_{0}\) points of the \(X_{r}\), we require \(N_{0}\) complex additions and \(N_{0}/2\) complex multiplications2 (corresponding to \(W_{N_{0}}^{r}H_{r}\)).
+
+Footnote 2: Actually, \(N_{0}/2\) is a conservative figure because some multiplications corresponding to the cases of \(W_{N_{0}}^{r}=1\),\(j\), and so on, are eliminated.
+
+In the second step, to compute the (\(N_{0}/2\))-point DFT \(G_{r}\) from the (\(N_{0}/4\))-point DFT, we require \(N_{0}/2\) complex additions and \(N_{0}/4\) complex multiplications. We require an equal number of computations for \(H_{r}\). Hence, in the second step, there are \(N_{0}\) complex additions and \(N_{0}/2\) complex multiplications. The number of computations required remains the same in each step. Since a total of \(\log_{2}N_{0}\) steps is needed to arrive at a one-point DFT, we require, conservatively, a total of \(N_{0}\log_{2}N_{0}\) complex additions and \((N_{0}/2)\log_{2}N_{0}\) complex multiplications, to compute the \(N_{0}\)-point DFT. Actually, as Fig. 8.25c shows, many multiplications are multiplications by \(1\) or \(-1\), which further reduces the number of computations.
+
+The procedure for obtaining IDFT is identical to that used to obtain the DFT except that \(W_{N_{0}}=e^{i(2\pi/N_{0})}\) instead of \(e^{-i(2\pi/N_{0})}\) (in addition to the multiplier \(1/N_{0}\)). Another FFT algorithm, the _decimation-in-frequency_ algorithm, is similar to the decimation-in-time algorithm. The only difference is that instead of dividing \(x_{n}\) into two sequences of even- and odd-numbered samples, we divide \(x_{n}\) into two sequences formed by the first \(N_{0}/2\) and the last \(N_{0}/2\) samples, proceeding in the same way until a single-point DFT is reached in \(\log_{2}N_{0}\) steps. The total number of computations in this algorithm is the same as that in the decimation-in-time algorithm.
+
+## 8.7 MATLAB: The Discrete Fourier Transform
+
+As an idea, the discrete Fourier transform (DFT) has been known for hundreds of years. Practical computing devices, however, are responsible for bringing the DFT into common use. MATLAB is capable of DFT computations that would have been impractical just a few decades ago.
+
+### Computing the Discrete Fourier Transform
+
+The MATLAB command fft(x) computes the DFT of a vector x that is defined over (\(0\leq n\leq N_{0}-1\)) (Problem 8.7-1 considers how to scale the DFT to accommodate signals that do not begin at \(n=0\).) As its name suggests, the function fft uses the computationally more efficient fast Fourier transform algorithm when it is appropriate to do so. The inverse DFT is easily computed by using the ifft function.
+
+To illustrate MATLAB's DFT capabilities, consider 50 points of a 10 Hz sinusoid sampled at \(f_{s}=50\) Hz and scaled by \(T=1/f_{s}\).
+
+>> T = 1/50; N_0 = 50; n = (0:N_0-1); >> x = T*cos(2*pi*10*n*T); In this case, the vector x contains exactly 10 cycles of the sinusoid. The fft command computes the DFT.
+
+>> X = fft(x); Since the DFT is both discrete and periodic, fft needs to return only the \(N_{0}\) discrete values contained in the single period (\(0\leq\)\(f<\)\(f_{s}\)).
+
+While \(X_{r}\) can be plotted as a function of \(r\), it is more convenient to plot the DFT as a function of frequency \(f\). A frequency vector, in hertz, is created by using \(N_{0}\) and \(T\).
+
+>> f = (0:N_0-1)/(T*N_0); stem(f,abs(X),'k.'); >> axis([0 50 -0.05 0.55]); xlabel('f [Hz]'); ylabel('|X(f)|'); As expected, Fig. 8.26 shows content at a frequency of 10 Hz. Since the time-domain signal is real, \(X(f)\) is conjugate symmetric. Thus, content at 10 Hz implies equal content at \(-10\) Hz. The content visible at 40 Hz is an alias of the \(-10\) Hz content.
+
+Often, it is preferred to plot a DFT over the principal frequency range (\(-\)\(f_{s}/2\leq\)\(f<\)\(f_{s}/2\)). The MATLAB function fftshift properly rearranges the output of fft to accomplish this task.
+
+>> stem(f-1/(T*2),fftshift(abs(X)),'k.'); >> axis([-25 25 -0.05 0.55]); xlabel('f [Hz]'); ylabel('|X(f)|'); When we use fftshift, the conjugate symmetry that accompanies the DFT of a real signal becomes apparent, as shown in Fig. 8.27.
+
+Since DFTs are generally complex-valued, the magnitude plots of Figs. 8.26 and 8.27 offer only half the picture; the signal's phase spectrum, shown in Fig. 8.28, completes it.
+
+>> stem(f-1/(T*2),fftshift(angle(X)),'k.'); >> axis([-25 25 -1.1*pi 1.1*pi]); xlabel('f [Hz]'); ylabel('\angle X(f)');
+
+Figure 8.26: \(|X(f)|\) computed over (\(0\leq\)\(f<50\)) by using fft.
+
+Since the signal is real, the phase spectrum necessarily has odd symmetry. Additionally, the phase at \(\pm 10\) Hz is zero, as expected for a zero-phase cosine function. More interesting, however, are the phase values found at the remaining frequencies. Does a simple cosine really have such complicated phase characteristics? The answer, of course, is no. The magnitude plot of Fig. 8.27 helps identify the problem: there is zero content at frequencies other than \(\pm 10\) Hz. Phase computations are not reliable at points where the magnitude response is zero. One way to remedy this problem is to assign a phase of zero when the magnitude response is near or at zero.
+
+### Improving the Picture with Zero Padding
+
+DFT magnitude and phase plots paint a picture of a signal's spectrum. At times, however, the picture can be somewhat misleading. Given a sampling frequency \(f_{s}=50\) Hz and a sampling interval \(T=1/f_{s}\), consider the signal
+
+\[y[n]=T\!e^{\!\!\!/2\pi\left(10\frac{1}{3}\right)nT}\]
+
+This complex-valued, periodic signal contains a single positive frequency at \(10\frac{1}{3}\) Hz. Let us compute the signal's DFT using 50 samples.
+
+>> y = T*exp(j*2*pi*(10+1/3)*n*T); Y = fft(y); >> stem(f-25,fftshift(abs(Y)),'k.'); >> axis([-25 25 -0.05 1.05]); xlabel('f [Hz]'); ylabel('|Y(f)|');
+
+Figure 8.27: \(|X(f)|\) displayed over (\(-25\leq\!\!f<25\)) by using fftshift.
+
+In this case, the vector y contains a noninteger number of cycles. Figure 8.29 shows the significant frequency leakage that results. Also notice that since \(y[n]\) is not real, the DFT is not conjugate symmetric.
+
+In this example, the discrete DFT frequencies do not include the actual \(10\frac{1}{3}\) Hz frequency of the signal. Thus, it is difficult to determine the signal's frequency from Fig. 8.29. To improve the picture, the signal is zero-padded to 12 times its original length.
+
+>> y_zp = [y,zeros(1,11*length(y))]; Y_zp = fft(y_zp); >> f_zp = (0:12*N_0-1)/(T*12*N_0); >> stem(f_zp-25,fftshift(abs(Y_zp)),'k.'); >> axis([-25 25 -0.05 1.05]); xlabel('f [Hz]'); ylabel('|Y_{zp}(f)|'); Figure 8.30, zoomed in to \(5\leq\!f\leq 15\), correctly shows the peak frequency at \(10\frac{1}{3}\) Hz and better represents the signal's spectrum.
+
+It is important to keep in mind that zero padding does not increase the resolution or accuracy of the DFT. To return to the picket fence analogy, zero padding increases the number of pickets in our fence but cannot change what is behind the fence. More formally, the characteristics of the sinc function, such as main beam width and sidelobe levels, depend on the fixed width of the pulse, not on the number of zeros that follow. Adding zeros cannot change the characteristics of the sinc function and thus cannot change the resolution or accuracy of the DFT. Adding zeros simply allows the sinc function to be sampled more finely.
+
+Figure 8.29: \(|Y(f)|\) using 50 data points.
+
+Figure 8.30: \(|Y_{zp}(f)|\) over \(5\leq\!f\leq 15\) using 50 data points padded with 550 zeros.
+
+### 8.7-3 Quantization
+
+A \(B\)-bit analog-to-digital converter (ADC) samples an analog signal and quantizes amplitudes by using \(2^{B}\) discrete levels. This quantization results in signal distortion that is particularly noticeable for small \(B\). Typically, quantization is classified as symmetric or asymmetric and as either rounding or truncating. Let us investigate rounding-type quantizers.
+
+The quantized output \(x_{\rm q}\) of an asymmetric rounding converter is given as+
+
+Footnote †: Large values of \(x\) may return quantized values \(x_{\rm q}\) outside the \(2^{B}\) allowable levels. In such cases, \(x_{\rm q}\) should be clamped to the nearest permitted level.
+
+\[x_{\rm q}=\frac{x_{\rm max}}{2^{B-1}}\lfloor\frac{x}{x_{\rm max}}2^{B-1}+\frac {1}{2}\rfloor\]
+
+The quantized output \(x_{\rm q}\) of a symmetric rounding converter is given as
+
+\[x_{\rm q}=\frac{x_{\rm max}}{2^{B-1}}\left(\lfloor\frac{x}{x_{\rm max}}2^{B-1} \rfloor+\frac{1}{2}\right)\]
+
+Program CHGMP1 quantizes a signal using one of these two rounding quantizer rules and also ensures no more than \(2^{B}\) output levels.
+
+function [xq] = CHBMP1(x,xmax,B,method)
+
+% CHBMP1.m : Chapter 8, MATLAB Program 1
+
+% Function M-file quantizes x over (-xmax,xmax) using 2^b levels.
+
+% Uses rounding rule, supports symmetric and asymmetric quantization
+
+% INPUTS: x = input signal
+
+% xmax = maximum magnitude of signal to be quantized
+
+% B = number of quantization bits
+
+% method = default'sym' for symmetrical, 'asym' for asymmetrical
+
+% OUTPUS: xq = quantized signal
+
+if (nargin<3),
+
+disp('Insufficient number of inputs.'); return
+
+elseif (nargin==3),
+
+method ='sym';
+
+elseif (nargin>4),
+
+disp('Too many inputs.'); return
+
+end
+
+x(abs(x)>xmax)=xmax*sign(x(abs(x)>xmax)); % Limit amplitude to xmax switch lower(method)
+
+case 'asym'
+
+xq = xmax/(2^(B-1))*floor(x*2^(B-1)/xmax+1/2);
+
+xq(xq>=xmax)=xmax*(1-2^(1-B)); % Ensure only 2^B levels
+
+case'sym'
+
+xq = xmax/(2^(B-1))*(floor(x*2^(B-1)/xmax)+1/2);
+
+xq(xq>=xmax)=xmax*(1-2^(1-B)/2); % Ensure only 2^B levelsotherwise  disp('Unrecognized quantization method.'); return  end Several MATLAB commands require discussion. First, the nargin function returns the number of input arguments. In this program, nargin is used to ensure that a correct number of inputs is supplied. If the number of inputs supplied is incorrect, an error message is displayed and the function terminates. If only three input arguments are detected, the quantization type is not explicitly specified and the program assigns the default symmetric method.
+
+As with many high-level languages such as C, MATLAB supports general switch/case structures1:
+
+ switch switch_expr,  case case_expr,  statements; ...  otherwise,  statements;  end CH8MP1 switches among cases of the string method. In this way, method-specific parameters are easily set. The command lower is used to convert a string to all lowercase characters. In this way, strings such as SYM, Sym, and sym are all indistinguishable. Similar to lower, the MATLAB command upper converts a string to all uppercase.
+
+Footnote 1: A functionally equivalent structure can be written by using if, elseif, and else statements.
+
+The floor command rounds input values to the nearest integer toward minus infinity. Mathematically, it computes \(\lfloor\cdot\rfloor\). To accommodate different types of rounding, MATLAB supplies three other rounding commands: ceil, round, and fix. The ceil command rounds input values to the nearest integers toward infinity, (\(\lceil\cdot\rceil\)); the round command rounds input values toward the nearest integer; the fix command rounds input values to the nearest integer toward zero. For example, if x = [-0.5 0.5];, floor(x) yields [-1 0], ceil(x) yields [0 1], round(x) yields [-1 1], and fix(x) yields [0 0]. Finally, CH8MP1 checks and, if necessary, corrects large values of \(x_{q}\) that may be outside the allowable \(2^{B}\) levels.
+
+To verify operation, CH8MP1 is used to determine the transfer characteristics of a symmetric 3-bit quantizer operating over (\(-\)10,10).
+
+>> x = (-10:.0001:10); xsq = CH8MP1(x,10,3,'sym'); >> plot(x,xsq,'k'); axis([-10 10 -10.5 10.5]); grid on; >> xlabel('Quantizer input'); ylabel('Quantizer output'); Figure 8.31 shows the results. Clearly, the quantized output is limited to \(2^{B}=8\) levels. Zero is not a quantization level for symmetric quantizers, so half of the levels occur above zero and half of the levels occur below zero. In fact, _symmetric quantizers_ get their name from the symmetry in quantization levels above and below zero.
+
+By changing the method in CH8MP1 from'sym' to 'asym', we obtain the transfer characteristics of an asymmetric 3-bit quantizer, as shown in Fig. 8.32. Again, the quantized output is limited to \(2^{B}=8\) levels, and zero is now one of the included levels. With zero as a quantization level, we need one fewer quantization level above zero than there are levels below. Not surprisingly, _asymmetric quantizers_ get their name from the asymmetry in quantization levels above and below zero.
+
+There is no doubt that quantization can change a signal. It follows that the spectrum of a quantized signal can also change. While these changes are difficult to characterize mathematically, they are easy to investigate by using MATLAB. Consider a 1 Hz cosine sampled at \(f_{s}\) = 50 Hz over 1 second.
+
+>> x = cos(2*pi*n*T); X = fft(x); T = 1/50; N_0 = 50; n = (0:N_0-1); Upon quantizing by means of a 2-bit asymmetric rounding quantizer, both the signal and spectrum are substantially changed.
+
+>> xaq = CH8MP1(x,1,2,'asym'); Xaq = fft(xaq); >> subplot(2,2,1); stem(n,x,'k'); axis([0 49 -1.1 1.1]); >> xlabel('n');ylabel('x[n]'); >> subplot(2,2,2); stem(f-25,ffshift(abs(X)),'k'); axis([-25,25 -1 26]) >> xlabel('f');ylabel('|X(f)|'); >> subplot(2,2,3); stem(n,xaq,'k');axis([0 49 -1.1 1.1]);
+
+Figure 8.31: Transfer characteristics of a symmetric 3-bit quantizer.
+
+Figure 8.32: Transfer characteristics of an asymmetric 3-bit quantizer.
+
+* >> xlabel('n');ylabel('x_{aq}[n]'); >> subplot(2,2,4); stem(f-25,fftshift(abs(fft(xaq))),'k'); axis([-25,25 -1 26]); >> xlabel('f');ylabel('|X_{aq}(f)|'); The results are shown in Fig. 8.33. The original signal \(x[n]\) appears sinusoidal and has pure spectral content at \(\pm 1\) Hz. The asymmetrically quantized signal \(x_{aq}[n]\) is significantly distorted. The corresponding magnitude spectrum \(|X_{aq}(f)|\) is spread over a broad range of frequencies.
+
+### 8.8 Summary
+
+A signal bandlimited to \(B\) Hz can be reconstructed exactly from its samples if the sampling rate \(f_{s}>2B\) Hz (the sampling theorem). Such a reconstruction, although possible theoretically, poses practical problems such as the need for ideal filters, which are unrealizable or are realizable only with infinite delay. Therefore, in practice, there is always an error in reconstructing a signal from its samples. Moreover, practical signals are not bandlimited, which causes an additional error (aliasing error) in signal reconstruction from its samples. When a signal is sampled at a frequency \(f_{s}\) Hz, samples of a sinusoid of frequency \((f_{s}/2)+x\) Hz appear as samples of a lower frequency \((f_{s}/2)-x\) Hz. This phenomenon, in which higher frequencies appear as lower frequencies, is known as aliasing. Aliasing error can be reduced by bandlimiting a signal to \(f_{s}/2\) Hz (half the sampling frequency). Such bandlimiting, done prior to sampling, is accomplished by an anti-aliasing filter that is an ideal lowpass filter of cutoff frequency \(f_{s}/2\) Hz.
+
+The sampling theorem is very important in signal analysis, processing, and transmission because it allows us to replace a continuous-time signal with a discrete sequence of numbers. Processing a continuous-time signal is therefore equivalent to processing a discrete sequence of numbers. This leads us directly into the area of digital filtering (discrete-time systems). In the field
+
+Figure 8.33: Signal and spectrum effects of quantization.
+
+of communication, the transmission of a continuous-time message reduces to the transmission of a sequence of numbers. This opens doors to many new techniques of communicating continuous-time signals by pulse trains.
+
+The dual of the sampling theorem states that for a signal timelimited to \(\tau\) seconds, its spectrum \(X(\omega)\) can be reconstructed from the samples of \(X(\omega)\) taken at uniform intervals not greater than \(1/\tau\) Hz. In other words, the spectrum should be sampled at a rate not less than \(\tau\) samples/Hz.
+
+To compute the direct or the inverse Fourier transform numerically, we need a relationship between the samples of \(x(t)\) and \(X(\omega)\). The sampling theorem and its dual provide such a quantitative relationship in the form of a discrete Fourier transform (DFT). The DFT computations are greatly facilitated by a fast Fourier transform (FFT) algorithm, which reduces the number of computations from something on the order of \(N_{0}^{2}\) to \(N_{0}\log N_{0}\).
+
+## References
+
+* [1] Linden, D. A. A discussion of sampling theorem. _Proceedings of the IRE,_ vol. 47, pp. 1219-1226, July 1959.
+* [2] Siebert, W. M. _Circuits, Signals, and Systems_. MIT/McGraw-Hill, New York, 1986.
+* [3] Bennett, W. R. _Introduction to Signal Transmission_. McGraw-Hill, New York, 1970.
+* [4] Lathi, B. P. _Linear Systems and Signals_. Berkeley-Cambridge Press, Carmichael, CA, 1992.
+* [5] Cooley, J. W., and Tukey, J. W. An algorithm for the machine calculation of complex Fourier series. _Mathematics of Computation_, vol. 19, pp. 297-301, April 1965.
+
+## 10 Problems
+
+[_Note:_ In many problems, the plots of spectra are shown as functions of frequency \(f\) Hz for convenience, although we have labeled them as functions of \(\omega\) as \(X(\omega)\), \(Y(\omega)\), etc.]
+
+* [1] If \(f_{\rm s}\) is the Nyquist rate for signal \(x(t)\), determine the Nyquist rate for each of the following signals: (a) \(y_{\rm a}(t)=\frac{d}{dt}x(t)\) (b) \(y_{\rm b}(t)=x(t)\cos(2\pi f_{0}t)\) (c) \(y_{\rm c}(t)=x(t+a)+x(t-b)\), for real constants \(a\) and \(b\) (d) \(y_{\rm d}(t)=x(at)\), for real \(a>0\)
+
+Figure P8.1-2 Figure P8.1-2 shows Fourier spectra of signals \(x_{1}(t)\) and \(x_{2}(t)\). Determine the Nyquist sampling rates for signals \(x_{1}(t),x_{2}(t),x_{1}^{2}(t),x_{2}^{3}(t)\), and \(x_{1}(t)x_{2}(t)\).
+* [1] A signal \(x(t)\) has a bandwidth of \(B=1000\) Hz. For a positive integer \(N\), what is the Nyquist rate for the signal \(y(t)=x^{N}(t)\)?
+* [1] Determine the Nyquist sampling rate and the Nyquist sampling interval for the signals: (a) \(\mathrm{sinc}^{2}(100\pi\,t)\) (b) \(0.01\,\mathrm{sinc}^{2}(100\pi\,t)\)

@@ -1,0 +1,1168 @@
+## Chapter 3 Fourier Series Representation of Periodic Signals
+
+### 3.0 Introduction
+
+The representation and analysis of LTI systems through the convolution sum as developed in Chapter 2 is based on representing signals as linear combinations of shifted impulses. In this and the following two chapters, we explore an alternative representation for signals and LTI systems. As in Chapter 2, the starting point for our discussion is the development of a representation of signals as linear combinations of a set of basic signals. For this alternative representation we use complex exponentials. The resulting representations are known as the continuous-time and discrete-time Fourier series and transform. As we will see, these can be used to construct broad and useful classes of signals.
+
+We then proceed as we did in Chapter 2. That is, because of the superposition property, the response of an LTI system to any input consisting of a linear combination of basic signals is the same linear combination of the individual responses to each of the basic signals. In Chapter 2, these responses were all shifted versions of the unit impulse response, leading to the convolution sum or integral. As we will find in the current chapter, the response of an LTI system to a complex exponential also has a particularly simple form, which then provides us with another convenient representation for LTI systems and with another way in which to analyze these systems and gain insight into their properties.
+
+In this chapter, we focus on the representation of continuous-time and discrete-time periodic signals referred to as the Fourier series. In Chapters 4 and 5, we extend the analysis to the Fourier transform representation of broad classes of aperiodic, finite energy signals. Together, these representations provide one of the most powerful and important sets of tools and insights for analyzing, designing, and understanding signals and LTI systems, and we devote considerable attention in this and subsequent chapters to exploring the uses of Fourier methods.
+
+We begin in the next section with a brief historical perspective in order to provide some insight into the concepts and issues that we develop in more detail in the sections and chapters that follow.
+
+### A historical perspective
+
+The development of Fourier analysis has a long history involving a great many individuals and the investigation of many different physical phenomena.1 The concept of using "trigonometric sums"--that is, sums of harmonically related sines and cosines or periodic complex exponentials--to describe periodic phenomena goes back at least as far as the Babylonians, who used ideas of this type in order to predict astronomical events.2 The modern history of the subject begins in 1748 with L. Euler, who examined the motion of a vibrating string. In Figure 3.1, we have indicated the first few of what are known as the "normal modes" of such a string. If we consider the vertical deflection \(f(t,\,x)\) of the string at time \(t\) and at a distance \(x\) along the string, then for any fixed instant of time, the normal modes are harmonically related sinusoidal functions of \(x\). What Euler noted was that if the configuration of a vibrating string at some point in time is a linear combination of these normal modes, so is the configuration at any subsequent time. Furthermore, Euler showed that one could calculate the coefficients for the linear combination at the later time in a very straightforward manner from the coefficients at the earlier time. In doing this, Euler performed the same type of calculation as we will in the next section in deriving one of the properties of trigonometric sums that make them so useful for the analysis of LTI systems. Specifically, we will see that if the input to an LTI system is expressed as a linear combination of periodic complex exponentials or sinusoids, the output can also be expressed in this form, with coefficients that are related in a straightforward way to those of the input.
+
+Footnote 1: The historical material in this chapter was taken from the following references: I. Grattan-Guiness, _Joseph Fourier, 1768–1830_ (Cambridge, MA: The MIT Press, 1972): G. F. Simmons, _Differential Equations: With Applications and Historical Notes_ (New York: McGraw-Hill Book Company, 1972): C. Lanczos, _Discourse on Fourier Series_ (London: Oliver and Boyd, 1966): R. E. Edwards, _Fourier Series: A Modern Introduction_ (New York: Springer-Verlag, 2nd ed., 1970); and A. D. Aleksandrov, A. N. Kolmogorov, and M. A. Lavrent'ev, _Mathematics: Its Content, Methods, and Meaning,_ trans. S. H. Gould, Vol. II; trans. K. Hirsch, Vol. III (Cambridge, MA: The MIT Press, 1969). Of these, Grattan-Guiness’ work offers the most complete account of Fourier’s life and contributions. Other references are cited in several places in the chapter.
+
+Footnote 2: H. Dym and H. P. McKean, _Fourier Series and Integrals_ (New York: Academic Press, 1972). This text and the book of Simmons cited in footnote 1 also contain discussions of the vibrating-string problem and its role in the development of Fourier analysis.
+
+The property described in the preceding paragraph would not be particularly useful, unless it were true that a large class of interesting functions could be represented by linear combinations of complex exponentials. In the middle of the 18th century, this point was the subject of heated debate. In 1753, D. Bernoulli argued on physical grounds that all physical motions of a string could be represented by linear combinations of normal modes, but he did not pursue this mathematically, and his ideas were not widely accepted. In fact, Euler himself discarded trigonometric series, and in 1759 J. L. Lagrange strongly criticized the use of trigonometric series in the examination of vibrating strings. His criticism was based on his own belief that it was impossible to represent signals with corners (i.e., with discontinuous slopes) using trigonometric series. Since such a the plucking of a string (i.e., pulling it taut and then releasing it), Lagrange argued that trigonometric series were of very limited use.
+
+It was in this somewhat hostile and skeptical environment that Jean Baptiste Joseph Fourier (Figure 3.2) presented his ideas half a century later. Fourier was born on March 1998.
+
+Figure 3.2: Jean Baptiste Joseph Fourier [picture from J. B. J. Fourier, _Oeuvres de Fourier_, Vol. II (Paris: Gauthier-Villars et Fils, 1980)].
+
+Figure 3.1: Normal modes of a vibrating string. (Solid lines indicate the configuration of each of these modes at some fixed instant of time, \(t\).)
+
+21, 1768, in Auxerre, France, and by the time of his entrance into the controversy concerning trigonometric series, he had already had a lifetime of experiences. His many contributions--in particular, those concerned with the series and transform that carry his name--are made even more impressive by the circumstances under which he worked. His revolutionary discoveries, although not completely appreciated during his own lifetime, have had a major impact on the development of mathematics and have been and still are of great importance in an extremely wide range of scientific and engineering disciplines.
+
+In addition to his studies in mathematics, Fourier led an active political life. In fact, during the years that followed the French Revolution, his activities almost led to his downfall, as he narrowly avoided the guillotine on two separate occasions. Subsequently, Fourier became an associate of Napoleon Bonaparte, accompanied him on his expeditions to Egypt (during which time Fourier collected the information he would use later as the basis for his treatises on Egyptology), and in 1802 was appointed by Bonaparte to the position of prefect of a region of France centered in Grenoble. It was there, while serving as prefect, that Fourier developed his ideas on trigonometric series.
+
+The physical motivation for Fourier's work was the phenomenon of heat propagation and diffusion. This in itself was a significant step in that most previous research in mathematical physics had dealt with rational and celestial mechanics. By 1807, Fourier had completed a work, Fourier had found series of harmonically related sinusoids to be useful in representing the temperature distribution through a body. In addition, he claimed that "any" periodic signal could be represented by such a series. While his treatment of this topic was significant, many of the basic ideas behind it had been discovered by others. Also, Fourier's mathematical arguments were still imprecise, and it remained for P. L. Dirichlet in 1829 to provide precise conditions under which a periodic signal could be represented by a Fourier series.3 Thus, Fourier did not actually contribute to the mathematical theory of Fourier series. However, he did have the clear insight to see the potential for this series representation, and it was to a great extent his work and his claims that spurred much of the subsequent work on Fourier series. In addition, Fourier took this type of representation one very large step farther than any of his predecessors: He obtained a representation for _aperiodic_ signals--not as weighted _sums_ of harmonically related sinusoids--but as weighted _integrals_ of sinusoids that are _not_ all harmonically related. It is this extension from Fourier series to the Fourier integral or transform that is the focus of Chapters 4 and 5. Like the Fourier series, the Fourier transform remains one of the most powerful tools for the analysis of LTI systems.
+
+Footnote 3: Both S. D. Poisson and A. L. Cauchy had obtained results about the convergence of Fourier series before 1829, but Dirichlet’s work represented such a significant extension of their results that he is usually credited with being the first to consider Fourier series convergence in a rigorous fashion.
+
+Four distinguished mathematicians and scientists were appointed to examine the 1807 paper of Fourier. Three of the four--S. F. Lacroix, G. Monge, and P. S. de Laplace--were in favor of publication of the paper, but the fourth, J. L. Lagrange, remained adamant in rejecting trigonometric series, as he had done 50 years earlier. Because of Lagrange's vehement objections, Fourier's paper never appeared. After several other attempts to have his work accepted and published by the Institut de France, Fourier undertook the writing of another version of his work, which appeared as the text _Theorie analytique de la chaleur.4_This book was published in 1822, 15 years after Fourier had first presented his results to the Institut.
+
+Toward the end of his life Fourier received some of the recognition he deserved, but the most significant tribute to him has been the enormous impact of his work on so many disciplines within the fields of mathematics, science, and engineering. The theory of integration, point-set topology, and eigenfunction expansions are just a few examples of topics in mathematics that have their roots in the analysis of Fourier series and integrals.5 Furthermore, in addition to the original studies of vibration and heat diffusion, there are numerous other problems in science and engineering in which sinusoidal signals, and therefore Fourier series and transforms, play an important role. For example, sinusoidal signals arise naturally in describing the motion of the planets and the periodic behavior of the earth's climate. Alternating-current sources generate sinusoidal voltages and currents, and, as we will see, the tools of Fourier analysis enable us to analyze the response of an LTI system, such as a circuit, to such sinusoidal inputs. Also, as illustrated in Figure 3.3, waves in the ocean consist of the linear combination of sinusoidal waves with different spatial periods or _wavelengths_. Signals transmitted by radio and television stations are sinusoidal in nature as well, and as a quick perusal of any text on Fourier analysis will show, the range of applications in which sinusoidal signals arise and in which the tools of Fourier analysis are useful extends far beyond these few examples.
+
+Footnote 5: For more on the impact of Fourier’s work on mathematics, see W. A. Coppel, “J. B. Fourier—on the occasion of His Two Hundredth Birthday,” _American Mathematical Monthly_, 76 (1969), 468–83.
+
+While many of the applications in the preceding paragraph, as well as the original work of Fourier and his contemporaries on problems of mathematical physics, focus on phenomena in continuous time, the tools of Fourier analysis for discrete-time signals and systems have their own distinct historical roots and equally rich set of applications. In particular, discrete-time concepts and methods are fundamental to the discipline of numerical analysis. Formulas for the processing of discrete sets of data points to produce numerical approximations for interpolation, integration, and differentiation were being investigated as early as the time of Newton in the 1600s. In addition, the problem of predicting the motion of a heavenly body, given a sequence of observations of the body, spurred the
+
+Figure 3.3: Ship encountering the superposition of three wave trains, each with a different spatial period. When these waves reinforce one another, a very large wave can result. In more severe seas, a giant wave indicated by the dotted line could result. Whether such a reinforcement occurs at any location depends upon the relative phases of the components that are superposed. [Adapted from an illustration by P. Mion in “Nightmare Waves Are All Too Real to Deepwater Saliors,” by P. Britton, _Smithsonian_ 8 (February 1978), pp. 64–65].
+
+investigation of harmonic time series in the 18th and 19th centuries by eminent scientists and mathematicians, including Gauss, and thus provided a second setting in which much of the initial work was done on discrete-time signals and systems.
+
+In the mid-1960s an algorithm, now known as the fast Fourier transform, or FFT, was introduced. This algorithm, which was independently discovered by Cooley and Tukey in 1965, also has a considerable history and can, in fact, be found in Gauss' notebooks.6 What made its modern discovery so important was the fact that the FFT proved to be perfectly suited for efficient digital implementation, and it reduced the time required to compute transforms by orders of magnitude. With this tool, many interesting but previously impractical ideas utilizing the discrete-time Fourier series and transform suddenly became practical, and the development of discrete-time signal and system analysis techniques moved forward at an accelerated pace.
+
+Footnote 6: The reader is referred to the book [11].
+
+What has emerged out of this long history is a powerful and cohesive framework for the analysis of continuous-time and discrete-time signals and systems and an extraordinarily broad array of existing and potential applications. In this and the following chapters, we will develop the basic tools of that framework and examine some of its important implications.
+
+### The response of LTI systems to complex exponentials
+
+As we indicated in Section 3.0, it is advantageous in the study of LTI systems to represent signals as linear combinations of basic signals that possess the following two properties:
+
+1. The set of basic signals can be used to construct a broad and useful class of signals.
+2. The response of an LTI system to each signal should be simple enough in structure to provide us with a convenient representation for the response of the system to any signal constructed as a linear combination of the basic signals.
+
+Much of the importance of Fourier analysis results from the fact that both of these properties are provided by the set of complex exponential signals in continuous and discrete time--i.e., signals of the form \(e^{st}\) in continuous time and \(z^{n}\) in discrete time, where \(s\) and \(z\) are complex numbers. In subsequent sections of this and the following two chapters, we will examine the first property in some detail. In this section, we focus on the second property and, in this way, provide motivation for the use of Fourier series and transforms in the analysis of LTI systems.
+
+The importance of complex exponentials in the study of LTI systems stems from the fact that the response of an LTI system to a complex exponential input is the same complex exponential with only a change in amplitude; that is,
+
+\[\text{continuous time: }\ e^{st}\longrightarrow H(s)e^{st}, \tag{3.1}\] \[\text{discrete time: }\ z^{n}\longrightarrow H(z)z^{n}, \tag{3.2}\]
+
+where the complex amplitude factor \(H(s)\) or \(H(z)\) will in general be a function of the complex variable \(s\) or \(z\). A signal for which the system output is a (possibly complex)constant times the input is referred to as an _eigenfunction_ of the system, and the amplitude factor is referred to as the system's _eigenvalue_.
+
+To show that complex exponentials are indeed eigenfunctions of LTI systems, let us consider a continuous-time LTI system with impulse response \(h(t)\). For an input \(x(t)\), we can determine the output through the use of the convolution integral, so that with \(x(t)\,=\,e^{st}\)
+
+\[\begin{split} y(t)&\,=\,\int_{-\infty}^{+\infty}h( \tau)x(t-\tau)\,d\tau\\ &\,=\,\int_{-\infty}^{+\infty}h(\tau)e^{s(t-\tau)}\,d\tau.\end{split} \tag{11}\]
+
+Expressing \(e^{s(t-\tau)}\) as \(e^{st}e^{-s\tau}\), and noting that \(e^{st}\) can be moved outside the integral, we see that eq. (11) becomes
+
+\[y(t)\,=\,e^{st}\int_{-\infty}^{+\infty}h(\tau)e^{-s\tau}\,d\tau. \tag{12}\]
+
+Assuming that the integral on the right-hand side of eq. (12) converges, the response to \(e^{st}\) is of the form
+
+\[y(t)\,=\,H(s)e^{st}, \tag{13}\]
+
+where \(H(s)\) is a complex constant whose value depends on \(s\) and which is related to the system impulse response by
+
+\[H(s)\,=\,\int_{-\infty}^{+\infty}h(\tau)e^{-s\tau}\,d\tau. \tag{14}\]
+
+Hence, we have shown that complex exponentials are eigenfunctions of LTI systems. The constant \(H(s)\) for a specific value of \(s\) is then the eigenvalue associated with the eigenfunction \(e^{st}\).
+
+In an exactly parallel manner, we can show that complex exponential sequences are eigenfunctions of discrete-time LTI systems. That is, suppose that an LTI system with impulse response \(h[n]\) has as its input the sequence
+
+\[x[n]\,=\,z^{n}, \tag{15}\]
+
+where \(z\) is a complex number. Then the output of the system can be determined from the convolution sum as
+
+\[\begin{split} y[n]&\,=\,\sum_{k\,=\,-\infty}^{+\infty }h[k]x[n\,-\,k]\\ &\,=\,\sum_{k\,=\,-\infty}^{+\infty}h[k]z^{n-k}\,=\,z^{n}\sum_{k \,=\,-\infty}^{+\infty}h[k]z^{-k}.\end{split} \tag{16}\]
+
+From this expression, we see that if the input \(x[n]\) is the complex exponential given by eq. (15), then, assuming that the summation on the right-hand side of eq. (16) converges, the output is the same complex exponential multiplied by a constant that depends on the value of \(z\). That is,
+
+\[y[n]\,=\,H(z)z^{n}, \tag{3.9}\]
+
+where
+
+\[H(z)\,=\,\sum_{k\,=\,-\infty}^{+\infty}h[k]z^{-k}. \tag{3.10}\]
+
+Consequently, as in the continuous-time case, complex exponentials are eigenfunctions of discrete-time LTI systems. The constant \(H(z)\) for a specified value of \(z\) is the eigenvalue associated with the eigenfunction \(z^{n}\).
+
+For the analysis of LTI systems, the usefulness of decomposing more general signals in terms of eigenfunctions can be seen from an example. Let \(x(t)\) correspond to a linear combination of three complex exponentials; that is,
+
+\[x(t)\,=\,a_{1}e^{s_{1}t}\,+\,a_{2}e^{s_{2}t}\,+\,a_{3}e^{s_{3}t}. \tag{3.11}\]
+
+From the eigenfunction property, the response to each separately is
+
+\[a_{1}e^{s_{1}t}\,\longrightarrow\,a_{1}H(s_{1})e^{s_{1}t},\] \[a_{2}e^{s_{2}t}\,\longrightarrow\,a_{2}H(s_{2})e^{s_{2}t},\] \[a_{3}e^{s_{3}t}\,\longrightarrow\,a_{3}H(s_{3})e^{s_{3}t},\]
+
+and from the superposition property the response to the sum is the sum of the responses, so that
+
+\[y(t)\,=\,a_{1}H(s_{1})e^{s_{1}t}\,+\,a_{2}H(s_{2})e^{s_{2}t}\,+\,a_{3}H(s_{3}) e^{s_{3}t}. \tag{3.12}\]
+
+More generally, in continuous time, eq. (3.5), together with the superposition property, implies that the representation of signals as a linear combination of complex exponentials leads to a convenient expression for the response of an LTI system. Specifically, if the input to a continuous-time LTI system is represented as a linear combination of complex exponentials, that is, if
+
+\[x(t)\,=\,\sum_{k}a_{k}e^{s_{k}t}, \tag{3.13}\]
+
+then the output will be
+
+\[y(t)\,=\,\sum_{k}a_{k}H(s_{k})e^{s_{k}t}. \tag{3.14}\]
+
+In an exactly analogous manner, if the input to a discrete-time LTI system is represented as a linear combination of complex exponentials, that is, if
+
+\[x[n]\,=\,\sum_{k}a_{k}z_{k}^{n}, \tag{3.15}\]
+
+then the output will be
+
+\[y[n]\,=\,\sum_{k}a_{k}H(z_{k})z_{k}^{n}. \tag{3.16}\]
+
+is also periodic with period \(T\). In eq. (3.25), the term for \(k\,=\,0\) is a constant. The terms for \(k\,=\,+1\) and \(k\,=\,-1\) both have fundamental frequency equal to \(\omega_{0}\) and are collectively referred to as the _fundamental components_ or the _first harmonic components_. The two terms for \(k\,=\,+2\) and \(k\,=\,-2\) are periodic with half the period (or, equivalently, twice the frequency) of the fundamental components and are referred to as the _second harmonic components_. More generally, the components for \(k\,=\,+N\) and \(k\,=\,-N\) are referred to as the \(N\)th harmonic components.
+
+The representation of a periodic signal in the form of eq. (3.25) is referred to as the _Fourier series_ representation. Before developing the properties of this representation, let us consider an example.
+
+**Example 3.2**
+
+Consider a periodic signal \(x(t)\), with fundamental frequency \(2\pi\), that is expressed in the form of eq. (3.25) as
+
+\[x(t)\,=\,\sum_{k\,=\,-3}^{+3}a_{k}e^{ik2\pi t}, \tag{3.26}\]
+
+where
+
+\[a_{0}\,=\,1,\] \[a_{1}\,=\,a_{-1}\,=\,\frac{1}{4},\] \[a_{2}\,=\,a_{-2}\,=\,\frac{1}{2},\] \[a_{3}\,=\,a_{-3}\,=\,\frac{1}{3}.\]
+
+Rewriting eq. (3.26) and collecting each of the harmonic components which have the same fundamental frequency, we obtain
+
+\[\begin{split} x(t)\,=&\,1\,+\,\frac{1}{4}(e^{/2\pi t }\,+\,e^{-j2\pi t})\,+\,\frac{1}{2}(e^{j4\pi t}\,+\,e^{-j4\pi t})\\ &\,+\,\frac{1}{3}(e^{j6\pi t}\,+\,e^{-j6\pi t}).\end{split} \tag{3.27}\]
+
+Equivalently, using Euler's relation, we can write \(x(t)\) in the form
+
+\[x(t)\,=\,1\,+\,\frac{1}{2}\cos 2\pi t\,+\,\cos 4\pi t\,+\,\frac{2}{3}\cos 6\pi t. \tag{3.28}\]
+
+In Figure 3.4, we illustrate graphically how the signal \(x(t)\) is built up from its harmonic components.
+
+Equation (3.28) is an example of an alternative form for the Fourier series of real periodic signals. Specifically, suppose that \(x(t)\) is real and can be represented in the form of eq. (3.25). Then, since \(x^{*}(t)\,=\,x(t)\), we obtain
+
+\[x(t)\,=\,\sum_{k\,=\,-\,-\,\times}^{+\,\times}a_{k}^{*}e^{-\,jk\omega_{0}t}.\]
+
+Figure 3.4: Construction of the signal \(x(t)\) in Example 3.2 as a linear combination of harmonically related sinusoidal signals.
+
+Replacing \(k\) by \(-k\) in the summation, we have
+
+\[x(t)\,=\,\sum_{k\,=\,-\,-\,\infty}^{+\,\times}a_{-\,k}^{*}\,e^{jk\omega_{0}t},\]
+
+which, by comparison with eq. (3.25), requires that \(a_{k}\,=\,a_{-\,k}^{*}\), or equivalently, that
+
+\[a_{k}^{*}\,=\,a_{-\,k}. \tag{3.29}\]
+
+Note that this is the case in Example 3.2, where the \(a_{k}\)'s are in fact real and \(a_{k}\,=\,a_{-\,k}\).
+
+To derive the alternative forms of the Fourier series, we first rearrange the summation in eq. (3.25) as
+
+\[x(t)\,=\,a_{0}\,+\,\sum_{k\,=\,1}^{\,\times}[a_{k}\,e^{jk\omega_{0}t}\,+\,a_{- \,k}e^{-jk\omega_{0}t}].\]
+
+Substituting \(a_{k}^{*}\) for \(a_{-\,k}\) from eq. (3.29), we obtain
+
+\[x(t)\,=\,a_{0}\,+\,\sum_{k\,=\,1}^{\,\times}[a_{k}\,e^{jk\omega_{0}t}\,+\,a_{k }^{*}\,e^{-jk\omega_{0}t}].\]
+
+Since the two terms inside the summation are complex conjugates of each other, this can be expressed as
+
+\[x(t)\,=\,a_{0}\,+\,\sum_{k\,=\,1}^{\,\times}2\Omega\epsilon\{a_{k}\,e^{jk \omega_{0}t}\}. \tag{3.30}\]
+
+If \(a_{k}\) is expressed in polar form as
+
+\[a_{k}\,=\,A_{k}\,e^{j\theta_{k}},\]
+
+then eq. (3.30) becomes
+
+\[x(t)\,=\,a_{0}\,+\,\sum_{k\,=\,1}^{\,\times}2\Omega\epsilon\{A_{k}\,e^{j(k \omega_{0}t+\theta_{k})}\}.\]
+
+That is,
+
+\[x(t)\,=\,a_{0}\,+\,2\sum_{k\,=\,1}^{\,\times}A_{k}\,\cos(k\omega_{0}t\,+\, \theta_{k}). \tag{3.31}\]
+
+Equation (3.31) is one commonly encountered form for the Fourier series of real periodic signals in continuous time. Another form is obtained by writing \(a_{k}\) in rectangular form as
+
+\[a_{k}\,=\,B_{k}\,+\,jC_{k},\]
+
+where \(B_{k}\) and \(C_{k}\) are both real. With this expression for \(a_{k}\), eq. (3.30) takes the form
+
+\[x(t)\,=\,a_{0}\,+\,2\sum_{k\,=\,1}^{\,\times}[B_{k}\cos k\omega_{0}t\,-\,C_{k }\sin k\omega_{0}t]. \tag{3.32}\]
+
+In Example 3.2 the \(a_{k}\)'s are all real, so that \(a_{k}\,=\,A_{k}\,=\,B_{k}\), and therefore, both representations, eqs. (3.31) and (3.32), reduce to the same form, eq. (3.28).
+
+Thus, for real periodic functions, the Fourier series in terms of complex exponentials, as given in eq. (3.25), is mathematically equivalent to either of the two forms in eqs. (3.31) and (3.32) that use trigonometric functions. Although the latter two are common forms for Fourier series,7 the complex exponential form of eq. (3.25) is particularly convenient for our purposes, so we will use that form almost exclusively.
+
+Footnote 7: In fact, in his original work, Fourier used the sine-cosine form of the Fourier series given in eq. (3.32).
+
+Equation (3.29) illustrates one of many properties associated with Fourier series. These properties are often quite useful in gaining insight and for computational purposes, and in Section 3.5 we collect together the most important of them. The derivation of several of them is considered in problems at the end of the chapter. In Section 4.3, we also will develop the majority of the properties within the broader context of the Fourier transform.
+
+#### Determination of the Fourier Series Representation
+
+of a Continuous-time Periodic Signal
+
+Assuming that a given periodic signal can be represented with the series of eq. (3.25), we need a procedure for determining the coefficients \(a_{k}\). Multiplying both sides of eq. (3.25) by \(e^{-jmu_{0}t}\), we obtain
+
+\[x(t)e^{-jmu_{0}t}\,=\,\sum_{k\,=\,-\,\times}^{+\times}a_{k}\,e^{jk\omega_{0}t} e^{-jmu_{0}t}. \tag{3.33}\]
+
+Integrating both sides from \(0\) to \(T\,=\,2\pi/\omega_{0}\), we have
+
+\[\int_{0}^{T}x(t)e^{-jmu_{0}t}\,dt\,=\,\int_{0}^{T}\sum_{k\,=\,-\,\times}^{+ \times}a_{k}\,e^{jk\omega_{0}t}e^{-jmu_{0}t}\,dt.\]
+
+Here, \(T\) is the fundamental period of \(x(t)\), and consequently, we are integrating over one period. Interchanging the order of integration and summation yields
+
+\[\int_{0}^{T}x(t)e^{-jmu_{0}t}\,dt\,=\,\sum_{k\,=\,-\,\times}^{+\times}a_{k} \,\Biggl{[}\int_{0}^{T}e^{j(k\,-\,n)\omega_{0}t}\,dt\Biggr{]}. \tag{3.34}\]
+
+The evaluation of the bracketed integral is straightforward. Rewriting this integral using Euler's formula, we obtain
+
+\[\int_{0}^{T}e^{j(k\,-\,n)\omega_{0}t}\,dt\,=\,\int_{0}^{T}\cos(k\,-\,n)\omega_ {0}t\,dt\,+\,j\int_{0}^{T}\sin(k\,-\,n)\omega_{0}t\,dt. \tag{3.35}\]
+
+For \(k\neq n\), \(\cos(k\,-\,n)\omega_{0}t\) and \(\sin(k\,-\,n)\omega_{0}t\) are periodic sinusoids with fundamental period \((T/|k\,-\,n|)\). Therefore, in eq. (3.35), we are integrating over an interval (of length \(T\)) that is an integral number of periods of these signals. Since the integral may be viewed as measuring the total area under the functions over the interval, we see that for \(k\neq n\), both of the integrals on the right-hand side of eq. (3.35) are zero. For \(k\,=\,n\), the integrand on the left-hand side of eq. (3.35) equals \(1\), and thus, the integral equals \(T\). In sum, we then have
+
+\[\int_{0}^{T}e^{j(k\,-\,n)\omega_{0}t}\,dt\,=\,\Biggl{[}\begin{array}{cc}T,& \,k\,=\,n\\ 0,&\,k\neq\,n\end{array}.\]and consequently, the right-hand side of eq. (3.34) reduces to \(Ta_{n}\). Therefore,
+
+\[a_{n}\,=\,\frac{1}{T}\int_{0}^{T}x(t)e^{-\,jna_{0}t}\,dt, \tag{3.36}\]
+
+which provides the equation for determining the coefficients. Furthermore, note that in evaluating eq. (3.35), the only fact that we used concerning the interval of integration was that we were integrating over an interval of length \(T\), which is an integral number of periods of \(\cos(k-n)\omega_{0}t\) and \(\sin(k-n)\omega_{0}t\). Therefore, we will obtain the same result if we integrate over any interval of length \(T\). That is, if we denote integration over _any_ interval of length \(T\) by \(\big{|}_{T}\), we have
+
+\[\int_{T}e^{\,j(k-n)\omega_{0}t}\,dt\,=\,\left\{\begin{array}{ll}T,&k\,=\,n \\ 0,&k\neq n\end{array},\right.\]
+
+and consequently,
+
+\[a_{n}\,=\,\frac{1}{T}\int_{T}x(t)e^{-\,jna_{0}t}\,dt. \tag{3.37}\]
+
+To summarize, if \(x(t)\) has a Fourier series representation [i.e., if it can be expressed as a linear combination of harmonically related complex exponentials in the form of eq. (3.25)], then the coefficients are given by eq. (3.37). This pair of equations, then, defines the Fourier series of a periodic continuous-time signal:
+
+\[x(t)\,=\,\sum_{k\,=\,-\,\infty}^{+\,\times}a_{k}e^{\,jka_{0}t}\,=\,\sum_{k\,= \,-\,\infty}^{+\,\times}a_{k}e^{\,j(k2\pi/T)t}, \tag{3.38}\]
+
+\[a_{k}\,=\,\frac{1}{T}\int_{T}x(t)e^{-\,jka_{0}t}\,dt\,=\,\frac{1}{T}\int_{T}x (t)e^{-\,jk(2\pi/T)t}\,dt. \tag{3.39}\]
+
+Here, we have written equivalent expressions for the Fourier series in terms of the fundamental frequency \(\omega_{0}\) and the fundamental period \(T\). Equation (3.38) is referred to as the _synthesis_ equation and eq. (3.39) as the _analysis_ equation. The set of coefficients \(\{a_{k}\}\) are often called the _Fourier series coefficients_ or the _spectral coefficients_ of \(x(t)\).8 These complex coefficients measure the portion of the signal \(x(t)\) that is at each harmonic of the fundamental component. The coefficient \(a_{0}\) is the dc or constant component of \(x(t)\) and is given by eq. (3.39) with \(k\,=\,0\). That is,
+
+Footnote 8: The term “spectral coefficient” is derived from problems such as the spectroscopic decomposition of light into spectral lines (i.e., into its elementary components at different frequencies). The intensity of any line in such a decomposition is a direct measure of the fraction of the total light energy at the frequency corresponding to the line.
+
+\[a_{0}\,=\,\frac{1}{T}\int_{T}x(t)\,dt, \tag{3.40}\]
+
+which is simply the average value of \(x(t)\) over one period.
+
+Equations (3.38) and (3.39) were known to both Euler and Lagrange in the middle of the 18th century. However, they discarded this line of analysis without having
+
+\[a_{-2} = \frac{1}{2}e^{-j\,i\,\pi/4\lambda_{1}}=\ \frac{\sqrt{2}}{4}(1-j),\] \[a_{k} = 0,\ |k|>2.\]
+
+In Figure 3.5, we show a bar graph of the magnitude and phase of \(a_{k}\).
+
+### Example 3.5
+
+The periodic square wave, sketched in Figure 3.6 and defined over one period as
+
+\[x(t)\,=\,\left\{\begin{array}{ll}1,&|t|<T_{1}\\ 0,&T_{1}<|t|<T/2\end{array}\right., \tag{3.41}\]
+
+is a signal that we will encounter a number of times throughout this book. This signal is periodic with fundamental period \(T\) and fundamental frequency \(\omega_{0}=2\pi/T\).
+
+To determine the Fourier series coefficients for \(x(t)\), we use eq. (3.39). Because of the symmetry of \(x(t)\) about \(t=0\), it is convenient to choose \(-T/2\,\leq\,t<T/2\) as the
+
+Figure 3.5: Plots of the magnitude and phase of the Fourier coefficients of the signal considered in Example 3.4.
+
+Figure 3.6: Periodic square wave.
+
+interval over which the integration is performed, although any interval of length \(T\) is equally valid and thus will lead to the same result. Using these limits of integration and substituting from eq. (3.41), we have first, for \(k=0\),
+
+\[a_{0}\,=\,\frac{1}{T}\,\int_{-T_{1}}^{T_{1}}dt\,=\,\frac{2T_{1}}{T}. \tag{3.42}\]
+
+As mentioned previously, \(a_{0}\) is interpreted to be the average value of \(x(t)\), which in this case equals the fraction of each period during which \(x(t)=1\). For \(k\neq 0\), we obtain
+
+\[a_{k}\,=\,\frac{1}{T}\,\int_{-T_{1}}^{T_{1}}e^{-jk\omega_{0}t}\,dt\,=\,\,-\, \frac{1}{jk\omega_{0}T}e^{-jk\omega_{0}t}\bigg{|}_{-T_{1}}^{T_{1}},\]
+
+which we may rewrite as
+
+\[a_{k}\,=\,\frac{2}{k\omega_{0}T}\Bigg{[}\frac{e^{jk\omega_{0}T_{1}}-e^{-jk \omega_{0}T_{1}}}{2j}\Bigg{]}. \tag{3.43}\]
+
+Noting that the term in brackets is \(\sin k\omega_{0}T_{1}\), we can express the coefficients \(a_{k}\) as
+
+\[a_{k}\,=\,\frac{2\sin(k\omega_{0}T_{1})}{k\omega_{0}T}\,=\,\frac{\sin(k\omega_ {0}T_{1})}{k\pi},\quad k\neq 0, \tag{3.44}\]
+
+where we have used the fact that \(\omega_{0}T\,=\,2\pi\).
+
+Figure 3.7 is a bar graph of the Fourier series coefficients for this example. In particular, the coefficients are plotted for a fixed value of \(T_{1}\) and several values of \(T\). For this specific example, the Fourier coefficients are real, and consequently, they can be depicted graphically with only a single graph. More generally, of course, the Fourier coefficients are complex, so that two graphs, corresponding to the real and imaginary parts, or magnitude and phase, of each coefficient, would be required. For \(T=4T_{1}\), \(x(t)\) is a square wave that is unity for half the period and zero for half the period. In this case, \(\omega_{0}T_{1}\,=\,\pi/2\), and from eq. (3.44),
+
+\[a_{k}\,=\,\frac{\sin(\pi k/2)}{k\pi},\quad k\neq 0, \tag{3.45}\]
+
+while
+
+\[a_{0}\,=\,\frac{1}{2}. \tag{3.46}\]
+
+From eq. (3.45), \(a_{k}\,=\,0\) for \(k\) even and nonzero. Also, \(\sin(\pi k/2)\) alternates between \(\pm 1\) for successive odd values of \(k\). Therefore,
+
+\[a_{1}\,=\quad\quad a_{-1}\,=\,\frac{1}{\pi},\] \[a_{3}\,=\,a_{-3}\,=\,-\,\frac{1}{3\pi},\] \[a_{5}\,=\quad a_{-5}\,=\,\frac{1}{5\pi},\] \[\vdots\]
+
+### 3.4 Convergence of the Fourier Series
+
+Although Euler and Lagrange would have been happy with the results of Examples 3.3 and 3.4, they would have objected to Example 3.5, since \(x(t)\) is discontinuous while each of its harmonic components is continuous. Fourier, on the other hand, considered the same example and maintained that the Fourier series representation of the square wave is valid. In fact, Fourier maintained that _any_ periodic signal could be represented by a Fourier series. Although this is not quite true, it _is_ true that Fourier series can be used to represent an extremely large class of periodic signals, including the square wave and all other periodic signals with which we will be concerned in this book and which are of interest in practice.
+
+To gain an understanding of the square-wave example and, more generally, of the question of the validity of Fourier series representations, let us examine the problem of approximating a given periodic signal \(x(t)\) by a linear combination of a finite number of harmonically related complex exponentials--that is, by a finite series of the form
+
+Figure 3.7: Plots of the scaled Fourier series coefficients \(T_{\boldsymbol{a}_{t}}\) for the periodic square wave with \(T_{1}\) fixed and for several values of \(T\): \((a)\)\(T=4T_{1}\); \((b)\)\(T=8T_{1}\); \((c)\)\(T=16T_{1}\). The coefficients are regularly spaced samples of the envelope \((2\sin\omega T_{1})/\omega_{a}\), where the spacing between samples, \(2\pi/T\), decreases as \(T\) increases.
+
+\[x_{N}(t)\,=\,\sum_{k\,=\,-N}^{N}a_{k}e^{jk\omega_{0}t}. \tag{3.47}\]
+
+Let \(e_{N}(t)\) denote the approximation error; that is,
+
+\[e_{N}(t)\,=\,x(t)\,-\,x_{N}(t)\,=\,x(t)\,-\,\sum_{k\,=\,-N}^{+N}a_{k}e^{jk\omega_ {0}t}. \tag{3.48}\]
+
+In order to determine how good any particular approximation is, we need to specify a quantitative measure of the size of the approximation error. The criterion that we will use is the energy in the error over one period:
+
+\[E_{N}\,=\,\int_{T}\,|e_{N}(t)|^{2}\,dt. \tag{3.49}\]
+
+As shown in Problem 3.66, the particular choice for the coefficients in eq. (3.47) that minimize the energy in the error is
+
+\[a_{k}\,=\,\frac{1}{T}\int_{T}\,x(t)e^{-\,jk\omega_{0}t}\,dt. \tag{3.50}\]
+
+Comparing eqs. (3.50) and (3.39), we see that eq. (3.50) is identical to the expression used to determine the Fourier series coefficients. Thus, if \(x(t)\) has a Fourier series representation, the best approximation using only a finite number of harmonically related complex exponentials is obtained by truncating the Fourier series to the desired number of terms. As \(N\) increases, new terms are added and \(E_{N}\) decreases. If, in fact, \(x(t)\) has a Fourier series representation, then the limit of \(E_{N}\) as \(N\,\to\,\infty\) is zero.
+
+Let us turn now to the question of when a periodic signal \(x(t)\) does in fact have a Fourier series representation. Of course, for any signal, we can attempt to obtain a set of Fourier coefficients through the use of eq. (3.39). However, in some cases, the integral in eq. (3.39) may diverge; that is, the value obtained for some of the \(a_{k}\) may be infinite. Moreover, even if all of the coefficients obtained from eq. (3.39) are finite, when these coefficients are substituted into the synthesis equation (3.38), the resulting infinite series may not converge to the original signal \(x(t)\).
+
+Fortunately, there are no convergence difficulties for large classes of periodic signals. For example, every continuous periodic signal has a Fourier series representation for which the energy \(E_{N}\) in the approximation error approaches 0 as \(N\) goes to \(\infty\). This is also true for many discontinuous signals. Since we will find it very useful to include discontinuous signals such as square waves in our discussions, it is worthwhile to investigate the issue of convergence in a bit more detail. Specifically, there are two somewhat different classes of conditions that a periodic signal can satisfy to guarantee that it can be represented by a Fourier series. In discussing these, we will not attempt to provide a complete mathematical justification; more rigorous treatments can be found in many texts on Fourier analysis.9One class of periodic signals that are representable through the Fourier series is those signals which have finite energy over a single period, i.e., signals for which
+
+\[\int_{T}|x(t)|^{2}\,dt<\infty. \tag{3.51}\]
+
+When this condition is satisfied, we are guaranteed that the coefficients \(a_{k}\) obtained from eq. (3.39) are finite. Furthermore, let \(x_{N}(t)\) be the approximation to \(x(t)\) obtained by using these coefficients for \(|k|\,\leq\,N\):
+
+\[x_{N}(t)\,=\,\sum_{k\,=\,-N}^{+N}a_{k}e^{jk\omega_{0}t}. \tag{3.52}\]
+
+Then we are guaranteed that the energy \(E_{N}\) in the approximation error, as defined in eq. (3.49), converges to 0 as we add more and more terms, i.e., as \(N\to\infty\). That is, if we define
+
+\[e(t)\,=\,x(t)-\sum_{k\,=\,-\infty}^{+\,\times}a_{k}e^{jk\omega_{0}t}, \tag{3.53}\]
+
+then
+
+\[\int_{T}|e(t)|^{2}\,dt\,=\,0. \tag{3.54}\]
+
+As we will see in an example at the end of this section, eq. (3.54) does _not_ imply that the signal \(x(t)\) and its Fourier series representation
+
+\[\sum_{k\,=\,-\infty}^{+\,\times}a_{k}e^{jk\omega_{0}t} \tag{3.55}\]
+
+are equal at every value of \(t\). What it does say is that there is no energy in their difference.
+
+The type of convergence guaranteed when \(x(t)\) has finite energy over a single period is quite useful. In this case eq. (3.54) states that the difference between \(x(t)\) and its Fourier series representation has zero energy. Since physical systems respond to signal energy, from this perspective \(x(t)\) and its Fourier series representation are indistinguishable. Because most of the periodic signals that we consider do have finite energy over a single period, they have Fourier series representations. Moreover, an alternative set of conditions, developed by P. L. Dirichlet and also satisfied by essentially all of the signals with which we will be concerned, guarantees that \(x(t)\)_equals_ its Fourier series representation, except at isolated values of \(t\) for which \(x(t)\) is discontinuous. At these values, the infinite series of eq. (3.55) converges to the average of the values on either side of the discontinuity.
+
+The Dirichlet conditions are as follows:
+
+**Condition 1.** Over any period, \(x(t)\) must be _absolutely integrable_; that is,
+
+\[\int_{T}|x(t)|\,dt<\infty, \tag{3.56}\]As with square integrability, this guarantees that each coefficient \(a_{k}\) will be finite, since
+
+\[|a_{k}|\,\leq\,\frac{1}{T}\int_{T}|x(t)e^{-jku_{0}t}|\,dt\,=\,\frac{1}{T}\int_{T }|x(t)|\,dt.\]
+
+So if
+
+\[\int_{T}|x(t)|\,dt<\infty,\]
+
+then
+
+\[|a_{k}|<\infty.\]
+
+A periodic signal that violates the first Dirichlet condition is
+
+\[x(t)\,=\,\frac{1}{t},\quad 0<t\,\leq\,1;\]
+
+that is, \(x(t)\) is periodic with period \(1\). This signal is illustrated in Figure 3.8(a).
+
+Condition 2.In any finite interval of time, \(x(t)\) is of bounded variation; that is, there are no more than a finite number of maxima and minima during any single period of the signal.
+
+An example of a function that meets Condition 1 but not Condition 2 is
+
+\[x(t)\,=\,\sin\left(\frac{2\pi}{t}\right),\quad 0<t\,\leq\,1, \tag{3.57}\]
+
+as illustrated in Figure 3.8(b). For this function, which is periodic with \(T\,=\,1\),
+
+\[\int_{0}^{1}|x(t)|\,\,dt<1.\]
+
+The function has, however, an infinite number of maxima and minima in the interval.
+
+Condition 3.In any finite interval of time, there are only a finite number of discontinuities. Furthermore, each of these discontinuities is finite.
+
+An example of a function that violates Condition 3 is illustrated in Figure 3.8(c). The signal, of period \(T\,=\,8\), is composed of an infinite number of sections, each of which is half the height and half the width of the previous section. Thus, the area under one period of the function is clearly less than \(8\). However, there are an infinite number of discontinuities in each period, thereby violating Condition 3.
+
+As can be seen from the examples given in Figure 3.8, signals that do not satisfy the Dirichlet conditions are generally pathological in nature and consequently do not typically arise in practical contexts. For this reason, the question of the convergence of Fourier series will not play a particularly significant role in the remainder of the book. For a periodic signal that has no discontinuities, the Fourier series representation converges and equals the original signal at every value of \(t\). For a periodic signal with a finite number of discontinuities in each period, the Fourier series representation equals the signal every where except at the isolated points of discontinuity, at which the series converges to the average value of the signal on either side of the discontinuity. In this case the difference between the original signal and its Fourier series representation contains no energy, and consequently, the two signals can be thought of as being the same for all practical purposes.
+
+Figure 3.8: Signals that violate the Dirichlet conditions: (a) the signal \(x(t)=1/t\) for \(0<t\leq 1\), a periodic signal with period 1 (this signal violates the first Dirichlet condition); (b) the periodic signal of eq. (3.57), which violates the second Dirichlet condition; (c) a signal periodic with period 8 that violates the third Dirichlet condition [for \(0\leq t<8\), the value of \(x(t)\) decreases by a factor of 2 whenever the distance from \(t\) to 8 decreases by a factor of 2; that is, \(x(t)=1\), \(0\leq t<4\), \(x(t)=1/2\), \(4\leq t<6\), \(x(t)=1/4\), \(6\leq t<7\), \(x(t)=1/8\), \(7\leq t<7.5\), etc.].
+
+poses. Specifically, since the signals differ only at isolated points, the integrals of both signals over any interval _are_ identical. For this reason, the two signals behave identically under convolution and consequently are identical from the standpoint of the analysis of LTI systems.
+
+To gain some additional understanding of _how_ the Fourier series converges for a periodic signal with discontinuities, let us return to the example of a square wave. In particular, in 1898,10 an American physicist, Albert Michelson, constructed a harmonic analyzer, a device that, for any periodic signal \(x(t)\), would compute the truncated Fourier series approximation of eq. (3.52) for values of \(N\) up to 80. Michelson tested his device on many functions, with the expected result that \(x_{N}(t)\) looked very much like \(x(t)\). However, when he tried the square wave, he obtained an important and, to him, very surprising result. Michelson was concerned about the behavior he observed and thought that his device might have had a defect. He wrote about the problem to the famous mathematical physicist Josiah Gibbs, who investigated it and reported his explanation in 1899.
+
+Footnote 10: The historical information used in this example is taken from the book by Lanczos referenced in footnotet 1 of this chapter.
+
+What Michelson had observed is illustrated in Figure 3.9, where we have shown \(x_{N}(t)\) for several values of \(N\) for \(x(t)\), a symmetric square wave (\(T=4T_{1}\)). In each case, the partial sum is superimposed on the original square wave. Since the square wave satisfies the Dirichlet conditions, the limit as \(N\to\infty\) of \(x_{N}(t)\) at the discontinuities should be the average value of the discontinuity. We see from the figure that this is in fact the case, since for any \(N\), \(x_{N}(t)\) has exactly that value at the discontinuities. Furthermore, for any other value of \(t\), say, \(t\,=\,t_{1}\), we are guaranteed that
+
+\[\lim_{N\to\infty}\,x_{N}(t_{1})\,=\,\,x(t_{1}).\]
+
+Therefore, the squared error in the Fourier series representation of the square wave has zero area, as in eqs. (3.53) and (3.54).
+
+For this example, the interesting effect that Michelson observed is that the behavior of the partial sum in the vicinity of the discontinuity exhibits ripples and that the peak amplitude of these ripples does not seem to decrease with increasing \(N\). Gibbs showed that these are in fact the case. Specifically, for a discontinuity of unity height, the partial sum exhibits a maximum value of 1.09 (i.e., an overshoot of 9% of the height of the discontinuity), no matter how large \(N\) becomes. One must be careful to interpret this correctly, however. As stated before, for any _fixed_ value of \(t\), say, \(t\,=\,t_{1}\), the partial sums will converge to the correct value, and at the discontinuity they will converge to one-half the sum of the values of the signal on either side of the discontinuity. However, the closer \(t_{1}\) is chosen to the point of discontinuity, the larger \(N\) must be in order to reduce the error below a specified amount. Thus, as \(N\) increases, the ripples in the partial sums become compressed toward the discontinuity, but for _any_ finite value of \(N\), the peak amplitude of the ripples remains constant. This behavior has come to be known as the _Gibbs phenomenon_. The implication is that the truncated Fourier series approximation \(x_{N}(t)\) of a discontinuous signal \(x(t)\) will in general exhibit high-frequency ripples and overshoot \(x(t)\) near the discontinuities. If such an approximation is used in practice, a large enough value of \(N\) should be chosen so as to guarantee that the total energy in these ripples is insignificant. In the limit, of course, we know that the energy in the approximation error vanishes and that the Fourier series representation of a discontinuous signal such as the square wave converges.
+
+### Properties of continuous-time Fourier series
+
+As mentioned earlier, Fourier series representations possess a number of important properties that are useful for developing conceptual insights into such representations, and they can also help to reduce the complexity of the evaluation of the Fourier series of many signals. In Table 3.1 we have summarized these properties, several of which are considered in the problems at the end of this chapter. In Chapter 4, in which we develop the Fourier transform, we will see that most of these properties can be deduced from corresponding properties of the continuous-time Fourier transform. Consequently we limit ourselves here to the discussion of several of these properties to illustrate how they may be derived, interpreted, and used.
+
+Throughout the following discussion of selected properties from Table 3.1, we will find it convenient to use a shorthand notation to indicate the relationship between a periodic signal and its Fourier series coefficients. Specifically, suppose that \(x(t)\) is a periodic signal with period \(T\) and fundamental frequency \(\omega_{0}=2\pi/T\). Then if the Fourier series coefficients of \(x(t)\) are denoted by \(a_{k}\), we will use the notation
+
+\[x(t)\xleftrightarrow{\mathcal{F}_{S}}a_{k}\]
+
+to signify the pairing of a periodic signal with its Fourier series coefficients.
+
+#### Linearity
+
+Let \(x(t)\) and \(y(t)\) denote two periodic signals with period \(T\) and which have Fourier series coefficients denoted by \(a_{k}\) and \(b_{k}\), respectively. That is,
+
+\[x(t) \xleftrightarrow{\mathcal{F}_{S}}a_{k},\] \[y(t) \xleftrightarrow{\mathcal{F}_{S}}b_{k}.\]
+
+Since \(x(t)\) and \(y(t)\) have the same period \(T\), it easily follows that any linear combination of the two signals will also be periodic with period \(T\). Furthermore, the Fourier series coefficients \(c_{k}\) of the linear combination of \(x(t)\) and \(y(t)\), \(z(t)=Ax(t)+By(t)\), are given by the same linear combination of the Fourier series coefficients for \(x(t)\) and \(y(t)\). That is,
+
+\[z(t) = Ax(t)+By(t)\xleftrightarrow{\mathcal{F}_{S}}c_{k}\,=\,Aa_{k}+Bb_{k}. \tag{3.58}\]
+
+The proof of this follows directly from the application of eq. (3.39). We also note that the linearity property is easily extended to a linear combination of an arbitrary number of signals with period \(T\).
+
+#### Time Shifting
+
+When a time shift is applied to a periodic signal \(x(t)\), the period \(T\) of the signal is preserved. The Fourier series coefficients \(b_{k}\) of the resulting signal \(y(t)\,=\,x(t-t_{0})\) may be expressed as
+
+\[b_{k} = \frac{1}{T}\int_{T}x(t-t_{0})e^{-jk\omega_{0}t}dt. \tag{3.59}\]Letting \(\tau=t-t_{0}\) in the integral, and noting that the new variable \(\tau\) will also range over an interval of duration \(T\), we obtain
+
+\[\begin{split}\frac{1}{T}\int_{T}x(\tau)e^{-jk\omega_{0}(\tau+t_{0} )}d\tau&=\ e^{-jk\omega_{0}t_{0}}\frac{1}{T}\int_{T}x(\tau)e^{-jk \omega_{0}\tau}d\tau\\ &=\ e^{-jk\omega_{0}t_{0}}a_{k}\ =\ e^{-jk(2\pi/T)t_{\infty}}a_{k}, \end{split} \tag{3.60}\]
+
+where \(a_{k}\) is the \(k\)th Fourier series coefficient of \(x(t)\). That is, if
+
+\[x(t)\xleftrightarrow{\mathcal{G}S}a_{k},\]
+
+then
+
+\[x(t-t_{0})\xleftrightarrow{\mathcal{G}S}e^{-jk\omega_{0}t_{0}}a_{k}\ =\ e^{-jk(2\pi/T)t_{0}}a_{k}.\]
+
+One consequence of this property is that, when a periodic signal is shifted in time, the _magnitudes_ of its Fourier series coefficients remain unaltered. That is, \(|b_{k}|\ =\ |a_{k}|\).
+
+#### Time Reversal
+
+The period \(T\) of a periodic signal \(x(t)\) also remains unchanged when the signal undergoes time reversal. To determine the Fourier series coefficients of \(y(t)\ =\ x(-t)\), let us consider the effect of time reversal on the synthesis equation (3.38):
+
+\[x(-t)\ =\ \sum_{k\,=\,-\,\infty}^{\infty}a_{k}e^{-jk2\pi t/T}. \tag{3.61}\]
+
+Making the substitution \(k\ =\ -m\), we obtain
+
+\[y(t)\ =\ x(-t)\ =\ \sum_{m\,=\,-\,\infty}^{\infty}a_{-m}e^{jm2\pi t/T}. \tag{3.62}\]
+
+We observe that the right-hand side of this equation has the form of a Fourier series synthesis equation for \(x(-t)\), where the Fourier series coefficients \(b_{k}\) are
+
+\[b_{k}\ =\ a_{-k}. \tag{3.63}\]
+
+That is, if
+
+\[x(t)\xleftrightarrow{\mathcal{G}S}a_{k},\]
+
+then
+
+\[x(-t)\xleftrightarrow{\mathcal{G}S}a_{-k}.\]
+
+In other words time reversal applied to a continuous-time signal results in a time reversal of the corresponding sequence of Fourier series coefficients. An interesting consequence of the time-reversal property is that if \(x(t)\) is even--that is, if \(x(-t)\ =\ x(t)\)--then its Fourier series coefficients are also even--i.e., \(a_{-k}\ =\ a_{k}\). Similarly, if \(x(t)\) is odd, so that \(x(-t)\ =\ -\ x(t)\), then so are its Fourier series coefficients--i.e., \(a_{-k}\ =\ -a_{k}\).
+
+#### Time Scaling
+
+Time scaling is an operation that in general changes the period of the underlying signal. Specifically, if \(x(t)\) is periodic with period \(T\) and fundamental frequency \(\omega_{0}=2\pi/T\), then \(x(\alpha t)\), where \(\alpha\) is a positive real number, is periodic with period \(T/\alpha\) and fundamental frequency \(\alpha\omega_{0}\). Since the time-scaling operation applies directly to each of the harmonic components of \(x(t)\), we may easily conclude that the Fourier coefficients for each of those components remain the same. That is, if \(x(t)\) has the Fourier series representation in eq. (3.38), then
+
+\[x(\alpha t)\,=\,\sum_{k\,=\,-\,\infty}^{+\,\times}a_{k}e^{jk(\alpha\omega_{0})t}\]
+
+is the Fourier series representation of \(x(\alpha t)\). We emphasize that, while the Fourier coefficients have not changed, the Fourier series representation _has_ changed because of the change in the fundamental frequency.
+
+#### Multiplication
+
+Suppose that \(x(t)\) and \(y(t)\) are both periodic with period \(T\) and that
+
+\[x(t) \stackrel{{\mathcal{G}S}}{{\longleftrightarrow}}\ a_{k},\] \[y(t) \stackrel{{\mathcal{G}S}}{{\longleftrightarrow}}\ b_{k}.\]
+
+Since the product \(x(t)y(t)\) is also periodic with period \(T\), we can expand it in a Fourier series with Fourier series coefficients \(h_{k}\) expressed in terms of those for \(x(t)\) and \(y(t)\). The result is
+
+\[x(t)y(t)\stackrel{{\mathcal{G}S}}{{\longleftrightarrow}}h_{k} \,=\,\sum_{l\,=\,-\,\times}^{\,\times}a_{l}b_{k\,-l}. \tag{3.64}\]
+
+One way to derive this relationship (see Problem 3.46) is to multiply the Fourier series representations of \(x(t)\) and \(y(t)\) and to note that the \(k\)th harmonic component in the product will have a coefficient which is the sum of terms of the form \(a_{l}b_{k\,-l}\). Observe that the sum on the right-hand side of eq. (3.64) may be interpreted as the discrete-time convolution of the sequence representing the Fourier coefficients of \(x(t)\) and the sequence representing the Fourier coefficients of \(y(t)\).
+
+#### Conjugation and Conjugate Symmetry
+
+Taking the complex conjugate of a periodic signal \(x(t)\) has the effect of complex conjugation _and_ time reversal on the corresponding Fourier series coefficients. That is, if
+
+\[x(t)\stackrel{{\mathcal{G}S}}{{\longleftrightarrow}}\ a_{k},\]
+
+then
+
+\[x^{*}(t)\stackrel{{\mathcal{G}S}}{{\longleftrightarrow}}\ a_{-k}^{*}. \tag{3.65}\]This property is easily proved by applying complex conjugation to both sides of eq. (3.38) and replacing the summation variable \(k\) by its negative.
+
+Some interesting consequences of this property may be derived for \(x(t)\) real--that is, when \(x(t)=x^{*}(t)\). In particular, in this case, we see from eq. (3.65) that the Fourier series coefficients will be _conjugate symmetric_, i.e.,
+
+\[a_{-k}\,=\,a_{k}^{*}, \tag{3.66}\]
+
+as we previously saw in eq. (3.29). This in turn implies various symmetry properties (listed in Table 3.1) for the magnitudes, phases, real parts, and imaginary parts of the Fourier series coefficients of real signals. For example, from eq. (3.66), we see that if \(x(t)\) is real, then \(a_{0}\) is real and
+
+\[|a_{k}|\,=\,|a_{-k}|.\]
+
+Also, if \(x(t)\) is real and even, then, from Section 3.5.3, \(a_{k}\,=\,a_{-k}\). However, from eq. (3.66) we see that \(a_{k}^{*}=a_{-k}\), so that \(a_{k}=a_{k}^{*}\). That is, if \(x(t)\) is real and even, then so are its Fourier series coefficients. Similarly, it can be shown that if \(x(t)\) is real and odd, then its Fourier series coefficients are purely imaginary and odd. Thus, for example, \(a_{0}\,=\,0\) if \(x(t)\) is real and odd. This and the other symmetry properties of the Fourier series are examined further in Problem 3.42.
+
+#### Parseval's Relation for Continuous-Time Periodic Signals
+
+As shown in Problem 3.46, Parseval's relation for continuous-time periodic signals is
+
+\[\frac{1}{T}\int_{T}|x(t)|^{2}dt\,=\,\sum_{k\,=\,-\,\infty}^{+\, \infty}|a_{k}|^{2}, \tag{3.67}\]
+
+where the \(a_{k}\) are the Fourier series coefficients of \(x(t)\) and \(T\) is the period of the signal.
+
+Note that the left-hand side of eq. (3.67) is the average power (i.e., energy per unit time) in one period of the periodic signal \(x(t)\). Also,
+
+\[\frac{1}{T}\int_{T}\,\left|a_{k}e^{jk\omega_{0}t}\right|^{2}dt\,= \,\frac{1}{T}\int_{T}|a_{k}|^{2}dt\,=\,|a_{k}|^{2}, \tag{3.68}\]
+
+so that \(|a_{k}|^{2}\) is the average power in the \(k\)th harmonic component of \(x(t)\). Thus, what Parseval's relation states is that the total average power in a periodic signal equals the sum of the average powers in all of its harmonic components.
+
+#### Summary of Properties of the Continuous-Time Fourier Series
+
+In Table 3.1, we summarize these and other important properties of continuous-time Fourier series.
+
+#### Examples
+
+Fourier series properties, such as those listed in Table 3.1, may be used to circumvent some of the algebra involved in determining the Fourier coefficients of a given signal. In the next three examples, we illustrate this. The last example in this section then demonstrates how properties of a signal can be used to characterize the signal in great detail.
+
+## Example 3.6
+
+Consider the signal \(g(t)\) with a fundamental period of \(4\), shown in Figure 3.10. We could determine the Fourier series representation of \(g(t)\) directly from the analysis equation (3.39). Instead, we will use the relationship of \(g(t)\) to the symmetric periodic square wave \(x(t)\) in Example 3.5. Referring to that example, we see that, with \(T=4\) and \(T_{1}=1\),
+
+\[g(t)\,=\,x(t-1)-1/2. \tag{3.69}\]
+
+\begin{table}
+\begin{tabular}{l l l l} \hline \hline
+**Property** & **Section** & **Periodic Signal** & **Fourier Series Coefficients** \\ \hline  & & \(x(t)\) & Periodic with period T and & \(a_{1}\) \\  & & \(y(t)\) & fundamental frequency \(\omega_{0}\,=\,2\pi/T\) & \(b_{1}\) \\ Linearity & 3.5.1 & \(Ax(t)+By(t)\) & \(Aa_{k}+Bb_{1}\) \\ Time Shifting & 3.5.2 & \(x(t-t_{0})\) & \(a_{1}e^{-jkn\omega_{0}t}=a_{1}e^{-jkn\omega_{1}t}\) \\ Frequency Shifting & & \(e^{jkn\omega_{1}t}=e^{j(2\pi/T)t}x(t)\) & \(a_{1-M}\) \\ Conjugation & 3.5.6 & \(x^{*}(t)\) & \(a^{*}_{-k}\) \\ Time Reversal & 3.5.3 & \(x(-t)\) & \(a_{-k}\) \\ Time Scaling & 3.5.4 & \(x(\alpha t),\,\alpha>0\) (periodic with period \(T/\alpha\)) & \(a_{k}\) \\ Periodic Convolution & & \(\int_{T}x(t)y(t-\tau)d\tau\) & \(Ta_{k}b_{k}\) \\ Multiplication & 3.5.5 & \(x(t)y(t)\) & \(\sum\limits_{l=-\infty}^{+\infty}a_{l}b_{k-l}\) \\ Differentiation & & \(\dfrac{dx(t)}{dt}\) & \(jk\omega_{0}a_{k}\,=\,jk\dfrac{2\pi}{T}a_{k}\) \\ Integration & & \(\int_{-\infty}^{t}x(t)\,dt\) (finite valued and periodic only if \(a_{0}\,=\,0\)) & \(\left(\dfrac{1}{jk\omega_{0}}\right)\!a_{k}\,=\,\left(\dfrac{1}{jk(2\pi/T)} \right)\!a_{k}\) \\ Conjugate Symmetry for & 3.5.6 & \(x(t)\) real & \(\delta\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!The time-shift property in Table 3.1 indicates that, if the Fourier Series coefficients of \(x(t)\) are denoted by \(a_{k}\), the Fourier coefficients of \(x(t-1)\) may be expressed as
+
+\[b_{k}\,=\,a_{k}e^{-jk\pi/2}. \tag{3.70}\]
+
+The Fourier coefficients of the _dc offset_ in \(g(t)\)--i.e., the term \(-1/2\) on the right-hand side of eq. (3.69)--are given by
+
+\[c_{k}\,=\,\left\{\begin{array}{ll}0,&\mbox{for $k\neq 0$}\\ -\frac{1}{2},&\mbox{for $k\,=\,0$}\end{array}\right.. \tag{3.71}\]
+
+Applying the linearity property in Table 3.1, we conclude that the coefficients for \(g(t)\) may be expressed as
+
+\[d_{k}\,=\,\left\{\begin{array}{ll}a_{k}e^{-jk\pi/2},&\mbox{for $k\neq 0$}\\ a_{0}-\frac{1}{2},&\mbox{for $k\,=\,0$}\end{array}\right.,\]
+
+where each \(a_{k}\) may now be replaced by the corresponding expression from eqs. (3.45) and (3.46), yielding
+
+\[d_{k}\,=\,\left\{\begin{array}{ll}\frac{\sin(\pi k/2)}{k\pi}e^{-jk\pi/2},& \mbox{for $k\neq 0$}\\ 0,&\mbox{for $k\,=\,0$}\end{array}\right.. \tag{3.72}\]
+
+## Example 3.7
+
+Consider the triangular wave signal \(x(t)\) with period \(T\,=\,4\) and fundamental frequency \(\omega_{0}\,=\,\pi/2\) shown in Figure 3.11.
+
+The derivative of this signal is the signal \(g(t)\) in Example 3.7.
+
+Figure 3.10: Periodic signal for Example 3.6.
+
+where \(\omega_{0}\,=\,2\pi/T\). Using eq. (3.76), we then have
+
+\[b_{k}\,=\,\frac{1}{T}[e^{jk\omega_{0}T_{1}}-e^{-jk\omega_{0}T_{1}}]\,=\,\frac{2j \sin(k\omega_{0}T_{1})}{T}.\]
+
+Finally, since \(q(t)\) is the derivative of \(g(t)\), we can use the differentiation property in Table 3.1 to write
+
+\[b_{k}\,=\,jk\omega_{0}c_{k}, \tag{3.78}\]
+
+where the \(c_{k}\) are the Fourier series coefficients of \(g(t)\). Thus,
+
+\[c_{k}\,=\,\frac{b_{k}}{jk\omega_{0}}\,=\,\frac{2j\sin(k\omega_{0}T_{1})}{jk \omega_{0}T}\,=\,\frac{\sin(k\omega_{0}T_{1})}{k\pi},\quad k\neq 0, \tag{3.79}\]
+
+Figure 3.12: (a) Periodic train of impulses; (b) periodic square wave; (c) derivative of the periodic square wave in (b).
+
+where we have used the fact that \(\omega_{0}T=2\pi\). Note that eq. (3.79) is valid for \(k\neq 0\), since we cannot solve for \(c_{0}\) from eq. (3.78) with \(k=0\). However, since \(c_{0}\) is just the average value of \(g(t)\) over one period, we can determine it by inspection from Figure 3.12(b):
+
+\[c_{0}\,=\,\frac{2T_{1}}{T}. \tag{3.80}\]
+
+Eqs. (3.80) and (3.79) are identical to eqs. (3.42) and (3.44), respectively, for the Fourier series coefficients of the square wave derived in Example 3.5.
+
+The next example is chosen to illustrate the use of many of the properties in Table 3.1.
+
+### Example 3.9
+
+Suppose we are given the following facts about a signal \(x(t)\):
+
+1. \(x(t)\) is a real signal.
+2. \(x(t)\) is periodic with period \(T\,=\,4\), and it has Fourier series coefficients \(a_{k}\).
+3. \(a_{k}\,=\,0\) for \(|k|>1\).
+4. The signal with Fourier coefficients \(b_{k}\,=\,e^{-j\pi k/2}a_{-k}\) is odd.
+5. \(\frac{1}{4}\,\big{|}_{4}\,|x(t)|^{2}dt\,=\,1/2\).
+
+Let us show that this information is sufficient to determine the signal \(x(t)\) to within a sign factor. According to Fact 3, \(x(t)\) has at most three nonzero Fourier series coefficients \(a_{k}\): \(a_{0}\), \(a_{1}\), and \(a_{-1}\). Then, since \(x(t)\) has fundamental frequency \(\omega_{0}=2\pi/4\,=\,\pi/2\), it follows that
+
+\[x(t)\,=\,a_{0}\,+\,a_{1}e^{j\pi/2}\,+\,a_{-1}e^{-j\pi/2}.\]
+
+Since \(x(t)\) is real (Fact 1), we can use the symmetry properties in Table 3.1 to conclude that \(a_{0}\) is real and \(a_{1}\,=\,a*_{-1}\). Consequently,
+
+\[x(t)\,=\,a_{0}\,+\,a_{1}e^{j\pi l/2}\,+\,(a_{1}e^{j\pi l/2})^{*}\,=\,a_{0}\,+ \,2\Omega\mbox{e}\{a_{1}e^{j\pi l/2}\}. \tag{3.81}\]
+
+Let us now determine the signal corresponding to the Fourier coefficients \(b_{k}\) given in Fact 4. Using the time-reversal property from Table 3.1, we note that \(a_{-k}\) corresponds to the signal \(x(-t)\). Also, the time-shift property in the table indicates that multiplication of the \(k\)th Fourier coefficient by \(e^{-j\pi/2}\,=\,e^{-j\,k\omega_{0}}\) corresponds to the underlying signal being shifted by 1 to the right (i.e., having \(t\) replaced by \(t-1\)). We conclude that the coefficients \(b_{k}\) correspond to the signal \(x(-(t-1))=x(-t+1)\), which, according to Fact 4, must be odd. Since \(x(t)\) is real, \(x(-t+1)\) must also be real. From Table 3.1, it then follows that the Fourier coefficients of \(x(-t+1)\) must be purely imaginary and odd. Thus, \(b_{0}\,=\,0\) and \(b_{-1}\,=\,-b_{1}\). Since time-reversal and time-shift operations cannot change the average power per period, Fact 5 holds even if \(x(t)\) is replaced by \(x(-t+1)\). That is,
+
+\[\frac{1}{4}\,\bigg{[}\,x(-t\,+\,1)\,|^{2}dt\,=\,1/2. \tag{3.82}\]We can now use Parseval's relation to conclude that
+
+\[|b_{1}|^{2}+|b_{-1}|^{2}\,=\,1/2. \tag{3.83}\]
+
+Substituting \(b_{1}\,=\,-\,b_{-1}\) in this equation, we obtain \(|b_{1}|\,=\,1/2\). Since \(b_{1}\) is also known to be purely imaginary, it must be either \(j/2\) or \(-j/2\).
+
+Now we can translate these conditions on \(b_{0}\) and \(b_{1}\) into equivalent statements on \(a_{0}\) and \(a_{1}\). First, since \(b_{0}\,=\,0\), Fact 4 implies that \(a_{0}\,=\,0\). With \(k\,=\,1\), this condition implies that \(a_{1}\,=\,e^{-j\pi/2}b_{-1}\,=\,-\,jb_{-1}\,=\,jb_{1}\). Thus, if we take \(b_{1}\,=\,j/2\), then \(a_{1}\,=\,-\,1/2\), and therefore, from eq. (3.81), \(x(t)\,=\,-\,\cos(\pi t/2)\). Alternatively, if we take \(b_{1}\,=\,-\,j/2\), then \(a_{1}\,=\,1/2\), and therefore, \(x(t)\,=\,\cos(\pi t/2)\).
+
+### Fourier Series Representation of Discrete-Time Periodic Signals
+
+In this section, we consider the Fourier series representation of discrete-time periodic signals. While the discussion closely parallels that of Section 3.3, there are some important differences. In particular, the Fourier series representation of a discrete-time periodic signal is a _finite_ series, as opposed to the infinite series representation required for continuous-time periodic signals. As a consequence, there are no mathematical issues of convergence such as those discussed in Section 3.4.
+
+#### Linear Combinations of Harmonically Related Complex Exponentials
+
+As defined in Chapter 1, a discrete-time signal \(x[n]\) is periodic with period \(N\) if
+
+\[x[n]\,=\,x[n+N]. \tag{3.84}\]
+
+The fundamental period is the smallest positive integer \(N\) for which eq. (3.84) holds, and \(\omega_{0}\,=\,2\pi/N\) is the fundamental frequency. For example, the complex exponential \(e^{j(2\pi/N)n}\) is periodic with period \(N\). Furthermore, the set of all discrete-time complex exponential signals that are periodic with period \(N\) is given by
+
+\[\phi_{k}[n]\,=\,e^{jk\omega_{0}n}\,=\,e^{jk(2\pi/N)n},\,k\,=\,0,\,\pm 1,\,\pm 2, \ldots. \tag{3.85}\]
+
+All of these signals have fundamental frequencies that are multiples of \(2\pi/N\) and thus are harmonically related.
+
+As mentioned in Section 3.3, there are only \(N\) distinct signals in the set given by eq. (3.85). This is a consequence of the fact that discrete-time complex exponentials which differ in frequency by a multiple of \(2\pi\) are identical. Specifically, \(\phi_{0}[n]\,=\,\phi_{N}[n],\,\phi_{1}[n]\,=\,\phi_{N+1}[n]\), and, in general,
+
+\[\phi_{k}[n]\,=\,\phi_{k+\kappa N}[n]. \tag{3.86}\]
+
+That is, when \(k\) is changed by any integer multiple of \(N\), the identical sequence is generated. This differs from the situation in continuous time in which the signals \(\phi_{k}(t)\) defined in eq. (3.24) are all different from one another.
+
+We now wish to consider the representation of more general periodic sequences in terms of linear combinations of the sequences \(\phi_{k}[n]\) in eq. (3.85). Such a linear combination has the form
+
+\[x[n]\,=\,\sum_{k}a_{k}\phi_{k}[n]\,=\,\sum_{k}a_{k}e^{jk\omega_{0}n}\,=\,\sum_{k }a_{k}e^{jk(2\pi/N)n}. \tag{3.87}\]
+
+Since the sequences \(\phi_{k}[n]\) are distinct only over a range of \(N\) successive values of \(k\), the summation in eq. (3.87) need only include terms over this range. Thus, the summation is on \(k\), as \(k\) varies over a range of \(N\) successive integers, beginning with any value of \(k\). We indicate this by expressing the limits of the summation as \(k\,=\,\langle N\rangle\). That is,
+
+\[x[n]\,=\,\sum_{k\,=\,\langle N\rangle}a_{k}\phi_{k}[n]\,=\,\sum_{k\,=\,\langle N \rangle}a_{k}e^{jk\omega_{0}n}\,=\,\sum_{k\,=\,\langle N\rangle}a_{k}e^{jk(2 \pi/N)m}. \tag{3.88}\]
+
+For example, \(k\) could take on the values \(k=0,\,1,\ldots,\,N-1\), or \(k=3,\,4,\ldots,\,N+2\). In either case, by virtue of eq. (3.86), exactly the same set of complex exponential sequences appears in the summation on the right-hand side of eq. (3.88). Equation (3.88) is referred to as the _discrete-time Fourier series_ and the coefficients \(a_{k}\) as the _Fourier series coefficients_.
+
+#### Determination of the Fourier Series Representation
+
+of a Periodic Signal
+
+Suppose now that we are given a sequence \(x[n]\) that is periodic with fundamental period \(N\). We would like to determine whether a representation of \(x[n]\) in the form of eq. (3.88) exists and, if so, what the values of the coefficients \(a_{k}\) are. This question can be phrased in terms of finding a solution to a set of linear equations. Specifically, if we evaluate eq. (3.88) for \(N\) successive values of \(n\) corresponding to one period of \(x[n]\), we obtain
+
+\[\begin{array}{rcl}x[0]&=&\sum_{k\,=\,\langle N\rangle}a_{k},\\ x[1]&=&\sum_{k\,=\,\langle N\rangle}a_{k}e^{j2\pi k/N},\\ &\vdots&\\ x[N-1]&=&\sum_{k\,=\,\langle N\rangle}a_{k}e^{j2\pi k(N-1)/N}.\end{array} \tag{3.89}\]
+
+Thus, eq. (3.89) represents a set of \(N\) linear equations for the \(N\) unknown coefficients \(a_{k}\) as \(k\) ranges over a set of \(N\) successive integers. It can be shown that this set of equations is linearly independent and consequently can be solved to obtain the coefficients \(a_{k}\) in terms of the given values of \(x[n]\). In Problem 3.32, we consider an example in which the Fourier series coefficients are obtained by explicitly solving the set of \(N\) equations given in eq. (3.89). However, by following steps parallel to those used in continuous time, it is possible to obtain a closed-form expression for the coefficients \(a_{k}\) in terms of the values of the sequence \(x[n]\).
+
+Similarly, if \(k\) ranges from \(1\) to \(N\), we obtain
+
+\[x[n]\,=\,a_{1}\phi_{1}[n]\,+\,a_{2}\phi_{2}[n]\,+\ldots\,+\,a_{N}\phi_{N}[n]. \tag{3.97}\]
+
+From eq. (3.86), \(\phi_{0}[n]\,=\,\phi_{N}[n]\), and therefore, upon comparing eqs. (3.96) and (3.97), we conclude that \(a_{0}\,=\,a_{N}\). Similarly, by letting \(k\) range over any set of \(N\) consecutive integers and using eq. (3.86), we can conclude that
+
+\[a_{k}\,=\,a_{k+N}. \tag{3.98}\]
+
+That is, if we consider more than \(N\) sequential values of \(k\), the values \(a_{k}\) repeat periodically with period \(N\). It is important that this fact be interpreted carefully. In particular, since there are only \(N\) distinct complex exponentials that are periodic with period \(N\), the discrete-time Fourier series representation is a finite series with \(N\) terms. Therefore, if we fix the \(N\) consecutive values of \(k\) over which we define the Fourier series in eq. (3.94), we will obtain a set of exactly \(N\) Fourier coefficients from eq. (3.95). On the other hand, at times it will be convenient to use different sets of \(N\) values of \(k\), and consequently, it is useful to regard eq. (3.94) as a sum over any _arbitrary_ set of \(N\) successive values of \(k\). For this reason, it is sometimes convenient to think of \(a_{k}\) as a sequence defined for all values of \(k\), but where only \(N\) successive elements in the sequence will be used in the Fourier series representation. Furthermore, since the \(\phi_{k}[n]\) repeat periodically with period \(N\) as we vary \(k\) [eq. (3.86)], so must the \(a_{k}\) [eq. (3.98)]. This viewpoint is illustrated in the next example.
+
+**Example 3.10**
+
+Consider the signal
+
+\[x[n]\,=\,\sin\omega_{0}n, \tag{3.99}\]
+
+which is the discrete-time counterpart of the signal \(x(t)\,=\,\sin\omega_{0}t\) of Example 3.3. \(x[n]\) is periodic only if \(2\pi/\omega_{0}\) is an integer or a ratio of integers. For the case when \(2\pi/\omega_{0}\) is an integer \(N\), that is, when
+
+\[\omega_{0}\,=\,\frac{2\pi}{N},\]
+
+\(x[n]\) is periodic with fundamental period \(N\), and we obtain a result that is exactly analogous to the continuous-time case. Expanding the signal as a sum of two complex exponentials, we get
+
+\[x[n]\,=\,\frac{1}{2j}e^{j(2\pi/N)n}\,-\,\frac{1}{2j}e^{-j(2\pi/N)n}. \tag{3.100}\]
+
+Comparing eq. (3.100) with eq. (3.94), we see by inspection that
+
+\[a_{1}\,=\,\frac{1}{2j},\quad a_{-1}\,=\,-\frac{1}{2j}, \tag{3.101}\]and the remaining coefficients over the interval of summation are zero. As described previously, these coefficients repeat with period \(N\); thus, \(a_{N+1}\) is also equal to \((1/2j)\) and \(a_{N-1}\) equals \((-1/2j)\). The Fourier series coefficients for this example with \(N=5\) are illustrated in Figure 3.13. The fact that they repeat periodically is indicated. However, only one period is utilized in the synthesis equation (3.94).
+
+Consider now the case when \(2\pi/\omega_{0}\) is a ratio of integers--that is, when
+
+\[\omega_{0}\,=\,\frac{2\pi M}{N}.\]
+
+Assuming that \(M\) and \(N\) do not have any common factors, \(x[n]\) has a fundamental period of \(N\). Again expanding \(x[n]\) as a sum of two complex exponentials, we have
+
+\[x[n]\,=\,\frac{1}{2j}e^{jM(2\pi|N)n}-\,\frac{1}{2j}e^{-jM(2\pi/N)n},\]
+
+from which we can determine by inspection that \(a_{M}\,=\,(1/2j)\), \(a_{-M}\,=\,(-1/2j)\), and the remaining coefficients over one period of length \(N\) are zero. The Fourier coefficients for this example with \(M=3\) and \(N=5\) are depicted in Figure 3.14. Again, we have indicated the periodicity of the coefficients. For example, for \(N=5\), \(a_{2}\,=\,a_{-\,3}\), which in our example equals \((-1/2j)\). Note, however, that over any period of length 5 there are only two nonzero Fourier coefficients, and therefore there are only two nonzero terms in the synthesis equation.
+
+Figure 3.14: Fourier coefficients for \(x[n]=\sin 3(2\pi/5)n\).
+
+### Example 3.11
+
+Consider the signal
+
+\[x[n]\,=\,1\,+\,\sin\left(\frac{2\pi}{N}\right)\!n\,+\,3\cos\left(\frac{2\pi}{N} \right)\!n\,+\,\cos\left(\frac{4\pi}{N}\,n\,+\,\frac{\pi}{2}\right)\!.\]
+
+This signal is periodic with period \(N\), and, as in Example 3.10, we can expand \(x[n]\) directly in terms of complex exponentials to obtain
+
+\[x[n]\,=\,1\,+\,\frac{1}{2j}[e^{j(2\pi/N)n}\,-\,e^{-j(2\pi/N)n}] \,+\,\frac{3}{2}[e^{j(2\pi/N)n}\,+\,e^{-j(2\pi/N)n}]\\ \,+\,\frac{1}{2}[e^{j(4\pi n/N+\pi/2)}\,+\,e^{-j(4\pi n/N+\pi/2)}].\]
+
+Collecting terms, we find that
+
+\[x[n]\,=\,1\,+\left(\frac{3}{2}\,+\,\frac{1}{2j}\right)\!e^{j(2 \pi/N)n}\,+\,\left(\frac{3}{2}\,-\,\frac{1}{2j}\right)\!e^{-j(2\pi/N)n}\\ \,+\,\left(\frac{1}{2}\,e^{j\pi/2}\right)\!e^{j2(2\pi/N)n}\,+\, \left(\frac{1}{2}\,e^{-j\pi/2}\right)\!e^{-j(2\pi/N)n}.\]
+
+Thus the Fourier series coefficients for this example are
+
+\[a_{0} \,=\,1,\] \[a_{1} \,=\,\frac{3}{2}\,+\,\frac{1}{2j}\,=\,\frac{3}{2}\,-\,\frac{1}{2 j}\,\] \[a_{-1} \,=\,\frac{3}{2}\,-\,\frac{1}{2j}\,=\,\frac{3}{2}\,+\,\frac{1}{2 j},\] \[a_{2} \,=\,\frac{1}{2}j,\] \[a_{-2} \,=\,-\frac{1}{2}j,\]
+
+with \(a_{k}=0\) for other values of \(k\) in the interval of summation in the synthesis equation (3.94). Again, the Fourier coefficients are periodic with period \(N\), so, for example, \(a_{N}=1,\,a_{3N-1}\,=\,\frac{3}{2}\,+\,\frac{1}{2}j\), and \(a_{2-N}=\,\frac{1}{2}j\). In Figure 3.15(a) we have plotted the real and imaginary parts of these coefficients for \(N\,=\,10\), while the magnitude and phase of the coefficients are depicted in Figure 3.15(b).
+
+Note that in Example 3.11, \(a_{-k}\,=\,a_{k}^{*}\) for all values of \(k\). In fact, this equality holds whenever \(x[n]\) is real. The property is identical to one that we discussed in Section 3.3 for continuous-time periodic signals, and as in continuous time, one implication is that there are two alternative forms for the discrete-time Fourier series of real periodic sequences. These forms are analogous to the continuous-time Fourier series representations given in eqs. (3.31) and (3.32) and are examined in Problem 3.52. For our purposes, the exponential form of the Fourier series, as given in eqs. (3.94) and (3.95), is particularly convenient, and we will use it exclusively.
+
+Figure 3.15: (a) Real and imaginary parts of the Fourier series coefficients in Example 3.11; (b) magnitude and phase of the same coefficients.
+
+ticular, we observed the Gibbs phenomenon at the discontinuity, whereby, as the number of terms increased, the ripples in the partial sum (Figure 3.9) became compressed toward the discontinuity, with the peak amplitude of the ripples remaining constant independently of the number of terms in the partial sum. Let us consider the analogous sequence of partial sums for the discrete-time square wave, where, for convenience, we will assume that the period \(N\) is odd. In Figure 3.18, we have depicted the signals
+
+\[\hat{x}[n]\,=\,\sum_{k\,=\,-M}^{M}a_{k}\,e^{jk(2\pi/N)n} \tag{3.106}\]
+
+for the example of Figure 3.16 with \(N=9\), \(2N_{1}+1=5\), and for several values of \(M\). For \(M\,=\,4\), the partial sum exactly equals \(x[n]\). We see in particular that in contrast to the continuous-time case, there are no convergence issues and there is no Gibbs phenomenon. In fact, there are no convergence issues with the discrete-time Fourier series in general. The reason for this stems from the fact that any discrete-time periodic sequence \(x[n]\) is completely specified by a _finite_ number \(N\) of parameters, namely, the values of the sequence over one period. The Fourier series analysis equation (3.95) simply transforms this set of \(N\) parameters into an equivalent set--the values of the \(N\) Fourier coefficients--and
+
+Figure 3.17: Fourier series coefficients for the periodic square wave of Example 3.12; plots of \(Na_{k}\) for \(2M_{1}+1=5\) and (a) \(N=10\); (b) \(N=20\); and (c) \(N\,=\,40\).
+
+the synthesis equation (3.94) tells us how to recover the values of the original sequence in terms of a _finite_ series. Thus, if \(N\) is odd and we take \(M\,=\,(N-1)/2\) in eq. (3.106), the sum includes exactly \(N\) terms, and consequently, from the synthesis equations, we have \(\hat{x}[n]\,=\,x[n]\). Similarly, if \(N\) is even and we let
+
+\[\hat{x}[n]\,=\,\sum_{k\,-\,-\,M\,+\,1}^{M}a_{k}e^{jk\,2\pi/N\,|n}, \tag{3.107}\]
+
+then with \(M\,=\,N/2\), this sum consists of \(N\) terms, and again, we can conclude from eq. (3.94) that \(\hat{x}[n]\,=\,x[n]\).
+
+In contrast, a continuous-time periodic signal takes on a continuum of values over a single period, and an infinite number of Fourier coefficients are required to represent it.
+
+The derivations of many of these properties are very similar to those of the corresponding properties for continuous-time Fourier series, and several such derivations are considered in the problems at the end of the chapter. In addition, in Chapter 5 we will see that most of the properties can be inferred from corresponding properties of the discrete-time Fourier transform. Consequently, we limit the discussion in the following subsections to only a few of these properties, including several that have important differences relative to those for continuous time. We also provide examples illustrating the usefulness of various discrete-time Fourier series properties for developing conceptual insights and helping to reduce the complexity of the evaluation of the Fourier series of many periodic sequences.
+
+As with continuous time, it is often convenient to use a shorthand notation to indicate the relationship between a periodic signal and its Fourier series coefficients. Specifically, if \(x[n]\) is a periodic signal with period \(N\) and with Fourier series coefficients denoted by \(a_{k}\), then we will write
+
+\[x[n]\xleftrightarrow{\$}a_{k}.\]
+
+#### Multiplication
+
+The multiplication property of the Fourier series representation is one example of a property that reflects the difference between continuous time and discrete time. From Table 3.1, the product of two continuous-time signals of period \(T\) results in a periodic signal with period \(T\) whose sequence of Fourier series coefficients is the _convolution_ of the sequences of Fourier series coefficients of the two signals being multiplied. In discrete time, suppose that
+
+\[x[n]\xleftrightarrow{\$}a_{k}\]
+
+and
+
+\[y[n]\xleftrightarrow{\$}b_{k}\]
+
+are both periodic with period \(N\). Then the product \(x[n]y[n]\) is also periodic with period \(N\), and, as shown in Problem 3.57, its Fourier coefficients, \(d_{k}\), are given by
+
+\[x[n]y[n]\xleftrightarrow{\$}d_{k}\,=\,\sum_{l\,=\,\langle N\rangle}a_{l}b_{k -l}. \tag{3.108}\]
+
+Equation (3.108) is analogous to the definition of convolution, except that the summation variable is now restricted to an interval of \(N\) consecutive samples. As shown in Problem 3.57, the summation can be taken over _any_ set of \(N\) consecutive values of \(l\). We refer to this try\(\cdot\) of operation as a _periodic convolution_ between the two periodic sequences of Fourier coefficients. The usual form of the convolution sum (where the summation variable ranges from \(-\,\infty\) to \(\infty\)) is sometimes referred to as _aperiodic convolution,_ to distinguish it from periodic convolution.
+
+#### First Difference
+
+The discrete-time parallel to the differentiation property of the continuous-time Fourier series involves the use of the first-difference operation, which is defined as \(x[n]-x[n-1]\)
+
+### Example 3.13
+
+Let us consider the problem of finding the Fourier series coefficients \(a_{k}\) of the sequence \(x[n]\) shown in Figure 3.19(a). This sequence has a fundamental period of 5. We observe that \(x[n]\) may be viewed as the sum of the square wave \(x_{1}[n]\) in Figure 3.19(b) and the _dc sequence_\(x_{2}[n]\) in Figure 3.19(c). Denoting the Fourier series coefficients of \(x_{1}[n]\) by \(b_{k}\) and those of \(x_{2}[n]\) by \(c_{k}\), we use the linearity property of Table 3.2 to conclude that
+
+\[a_{k}\,=\,b_{k}+c_{k}. \tag{3.111}\]
+
+From Example 3.12 (with \(N_{1}\,=\,1\) and \(N\,=\,5\)), the Fourier series coefficients \(b_{k}\) corresponding to \(x_{1}[n]\) can be expressed as
+
+\[b_{k}\,=\,\left\{\begin{array}{ll}\frac{1}{5}\,\frac{\sin(3\pi\, k/5)}{\sin(\pi k/5)},&\mbox{for $k\neq 0$, $\pm 5$, $\pm 10$, $\ldots$}\\ \frac{3}{5},&\mbox{for $k\,=\,0$, $\pm 5$, $\pm 10$, $\ldots$}\end{array}\right.. \tag{3.112}\]
+
+The sequence \(x_{2}[n]\) has only a dc value, which is captured by its zeroth Fourier series coefficient:
+
+\[c_{0}\,=\,\frac{1}{5}\sum_{n\,=\,0}^{4}\,x_{2}[n]\,=\,1. \tag{3.113}\]
+
+Since the discrete-time Fourier series coefficients are periodic, it follows that \(c_{k}=1\) whenever \(k\) is an integer multiple of 5. The remaining coefficients of \(x_{2}[n]\) must be zero, because \(x_{2}[n]\) contains only a dc component. We can now substitute the expressions for \(b_{k}\) and \(c_{k}\) into eq. (3.111) to obtain
+
+\[a_{k}\,=\,\left\{\begin{array}{ll}\,b_{k}\,=\,\frac{1}{5}\, \frac{\sin(3\pi\,k/5)}{\sin(\pi k/5)},&\mbox{for $k\neq 0$, $\pm 5$, $\pm 10$, $\ldots$}\\ \frac{8}{5},&\mbox{for $k\,=\,0$, $\pm 5$, $\pm 10$, $\ldots$}\end{array}\right.. \tag{3.114}\]
+
+Figure 3.19: (a) Periodic sequence \(x[n]\) for Example 3.13 and its representation as a sum of (b) the square wave \(x_{1}[n]\) and (c) the dc sequence \(x_{2}[n]\).
+
+### Example 3.14
+
+Suppose we are given the following facts about a sequence \(x[n]\):
+
+1. \(x[n]\) is periodic with period \(N\,=\,6\).
+2. \(\sum_{n\,=\,0}^{\,5}x[n]\,=\,2\).
+3. \(\sum_{n\,=\,2}^{\,7}(-1)^{n}x[n]\,=\,1\).
+4. \(x[n]\) has the minimum power per period among the set of signals satisfying the preceding three conditions.
+
+Let us determine the sequence \(x[n]\). We denote the Fourier series coefficients of \(x[n]\) by \(a_{k}\). From Fact 2, we conclude that \(a_{0}\,=\,1/3\). Noting that \((-1)^{n}\,=\,e^{-\,j\,\pi n}\,=\,e^{-\,j(2\pi/6)3n}\), we see from Fact 3 that \(a_{3}\,=\,1/6\). From Parseval's relation (see Table 3.2), the average power in \(x[n]\) is
+
+\[P\,=\,\sum_{k\,=\,0}^{\,5}|a_{k}|^{2}. \tag{3.115}\]
+
+Since each nonzero coefficient contributes a positive amount to \(P\), and since the values of \(a_{0}\) and \(a_{3}\) are prespecified, the value of \(P\) is minimized by choosing \(a_{1}\,=\,a_{2}\,=\,a_{4}\,=\,a_{5}\,=\,0\). It then follows that
+
+\[x[n]\,=\,a_{0}\,+\,a_{3}e^{\,j\,\pi n}\,=\,(1/3)\,+\,(1/6)(-1)^{n}, \tag{3.116}\]
+
+which is sketched in Figure 3.20.
+
+### Example 3.15
+
+In this example we determine and sketch a periodic sequence, given an algebraic expression for its Fourier series coefficients. In the process, we will also exploit the periodic convolution property (see Table 3.2) of the discrete-time Fourier series. Specifically, as stated in the table and as shown in Problem 3.58, if \(x[n]\) and \(y[n]\) are periodic with period \(N\), then the signal
+
+\[w[n]\,=\,\sum_{r\,=\,\langle N\rangle}x[r]y[n\,-r]\]
+
+is also periodic with period \(N\). Here, the summation may be taken over any set of \(N\) consecutive values of \(r\). Furthermore, the Fourier series coefficients of \(w[n]\) are equal to \(Na_{k}b_{k}\), where \(a_{k}\) and \(b_{k}\) are the Fourier coefficients of \(x[n]\) and \(y[n]\), respectively.
+
+Figure 3.20: Sequence \(x[n]\) that is consistent with the properties specified in Example 3.14.
+
+Suppose now that we are told that a signal \(w[n]\) is periodic with a fundamental period of \(N\,=\,7\) and with Fourier series coefficients
+
+\[c_{k}\,=\,\frac{\sin^{2}(3\pi\,k\prime 7)}{7\sin^{2}(\pi\,k\prime 7)}. \tag{3.117}\]
+
+We observe that \(c_{k}\,=\,7d_{k}^{2}\), where \(d_{k}\) denotes the sequence of Fourier series coefficients of a square wave \(x[n]\), as in Example 3.12, with \(N_{1}\,=\,1\) and \(N\,=\,7\). Using the periodic convolution property, we see that
+
+\[w[n]\,=\,\sum_{r\,=\,(7)}x[r]x[n-r]\,=\,\sum_{r\,=\,-3}^{3}x[r]x[n-r], \tag{3.118}\]
+
+where, in the last equality, we have chosen to sum over the interval \(-3\,\leq\,r\,\leq\,3\). Except for the fact that the sum is limited to a finite interval, the product-and-sum method for evaluating convolution is applicable here. In fact, we can convert eq. (3.118) to an ordinary convolution by defining a signal \(\hat{x}[n]\) that equals \(x[n]\) for \(-3\,\leq\,n\,\leq\,3\) and is zero otherwise. Then, from eq. (3.118),
+
+\[w[n]\,=\,\sum_{r\,=\,-3}^{3}\hat{x}[r]x[n-r]\,=\,\sum_{r\,=\,-3}^{+\,\infty} \hat{x}[r]x[n-r].\]
+
+That is, \(w[n]\) is the aperiodic convolution of the sequences \(\hat{x}[n]\) and \(x[n]\).
+
+The sequences \(x[r]\), \(\hat{x}[r]\), and \(x[n-r]\) are sketched in Figure 3.21 (a)-(c). From the figure we can immediately calculate \(w[n]\). In particular we see that \(w[0]\,=\,3;w[-1]\,=\,w[1]\,=\,2\); \(w[-2]\,=\,w[2]\,=\,1\); and \(w[-3]\,=\,w[3]\,=\,0\). Since \(w[n]\) is periodic with period 7, we can then sketch \(w[n]\) as shown in Figure 3.21(d).
+
+### Fourier Series and LTI Systems
+
+In the preceding few sections, we have seen that the Fourier series representation can be used to construct any periodic signal in discrete time and essentially all periodic continuous-time signals of practical importance. In addition, in Section 3.2 we saw that the response of an LTI system to a linear combination of complex exponentials takes a particularly simple form. Specifically, in continuous time, if \(x(t)=e^{st}\) is the input to a continuous-time LTI system, then the output is given by \(y(t)\,=\,H(s)e^{st}\), where, from eq. (3.6),
+
+\[H(s)\,=\,\int_{-\infty}^{+\,\infty}h(\tau)e^{-s\tau}d\tau, \tag{3.119}\]
+
+in which \(h(t)\) is the impulse response of the LTI system.
+
+Similarly, if \(x[n]\,=\,z^{n}\) is the input to a discrete-time LTI system, then the output is given by \(y[n]\,=\,H(z)z^{n}\), where, from eq. (3.10),
+
+\[H(z)\,=\,\sum_{k\,=\,-\,-\infty}^{+\,\infty}h[k]z^{-k}, \tag{3.120}\]
+
+in which \(h[n]\) is the impulse response of the LTI system.
+
+When \(s\) or \(z\) are general complex numbers, \(H(s)\) and \(H(z)\) are referred to as the _system functions_ of the corresponding systems. For continuous-time signals and systems in this and the following chapter, we focus on the specific case in which \(\eth\mbox{e}\{s\}\,=\,0\), so that \(s\,=\,j\omega\), and consequently, \(e^{st}\) is of the form \(e^{j\omega t}\). This input is a complex exponential at frequency \(\omega\). The system function of the form \(s\,=\,j\omega\)--i.e., \(H(j\omega)\) viewed as a function of \(\omega\)--is referred to as the _frequency response_ of the system and is given by
+
+\[H(j\omega)\,=\,\int_{-\infty}^{+\infty}h(t)e^{-j\omega t}dt. \tag{3.121}\]
+
+Figure 3.21: (a) The square-wave sequence \(x[r]\) in Example 3.15; (b) the sequence \(\hat{x}[r]\) equal to \(x[r]\) for \(-3\,\leq\,r\,\leq\,3\) and zero otherwise; (c) the sequence \(x[n-r]\); (d) the sequence \(w[n]\) equal to the periodic convolution of \(x[n]\) with itself and to the aperiodic convolution of \(\hat{x}[n]\) with \(x[n]\).
+
+Similarly, for discrete-time signals and systems, we focus in this chapter and in Chapter 5 on values of \(z\) for which \(|z|=1\), so that \(z=e^{j\omega}\) and \(z^{\prime\prime}\) is of the form \(e^{j\omega n}\). Then the system function \(H(z)\) for \(z\) restricted to the form \(z=e^{j\omega}\) is referred to as the frequency response of the system and is given by
+
+\[H(e^{j\omega})\,=\,\sum_{n\,=\,-\infty}^{+\infty}h[n]e^{-j\omega n}. \tag{3.122}\]
+
+The response of an LTI system to a complex exponential signal of the form \(e^{j\omega t}\) (in continuous time) or \(e^{j\omega n}\) (in discrete time) is particularly simple to express in terms of the frequency response of the system. Furthermore, as a result of the superposition property for LTI systems, we can express the response of an LTI system to a linear combination of complex exponentials with equal ease. In Chapters 4 and 5, we will see how we can use these ideas together with continuous-time and discrete-time Fourier transforms to analyze the response of LTI systems to aperiodic signals. In the remainder of this chapter, as a first look at this important set of concepts and results, we focus on interpreting and understanding this notion in the context of periodic signals.
+
+Consider first the continuous-time case, and let \(x(t)\) be a periodic signal with a Fourier series representation given by
+
+\[x(t)\,=\,\sum_{k\,=\,-\infty}^{+\infty}a_{k}e^{jka_{0}t}. \tag{3.123}\]
+
+Suppose that we apply this signal as the input to an LTI system with impulse response \(h(t)\). Then, since each of the complex exponentials in eq. (3.123) is an eigenfunction of the system, as in eq. (3.13) with \(s_{k}\,=\,jk\omega_{0}\), it follows that the output is
+
+\[y(t)=\sum_{k\,=\,-\infty}^{+\infty}a_{k}H(jk\omega_{0})e^{jk\omega_{0}t}. \tag{3.124}\]
+
+Thus, \(y(t)\) is also periodic with the same fundamental frequency as \(x(t)\). Furthermore, if \(\{a_{k}\}\) is the set of Fourier series coefficients for the input \(x(t)\), then \(\{a_{k}H(jka_{0})\}\) is the set of coefficients for the output \(y(t)\). That is, the effect of the LTI system is to modify individually each of the Fourier coefficients of the input through multiplication by the value of the frequency response at the corresponding frequency.
+
+### Example 3.16
+
+Suppose that the periodic signal \(x(t)\) discussed in Example 3.2 is the input signal to an LTI system with impulse response
+
+\[h(t)\,=\,e^{-t}u(t).\]
+
+In discrete time, the relationship between the Fourier series coefficients of the input and output of an LTI system exactly parallels eqs. (3.123) and (3.124). Specifically, let \(x[n]\) be a periodic signal with Fourier series representation given by
+
+\[x[n]\,=\,\sum_{k\,=\,\langle N\rangle}a_{k}e^{jk(2\pi/N)n}.\]
+
+If we apply this signal as the input to an LTI system with impulse response \(h[n]\), then, as in eq. (3.16) with \(z_{k}\,=\,e^{jk(2\pi/N)}\), the output is
+
+\[y[n]\,=\,\sum_{k\,=\,\langle N\rangle}a_{k}H(e^{j2\pi\,k/N})e^{jk(2\pi/N)n}. \tag{3.131}\]
+
+Thus, \(y[n]\) is also periodic with the same period as \(x[n]\), and the \(k\)th Fourier coefficient of \(y[n]\) is the product of the \(k\)th Fourier coefficient of the input and the value of the frequency response of the LTI system, \(H(e^{j2\pi\,k/N})\), at the corresponding frequency.
+
+**Example 3.17**: Consider an LTI system with impulse response \(h[n]\,=\,\alpha^{n}u[n]\), \(-1<\alpha<1\), and with the input
+
+\[x[n]\,=\,\cos\biggl{(}\frac{2\pi n}{N}\biggr{)}. \tag{3.132}\]
+
+As in Example 3.10, \(x[n]\) can be written in Fourier series form as
+
+\[x[n]\,=\,\frac{1}{2}e^{j(2\pi/N)n}\,+\,\frac{1}{2}e^{-j(2\pi/N)n}.\]
+
+Also, from eq. (3.122),
+
+\[H(e^{ju})\,=\,\sum_{n\,=\,0}^{\infty}\alpha^{n}e^{-j\omega n}\,=\,\sum_{n\,=\, 0}^{\infty}\Bigl{(}\alpha e^{-j\omega}\Bigr{)}^{n}. \tag{3.133}\]
+
+This geometric series can be evaluated using the result of Problem 1.54, yielding
+
+\[H(e^{j\omega})\,=\,\frac{1}{1-\alpha e^{-j\omega}}. \tag{3.134}\]
+
+Using eq. (3.131), we then obtain the Fourier series for the output:
+
+\[\begin{split} y[n]&=\,\frac{1}{2}H\Bigl{(}e^{j2\pi /N}\Bigr{)}e^{j(2\pi/N)n}\,+\,\frac{1}{2}H\Bigl{(}e^{-j2\pi/N}\Bigr{)}e^{-j(2 \pi/N)n}\\ &=\,\frac{1}{2}\biggl{(}\frac{1}{1-\alpha e^{-j2\pi/N}}\Bigr{)} e^{j(2\pi/N)n}\,+\,\frac{1}{2}\biggl{(}\frac{1}{1-\alpha e^{j2\pi/N}}\biggr{)}e^{-j 12\pi/N)n}.\end{split} \tag{3.135}\]If we write
+
+\[\frac{1}{1-\alpha e^{-j2\pi/N}}\,=\,re^{j\theta},\]
+
+then eq. (3.135) reduces to
+
+\[y[n]\,=\,r\cos\biggl{(}\frac{2\pi}{N}n+\theta\biggr{)}. \tag{3.136}\]
+
+For example, if \(N\,=\,4\),
+
+\[\frac{1}{1-\alpha e^{-j2\pi/4}}\,=\,\frac{1}{1+\alpha j}\,=\,\frac{1}{\sqrt{1+ \alpha^{2}}}\,e^{i(-\tan^{-1}(\alpha))},\]
+
+and thus,
+
+\[y[n]\,=\,\frac{1}{\sqrt{1+\alpha^{2}}}\cos\biggl{(}\frac{\pi n}{2}-\tan^{-1}( \alpha)\biggr{)}.\]
+
+We note that for expressions such as eqs. (3.124) and (3.131) to make sense, the frequency responses \(H(j\omega)\) and \(H(e^{j\omega})\) in eqs. (3.121) and (3.122) must be well defined and finite. As we will see in Chapters 4 and 5, this will be the case if the LTI systems under consideration are stable. For example, the LTI system in Example 3.16, with impulse response \(h(t)=e^{-t}u(t)\), is stable and has a well-defined frequency response given by eq. (3.125). On the other hand, an LTI system with impulse response \(h(t)=e^{t}u(t)\) is unstable, and it is easy to check that the integral in eq. (3.121) for \(H(j\omega)\) diverges for any value of \(\omega\). Similarly, the LTI system in Example 3.17, with impulse response \(h[n]\,=\,\alpha^{n}u[n]\), is stable for \(|\alpha|<1\) and has frequency response given by eq. (3.134). However, if \(|\alpha|>1\), the system is unstable, and then the summation in eq. (3.133) diverges.
+
+### Filtering
+
+In a variety of applications, it is of interest to change the relative amplitudes of the frequency components in a signal or perhaps eliminate some frequency components entirely, a process referred to as _filtering_. Linear time-invariant systems that change the shape of the spectrum are often referred to as _frequency-shaping filters_. Systems that are designed to pass some frequencies essentially undistorted and significantly attenuate or eliminate others are referred to as _frequency-selective filters_. As indicated by eqs. (3.124) and (3.131), the Fourier series coefficients of the output of an LTI system are those of the input multiplied by the frequency response of the system. Consequently, filtering can be conveniently accomplished through the use of LTI systems with an appropriately chosen frequency response, and frequency-domain methods provide us with the ideal tools to examine this very important class of applications. In this and the following two sections, we take a first look at filtering through a few examples.
+
+#### Frequency-Shaping Filters
+
+One application in which frequency-shaping filters are often encountered is audio systems. For example, LTI filters are typically included in such systems to permit the listener to modify the relative amounts of low-frequency energy (bass) and high-frequency energy (treble). These filters correspond to LTI systems whose frequency responses can be changed by manipulating the tone controls. Also, in high-fidelity audio systems, a so-called equalizing filter is often included in the preamplifier to compensate for the frequency-response characteristics of the speakers. Overall, these cascaded filtering stages are frequently referred to as the equalizing or equalizer circuits for the audio system. Figure 3.22 illustrates the three stages of the equalizer circuits for one particular series of audio speakers. In this figure, the magnitude of the frequency response for each of these stages is shown on a log-log plot. Specifically, the magnitude is in units of \(20\log_{\{0\}}|H(j\omega)|\), referred to as decibels or dB. The frequency axis is labeled in Hz (i.e., \(\omega/2\pi\)) along a logarithmic scale. As will be discussed in more detail in Section 6.2.3, a logarithmic display of the magnitude of the frequency response in this form is common and useful.
+
+Taken together, the equalizing circuits in Figure 3.22 are designed to compensate for the frequency response of the speakers and the room in which they are located and to allow the listener to control the overall frequency response. In particular, since the three systems are connected in cascade, and since each system modifies a complex exponential input \(Ke^{j\omega t}\) by multiplying it by the system frequency response at that frequency, it follows that the overall frequency response of the cascade of the three systems is the product of the three frequency responses. The first two filters, indicated in Figures 3.22(a) and (b), together make up the control stage of the system, as the frequency behavior of these filters can be adjusted by the listener. The third filter, illustrated in Figure 3.22(c), is the equalizer stage, which has the fixed frequency response indicated. The filter in Figure 3.22(a) is a low-frequency filter controlled by a two-position switch, to provide one of the two frequency responses indicated. The second filter in the control stage has two continuously adjustable slider switches to vary the frequency response within the limits indicated in Figure 3.22(b).
+
+Another class of frequency-shaping filters often encountered is that for which the filter output is the derivative of the filter input, i.e., \(y(t)\,=\,dx(t)/dt\). With \(x(t)\) of the form \(x(t)\,=\,e^{j\omega t}\), \(y(t)\) will be \(y(t)\,=\,j\omega e^{j\omega t}\), from which it follows that the frequency response is
+
+\[H(j\omega)\,=\,j\omega. \tag{3.137}\]
+
+The frequency response characteristics of a differentiating filter are shown in Figure 3.23. Since \(H(j\omega)\) is complex in general, and in this example in particular, \(H(j\omega)\) is frequently displayed (as in the figure) as separate plots of \(|H(j\omega)|\) and \(\sphericalangle H(j\omega)\). The shape of this frequency response implies that a complex exponential input \(e^{j\omega t}\) will receive greater amplification for larger values of \(\omega\). Consequently, differentiating filters are useful in enhancing rapid variations or transitions in a signal.
+
+One purpose for which differentiating filters are often used is to enhance edges in picture processing. A black-and-white picture can be thought of as a two-dimensional "continuous-time" signal \(x(t_{1},t_{2})\), where \(t_{1}\) and \(t_{2}\) are the horizontal and vertical coordinates, respectively, and \(x(t_{1},t_{2})\) is the brightness of the image. If the image is repeated periodically in the horizontal and vertical directions, then it can be represented by a two-dimensional Fourier series (see Problem 3.70) consisting of sums of products of complexFigure 3.22: Magnitudes of the frequency responses of the equalizer circuits for one particular series of audio speakers, shown on a scale of \(20\log_{10}|H(\omega)|\), which is referred to as a decibel (or dB) scale. (a) Low-frequency filter controlled by a two-position switch; (b) upper and lower frequency limits on a continuously adjustable shaping filter; (c) fixed frequency response of the equalizer stage.
+
+exponentials, \(e^{j\omega_{1}t_{1}}\) and \(e^{j\omega_{2}t_{2}}\), that oscillate at possibly different frequencies in each of the two coordinate directions. Slow variations in brightness in a particular direction are represented by the lower harmonics in that direction. For example, consider an edge corresponding to a sharp transition in brightness that runs vertically in an image. Since the brightness is constant or slowly varying along the edge, the frequency content of the edge in the vertical direction is concentrated at low frequencies. In contrast, since there is an abrupt variation in brightness across the edge, the frequency content of the edge in the horizontal direction is concentrated at higher frequencies. Figure 3.24 illustrates the effect on an image of the two-dimensional equivalent of a differentiating filter.11 Figure 3.24(a) shows two original images and Figure 3.24(b) the result of processing those images with the filter. Since the derivative at the edges of a picture is greater than in regions where the brightness varies slowly with distance, the effect of the filter is to enhance the edges.
+
+Footnote 11: Specifically each image in Figure 3.24(b) is the magnitude of the two-dimensional gradient of its counterpart image in Figure 3.24(a) where the magnitude of the gradient of \(f\) (\(x\), \(y\)) is
+
+\[\left[\left(\frac{\partial f(x,\,y)}{\partial x}\right)^{2}+\left(\frac{ \partial f(x,\,y)}{\partial y}\right)^{2}\right]^{1/2}.\]
+
+ Discrete-time LTI filters also find a broad array of applications. Many of these involve the use of discrete-time systems, implemented using general- or special-purpose digital processors, to process continuous-time signals, a topic we discuss at some length in Chapter 7. In addition, the analysis of time series information, including demographic data and economic data sequences such as the stock market average, commonly involves the use of discrete-time filters. Often the long-term variations (which correspond to low frequencies) have a different significance than the short-term variations (which correspond to high frequencies), and it is useful to analyze these components separately. Reshaping the relative weighting of the components is typically accomplished using discrete-time filters.
+
+As one example of a simple discrete-time filter, consider an LTI system that successively takes a two-point average of the input values:
+
+\[y[n]\,=\,\frac{1}{2}(x[n]\,+\,x[n-1]). \tag{3.138}\]
+
+Figure 3.23: Characteristics of the frequency response of a filter for which the output is the derivative of the input.
+
+In this case \(h[n]=\frac{1}{2}(\delta[n]+\delta[n-1])\), and from eq. (3.122), we see that the frequency response of the system is
+
+\[H(e^{j\omega})\,=\,\frac{1}{2}[1\,+\,e^{-j\omega}]\,=\,e^{-j\omega/2}\cos(\omega /2). \tag{3.139}\]
+
+The magnitude of \(H(e^{j\omega})\) is plotted in Figure 3.25(a), and \(\,\raisebox{-1.29pt}{$\stackrel{{<}}{{\sim}}$}H(e^{j \omega})\) is shown in Figure 3.25(b). As discussed in Section 1.3.3, low frequencies for discrete-time complex exponentials occur near \(\omega\,=\,0,\,\pm 2\pi,\,\pm 4\pi,\,\ldots\), and high frequencies near \(\omega\,=\,\pm\pi,\,\pm 3\pi,\,\ldots\). This is a result of the fact that \(e^{j(\omega\,+2\pi)n}\,=\,e^{j\omega n}\), so that in discrete time we need only consider a \(2\pi\) interval of values of \(\omega\) in order to cover a complete range of distinct discrete-time frequencies. As a consequence, any discrete-time frequency responses \(H(e^{j\omega})\) must be periodic with period \(2\pi\), a fact that can also be deduced directly from eq. (3.122).
+
+For the specific filter defined in eqs. (3.138) and (3.139), we see from Figure 3.25(a) that \(|H(e^{j\omega})|\) is large for frequencies near \(\omega\,=\,0\) and decreases as we increase \(|\omega|\) toward \(\pi\), indicating that higher frequencies areattenuated more than lower ones. For example, if the input to this system is constant--i.e., a zero-frequency complex exponential
+
+Figure 3.24: Effect of a differentiating filter on an image: (a) two original images; (b) the result of processing the original images with a differentiating filter.
+
+\(x[n]=Ke^{j0\cdot n}=K\)--then the output will be
+
+\[y[n]=H(e^{j\cdot 0})Ke^{j\omega 0\cdot n}=K=x[n].\]
+
+On the other hand, if the input is the high-frequency signal \(x[n]=Ke^{j\pi n}=K(-1)^{n}\), then the output will be
+
+\[y[n]=H(e^{j\pi})Ke^{j\pi\cdot n}=0.\]
+
+Thus, this system separates out the long-term constant value of a signal from its high-frequency fluctuations and, consequently, represents a first example of frequency-selective filtering, a topic we look at more carefully in the next subsection.
+
+#### Frequency-Selective Filters
+
+Frequency-selective filters are a class of filters specifically intended to accurately or approximately select some bands of frequencies and reject others. The use of frequency-selective filters arises in a variety of situations. For example, if noise in an audio recording is in a higher frequency band than the music or voice on the recording is, it can be removed by frequency-selective filtering. Another important application of frequency-selective filters is in communication systems. As we discuss in detail in Chapter 8, the basis for amplitude modulation (AM) systems is the transmission of information from many different sources simultaneously by putting the information from each channel into a separate frequency band and extracting the individual channels or bands at the receiver using frequency-selective filters. Frequency-selective filters for separating the individual channels and frequency-shaping filters (such as the equalizer illustrated in Figure 3.22) for adjusting the quality of the tone form a major part of any home radio and television receiver.
+
+While frequency selectivity is not the only issue of concern in applications, its broad importance has led to a widely accepted set of terms describing the characteristics of frequency-selective filters. In particular, while the nature of the frequencies to be passed by a frequency-selective filter varies considerably from application to application, several basic types of filter are widely used and have been given names indicative of their function. For example, a _lowpass filter_ is a filter that passes low frequencies--i.e., frequencies around \(\omega=0\)--and attenuates or rejects higher frequencies. A _highpass filter_ is a filter that passes high frequencies and attenuates or rejects low ones, and a _bandpass filter_ is a filter that passes a band of frequencies and attenuates frequencies both higher and lower than those in the band that is passed. In each case, the _cutoff frequencies_ are the frequencies defining the boundaries between frequencies that are passed and frequencies that are rejected--i.e., the frequencies in the _passband_ and _stopband_.
+
+Numerous questions arise in defining and assessing the quality of a frequency-selective filter. How effective is the filter at passing frequencies in the passband? How effective is it at attenuating frequencies in the stopband? How sharp is the transition near the cutoff frequency--i.e., from nearly free of distortion in the passband to highly attenuated in the stopband? Each of these questions involves a comparison of the characteristics of an actual frequency-selective filter with those of a filter with idealized behavior. Specifically, an _ideal frequency-selective filter_ is a filter that exactly passes complex exponentials at one set of frequencies without any distortion and completely rejects signals at all other frequencies. For example, a continuous-time _ideal lowpass filter_ with cutoff frequency \(\omega_{c}\) is an LTI system that passes complex exponentials \(e^{j\omega t}\) for values of \(\omega\) in the range \(-\omega_{c}\,\leq\,\omega\,\leq\,\omega_{c}\) and rejects signals at all other frequencies. That is, the frequency response of a continuous-time ideal lowpass filter is
+
+\[H(j\omega)\,=\,\left\{\begin{array}{ll}1,&\quad|\omega|\,\leq\,\omega_{c} \\ 0,&\quad|\omega|>\omega_{c}\end{array}\right., \tag{3.140}\]
+
+as shown in Figure 3.26.
+
+Figure 3.27(a) depicts the frequency response of an ideal continuous-time highpass filter with cutoff frequency \(\omega_{c}\), and Figure 3.27(b) illustrates an ideal continuous-time bandpass filter with lower cutoff frequency \(\omega_{c1}\) and upper cutoff frequency \(\omega_{c2}\). Note that each of these filters is symmetric about \(\omega\,=\,0\), and thus, there appear to be two passbands for the highpass and bandpass filters. This is a consequence of our having adopted the
+
+Figure 3.27: Frequency response of an ideal lowpass filter.
+
+use of the complex exponential signal \(e^{j\omega t}\), rather than the sinusoidal signals \(\sin\omega t\) and \(\cos\omega t\), at frequency \(\omega\). Since \(e^{j\omega t}\,=\,\cos\omega t+j\sin\omega t\) and \(e^{-j\omega t}\,=\,\cos\omega t-j\sin\omega t\), both of these complex exponentials are composed of sinusoidal signals at the same frequency \(\omega\). For this reason, we usually define ideal filters so that they have the symmetric frequency response behavior seen in Figures 3.26 and 3.27.
+
+In a similar fashion, we can define the corresponding set of ideal discrete-time frequency-selective filters, the frequency responses for which are depicted in Figure 3.28.
+
+Figure 3.28: Discrete-time ideal frequency-selective filters: (a) lowpass; (b) highpass; (c) bandpass.
+
+In particular, Figure 3.28(a) depicts an ideal discrete-time lowpass filter, Figure 3.28(b) is an ideal highpass filter, and Figure 3.28(c) is an ideal bandpass filter. Note that, as discussed in the preceding section, the characteristics of the continuous-time and discrete-time ideal filters differ by virtue of the fact that, for discrete-time filters, the frequency response \(H(e^{j\omega})\) must be periodic with period \(2\pi\), with low frequencies near even multiples of \(\pi\) and high frequencies near odd multiples of \(\pi\).
+
+As we will see on numerous occasions, ideal filters are quite useful in describing idealized system configurations for a variety of applications. However, they are not realizable in practice and must be approximated. Furthermore, even if they could be realized, some of the characteristics of ideal filters might make them undesirable for particular applications, and a nonideal filter might in fact be preferable.
+
+In detail, the topic of filtering encompasses many issues, including design and implementation. While we will not delve deeply into the details of filter design methodologies, in the remainder of this chapter and the following chapters we will see a number of other examples of both continuous-time and discrete-time filters and will develop the concepts and techniques that form the basis of this very important engineering discipline.
+
+### Examples of Continuous-Time Filters Described by Differential Equations
+
+In many applications, frequency-selective filtering is accomplished through the use of LTI systems described by linear constant-coefficient differential or difference equations. The reasons for this are numerous. For example, many physical systems that can be interpreted as performing filtering operations are characterized by differential or difference equations. A good example of this that we will examine in Chapter 6 is an automobile suspension system, which in part is designed to filter out high-frequency bumps and irregularities in road surfaces. A second reason for the use of filters described by differential or difference equations is that they are conveniently implemented using either analog or digital hardware. Furthermore, systems described by differential or difference equations offer an extremely broad and flexible range of designs, allowing one, for example, to produce filters that are close to ideal or that possess other desirable characteristics. In this and the next section, we consider several examples that illustrate the implementation of continuous-time and discrete-time frequency-selective filters through the use of differential and difference equations. In Chapters 4-6, we will see other examples of these classes of filters and will gain additional insights into the properties that make them so useful.
+
+#### A Simple RC Lowpass Filter
+
+Electrical circuits are widely used to implement continuous-time filtering operations. One of the simplest examples of such a circuit is the first-order _RC_ circuit depicted in Figure 3.29, where the source voltage \(v_{s}(t)\) is the system input. This circuit can be used to perform either a lowpass or highpass filtering operation, depending upon what we take as the output signal. In particular, suppose that we take the capacitor voltage \(v_{c}(t)\) as the output. In this case, the output voltage is related to the input voltage through the linear constant-coefficient differential equation
+
+\[RC\frac{dv_{c}(t)}{dt}+v_{c}(t)\,=\,v_{s}(t). \tag{3.141}\]
+
+Assuming initial rest, the system described by eq. (3.141) is LTI. In order to determine its frequency response \(H(j\omega)\), we note that, by definition, with input voltage \(v_{s}(t)\,=\,e^{j\omega t}\), we must have the output voltage \(v_{c}(t)\,=\,H(j\omega)e^{j\omega t}\). If we substitute these expressions into eq. (3.141), we obtain
+
+\[RC\frac{d}{dt}[H(j\omega)e^{j\omega t}]\,+\,H(j\omega)e^{j\omega t}\,=\,e^{j \omega t}, \tag{3.142}\]
+
+or
+
+\[RC\,j\omega H(j\omega)e^{j\omega t}\,+\,H(j\omega)e^{j\omega t}\,=\,e^{j \omega t}, \tag{3.143}\]
+
+from which it follows directly that
+
+\[H(j\omega)e^{j\omega t}\,=\,\frac{1}{1\,+\,RC\,j\omega}\,e^{j \omega t}, \tag{3.144}\]
+
+or
+
+\[H(j\omega)\,=\,\frac{1}{1\,+\,RC\,j\omega}. \tag{3.145}\]
+
+The magnitude and phase of the frequency response \(H(j\omega)\) for this example are shown in Figure 3.30. Note that for frequencies near \(\omega\,=\,0\), \(|H(j\omega)|\approx 1\), while for larger values of \(\omega\) (positive or negative), \(|H(j\omega)|\) is considerably smaller and in fact steadily decreases as \(|\omega|\) increases. Thus, this simple \(RC\) filter (with \(v_{c}(t)\) as output) is a nonideal lowpass filter.
+
+To provide a first glimpse at the trade-offs involved in filter design, let us briefly consider the time-domain behavior of the circuit. In particular, the impulse response of the system described by eq. (3.141) is
+
+\[h(t)\,=\,\frac{1}{RC}\,e^{-t/RC}u(t), \tag{3.146}\]
+
+Figure 3.29: First-order _RC_ filter.
+
+and the step response is
+
+\[s(t)\,=\,[1\,-\,e^{-t/RC}]u(t), \tag{3.147}\]
+
+both of which are plotted in Figure 3.31 (where \(\tau=RC\)). Comparing Figures 3.30 and 3.31, we see a fundamental trade-off. Specifically, suppose that we would like our filter to pass only very low frequencies. From Figure 3.30(a), this implies that \(1/RC\) must be small, or equivalently, that \(RC\) is large, so that frequencies other than the low ones of interest will be attentuated sufficiently. However, looking at Figure 3.31(b), we see that if \(RC\) is large, then the step response will take a considerable amount of time to reach its long-term value of \(1\). That is, the system responds sluggishly to the step input. Conversely, if we wish to have a faster step response, we need a smaller value of \(RC\), which in turn implies that the filter will pass higher frequencies. This type of trade-off between behavior in the frequency domain and in the time domain is typical of the issues arising in the design and analysis of LTI systems and filters and is a subject we will look at more carefully in Chapter 6.
+
+#### A Simple RC Highpass Filter
+
+As an alternative to choosing the capacitor voltage as the output in our \(RC\) circuit, we can choose the voltage across the resistor. In this case, the differential equation relating input
+
+Figure 3.30: (a) Magnitude and (b) phase plots for the frequency response for the \(RC\) circuit of Figure 3.29 with output \(\nu_{c}(t)\).
+
+and output is
+
+\[RC\,\frac{d\nu_{r}(t)}{dt}\,+\,\nu_{r}(t)\,=\,RC\,\frac{d\nu_{s}(t)}{dt}. \tag{3.148}\]
+
+We can find the frequency response \(G(j\omega)\) of this system in exactly the same way we did in the previous case: If \(\nu_{s}(t)\,=\,e^{j\omega t}\), then we must have \(\nu_{r}(t)\,=\,G(j\omega)e^{j\omega t}\); substituting these expressions into eq. (3.148) and performing a bit of algebra, we find that
+
+\[G(j\omega)\,=\,\frac{j\omega\,RC}{1\,+\,j\omega\,RC}. \tag{3.149}\]
+
+The magnitude and phase of this frequency response are shown in Figure 3.32. From the figure, we see that the system attenuates lower frequencies and passes higher frequencies--i.e., those for which \(|\omega|\gg 1/RC\)--with minimal attenuation. That is, this system acts as a nonideal highpass filter.
+
+As with the lowpass filter, the parameters of the circuit control both the frequency response of the highpass filter and its time response characteristics. For example, consider the step response for the filter. From Figure 3.29, we see that \(\nu_{r}(t)\,=\,\nu_{s}(t)-\nu_{c}(t)\). Thus, if \(\nu_{s}(t)\,=\,u(t)\), \(\nu_{c}(t)\) must be given by eq. (3.147). Consequently, the step response of the highpass filter is
+
+\[\nu_{r}(t)\,=\,e^{-tRC}u(t), \tag{3.150}\]
+
+which is depicted in Figure 3.33. Consequently, as \(RC\) is increased, the response becomes more sluggish--i.e., the step response takes a longer time to reach its long-term value
+
+Figure 3.31: (a) Impulse response of the first-order \(RC\) lowpass filter with \(\tau\,=\,RC\); (b) step response of \(RC\) lowpass filter with \(\tau\,=\,RC\).
+
+of 0. From Figure 3.32, we see that increasing \(RC\) (or equivalently, decreasing \(1/RC\)) also affects the frequency response, specifically, it extends the passband down to lower frequencies.
+
+We observe from the two examples in this section that a simple \(RC\) circuit can serve as a rough approximation to a highpass or a lowpass filter, depending upon the choice of the physical output variable. As illustrated in Problem 3.71, a simple mechanical system using a mass and a mechanical damper can also serve as a lowpass or highpass filter described by
+
+Figure 3.32: (a) Magnitude and (b) phase plots for the frequency response of the \(RC\) circuit of Figure 3.29 with output \(\nu_{r}(t)\).
+
+Figure 3.33: Step response of the first-order \(RC\) highpass filter with \(\tau=RC\).
+
+so that
+
+\[H(e^{j\omega})\,=\,\frac{1}{1-ae^{-j\omega}}. \tag{3.154}\]
+
+The magnitude and phase of \(H(e^{j\omega})\) are shown in Figure 3.34(a) for \(a\,=\,0.6\) and in Figure 3.34(b) for \(a\,=\,-0.6\). We observe that, for the positive value of \(a\), the difference equation (3.151) behaves like a lowpass filter with minimal attenuation of low frequencies near \(\omega\,=\,0\) and increasing attenuation as we increase \(\omega\) toward \(\omega\,=\,\pi\). For the negative value of \(a\), the system is a highpass filter, passing frequencies near \(\omega\,=\,\pi\) and attenuating lower frequencies. In fact, for any positive value of \(a<1\), the system approximates a lowpass filter, and for any negative value of \(a>-1\), the system approximates a highpass filter, where \(|a|\) controls the size of the filter passband, with broader passbands as \(|a|\) is decreased.
+
+As with the continuous-time examples, we again have a trade-off between time domain and frequency domain characteristics. In particular, the impulse response of the system described by eq. (3.151) is
+
+\[h[n]\,=\,a^{n}u[n]. \tag{3.155}\]
+
+The step response \(s[n]\,=\,u[n]*h[n]\) is
+
+\[s[n]\,=\,\frac{1\,-\,a^{n\,+\,1}}{1\,-\,a}u[n]. \tag{3.156}\]
+
+From these expressions, we see that \(|a|\) also controls the speed with which the impulse and step responses approach their long-term values, with faster responses for smaller values of \(|a|\), and hence, for filters with smaller passbands. Just as with differential equations, higher order recursive difference equations can be used to provide sharper filter characteristics and to provide more flexibility in balancing time-domain and frequency-domain constraints.
+
+Finally, note from eq. (3.155) that the system described by eq. (3.151) is unstable if \(|a|\,\geq\,1\) and thus does not have a finite response to complex exponential inputs. As we stated previously, Fourier-based methods and frequency domain analysis focus on systems with finite responses to complex exponentials; hence, for examples such as eq. (3.151), we restrict ourselves to stable systems.
+
+#### Nonrecursive Discrete-Time Filters
+
+The general form of an FIR nonrecursive difference equation is
+
+\[y[n]\,=\,\sum_{k\,=\,-N}^{M}b_{k}x[n\,-\,k]. \tag{3.157}\]
+
+That is, the output \(y[n]\) is a _weighted average_ of the \((N+M+1)\) values of \(x[n]\) from \(x[n-M]\) through \(x[n+N]\), with the weights given by the coefficients \(b_{k}\). Systems of this form can be used to meet a broad array of filtering objectives, including frequency-selective filtering.
+
+One frequently used example of such a filter is a _moving-average filter,_ where the output \(y[n]\) for any \(n\)--say, \(n_{0}\)--is an average of values of \(x[n]\) in the vicinity of \(n_{0}\). The Figure 3.34: Frequency response of the first-order recursive discrete-time filter of eq. (3.151): (a) \(a=0.6\); (b) \(a=-0.6\).
+
+basic idea is that by averaging values locally, rapid high-frequency components of the input will be averaged out and lower frequency variations will be retained, corresponding to smoothing or lowpass filtering the original sequence. A simple two-point moving-average filter was briefly introduced in Section 3.9 [eq. (3.138)]. An only slightly more complex example is the three-point moving-average filter, which is of the form
+
+\[y[n]\,=\,\frac{1}{3}(x[n\,-\,1]\,+\,x[n\,]\,+\,x[n\,+\,1]), \tag{3.158}\]
+
+so that each output \(y[n]\) is the average of three consecutive input values. In this case,
+
+\[h[n]\,=\,\frac{1}{3}[\delta[n\,+\,1]\,+\,\delta[n\,]\,+\,\delta[n\,-\,1]],\]
+
+and thus, from eq. (3.122), the corresponding frequency response is
+
+\[H(e^{j\omega})\,=\,\frac{1}{3}[e^{j\omega}\,+\,1\,+\,e^{-j\omega}]\,=\,\frac{1 }{3}(1\,+\,2\cos\omega). \tag{3.159}\]
+
+The magnitude of \(H(e^{j\omega})\) is sketched in Figure 3.35. We observe that the filter has the general characteristics of a lowpass filter, although, as with the first-order recursive filter, it does not have a sharp transition from passband to stopband.
+
+The three-point moving-average filter in eq. (3.158) has no parameters that can be changed to adjust the effective cutoff frequency. As a generalization of this moving-average filter, we can consider averaging over \(N+M+1\) neighboring points--that is, using a difference equation of the form
+
+\[y[n]\,=\,\frac{1}{N\,+\,M\,+\,1}\sum_{k\,=\,-N}^{M}x[n\,-\,k]. \tag{3.160}\]
+
+The corresponding impulse response is a rectangular pulse (i.e., \(h[n]\,=\,1/(N+M+1)\) for \(-N\,\leq\,n\,\leq\,M\), and \(h[n]\,=\,0\) otherwise). The filter's frequency response is
+
+\[H(e^{j\omega})\,=\,\frac{1}{N\,+\,M\,+\,1}\sum_{k\,=\,-N}^{M}e^{-j\omega k}. \tag{3.161}\]
+
+Figure 3.35: Magnitude of the frequency response of a three-point moving-average lowpass filter.
+
+The summation in eq. (3.161) can be evaluated by performing calculations similar to those in Example 3.12, yielding
+
+\[H(e^{j\omega})\,=\,\frac{1}{N\,+\,M\,+\,1}\,e^{j\omega\left[(N\,-\,M)/2\right]} \frac{\sin[\omega(M\,+\,N\,+\,1)/2]}{\sin(\omega/2)}. \tag{3.162}\]
+
+By adjusting the size, \(N\,+\,M\,+\,1\), of the averaging window we can vary the cutoff frequency. For example, the magnitude of \(H(e^{j\omega})\) is shown in Figure 3.36 for \(M\,+\,N\,+\,1\,=\,\,33\) and \(M\,+\,N\,+\,1\,=\,65\).
+
+Nonrecursive filters can also be used to perform highpass filtering operations. To illustrate this, again with a simple example, consider the difference equation
+
+\[y[n]\,=\,\frac{x[n]-x[n\,-\,1]}{2}. \tag{3.163}\]
+
+For input signals that are approximately constant, the value of \(y[n]\) is close to zero. For input signals that vary greatly from sample to sample, the values of \(y[n]\) can be ex
+
+Figure 3.36: Magnitude of the frequency response for the lowpass moving-average filter of eq. (3.162): (a) \(M\,=\,\,N\,=\,\,16\); (b) \(M\,=\,\,N\,=\,\,32\).
+
+pected to have larger amplitude. Thus, the system described by eq. (3.163) approximates a highpass filtering operation, attenuating slowly varying low-frequency components and passing rapidly varying higher frequency components with little attenuation. To see this more precisely we need to look at the system's frequency response. In this case, \(h[n]=\frac{1}{2}\{\delta[n]-\delta[n-1]\}\), so that direct application of eq. (3.122) yields
+
+\[H(e^{j\omega})\,=\,\frac{1}{2}[1\,-\,e^{-j\omega}]\,=\,je^{j\omega/2}\sin( \omega/2). \tag{3.164}\]
+
+In Figure 3.37 we have plotted the magnitude of \(H(e^{j\omega})\), showing that this simple system approximates a highpass filter, albeit one with a very gradual transition from passband to stopband. By considering more general nonrecursive filters, we can achieve far sharper transitions in lowpass, highpass, and other frequency-selective filters.
+
+Note that, since the impulse response of any FIR system is of finite length (i.e., from eq. (3.157), \(h[n]=b_{n}\) for \(-N\,\leq\,n\,\leq\,M\) and \(0\) otherwise), it is always absolutely summable for any choices of the \(b_{n}\). Hence, all such filters are stable. Also, if \(N>0\) in eq. (3.157), the system is noncausal, since \(y[n]\) then depends on future values of the input. In some applications, such as those involving the processing of previously recorded signals, causality is not a necessary constraint, and thus, we are free to use filters with \(N>0\). In others, such as many involving real-time processing, causality is essential, and in such cases we must take \(N\,\leq\,0\).
+
+### Summary
+
+In this chapter, we have introduced and developed Fourier series representations for both continuous-time and discrete-time systems and have used these representations to take a first look at one of the very important applications of the methods of signal and system analysis, namely, filtering. In particular, as we discussed in Section 3.2, one of the primary motivations for the use of Fourier series is the fact that complex exponential signals are eigenfunctions of LTI systems. We have also seen, in Sections 3.3-3.7, that any periodic signal of practical interest can be represented in a Fourier series--i.e., as a weighted sum of harmonically related complex exponentials that share a common period with the signal being represented. In addition, we have seen that the Fourier series representation has a number of important properties which describe how different characteristics of signals are reflected in their Fourier series coefficients.
+
+One of the most important properties of Fourier series is a direct consequence of the eigenfunction property of complex exponentials. Specifically, if a periodic signal is applied to an LTI system, then the output will be periodic with the same period, and each of the Fourier coefficients of the output is the corresponding Fourier coefficient of the input multiplied by a complex number whose value is a function of the frequency corresponding to that Fourier coefficient. This function of frequency is characteristic of the LTI system and is referred to as the frequency response of the system. By examining the frequency response, we were led directly to the idea of filtering of signals using LTI systems, a concept that has numerous applications, including several that we have described. One important class of applications involves the notion of frequency-selective filtering--i.e., the idea of using an LTI system to pass certain specified bands of frequencies and stop or significantly attenuate others. We introduced the concept of ideal frequency-selective filters and also gave several examples of frequency-selective filters described by linear constant-coefficient differential or difference equations.
+
+The purpose of this chapter has been to begin the process of developing both the tools of Fourier analysis and an appreciation for the utility of these tools in applications. In the chapters that follow, we continue with this agenda by developing the Fourier transform representations for aperiodic signals in continuous and discrete time and by taking a deeper look not only at filtering, but also at other important applications of Fourier methods.
+
+## Chapter 3 Problems
+
+The first section of problems belongs to the basic category and the answers are provided in the back of the book. The remaining three sections contain problems belonging to the basic, advanced, and extension categories, respectively.
+
+## 3 Basic Problems With Answers
+
+1. A continuous-time periodic signal \(x(t)\) is real valued and has a fundamental period \(T\,=\,8\). The nonzero Fourier series coefficients for \(x(t)\) are \[a_{1}\,=\,a_{-1}\,=\,2,\,a_{3}\,=\,a_{-3}^{*}\,=\,4j.\] Express \(x(t)\) in the form \[x(t)\,=\,\sum_{k\,=\,0}^{\infty}\,A_{k}\cos(\omega_{\,k}t\,+\,\phi_{k}).\]
+2. A discrete-time periodic signal \(x[n]\) is real valued and has a fundamental period \(N\,=\,5\). The nonzero Fourier series coefficients for \(x[n]\) are \[a_{0}\,=\,1,\,a_{2}\,=\,a_{-2}^{*}\,=\,e^{j\pi/4},\,a_{4}\,=\,a_{-4}^{*}\,=\, 2e^{j\pi/3}.\]

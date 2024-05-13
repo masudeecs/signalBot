@@ -1,0 +1,1527 @@
+## State-Space Analysis
+
+In Sec. 1.10, basic notions of _state variables_ were introduced. In this chapter, we shall discuss state variables in more depth.
+
+Most of this book deals with an external (input-output) description of systems. As noted in Ch. 1, such a description may be inadequate in some cases, and we need a systematic way of finding a system's _internal description_. State-space analysis of systems meets this need. In this method, we first select a set of key variables, called the _state variables,_ in the system. Every possible signal or variable in the system at any instant \(t\) can be expressed in terms of the state variables and the input(s) at that instant \(t\). If we know all the state variables as a function of \(t\), we can determine every possible signal or variable in the system at any instant with a relatively simple relationship. The system description in this method consists of two parts:
+
+1. A set of equations relating the state variables to the inputs (_the state equation_).
+2. A set of equations relating outputs to the state variables and the inputs (_the output equation_).
+
+The analysis procedure, therefore, consists of solving the state equation first, and then solving the output equation. The state-space description is capable of determining every possible system variable (or output) from knowledge of the input and the initial state (conditions) of the system. For this reason, it is an _internal description_ of the system.
+
+By its nature, state variable analysis is eminently suited for multiple-input, multiple-output (MIMO) systems. A single-input, single output (SISO) system is a special case of MIMO systems. In addition, the state-space techniques are useful for several other reasons, mentioned in Sec. 1.10, and repeated here.
+
+1. The state equations of a system provide a mathematical model of great generality that can describe not just linear systems, but also nonlinear systems; not just time-invariant systems, but also time-varying parameter systems; not just SISO systems, but also MIMO systems. Indeed, state equations are ideally suited for analysis, synthesis, and optimization of MIMO systems.
+2. Compact matrix notation along with powerful techniques of linear algebra greatly facilitates complex manipulations. Without such features, many important results ofmodern system theory would have been difficult to obtain. State equations can yield a great deal of information about a system even when they are not solved explicitly.
+3. State equations lend themselves readily to digital computer simulation of complex systems of high order, with or without nonlinearities, and with multiple inputs and outputs.
+4. For second-order systems (\(N=2\)), a graphical method called _phase-plane analysis_ can be used on state equations, whether they are linear or nonlinear.
+
+### 10.1 Mathematical Preliminaries
+
+This chapter requires some understanding of matrix algebra. Section B.6 introduces basic concepts of matrix algebra, but misses a few needed mathematical concepts, which we present next.
+
+#### Derivatives and Integrals of a Matrix
+
+Elements of a matrix need not be constants; they may be functions of a variable. For example, if
+
+\[{\bf A}=\left[\begin{array}{cc}e^{-2t}&\sin t\\ e^{t}&e^{-t}+e^{-2t}\end{array}\right] \tag{10.1}\]
+
+then the matrix elements are functions of \(t\). Here, it is helpful to denote \({\bf A}\) by \({\bf A}(t)\). Next, we define the derivative and integral of \({\bf A}(t)\).
+
+The derivative of a matrix \({\bf A}(t)\) (with respect to \(t\)) is defined as a matrix whose _if_th element is the derivative (with respect to \(t\)) of the _if_th element of the matrix \({\bf A}\). Thus, if
+
+\[{\bf A}(t)=[a_{ij}(t)]_{m\times n}\]
+
+then
+
+\[\frac{d}{dt}[{\bf A}(t)]=\left[\frac{d}{dt}a_{ij}(t)\right]_{m\times n}\qquad \mbox{or}\qquad\dot{\bf A}(t)=[\dot{a}_{ij}(t)]_{m\times n}\]
+
+Thus, the derivative of the matrix in Eq. (10.1) is given by
+
+\[\dot{\bf A}(t)=\left[\begin{array}{cc}-2e^{-2t}&\cos t\\ e^{t}&-e^{-t}-2e^{-2t}\end{array}\right]\]
+
+Similarly, we define the integral of \({\bf A}(t)\) (with respect to \(t\)) as a matrix whose _if_th element is the integral (with respect to \(t\)) of the _if_th element of the matrix \({\bf A}\):
+
+\[\int{\bf A}(t)\,dt=\left(\int a_{ij}(t)\,dt\right)_{m\times n}\]
+
+Thus, for the matrix \({\bf A}\) in Eq. (10.1), we have
+
+\[\int{\bf A}(t)\,dt=\left[\begin{array}{cc}\int e^{-2t}\,dt&\int\sin\,dt\\ \int e^{t}\,dt&\int(e^{-t}+2e^{-2t})\,dt\end{array}\right]\]Since differentiation is a linear operation, it is easy to show that
+
+\[\frac{d}{dt}({\bf A}+{\bf B})=\frac{d{\bf A}}{dt}+\frac{d{\bf B}}{dt}\qquad\mbox {and}\qquad\frac{d}{dt}(c{\bf A})=c\frac{d{\bf A}}{dt}\]
+
+The derivative of a matrix product is given as
+
+\[\frac{d}{dt}({\bf A}{\bf B})=\frac{d{\bf A}}{dt}{\bf B}+{\bf A}\frac{d{\bf B}}{ dt}=\dot{\bf A}{\bf B}+{\bf A}\dot{\bf B} \tag{10.2}\]
+
+We can prove Eq. (10.2) as follows. Let \({\bf A}\) be an \(m\times n\) matrix and \({\bf B}\) an \(n\times p\) matrix. Then, if
+
+\[{\bf C}={\bf A}{\bf B}\]
+
+from Eq. (B.33), we have
+
+\[c_{ik}=\sum_{j=1}^{n}a_{ij}b_{jk}\]
+
+and
+
+\[\dot{c}_{ik}=\underbrace{\sum_{j=1}^{n}\dot{a}_{ij}b_{jk}}_{d_{ik}}+ \underbrace{\sum_{j=1}^{n}a_{ij}\dot{b}_{jk}}_{e_{ik}}\qquad\mbox{or}\qquad \dot{c}_{ik}=d_{ik}+e_{ik} \tag{10.3}\]
+
+Equation (10.3) along with the multiplication rule clearly indicates that \(d_{ik}\) is the \(ik\)th element of matrix \(\dot{\bf A}{\bf B}\) and \(e_{ik}\) is the \(ik\)th element of matrix \({\bf A}\dot{\bf B}\). Equation (10.2) then follows.
+
+If we let \({\bf B}={\bf A}^{-1}\) in Eq. (10.2), we obtain
+
+\[\frac{d}{dt}({\bf A}{\bf A}^{-1})=\frac{d{\bf A}}{dt}{\bf A}^{-1}+{\bf A}\frac {d}{dt}{\bf A}^{-1}\]
+
+But since
+
+\[\frac{d}{dt}({\bf A}{\bf A}^{-1})=\frac{d}{dt}{\bf I}=0\]
+
+we have
+
+\[\frac{d}{dt}({\bf A}^{-1})=-{\bf A}^{-1}\frac{d{\bf A}}{dt}{\bf A}^{-1}\]
+
+### 10.1-2 The Characteristic Equation of a Matrix:
+
+The Cayley-Hamilton Theorem
+
+For an (\(n\times n\)) square matrix \({\bf A}\), any vector \({\bf x}\) (\({\bf x}\neq 0\)) that satisfies the equation
+
+\[{\bf A}{\bf x}=\lambda{\bf x} \tag{10.4}\]
+
+is an _eigenvector_ (or _characteristic vector_), and \(\lambda\) is the corresponding _eigenvalue_ (or _characteristic value_) of \({\bf A}\). Equation (10.4) can be expressed as
+
+\[({\bf A}-\lambda{\bf I}){\bf x}=0\qquad\mbox{or}\qquad(\lambda{\bf I}-{\bf A }){\bf x}=0\]The solution for this set of homogeneous equations exists if and only if
+
+\[|\lambda{\bf I}-{\bf A}|=\left|\begin{array}{ccccc}\lambda-a_{11}&-a_{12}& \cdot\cdot\cdot&-a_{1n}\\ -a_{21}&\lambda-a_{22}&\cdot\cdot\cdot&-a_{2n}\\ \vdots&\vdots&\cdot\cdot\cdot&\vdots\\ -a_{n1}&-a_{n2}&\cdot\cdot\cdot&\lambda-a_{m}\end{array}\right|=0 \tag{10.5}\]
+
+Equation (10.5) is known as the _characteristic equation_ of matrix \({\bf A}\) and can be expressed as
+
+\[Q(\lambda)=|\lambda{\bf I}-{\bf A}|=\lambda^{n}+a_{n-1}\lambda^{n-1}+\cdot \cdot\cdot+a_{1}\lambda+a_{0}\lambda^{0}=0 \tag{10.6}\]
+
+\(Q(\lambda)\) is called the _characteristic polynomial_ of matrix \({\bf A}\). The \(n\) zeros of the characteristic polynomial are the eigenvalues of \({\bf A}\) and, corresponding to each eigenvalue, there is an eigenvector that satisfies Eq. (10.4).
+
+The _Cayley-Hamilton theorem_ states that every \(n\times n\) matrix \({\bf A}\) satisfies its own characteristic equation. In other words, Eq. (10.6) is valid if \(\lambda\) is replaced by \({\bf A}\):
+
+\[{\bf Q}({\bf A})={\bf A}^{n}+a_{n-1}{\bf A}^{n-1}+\cdot\cdot\cdot+a_{1}{\bf A }+a_{0}{\bf A}^{0}=0 \tag{10.7}\]
+
+Functions of a Matrix
+
+We now demonstrate the use of the Cayley-Hamilton theorem [Eq. (10.7)] to evaluate functions of an \(n\times n\) square matrix \({\bf A}\).
+
+Consider a function \(f(\lambda)\) in the form of an infinite power series:
+
+\[f(\lambda)=\alpha_{0}+\alpha_{1}\lambda+\alpha_{2}\lambda_{2}^{2}+\cdot\cdot \cdot=\sum_{i=0}^{\infty}\alpha_{i}\lambda^{i} \tag{10.8}\]
+
+Since \(\lambda\), being an eigenvalue (characteristic root) of \({\bf A}\), satisfies the characteristic equation [Eq. (10.6)], we can write
+
+\[\lambda^{n}=-a_{n-1}\lambda^{n-1}-a_{n-2}\lambda^{n-2}-\cdot\cdot\cdot-a_{1} \lambda-a_{0} \tag{10.9}\]
+
+If we multiply both sides by \(\lambda\), the left-hand side is \(\lambda^{n+1}\), and the right-hand side contains the terms \(\lambda^{n}\), \(\lambda^{n-1}\), \(\ldots\), \(\lambda\). Using Eq. (10.9), we substitute \(\lambda^{n}\) in terms of \(\lambda^{n-1},\lambda^{n-2},\ldots,\lambda\) so that the highest power on the right-hand side is reduced to \(n-1\). Continuing in this way, we see that \(\lambda^{n+k}\) can be expressed in terms of \(\lambda^{n-1}\), \(\lambda^{n-2},\ldots,\lambda\) for any \(k\). Hence, the infinite series on the right-hand side of Eq. (10.8) can always be expressed in terms of \(\lambda^{n-1}\), \(\lambda^{n-2},\ldots,\lambda\) and a constant as
+
+\[f(\lambda)=\beta_{0}+\beta_{1}\lambda+\beta_{2}\lambda^{2}+\cdot\cdot\cdot+ \beta_{n-1}\lambda^{n-1} \tag{10.10}\]
+
+If we assume that there are \(n\) distinct eigenvalues \(\lambda_{1}\), \(\lambda_{2}\), \(\ldots\), \(\lambda_{n}\), then Eq. (10.10) holds for these \(n\) values of \(\lambda\). The substitution of these values in Eq. (10.10) yields \(n\) simultaneous equations
+
+\[\left[\begin{array}{c}f(\lambda_{1})\\ f(\lambda_{2})\\ \vdots\\ f(\lambda_{n})\end{array}\right]=\left[\begin{array}{ccccc}1&\lambda_{1}& \lambda_{1}^{2}&\cdot\cdot\cdot&\lambda_{1}^{n-1}\\ 1&\lambda_{2}&\lambda_{2}^{2}&\cdot\cdot\cdot&\lambda_{2}^{n-1}\\ \vdots&\vdots&\vdots&\cdot\cdot\cdot&\vdots\\ 1&\lambda_{n}&\lambda_{n}^{2}&\cdot\cdot\cdot&\lambda_{n}^{n-1}\end{array} \right]\left[\begin{array}{c}\beta_{0}\\ \beta_{1}\\ \vdots\\ \beta_{n-1}\end{array}\right]\]Solving for the \(\beta\) coefficients yields
+
+\[\left[\begin{array}{c}\beta_{0}\\ \beta_{1}\\ \vdots\\ \beta_{n-1}\end{array}\right]=\left[\begin{array}{cccccc}1&\lambda_{1}&\lambda_ {1}^{2}&\cdots&\lambda_{1}^{n-1}\\ 1&\lambda_{2}&\lambda_{2}^{2}&\cdots&\lambda_{2}^{n-1}\\ \vdots&\vdots&\vdots&\cdots&\vdots\\ 1&\lambda_{n}&\lambda_{n}^{2}&\cdots&\lambda_{n}^{n-1}\end{array}\right]^{-1} \left[\begin{array}{c}f(\lambda_{1})\\ f(\lambda_{2})\\ \vdots\\ f(\lambda_{n})\end{array}\right] \tag{10.11}\]
+
+Since \(\mathbf{A}\) also satisfies Eq. (10.9), we may advance a similar argument to show that if \(f(\mathbf{A})\) is a function of a square matrix \(\mathbf{A}\) expressed as an infinite power series in \(\mathbf{A}\), then
+
+\[f(\mathbf{A})=\alpha_{0}\mathbf{I}+\alpha_{1}\mathbf{A}+\alpha_{2}\mathbf{A}^ {2}+\cdot\cdot\cdot=\sum_{i=0}^{\infty}\alpha_{i}\mathbf{A}^{i}\]
+
+and, as argued earlier, the right-hand side can be expressed by using terms of power less than or equal to \(n-1\),
+
+\[f(\mathbf{A})=\beta_{0}\mathbf{I}+\beta_{1}\mathbf{A}+\beta_{2}\mathbf{A}^{2 }+\cdot\cdot\cdot+\beta_{n-1}\mathbf{A}^{n-1}=\sum_{i=0}^{n-1}\beta_{i} \mathbf{A}^{i} \tag{10.12}\]
+
+in which the coefficients \(\beta_{i}\)s are found from Eq. (10.11). If some of the eigenvalues are repeated (multiple roots), the results are somewhat modified.
+
+We shall demonstrate the utility of this result with the following two examples.
+
+### 10.1-3 Computation of an Exponential and a Power of a Matrix
+
+Let us compute \(e^{\mathbf{A}t}\) defined by
+
+\[e^{\mathbf{A}t}=\mathbf{I}+\mathbf{A}t+\frac{\mathbf{A}^{2}t^{2}}{2!}+\cdot \cdot\cdot+\frac{\mathbf{A}^{n}t^{n}}{n!}+\cdot\cdot\cdot=\sum_{k=0}^{\infty} \frac{\mathbf{A}^{k}t^{k}}{k!}\]
+
+From Eq. (10.12), we can express
+
+\[e^{\mathbf{A}t}=\sum_{i=1}^{n-1}\beta_{i}(\mathbf{A})^{i}\]
+
+in which the \(\beta_{i}\)s are given by Eq. (10.11), with \(f(\lambda_{i})=e^{\lambda_{i}t}\).
+
+**Example 10.1**: **Computing the Exponential of a Matrix**
+
+Compute \(e^{\mathbf{A}t}\) for the case
+
+\[\mathbf{A}=\left[\begin{array}{cc}0&1\\ -2&-3\end{array}\right]\]
+
+This discussion is also valid for multiple-input, multiple-output (MIMO) systems, where every possible system output at any instant \(t\) is determined completely from a knowledge of the system state and the input(s) at the instant \(t\). These ideas should become clear from the following example of an \(RLC\) circuit.
+
+**Example 10.2**: **State-Space Description and Output Equations of an RLC Circuit**
+
+Find a state-space description of the \(RLC\) circuit shown in Fig. 10.1. Verify that all possible system outputs at some instant \(t\) can be determined from knowledge of the system state and the input at that instant \(t\).
+
+It is known that inductor currents and capacitor voltages in an \(RLC\) circuit can be used as one possible choice of state variables. For this reason, we shall choose \(q_{1}\) (the capacitor voltage) and \(q_{2}\) (the inductor current) as our state variables.
+
+The node equation at the intermediate node is
+
+\[i_{3}=i_{1}-i_{2}-q_{2}\]
+
+but \(i_{3}=0.2\dot{q}_{1}\), \(i_{1}=2(x-q_{1})\), \(i_{2}=3q_{1}\). Hence,
+
+\[0.2\dot{q}_{1}=2(x-q_{1})-3q_{1}-q_{2}\]
+
+or
+
+\[\dot{q}_{1}=-25q_{1}-5q_{2}+10x\]
+
+This is the first state equation. To obtain the second state equation, we sum the voltages in the extreme right loop formed by \(C\), \(L\), and the \(2\,\Omega\) resistor so that they are equal to zero:
+
+\[-q_{1}+\dot{q}_{2}+2q_{2}=0\]
+
+Figure 10.1: Circuit for Ex. 10.2.
+
+\[\dot{q}_{2}=q_{1}-2q_{2}\]
+
+Thus, the two state equations are
+
+\[\begin{array}{l}\dot{q}_{1}=-25q_{1}-5q_{2}+10x\\ \dot{q}_{2}=q_{1}-2q_{2}\end{array}\]
+
+Every possible output can now be expressed as a linear combination of \(q_{1}\), \(q_{2}\), and \(x\). From Fig. 10.1, we have
+
+\[\begin{array}{l}v_{1}=x-q_{1}\\ i_{1}=2(x-q_{1})\\ v_{2}=q_{1}\\ i_{2}=3q_{1}\\ i_{3}=i_{1}-i_{2}-q_{2}=2(x-q_{1})-3q_{1}-q_{2}=-5q_{1}-q_{2}+2x\\ i_{4}=q_{2}\\ v_{4}=2i_{4}=2q_{2}\\ v_{3}=q_{1}-v_{4}=q_{1}-2q_{2}\end{array}\]
+
+This set of equations is known as the _output equation_ of the system. It is clear from this set that every possible output at some instant \(t\) can be determined from knowledge of \(q_{1}(t)\), \(q_{2}(t)\), and \(x(t)\), the system state, and the input at the instant \(t\). Once we have solved the state equations to obtain \(q_{1}(t)\) and \(q_{2}(t)\), we can determine every possible output for any given input \(x(t)\).
+
+For continuous-time systems, the state equations are \(N\) simultaneous first-order differential equations in \(N\) state variables \(q_{1}\), \(q_{2}\), \(\ldots\), \(q_{N}\) of the form
+
+\[\dot{q}_{i}=g_{i}(q_{1},q_{2},\ldots,q_{N},x_{1},x_{2},\ldots,x_{j})\qquad i=1,2,\ldots,N\]
+
+where \(x_{1},x_{2},\ldots,x_{j}\) are the \(j\) system inputs. For a linear system, these equations reduce to a simpler linear form
+
+\[\dot{q}_{i}=a_{i1}q_{1}+a_{i2}q_{2}+\cdot\cdot\cdot+a_{iN}q_{N}+b_{i1}x_{1}+b _{i2}x_{2}+\cdot\cdot\cdot+b_{ij}x_{j}\qquad i=1,2,\ldots,N \tag{10.14}\]
+
+If there are \(k\) outputs \(y_{1},y_{2},\ldots,y_{k}\), the \(k\) output equations are of the form
+
+\[y_{m}=c_{m1}q_{1}+c_{m2}q_{2}+\cdot\cdot\cdot+c_{mN}q_{N}+d_{m1}x_{1}+d_{m2}x_ {2}+\cdot\cdot\cdot+d_{mj}x_{j}\qquad m=1,2,\ldots,k \tag{10.15}\]
+
+The \(N\) simultaneous first-order state equations are also known as the _normal-form_ equations.
+
+These equations can be written more conveniently in matrix form:
+
+\[\underbrace{\begin{bmatrix}\dot{q}_{1}\\ \dot{q}_{2}\\ \vdots\\ \dot{q}_{N}\end{bmatrix}}_{\dot{\mathbf{q}}}=\underbrace{\begin{bmatrix}a_{11}&a_{12 }&\cdots&a_{1N}\\ a_{21}&a_{22}&\cdots&a_{2N}\\ \vdots&\vdots&\cdots&\vdots\\ a_{N1}&a_{N2}&\cdots&a_{NN}\end{bmatrix}}_{\mathbf{A}}\underbrace{\begin{bmatrix}q_{1} \\ q_{2}\\ \vdots\\ q_{N}\end{bmatrix}}_{\mathbf{q}}+\underbrace{\begin{bmatrix}b_{11}&b_{12}& \cdots&b_{1j}\\ b_{21}&b_{22}&\cdots&b_{2j}\\ \vdots&\vdots&\cdots&\vdots\\ b_{N1}&b_{N2}&\cdots&b_{Nj}\end{bmatrix}}_{\mathbf{B}}\underbrace{\begin{bmatrix}x_{1 }\\ x_{2}\\ \vdots\\ x_{j}\end{bmatrix}}_{\mathbf{x}}\]
+
+and
+
+\[\underbrace{\begin{bmatrix}y_{1}\\ y_{2}\\ \vdots\\ y_{k}\end{bmatrix}}_{\mathbf{y}}=\underbrace{\begin{bmatrix}c_{11}&c_{12}& \cdots&c_{1N}\\ c_{21}&c_{22}&\cdots&c_{2N}\\ \vdots&\vdots&\cdots&\vdots\\ c_{k1}&c_{k2}&\cdots&c_{kN}\end{bmatrix}}_{\mathbf{C}}\underbrace{\begin{bmatrix}q_{1} \\ q_{2}\\ \vdots\\ q_{N}\end{bmatrix}}_{\mathbf{q}}+\underbrace{\begin{bmatrix}d_{11}&d_{12}& \cdots&d_{1j}\\ d_{21}&d_{22}&\cdots&d_{2j}\\ \vdots&\vdots&\cdots&\vdots\\ d_{k1}&d_{k2}&\cdots&d_{kj}\end{bmatrix}}_{\mathbf{D}}\underbrace{\begin{bmatrix}x_{1 }\\ x_{2}\\ \vdots\\ x_{j}\end{bmatrix}}_{\mathbf{x}}\]
+
+or
+
+\[\dot{\mathbf{q}}=\mathbf{A}\mathbf{q}+\mathbf{B}\mathbf{x} \tag{10.16}\]
+
+and
+
+\[\mathbf{y}=\mathbf{C}\mathbf{q}+\mathbf{D}\mathbf{x} \tag{10.17}\]
+
+Equation (10.16) is the state equation and Eq. (10.17) is the output equation; \(\mathbf{q}\), \(\mathbf{y}\), and \(\mathbf{x}\) are the state vector, the output vector, and the input vector, respectively.
+
+For discrete-time systems, the state equations are \(N\) simultaneous first-order difference equations. Discrete-time systems are discussed in Sec. 10.7.
+
+## 10.3 A Systematic Procedure to Determine State Equations
+
+We shall discuss here a systematic procedure to determine the state-space description of linear time-invariant systems. In particular, we shall consider systems of two types: (1) \(RLC\) networks and (2) systems specified by block diagrams or \(N\)th-order transfer functions.
+
+### Electrical Circuits
+
+The method used in Ex. 10.2 proves effective in most of the simple cases. The steps are as follows:
+
+1. Choose all independent capacitor voltages and inductor currents to be the state variables.
+2. Choose a set of loop currents; express the state variables and their first derivatives in terms of these loop currents.
+3. Write loop equations, and eliminate all variables other than state variables (and their first derivatives) from the equations derived in steps 2 and 3.
+
+**Step 1.**: There is one inductor and one capacitor in the network. Therefore, we shall choose the inductor current \(q_{1}\) and the capacitor voltage \(q_{2}\) as the state variables.
+**Step 2.**: The relationship between the loop currents and the state variables can be written by inspection:
+
+\[q_{1} =i_{2} \tag{10.18}\] \[\tfrac{1}{2}\dot{q}_{2} =i_{2}-i_{3} \tag{10.19}\]
+**Step 3.**: The loop equations are
+
+\[4i_{1}-2i_{2} =x \tag{10.20}\] \[2(i_{2}-i_{1})+\dot{q}_{1}+q_{2} =0\] (10.21) \[-q_{2}+3i_{3} =0 \tag{10.22}\]
+
+Now we eliminate \(i_{1}\), \(i_{2}\), and \(i_{3}\) from the state and loop equations as follows. From Eq. (10.21), we have
+
+\[\dot{q}_{1}=2(i_{1}-i_{2})-q_{2}\]
+
+We can eliminate \(i_{1}\) and \(i_{2}\) from this equation by using Eqs. (10.18) and (10.20) to obtain
+
+\[\dot{q}_{1}=-q_{1}-q_{2}+\tfrac{1}{2}x\]
+
+The substitution of Eqs. (10.18) and (10.22) in Eq. (10.19) yields
+
+\[\dot{q}_{2}=2q_{1}-\tfrac{2}{3}q_{2}\]
+
+Figure 10.2: Circuit for Ex. 10.3.
+
+These are the desired state equations. We can express them in matrix form as
+
+\[\begin{bmatrix}\dot{q}_{1}\\ \dot{q}_{2}\end{bmatrix}=\begin{bmatrix}-1&-1\\ 2&-\frac{2}{3}\end{bmatrix}\begin{bmatrix}q_{1}\\ q_{2}\end{bmatrix}+\begin{bmatrix}\frac{1}{2}\\ 0\end{bmatrix}x \tag{10.23}\]
+
+The derivation of state equations from loop equations is facilitated considerably by choosing loops in such a way that only one loop current passes through each of the inductors or capacitors.
+
+## An Alternative Procedure
+
+We can also determine the state equations by the following procedure.
+
+1. Choose all independent capacitor voltages and inductor currents to be the state variables.
+2. Replace each capacitor by a voltage source equal to the capacitor voltage, and replace each inductor by a current source equal to the inductor current. This step will transform the _RLC_ network into a network consisting only of resistors, current sources, and voltage sources.
+3. Find the current through each capacitor and equate it to \(C\dot{q}_{i}\), where \(q_{i}\) is the capacitor voltage. Similarly, find the voltage across each inductor and equate it to \(L\dot{q}_{j}\), where \(q_{j}\) is the inductor current.
+
+### 10.4 Alternate Procedure to Determine State Equations
+
+Use the three-step alternative procedure just outlined to write the state equations for the network in Fig. 10.2.
+
+In the network in Fig. 10.2, we replace the inductor by a current source of current \(q_{1}\) and the capacitor by a voltage source of voltage \(q_{2}\), as shown in Fig. 10.3. The resulting network consists of four resistors, two voltage sources, and one current source.
+
+Figure 10.3: Equivalent circuit of the network in Fig. 10.2.
+
+We can determine the voltage \(v_{L}\) across the inductor and the current \(i_{c}\) through the capacitor by using the principle of superposition. This step can be accomplished by inspection. For example, \(v_{L}\) has three components arising from three sources. To compute the component due to \(x\), we assume that \(q_{1}\) = 0 (open circuit) and \(q_{2}\) = 0 (short circuit). Under these conditions, the entire network to the right of the 2 \(\Omega\) resistor is opened, and the component of \(v_{L}\) due to \(x\) is the voltage across the 2 \(\Omega\) resistor. This voltage is clearly \((1/2)x\). Similarly, to find the component of \(v_{L}\) due to \(q_{1}\), we short \(x\) and \(q_{2}\). The source \(q_{1}\) sees an equivalent resistor of 1 \(\Omega\) across it, and hence \(v_{L}=-q_{1}\). Continuing the process, we find that the component of \(v_{L}\) due to \(q_{2}\) is \(-q_{2}\). Hence,
+
+\[v_{L}=\dot{q}_{1}={{1\over 2}}x-q_{1}-q_{2}\]
+
+Using the same procedure, we find
+
+\[i_{c}={{1\over 2}}\dot{q}_{2}=q_{1}-{{1\over 3}}q_{2}\]
+
+These equations are identical to the state equations [Eq. (10.23)] obtained earlier.+
+
+Footnote †: \({}^{\dagger}\) This procedure requires modification if the system contains all-capacitor and voltage-source tie sets or all-inductor and current-source cut sets. In the case of all-capacitor and voltage-source tie sets, all capacitor voltages cannot be independent. One capacitor voltage can be expressed in terms of the remaining capacitor voltages and the voltage source(s) in that tie set. Consequently, one of the capacitor voltages should not be used as a state variable, and that capacitor should not be replaced by a voltage source. Similarly, in all-inductor and current-source tie sets, one inductor should not be replaced by a current source. If there are all-capacitor tie sets or all-inductor cut sets only, no further complications occur. In all-capacitor voltage-source tie sets and/or all-inductor current-source cut sets, we have additional difficulties in that the terms involving derivatives of the input may occur. This problem can be solved by redefining the state variables. The final state variables will not be capacitor voltages and inductor currents.
+
+\({}^{\ddagger}\)We implicitly assume that the system is controllable and observable. This implies that there are no pole-zero cancellations in the transfer function. If such cancellations are present, the state variable description represents only the part of the system that is controllable and observable (the part of the system that is coupled to the input and the output). In other words, the internal description represented by the state equations is no better than the external description represented by the input-output equation.
+
+integrator input is naturally \(\dot{q}\). From Fig. 10.4, we have
+
+\[\dot{q}=-aq+x\qquad\text{and}\qquad y=q\]
+
+In Sec. 4.6 we saw that a given transfer function can be realized in several ways. Consequently, we should be able to obtain different state-space descriptions of the same system by using different realizations. This assertion will be clarified by the following example.
+
+**Example 10.5**: **State-Space Description from a Transfer Function**
+
+Consider a system specified by the transfer function
+
+\[H(s)=\underbrace{\frac{2s+10}{s^{3}+8s^{2}+19s+12}}_{\text{direct form}}=\underbrace{\left(\frac{2}{s+1}\right)\left(\frac{s+5}{s+3} \right)\left(\frac{1}{s+4}\right)}_{\text{cascade}}=\underbrace{\frac{\frac{4} {3}}{s+1}-\frac{2}{s+3}+\frac{\frac{2}{3}}{s+4}}_{\text{parallel}}\]
+
+The procedure developed in Sec. 4.6 allows us to realize \(H(s)\) as, among others, direct form II (DFII), transpose DFII (TDFII), cascade, and parallel. These realizations are depicted in Fig. 10.5. Determine state-space descriptions for each of these realizations. As mentioned earlier, the output of each integrator serves as a natural state variable.
+
+**Direct Form II and Its Transpose**
+
+Here we shall realize the system using the canonical form (direct form II and its transpose) discussed in Sec. 4.6. If we choose the state variables to be the three integrator outputs \(q_{1}\), \(q_{2}\), and \(q_{3}\), then, according to Fig. 10.5a,
+
+\[\dot{q}_{1}=q_{2}\] \[\dot{q}_{2}=q_{3}\] \[\dot{q}_{3}=-12q_{1}-19q_{2}-8q_{3}+x\]Figure 10.5: **(a)** DFII, **(b)** TDFII, **(c)** cascade, and **(d)** parallel realizations of \(H(s)\).
+
+Also, the output \(y\) is given by
+
+\[y=10q_{1}+2q_{2}\]
+
+In matrix form, these state and output equations become
+
+\[\begin{bmatrix}\dot{q}_{1}\\ \dot{q}_{2}\\ \dot{q}_{3}\end{bmatrix}=\underbrace{\begin{bmatrix}0&1&0\\ 0&0&1\\ -12&-19&-8\end{bmatrix}}_{\Delta}\begin{bmatrix}q_{1}\\ q_{2}\\ q_{3}\end{bmatrix}+\underbrace{\begin{bmatrix}0\\ 0\\ 1\end{bmatrix}}_{\mathbf{B}}x\]
+
+and
+
+\[\mathbf{y}=\underbrace{\begin{bmatrix}10&2&0\\ \hline c\end{bmatrix}}_{c}\begin{bmatrix}q_{1}\\ q_{2}\\ q_{3}\end{bmatrix}\]
+
+We can readily verify the state equations of the DFII structure by using MATLAB's tf2ss command:
+
+>> num = [2 10]; den = [1 8 19 12]; >> [A,B,C,D] = tf2ss(num,den)  A = -8 -19 -12 1 0 0 1 0 B = 1 0 0 0 C = 0 2 10 D = 0 MATLAB's convention for labeling state variables \(q_{1}\),\(q_{2}\),\(\ldots\),\(q_{n}\) in a block diagram, such as shown in Fig. 10.5a, is reversed. That is, MATLAB labels \(q_{1}\) as \(q_{n}\), \(q_{2}\) and \(q_{n-1}\), and so on. Keeping this in mind, we see that MATLAB indeed confirms our earlier results.
+
+It is also possible to determine the transfer function from the state-space representation using the ss2tf and tf commands:
+
+>> [num,den] = ss2tf(A,B,C,D); H = tf(num,den)  H =  2 s + 10  ---------------------  s^3 + 8 s^2 + 19 s + 12
+
+**Transpose Direct Form II**
+
+We can also realize \(H(s)\) by using the transpose of the DFII form, as shown in Fig. 10.5b. If we label the output of the three integrators as the state variables \(v_{1}\), \(v_{2}\), and \(v_{3}\), then, according to Fig. 10.5b,
+
+\[\dot{v}_{1} =-12v_{3}+10x\] \[\dot{v}_{2} =v_{1}-19v_{3}+2x\] \[\dot{v}_{3} =v_{2}-8v_{3}\]
+
+and the output \(y\) is given by
+
+\[y=v_{3}\]
+
+The matrix form of these state and output equations become
+
+\[\begin{bmatrix}\dot{v}_{1}\\ \dot{v}_{2}\\ \dot{v}_{3}\end{bmatrix}=\underbrace{\begin{bmatrix}0&0&-12\\ 1&0&-19\\ 0&1&-8\end{bmatrix}}_{\hat{\Lambda}}\begin{bmatrix}v_{1}\\ v_{2}\\ v_{3}\end{bmatrix}+\underbrace{\begin{bmatrix}10\\ 2\\ 0\end{bmatrix}}_{\hat{\mathbf{B}}}x\]
+
+and
+
+\[\mathbf{y}=\underbrace{\begin{bmatrix}0&0&1\\ \dot{c}\end{bmatrix}}_{\hat{c}}\begin{bmatrix}v_{1}\\ v_{2}\\ v_{3}\end{bmatrix}\]
+
+Observe closely the relationship between the state-space descriptions of \(H(s)\) by means of the DFII and TDFII realizations. The \(\mathbf{A}\) matrices in these two cases are the transpose of each other; also, the \(\mathbf{B}\) of one is the transpose of \(\mathbf{C}\) in the other, and vice versa. Hence,
+
+\[(\mathbf{A})^{T}=\hat{\mathbf{A}},\qquad(\mathbf{B})^{T}=\hat{\mathbf{C}}, \qquad\text{and}\qquad(\mathbf{C})^{T}=\hat{\mathbf{B}}\]
+
+This is no coincidence. This duality relation is generally true [1].
+
+**Cascade Realization**
+
+The three integrator outputs \(w_{1}\), \(w_{2}\), and \(w_{3}\) in Fig. 10.5c are the state variables. Writing equations for the summer outputs yields
+
+\[\dot{w}_{1}=-w_{1}+x,\qquad\dot{w}_{2}=2w_{1}-3w_{2},\qquad\text{and}\qquad \dot{w}_{3}=5w_{2}+\dot{w}_{2}-4w_{3}\]
+
+Since \(\dot{w}_{2}=2w_{1}-3w_{2}\), we see that \(\dot{w}_{3}=2w_{1}+2w_{2}-4w_{3}\). From Fig. 10.5c, we further see that \(y=w_{3}\). Put into matrix form, the state and output equations are therefore
+
+\[\begin{bmatrix}\dot{w}_{1}\\ \dot{w}_{2}\\ \dot{w}_{3}\end{bmatrix}=\begin{bmatrix}-1&0&0\\ 2&-3&0\\ 2&2&-4\end{bmatrix}\begin{bmatrix}w_{1}\\ w_{2}\\ w_{3}\end{bmatrix}+\begin{bmatrix}1\\ 0\\ 0\end{bmatrix}x\]
+
+and
+
+\[y=[0\quad 0\quad 1]\begin{bmatrix}w_{1}\\ w_{2}\\ w_{3}\end{bmatrix}\]
+
+**Parallel Realization (Diagonal Representation)**
+
+The three integrator outputs \(z_{1}\), \(z_{2}\), and \(z_{3}\) in Fig. 10.5d are the state variables. The state equations are
+
+\[\dot{z}_{1} =-z_{1}+x\] \[\dot{z}_{2} =-3z_{2}+x\] \[\dot{z}_{3} =-4z_{3}+x\]
+
+and the output equation is
+
+\[y=\tfrac{4}{3}z_{1}-2z_{2}+\tfrac{2}{3}z_{3}\]
+
+In matrix form, these equations are
+
+\[\begin{bmatrix}\dot{z}_{1}\\ \dot{z}_{2}\\ \dot{z}_{3}\end{bmatrix} =\begin{bmatrix}-1&0&0\\ 0&-3&0\\ 0&0&-4\end{bmatrix}\begin{bmatrix}z_{1}\\ z_{2}\\ z_{3}\end{bmatrix}+\begin{bmatrix}1\\ 1\\ 1\end{bmatrix}x\] \[y =\begin{bmatrix}\tfrac{4}{3}&-2&\tfrac{2}{3}\end{bmatrix} \begin{bmatrix}z_{1}\\ z_{2}\\ z_{3}\end{bmatrix}\]
+
+## Appendix A General Case
+
+It is clear that a system has several state-space descriptions. Notable among these are the variables obtained from the DFII, its transpose, and the diagonalized variables (in the parallel realization). State equations in these forms can be written immediately by inspection of the transfer function. Consider the general \(N\)th-order transfer function
+
+\[H(s) =\frac{b_{0}s^{N}+b_{1}s^{N-1}+\cdots+b_{N-1}s+b_{N}}{s^{N}+a_{1} s^{N-1}+\cdot\cdot\cdot+a_{N-1}s+a_{N}} \tag{10.24}\] \[=\frac{b_{0}s^{N}+b_{1}s^{N-1}+\cdots+b_{N-1}s+b_{N}}{(s-\lambda_{ 1})(s-\lambda_{2})\cdot\cdot\cdot(s-\lambda_{N})}\] \[=b_{0}+\frac{k_{1}}{s-\lambda_{1}}+\frac{k_{2}}{s-\lambda_{2}}+ \cdots+\frac{k_{N}}{s-\lambda_{N}} \tag{10.25}\]
+
+The realizations of \(H(s)\) found by using direct form II [Eq. (10.24)] and the parallel form [Eq. (10.25)] appear in Figs. 10.6a and 10.6b, respectively.
+
+The \(N\) integrator outputs \(q_{1}\), \(q_{2}\), \(\ldots\), \(q_{N}\) in Fig. 10.6a are the state variables. By inspection of this figure, we obtain
+
+\[\dot{q}_{1} =q_{2}\] \[\dot{q}_{2} =q_{3}\] \[\vdots\] \[\dot{q}_{N-1} =q_{N}\] \[\dot{q}_{N} =-a_{N}q_{1}-a_{N-1}q_{2}-\cdots-a_{2}q_{N-1}-a_{1}q_{N}+x\]and output \(y\) is
+
+\[y=b_{N}q_{1}+b_{N-1}q_{2}+\cdot\cdot\cdot+b_{1}q_{N}+b_{0}\hat{q}_{N}\]
+
+We can eliminate \(\hat{q}_{N}\) in this output equation by using the last state equation to yield
+
+\[y =(b_{N}-b_{0}a_{N})q_{1}+(b_{N-1}-b_{0}a_{N-1})q_{2}+\cdot\cdot\cdot +(b_{1}-b_{0}a_{1})q_{N}+b_{0}x\] \[=\hat{b}_{N}q_{1}+\hat{b}_{N-1}q_{2}+\cdot\cdot\cdot+\hat{b}_{1} q_{N}+b_{0}x\]
+
+where \(\hat{b}_{i}=b_{i}-b_{0}a_{i}\). In matrix form, we obtain
+
+\[\left[\begin{array}{c}\dot{q}_{1}\\ \dot{q}_{2}\\ \vdots\\ \dot{q}_{N-1}\\ \dot{q}_{N}\end{array}\right]=\left[\begin{array}{cccccc}0&1&0&\cdots&0&0 \\ 0&0&1&\cdots&0&0\\ \vdots&\vdots&\vdots&\cdots&\vdots&\vdots\\ 0&0&0&\cdots&0&1\\ -a_{N}&-a_{N-1}&-a_{N-2}&\cdots&-a_{2}&-a_{1}\end{array}\right]\left[ \begin{array}{c}q_{1}\\ q_{2}\\ \vdots\\ q_{N-1}\\ q_{N}\end{array}\right]+\left[\begin{array}{c}0\\ 0\\ 0\\ 1\end{array}\right]x\]
+
+Figure 10.6: **(a)** Direct form II and **(b)** parallel realizations for an \(N\)th-order LTIC system.
+
+and
+
+\[y=[\hat{b}_{N}\quad\hat{b}_{N-1}\quad\cdots\quad\hat{b}_{1}]\begin{bmatrix}q_{1}\\ q_{2}\\ \vdots\\ q_{N}\end{bmatrix}+b_{0}x\]
+
+In Fig. 10.6b, the \(N\) integrator outputs \(z_{1}\), \(z_{2}\), \(\ldots\), \(z_{N}\) are the state variables. By inspection of this figure, we obtain
+
+\[\begin{array}{l}\dot{z}_{1}=\lambda_{1}z_{1}+x\\ \dot{z}_{2}=\lambda_{2}z_{2}+x\\ \vdots\\ \dot{z}_{N}=\lambda_{N}z_{N}+x\end{array}\]
+
+and
+
+\[y=k_{1}z_{1}+k_{2}z_{2}+\cdots+k_{N}z_{N}+b_{0}x\]
+
+or
+
+\[\begin{bmatrix}\dot{z}_{1}\\ \dot{z}_{2}\\ \vdots\\ \dot{z}_{N-1}\\ \dot{z}_{N}\end{bmatrix}=\begin{bmatrix}\lambda_{1}&0&\cdots&0&0\\ 0&\lambda_{2}&\cdots&0&0\\ \vdots&\vdots&\cdots&\vdots&\vdots\\ 0&0&\cdots&\lambda_{N-1}&0\\ 0&0&\cdots&0&\lambda_{N}\end{bmatrix}\begin{bmatrix}z_{1}\\ z_{2}\\ \vdots\\ z_{N-1}\\ z_{N}\end{bmatrix}+\begin{bmatrix}1\\ 1\\ \vdots\\ 1\\ \end{bmatrix}x \tag{10.26}\]
+
+and
+
+\[y=\begin{bmatrix}k_{1}&k_{2}&\cdots&k_{N-1}&k_{N}\end{bmatrix}\begin{bmatrix}z _{1}\\ z_{2}\\ \vdots\\ z_{N-1}\\ z_{N}\end{bmatrix}+b_{0}x\]
+
+Observe that the diagonalized form of the state matrix [Eq. (10.26)] has the transfer function poles as its diagonal elements. The presence of repeated poles in \(H(s)\) will modify the procedure slightly. The handling of these cases is discussed in Sec. 4.6.
+
+It is clear from the foregoing discussion that a state-space description is not unique. For any realization of \(H(s)\) obtained from integrators, scalar multipliers, and adders, a corresponding state-space description exists. Since there are uncountable possible realizations of \(H(s)\), there are uncountable possible state-space descriptions.
+
+The advantages and drawbacks of various types of realization were discussed in Sec. 4.6.
+
+### 10.4 Solution of State Equations
+
+The state equations of a linear system are \(N\) simultaneous linear differential equations of the first order. We studied the techniques of solving linear differential equations in Chs. 2 and 4. The same techniques can be applied to state equations without any modification. However, it is more convenient to carry out the solution in the framework of matrix notation.
+
+These equations can be solved in both the time and frequency domains (Laplace transform). The latter is relatively easier to deal with than the time-domain solution. For this reason, we shall first consider the Laplace transform solution.
+
+### 10.4-1 Laplace Transform Solution of State Equations
+
+The \(i\)th state equation [Eq. (10.14)] is of the form
+
+\[\dot{q}_{i}=a_{i1}q_{1}+a_{i2}q_{2}+\cdot\cdot\cdot+a_{iN}q_{N}+b_{i1}x_{1}+b_{ i2}x_{2}+\cdot\cdot\cdot+b_{ij}x_{j} \tag{10.27}\]
+
+We shall take the Laplace transform of this equation. Let
+
+\[q_{i}(t)\Longleftrightarrow Q_{i}(s)\]
+
+so that
+
+\[\dot{q}_{i}(t)\Longleftrightarrow sQ_{i}(s)-q_{i}(0)\]
+
+Also, let
+
+\[x_{i}(t)\Longleftrightarrow X_{i}(s)\]
+
+The Laplace transform of Eq. (10.27) yields
+
+\[sQ_{i}(s)-q_{i}(0) =a_{i1}Q_{1}(s)+a_{i2}Q_{2}(s)+\cdot\cdot\cdot+a_{iN}Q_{N}(s)+b_{ i1}X_{1}(s)\] \[\quad+b_{i2}X_{2}(s)+\cdot\cdot\cdot+b_{ij}X_{j}(s)\]
+
+Taking the Laplace transforms of all \(N\) state equations, we obtain
+
+\[s\underbrace{\begin{bmatrix}Q_{1}(s)\\ Q_{2}(s)\\ \vdots\\ Q_{N}(s)\end{bmatrix}}_{\mathbf{q}(s)}-\underbrace{\begin{bmatrix}q_{1}(0)\\ q_{2}(0)\\ \vdots\\ q_{N}(0)\end{bmatrix}}_{\mathbf{q}(0)} =\underbrace{\begin{bmatrix}a_{11}&a_{12}&\cdot\cdot\cdot&a_{1N} \\ a_{21}&a_{22}&\cdot\cdot\cdot&a_{2N}\\ \vdots&\vdots&\cdot\cdot&\vdots\\ a_{N1}&a_{N2}&\cdot\cdot\cdot&a_{NN}\end{bmatrix}}_{\mathbf{A}}\underbrace{ \begin{bmatrix}Q_{1}(s)\\ Q_{2}(s)\\ \vdots\\ Q_{N}(s)\end{bmatrix}}_{\mathbf{Q}(s)}\] \[\quad+\underbrace{\begin{bmatrix}b_{11}&b_{12}&\cdot\cdot\cdot &b_{1j}\\ b_{21}&b_{22}&\cdot\cdot\cdot&b_{2j}\\ \vdots&\vdots&\cdot\cdot&\vdots\\ b_{N1}&b_{N2}&\cdot\cdot\cdot&b_{Nj}\end{bmatrix}}_{\mathbf{B}}\underbrace{ \begin{bmatrix}X_{1}(s)\\ X_{2}(s)\\ \vdots\\ X_{j}(s)\end{bmatrix}}_{\mathbf{X}(s)}\]
+
+Defining the vectors, as indicated, we have
+
+\[s\mathbf{Q}(s)-\mathbf{q}(0)=\mathbf{A}\mathbf{Q}(s)+\mathbf{B}\mathbf{X}(s)\]
+
+or
+
+\[s\mathbf{Q}(s)-\mathbf{A}\mathbf{Q}(s)=\mathbf{q}(0)+\mathbf{B}\mathbf{X}(s)\]
+
+and
+
+\[(s\mathbf{I}-\mathbf{A})\mathbf{Q}(s)=\mathbf{x}(0)+\mathbf{B}\mathbf{X}(s)\]where \(\mathbf{I}\) is the \(N\times N\) identity matrix. Solving for \(\mathbf{Q}(s)\), we have
+
+\[\mathbf{Q}(s) =(s\mathbf{I}-\mathbf{A})^{-1}[\mathbf{q}(0)+\mathbf{B}\mathbf{X}( s)]\] \[=\mathbf{\Phi}(s)[\mathbf{q}(0)+\mathbf{B}\mathbf{X}(s)] \tag{10.28}\]
+
+where
+
+\[\mathbf{\Phi}(s)=(s\mathbf{I}-\mathbf{A})^{-1}\]
+
+Thus, from Eq. (10.28),
+
+\[\mathbf{Q}(s)=\mathbf{\Phi}(s)\mathbf{q}(0)+\mathbf{\Phi}(s)\mathbf{B}\mathbf{ X}(s)\]
+
+and
+
+\[\mathbf{q}(t)=\underbrace{\mathcal{L}^{-1}[\mathbf{\Phi}(s)]\mathbf{q}(0)}_{ \text{zero-input response}}+\underbrace{\mathcal{L}^{-1}[\mathbf{\Phi}(s) \mathbf{B}\mathbf{X}(s)]}_{\text{zero-state response}} \tag{10.29}\]
+
+Equation (10.29) gives the desired solution. Observe the two components of the solution. The first component yields \(\mathbf{q}(t)\) when the input \(x(t)=0\). Hence, the first component is the zero-input response. In a similar manner, we see that the second component is the zero-state response.
+
+**Example 10.6**: **Laplace Transform Solution to State Equations**
+
+Using the Laplace transform, find the state vector \(\mathbf{q}(t)\) for the system whose state equation is given by
+
+\[\dot{\mathbf{q}}=\mathbf{A}\mathbf{q}+\mathbf{B}\mathbf{x}\]
+
+where
+
+\[\mathbf{A}=\begin{bmatrix}-12&\frac{2}{3}\\ -36&-1\end{bmatrix}\qquad\mathbf{B}=\begin{bmatrix}\frac{1}{3}\\ 1\end{bmatrix}\qquad\mathbf{x}(t)=u(t)\]
+
+and the initial conditions are \(q_{1}(0)=2\), \(q_{2}(0)=1\).
+
+From Eq. (10.28), we have
+
+\[\mathbf{Q}(s)=\mathbf{\Phi}(s)[\mathbf{q}(0)+\mathbf{B}\mathbf{X}(s)]\]
+
+Let us first find \(\mathbf{\Phi}(s)\). We have
+
+\[(s\mathbf{I}-\mathbf{A})=s\begin{bmatrix}1&0\\ 0&1\end{bmatrix}-\begin{bmatrix}-12&\frac{2}{3}\\ -36&-1\end{bmatrix}=\begin{bmatrix}s+12&-\frac{2}{3}\\ 36&s+1\end{bmatrix}\]\[\Phi(s)=(s\mathbf{I}-\mathbf{A})^{-1}=\begin{bmatrix}\frac{s+1}{(s+4)(s+9)}&\frac{ 2/3}{(s+4)(s+9)}\\ \frac{-36}{(s+4)(s+9)}&\frac{s+12}{(s+4)(s+9)}\end{bmatrix}\]
+
+Now, \(\mathbf{q}(0)\) is given as
+
+\[\mathbf{q}(0)=\begin{bmatrix}2\\ 1\end{bmatrix}\]
+
+Also, \(X(s)=1/s\), and
+
+\[\mathbf{B}\mathbf{X}(s)=\begin{bmatrix}\frac{1}{3}\\ 1\end{bmatrix}\frac{1}{s}=\begin{bmatrix}\frac{1}{3s}\\ \frac{1}{s}\end{bmatrix}\]
+
+Therefore,
+
+\[\mathbf{q}(0)+\mathbf{B}\mathbf{X}(s)=\begin{bmatrix}2+\frac{1}{3s}\\ 1+\frac{1}{s}\end{bmatrix}=\begin{bmatrix}\frac{6s+1}{3s}\\ \frac{s+1}{s}\end{bmatrix}\]
+
+and
+
+\[\mathbf{Q}(s) =\Phi(s)[\mathbf{q}(0)+\mathbf{B}\mathbf{X}(s)]\] \[=\begin{bmatrix}\frac{s+1}{(s+4)(s+9)}&\frac{2/3}{(s+4)(s+9)}\\ \frac{-36}{(s+4)(s+9)}&\frac{s+12}{(s+4)(s+9)}\end{bmatrix}\begin{bmatrix} \frac{6s+1}{3s}\\ \frac{s+1}{s}\end{bmatrix}\] \[=\begin{bmatrix}\frac{2s^{2}+3s+1}{s(s+4)(s+9)}\\ \frac{-59}{(s+4)(s+9)}\end{bmatrix}\] \[=\begin{bmatrix}\frac{1/36}{s}-\frac{21/20}{s+4}+\frac{136/45}{s +9}\\ \frac{-63/5}{s+4}+\frac{68/5}{s+9}\end{bmatrix}\]
+
+The inverse Laplace transform of this equation yields
+
+\[\begin{bmatrix}q_{1}(t)\\ q_{2}(t)\end{bmatrix}=\begin{bmatrix}\begin{pmatrix}\frac{1}{36}-\frac{21}{20} e^{-4t}+\frac{136}{45}e^{-9t}\end{pmatrix}u(t)\\ \left(-\frac{63}{5}e^{-4t}+\frac{68}{5}e^{-9t}\right)u(t)\end{bmatrix}\]
+
+This result is readily confirmed using MATLAB and its symbolic toolbox.
+
+>> syss >> A = [-12 2/3;-36 -1]; B = [1/3; 1]; q0 = [2;1]; X = 1/s; >> q = ilaplace(inv(s*eye(2)-A)*(q0+B*X))  q = (136*exp(-9*t))/45 - (21*exp(-4*t))/20 + 1/36 (68*exp(-9*t))/5 - (63*exp(-4*t))/5 To create a plot of the state vector, we use MATLAB's subs command to substitute the symbolic variable \(t\) with a vector of desired values.
+
+* >> t = (0:.01:2); q = subs(q); q1 = q(1,:); q2 = q(2,:); >> plot(t,q1,'k',t,q2,'k-'); xlabel('t'); ylabel('Amplitude'); >> legend('q_1(t)','q_2(t)','Location','SE'); The resulting plot is shown in Fig. 10.7.
+
+## The Output
+
+The output equation is given by
+
+\[\mathbf{y}=\mathbf{C}\mathbf{q}+\mathbf{D}\mathbf{x}\]
+
+and
+
+\[\mathbf{Y}(s)=\mathbf{C}\mathbf{Q}(s)+\mathbf{D}\mathbf{X}(s)\]
+
+Upon substituting Eq. (10.28) into this equation, we have
+
+\[\mathbf{Y}(s) =\mathbf{C}\{\mathbf{\Phi}(s)[\mathbf{q}(0)+\mathbf{B}\mathbf{x} \ \mathbf{X}(s)]\}+\mathbf{D}\mathbf{X}(s)\] \[=\underbrace{\mathbf{C}\mathbf{\Phi}(s)\mathbf{q}(0)}_{\text{zero- input response}}+\underbrace{[\mathbf{C}\mathbf{\Phi}(s)\mathbf{B}+\mathbf{D}]\mathbf{X}(s)}_{\text{zero- state response}} \tag{10.30}\]
+
+The zero-state response [i.e., the response \(\mathbf{Y}(s)\) when \(\mathbf{q}(0)=\mathbf{0}\)] is given by
+
+\[\mathbf{Y}(s)=[\mathbf{C}\mathbf{\Phi}(s)\mathbf{B}+\mathbf{D}]\mathbf{X}(s)\]
+
+Note that the transfer function of a system is defined under the zero-state condition [see Eq. (4.19)]. The matrix \(\mathbf{C}\mathbf{\Phi}(s)\mathbf{B}+\mathbf{D}\) is the _transfer function matrix_\(\mathbf{H}(s)\) of the system, which relates the responses \(y_{1},y_{2},\,.\,.\,.\,,\,y_{k}\) to the inputs \(x_{1},\,x_{2},\,.\,.\,.\,,\,x_{j}\):
+
+\[\mathbf{H}(s)=\mathbf{C}\mathbf{\Phi}(s)\mathbf{B}+\mathbf{D} \tag{10.31}\]
+
+and the zero-state response is
+
+\[\mathbf{Y}(s)=\mathbf{H}(s)\mathbf{X}(s)\]
+
+The matrix \(\mathbf{H}(s)\) is a \(k\times j\) matrix (\(k\) is the number of outputs and \(j\) is the number of inputs). The _ij_th element \(H_{ij}(s)\) of \(H(s)\) is the transfer function that relates the output \(y_{i}(t)\) to the input \(x_{j}(t)\).
+
+Figure 10.7: State vector plot for Ex. 10.6.
+
+### 10.4 Solution of State Equations
+
+#### 10.4.1 Transfer Function Matrix from State-Space Description
+
+Let us consider a system with a state equation
+
+\[\begin{bmatrix}\dot{q}_{1}\\ \dot{q}_{2}\end{bmatrix}=\begin{bmatrix}0&1\\ -2&-3\end{bmatrix}\begin{bmatrix}q_{1}\\ q_{2}\end{bmatrix}+\begin{bmatrix}1&0\\ 1&1\end{bmatrix}\begin{bmatrix}x_{1}\\ x_{2}\end{bmatrix}\]
+
+and an output equation
+
+\[\begin{bmatrix}y_{1}\\ y_{2}\\ y_{3}\end{bmatrix}=\begin{bmatrix}1&0\\ 1&1\\ 0&2\end{bmatrix}\begin{bmatrix}q_{1}\\ q_{2}\end{bmatrix}+\begin{bmatrix}0&0\\ 1&0\\ 0&1\end{bmatrix}\begin{bmatrix}x_{1}\\ x_{2}\end{bmatrix}\]
+
+Determine the transfer function matrix of the system.
+
+In this case,
+
+\[\mathbf{A}=\begin{bmatrix}0&1\\ -2&-3\end{bmatrix}\qquad\mathbf{B}=\begin{bmatrix}1&0\\ 1&1\end{bmatrix}\qquad\mathbf{C}=\begin{bmatrix}1&0\\ 1&1\\ 0&2\end{bmatrix}\qquad\mathbf{D}=\begin{bmatrix}0&0\\ 1&0\\ 0&1\end{bmatrix} \tag{10.32}\]
+
+and
+
+\[\mathbf{\Phi}(s)=(s\mathbf{I}-\mathbf{A})^{-1}=\begin{bmatrix}s&-1\\ 2&s+3\end{bmatrix}^{-1}=\begin{bmatrix}\frac{s+3}{(s+1)(s+2)}&\frac{1}{(s+1)(s+2 )}\\ \frac{-2}{(s+1)(s+2)}&\frac{s}{(s+1)(s+2)}\end{bmatrix} \tag{10.33}\]
+
+Hence, the transfer function matrix \(\mathbf{H}(s)\) is given by
+
+\[\mathbf{H}(s) =\mathbf{C}\mathbf{\Phi}(s)\mathbf{B}+\mathbf{D}\] \[=\begin{bmatrix}1&0\\ 1&1\\ 0&2\end{bmatrix}\begin{bmatrix}\frac{s+3}{(s+1)(s+2)}&\frac{1}{(s+1)(s+2)}\\ \frac{-2}{(s+1)(s+2)}&\frac{s}{(s+1)(s+2)}\end{bmatrix}\begin{bmatrix}1&0\\ 1&1\end{bmatrix}+\begin{bmatrix}0&0\\ 1&0\\ 0&1\end{bmatrix}\] \[=\begin{bmatrix}\frac{s+4}{(s+1)(s+2)}&\frac{1}{(s+1)(s+2)}\\ \frac{s+4}{s+2}&\frac{1}{s+2}\\ \frac{2(s-2)}{(s+1)(s+2)}&\frac{s^{2}+5s+2}{(s+1)(s+2)}\end{bmatrix} \tag{10.34}\]
+
+and the zero-state response is
+
+\[\mathbf{Y}(s)=\mathbf{H}(s)\mathbf{X}(s)\]
+
+Remember that the _ij_th element of the transfer function matrix in Eq. (10.34) represents the transfer function that relates the output \(y_{i}(t)\) to the input \(x_{j}(t)\). For instance, the transfer function that relates the output \(y_{3}\) to the input \(x_{2}\) is \(H_{32}(s)\), where
+
+\[H_{32}(s)=\frac{s^{2}+5s+2}{(s+1)(s+2)}\]
+
+Hence,
+
+\[\lambda_{1}=-1\qquad\mbox{and}\qquad\lambda_{2}=-2\]
+
+Equation (10.35) is known as the _characteristic equation of the matrix_\(\mathbf{A}\), and \(\lambda_{1}\), \(\lambda_{2}\), \(\ldots\), \(\lambda_{N}\) are the characteristic roots of \(\mathbf{A}\). The term _eigenvalue,_ meaning "characteristic value" in German, is also commonly used in the literature. Thus, we have shown that the characteristic roots of a system are the eigenvalues (characteristic values) of the matrix \(\mathbf{A}\).
+
+At this point, the reader will recall that if \(\lambda_{1}\), \(\lambda_{2}\), \(\ldots\), \(\lambda_{N}\) are the poles of the transfer function, then the zero-input response is of the form
+
+\[y_{0}(t)=c_{1}e^{\lambda_{1}t}+c_{2}e^{\lambda_{2}t}+\cdot\cdot\cdot+c_{N}e^{ \lambda_{N}t} \tag{10.36}\]
+
+This fact is also obvious from Eq. (10.30). The denominator of every element of the zero-input response matrix \(\mathbf{C}\mathbf{\Phi}(s)\mathbf{q}(0)\) is \(|s\mathbf{I}-\mathbf{A}|=(s-\lambda_{1})(s-\lambda_{2})\cdot\cdot\cdot(s- \lambda_{N})\). Therefore, the partial fraction expansion and the subsequent inverse Laplace transform will yield a zero-input component of the form in Eq. (10.36).
+
+### Time-Domain Solution of State Equations
+
+The state equation is
+
+\[\dot{\mathbf{q}}=\mathbf{A}\mathbf{q}+\mathbf{B}\mathbf{x} \tag{10.37}\]
+
+We now show that the solution of the vector differential Eq. (10.37) is
+
+\[\mathbf{q}(t)=e^{\Lambda t}\mathbf{q}(0)+\int_{0}^{t}e^{\mathbf{A}(t-\tau)} \mathbf{B}\mathbf{x}(\tau)\,d\tau\]
+
+Before proceeding further, we must define the matrix exponential \(e^{\Lambda t}\). An exponential of a matrix is defined by an infinite series identical to that used in defining an exponential of a scalar. We shall define
+
+\[e^{\Lambda t}=\mathbf{I}+\mathbf{A}t+\frac{\mathbf{A}^{2}t^{2}}{2!}+\frac{ \mathbf{A}^{3}t^{3}}{3!}+\cdot\cdot\cdot+\frac{\mathbf{A}^{n}t^{n}}{n!}+\cdot \cdot\cdot=\sum_{k=0}^{\infty}\frac{\mathbf{A}^{k}t^{k}}{k!} \tag{10.38}\]
+
+For example, if
+
+\[\mathbf{A}=\begin{bmatrix}0&1\\ 2&1\end{bmatrix}\]
+
+then
+
+\[\mathbf{A}t=\begin{bmatrix}0&1\\ 2&1\end{bmatrix}t=\begin{bmatrix}0&t\\ 2t&t\end{bmatrix}\]
+
+and
+
+\[\frac{\mathbf{A}^{2}t^{2}}{2!}=\begin{bmatrix}0&1\\ 2&1\end{bmatrix}\begin{bmatrix}0&1\\ 2&1\end{bmatrix}\frac{t^{2}}{2}=\begin{bmatrix}2&1\\ 2&3\end{bmatrix}\frac{t^{2}}{2}=\begin{bmatrix}t^{2}&\frac{t^{2}}{2}\\ t^{2}&\frac{3t^{2}}{2}\end{bmatrix}\]
+
+and so on.
+
+We can show that the infinite series in Eq. (10.38) is absolutely and uniformly convergent for all values of \(t\). Consequently, it can be differentiated or integrated term by term. Thus, to find \((d/dt)e^{\mathbf{A}t}\), we differentiate the series on the right-hand side of Eq. (10.38) term by term:
+
+\[\frac{d}{dt}e^{\mathbf{A}t} =\mathbf{A}+\mathbf{A}^{2}t+\frac{\mathbf{A}^{3}t^{2}}{2!}+\frac{ \mathbf{A}^{4}t^{3}}{3!}+\cdot\cdot\cdot\] \[=\mathbf{A}\Bigg{[}\mathbf{I}+\mathbf{A}t+\frac{\mathbf{A}^{2}t^ {2}}{2!}+\frac{\mathbf{A}^{3}t^{3}}{3!}+\cdot\cdot\cdot\cdot\Bigg{]}=\mathbf{A} e^{\mathbf{A}t}\] \[=\]
+
+Hence,
+
+\[\frac{d}{dt}e^{\mathbf{A}t}=\mathbf{A}e^{\mathbf{A}t}=e^{\mathbf{A}t}\mathbf{A}\]
+
+Also note that from Eq. (10.38), it follows that
+
+\[e^{\mathbf{\theta}}=\mathbf{I}\]
+
+where \(\mathbf{I}\) is just the identity matrix. If we premultiply or postmultiply the infinite series for \(e^{\mathbf{A}t}\) [Eq. (10.38)] by an infinite series for \(e^{-\mathbf{A}t}\), we find that
+
+\[(e^{-\mathbf{A}t})(e^{\mathbf{A}t})=(e^{\mathbf{A}t})(e^{-\mathbf{A}t})= \mathbf{I} \tag{10.39}\]
+
+In Sec. 10.1-1, we showed that
+
+\[\frac{d}{dt}(\mathbf{U}\mathbf{V})=\frac{d\mathbf{U}}{dt}\mathbf{V}+\mathbf{ U}\frac{d\mathbf{V}}{dt}\]
+
+Using this relationship, we observe that
+
+\[\frac{d}{dt}[e^{-\mathbf{A}t}\mathbf{q}] =\Bigg{(}\frac{d}{dt}e^{-\mathbf{A}t}\Bigg{)}\mathbf{q}+e^{- \mathbf{A}t}\dot{\mathbf{q}}\] \[=-e^{-\mathbf{A}t}\mathbf{A}\mathbf{q}+e^{-\mathbf{A}t}\dot{ \mathbf{q}} \tag{10.40}\]
+
+We now premultiply both sides of Eq. (10.37) by \(e^{-\mathbf{A}t}\) to yield
+
+\[e^{-\mathbf{A}t}\dot{\mathbf{q}}=e^{-\mathbf{A}t}\mathbf{A}\mathbf{q}+e^{- \mathbf{A}t}\mathbf{B}\mathbf{x}\]
+
+or
+
+\[-e^{-\mathbf{A}t}\mathbf{A}\mathbf{q}+e^{-\mathbf{A}t}\dot{\mathbf{q}}=e^{- \mathbf{A}t}\mathbf{B}\mathbf{x}\]
+
+Substituting this result into Eq. (10.40) yields
+
+\[\frac{d}{dt}[e^{-\mathbf{A}t}\mathbf{q}]=e^{-\mathbf{A}t}\mathbf{B}\mathbf{x}\]
+
+The integration of both sides of this equation from \(0\) to \(t\) yields
+
+\[e^{-\mathbf{A}t}\mathbf{q}\big{|}_{0}^{t}=\int_{0}^{t}e^{-\mathbf{A}\tau} \mathbf{B}\mathbf{x}(\tau)\,d\tau\]\[e^{-\Lambda t}{\bf q}(t)-{\bf q}(0)=\int_{0}^{t}e^{-\Lambda\tau}{\bf Bx}(\tau)\,d\tau\]
+
+Hence,
+
+\[e^{-\Lambda t}{\bf q}={\bf q}(0)+\int_{0}^{t}e^{-\Lambda\tau}{\bf Bx}(\tau)\,d\tau\]
+
+Premultiplying this result by \(e^{\Lambda t}\) and using Eq. (10.39), we have
+
+\[{\bf q}(t)=\underbrace{e^{\Lambda t}{\bf q}(0)}_{\rm ZIR}+\underbrace{\int_{0 }^{t}e^{\Lambda(t-\tau)}{\bf Bx}(\tau)\,d\tau}_{\rm ZSR} \tag{10.41}\]
+
+This is the desired solution. The first term on the right-hand side represents \(q(t)\) when the input \(x(t)=0\). Hence, it is the zero-input component. The second term, by a similar argument, is seen to be the zero-state component.
+
+The results of Eq. (10.41) can be expressed more conveniently in terms of the matrix convolution. We can define the convolution of two matrices in a manner similar to the multiplication of two matrices, except that the multiplication of two elements is replaced by their convolution. For example,
+
+\[\begin{bmatrix}x_{1}&x_{2}\\ x_{3}&x_{4}\end{bmatrix}*\begin{bmatrix}g_{1}&g_{2}\\ g_{3}&g_{4}\end{bmatrix}=\begin{bmatrix}(x_{1}*g_{1}+x_{2}*g_{3})&(x_{1}*g_{2 }+x_{2}*g_{4})\\ (x_{3}*g_{1}+x_{4}*g_{3})&(x_{3}*g_{2}+x_{4}*g_{4})\end{bmatrix}\]
+
+By using this definition of matrix convolution, we can express Eq. (10.41) as
+
+\[{\bf q}(t)=e^{\Lambda t}{\bf q}(0)+e^{\Lambda t}*{\bf Bx}(t) \tag{10.42}\]
+
+Note that the limits of the convolution integral [Eq. (10.41)] are from \(0\) to \(t\). Hence, all the elements of \(e^{\Lambda t}\) in the convolution term of Eq. (10.42) are implicitly assumed to be multiplied by \(u(t)\).
+
+The result of Eqs. (10.41) and (10.42) can be easily generalized for any initial value of \(t\). It is left as an exercise for the reader to show that the solution of the state equation can be expressed as
+
+\[{\bf q}(t)=e^{\Lambda(t-t_{0})}{\bf q}(t_{0})+\int_{t_{0}}^{t}e^{\Lambda(t- \tau)}{\bf Bx}(\tau)\,d\tau\]
+
+Determining \(e^{\Lambda t}\)
+
+The exponential \(e^{\Lambda t}\) required in Eqs. (10.41) and (10.42) can be computed from the definition in Eq. (10.38). Unfortunately, this is an infinite series, and its computation can be quite laborious. Moreover, we may not be able to recognize the closed-form expression for the answer. There are several efficient methods of determining \(e^{\Lambda t}\) in closed form. It was shown in Sec. 10.1-3 that for an \(N\times N\) matrix \({\bf A}\),
+
+\[e^{\Lambda t}=\beta_{0}{\bf I}+\beta_{1}{\bf A}+\beta_{2}{\bf A}^{2}+\cdot \cdot\cdot+\beta_{N-1}{\bf A}^{N-1} \tag{10.43}\]where
+
+\[\begin{bmatrix}\beta_{0}\\ \beta_{1}\\ \vdots\\ \beta_{N-1}\end{bmatrix}=\begin{bmatrix}1&\lambda_{1}&\lambda_{1}^{2}&\cdots& \lambda_{1}^{N-1}\\ 1&\lambda_{2}&\lambda_{2}^{2}&\cdots&\lambda_{2}^{N-1}\\ \vdots&\vdots&\vdots&\cdots&\vdots\\ 1&\lambda_{N}&\lambda_{N}^{2}&\cdots&\lambda_{N}^{N-1}\end{bmatrix}^{-1} \begin{bmatrix}e^{\lambda_{1}t}\\ e^{\lambda_{2}t}\\ \vdots\\ e^{\lambda_{N}t}\end{bmatrix}\]
+
+and \(\lambda_{1},\lambda_{2},\ldots,\lambda_{N}\) are the \(N\) characteristic values (eigenvalues) of \(\mathbf{A}\).
+
+We can also determine \(e^{\mathbf{A}t}\) by comparing Eqs. (10.41) and (10.29). It is clear that
+
+\[e^{\mathbf{A}t}=\mathcal{L}^{-1}[\mathbf{\Phi}(s)]=\mathcal{L}^{-1}[(s\mathbf{ I}-\mathbf{A})^{-1}] \tag{10.44}\]
+
+Thus, \(e^{\mathbf{A}t}\) and \(\mathbf{\Phi}(s)\) are a Laplace transform pair. To be consistent with Laplace transform notation, \(e^{\mathbf{A}t}\) is often denoted by \(\mathbf{\phi}(t)\), _the state transition matrix_ (STM):
+
+\[e^{\mathbf{A}t}=\mathbf{\phi}(t)\]
+
+**Example 10.8**: Time-Domain Method to Solve State Equations
+
+Use the time-domain method to solve Ex. 10.6.
+
+For this case, the characteristic roots are given by
+
+\[|s\mathbf{I}-\mathbf{A}|=\begin{vmatrix}s+12&-\frac{2}{3}\\ 36&s+1\end{vmatrix}=s^{2}+13s+36=(s+4)(s+9)=0\]
+
+The roots are \(\lambda_{1}=-4\) and \(\lambda_{2}=-9\), so
+
+\[\begin{bmatrix}\beta_{0}\\ \beta_{1}\end{bmatrix}=\begin{bmatrix}1&-4\\ 1&-9\end{bmatrix}^{-1}\begin{bmatrix}e^{-4t}\\ e^{-9t}\end{bmatrix}=\frac{1}{5}\begin{bmatrix}9e^{-4t}-4e^{-9t}\\ e^{-4t}-e^{-9t}\end{bmatrix}\]
+
+and
+
+\[e^{\mathbf{A}t} =\beta_{0}\mathbf{I}+\beta_{1}\mathbf{A}\] \[=\begin{bmatrix}\frac{9}{5}e^{-4t}-\frac{4}{5}e^{-9t}\end{bmatrix} \begin{bmatrix}1&0\\ 0&1\end{bmatrix}+\begin{pmatrix}\frac{1}{5}e^{-4t}-\frac{1}{5}e^{-9t}\end{bmatrix} \begin{bmatrix}-12&\frac{2}{3}\\ -36&-1\end{bmatrix}\] \[=\begin{bmatrix}\begin{pmatrix}-\frac{3}{5}e^{-4t}+\frac{8}{5}e^ {-9t}\end{pmatrix}&\frac{2}{15}(e^{-4t}-e^{-9t})\\ \frac{36}{5}(-e^{-4t}+e^{-9t})&\begin{pmatrix}8\\ \frac{8}{5}e^{-4t}-\frac{3}{5}e^{-9t}\end{pmatrix}\end{bmatrix}\]
+
+The zero-input response is given by [see Eq. (10.41)]
+
+\[e^{\mathbf{A}t}\mathbf{q}(0) =\begin{bmatrix}\begin{pmatrix}-\frac{3}{5}e^{-4t}+\frac{8}{5}e^ {-9t}\end{pmatrix}&\frac{2}{15}(e^{-4t}-e^{-9t})\\ \frac{36}{5}(-e^{-4t}+e^{-9t})&\begin{pmatrix}8\\ 5\end{pmatrix}e^{-4t}-\frac{3}{5}e^{-9t}\end{pmatrix}\begin{bmatrix}2\\ 1\end{bmatrix}\] \[=\begin{bmatrix}\begin{pmatrix}-\frac{16}{15}e^{-4t}+\frac{46}{15 }e^{-9t}\end{pmatrix}u(t)\\ \begin{pmatrix}-\frac{64}{5}e^{-4t}+\frac{69}{5}e^{-9t}\end{pmatrix}u(t)\end{bmatrix}\]
+
+With this result, the output equation becomes
+
+\[\mathbf{y}(t)=\mathbf{C}[e^{\Delta t}\mathbf{q}(0)+e^{\Delta t}\mathbf{B}*\mathbf{ x}(t)]+\mathbf{D}\mathbf{x}(t)\]
+
+Now recall that the convolution of \(x(t)\) with the unit impulse \(\delta(t)\) yields \(x(t)\). Let us define a \(j\times j\) diagonal matrix \(\boldsymbol{\delta}(t)\) such that all its diagonal terms are unit impulse functions. It is then obvious that
+
+\[\boldsymbol{\delta}(t)*\mathbf{x}(t)=\mathbf{x}(t)\]
+
+and the output equation can be expressed as
+
+\[\mathbf{y}(t) =\mathbf{C}[e^{\Delta t}\mathbf{q}(0)+e^{\Delta t}\mathbf{B}* \mathbf{x}(t)]+\mathbf{D}\boldsymbol{\delta}(t)*\mathbf{x}(t)\] \[=\mathbf{C}e^{\Delta t}\mathbf{q}(0)+[\mathbf{C}e^{\Delta t} \mathbf{B}+\mathbf{D}\boldsymbol{\delta}(t)]*\mathbf{x}(t)\]
+
+With the notation \(\boldsymbol{\phi}(t)\) for \(e^{\Delta t}\), the output equation may be expressed as
+
+\[\mathbf{y}(t)=\underbrace{\mathbf{C}\boldsymbol{\phi}(t)\mathbf{q}(0)}_{ \text{zero-input response}}+\underbrace{[\mathbf{C}\boldsymbol{\phi}(t) \mathbf{B}+\mathbf{D}\boldsymbol{\delta}(t)]*\mathbf{x}(t)}_{\text{zero- state response}}\]
+
+The zero-state response, that is, the response when \(\mathbf{q}(0)=\mathbf{0}\), is
+
+\[\mathbf{y}(t)=[\mathbf{C}\boldsymbol{\phi}(t)\mathbf{B}+\mathbf{D}\boldsymbol {\delta}(t)]*\mathbf{x}(t)=\mathbf{h}(t)*\mathbf{x}(t)\]
+
+where
+
+\[\mathbf{h}(t)=\mathbf{C}\boldsymbol{\phi}(t)\mathbf{B}+\mathbf{D}\boldsymbol{ \delta}(t) \tag{10.45}\]
+
+The matrix \(\mathbf{h}(t)\) is a \(k\times j\) matrix known as the _impulse response matrix_. The reason for this designation is obvious. The \(ij\)th element of \(\mathbf{h}(t)\) is \(h_{ij}(t)\), which represents the zero-state response \(y_{i}\) when the input \(x_{j}(t)=\delta(t)\) and when all other inputs (and all the initial conditions) are zero. Not surprisingly, vectors \(\mathbf{h}(t)\) and \(\mathbf{H}(s)\) form a Laplace transform pair,
+
+\[\mathcal{L}[\mathbf{h}(t)]=\mathbf{H}(s)\]
+
+**Example 10.9**: **State Transition Matrix by Inverse Laplace Transform**
+
+For the system described in Ex. 10.7, use Eq. (10.44) to determine \(e^{\Delta t}\):
+
+\[\boldsymbol{\phi}(t)=e^{\Delta t}=\mathcal{L}^{-1}\boldsymbol{\Phi}(s)\]This problem was solved earlier with frequency-domain techniques. From Eq. (10.33), we have
+
+\[\boldsymbol{\phi}(t) = \mathcal{L}^{-1}\begin{bmatrix}\frac{s+3}{(s+1)(s+2)}&\frac{1}{(s+1 )(s+2)}\\ \frac{-2}{(s+1)(s+2)}&\frac{s}{(s+1)(s+2)}\end{bmatrix}\] \[= \mathcal{L}^{-1}\begin{bmatrix}\frac{2}{s+1}-\frac{1}{s+2}&\frac{ 1}{s+1}-\frac{1}{s+2}\\ \frac{-2}{s+1}+\frac{2}{s+2}&\frac{-1}{s+1}+\frac{2}{s+2}\end{bmatrix}\] \[= \begin{bmatrix}2e^{-t}-e^{-2t}&e^{-t}-e^{-2t}\\ -2e^{-t}+2e^{-2t}&-e^{-t}+2e^{-2t}\end{bmatrix}\]
+
+The same result is obtained in Ex. 10.1 (Sec. 10.1-3) by using Eq. (10.43) [see Eq. (10.13)].
+
+Also, \(\boldsymbol{\delta}(t)\) is a diagonal \(j\times j\) or \(2\times 2\) matrix:
+
+\[\boldsymbol{\delta}(t)=\begin{bmatrix}\delta(t)&0\\ 0&\delta(t)\end{bmatrix}\]
+
+Substituting the matrices \(\boldsymbol{\phi}(t)\), \(\boldsymbol{\delta}(t)\), \(\mathbf{C}\), \(\mathbf{D}\), and \(\mathbf{B}\) [Eq. (10.32)] into Eq. (10.45), we have
+
+\[\mathbf{h}(t) = \begin{bmatrix}1&0\\ 1&1\\ 0&2\end{bmatrix}\begin{bmatrix}2e^{-t}-e^{-2t}&e^{-t}-e^{-2t}\\ -2e^{-t}+2e^{-2t}&-e^{-t}+2e^{-2t}\end{bmatrix}\begin{bmatrix}1&0\\ 1&1\end{bmatrix}+\begin{bmatrix}0&0\\ 1&0\\ 0&1\end{bmatrix}\begin{bmatrix}\delta(t)&0\\ 0&\delta(t)\end{bmatrix}\] \[= \begin{bmatrix}3e^{-t}-2e^{-2t}&e^{-t}-e^{-2t}\\ \delta(t)+2e^{-2t}&e^{-2t}\\ -6e^{-t}+8e^{-2t}&\delta(t)-2e^{-2t}+4e^{-2t}\end{bmatrix}\]
+
+As the reader can verify, the Laplace transform of this equation yields the transfer function matrix \(\mathbf{H}(s)\) in Eq. (10.34).
+
+### Linear Transformation of a State Vector
+
+In Sec. 10.2 we saw that the state of a system can be specified in several ways. The sets of all possible state variables are related--in other words, if we are given one set of state variables, we should be able to relate it to any other set. We are particularly interested in a linear type of relationship. Let \(q_{1},q_{2},\ldots,q_{N}\) and \(w_{1},w_{2},\ldots,w_{N}\) be two different sets of state variables specifying the same system. Let these sets be related by linear equations as
+
+\[w_{1} = p_{11}q_{1}+p_{12}q_{2}+\cdots+p_{1N}q_{N}\] \[w_{2} = p_{21}q_{1}+p_{22}q_{2}+\cdots+p_{2N}q_{N}\] \[\vdots\] \[w_{N} = p_{N1}q_{1}+p_{N2}q_{2}+\cdots+p_{NN}q_{N}\]or
+
+\[\underbrace{\begin{bmatrix}w_{1}\\ w_{2}\\ \vdots\\ w_{N}\end{bmatrix}}_{\mathbf{w}}=\underbrace{\begin{bmatrix}p_{11}&p_{12}&\cdots&p_{1N }\\ p_{21}&p_{22}&\cdots&p_{2N}\\ \vdots&\vdots&\ldots&\vdots\\ p_{N1}&p_{N2}&\cdots&p_{NN}\end{bmatrix}}_{\mathbf{P}}\begin{bmatrix}q_{1}\\ q_{2}\\ \vdots\\ q_{N}\end{bmatrix}\]
+
+Defining the vector \(\mathbf{w}\) and matrix \(\mathbf{P}\) as just shown, we obtain the compact matrix representation
+
+\[\mathbf{w}=\mathbf{P}\mathbf{q} \tag{10.46}\]
+
+and
+
+\[\mathbf{q}=\mathbf{P}^{-1}\mathbf{w} \tag{10.47}\]
+
+Thus, the state vector \(\mathbf{q}\) is transformed into another state vector \(\mathbf{w}\) through the linear transformation in Eq. (10.46).
+
+If we know \(\mathbf{w}\), we can determine \(\mathbf{q}\) from \(\mathbf{q}=\mathbf{P}^{-1}\mathbf{w}\), provided \(\mathbf{P}^{-1}\) exists. This is equivalent to saying that \(\mathbf{P}\) is a nonsingular matrix1 (\(|\mathbf{P}|\neq 0\)). Thus, if \(\mathbf{P}\) is a nonsingular matrix, the vector \(\mathbf{w}\) defined by Eq. (10.46) is also a state vector. Consider the state equation of a system
+
+Footnote 1: This condition is equivalent to saying that all \(N\) equations in Eq. (10.46) are linearly independent; that is, none of the \(N\) equations can be expressed as a linear combination of the remaining equations.
+
+\[\dot{\mathbf{q}}=\mathbf{A}\mathbf{q}+\mathbf{B}\mathbf{x}\]
+
+If
+
+\[\mathbf{w}=\mathbf{P}\mathbf{q}\]
+
+then
+
+\[\mathbf{q}=\mathbf{P}^{-1}\mathbf{w}\]
+
+and
+
+\[\dot{\mathbf{q}}=\mathbf{P}^{-1}\dot{\mathbf{w}}\]
+
+Hence, the state equation now becomes
+
+\[\mathbf{P}^{-1}\dot{\mathbf{w}}=\mathbf{A}\mathbf{P}^{-1}\mathbf{w}+\mathbf{B} \mathbf{x}\]
+
+or
+
+\[\dot{\mathbf{w}} =\mathbf{P}\mathbf{A}\mathbf{P}^{-1}\mathbf{w}+\mathbf{P}\mathbf{ B}\mathbf{x}\] \[=\mathbf{A}\mathbf{w}+\mathbf{\hat{B}}\mathbf{x} \tag{10.48}\]
+
+where
+
+\[\mathbf{\hat{A}}=\mathbf{P}\mathbf{A}\mathbf{P}^{-1}\qquad\text{and}\qquad \mathbf{\hat{B}}=\mathbf{P}\mathbf{B} \tag{10.49}\]
+
+Equation (10.48) is a state equation for the same system, but now it is expressed in terms of the state vector \(\mathbf{w}\).
+
+The output equation is also modified. Let the original output equation be
+
+\[\mathbf{y}=\mathbf{C}\mathbf{q}+\mathbf{D}\mathbf{x}\]
+
+In terms of the new state variable \(\mathbf{w}\), this equation becomes
+
+\[\mathbf{y} =\mathbf{C}(\mathbf{P}^{-1}\mathbf{w})+\mathbf{D}\mathbf{x}\] \[=\hat{\mathbf{C}}\mathbf{w}+\mathbf{D}\mathbf{x}\]
+
+where
+
+\[\hat{\mathbf{C}}=\mathbf{C}\mathbf{P}^{-1} \tag{10.50}\]
+
+The state equations of a certain system are given by
+
+\[\begin{bmatrix}\dot{q}_{1}\\ \dot{q}_{2}\end{bmatrix}=\begin{bmatrix}0&1\\ -2&-3\end{bmatrix}\begin{bmatrix}q_{1}\\ q_{2}\end{bmatrix}+\begin{bmatrix}1\\ 2\end{bmatrix}x(t)\]
+
+Find the state equations for this system when the new state variables \(w_{1}\) and \(w_{2}\) are given as
+
+\[\begin{bmatrix}w_{1}\\ w_{2}\end{bmatrix}=\begin{bmatrix}1&1\\ 1&-1\end{bmatrix}\begin{bmatrix}q_{1}\\ q_{2}\end{bmatrix} \tag{10.51}\]
+
+According to Eq. (10.48), the state equation for the state variable \(\mathbf{w}\) is given by
+
+\[\hat{\mathbf{w}}=\hat{\mathbf{A}}\mathbf{w}+\hat{\mathbf{B}}\mathbf{x}\]
+
+where [see Eqs. (10.49) and (10.50)]
+
+\[\hat{\mathbf{A}}=\mathbf{P}\mathbf{A}\mathbf{P}^{-1}= \begin{bmatrix}1&1\\ 1&-1\end{bmatrix}\begin{bmatrix}0&1\\ -2&-3\end{bmatrix}\begin{bmatrix}1&1\\ 1&-1\end{bmatrix}^{-1}\] \[= \begin{bmatrix}1&1\\ 1&-1\end{bmatrix}\begin{bmatrix}0&1\\ -2&-3\end{bmatrix}\begin{bmatrix}\frac{1}{2}&\frac{1}{2}\\ \frac{1}{2}&-\frac{1}{2}\end{bmatrix}\] \[= \begin{bmatrix}-2&0\\ 3&-1\end{bmatrix}\]
+
+and
+
+\[\hat{\mathbf{B}}=\mathbf{P}\mathbf{B}=\begin{bmatrix}1&1\\ 1&-1\end{bmatrix}\begin{bmatrix}1\\ 2\end{bmatrix}=\begin{bmatrix}3\\ -1\end{bmatrix}\]
+
+Therefore,
+
+\[\begin{bmatrix}\dot{w}_{1}\\ \dot{w}_{2}\end{bmatrix}=\begin{bmatrix}-2&0\\ 3&-1\end{bmatrix}\begin{bmatrix}w_{1}\\ w_{2}\end{bmatrix}+\begin{bmatrix}3\\ -1\end{bmatrix}x(t)\]
+
+Also,
+
+\[\hat{\mathbf{A}}=\begin{bmatrix}-2&0\\ 3&-1\end{bmatrix}\]
+
+and
+
+\[|s\mathbf{I}-\hat{\mathbf{A}}|=\begin{bmatrix}s+2&0\\ -3&s+1\end{bmatrix}=s^{2}+3s+2=0\]
+
+This result verifies that the characteristic equations of \(\mathbf{A}\) and \(\hat{\mathbf{A}}\) are identical.
+
+### 10.5-1 Diagonalization of Matrix \(\mathbf{A}\)
+
+For several reasons, it is desirable to make matrix \(\mathbf{A}\) diagonal. If \(\mathbf{A}\) is not diagonal, we can transform the state variables such that the resulting matrix \(\hat{\mathbf{A}}\) is diagonal.2 One can show that for any diagonal matrix \(\mathbf{A}\), the diagonal elements of this matrix must necessarily be \(\lambda_{1}\), \(\lambda_{2}\),..., \(\lambda_{N}\) (the eigenvalues) of the matrix. Consider the diagonal matrix \(\mathbf{A}\):
+
+Footnote 2: In this discussion we assume distinct eigenvalues. If the eigenvalues are not distinct, we can reduce the matrix to a modified diagonalized (Jordan) form.
+
+\[\mathbf{A}=\begin{bmatrix}a_{1}&0&0&\cdots&0\\ 0&a_{2}&0&\cdots&0\\ \vdots&\vdots&\vdots&\cdots&\vdots\\ 0&0&0&\cdots&a_{N}\end{bmatrix}\]
+
+The characteristic equation is given by
+
+\[|s\mathbf{I}-\mathbf{A}|=\begin{bmatrix}(s-a_{1})&0&0&\cdots&0\\ 0&(s-a_{2})&0&\cdots&0\\ \vdots&\vdots&\vdots&\cdots&\vdots\\ 0&0&0&\cdots&(s-a_{N})\end{bmatrix}=0\]
+
+or
+
+\[(s-a_{1})(s-a_{2})\cdot\cdot\cdot(s-a_{N})=0\]
+
+The nonzero (diagonal) elements of a diagonal matrix are therefore its eigenvalues \(\lambda_{1},\lambda_{2},\ldots,\lambda_{N}\). We shall denote the diagonal matrix by the symbol, \(\mathbf{A}\):
+
+\[\mathbf{\Lambda}=\begin{bmatrix}\lambda_{1}&0&0&\cdots&0\\ 0&\lambda_{2}&0&\cdots&0\\ \vdots&\vdots&\vdots&\cdots&\vdots\\ 0&0&0&\cdots&\lambda_{N}\end{bmatrix} \tag{10.52}\]
+
+Let us now consider the transformation of the state vector \(\mathbf{A}\) such that the resulting matrix \(\hat{\mathbf{A}}\) is a diagonal matrix \(\mathbf{\Lambda}\).
+
+Consider the system
+
+\[\dot{\bf q}={\bf A}{\bf q}+{\bf B}{\bf x}\]
+
+We shall assume that \(\lambda_{1}\), \(\lambda_{2}\), \(\ldots\), \(\lambda_{N}\), the eigenvalues of \({\bf A}\), are distinct (no repeated roots). Let us transform the state vector \({\bf q}\) into the new state vector \({\bf z}\), using the transformation
+
+\[{\bf z}={\bf P}{\bf q} \tag{10.53}\]
+
+Then, after the development of Eq. (10.48), we have
+
+\[\dot{\bf z}={\bf P}{\bf A}{\bf P}^{-1}{\bf z}+{\bf P}{\bf B}{\bf x}\]
+
+We desire the transformation to be such that \({\bf P}{\bf A}{\bf P}^{-1}\) is a diagonal matrix \({\bf\Lambda}\) given by Eq. (10.52), or
+
+\[\dot{\bf z}={\bf\Lambda}{\bf z}+\widehat{\bf B}{\bf x} \tag{10.54}\]
+
+Hence,
+
+\[{\bf\Lambda}={\bf P}{\bf A}{\bf P}^{-1}\]
+
+or
+
+\[{\bf\Lambda}{\bf P}={\bf P}{\bf A} \tag{10.55}\]
+
+We know \({\bf\Lambda}\) and \({\bf A}\). Equation (10.55) therefore can be solved to determine \({\bf P}\).
+
+**EXAMPLE 10.11** **Diagonal Form of the State Equations**
+
+Find the diagonalized form of the state equations for the system in Ex. 10.10.
+
+In this case,
+
+\[{\bf A}=\begin{bmatrix}0&1\\ -2&-3\end{bmatrix}\]
+
+We found \(\lambda_{1}=-1\) and \(\lambda_{2}=-2\). Hence,
+
+\[{\bf\Lambda}=\begin{bmatrix}-1&0\\ 0&-2\end{bmatrix}\]
+
+and Eq. (10.55) becomes
+
+\[\begin{bmatrix}-1&0\\ 0&-2\end{bmatrix}\begin{bmatrix}p_{11}&p_{12}\\ p_{21}&p_{22}\end{bmatrix}=\begin{bmatrix}p_{11}&p_{12}\\ p_{21}&p_{22}\end{bmatrix}\begin{bmatrix}0&1\\ -2&-3\end{bmatrix}\]Equating the four elements on two sides, we obtain
+
+\[-p_{11} = -2p_{12}\] \[-p_{12} = p_{11}-3p_{12}\] \[-2p_{21} = -2p_{22}\] \[-2p_{22} = p_{21}-3p_{22}\]
+
+The reader will immediately recognize that the first two equations are identical and that the last two equations are identical. Hence, two equations may be discarded, leaving us with only two equations [\(p_{11}=2p_{12}\) and \(p_{21}=p_{22}\)] and four unknowns. This observation means that there is no unique solution. There is, in fact, an infinite number of solutions. We can assign any value to \(p_{11}\) and \(p_{21}\) to yield one possible solution.+ If \(p_{11}=k_{1}\) and \(p_{21}=k_{2}\), then we have \(p_{12}=k_{1}/2\) and \(p_{22}=k_{2}\):
+
+Footnote †: \({}^{\dagger}\) If, however, we want the state equations in diagonalized form, as in Eq. (10.26), where all the elements of \(\hat{\mathbf{B}}\) matrix are unity, there is a unique solution. The reason is that the equation \(\hat{\mathbf{B}}=\mathbf{PB}\), where all the elements of \(\hat{\mathbf{B}}\) are unity, imposes additional constraints. In the present example, this condition will yield \(p_{11}=1/2\), \(p_{12}=1/4\), \(p_{21}=1/3\), and \(p_{22}=1/3\). The relationship between \(\mathbf{z}\) and \(\mathbf{q}\) is then
+
+\[\mathbf{P}=\begin{bmatrix}k_{1}&\frac{k_{1}}{2}\\ k_{2}&k_{2}\end{bmatrix}\]
+
+We may assign any values to \(k_{1}\) and \(k_{2}\). For convenience, let \(k_{1}=2\) and \(k_{2}=1\). This substitution yields
+
+\[\mathbf{P}=\begin{bmatrix}2&1\\ 1&1\end{bmatrix}\]
+
+The transformed variables [Eq. (10.53)] are
+
+\[\begin{bmatrix}z_{1}\\ z_{2}\end{bmatrix}=\begin{bmatrix}2&1\\ 1&1\end{bmatrix}\begin{bmatrix}q_{1}\\ q_{2}\end{bmatrix}=\begin{bmatrix}2q_{1}+q_{2}\\ q_{1}+q_{2}\end{bmatrix}\]
+
+This expression relates the new state variables \(z_{1}\) and \(z_{2}\) to the original state variables \(q_{1}\) and \(q_{2}\). The system equation with \(\mathbf{z}\) as the state vector is given by [see Eq. (10.54)]
+
+\[\dot{\mathbf{z}}=\mathbf{A}\mathbf{z}+\hat{\mathbf{B}}\mathbf{x}\]
+
+where
+
+\[\hat{\mathbf{B}}=\mathbf{PB}=\begin{bmatrix}2&1\\ 1&1\end{bmatrix}\begin{bmatrix}1\\ 2\end{bmatrix}=\begin{bmatrix}4\\ 3\end{bmatrix}\]
+
+Hence,
+
+\[\begin{bmatrix}\dot{z}_{1}\\ \dot{z}_{2}\end{bmatrix}=\begin{bmatrix}-1&0\\ 0&-2\end{bmatrix}\begin{bmatrix}z_{1}\\ z_{2}\end{bmatrix}+\begin{bmatrix}4\\ 3\end{bmatrix}x \tag{10.56}\]or
+
+\[\dot{z}_{1} =-z_{1}+4x\] \[\dot{z}_{2} =-2z_{2}+3x\]
+
+Note the distinctive nature of these state equations. Each state equation involves only one variable and therefore can be solved by itself. A general state equation has the derivative of one state variable equal to a linear combination of all state variables. Such is not the case with the diagonalized matrix \(\mathbf{\Lambda}\). Each state variable \(z_{i}\) is chosen so that it is uncoupled from the rest of the variables; hence, a system with \(N\) eigenvalues is split into \(N\) decoupled systems, each with an equation of the form
+
+\[\dot{z}_{i}=\lambda_{i}z_{i}+\text{(input terms)}\]
+
+This fact also can be readily seen from Fig. 10.8a, which is a realization of the system represented by Eq. (10.56). In contrast, consider the original state equations [see Ex. 10.10]
+
+\[\dot{q}_{1} =q_{2}+x(t)\] \[\dot{q}_{2} =-2q_{1}-3q_{2}+2x(t)\]
+
+A realization for these equations is shown in Fig. 10.8b. It can be seen from Fig. 10.8a that the states \(z_{1}\) and \(z_{2}\) are decoupled, whereas the states \(q_{1}\) and \(q_{2}\) (Fig. 10.8b) are coupled. It should be remembered that Figs. 10.8a and 10.8b are realizations of the same system.\({}^{\dagger}\) Here we have only a simulated state equation; the outputs are not shown. The outputs are linear combinations of state variables (and inputs). Hence, the output equation can be easily incorporated into these diagrams.
+
+Figure 10.8: Two realizations of the second-order system.
+
+## Matrix Diagonalization via MATLAB
+
+The key to diagonalizing matrix \(\mathbf{A}\) is to determine a matrix \(\mathbf{P}\) that satisfies \(\mathbf{\Lambda}\mathbf{P}=\mathbf{P}\mathbf{A}\) [Eq. (10.55)], where \(\mathbf{\Lambda}\) is a diagonal matrix of the eigenvalues of \(\mathbf{A}\). This problem is directly related to the classic eigenvalue problem, stated as
+
+\[\mathbf{A}\mathbf{V}=\mathbf{V}\mathbf{\Lambda}\]
+
+where \(\mathbf{V}\) is a matrix of eigenvectors for \(\mathbf{A}\). If we can find \(\mathbf{V}\), we can take its inverse to determine \(\mathbf{P}\). That is, \(\mathbf{P}=\mathbf{V}^{-1}\). This relationship is more fully developed in Sec. 10.8.
+
+MATLAB's built-in function eig can determine the eigenvectors of a matrix and, therefore, can help us determine a suitable matrix \(\mathbf{P}\). Let us demonstrate this approach for the current case.
+
+>> A = [0 1;-2 -3]; B = [1; 2]; >> [V, Lambda] = eig(A); >> P = inv(V), Lambda, Bhat = P*B  P = 2.8284 1.4142 2.2361 2.2361  Lambda = -1 0 0 -2  Bhat = 5.6569 6.7082 Therefore,
+
+\[\mathbf{z}=\begin{bmatrix}z_{1}\\ z_{2}\end{bmatrix}=\begin{bmatrix}2.8284&1.4142\\ 2.2361&2.2361\end{bmatrix}\begin{bmatrix}q_{1}\\ q_{2}\end{bmatrix}=\mathbf{P}\mathbf{q}\]
+
+and
+
+\[\dot{\mathbf{z}}=\begin{bmatrix}\dot{z}_{1}\\ \dot{z}_{2}\end{bmatrix}=\begin{bmatrix}-1&0\\ 0&-2\end{bmatrix}\begin{bmatrix}z_{1}\\ z_{2}\end{bmatrix}+\begin{bmatrix}5.6569\\ 6.7082\end{bmatrix}x(t)=\mathbf{\Lambda}\mathbf{z}+\hat{\mathbf{B}}\mathbf{x}\]
+
+Recall that neither \(\mathbf{P}\) nor \(\hat{\mathbf{B}}\) are unique, which explains why the MATLAB output does not need to match our previous solution. Still, the MATLAB results do their job and successfully diagonalize matrix \(\mathbf{A}\).
+
+### Controllability and Observability
+
+Consider a diagonalized state-space description of a system
+
+\[\dot{\mathbf{z}}=\mathbf{\Lambda}\mathbf{z}+\hat{\mathbf{B}}\mathbf{x}\qquad \text{and}\qquad\mathbf{Y}=\hat{\mathbf{C}}\mathbf{z}+\mathbf{D}\mathbf{x} \tag{10.57}\]
+
+We shall assume that all \(N\) eigenvalues \(\lambda_{1}\), \(\lambda_{2}\), \(\ldots\), \(\lambda_{N}\) are distinct. The state equations in Eq. (10.57) are of the form
+
+\[\dot{z}_{m}=\lambda_{m}z_{m}+\hat{b}_{m1}x_{1}+\hat{b}_{m2}x_{2}+\cdot\cdot \cdot+\hat{b}_{mj}x_{j}\qquad m=1,2,\ldots,N\]If \(\hat{b}_{m1}\), \(\hat{b}_{m2}\), \(\ldots\), \(\hat{b}_{mj}\) (the \(m\)th row in matrix \(\hat{\bf B}\)) are all zero, then
+
+\[\hat{z}_{m}=\lambda_{m}z_{m}\]
+
+and the variable \(z_{m}\) is uncontrollable because \(z_{m}\) is not coupled to any of the inputs. Moreover, \(z_{m}\) is decoupled from all the remaining \((N-1)\) state variables because of the diagonalized nature of the variables. Hence, there is no direct or indirect coupling of \(z_{m}\) with any of the inputs, and the system is uncontrollable. In contrast, if at least one element in the \(m\)th row of \(\hat{\bf B}\) is nonzero, \(z_{m}\) is coupled to at least one input and is therefore controllable. _Thus, a system with a diagonalized state [Eq. (10.57)] is completely controllable if and only if the matrix \(\hat{\bf B}\) has no row of zero elements_.
+
+The outputs [see Eq. (10.57)] are of the form
+
+\[y_{i}=\hat{c}_{i1}z_{1}+\hat{c}_{i2}z_{2}+\cdot\cdot\cdot+\hat{c}_{iN}z_{N}+ \sum_{m=1}^{j}d_{im}x_{m}\qquad i=1,2,\ldots,\,k\]
+
+If \(\hat{c}_{im}=0\), then the state \(z_{m}\) will not appear in the expression for \(y_{i}\). Since all the states are decoupled because of the diagonalized nature of the equations, the state \(z_{m}\) cannot be observed directly or indirectly (through other states) at the output \(y_{i}\). Hence, the \(m\)th mode \(e^{z_{m}t}\) will not be observed at the output \(y_{i}\). If \(\hat{c}_{1m}\), \(\hat{c}_{2m}\), \(\ldots\), \(\hat{c}_{km}\) (the \(m\)th column in matrix \(\hat{\bf C}\)) are all zero, the state \(z_{m}\) will not be observable at any of the \(k\) outputs, and the state \(z_{m}\) is unobservable. In contrast, if at least one element in the \(m\)th column of \(\hat{\bf C}\) is nonzero, \(z_{m}\) is observable at least at one output. _Thus, a system with diagonalized equations of the form in Eq. (10.57) is completely observable if and only if the matrix \(\hat{\bf C}\) has no column of zero elements_. In this discussion, we assumed distinct eigenvalues; for repeated eigenvalues, the modified criteria can be found in the literature [1, 2].
+
+If the state-space description is not in diagonalized form, it may be converted into diagonalized form using the procedure in Ex. 10.11. It is also possible to test for controllability and observability even if the state-space description is in undiagonalized form [1, 2].
+
+**EXAMPLE 10.12** **Controllability and Observability**
+
+Investigate the controllability and observability of the systems in Fig. 10.9.
+
+In both cases, the state variables are identified as the two integrator outputs, \(q_{1}\) and \(q_{2}\). The state equations for the system in Fig. 10.9a are
+
+\[\begin{array}{l}\dot{q}_{1}=q_{1}+x\\ \dot{q}_{2}=q_{1}-q_{2}\end{array} \tag{10.58}\]
+
+and
+
+\[y=\dot{q}_{2}-q_{2}=q_{1}-2q_{2}\]Hence,
+
+\[\mathbf{A}=\begin{bmatrix}1&0\\ 1&-1\end{bmatrix}\qquad\mathbf{B}=\begin{bmatrix}1\\ 0\end{bmatrix}\qquad\mathbf{C}=\begin{bmatrix}1&-2\end{bmatrix}\qquad\mathbf{D}=0\]
+
+\[|s\mathbf{I}-\mathbf{A}|=\begin{vmatrix}s-1&0\\ -1&s+1\end{vmatrix}=(s-1)(s+1)\]
+
+Therefore,
+
+\[\lambda_{1}=1\qquad\text{ and }\qquad\lambda_{2}=-1\]
+
+and
+
+\[\mathbf{\Lambda}=\begin{bmatrix}1&0\\ 0&-1\end{bmatrix}\]
+
+We shall now use the procedure in Sec. 10.5-1 to diagonalize this system. According to Eq. (10.55), we have
+
+\[\begin{bmatrix}1&0\\ 0&-1\end{bmatrix}\begin{bmatrix}p_{11}&p_{12}\\ p_{21}&p_{22}\end{bmatrix}=\begin{bmatrix}p_{11}&p_{12}\\ p_{21}&p_{22}\end{bmatrix}\begin{bmatrix}1&0\\ 1&-1\end{bmatrix}\]
+
+The solution of this equation yields
+
+\[p_{12}=0\qquad\text{ and }\qquad-2p_{21}=p_{22}\]
+
+Choosing \(p_{11}=1\) and \(p_{21}=1\), we have
+
+\[\mathbf{P}=\begin{bmatrix}1&0\\ 1&-2\end{bmatrix}\]
+
+Figure 10.9: Systems for Ex. 10.12.
+
+and
+
+\[\hat{\mathbf{B}}=\mathbf{PB}=\begin{bmatrix}1&0\\ 1&-2\end{bmatrix}\begin{bmatrix}1\\ 0\end{bmatrix}=\begin{bmatrix}1\\ 1\end{bmatrix}\]
+
+All the rows of \(\hat{\mathbf{B}}\) are nonzero. Hence, the system is controllable. Also,
+
+\[\mathbf{Y}=\mathbf{Cq}=\mathbf{CP}^{-1}\mathbf{z}=\hat{\mathbf{C}}\mathbf{z}\]
+
+and
+
+\[\hat{\mathbf{C}}=\mathbf{CP}^{-1}=[1\quad-2]\begin{bmatrix}1&0\\ 1&-2\end{bmatrix}^{-1}=[1\quad-2]\begin{bmatrix}1&0\\ \frac{1}{2}&-\frac{1}{2}\end{bmatrix}=[0\quad 1]\]
+
+The first column of \(\hat{\mathbf{C}}\) is zero. Hence, the mode \(z_{1}\) (corresponding to \(\lambda_{1}=1\)) is unobservable. The system is therefore controllable but not observable. We come to the same conclusion by realizing the system with the diagonalized state variables \(z_{1}\) and \(z_{2}\), whose state equations are
+
+\[\dot{\mathbf{z}}=\mathbf{\Lambda z}+\hat{\mathbf{B}}x\] \[y=\hat{\mathbf{C}}\mathbf{z}\]
+
+Using our previous calculations, we have
+
+\[\dot{z}_{1}=z_{1}+x\] \[\dot{z}_{2}=-z_{2}+x\]
+
+and
+
+\[y=z_{2}\]
+
+Figure 10.10a shows a realization of these equations. It is clear that each of the two modes is controllable, but the first mode (corresponding to \(\lambda=1\)) is not observable at the output.
+
+The state equations for the system in Fig. 10.9b are
+
+\[\dot{q}_{1}=-q_{1}+x\] \[\dot{q}_{2}=\dot{q}_{1}-q_{1}+q_{2}=-2q_{1}+q_{2}+x \tag{10.59}\]
+
+and
+
+\[y=q_{2}\]
+
+Hence,
+
+\[\mathbf{A}=\begin{bmatrix}-1&0\\ -2&1\end{bmatrix}\qquad\mathbf{B}=\begin{bmatrix}1\\ 1\end{bmatrix}\qquad\mathbf{C}=\begin{bmatrix}0&1\end{bmatrix}\qquad \mathbf{D}=0\]
+
+so that \(\lambda_{1}=-1\), \(\lambda_{2}=1\), and
+
+\[\mathbf{\Lambda}=\begin{bmatrix}-1&0\\ 0&1\end{bmatrix}\]Diagonalizing the matrix, we have
+
+\[\begin{bmatrix}1&0\\ 0&-1\end{bmatrix}\begin{bmatrix}p_{11}&p_{12}\\ p_{21}&p_{22}\end{bmatrix}=\begin{bmatrix}p_{11}&p_{12}\\ p_{21}&p_{22}\end{bmatrix}\begin{bmatrix}-1&0\\ -2&1\end{bmatrix}\]
+
+The solution of this equation yields \(p_{11}=-p_{12}\) and \(p_{22}=0\). Choosing \(p_{11}=-1\) and \(p_{21}=1\), we obtain
+
+\[\mathbf{P}=\begin{bmatrix}-1&1\\ 1&0\end{bmatrix}\]
+
+and
+
+\[\hat{\mathbf{B}}=\mathbf{PB}=\begin{bmatrix}-1&1\\ 1&0\end{bmatrix}\begin{bmatrix}1\\ 1\end{bmatrix}=\begin{bmatrix}0\\ 1\end{bmatrix}\] \[\hat{\mathbf{C}}=\mathbf{CP}^{-1}=\begin{bmatrix}0&1\end{bmatrix} \begin{bmatrix}0&1\\ 1&1\end{bmatrix}=\begin{bmatrix}1&1\end{bmatrix}\]
+
+The first row of \(\hat{\mathbf{B}}\) is zero. Hence, the mode corresponding to \(\lambda_{1}=1\) is not controllable. However, since none of the columns of \(\hat{\mathbf{C}}\) vanish, both modes are observable at the output. Hence the system is observable but not controllable.
+
+We reach the same conclusion by realizing the system with the diagonalized state variables \(z_{1}\) and \(z_{2}\). The two state equations are
+
+\[\dot{\mathbf{z}} =\mathbf{\Lambda}\mathbf{z}+\hat{\mathbf{B}}x\] \[y =\hat{\mathbf{C}}\mathbf{z}\]
+
+Figure 10: Equivalents of the systems in Fig. 10.9.
+
+Using our previous calculations, we have
+
+\[\dot{z}_{1} =z_{1}\] \[\dot{z}_{2} =-z_{2}+x\] and thus, \[y =z_{1}+z_{2}\] Figure 10.10b shows a realization of these equations. Clearly, each of the two modes is observable at the output, but the mode corresponding to \(\lambda_{1}=1\) is not controllable.
+
+Using MATLAB to Determine Controllability and Observability
+
+As demonstrated in Ex. 10.11, we can use MATLAB's eig function to determine the matrix \(\mathbf{P}\) that will diagonalize \(\mathbf{A}\). We can then use \(\mathbf{P}\) to determine \(\hat{\mathbf{B}}\) and \(\hat{\mathbf{C}}\), from which we can determine the controllability and observability of a system. Let us demonstrate the process for the two present systems.
+
+First, let us use MATLAB to compute \(\hat{\mathbf{B}}\) and \(\hat{\mathbf{C}}\) for the system in Fig. 10.9a.
+
+>> A = [1 0;1 -1]; B = [1; 0]; C = [1 -2]; >> [V, Lambda] = eig(A); P=inv(V); Bhat = P*B, Chat = C*inv(P)  Bhat = -0.5000 1.1180  Chat = -2 0 Since all the rows of \(\hat{\mathbf{B}}\) are nonzero, the system is controllable. However, one column of \(\hat{\mathbf{C}}\) is zero, so one mode is unobservable.
+
+Next, let us use MATLAB to compute \(\hat{\mathbf{B}}\) and \(\hat{\mathbf{C}}\) for the system in Fig. 10.9b.
+
+>> A = [-1 0;-2 1]; B = [1; 1]; C = [0 1]; >> [V, Lambda] = eig(A); P=inv(V); Bhat = P*B, Chat = C*inv(P)  Bhat = 0  1.4142  Chat = 1.0000 0.7071 One of the rows of \(\hat{\mathbf{B}}\) is zero, so one mode is uncontrollable. Since all of the columns of \(\hat{\mathbf{C}}\) are nonzero, the system is observable.
+
+As expected, the MATLAB results confirm our earlier conclusions regarding the controllability and observability of the systems of Fig. 10.9.
+
+### 10.6-1 Inadequacy of the Transfer Function Description of a System
+
+Example 10.12 demonstrates the inadequacy of the transfer function to describe an LTI system in general. The systems in Figs. 10.9a and 10.9b both have the same transfer function
+
+\[H(s)=\frac{1}{s+1}\]
+
+Yet the two systems are very different. Their true nature is revealed in Figs. 10.10a and 10.10b, respectively. Both the systems are unstable, but their transfer function \(H(s)=1/(s+1)\) does not give any hint of it. Moreover, the systems are very different from the viewpoint of controllability and observability. The system in Fig. 10.9a is controllable but not observable, whereas the system in Fig. 10.9b is observable but not controllable.
+
+The transfer function description of a system looks at a system only from the input and output terminals. Consequently, the transfer function description can specify only the part of the system that is coupled to the input and the output terminals. From Figs. 10.10a and 10.10b, we see that in both cases only a part of the system that has a transfer function \(H(s)=1/(s+1)\) is coupled to the input and the output terminals. This is why both systems have the same transfer function \(H(s)=1/(s+1)\).
+
+The state variable description [Eqs. (10.58) and (10.59)], on the other hand, contains all the information about these systems to describe them completely. The reason is that the state variable description is an internal description, not the external description obtained from the system behavior at external terminals.
+
+Apparently, the transfer function fails to describe these systems completely because the transfer functions of these systems have a common factor \(s-1\) in the numerator and denominator; this common factor is canceled out in the systems in Fig. 10.9, with a consequent loss of the information. Such a situation occurs when a system is uncontrollable and/or unobservable. If a system is both controllable and observable (which is the case with most of the practical systems) the transfer function describes the system completely. In such a case, the internal and external descriptions are equivalent.
+
+## 10.7 State-Space Analysis of Discrete-Time Systems
+
+We have shown that an \(N\)th-order differential equation can be expressed in terms of \(N\) first-order differential equations. In the following analogous procedure, we show that a general \(N\)th-order difference equation can be expressed in terms of \(N\) first-order difference equations.
+
+Consider the \(z\)-transfer function
+
+\[H[z]=\frac{b_{0}z^{N}+b_{1}z^{N-1}+\cdot\cdot\cdot+b_{N-1}z+b_{N}}{z^{N}+a_{1}z ^{N-1}+\cdot\cdot\cdot+a_{N-1}z+a_{N}}\]
+
+The input \(x[n]\) and the output \(y[n]\) of this system are related by the difference equation
+
+\[(E^{N}+a_{1}E^{N-1}+\cdot\cdot\cdot+a_{N-1}E+a_{N})y[n]=(b_{0}E^{N}+b_{1}E^{N- 1}+\cdot\cdot\cdot+b_{N-1}E+b_{N})x[n]\]
+
+The DFII realization of this equation is illustrated in Fig. 10.11.
+
+Signals appearing at the outputs of \(N\) delay elements are denoted by \(q_{1}[n]\), \(q_{2}[n]\), \(\ldots\), \(q_{N}[n]\). The input of the first delay is \(q_{N}[n+1]\). We can now write \(N\) equations, one at the input of each delay:
+
+\[\begin{array}{c}q_{1}[n+1]=q_{2}[n]\\ q_{2}[n+1]=q_{3}[n]\\ \vdots\\ q_{N-1}[n+1]=q_{N}[n]\\ q_{N}[n+1]=-a_{N}q_{1}[n]-a_{N-1}q_{2}[n]-\cdot\cdot\cdot-a_{1}q_{N}[n]+x[n]\end{array} \tag{10.60}\]
+
+and
+
+\[y[n]=b_{N}q_{1}[n]+b_{N-1}q_{2}[n]+\cdot\cdot\cdot+b_{1}q_{N}[n]+b_{0}q_{N+1}[n]\]
+
+We can eliminate \(q_{N+1}[n]\) from this equation by using the last equation in Eq. (10.60) to yield
+
+\[\begin{array}{c}y[n]=(b_{N}-b_{0}a_{N})q_{1}[n]+(b_{N-1}-b_{0}a_{N-1})q_{2}[n ]+\cdot\cdot\cdot+(b_{1}-b_{0}a_{1})q_{N}[n]+b_{0}x[n]\\ =\hat{b}_{N}q_{1}[n]+\hat{b}_{N-1}q_{2}[n]+\cdot\cdot\cdot+\hat{b}_{1}q_{N}[n] +b_{0}x[n]\end{array} \tag{10.61}\]
+
+where \(\hat{b}_{i}=b_{i}-b_{0}a_{i}\).
+
+Equation (10.60) shows \(N\) first-order difference equations in \(N\) variables \(q_{1}[n]\), \(q_{2}[n]\), \(\ldots\), \(q_{N}[n]\). These variables should immediately be recognized as state variables, since the specification of the initial values of these variables in Fig. 10.11 will uniquely determine the response \(y[n]\) for a 
+
+Substituting the expression for \(\mathbf{q}[n-1]\) into that for \(\mathbf{q}[n]\), we obtain
+
+\[\mathbf{q}[n]=\mathbf{A}^{2}\mathbf{q}[n-2]+\mathbf{A}\mathbf{B}\mathbf{x}[n-2]+ \mathbf{B}\mathbf{x}[n-1]\]
+
+Substituting the expression for \(\mathbf{q}[n-2]\) in this equation, we obtain
+
+\[\mathbf{q}[n]=\mathbf{A}^{3}\mathbf{q}[n-3]+\mathbf{A}^{2}\mathbf{B}\mathbf{x} [n-3]+\mathbf{A}\mathbf{B}\mathbf{x}[n-2]+\mathbf{B}\mathbf{x}[n-1]\]
+
+Continuing in this way, we obtain
+
+\[\mathbf{q}[n] =\mathbf{A}^{n}\mathbf{q}[0]+\mathbf{A}^{n-1}\mathbf{B}\mathbf{x }[0]+\mathbf{A}^{n-2}\mathbf{B}\mathbf{x}[1]+\cdot\cdot\cdot+\mathbf{B}\mathbf{ x}[n-1]\] \[=\mathbf{A}^{n}\mathbf{q}[0]+\sum_{m=0}^{n-1}\mathbf{A}^{n-1-m} \mathbf{B}\mathbf{x}[m]\]
+
+The upper limit of this summation is nonnegative. Hence, \(n\geq 1\), and the summation is recognized as the convolution sum
+
+\[\mathbf{A}^{n-1}u[n-1]\ast\mathbf{B}\mathbf{x}[n]\]
+
+Consequently,
+
+\[\mathbf{q}[n]=\underbrace{\mathbf{A}^{n}\mathbf{q}[0]}_{\text{zero input}}+ \underbrace{\mathbf{A}^{n-1}u[n-1]\ast\mathbf{B}\mathbf{x}[n]}_{\text{zero state}} \tag{10.64}\]
+
+and
+
+\[\mathbf{y}[n] =\mathbf{C}\mathbf{q}+\mathbf{D}\mathbf{x}\] \[=\mathbf{C}\mathbf{A}^{n}\mathbf{q}[0]+\sum_{m=0}^{n-1}\mathbf{C }\mathbf{A}^{n-1-m}\mathbf{B}\mathbf{x}[m]+\mathbf{D}\mathbf{x}\] \[=\mathbf{C}\mathbf{A}^{n}\mathbf{q}[0]+\mathbf{C}\mathbf{A}^{n-1 }u[n-1]\ast\mathbf{B}\mathbf{x}[n]+\mathbf{D}\mathbf{x} \tag{10.65}\]
+
+In Sec. 10.1-3, we showed that
+
+\[\mathbf{A}^{n}=\beta_{0}\mathbf{I}+\beta_{1}\mathbf{A}+\beta_{2}\mathbf{A}^{2 }+\cdot\cdot\cdot+\beta_{N-1}\mathbf{A}^{N-1} \tag{10.66}\]
+
+where (assuming \(N\) distinct eigenvalues of \(\mathbf{A}\))
+
+\[\begin{bmatrix}\beta_{0}\\ \beta_{1}\\ \vdots\\ \beta_{N-1}\end{bmatrix}=\begin{bmatrix}1&\lambda_{1}&\lambda_{1}^{2}&\cdot \cdot\cdot&\lambda_{1}^{N-1}\\ 1&\lambda_{2}&\lambda_{2}^{2}&\cdot\cdot\cdot&\lambda_{N-1}^{N-1}\\ \vdots&\vdots&\cdot\cdot&\cdot&\vdots\\ 1&\lambda_{N}&\lambda_{N}^{2}&\cdot\cdot\cdot&\lambda_{N}^{N-1}\end{bmatrix}^ {-1}\begin{bmatrix}\lambda_{1}^{n}\\ \lambda_{2}^{n}\\ \vdots\\ \lambda_{N}^{n}\end{bmatrix} \tag{10.67}\]
+
+and \(\lambda_{1}\), \(\lambda_{2}\), \(\ldots\), \(\lambda_{N}\) are the \(N\) eigenvalues of \(\mathbf{A}\).
+
+We can also determine \(\mathbf{A}^{n}\) from the \(z\)-transform formula, which will be derived later, in Eq. (10.71):
+
+\[\mathbf{A}^{n}=\mathcal{Z}^{-1}[(\mathbf{I}-z^{-1}\mathbf{A})^{-1}]\]
+
+and
+
+\[\mathbf{A}^{n} =[3(3)^{-n}-2(2)^{-n}]\begin{bmatrix}1&0\\ 0&1\end{bmatrix}+[-6(3)^{-n}+6(2)^{-n}]\begin{bmatrix}0&1\\ -\frac{1}{6}&\frac{5}{6}\end{bmatrix}\] \[= \begin{bmatrix}3(3)^{-n}-2(2)^{-n}&-6(3)^{-n}+6(2)^{-n}\\ (3)^{-n}-(2)^{-n}&-2(3)^{-n}+3(2)^{-n}\end{bmatrix} \tag{10.68}\]
+
+We can now determine the state vector \(\mathbf{q}[n]\) from Eq. (10.64). Since we are interested in the output \(y[n]\), we shall use Eq. (10.65) directly. Note that
+
+\[\mathbf{C}\mathbf{A}^{n}=[-1\quad 5]\mathbf{A}^{n}=[2(3)^{-n}-3(2)^{-n}\quad-4( 3)^{-n}+9(2)^{-n}]\]
+
+and the zero-input response is \(\mathbf{C}\mathbf{A}^{n}\mathbf{q}[0]\), with
+
+\[\mathbf{q}[0]=\begin{bmatrix}2\\ 3\end{bmatrix}\]
+
+Hence, the zero-input response is
+
+\[\mathbf{C}\mathbf{A}^{n}\mathbf{q}[0]=-8(3)^{-n}+21(2)^{-n}\]
+
+The zero-state component is given by the convolution sum of \(\mathbf{C}\mathbf{A}^{n-1}u[n-1]\) and \(\mathbf{B}\mathbf{x}[n]\). We can use the shifting property of the convolution sum [Eq. (3.32)] to obtain the zero-state component by finding the convolution sum of \(\mathbf{C}\mathbf{A}^{n}u[n]\) and \(\mathbf{B}\mathbf{x}[n]\) and then replacing \(n\) with \(n-1\) in the result. We use this procedure because the convolution sums are listed in Table 3.1 for functions of the type \(x[n]u[n]\), rather than \(x[n]u[n-1]\).
+
+\[\mathbf{C}\mathbf{A}^{n}u[n]*\mathbf{B}\mathbf{x}[n] =[2(3)^{-n}-3(2)^{-n}-4(3)^{-n}+9(2)^{-n}]*\begin{bmatrix}0\\ u[n]\end{bmatrix}\] \[=-4(3)^{-n}*u[n]+9(2)^{-n}*u[n]\]
+
+Using Table 3.1 (pair 4), we obtain
+
+\[\mathbf{C}\mathbf{A}^{n}u[n]*\mathbf{B}x[n] =-4\left[\frac{1-3^{-(n+1)}}{1-\frac{1}{3}}\right]u[n]+9\left[ \frac{1-2^{-(n+1)}}{1-\frac{1}{2}}\right]u[n]\] \[=\]
+
+Now the desired (zero-state) response is obtained by replacing \(n\) by \(n-1\). Hence,
+
+\[\mathbf{C}\mathbf{A}^{n}u[n]*\mathbf{B}x[n-1]=[12+6(3)^{-n}-18(2)^{-n}]u[n-1]\]
+
+It follows that
+
+\[y[n]=[-8(3)^{-n}+21(2)^{-n}u[n]+[12+6(3)^{-n}-18(2)^{-n}]u[n-1]\]
+
+This is the desired answer. We can simplify this answer by observing that \(12+6(3)^{-n}-18(2)^{-n}=0\) for \(n=0\). Hence, \(u[n-1]\) may be replaced by \(u[n]\), and
+
+\[y[n]=[12-2(3)^{-n}+3(2)^{-n}]u[n] \tag{10.69}\]
+
+### Using MATLAB to Obtain a Graphical Solution
+
+MATLAB is equipped with tools to simulate digital systems, which makes it easy to obtain a graphical solution to the system. Let us use MATLAB simulation to determine the total system output over \(0\leq n\leq 25\).
+
+>> A = [0 i;-1/6 5/6]; B = [0; 1]; C = [-1 5]; D = 0; >> N = 25; n = (0:N); x = ones(1,N+1); q0 = [2;3]; >> sys = ss(A,B,C,D,-1); % Discrete-time state space model >> [y,q] = lsim(sys,x,n,q0); % Simulate output and state vector >> clf; stem(n,y,'k.'); xlabel('n'); ylabel('y[n]'); axis([-.5 25.5 11.5 13.5]); The MATLAB results, shown in Fig. 10.13, exactly align with the analytical solution derived earlier. Also notice that the zero-input and zero-state responses can be separately obtained using the same code and respectively setting either x or q0 to zero.
+
+### The \(z\)-Transform Solution
+
+The \(z\)-transform of Eq. (10.62) is given by
+
+\[z\mathbf{Q}[z]-z\mathbf{q}[0]=\mathbf{A}\mathbf{Q}[z]+\mathbf{B}\mathbf{X}[z]\]
+
+Therefore,
+
+\[(z\mathbf{I}-\mathbf{A})\mathbf{Q}[z]=z\mathbf{q}[0]+\mathbf{B}\mathbf{X}[z]\]
+
+and
+
+\[\mathbf{Q}[z] =(z\mathbf{I}-\mathbf{A})^{-1}z\mathbf{q}[0]+(z\mathbf{I}- \mathbf{A})^{-1}\mathbf{B}\mathbf{X}[z]\] \[=(\mathbf{I}-z^{-1}\mathbf{A})^{-1}\mathbf{q}[0]+(z\mathbf{I}- \mathbf{A})^{-1}\mathbf{B}\mathbf{X}[z]\]
+
+Hence,
+
+\[\mathbf{q}[n]=\underbrace{\mathcal{Z}^{-1}[(\mathbf{I}-z^{-1}\mathbf{A})^{-1} ]\mathbf{q}[0]}_{\text{zero-input response}}+\underbrace{\mathcal{Z}^{-1}[(z \mathbf{I}-\mathbf{A})^{-1}\mathbf{B}\mathbf{X}[z]]}_{\text{zero-state response}} \tag{10.70}\]
+
+Figure 10.13: Graphical solution to Ex. 10.13 by MATLAB simulation.
+
+Therefore,
+
+\[y[n]=\underbrace{[-8(3)^{-n}+21(2)^{-n}}_{\text{zero-input response}}+\underbrace{12+6(3)^{-n}-18(2)^{-n}}_{\text{ zero-state response}}]u[n\]
+
+Linear Transformation, Controllability,
+
+and Observability
+
+The procedure for linear transformation is parallel to that in the continuous-time case (Sec. 10.5). If \(\mathbf{w}\) is the transformed-state vector given by
+
+\[\mathbf{w}=\mathbf{Pq}\]
+
+then
+
+\[\mathbf{w}[n+1]=\mathbf{PAP}^{-1}\mathbf{w}[n]+\mathbf{P}\mathbf{Bx}\]
+
+and
+
+\[\mathbf{y}[n]=(\mathbf{CP}^{-1})\mathbf{w}+\mathbf{Dx}\]
+
+Controllability and observability may be investigated by diagonalizing the matrix, as explained in Sec. 10.5-1.
+
+## 10.8 Matlab: Toolboxes and
+
+State-Space Analysis
+
+The preceding MATLAB sections provide a comprehensive introduction to the basic MATLAB environment. However, MATLAB also offers a wide range of toolboxes that perform specialized tasks. Once installed, toolbox functions operate no differently from ordinary MATLAB functions. Although toolboxes are purchased at extra cost, they save time and offer the convenience of predefined functions. It would take significant effort to duplicate a toolbox's functionality by using custom user-defined programs.
+
+Three toolboxes are particularly appropriate in the study of signals and systems: the control system toolbox, the signal-processing toolbox, and the symbolic math toolbox. Functions from these toolboxes have been utilized throughout the text in the MATLAB examples as well as certain end-of-chapter problems. This section provides a more formal introduction to a selection of functions, both standard and toolbox, that are appropriate for state-space problems.
+
+### 10.8-1 \(z\)-Transform Solutions to Discrete-Time, State-Space Systems
+
+As with continuous-time systems, it is often more convenient to solve discrete-time systems in the transform domain rather than in the time domain. As given in Ex. 10.13, consider the state-space description of the system shown in Fig. 10.12.
+
+\[\begin{bmatrix}q_{1}[n+1]\\ q_{2}[n+1]\end{bmatrix}=\begin{bmatrix}0&1\\ -\frac{1}{6}&\frac{5}{6}\end{bmatrix}\begin{bmatrix}q_{1}[n]\\ q_{2}[n]\end{bmatrix}+\begin{bmatrix}0\\ 1\end{bmatrix}x[n]\]and
+
+\[y[n]=[-1\quad 5]\begin{bmatrix}q_{1}[n]\\ q_{2}[n]\end{bmatrix}\]
+
+We are interested in the output \(y[n]\) in response to the input \(x[n]=u[n]\) with initial conditions \(q_{1}[0]=2\) and \(q_{2}[0]=3\).
+
+To describe this system, the state matrices \(\mathbf{A}\), \(\mathbf{B}\), \(\mathbf{C}\), and \(\mathbf{D}\) are first defined.
+
+>> A = [0 1;-1/6 5/6]; B = [0; 1]; C = [-1 5]; D = 0; Additionally, the vector of initial conditions is defined.
+
+>> q_0 = [2;3]; In the transform domain, the solution to the state equation is
+
+\[\mathbf{Q}[z]=(\mathbf{I}-z^{-1}\mathbf{A})^{-1}\mathbf{q}[0]+(z\mathbf{I}- \mathbf{A})^{-1}\mathbf{B}\mathbf{X}[z] \tag{10.74}\]
+
+The solution is separated into two parts: the zero-input response and the zero-state response.
+
+MATLAB's symbolic toolbox makes possible a symbolic representation of Eq. (10.74). First, a symbolic variable \(z\) needs to be defined.
+
+>> z = sym('z'); The sym command is used to construct symbolic variables, objects, and numbers. Typing whos confirms that z is indeed a symbolic object. The syms command is a shorthand command for constructing symbolic objects. For example, syms z s is equivalent to the two instructions z = sym('z'); and s = sym('s');.
+
+Next, a symbolic expression for \(X[z]\) needs to be constructed for the unit step input, \(x[n]=u[n]\). The \(z\)-transform is computed by means of the ztrans command.
+
+>> X = ztrans(sym('1')) X = z/(z-1) Several comments are in order. First, the ztrans command assumes a causal signal. For \(n\geq 0\), \(u[n]\) has a constant value of 1. Second, the argument of ztrans needs to be a symbolic expression, even if the expression is a constant. Thus, a symbolic one sym('1') is required. Also note that continuous-time systems use Laplace transforms rather than \(z\)-transforms. In such cases, the laplace command replaces the ztrans command.
+
+Construction of \(\mathbf{Q}[z]\) is now trivial.
+
+>> Q = inv(eye(2)-z^(-1)*A)*q_0 + inv(z*eye(2)-A)*B*X Q = (18*z)/(6*z^2-5*z+1) + (2*z*(6*z-5))/(6*z^2-5*z+1) + (6*z)/((z-1)*(6*z^2-5*z+1)) (18*z^2)/(6*z^2-5*z+1) - (2*z)/(6*z^2-5*z+1) + (6*z^2)/((z-1)*(6*z^2-5*z+1)) Unfortunately, not all MATLAB functions work with symbolic objects. Still, the symbolic toolbox overloads many standard MATLAB functions, such as inv, to work with symbolic objects. Recall that overloaded functions have identical names but different behavior; proper function selection is typically determined by context.
+
+The expression Q is somewhat unwieldy. The simplify command uses various algebraic techniques to simplify the result.
+
+>> Q = simplify(Q)  Q = -(2*z*(- 6*z^2 + 2*z + 1))/(6*z^3 - 11*z^2 + 6*z - 1)  (2*z*(9*z^2 - 7*z + 1))/(6*z^3 - 11*z^2 + 6*z - 1) The resulting expression is mathematically equivalent to the original but notationally more compact.
+
+Since \(\mathbf{D}=0\), the output \(Y[z]\) is given by \(Y[z]=\mathbf{C}\mathbf{Q}[z]\).
+
+>> Y = simplify(C*Q)  Y = (6*z*(13*z^2 - 11*z + 2))/(6*z^3 - 11*z^2 + 6*z - 1) The corresponding time-domain expression is obtained by using the inverse \(z\)-transform command iztrans.
+
+>> y = iztrans(Y)  y = 3*(1/2)^n - 2*(1/3)^n + 12 Like ztrans, the iztrans command assumes a causal signal, so the result implies multiplication by a unit step. That is, the system output is \(y[n]=(3(1/2)^{n}-2(1/3)^{n}+12)u[n]\), which is equivalent to Eq. (10.69) derived in Ex. 10.13. Continuous-time systems use inverse Laplace transforms rather than inverse \(z\)-transforms. In such cases, the ilaplace command therefore replaces the iztrans command.
+
+Following a similar procedure, it is a simple matter to compute the zero-input response \(y_{\mathrm{zir}}[n]\):
+
+>> y_zir = iztrans(simplify(C*inv(eye(2)-z^(-1)*A)*q_0))  y_zir = 21*(1/2)^n - 8*(1/3)^n The zero-state response is given by
+
+>> y_zsr = y - y_zir  y_zsr = 6*(1/3)^n - 18*(1/2)^n + 12
+
+Typing iztrans(simplify(C*inv(z*eye(2)-A)*B*X)) produces the same result.
+
+MATLAB plotting functions, such as plot and stem, do not directly support symbolic expressions. By using the subs command, however, it is easy to replace a symbolic variable with a vector of desired values.
+
+Figure 10.14: Output \(y[n]\) computed by using the symbolic math toolbox.
+
+>> n = [0:25]; stem(n,subs(y,n),'k.'); >> xlabel('n'); ylabel('y[n]'); axis([-.5 25.5 11.5 13.5]); Figure 10.14 shows the results, which are equivalent to the results obtained in Ex. 10.13. Although there are plotting commands in the symbolic math toolbox such as ezplot that plot symbolic expression, these plotting routines lack the flexibility needed to satisfactorily plot discrete-time functions.
+
+### 10.8-2 Transfer Functions from State-Space Representations
+
+A system's transfer function provides a wealth of useful information. From Eq. (10.73), the transfer function for the system described in Ex. 10.13 is
+
+>> H = collect(simplify(C*inv(z*eye(2)-A)*B+D)) H = (30*z - 6)/(6*z^2 - 5*z + 1) It is also possible to determine the numerator and denominator transfer function coefficients from a state-space model by using the signal-processing toolbox function ss2tf.
+
+>> [num,den] = ss2tf(A,B,C,D) num = 0 5.0000 -1.0000 den = 1.0000 -0.8333 0.1667 The denominator of \(H[z]\) provides the characteristic polynomial
+
+\[\gamma^{2}-\tfrac{5}{6}\gamma+\tfrac{1}{6}\]
+
+Equivalently, the characteristic polynomial is the determinant of \((z\mathbf{I}-\mathbf{A})\).
+
+>> syms gamma; char_poly = subs(det(z*eye(2)-A),z,gamma) char_poly = gamma^2 - (5*gamma)/6 + 1/6 Here, the subs command replaces the symbolic variable z with the desired symbolic variable gamma.
+
+The roots command does not accommodate symbolic expressions. Thus, the sym2poly command converts the symbolic expression into a polynomial coefficient vector suitable for the roots command.
+
+>> roots(sym2poly(char_poly)) ans = 0.5000 0.3333 Taking the inverse \(z\)-transform of \(H[z]\) yields the impulse response \(h[n]\).
+
+>> h = iztrans(H) h = 18*(1/2)^n - 12*(1/3)^n - 6*kroneckerDelta(n, 0) As suggested by the characteristic roots, the characteristic modes of the system are \((1/2)^{n}\) and \((1/3)^{n}\). Notice that the symbolic math toolbox represents \(\delta[n]\) as kroneckerDelta(n, 0). In general, \(\delta[n-a]\) is represented as kroneckerDelta(n-a, 0). This notation is frequently encountered. Consider, for example, delaying the input by 2, \(x[n-2]=u[n-2]\). In the transform domain, this is equivalent to \(z^{-2}X[z]\). Taking the inverse \(z\)-transform of \(z^{-2}X[z]\) yields
+
+>> iztrans(z^(-2)*X) ans = 1 - kroneckerDelta(n, 0) - kroneckerDelta(n - 1, 0)
+
+That is, MATLAB represents the delayed unit step \(u[n-2]\) as \((-\delta[n-1]-\delta[n-0]+1)u[n]\).
+
+The transfer function also permits convenient calculation of the zero-state response.
+
+>> y_zsr = iztrans(H*X) y_zsr = 6*(1/3)^n - 18*(1/2)^n + 12
+
+The result agrees with previous calculations.
+
+### Controllability and Observability of Discrete-Time Systems
+
+In their controllability and observability, discrete-time systems are analogous to continuous-time systems. For example, consider the LTID system described by the constant coefficient difference equation
+
+\[y[n]+\tfrac{5}{6}y[n-1]+\tfrac{1}{6}y[n-2]=x[n]+\tfrac{1}{2}x[n-1]\]
+
+Figure 10.15 illustrates the direct form II (DFII) realization of this system. The system input is \(x[n]\), the system output is \(y[n]\), and the outputs of the delay blocks are designated as state variables \(q_{1}[n]\) and \(q_{2}[n]\).
+
+The corresponding state and output equations (see Prob. 10.7-1) are
+
+\[\mathbf{Q}[n+1]=\begin{bmatrix}q_{1}[n+1]\\ q_{2}[n+1]\end{bmatrix}=\begin{bmatrix}0&1\\ -\tfrac{1}{6}&-\tfrac{5}{6}\end{bmatrix}\begin{bmatrix}q_{1}[n]\\ q_{2}[n]\end{bmatrix}+\begin{bmatrix}0\\ 1\end{bmatrix}x[n]=\mathbf{A}\mathbf{Q}[n]+\mathbf{B}x[n]\]
+
+and
+
+\[y[n]=\begin{bmatrix}-\tfrac{1}{6}&-\tfrac{1}{3}\end{bmatrix}\begin{bmatrix}q_{ 1}[n]\\ q_{2}[n]\end{bmatrix}+1x[n]=\mathbf{C}\mathbf{Q}[n]+\mathbf{D}x[n]\]
+
+To describe this system in MATLAB, the state matrices \(\mathbf{A}\), \(\mathbf{B}\), \(\mathbf{C}\), and \(\mathbf{D}\) are first defined.
+
+>> A = [0 1;-1/6 -5/6]; B = [0; 1]; C = [-1/6 -1/3]; D = 1;
+
+Figure 10.15: Direct form II realization of \(y[n]+(5/6)y[n-1]+(1/6)y[n-2]=x[n]+(1/2)x[n-1]\).
+
+To assess the controllability and observability of this system, the state matrix \(\mathbf{A}\) needs to be diagonalized.2 As shown in Eq. (10.55), this requires a transformation matrix \(\mathbf{P}\) such that
+
+Footnote 2: This approach requires that the state matrix \(\mathbf{A}\) have unique eigenvalues. Systems with repeated roots require that state matrix \(\mathbf{A}\) be transformed into a modified diagonal form, also called the Jordan form. The MATLAB function jordan is used in these cases.
+
+\[\mathbf{PA}=\mathbf{\Lambda}\mathbf{P} \tag{10.75}\]
+
+where \(\mathbf{\Lambda}\) is a diagonal matrix containing the unique eigenvalues of \(\mathbf{A}\). Recall, the transformation matrix \(\mathbf{P}\) is not unique.
+
+To determine a matrix \(\mathbf{P}\), it is helpful to review the eigenvalue problem. Mathematically, an eigendecomposition of \(\mathbf{A}\) is expressed as
+
+\[\mathbf{AV}=\mathbf{V}\mathbf{\Lambda}\]
+
+where \(\mathbf{V}\) is a matrix of eigenvectors and \(\mathbf{\Lambda}\) is a diagonal matrix of eigenvalues. Pre- and post-multiplying both sides of this equation by \(\mathbf{V}^{-1}\) yields
+
+\[\mathbf{V}^{-1}\mathbf{AV}\mathbf{V}^{-1}=\mathbf{V}^{-1}\mathbf{V}\mathbf{ \Lambda}\mathbf{V}^{-1}\]
+
+Simplification yields
+
+\[\mathbf{V}^{-1}\mathbf{A}=\mathbf{\Lambda}\mathbf{V}^{-1} \tag{10.76}\]
+
+Comparing Eqs. (10.75) and (10.76), we see that a suitable transformation matrix \(\mathbf{P}\) is given by an inverse eigenvector matrix \(\mathbf{V}^{-1}\).
+
+The eig command is used to verify that \(\mathbf{A}\) has the required distinct eigenvalues as well as compute the needed eigenvector matrix \(\mathbf{V}\).
+
+>> [V,Lambda] = eig(A) V = 0.9487 -0.8944 -0.3162 0.4472 Lambda = -0.3333 0 0 0 -0.5000 Since the diagonal elements of Lambda are all unique, a transformation matrix \(\mathbf{P}\) is given by
+
+>> P = inv(V); The transformed state matrices \(\mathbf{\hat{A}}=\mathbf{PAP}^{-1}\), \(\mathbf{\hat{B}}=\mathbf{PB}\), and \(\mathbf{\hat{C}}=\mathbf{CP}^{-1}\) are easily computed by using transformation matrix \(\mathbf{P}\). Notice that matrix \(\mathbf{D}\) is unaffected by state variable transformations.
+
+>> Ahat = P*A*inv(P), Bhat = P*B, Chat = C*inv(P)  Ahat = -0.3333 -0.0000  0.0000 -0.5000Bhat =  6.3246  6.7082  Chat =  -0.0527 -0.0000 The proper operation of **P** is verified by the correct diagonalization of **A**, \(\hat{\textbf{A}}=\textbf{\Lambda}\). Since no row of \(\hat{\textbf{B}}\) is zero, the system is controllable. Since, however, at least one column of \(\hat{\textbf{C}}\) is zero, the system is not observable. These characteristics are no coincidence. The DFII realization, which is more descriptively called the controller canonical form, is always controllable but not always observable.
+
+As a second example, consider the same system realized using the transposed direct form II structure (TDFII), as shown in Fig. 10.16. The system input is \(x[n]\), the system output is \(y[n]\), and the outputs of the delay blocks are designated as state variables \(v_{1}[n]\) and \(v_{2}[n]\).
+
+The corresponding state and output equations (see Prob. 10.7-2) are
+
+\[\textbf{V}[n+1]=\begin{bmatrix}v_{1}[n+1]\\ v_{2}[n+1]\end{bmatrix}=\begin{bmatrix}0&-\frac{1}{6}\\ 1&-\frac{5}{6}\end{bmatrix}\begin{bmatrix}v_{1}[n]\\ v_{2}[n]\end{bmatrix}+\begin{bmatrix}-\frac{1}{6}\\ -\frac{1}{3}\end{bmatrix}x[n]=\textbf{AV}[n]+\textbf{B}x[n]\]
+
+and
+
+\[y[n]=[0\quad 1]\begin{bmatrix}v_{1}[n]\\ v_{2}[n]\end{bmatrix}+1x[n]=\textbf{CV}[n]+\textbf{D}x[n]\]
+
+To describe this system in MATLAB, the state matrices **A**, **B**, **C**, and **D** are defined.
+
+>> A = [0 -1/6;1 -5/6]; B = [-1/6; -1/3]; C = [0 1]; D = 1;
+
+To diagonalize **A**, a transformation matrix **P** is created.
+
+>> [V,Lambda] = eig(A)  V =  0.4472 0.3162  0.8944 0.9487  Lambda =  -0.3333 0  0 -0.5000
+
+Figure 10.16: Transposed direct form II realization of \(y[n]+(5/6)y[n-1]+(1/6)y[n-2]=x[n]+(1/2)x[n-1]\).
+
+The characteristic modes of a system do not depend on implementation, so the eigenvalues of the DFII and TDFII realizations are the same. However, the eigenvectors of the two realizations are quite different. Since the transformation matrix \(\mathbf{P}\) depends on the eigenvectors, different realizations can possess different observability and controllability characteristics.
+
+Using transformation matrix \(\mathbf{P}\), the transformed state matrices \(\hat{\mathbf{A}}=\mathbf{P}\mathbf{A}\mathbf{P}^{-1}\), \(\hat{\mathbf{B}}=\mathbf{P}\mathbf{B}\), and \(\hat{\mathbf{C}}=\mathbf{C}\mathbf{P}^{-1}\) are computed.
+
+>> P = inv(V); >> Ahat = P*A*inv(P), Bhat = P*B, Chat = C*inv(P)  Ahat =  -0.3333 0  0.0000 -0.5000  Bhat =  -0.3727  -0.0000  Chat =  0.8944 0.9487 Again, the proper operation of \(\mathbf{P}\) is verified by the correct diagonalization of \(\mathbf{A}\), \(\hat{\mathbf{A}}=\mathbf{\Lambda}\). Since no column of \(\hat{\mathbf{C}}\) is zero, the system is observable. However, at least one row of \(\hat{\mathbf{B}}\) is zero, and therefore the system is not controllable. The TDFII realization, which is more descriptively called the observer canonical form, is always observable but not always controllable. It is interesting to note that the properties of controllability and observability are influenced by the particular realization of a system.
+
+### 10.8-4 Matrix Exponentiation and the Matrix Exponential
+
+Matrix exponentiation is important to many problems, including the solution of discrete-time state-space equations. Equation (10.64), for example, shows that the state response requires matrix exponentiation, \(\mathbf{A}^{n}\). For a square \(\mathbf{A}\) and specific \(n\), MATLAB happily returns \(\mathbf{A}^{n}\) by using the \(\hat{\ }\) operator. From the system in Ex. 10.13 and \(n=3\), we have
+
+>> A = [0 1;-1/6 5/6]; n = 3; A^n  ans =  -0.1389 0.5278  -0.0880 0.3009 The same result is also obtained by typing A*A*A.
+
+Often, it is useful to solve \(\mathbf{A}^{n}\) symbolically. Noting \(\mathbf{A}^{n}=\mathcal{Z}^{-1}[(\mathbf{I}-z^{-1}\mathbf{A})^{-1}]\), the symbolic toolbox can produce a symbolic expression for \(\mathbf{A}^{n}\).
+
+>> syms z n; An = simplify(iztrans(inv(eye(2)-z^(-1)*A))) An =  [ 3*(1/3)^n - 2*(1/2)^n, 6*(1/2)^n - 6*(1/3)^n]  [ 1/3^n - 1/2^n, 3/2^n - 2/3^n] Notice that this result is identical to Eq. (10.68), derived earlier. Substituting the case \(n=3\) into An provides a result that is identical to the one elicited by the previous A^n command.
+
+>> double(subs(An,n,3))  ans =  -0.1389 0.5278  -0.0880 0.3009
+
+For continuous-time systems, the matrix exponential \(e^{At}\) is commonly encountered. The expm command can compute the matrix exponential symbolically. Using the system from Ex. 10.8 yields
+
+>> syms t; A = [-12 2/3;-36 -1]; eAt = simplify(expm(A*t))  eAt =  [ -(exp(-9*t)*(3*exp(5*t) - 8))/5, (2*exp(-9*t)*(exp(5*t) - 1))/15]  [ -(36*exp(-9*t)*(exp(5*t) - 1))/5, (exp(-9*t)*(8*exp(5*t) - 3))/5] This result is identical to the result computed in Ex. 10.8. Similar to the discrete-time case, an identical result is obtained by typing syms s; simplify(ilaplace(inv(s*eye(2)-A))).
+
+For a specific \(t\), the matrix exponential is also easy to compute, either through substitution or direct computation. Consider the case \(t=3\).
+
+>> double(subs(eAt,t,3))  ans = 1.0e-004 *  -0.0369 0.0082  -0.4424 0.0983
+
+The command expm(A*3) produces the same result.
+
+### 10.9 Summary
+
+An \(N\)th-order system can be described in terms of \(N\) key variables--the state variables of the system. The state variables are not unique; rather, they can be selected in a variety of ways. Every possible system output can be expressed as a linear combination of the state variables and the inputs. Therefore, the state variables describe the entire system, not merely the relationship between certain input(s) and output(s). For this reason, the state variable description is an internal description of the system. Such a description is therefore the most general system description, and it contains the information of the external descriptions, such as the impulse response and the transfer function. The state variable description can also be extended to time-varying parameter systems and nonlinear systems. An external description of a system may not characterize the system completely.
+
+The state equations of a system can be written directly from knowledge of the system structure, from the system equations, or from the block diagram representation of the system. State equations consist of a set of \(N\) first-order differential equations and can be solved by time-domain or frequency-domain (transform) methods. Suitable procedures exist to transform one given set of state variables into another. Because a set of state variables is not unique, we can have an infinite variety of state-space descriptions of the same system. The use of an appropriate transformation allows us to see clearly which of the system states are controllable and which are observable.

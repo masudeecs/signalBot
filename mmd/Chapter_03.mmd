@@ -1,0 +1,1533 @@
+## Chapter Time-Domain Analysis
+
+of Discrete-Time Systems
+
+In this chapter we introduce the basic concepts of discrete-time signals and systems. Furthermore, we explore the time-domain analysis of linear, time-invariant, discrete-time (LTID) systems. We show how to compute the zero-input response, determine the unit impulse response, and use convolution to evaluate the zero-state response.
+
+### 17 Introduction
+
+A _discrete-time signal_ is basically a sequence of numbers. Such signals arise naturally in inherently discrete-time situations such as population studies, amortization problems, national income models, and radar tracking. They may also arise as a result of sampling continuous-time signals in sampled data systems and digital filtering. Such signals can be denoted by \(x[n]\), \(y[n]\), and so on, where the variable \(n\) takes integer values, and \(x[n]\) denotes the \(n\)th number in the sequence labeled \(x\). In this notation, the discrete-time variable \(n\) is enclosed in square brackets instead of parentheses, which we have reserved for enclosing continuous-time variables, such as \(t\).
+
+Systems whose inputs and outputs are discrete-time signals are called _discrete-time systems_. A digital computer is a familiar example of this type of system. A discrete-time signal is a sequence of numbers, and a discrete-time system processes a sequence of numbers \(x[n]\) to yield another sequence \(y[n]\) as the output.1
+
+Footnote 1: There may be more than one input and more than one output.
+
+A discrete-time signal, when obtained by uniform sampling of a continuous-time signal \(x(t)\), can also be expressed as \(x(nT)\), where \(T\) is the sampling interval and \(n\), the discrete variable taking on integer values. Thus, \(x(nT)\) denotes the value of the signal \(x(t)\) at \(t=nT\). The signal \(x(nT)\) is a sequence of numbers (sample values), and hence, by definition, is a discrete-time signal. Such a signal can also be denoted by the customary discrete-time notation \(x[n]\), where \(x[n]=x(nT)\). A typical discrete-time signal is depicted in Fig. 17, which shows both forms of notation. By way of an example, a continuous-time exponential \(x(t)=e^{-t}\), when sampled every \(T=0.1\) seconds, results in a discrete-time signal \(x(nT)\) given by
+
+\[x(nT)=e^{-nT}=e^{-0.1n}\]Clearly, this signal is a function of \(n\) and may be expressed as \(x[n]\). Such representation is more convenient and will be followed throughout this book, even for signals resulting from sampling continuous-time signals.
+
+Digital filters can process continuous-time signals by discrete-time systems, using appropriate interfaces at the input and the output, as illustrated in Fig. 3.2. A continuous-time signal \(x(t)\) is first sampled to convert it into a discrete-time signal \(x[n]\), which is then processed by a discrete-time system to yield the output \(y[n]\). A continuous-time signal \(y(t)\) is finally constructed from \(y[n]\). We shall use the notations C/D and D/C for conversion from continuous to discrete time and from discrete to continuous time. By using the interfaces in this manner, we can use an appropriate discrete-time system to process a continuous-time signal. As we shall see later in our discussion, discrete-time systems have several advantages over continuous-time systems. For this reason, there is an accelerating trend toward processing continuous-time signals with discrete-time systems.
+
+#### Size of a Discrete-Time Signal
+
+Arguing along the lines similar to those used for continuous-time signals, the size of a discrete-time signal \(x[n]\) will be measured by its energy \(E_{x}\), defined by
+
+\[E_{x}=\sum_{n=-\infty}^{\infty}|x[n]|^{2} \tag{3.1}\]
+
+Figure 3.2: Processing a continuous-time signal by means of a discrete-time system.
+
+Figure 3.1: A discrete-time signal.
+
+This definition is valid for real or complex \(x[n]\). For this measure to be meaningful, the energy of a signal must be finite. A necessary condition for the energy to be finite is that the signal amplitude must \(\to 0\) as \(|n|\to\infty\). Otherwise the sum in Eq. (3.1) will not converge. If \(E_{x}\) is finite, the signal is called an _energy signal_.
+
+In some cases, for instance, when the amplitude of \(x[n]\) does not \(\to 0\) as \(|n|\to\infty\), then the signal energy is infinite, and a more meaningful measure of the signal in such a case would be the time average of the energy (if it exists), which is the signal power \(P_{x}\), defined by
+
+\[P_{x}=\lim_{N\to\infty}\frac{1}{2N+1}\sum_{-N}^{N}|x[n]|^{2}\]
+
+In this equation, the sum is divided by \(2N+1\) because there are \(2N+1\) samples in the interval from \(-N\) to \(N\). For periodic signals, the time averaging need be performed over only one period in view of the periodic repetition of the signal. If \(P_{x}\) is finite and nonzero, the signal is called a _power signal_. As in the continuous-time case, a discrete-time signal can either be an energy signal or a power signal, but cannot be both at the same time. Some signals are neither energy nor power signals.
+
+**Example 3.1**: Computing DT Energy and Power
+
+Find the energy of the signal \(x[n]=n(u[n]-u[n-6])\), shown in Fig. 3.3a and the power for the periodic signal \(y[n]\) in Fig. 3.3b.
+
+By definition,
+
+\[E_{x}=\sum_{n=0}^{5}n^{2}=55\]
+
+A periodic signal \(x[n]\) with period \(N_{0}\) is characterized by the fact that
+
+\[x[n]=x[n+N_{0}]\]
+
+The smallest value of \(N_{0}\) for which the preceding equation holds is the _fundamental period_. Such a signal is called \(N_{0}\)_periodic_. Figure 3.3b shows an example of a periodic signal \(y[n]\) of period \(N_{0}=6\) because each period contains 6 samples. Note that if the first sample is taken at \(n=0\), the last sample is at \(n=N_{0}-1=5\), not at \(n=N_{0}=6\). Because the signal \(y[n]\) is periodic, its power \(P_{y}\) can be found by averaging its energy over one period. Averaging the energy over one period, we obtain
+
+\[P_{y}=\frac{1}{6}\sum_{n=0}^{5}n^{2}=\frac{55}{6}\]
+
+### 3.2 Useful Signal Operations
+
+Signal operations for _shifting,_ and _scaling,_ as discussed for continuous-time signals also apply, with some modifications, to discrete-time signals.
+
+#### Shifting
+
+Consider a signal \(x[n]\) (Fig. 3.4a) and the same signal delayed (right-shifted) by 5 units (Fig. 3.4b), which we shall denote by \(x_{s}[n]\).1 Using the argument employed for a similar operation in continuous-time signals (Sec. 1.2), we obtain
+
+Footnote 1: The terms “delay” and “advance” are meaningful only when the independent variable is time. For other independent variables, such as frequency or distance, it is more appropriate to refer to the “right shift” and “left shift” of a sequence.
+
+\[x_{s}[n]=x[n-5]\]
+
+Therefore, to shift a sequence by \(M\) units (\(M\) integer), we replace \(n\) with \(n-M\). Thus \(x[n-M]\) represents \(x[n]\) shifted by \(M\) units. If \(M\) is positive, the shift is to the right (delay). If \(M\) is negative, the shift is to the left (advance). Accordingly, \(x[n-5]\) is \(x[n]\) delayed (right-shifted) by 5 units, and \(x[n+5]\) is \(x[n]\) advanced (left-shifted) by 5 units.
+
+Figure 3.3: **(a)** Energy and **(b)** power computations for a signal.
+
+## 3.2 Left-Shift Operation
+
+Show that \(x[n]\) in Fig. 3.4a left-shifted by 3 units can be expressed as \(0.729(0.9)^{n}\) for \(0\leq n\leq 7\), and zero otherwise. Sketch the shifted signal.
+
+Figure 3.4: Shifting and time reversal of a signal.
+
+## Chapter 3 Time-Domain Analysis of Discrete-Time Systems
+
+### 3.1 Time Reversal
+
+Sketch the signal \(x[n]=e^{-0.5n}\) for \(-3\leq n\leq 2\), and zero otherwise. Sketch the corresponding time-reversed signal and show that it can be expressed as \(x_{r}[n]=e^{0.5n}\) for \(-2\leq n\leq 3\).
+
+### Sampling Rate Alteration: Downsampling, Upsampling, and Interpolation
+
+Alteration of the sampling rate is somewhat similar to time-scaling in continuous-time signals. Consider a signal \(x[n]\) compressed by factor \(M\). Compressing a signal \(x[n]\) by factor \(M\) yields \(x_{d}[n]\) given by
+
+\[x_{d}[n]=x[Mn]\]
+
+Because of the restriction that discrete-time signals are defined only for integer values of the argument, we must restrict \(M\) to integer values. The values of \(x[Mn]\) at \(n=0,1,2,3,\ldots\) are \(x[0]\), \(x[M]\), \(x[2M]\), \(x[3M]\), \(\ldots\). This means \(x[Mn]\) selects every \(M\)th sample of \(x[n]\) and deletes all the samples in between. It reduces the number of samples by factor \(M\). If \(x[n]\) is obtained by sampling a continuous-time signal, this operation implies reducing the sampling rate by factor \(M\). For this reason, this operation is commonly called _downsampling_. Figure 3.5a shows a signal \(x[n]\) and Fig. 3.5b shows the signal \(x[2n]\), which is obtained by deleting odd-numbered samples of \(x[n]\).1
+
+Footnote 1: Odd-numbered samples of \(x[n]\) can be retained (and even-numbered samples deleted) by using the transformation \(x_{d}[n]=x[2n+1]\).
+
+In the continuous-time case, time compression merely speeds up the signal without loss of any data. In contrast, downsampling \(x[n]\) generally causes loss of data. Under certain conditions--for example, if \(x[n]\) is the result of oversampling some continuous-time signal--then \(x_{d}[n]\) may still retain the complete information about \(x[n]\).
+
+An _interpolated_ signal is generated in two steps; first, we expand \(x[n]\) by an integer factor \(L\) to obtain the expanded signal \(x_{e}[n]\), as
+
+\[x_{e}[n]=\begin{cases}x[n/L]&\quad n=0,\,\pm L\,\pm 2L,\ldots,\\ 0&\quad\text{otherwise}\end{cases} \tag{3.2}\]
+
+To understand this expression, consider a simple case of expanding \(x[n]\) by a factor 2 (\(L=2\)). When \(n\) is odd, \(n/2\) is noninteger, and \(x_{e}[n]=0\). That is, \(x_{e}[1]=x_{e}[3]=x_{e}[5],\ldots\) are all zero, as depicted in Fig. 3.5c. Moreover, \(n/2\) is integer for even \(n\), and the values of \(x_{e}[n]=x[n/2]\) for \(n=0,2,4,6,\ldots\), are \(x[0]\), \(x[1]\), \(x[2]\), \(x[3]\), \(\ldots\), as shown in Fig. 3.5c. In general, for \(n=0,1,2,\ldots\), \(x_{e}[n]\) is given by the sequence
+
+\[x[0],\underbrace{0,0,\ldots,0,0}_{L-1\text{ zeros}},x[1],\underbrace{0,0, \ldots,0,0}_{L-1\text{ zeros}},x[2],\underbrace{0,0,\ldots,0,0}_{L-1\text{ zeros}},\ldots\]
+
+Thus, the sampling rate of \(x_{e}[n]\) is \(L\) times that of \(x[n]\). Hence, this operation is commonly called _upsampling_. The upsampled signal \(x_{e}[n]\) contains all the data of \(x[n]\), although in an expanded form.
+
+In the expanded signal in Fig. 3.5c, the missing (zero-valued) odd-numbered samples can be reconstructed from the non-zero-valued samples by using some suitable interpolation formula. Figure 3.5d shows such an interpolated signal \(x_{i}[n]\), where the missing samples are constructed by using an interpolating filter. The optimum interpolating filter is usually an ideal lowpassfilter, which is realizable only approximately. In practice, we may use an interpolation that is nonoptimum but realizable. The process of filtering to interpolate the zero-valued samples is called _interpolation_. Since the interpolated data are computed from the existing data, interpolation does not result in gain of information. While further discussion of interpolation is beyond our scope, Drill 3.5 and Prob. 3.11-10 introduce the idea of linear interpolation.
+
+Figure 3.5: Compression (downsampling) and expansion (upsampling, interpolation) of a signal.
+
+### 3.3 Some Useful Discrete-Time Signal Models
+
+We now discuss some important discrete-time signal models that are encountered frequently in the study of discrete-time signals and systems.
+
+### 3.3.1 Discrete-Time Impulse Function \(\delta[n]\)
+
+The discrete-time counterpart of the continuous-time impulse function \(\delta(t)\) is \(\delta[n]\), a Kronecker delta function, defined by
+
+\[\delta[n]=\begin{cases}1&n=0\\ 0&n\neq 0\end{cases}\]
+
+This function, also called the unit impulse sequence, is shown in Fig. 3.6a. The shifted impulse sequence \(\delta[n-m]\) is depicted in Fig. 3.6b. Unlike its continuous-time counterpart \(\delta(t)\) (the Dirac delta), the Kronecker delta is a very simple function, requiring no special esoteric knowledge of distribution theory.
+
+Figure 3.6: Discrete-time impulse function: **(a)** unit impulse sequence and **(b)** shifted impulse sequence.
+
+### 3.3-2 Discrete-Time Unit Step Function \(u[n]\)
+
+The discrete-time counterpart of the unit step function \(u(t)\) is \(u[n]\) (Fig. 3.7a), defined by
+
+\[u[n]=\begin{cases}1&\quad\text{for $n\geq 0$}\\ 0&\quad\text{for $n<0$}\end{cases}\]
+
+If we want a signal to start at \(n=0\) (so that it has a zero value for all \(n<0\)), we need only multiply the signal by \(u[n]\).
+
+### 3.3 Describing Signals with Unit Step and Unit Impulse Functions
+
+Describe the signal \(x[n]\) shown in Fig. 3.7b by a single expression valid for all \(n\).
+
+There are many different ways of viewing \(x[n]\). Although each way of viewing yields a different expression, they are all equivalent. We shall consider here just one possible expression.
+
+The signal \(x[n]\) can be broken into three components: (1) a ramp component \(x_{1}[n]\) from \(n=0\) to \(4\), (2) a scaled step component \(x_{2}[n]\) from \(n=5\) to \(10\), and (3) an impulse component \(x_{3}[n]\) represented by the negative spike at \(n=8\). Let us consider each one separately.
+
+We express \(x_{1}[n]=n(u[n]-u[n-5])\) to account for the signal from \(n=0\) to \(4\). Assuming that the spike at \(n=8\) does not exist, we can express \(x_{2}[n]=4\left(u[n-5]-u[n-11]\right)\) to account for the signal from \(n=5\) to \(10\). Once these two components have been added, the only part that is unaccounted for is a spike of amplitude \(-2\) at \(n=8\), which can be represented by\(x_{3}[n]=-2\delta[n-8]\). Hence,
+
+\[x[n] =x_{1}[n]+x_{2}[n]+x_{3}[n]\] \[=n(u[n]-u[n-5])+4\left(u[n-5]-u[n-11]\right)-2\delta[n-8]\qquad \text{for all $n$}\]
+
+We stress again that the expression is valid for all values of \(n\). The reader can find several other equivalent expressions for \(x[n]\). For example, one may consider a scaled step function from \(n=0\) to \(10\), subtract a ramp over the range \(n=0\) to \(3\), and subtract the spike. You can also play with breaking \(n\) into different ranges for your expression.
+
+### 3.3-3 Discrete-Time Exponential \(\gamma^{n}\)
+
+A continuous-time exponential \(e^{\lambda t}\) can be expressed in an alternate form as
+
+\[e^{\lambda t}=\gamma^{t}\qquad(\gamma=e^{\lambda}\;\;\text{or}\;\;\lambda= \ln\gamma)\]
+
+For example, \(e^{-0.3t}=(0.7408)^{t}\) because \(e^{-0.3}=0.7408\). Conversely, \(4^{t}=e^{1.386t}\) because \(e^{1.386}=4\), that is, \(\ln 4=1.386\). In the study of continuous-time signals and systems, we prefer the form \(e^{\lambda t}\) rather than \(\gamma^{t}\). In contrast, the exponential form \(\gamma^{n}\) is preferable in the study of discrete-time signals and systems, as will become apparent later. The discrete-time exponential \(\gamma^{n}\) can also be expressed by using a natural base, as
+
+\[e^{\lambda n}=\gamma^{n}\qquad(\gamma=e^{\lambda}\;\;\text{or}\;\;\lambda= \ln\gamma)\]
+
+Because of unfamiliarity with exponentials with bases other than \(e\), exponentials of the form \(\gamma^{n}\) may seem inconvenient and confusing at first. The reader is urged to plot some exponentials to acquire a sense of these functions. Also observe that \(\gamma^{-n}=\left(\frac{1}{\gamma}\right)^{n}\).
+
+### 3.6 Equivalent Forms of DT Exponentials
+
+* Show that (i) \((0.25)^{-n}=4^{n}\), (ii) \(4^{-n}=(0.25)^{n}\), (iii) \(e^{2t}=(7.389)^{t}\), (iv) \(e^{-2t}=(0.1353)^{t}=(7.389)^{-t}\), (v) \(e^{3n}=(20.086)^{n}\), and (vi) \(e^{-1.5n}=(0.2231)^{n}=(4.4817)^{-n}\).
+* Show that (i) \(2^{n}=e^{0.693n}\), (ii) \((0.5)^{n}=e^{-0.693n}\), and (iii) \((0.8)^{-n}=e^{0.2231n}\).
+
+#### 3.6.1 Nature of \(\gamma^{n}\).
+
+The signal \(e^{\lambda n}\) grows exponentially with \(n\) if \(\operatorname{Re}\lambda>0\) (\(\lambda\) in the RHP), and decays exponentially if \(\operatorname{Re}\lambda<0\) (\(\lambda\) in the LHP). It is constant or oscillates with constant amplitude if \(\operatorname{Re}\lambda=0\) (\(\lambda\) on the imaginary axis). Clearly, the location of \(\lambda\) in the complex plane indicates whether the signal \(e^{\lambda n}\) will grow exponentially, decay exponentially, or oscillate with constant amplitude (Fig. 3.8a). A constant signal (\(\lambda=0\)) is also an oscillation with zero frequency. We now find a similar criterion for determining the nature of \(\gamma^{n}\) from the location of \(\gamma\) in the complex plane.
+
+Figure 3.8a shows a complex plane (\(\lambda\) plane). Consider a signal \(e^{i\Omega n}\). In this case, \(\lambda=j\Omega\) lies on the imaginary axis (Fig. 3.8a), and therefore is a constant-amplitude oscillating signal. This signal \(e^{i\Omega n}\) can be expressed as \(\gamma^{n}\), where \(\gamma=e^{i\Omega}\). Because the magnitude of \(e^{i\Omega}\) is unity, \(|\gamma|=1\). Hence, when \(\lambda\) lies on the imaginary axis, the corresponding \(\gamma\) lies on a circle of unit radius, centered at the origin (the _unit circle_ illustrated in Fig. 3.8b). Therefore, a signal \(\gamma^{n}\) oscillates with constant amplitude if \(\gamma\) lies on the unit circle. Thus, the imaginary axis in the \(\lambda\) plane maps into the unit circle in the \(\gamma\) plane.
+
+Next consider the signal \(e^{i\lambda n}\), where \(\lambda\) lies in the left half-plane in Fig. 3.8a. This means \(\lambda=a+jb\), where \(a\) is negative (\(a<0\)). In this case, the signal decays exponentially. This signal can be expressed as \(\gamma^{n}\), where
+
+\[\gamma=e^{\lambda}=e^{a+jb}=e^{a}\,e^{jb}\]
+
+and
+
+\[|\gamma|=|e^{a}|\,|e^{ib}|=e^{a}\qquad\text{because }|e^{ib}|=1\]
+
+Also, \(a\) is negative (\(a<0\)). Hence, \(|\gamma|=e^{a}<1\). This result means that the corresponding \(\gamma\) lies inside the unit circle. Therefore, a signal \(\gamma^{n}\) decays exponentially if \(\gamma\) lies within the unit circle (Fig. 3.8b). If, in the preceding case we select \(a\) to be positive (\(\lambda\) in the right half-plane), then \(|\gamma|>1\), and \(\gamma\) lies outside the unit circle. Therefore, a signal \(\gamma^{n}\) grows exponentially if \(\gamma\) lies outside the unit circle (Fig. 3.8b).
+
+To summarize, the imaginary axis in the \(\lambda\) plane maps into the unit circle in the \(\gamma\) plane. The left half-plane in the \(\lambda\) plane maps into the inside of the unit circle and the right half of the \(\lambda\) plane maps into the outside of the unit circle in the \(\gamma\) plane, as depicted in Fig. 3.8.
+
+Figure 3.8: The \(\lambda\) plane, the \(\gamma\) plane, and their mapping.
+
+Plots of \((0.8)^{n}\) and \((-0.8)^{n}\) appear in Figs. 3.9a and 3.9b, respectively. Plots of \((0.5)^{n}\) and \((1.1)^{n}\) appear in Figs. 3.9c and 3.9d, respectively. These plots verify our earlier conclusions about the location of \(\gamma\) and the nature of signal growth. Observe that a signal \((-|\gamma|)^{n}\) alternates sign successively (is positive for even values of \(n\) and negative for odd values of \(n\), as depicted in Fig. 3.9b). Also, the exponential \((0.5)^{n}\) decays faster than \((0.8)^{n}\) because \(0.5\) is closer to the origin than \(0.8\). The exponential \((0.5)^{n}\) can also be expressed as \(2^{-n}\) because \((0.5)^{-1}=2\).
+
+### 3.7 Sketching DT Exponentials
+
+Sketch the following signals: **(a)**\((1)^{n}\), **(b)**\((-1)^{n}\), **(c)**\((0.5)^{n}\), **(d)**\((-0.5)^{n}\), **(e)**\((0.5)^{-n}\), **(f)**\(2^{-n}\), and **(g)**\((-2)^{n}\). Express these exponentials as \(\gamma^{n}\), and plot \(\gamma\) in the complex plane for each case. Verify that \(\gamma^{n}\) decays exponentially with \(n\) if \(\gamma\) lies inside the unit circle and that \(\gamma^{n}\) grows with \(n\) if \(\gamma\) is outside the unit circle. If \(\gamma\) is on the unit circle, \(\gamma^{n}\) is constant or oscillates with a constant amplitude.
+
+Figure 3.9: Discrete-time exponentials \(\gamma^{n}\).
+
+[MISSING_PAGE_FAIL:14]
+
+### 3.3-4 Discrete-Time Sinusoid \(\cos\left(\Omega n+\theta\right)\)
+
+A general discrete-time sinusoid can be expressed as \(C\cos\left(\Omega n+\theta\right)\), where \(C\) is the _amplitude_, and \(\theta\) is the _phase_ in radians. Also, \(\Omega n\) is an angle in radians. Hence, the dimensions of the frequency \(\Omega\) are _radians per sample_. This sinusoid may also be expressed as
+
+\[C\cos\left(\Omega n+\theta\right)=C\cos\left(2\pi\mathcal{F}n+\theta\right)\]
+
+where \(\mathcal{F}=\Omega/2\pi\). Therefore, the dimensions of the discrete-time frequency \(\mathcal{F}\) are (radians\(/2\pi\)) per sample, which is equal to _cycles per sample_. This means if \(N_{0}\) is the period (samples/cycle) of the sinusoid, then the frequency of the sinusoid \(\mathcal{F}=1/N_{0}\) (samples/cycle).
+
+Figure 3.11 shows a discrete-time sinusoid \(\cos\left(\frac{\pi}{12}n+\frac{\pi}{4}\right)\). For this case, the frequency is \(\Omega=\pi/12\) radians/sample. Alternately, the frequency is \(\mathcal{F}=1/24\) cycles/sample. In other words, there are 24 samples in one cycle of the sinusoid.
+
+Because \(\cos\left(-x\right)=\cos\left(x\right)\),
+
+\[\cos\left(-\Omega n+\theta\right)=\cos\left(\Omega n-\theta\right)\]
+
+This shows that both \(\cos\left(\Omega n+\theta\right)\) and \(\cos\left(-\Omega n+\theta\right)\) have the same frequency (\(\Omega\)). Therefore, _the frequency of \(\cos\left(\Omega n+\theta\right)\) is \(|\Omega|\)_.
+
+### 3.4 Discrete-Time Sinusoid
+
+A continuous-time sinusoid \(\cos\omega t\) sampled every \(T\) seconds yields a discrete-time sequence whose \(n\)th element (at \(t=nT\)) is \(\cos\omega nT\). Thus, the sampled signal \(x[n]\) is given by
+
+\[x[n]=\cos\omega nT=\cos\Omega n\qquad\text{where }\Omega=\omega T\]
+
+Figure 3.11: A discrete-time sinusoid \(\cos\left(\frac{\pi}{12}n+\frac{\pi}{4}\right)\).
+
+Thus, a continuous-time sinusoid \(\cos\omega t\) sampled every \(T\) seconds yields a discrete-time sinusoid \(\cos\Omega n\), where \(\Omega=\omega T\).+
+
+Footnote †: margin:
+
+Footnote †: margin:
+
+### 3.3-5 Discrete-Time Complex Exponential \(e^{i\Omega n}\)
+
+Using Euler's formula, we can express an exponential \(e^{i\Omega n}\) in terms of sinusoids as
+
+\[e^{i\Omega n}=(\cos\Omega n+j\sin\Omega n)\qquad\text{and}\qquad e^{-j\Omega n }=(\cos\Omega n-j\sin\Omega n)\]
+
+These equations show that _the frequency of both \(e^{i\Omega n}\) and \(e^{-j\Omega n}\) is \(\Omega\)_ (radians/sample). Therefore, the frequency of \(e^{i\Omega n}\) is \(|\Omega|\).
+
+Observe that for \(r=1\) and \(\theta=n\Omega\),
+
+\[e^{i\Omega n}=re^{i\theta}\]
+
+This equation shows that the magnitude and angle of \(e^{i\Omega n}\) are \(1\) and \(n\Omega\), respectively. In the complex plane, \(e^{i\Omega n}\) is a point on a unit circle at an angle \(n\Omega\).
+
+**Example 3.5**: **Plotting a DT Sinusoid with MATLAB**
+
+Using MATLAB, plot the discrete-time sinusoid \(x[n]=\cos\big{(}\frac{\pi}{12}n+\frac{\pi}{4}\big{)}\).
+
+We represent the desired sinusoid using an anonymous function. Next, we plot this function over the desired range of \(n\). The result, shown in Fig. 3.12, matches the plot of the same signal shown in Fig. 3.11.
+
+>> n = (-30:30); x = @(n) cos(n*pi/12+pi/4); >> clf; stem(n,x(n),'k'); ylabel('x[n]'); xlabel('n');
+
+### Examples of Discrete-Time Systems
+
+We shall give here four examples of discrete-time systems. In the first two examples, the signals are inherently of the discrete-time variety. In the third and fourth examples, a continuous-time signal is processed by a discrete-time system, as illustrated in Fig. 3.2, by discretizing the signal through sampling.
+
+### 3.6 Savings Account
+
+A person makes a deposit (the input) in a bank regularly at an interval of \(T\) (say, 1 month). The bank pays a certain interest on the account balance during the period \(T\) and mails out a periodic statement of the account balance (the output) to the depositor. Find the equation relating the output \(y[n]\) (the balance) to the input \(x[n]\) (the deposit).
+
+In this case, the signals are inherently discrete time. Let
+
+\[x[n] =\text{deposit made at the $n$th discrete instant}\] \[y[n] =\text{account balance at the $n$th instant computed}\] \[\qquad\qquad\text{immediately after receipt of the $n$th deposit}\] \[r =\text{interest per dollar per period $T$}\]
+
+The balance \(y[n]\) is the sum of (i) the previous balance \(y[n-1]\), (ii) the interest on \(y[n-1]\) during the period \(T\), and (iii) the deposit \(x[n]\)
+
+\[y[n] =y[n-1]+ry[n-1]+x[n]\] \[=(1+r)y[n-1]+x[n]\]
+
+or
+
+\[y[n]-ay[n-1]=x[n]\qquad a=1+r \tag{3.3}\]
+
+In this example the deposit \(x[n]\) is the input (cause) and the balance \(y[n]\) is the output (effect).
+
+Figure 3.12: Sinusoid plot for Ex. 3.5.
+
+A withdrawal from the account is a negative deposit. Therefore, this formulation can handle deposits as well as withdrawals. It also applies to a loan payment problem with the initial value \(y[0]=-M\), where \(M\) is the amount of the loan. A loan is an initial deposit with a negative value. Alternately, we may treat a loan of \(M\) dollars taken at \(n=0\) as an input of \(-M\) at \(n=0\) (see Prob. 3.8-23).
+
+We can express Eq. (3.3) in an alternate form. The choice of index \(n\) in Eq. (3.3) is completely arbitrary, so we can substitute \(n+1\) for \(n\) to obtain
+
+\[y[n+1]-ay[n]=x[n+1] \tag{3.4}\]
+
+We also could have obtained Eq. (3.4) directly by realizing that \(y[n+1]\), the balance at instant \((n+1)\), is the sum of \(y[n]\) plus \(ry[n]\) (the interest on \(y[n]\)) plus the deposit (input) \(x[n+1]\) at instant \((n+1)\).
+
+The difference equation in Eq. (3.3) uses delays, whereas the form in Eq. (3.4) uses advances. Thus, Eq. (3.3) is said to be in _delay form_ and Eq. (3.4) is said to be in _advance form_. The delay form is more natural because operation of delay is causal, hence realizable. In contrast, advance operation, being noncausal, is unrealizable. We use the advance form primarily for its mathematical convenience over the delay form.1
+
+Footnote 1: Use of the advance form results in discrete-time system equations that are identical in form to those for continuous-time systems. This will become apparent later. In transform analysis, advance form leads to the more convenient variable \(z\) instead of the clumsy \(z^{-1}\) that arises from delay form.
+
+We shall now represent this system in a block diagram form, which is basically a road map to a hardware (or software) realization of the system. For this purpose, the causal (realizable) delay form in Eq. (3.3) will be used. There are three basic operations in this equation: _addition, scalar multiplication,_ and _delay_. Figure 3.13 shows their schematic representation. In addition, we also have a _pickoff_ node (Fig. 3.13d), which is used to provide multiple copies of a signal at its input.
+
+Figure 3.13: Schematic representations of basic operations on sequences.
+
+Figure 3.14 shows in block diagram form a system represented by Eq. (3.3). To understand this realization, it is helpful to rewrite Eq. (3.3) as \(y[n]=ay[n-1]+x[n]\) (\(a=1+r\)). Now, assume that the output \(y[n]\) is available at the pickoff node \(N\). Unit delay of \(y[n]\) results in \(y[n-1]\), which is multiplied by a scalar of value \(a\) to yield \(ay[n-1]\). Next, we generate \(y[n]\) by adding the input \(x[n]\) and \(ay[n-1]\).2 Observe that node \(N\) is a pickoff node, from which two copies of the output signal flow out: one as the feedback signal and the other as the output signal.
+
+Footnote 2: A unit delay represents 1 unit of time delay. In this example, 1 unit of delay in the output corresponds to period \(T\) for the actual output.
+
+## Example 3.7 Sales Estimate
+
+During semester \(n\), \(x[n]\) students enroll in a course requiring a certain textbook while the publisher sells \(y[n]\) new copies of the same book. On the average, one-quarter of students with books in salable condition resell the texts at the end of the semester, and the book life is three semesters. Write the equation relating \(y[n]\), the new books sold by the publisher, to \(x[n]\), the number of students enrolled in the \(n\)th semester, assuming that every student buys a book.
+
+In the \(n\)th semester, the total books \(x[n]\) sold to students must be equal to \(y[n]\) (new books from the publisher) plus the used books from students enrolled in the preceding two semesters (because the book life is only three semesters). There are \(y[n-1]\) new books sold in semester (\(n-1\)), and one-quarter of these books, that is, \((1/4)y[n-1]\), will be resold in the \(n\)th semester. Also, \(y[n-2]\) new books are sold in semester \(n-2\), and one-quarter of these, that is, \((1/4)y[n-2]\), will be resold in semester (\(n-1\)). Again, a quarter of these, that is, \((1/16)y[n-2]\), will be resold in the \(n\)th semester. Therefore, \(x[n]\) must be equal to the sum of \(y[n]\), \((1/4)y[n-1]\), and \((1/16)y[n-2]\).
+
+\[y[n]+\tfrac{1}{4}y[n-1]+\tfrac{1}{16}y[n-2]=x[n] \tag{3.5}\]
+
+Equation (3.5) can also be expressed in an alternative form by realizing that this equation is valid for any value of \(n\). Therefore, replacing \(n\) by \(n+2\), we obtain
+
+\[y[n+2]+\tfrac{1}{4}y[n+1]+\tfrac{1}{16}y[n]=x[To facilitate a realization of a system with this input-output equation, we rewrite the delay-form Eq. (3.5) as \(y[n]=-\frac{1}{4}y[n-1]-\frac{1}{16}y[n-2]+x[n]\). Figure 3.15 shows a corresponding hardware realization using two unit delays in cascade.+
+
+Footnote †: The comments in the preceding footnote apply here also. Although 1 unit of delay in this example is one semester, we need not use this value in the hardware realization. Any value other than one semester results in a time-scaled output.
+
+## Example 3.8 Digital Differentiator
+
+Design a discrete-time system, like the one in Fig. 3.2, to differentiate continuous-time signals. This differentiator is used in an audio system having an input signal bandwidth below 20 kHz.
+
+In this case, the output \(y(t)\) is required to be the derivative of the input \(x(t)\). The discrete-time processor (system) \(G\) processes the samples of \(x(t)\) to produce the discrete-time output \(y[n]\). Let \(x[n]\) and \(y[n]\) represent the samples \(T\) seconds apart of the signals \(x(t)\) and \(y(t)\), respectively, that is,
+
+\[x[n]=x(nT)\qquad\text{and}\qquad y[n]=y(nT) \tag{3.7}\]
+
+The signals \(x[n]\) and \(y[n]\) are the input and the output for the discrete-time system \(G\). Now, we require that
+
+\[y(t)=\frac{dx(t)}{dt}\]
+
+Therefore, at \(t=nT\) (see Fig. 3.16a),
+
+\[y(nT)=\left.\frac{dx(t)}{dt}\right|_{t=nT}=\lim_{T\to 0}\frac{1}{T}\left[x(nT)-x[(n-1)T]\right]\]
+
+Figure 3.15: Realization of the system representing sales estimate in Ex. 3.7.
+
+By using the notation in Eq. (3.7), the foregoing equation can be expressed as
+
+\[y[n]=\lim_{T\to 0}\frac{1}{T}\{x[n]-x[n-1]\}\]
+
+This is the input-output relationship for \(G\) required to achieve our objective. In practice, the sampling interval \(T\) cannot be zero. Assuming \(T\) to be sufficiently small, the equation just given can be expressed as
+
+\[y[n]=\frac{1}{T}\{x[n]-x[n-1]\} \tag{3.8}\]
+
+The approximation improves as \(T\) approaches 0. A discrete-time processor \(G\) to realize Eq. (3.8) is shown inside the shaded box in Fig. 3.16b. The system in Fig. 3.16b acts as a differentiator. This example shows how a continuous-time signal can be processed by a
+
+Figure 3.16: Digital differentiator and its realization.
+
+discrete-time system. The considerations for determining the sampling interval \(T\) are discussed in Chs. 5 and 8, where it is shown that to process frequencies below 20 kHz, the proper choice is
+
+\[T\leq\frac{1}{2\times\text{highest frequency}}=\frac{1}{40,000}=25\;\mu\text{s}\]
+
+To see how well this method works, let us consider the differentiator in Fig. 3.16b with a ramp input \(x(t)=t\), depicted in Fig. 3.16c. If the system were to act as a differentiator, then the output \(y(t)\) of the system should be the unit step function \(u(t)\). Let us investigate how the system performs this particular operation and how well the system achieves the objective.
+
+The samples of the input \(x(t)=t\) at the interval of \(T\) seconds act as the input to the discrete-time system \(G\). These samples, denoted by a compact notation \(x[n]\), are, therefore,
+
+\[x[n] =x(t)|_{t=nT}=t|_{t=nT}\qquad t\geq 0\] \[=nT\qquad n\geq 0\]
+
+Figure 3.16d shows the sampled signal \(x[n]\). This signal acts as an input to the discrete-time system \(G\). Figure 3.16b shows that the operation of \(G\) consists of subtracting a sample from the preceding (delayed) sample and then multiplying the difference with \(1/T\). From Fig. 3.16d, it is clear that the difference between the successive samples is a constant \(nT-(n-1)T=T\) for all samples, except for the sample at \(n=0\) (because there is no preceding sample at \(n=0\)). The output of \(G\) is \(1/T\) times the difference \(T\), which is unity for all values of \(n\), except \(n=0\), where it is zero. Therefore, the output \(y[n]\) of \(G\) consists of samples of unit values for \(n\geq 1\), as illustrated in Fig. 3.16e. The D/C (discrete-time to continuous-time) converter converts these samples into a continuous-time signal \(y(t)\), as shown in Fig. 3.16f. Ideally, the output should have been \(y(t)=u(t)\). This deviation from the ideal is due to our use of a nonzero sampling interval \(T\). As \(T\) approaches zero, the output \(y(t)\) approaches the desired output \(u(t)\).
+
+The digital differentiator in Eq. (3.8) is an example of what is known as the _backward difference_ system. The reason for calling it so is obvious from Fig. 3.16a. To compute the derivative of \(y(t)\), we are using the difference between the present sample value and the preceding (backward) sample value. If we use the difference between the next (forward) sample at \(t=(n+1)T\) and the present sample at \(t=nT\), we obtain a forward difference form of differentiator as
+
+\[y[n]=\frac{1}{T}\{x[n+1]-x[n]\} \tag{3.9}\]
+
+For an integrator, the input \(x(t)\) and the output \(y(t)\) are related by
+
+\[y(t)=\int_{-\infty}^{t}x(\tau)\,d\tau\]Therefore, at \(t=nT\) (see Fig. 3.16a),
+
+\[y(nT)=\lim_{T\to 0}\sum_{k=-\infty}^{n}x(kT)T\]
+
+Using the usual notation \(x(kT)=x[k],y(nT)=y[n]\), and so on, this equation can be expressed as
+
+\[y[n]=\lim_{T\to 0}T\sum_{k=-\infty}^{n}x[k]\]
+
+Assuming that \(T\) is small enough to justify the assumption \(T\to 0\), we have
+
+\[y[n]=T\sum_{k=-\infty}^{n}x[k] \tag{3.10}\]
+
+This equation represents an example of _accumulator_ system. This digital integrator equation can be expressed in an alternate form. From Eq. (3.10), it follows that
+
+\[y[n]-y[n-1]=Tx[n] \tag{3.11}\]
+
+This is an alternate description for the digital integrator. Equations (3.10) and (3.11) are equivalent; the one can be derived from the other. Observe that the form of Eq. (3.11) is similar to that of Eq. (3.3). Hence, the block diagram representation of a digital integrator in the form of Eq. (3.11) is identical to that in Fig. 3.14 with \(a=1\) and the input multiplied by \(T\).
+
+Recursive and Nonrecursive Forms of
+
+Difference Equation
+
+If Eq. (3.11) expresses Eq. (3.10) in another form, what is the difference between these two forms? Which form is preferable? To answer these questions, let us examine how the output is computed by each of these forms. In Eq. (3.10), the output \(y[n]\) at any instant \(n\) is computed by adding all the past input values till \(n\). This can mean a large number of additions. In contrast, Eq. (3.11) can be expressed as \(y[n]=y[n-1]+Tx[n]\). Hence, computation of \(y[n]\) involves addition of only two values: the preceding output value \(y[n-1]\) and the present input value \(x[n]\). The computations are done recursively by using the preceding output values. For example, if the input starts at \(n=0\), we first compute \(y[0]\). Then we use the computed value \(y[0]\) to compute \(y[1]\). Knowing \(y[1]\), we compute \(y[2]\), and so on. The computations are recursive. This is why the form of Eq. (3.11) is called _recursive_ form and the form of Eq. (3.10) is called _nonrecursive_ form. Clearly, "recursive" and "nonrecursive" describe two different ways of presenting the same information. Equations (3.3), (3.5), and (3.11) are examples of recursive form, and Eqs. (3.8) and (3.10) are examples of nonrecursive form.
+
+[MISSING_PAGE_EMPTY:24]
+
+### 3.4 Examples of Discrete-Time Systems
+
+#### 3.4.1 Digital Integrator Design
+
+Design a digital integrator in Ex. 3.9 using the fact that for an integrator, the output \(y(t)\) and the input \(x(t)\) are related by \(dy(t)/dt=x(t)\). Approximation (similar to that in Ex. 3.8) of this equation at \(t=nT\) yields the recursive form in Eq. (3.11).
+
+#### 3.4.2 Analog, Digital, Continuous-Time, and Discrete-Time Systems
+
+The basic difference between continuous-time systems and analog systems, as also between discrete-time and digital systems, is fully explained in Secs. 1.7-5 and 1.7-6.1 Historically, discrete-time systems have been realized with digital computers, where continuous-time signals are processed through digitized samples rather than unquantized samples. Therefore, the terms _digital filters_ and _discrete-time systems_ are used synonymously in the literature. This distinction is irrelevant in the analysis of discrete-time systems. For this reason, we follow this loose convention in this book, where the term _digital filter_ implies a _discrete-time system,_ and _analog filter_ means _continuous-time system_. Moreover, the terms C/D (continuous-to-discrete-time ) and D/C will occasionally be used interchangeably with terms A/D (analog-to-digital) and D/A, respectively.
+
+Footnote 1: The terms _discrete-time_ and _continuous-time_ qualify the nature of a signal along the time axis (horizontal axis). The terms _analog_ and _digital,_ in contrast, qualify the nature of the signal amplitude (vertical axis).
+
+Advantages of Digital Signal Processing
+
+Digital systems operation can tolerate considerable variation in signal values, and hence are less sensitive to changes in the component parameter values due to temperature variation, aging, and other factors. This results in greater degree of precision and stability. Since digital systems are binary circuits, their accuracy can be increased by using more complex circuitry to increase word length, subject to cost limitations.
+
+Digital systems do not require any factory adjustment and can be easily duplicated in volume without having to worry about precise component values. They can be fully integrated, and even highly complex systems can be placed on a single chip by using _VLSI_ (very-large-scale integrated) circuits.
+
+Digital filters are more flexible. Their characteristics can be easily altered simply by changing the program. Digital hardware implementation permits the use of microprocessors, miniprocessors, digital switching, and large-scale integrated circuits.
+
+A greater variety of filters can be realized by digital systems.
+
+Digital signals can be stored easily and inexpensively on various media (e.g., magnetic, optical, and solid state) without deterioration of signal quality. It is also possible (and increasingly popular) to search and select information from distant electronic storehouses, such as the cloud.
+
+Digital signals can be coded to yield extremely low error rates and high fidelity, as well as privacy. Also, more sophisticated signal-processing algorithms can be used to process digital signals.
+
+7. Digital filters can be easily time-shared and therefore can serve a number of inputs simultaneously. Moreover, it is easier and more efficient to multiplex several digital signals on the same channel.
+8. Reproduction with digital messages is extremely reliable without deterioration. Analog messages such as photocopies and films, for example, lose quality at each successive stage of reproduction and have to be transported physically from one distant place to another, often at relatively high cost.
+
+One must weigh these advantages against such disadvantages as increased system complexity due to use of A/D and D/A interfaces, limited range of frequencies available in practice (affordable rates are gigahertz or less), and use of more power than is needed for the passive analog circuits. Digital systems use power-consuming active devices.
+
+### 3.4-1 Classification of Discrete-Time Systems
+
+Before examining the nature of discrete-time system equations, let us consider the concepts of linearity, time invariance (or shift invariance), and causality, which apply to discrete-time systems also.
+
+Linearity and Time Invariance
+
+For discrete-time systems, the definition of _linearity_ is identical to that for continuous-time systems, as given in Eq. (1.22). We can show that the systems in Exs. 3.6, 3.7, 3.8, and 3.9 are all linear.
+
+Time invariance (or _shift invariance_) for discrete-time systems is also defined in a way similar to that for continuous-time systems. Systems whose parameters do not change with time (with \(n\)) are _time-invariant_ or shift-invariant (also _constant-parameter_) systems. For such a system, if the input is delayed by \(k\) units or samples, the output is the same as before but delayed by \(k\) samples (assuming the initial conditions also are delayed by \(k\)). The systems in Exs. 3.6, 3.7, 3.8, and 3.9 are time-invariant because the coefficients in the system equations are constants (independent of \(n\)). If these coefficients were functions of \(n\) (time), then the systems would be linear _time-varying_ systems. Consider, for example, a system described by
+
+\[y[n]=e^{-n}x[n]\]
+
+For this system, let a signal \(x_{1}[n]\) yield the output \(y_{1}[n]\), and another input \(x_{2}[n]\) yield the output \(y_{2}[n]\). Then
+
+\[y_{1}[n]=e^{-n}x_{1}[n]\qquad\text{and}\qquad y_{2}[n]=e^{-n}x_{2}[n]\]
+
+If we let \(x_{2}[n]=x_{1}[n-N_{0}]\), then
+
+\[y_{2}[n]=e^{-n}x_{2}[n]=e^{-n}x_{1}[n-N_{0}]\neq y_{1}[n-N_{0}]\]
+
+Clearly, this is a time-varying parameter system.
+
+### Causal and Noncausal Systems
+
+A _causal_ (also known as a _physical_ or _nonanticipative_) system is one for which the output at any instant \(n=k\) depends only on the value of the input \(x[n]\) for \(n\leq k\). In other words, the value of the output at the present instant depends only on the past and present values of the input \(x[n]\), not on its future values. As we shall see, the systems in Exs. 3.6, 3.7, 3.8, and 3.9 are all causal.
+
+### Invertible and Noninvertible Systems
+
+A discrete-time system \(\mathcal{S}\) is invertible if an inverse system \(\mathcal{S}_{i}\) exists such that the cascade of \(\mathcal{S}\) and \(\mathcal{S}_{i}\) results in an _identity_ system. An identity system is defined as one whose output is identical to the input. In other words, for an invertible system, the input can be uniquely determined from the corresponding output. For every input there is a unique output. When a signal is processed through such a system, its input can be reconstructed from the corresponding output. There is no loss of information when a signal is processed through an invertible system.
+
+A cascade of a unit delay with a unit advance results in an identity system because the output of such a cascaded system is identical to the input. Clearly, the inverse of an ideal unit delay is ideal unit advance, which is a noncausal (and unrealizable) system. In contrast, a compressor \(y[n]=x[Mn]\) is not invertible because this operation loses all but every \(M\)th sample of the input, and, generally, the input cannot be reconstructed. Similarly, operations, such as \(y[n]=\cos x[n]\) or \(y[n]=|x[n]|\), are not invertible.
+
+[breakable]
+
+**DRIL 3.9**: **Invertibility**
+
+Show that a system specified by equation \(y[n]=ax[n]+b\) is invertible but that the system \(y[n]=|x[n]|^{2}\) is noninvertible.
+
+### Stable and Unstable Systems
+
+The concept of stability is similar to that in continuous-time systems. Stability can be _internal_ or _external_. If every _bounded input_ applied at the input terminal results in a _bounded output_, the system is said to be stable _externally_. External stability can be ascertained by measurements at the external terminals of the system. This type of stability is also known as the stability in the BIBO (bounded-input/bounded-output) sense. Both internal and external stability are discussed in greater detail in Sec. 3.9.
+
+### Memoryless Systems and Systems with Memory
+
+The concepts of memoryless (or instantaneous) systems and those with memory (or dynamic) are identical to the corresponding concepts of the continuous-time case. A system is memoryless if its response at any instant \(n\) depends at most on the input at the same instant \(n\). The output at any instant of a system with memory generally depends on the past, present, and future values of the input. For example, \(y[n]=\sin x[n]\) is an example of instantaneous system, and \(y[n]-y[n-1]=x[n]\) is an example of a dynamic system or a system with memory.
+
+**Example 3.10**: **Investigating DT System Properties**
+
+Consider a DT system described as \(y[n+1]=x[n+1]x[n]\). Determine whether the system is **(a)** linear, **(b)** time-invariant, **(c)** causal, **(d)** invertible, **(e)** BIBO-stable, and **(f)** memoryless.
+
+Let us delay the input-output equation by one to obtain the equivalent but more convenient representation of \(y[n]=x[n]x[n-1]\).
+
+**(a)** Linearity requires both homogeneity and additivity. Let us first investigate homogeneity. Assuming \(x[n]\Longrightarrow y[n]\), we see that
+
+\[ax[n]\Longrightarrow(ax[n])(ax[n-1])=a^{2}y[n]\neq ay[n]\]
+
+Thus, the system does not satisfy the homogeneity property.
+
+The system also does not satisfy the additivity property. Assuming \(x_{1}[n]\Longrightarrow y_{1}[n]\) and \(x_{2}[n]\Longrightarrow y_{2}[n]\), we see that input \(x[n]=x_{1}[n]+x_{2}[n]\) produces output \(y[n]\) as
+
+\[y[n] =(x_{1}[n]+x_{2}[n])(x_{1}[n-1]+x_{2}[n-1])\] \[=x_{1}[n]x_{1}[n-1]+x_{2}[n]x_{2}[n-1]+x_{1}[n]x_{2}[n-1]+x_{2}[n ]x_{1}[n-1]\] \[=y_{1}[n]+y_{2}[n]+x_{1}[n]x_{2}[n-1]+x_{2}[n]x_{1}[n-1]\] \[\neq y_{1}[n]+y_{2}[n]\]
+
+Clearly, additivity is not satisfied.
+
+Since the system does not satisfy both the homogeneity and additivity properties, we conclude that the system is not linear.
+
+**(b)** To be time-invariant, a shift in any input should cause a corresponding shift in respective output. Assume that \(x[n]\Longrightarrow y[n]\). Applying a delay version of this input to the system yields
+
+\[x[n-N]\Longrightarrow x[n-N]x[n-1-N]=x[(n-N)]x[(n-N)-1]=y[n-N]\]
+
+Since shifting an input causes a corresponding shift in the output, we conclude that the system is time-invariant.
+
+**(c)** To be causal, an output value cannot depend on any future input values. The output \(y\) at time \(n\) depends on the input \(x\) at present and past times \(n\) and \(n-1\). Since the current output does not depend on future input values, the system is causal.
+
+**(d)** For a system to be invertible, every input must generate a unique output, which allows exact recovery of the input from the output. Consider two inputs to this system: \(x_{1}[n]=1\) and \(x_{2}[n]=-1\). Both inputs generate the same output: \(y_{1}[n]=y_{2}[n]=1\). Since unique inputs do not always generate unique outputs, we conclude that the system is not invertible.
+
+**(e)** To be BIBO-stable, any bounded input must generate a bounded output. A bounded input satisfies \(|x[n]|\leq M_{x}<\infty\) for all \(n\). Given this condition, the system output magnitude behaves as
+
+\[|y[n]|=|x[n]x[n-1]|=|x[n]|\,|x[n-1]|\leq M_{x}^{2}<\infty\]Since any bounded input is guaranteed to produce a bounded output, it follows that the system is BIBO-stable.
+
+**(f)** To be memoryless, a system's output can only depend on the strength of the current input. Since the output \(y\) at time \(n\) depends on the input \(x\) not only at present time \(n\) but also on past time \(n-1\), we see that the system is not memoryless.
+
+## 3.5 Discrete-Time System Equations
+
+In this section we discuss time-domain analysis of LTID (linear, time-invariant, discrete-time systems). With minor differences, the procedure is parallel to that for continuous-time systems.
+
+### Difference Equations
+
+Equations (3.3), (3.5), (3.8), and (3.13) are examples of difference equations. Equations (3.3), (3.8), and (3.13) are first-order difference equations, and Eq. (3.5) is a second-order difference equation. All these equations are linear, with constant (not time-varying) coefficients.2 Before giving a general form of an \(N\)th-order linear difference equation, we recall that a difference equation can be written in two forms: the first form uses delay terms such as \(y[n-1]\), \(y[n-2]\), \(x[n-1]\), \(x[n-2]\), and so on; and the alternate form uses advance terms such as \(y[n+1]\), \(y[n+2]\), and so on. Although the delay form is more natural, we shall often prefer the advance form, not just for the general notational convenience, but also for resulting notational uniformity with the operator form for differential equations. This facilitates the commonality of the solutions and concepts for continuous-time and discrete-time systems.
+
+Footnote 2: Equations such as (3.3), (3.5), (3.8), and (3.13) are considered to be linear according to the classical definition of linearity. Some authors label such equations as _incrementally linear_. We prefer the classical definition. It is just a matter of individual choice and makes no difference in the final results.
+
+We start here with a general difference equation, written in advance form as
+
+\[y[n+N]+a_{1}y[n+N-1]+\cdot\cdot\cdot+a_{N-1}y[n+1]+a_{N}y[n]=\] \[b_{N-M}x[n+M]+b_{N-M+1}x[n+M-1]+\cdot\cdot\cdot+b_{N-1}x[n+1]+b_ {N}x[n] \tag{3.14}\]
+
+This is a linear difference equation whose order is \(\max(N,M)\). We have assumed the coefficient of \(y[n+N]\) to be unity (\(a_{0}=1\)) without loss of generality. If \(a_{0}\neq 1\), we can divide the equation throughout by \(a_{0}\) to normalize the equation to have \(a_{0}=1\).
+
+### Causality Condition
+
+For a causal system, the output cannot depend on future input values. This means that when the system equation is in the advance form of Eq. (3.14), causality requires \(M\leq N\). If \(M\) were to be greater than \(N\), then \(y[n+N]\), the output at \(n+N\) would depend on \(x[n+M]\), which is the input at the later instant \(n+M\). For a general causal case, \(M=N\), and Eq. (3.14) can be expressed as
+
+\[y[n+N]+a_{1}y[n+N-1]+\cdot\cdot\cdot+a_{N-1}y[n+1]+a_{N}y[n]=\] \[b_{0}x[n+N]+b_{1}x[n+N-1]+\cdot\cdot\cdot+b_{N-1}x[n+1]+b_{N}x[n] \tag{3.15}\]where some of the coefficients on either side can be zero. In this \(N\)th-order equation, \(a_{0}\), the coefficient of \(y[n+N]\), is normalized to unity. Equation (3.15) is valid for all values of \(n\). Therefore, it is still valid if we replace \(n\) by \(n-N\) throughout the equation [see Eqs. (3.3) and (3.4)]. Such replacement yields a delay-form alternative:
+
+\[y[n]+a_{1}y[n-1]+\cdot\cdot\cdot+a_{N-1}y[n-N+1]+a_{N}y[n-N]=\] \[b_{0}x[n]+b_{1}x[n-1]+\cdot\cdot\cdot+b_{N-1}x[n-N+1]+b_{N}x[n-N] \tag{3.16}\]
+
+### 3.5-1 Recursive (Iterative) Solution of Difference Equation
+
+Equation (3.16) can be expressed as
+
+\[y[n]= -a_{1}y[n-1]-a_{2}y[n-2]-\cdot\cdot\cdot-a_{N}y[n-N]\] \[+b_{0}x[n]+b_{1}x[n-1]+\cdot\cdot\cdot+b_{N}x[n-N] \tag{3.17}\]
+
+In Eq. (3.17), \(y[n]\) is computed from \(2N+1\) pieces of information; the preceding \(N\) values of the output: \(y[n-1]\), \(y[n-2]\), \(\ldots\), \(y[n-N]\), and the preceding \(N\) values of the input: \(x[n-1]\), \(x[n-2]\), \(\ldots\), \(x[n-N]\), and the present value of the input \(x[n]\). Initially, to compute \(y[0]\), the \(N\) initial conditions \(y[-1]\), \(y[-2]\), \(\ldots\), \(y[-N]\) serve as the preceding \(N\) output values. Hence, knowing the \(N\) initial conditions and the input, we can determine recursively the entire output \(y[0]\), \(y[1]\), \(y[2]\), \(y[3]\), \(\ldots\), one value at a time. For instance, to find \(y[0]\) we set \(n=0\) in Eq. (3.17). The left-hand side is \(y[0]\), and the right-hand side is expressed in terms of \(N\) initial conditions \(y[-1]\), \(y[-2]\), \(\ldots\), \(y[-N]\) and the input \(x[0]\) if \(x[n]\) is causal (because of causality, other input terms \(x[-n]=0\)). Similarly, knowing \(y[0]\) and the input, we can compute \(y[1]\) by setting \(n=1\) in Eq. (3.17). Knowing \(y[0]\) and \(y[1]\), we find \(y[2]\), and so on. Thus, we can use this recursive procedure to find the complete response \(y[0]\), \(y[1]\), \(y[2]\), \(\ldots\). For this reason, this equation is classed as a recursive form. This method basically reflects the manner in which a computer would solve a recursive difference equation, given the input and initial conditions. Equation (3.17) [or Eq. (3.16)] is nonrecursive if all the \(N-1\) coefficients \(a_{i}=0\) (\(i=1,2,\ldots,N-1\)). In this case, it can be seen that \(y[n]\) is computed only from the input values and without using any previous outputs. Generally speaking, the recursive procedure applies only to equations in the recursive form. The recursive (iterative) procedure is demonstrated by the following examples.
+
+**Example 3.11**: **Iterative Solution to a First-Order Difference Equation**
+
+Solve iteratively
+
+\[y[n]-0.5y[n-1]=x[n]\]
+
+with initial condition \(y[-1]=16\) and causal input \(x[n]=n^{2}u[n]\). This equation can be expressed as
+
+\[y[n]=0.5y[n-1]+x[n] \tag{3.18}\]If we set \(n=0\) in Eq. (3.18), we obtain \[y[0] =0.5y[-1]+x[0]\] \[=0.5(16)+0=8\] Now, setting \(n=1\) in Eq. (3.18) and using the value \(y[0]=8\) (computed in the first step) and \(x[1]=(1)^{2}=1\), we obtain \[y[1]=0.5(8)+(1)^{2}=5\] Next, setting \(n=2\) in Eq. (3.18) and using the value \(y[1]=5\) (computed in the previous step) and \(x[2]=(2)^{2}\), we obtain \[y[2]=0.5(5)+(2)^{2}=6.5\] Continuing in this way iteratively, we obtain \[y[3] =0.5(6.5)+(3)^{2}=12.25\] \[y[4] =0.5(12.25)+(4)^{2}=22.125\] \[\vdots\] The output \(y[n]\) is depicted in Fig. 3.17.
+
+We now present one more example of iterative solution--this time for a second-order equation. The iterative method can be applied to a difference equation in delay form or advance form. In Ex. 3.11 we considered the former. Let us now apply the iterative method to the advance form.
+
+```
+EXAMPLE3.12 Iterative Solution to a Second-Order Difference Equation
+```
+
+Solve iteratively \[y[n+2]-y[n+1]+0.24y[n]=x[n+2]-2x[n+1]\]with initial conditions \(y[-1]=2\), \(y[-2]=1\) and a causal input \(x[n]=nu[n]\). The system equation can be expressed as
+
+\[y[n+2]=y[n+1]-0.24y[n]+x[n+2]-2x[n+1] \tag{3.19}\]
+
+Setting \(n=-2\) in Eq. (3.19) and then substituting \(y[-1]=2\), \(y[-2]=1\), \(x[0]=x[-1]=0\), we obtain
+
+\[y[0]=2-0.24(1)+0-0=1.76\]
+
+Setting \(n=-1\) in Eq. (3.19) and then substituting \(y[0]=1.76\), \(y[-1]=2\), \(x[1]=1\), \(x[0]=0\), we obtain
+
+\[y[1]=1.76-0.24(2)+1-0=2.28\]
+
+Setting \(n=0\) in Eq. (3.19) and then substituting \(y[0]=1.76\), \(y[1]=2.28\), \(x[2]=2\), and \(x[1]=1\) yield
+
+\[y[2]=2.28-0.24(1.76)+2-2(1)=1.8576\]
+
+and so on.
+
+With MATLAB, we can readily verify and extend these recursive calculations.
+
+```
+>>n=-2:5;y=[1,2,zeros(1,length(n)-2)];x=[0,0,n(3:end)]; >>fork=1:length(n)-2, >>y(k+2)=y(k+1)-0.24*y(k)+x(k+2)-2*x(k+1); >>end >>n,y n=-2-101233455y=1.000020.0001.76002.28001.85760.3104-2.1354-5.2099
+```
+
+Note carefully the recursive nature of the computations. From the \(N\) initial conditions (and the input), we obtained \(y[0]\) first. Then, using this value of \(y[0]\) and the preceding \(N-1\) initial conditions (along with the input), we find \(y[1]\). Next, using \(y[0]\), \(y[1]\) along with the past \(N-2\) initial conditions and input, we obtained \(y[2]\), and so on. This method is general and can be applied to a recursive difference equation of any order. It is interesting that the hardware realization of Eq. (3.18) depicted in Fig. 3.14 (with \(a=0.5\)) generates the solution precisely in this (iterative) fashion.
+
+```
+ 
+```
+
+**DRILL 3.10**Iterative Solution to a Difference Equation
+
+Using the iterative method, find the first three terms of \(y[n]\) for
+
+\[y[n+1]-2y[n]=x[n]\]
+
+The initial condition is \(y[-1]=10\) and the input \(x[n]=2\) starting at \(n=0\).
+
+**ANSWER**
+
+\(y[0]=20\), \(y[1]=42\), and \(y[2]=86\)We shall see in the future that the solution of a difference equation obtained in this direct (iterative) way is useful in many situations. Despite the many uses of this method, a closed-form solution of a difference equation is far more useful in the study of system behavior and its dependence on the input and various system parameters. For this reason we shall develop a systematic procedure to analyze discrete-time systems along lines similar to those used for continuous-time systems.
+
+### Operator Notation
+
+In difference equations, it is convenient to use operator notation similar to that used in differential equations for the sake of compactness. In continuous-time systems, we used the operator \(D\) to denote the operation of differentiation. For discrete-time systems, we shall use the operator \(E\) to denote the operation for advancing a sequence by one time unit. Thus,
+
+\[Ex[n] \equiv x[n+1]\] \[E^{2}x[n] \equiv x[n+2]\] \[\vdots\] \[E^{N}x[n] \equiv x[n+N]\]
+
+Let us use this advance operator notation to represent several systems investigated earlier. The first-order difference equation of a savings account is [see Eq. (3.4)]
+
+\[y[n+1]-ay[n]=x[n+1]\]
+
+Using the operator notation, we can express this equation as
+
+\[Ey[n]-ay[n]=Ex[n]\qquad\text{or}\qquad(E-a)y[n]=Ex[n]\]
+
+Similarly, the second-order book sales estimate described by Eq. (3.6) as
+
+\[y[n+2]+\tfrac{1}{4}y[n+1]+\tfrac{1}{16}y[n]=x[n+2]\]
+
+can be expressed in operator notation as
+
+\[\big{(}E^{2}+\tfrac{1}{4}E+\tfrac{1}{16}\big{)}y[n]=E^{2}x[n]\]
+
+The general \(N\)th-order advance-form difference equation of Eq. (3.15) can be expressed as
+
+\[(E^{N}+a_{1}E^{N-1}+\cdot\cdot\cdot+a_{N-1}E+a_{N})y[n]=(b_{0}E^{N}+b_{1}E^{N- 1}+\cdot\cdot\cdot+b_{N-1}E+b_{N})x[n]\]
+
+or
+
+\[Q[E]y[n]=P[E]x[n] \tag{3.20}\]
+
+where \(Q[E]\) and \(P[E]\) are \(N\)th-order polynomial operators
+
+\[Q[E] =E^{N}+a_{1}E^{N-1}+\cdot\cdot\cdot+a_{N-1}E+a_{N}\] \[P[E] =b_{0}E^{N}+b_{1}E^{N-1}+\cdot\cdot\cdot+b_{N-1}E+b_{N}\]
+
+## 3.6 System Response to Internal Conditions:
+
+The Zero-Input Response
+
+The zero-input response \(y_{0}[n]\) is the solution of Eq. (3.20) with \(x[n]=0\); that is,
+
+\[Q[E]y_{0}[n]=0\]
+
+or
+
+\[(E^{N}+a_{1}E^{N-1}+\cdot\cdot\cdot+a_{N-1}E+a_{N})y_{0}[n]=0 \tag{3.21}\]
+
+Although we can solve this equation systematically, even a cursory examination points to the solution. This equation states that a linear combination of \(y_{0}[n]\) and advanced \(y_{0}[n]\) is zero, _not for some values of \(n\), but for all \(n\)_. Such a situation is possible _if and only if \(y_{0}[n]\)_ and advanced \(y_{0}[n]\) have the same form. Only an exponential function \(\gamma^{n}\) has this property, as the following equation indicates:
+
+\[E^{k}\{\gamma^{n}\}=\gamma^{n+k}=\gamma^{k}\gamma^{n}\]
+
+This expression shows that \(\gamma^{n}\) advanced by \(k\) units is a constant (\(\gamma^{k}\)) times \(\gamma^{n}\). Therefore, the solution of Eq. (3.21) must be of the form1
+
+Footnote 1: A signal of the form \(n^{m}\gamma^{n}\) also satisfies this requirement under certain conditions (repeated roots), discussed later.
+
+\[y_{0}[n]=c\gamma^{n} \tag{3.22}\]
+
+To determine \(c\) and \(\gamma\), we substitute this solution in Eq. (3.21). Since \(E^{k}y_{0}[n]=y_{0}[n+k]=c\gamma^{n+k}\), this produces
+
+\[c(\gamma^{N}+a_{1}\gamma^{N-1}+\cdot\cdot\cdot+a_{N-1}\gamma+a_{N})\,\gamma^ {n}=0\]
+
+For a nontrivial solution of this equation,
+
+\[\gamma^{N}+a_{1}\gamma^{n-1}+\cdot\cdot\cdot+a_{N-1}\gamma+a_{N}=0 \tag{3.23}\]
+
+or
+
+\[Q[\gamma]=0\]
+
+Our solution \(c\gamma^{n}\) [Eq. (3.22)] is correct, provided \(\gamma\) satisfies Eq. (3.23). Now, \(Q[\gamma]\) is an \(N\)th-order polynomial and can be expressed in the factored form (assuming all distinct roots):
+
+\[(\gamma-\gamma_{1})(\gamma-\gamma_{2})\cdot\cdot\cdot(\gamma-\gamma_{N})=0\]
+
+Clearly, \(\gamma\) has \(N\) solutions \(\gamma_{1}\), \(\gamma_{2}\), \(\ldots\), \(\gamma_{N}\) and, therefore, Eq. (3.21) also has \(N\) solutions \(c_{1}\gamma_{1}^{n}\), \(c_{2}\gamma_{2}^{n}\), \(\ldots\), \(c_{n}\gamma_{N}^{n}\). In such a case, we have shown that the general solution is a linear combination
+
+[MISSING_PAGE_FAIL:35]
+
+Therefore,
+
+\[y_{0}[n]=\tfrac{1}{5}(-0.2)^{n}+\tfrac{4}{5}(0.8)^{n}\qquad n\geq 0\]
+
+The reader can verify this solution by computing the first few terms using the iterative method (see Exs. 3.11 and 3.12).
+
+### 3.11 Zero-Input Response of First-Order Systems
+
+Find and sketch the zero-input response for the systems described by the following equations:
+
+1. \(y[n+1]-0.8y[n]=3x[n+1]\)
+2. \(y[n+1]+0.8y[n]=3x[n+1]\)
+
+In each case the initial condition is \(y[-1]=10\). Verify the solutions by computing the first three terms using the iterative method.
+
+### 3.12 Zero-Input Response of a Second-Order System with Real Roots
+
+Find the zero-input response of a system described by the equation
+
+\[y[n]+0.3y[n-1]-0.1y[n-2]=x[n]+2x[n-1]\]
+
+The initial conditions are \(y_{0}[-1]=1\) and \(y_{0}[-2]=33\). Verify the solution by computing the first three terms iteratively.
+
+### 3.13 Verify the Solution by Computing the First-Order System with Real Roots
+
+The second-order system with real roots is
+
+\[y_{0}[n]=(0.2)^{n}+2(-0.5)^{n}\]
+
+Section 3.5-1 introduced the method of recursion to solve difference equations. As the next example illustrates, the zero-input response can likewise be found through recursion. Since it does not provide a closed-form solution, recursion is generally not the preferred method of solving difference equations.
+
+**Example 3.14**: **Iterative Solution to Zero-Input Response**
+
+Using the initial conditions \(y[-1]=2\) and \(y[-2]=1\), use MATLAB to iteratively compute and then plot the zero-input response for the system described by \((E^{2}-1.56E+0.81)y[n]=(E+3)x[n]\).
+
+```
+>>n=(-2:20)';y=[1;2;zeros(length(n)-2,1)]; >>fork=1:length(n)-2, >>y(k+2)=1.56*y(k+1)-0.81*y(k); >>end; >>clf;stem(n,y,'k');xlabel('n');ylabel('y[n]');axis([-220-1.52.5]);
+```
+
+### Repeated Roots
+
+So far we have assumed the system to have \(N\) distinct characteristic roots \(\gamma_{1}\), \(\gamma_{2}\), \(\ldots\), \(\gamma_{N}\) with corresponding characteristic modes \(\gamma_{1}^{n}\), \(\gamma_{2}^{n}\), \(\ldots\), \(\gamma_{N}^{n}\). If two or more roots coincide (repeated roots), the form of characteristic modes is modified. Direct substitution shows that if a root \(\gamma\) repeats \(r\) times (root of multiplicity \(r\)), the corresponding characteristic modes for this root are \(\gamma^{n}\), \(ny^{n}\), \(n^{2}\gamma^{n}\), \(\ldots\), \(n^{r-1}\gamma^{n}\). Thus, if the characteristic equation of a system is
+
+\[Q[\gamma]=(\gamma-\gamma_{1})^{r}(\gamma-\gamma_{r+1})(\gamma-\gamma_{r+2}) \cdot\cdot\cdot(\gamma-\gamma_{N})\]
+
+then the zero-input response of the system is
+
+\[y_{0}[n]=(c_{1}+c_{2}n+c_{3}n^{2}+\cdot\cdot\cdot+c_{r}n^{r-1})\gamma_{1}^{n}+ c_{r+1}\gamma_{r+1}^{n}+c_{r+2}\gamma_{r+2}^{n}+\cdot\cdot\cdot+c_{n}\gamma_{N}^{n}\]
+
+Figure 3.18: Zero-input response for Ex. 3.14.
+
+**Example 3.15**: **Zero-Input Response of a Second-Order System with Repeated Roots**
+
+Consider a second-order difference equation with repeated roots:
+
+\[(E^{2}+6E+9)y[n]=(2E^{2}+6E)x[n]\]
+
+Determine the zero-input response \(y_{0}[n]\) if the initial conditions are \(y_{0}[-1]=-1/3\) and \(y_{0}[-2]=-2/9\).
+
+The characteristic polynomial is \(\gamma^{2}+6\gamma+9=(\gamma+3)^{2}\), and we have a repeated characteristic root at \(\gamma=-3\). The characteristic modes are \((-3)^{n}\) and \(n(-3)^{n}\). Hence, the zero-input response is
+
+\[y_{0}[n]=(c_{1}+c_{2}n)(-3)^{n}\]
+
+Although we can determine the constants \(c_{1}\) and \(c_{2}\) from the initial conditions following a procedure similar to Ex. 3.13, we instead use MATLAB to perform the needed calculations.
+
+>> c = inv([(-3)^(-1) -1*(-3)^(-1);(-3)^(-2) -2*(-3)^(-2)])*[-1/3;-2/9] c = 4  3 Thus, the zero-input response is
+
+\[y_{0}[n]=(4+3n)(-3)^{n}\qquad n\geq 0\]
+
+### 3.3 Complex Roots
+
+As in the case of continuous-time systems, the complex roots of a discrete-time system will occur in pairs of conjugates if the system equation coefficients are real. Complex roots can be treated exactly as we would treat real roots. However, just as in the case of continuous-time systems, we can also use the real form of solution as an alternative.
+
+First we express the complex conjugate roots \(\gamma\) and \(\gamma^{*}\) in polar form. If \(|\gamma|\) is the magnitude and \(\beta\) is the angle of \(\gamma\), then
+
+\[\gamma=|\gamma\,|e^{i\beta}\qquad\mbox{and}\qquad\gamma^{*}=|\gamma|e^{-j\beta}\]
+
+The zero-input response is given by
+
+\[y_{0}[n]=c_{1}\gamma^{n}+c_{2}(\gamma^{*})^{n}=c_{1}|\gamma^{|n}e^{i\beta n}+ c_{2}|\gamma^{|n}e^{-j\beta n}\]
+
+For a real system, \(c_{1}\) and \(c_{2}\) must be conjugates so that \(y_{0}[n]\) is a real function of \(n\). Let
+
+\[c_{1}=\frac{c}{2}e^{j\theta}\qquad\mbox{and}\qquad c_{2}=\frac{c}{2}e^{-j\theta}\]
+
+### System Response to Internal Conditions: The Zero-Input Response
+
+Then
+
+\[y_{0}[n]=\frac{c}{2}|\gamma|^{n}\left[e^{i(\beta n+\theta)}+e^{-i(\beta n+\theta)} \right]=c|\gamma|^{n}\cos\left(\beta n+\theta\right) \tag{3.25}\]
+
+where \(c\) and \(\theta\) are arbitrary constants determined from the auxiliary conditions. This is the solution in real form, which avoids dealing with complex numbers.
+
+**Example 3.16**: **Zero-Input Response of a Second-Order System with Complex Roots**
+
+Consider a second-order difference equation with complex-conjugate roots:
+
+\[(E^{2}-1.56E+0.81)y[n]=(E+3)x[n]\]
+
+Determine the zero-input response \(y_{0}[n]\) if the initial conditions are \(y_{0}[-1]=2\) and \(y_{0}[-2]=1\).
+
+The characteristic polynomial is \((\gamma^{2}-1.56\gamma+0.81)=(\gamma-0.78-j0.45)(\gamma-0.78+j0.45)\). The characteristic roots are \(0.78\pm j0.45\); that is, \(0.9e^{\pm j(\pi/6)}\). We could immediately write the solution as
+
+\[y_{0}[n]=c(0.9)^{n}e^{j\pi n/6}+c^{*}(0.9)^{n}e^{-j\pi n/6}\]
+
+Setting \(n=-1\) and \(-2\) and using the initial conditions \(y_{0}[-1]=2\) and \(y_{0}[-2]=1\), we find \(c=1.1550-j0.2025=1.1726\,e^{-j0.1735}\) and \(c^{*}=1.1550+j0.2025=1.1726\,e^{j0.1735}\).
+
+>> gamma = roots([1 -1.56 0.81]); >> c = inv([gamma(1)^-(1) gamma(2)^(-1);gamma(1)^(-2) gamma(2)^(-2)])*[2;1] c = 1.1550 - 0.2025i  1.1550 + 0.2025i
+
+Alternately, we could also find the unknown coefficient by using the real form of the solution, as given in Eq. (3.25). In the present case, the roots are \(0.9e^{\pm j(\pi/6)}\). Hence, \(|\gamma|=0.9\) and \(\beta=\pi/6\), and the zero-input response, according to Eq. (3.25), is given by
+
+\[y_{0}[n]=c(0.9)^{n}\cos\left(\frac{\pi}{6}n+\theta\right)\]
+
+To determine the constants \(c\) and \(\theta\), we set \(n=-1\) and \(-2\) in this equation and substitute the initial conditions \(y_{0}[-1]=2\) and \(y_{0}[-2]=1\) to obtain
+
+\[2 =\frac{c}{0.9}\cos\left(-\frac{\pi}{6}+\theta\right)=\frac{c}{0.9 }\left[\frac{\sqrt{3}}{2}\cos\theta+\frac{1}{2}\sin\theta\right]\] \[1 =\frac{c}{(0.9)^{2}}\cos\left(-\frac{\pi}{3}+\theta\right)=\frac{ c}{0.81}\left[\frac{1}{2}\cos\theta+\frac{\sqrt{3}}{2}\sin\theta\right]\]\[\frac{\sqrt{3}}{1.8}\,c\cos\theta+\frac{1}{1.8}\,c\sin\theta=2\] \[\frac{1}{1.62}\,c\cos\theta+\frac{\sqrt{3}}{1.62}\,c\sin\theta=1\] These are two simultaneous equations in two unknowns \(c\cos\theta\) and \(c\sin\theta\). Solution of these equations yields \[c\cos\theta=2.308\] \[c\sin\theta=-0.397\] Dividing \(c\sin\theta\) by \(c\cos\theta\) yields \[\tan\theta=\frac{-0.397}{2.308}=\frac{-0.172}{1}\] \[\theta=\tan^{-1}(-0.172)=-0.17\text{ rad}\] Substituting \(\theta=-0.17\) radian in \(c\cos\theta=2.308\) yields \(c=2.34\) and \[y_{0}[n]=2.34(0.9)^{n}\cos\left(\frac{\pi}{6}n-0.17\right)\quad n\geq 0\] Observe that here we have used radian units for both \(\beta\) and \(\theta\). We also could have used the degree unit, although this practice is not recommended. The important consideration is to be consistent and to use the same units for both \(\beta\) and \(\theta\).
+
+### 3.13 Zero-Input Response of a Second-Order System with Complex Roots
+
+Find the zero-input response of a system described by the equation
+
+\[y[n]+4y[n-2]=2x[n]\]
+
+The initial conditions are \(y_{0}[-1]=-1/(2\sqrt{2})\) and \(y_{0}[-2]=1/(4\sqrt{2})\). Verify the solution by computing the first three terms iteratively.
+
+### 3.14 Answer
+
+The Unit Impulse Response \(h[n]\)
+
+Consider an \(n\)th-order system specified by the equation
+
+\[(E^{N}+a_{1}E^{N-1}+\cdot\cdot\cdot+a_{N-1}E+a_{N})y[n]=(b_{0}E^{N}+b_{1}E^{N-1}+ \cdot\cdot\cdot+b_{N-1}E+b_{N})x[n]\]
+
+or
+
+\[Q[E]y[n]=P[E]x[n]\]
+
+The unit impulse response \(h[n]\) is the solution of this equation for the input \(\delta[n]\) with all the initial conditions zero; that is,
+
+\[Q[E]h[n]=P[E]\delta[n] \tag{3.26}\]
+
+subject to initial conditions
+
+\[h[-1]=h[-2]=\cdot\cdot\cdot=h[-N]=0\]
+
+Equation (3.26) can be solved to determine \(h[n]\) iteratively or in a closed form. The following example demonstrates the iterative solution.
+
+Iterative Determination of the Impulse Response
+
+Iteratively compute the first two values of the impulse response \(h[n]\) of a system described by the equation
+
+\[y[n]-0.6y[n-1]-0.16y[n-2]=5x[n]\]
+
+To determine the unit impulse response, we let the input \(x[n]=\delta[n]\) and the output \(y[n]=h[n]\) in the system's difference equation to obtain
+
+\[h[n]-0.6h[n-1]-0.16h[n-2]=5\delta[n]\]
+
+subject to zero initial state; that is, \(h[-1]=h[-2]=0\).
+
+Setting \(n=0\) in this equation yields
+
+\[h[0]-0.6(0)-0.16(0)=5(1)\quad\Longrightarrow\quad h[0]=5\]
+
+Setting \(n=1\) in the same equation and using \(h[0]=5\), we obtain
+
+\[h[1]-0.6(5)-0.16(0)=5(0)\quad\Longrightarrow\quad h[1]=3\]
+
+Continuing this way, we can determine any number of terms of \(h[n]\). Unfortunately, such a solution does not yield a closed-form expression for \(h[n]\). Nevertheless, determining a few values of \(h[n]\) can be useful in determining the closed-form solution, as the following development shows.
+
+### 3.7-1 The Closed-Form Solution of \(h[n]\)
+
+Recall that \(h[n]\) is the system response to input \(\delta[n]\), which is zero for \(n>0\). We know that when the input is zero, only the characteristic modes can be sustained by the system. Therefore, \(h[n]\) must be made up of characteristic modes for \(n>0\). At \(n=0\), it may have some nonzero value \(A_{0}\) so that a general form of \(h[n]\) can be expressed as+
+
+Footnote †: \({}^{\ddagger}\) If \(a_{N}=0\), then \(A_{0}\) cannot be determined by Eq. (3.28). In such a case, we show in Sec. 3.12 that \(h[n]\) is of the form \(A_{0}\delta[n]+A_{1}\delta[n-1]+y_{c}[n]u[n]\). We have here \(N+2\) unknowns, which can be determined from \(N+2\) values \(h[0],h[1],\ldots,h[N+1]\) found iteratively.
+
+\[h[n]=A_{0}\delta[n]+y_{c}[n]u[n] \tag{3.27}\]
+
+where \(y_{c}[n]\) is a linear combination of the characteristic modes. We now substitute Eq. (3.27) in Eq. (3.26) to obtain \(Q[E]\left(A_{0}\delta[n]+y_{c}[n]u[n]\right)=P[E]\delta[n]\). Because \(y_{c}[n]\) is made up of characteristic modes, \(Q[E]y_{c}[n]u[n]=0\), and we obtain \(A_{0}Q[E]\delta[n]=P[E]\delta[n]\), that is,
+
+\[A_{0}\left(\delta[n+N]+a_{1}\delta[n+N-1]+\cdot\cdot\cdot+a_{N}\delta[n] \right)=b_{0}\delta[n+N]+\cdot\cdot\cdot+b_{N}\delta[n]\]
+
+Setting \(n=0\) in this equation and using the fact that \(\delta[m]=0\) for all \(m\neq 0\), and \(\delta[0]=1\), we obtain
+
+\[A_{0}a_{N}=b_{N}\quad\Longrightarrow\quad A_{0}=\frac{b_{N}}{a_{N}} \tag{3.28}\]
+
+Hence,+
+
+Footnote †: \({}^{\ddagger}\) If \(a_{N}=0\), then \(A_{0}\) cannot be determined by Eq. (3.28). In such a case, we show in Sec. 3.12 that \(h[n]\) is of the form \(A_{0}\delta[n]+A_{1}\delta[n-1]+y_{c}[n]u[n]\). We have here \(N+2\) unknowns, which can be determined from \(N+2\) values \(h[0],h[1],\ldots,h[N+1]\) found iteratively.
+
+\[h[n]=\frac{b_{N}}{a_{N}}\,\delta[n]+y_{c}[n]u[n] \tag{3.29}\]
+
+The \(N\) unknown coefficients in \(y_{c}[n]\) (on the right-hand side) can be determined from a knowledge of \(N\) values of \(h[n]\). Fortunately, it is a straightforward task to determine values of \(h[n]\) iteratively, as demonstrated in Ex. 3.17. We compute \(N\) values \(h[0]\), \(h[1]\), \(h[2]\), \(\ldots\), \(h[N-1]\) iteratively. Now, setting \(n=0\), \(1\), \(2\), \(\ldots\), \(N-1\) in Eq. (3.29), we can determine the \(N\) unknowns in \(y_{c}[n]\). This point will become clear in the following example.
+
+## 3.1 Closed-Form Determination of the Impulse Response
+
+Determine the unit impulse response \(h[n]\) for a system in Ex. 3.17 specified by the equation
+
+\[y[n]-0.6y[n-1]-0.16y[n-2]=5x[n]\]This equation can be expressed in the advance form as
+
+\[y[n+2]-0.6y[n+1]-0.16y[n]=5x[n+2]\]
+
+or in advance operator form as
+
+\[(E^{2}-0.6E-0.16)y[n]=5E^{2}x[n]\]
+
+The characteristic polynomial is
+
+\[\gamma^{2}-0.6\gamma-0.16=(\gamma+0.2)(\gamma-0.8)\]
+
+The characteristic modes are \((-0.2)^{n}\) and \((0.8)^{n}\). Therefore,
+
+\[y_{c}[n]=c_{1}(-0.2)^{n}+c_{2}(0.8)^{n}\]
+
+Inspecting the system difference equation, we see that \(a_{N}=-0.16\) and \(b_{N}=0\). Therefore, according to Eq. (3.29),
+
+\[h[n]=[c_{1}(-0.2)^{n}+c_{2}(0.8)^{n}]u[n]\]
+
+To determine \(c_{1}\) and \(c_{2}\), we need to find two values of \(h[n]\) iteratively. From Ex. 3.17, we know that \(h[0]=5\) and \(h[1]=3\). Setting \(n=0\) and \(1\) in our expression for \(h[n]\) and using the fact that \(h[0]=5\) and \(h[1]=3\), we obtain
+
+\[\left.\begin{array}{l}5=c_{1}+c_{2}\\ 3=-0.2c_{1}+0.8c_{2}\end{array}\right\}\quad\Longrightarrow\quad\begin{array} []{l}c_{1}=1\\ c_{2}=4\end{array}\]
+
+Therefore,
+
+\[h[n]=\left[(-0.2)^{n}+4(0.8)^{n}\right]u[n]\]
+
+**Drill 3.14 Closed-Form Determination of the Impulse Response**
+
+Find \(h[n]\), the unit impulse response of the LTID systems specified by the following equations:
+
+* \(y[n+1]-y[n]=x[n]\)
+* \(y[n]-5y[n-1]+6y[n-2]=8x[n-1]-19x[n-2]\)
+* \(y[n+2]-4y[n+1]+4y[n]=2x[n+2]-2x[n+1]\)
+* \(y[n]=2x[n]-2x[n-1]\)
+
+## Answers
+
+* \(h[n]=u[n-1]\)
+* \(h[n]=-\frac{19}{6}\delta[n]+\left[\frac{3}{2}(2)^{n}+\frac{5}{3}(3)^{n}\right] u[n]\)
+* \(h[n]=(2+n)2^{n}u[n]\)
+* \(h[n]=2\delta[n]-2\delta[n-1]\)
+
+**Example 3.19**: Filtering Perspective of the Unit Impulse Response
+
+Use the MATLAB filter command to solve Ex. 3.18.
+
+There are several ways to find the impulse response using MATLAB. In this method, we first specify the unit impulse function, which will serve as our input. Vectors a and b are created to specify the system. The filter command is then used to determine the impulse response. In fact, this method can be used to determine the zero-state response for any input.
+
+>> n = (0:19); delta = @(n) 1.0.*(n==0); >> a = [1 -0.6 -0.16]; b = [5 0 0]; >> h = filter(b,a,delta(n)); >> clf; stem(n,h,'k'); xlabel('n'); ylabel('h[n]');
+
+**Comment.** Although it is relatively simple to determine the impulse response \(h[n]\) by using the procedure in this section, in Ch. 5 we shall discuss the much simpler method of the \(z\)-transform.
+
+## 3.8 System Response to External Input:
+
+The Zero-State Response
+
+The zero-state response \(y[n]\) is the system response to an input \(x[n]\) when the system is in the zero state. In this section we shall assume that systems are in the zero state unless mentioned otherwise, so that the zero-state response will be the total response of the system. Here we follow the procedure parallel to that used in the continuous-time case by expressing an arbitrary input \(x[n]\) as a sum of impulse components. A signal \(x[n]\) in Fig. 3.20a can be expressed as a sum of impulse components, such as those depicted in Figs. 3.20b-3.20f. The component of \(x[n]\) at \(n=m\) is \(x[m]\delta[n-m]\), and \(x[n]\) is the sum of all these components summed from \(m=-\infty\) to \(\infty\)
+
+Figure 3.19: Impulse response for Ex. 3.19Therefore,
+
+\[x[n] = x[0]\delta[n]+x[1]\delta[n-1]+x[2]\delta[n-2]+\cdot\cdot\cdot \tag{3.30}\] \[+x[-1]\delta[n+1]+x[-2]\delta[n+2]+\cdot\cdot\cdot\] \[= \sum_{m=-\infty}^{\infty}x[m]\delta[n-m]\]
+
+Figure 3.20: Representation of an arbitrary signal \(x[n]\) in terms of impulse components.
+
+For a linear system, if we know the system response to impulse \(\delta[n]\), we can obtain the system response to any arbitrary input by summing the system response to various impulse components. Let \(h[n]\) be the system response to impulse input \(\delta[n]\). We shall use the notation
+
+\[x[n]\Longrightarrow y[n]\]
+
+to indicate the input and the corresponding response of the system. Thus, if
+
+\[\delta[n]\Longrightarrow h[n]\]
+
+then because of time invariance
+
+\[\delta[n-m]\Longrightarrow h[n-m]\]
+
+and because of linearity
+
+\[x[m]\delta[n-m]\Longrightarrow x[m]h[n-m]\]
+
+and again because of linearity
+
+\[\underbrace{\sum_{m=-\infty}^{\infty}x[m]\delta[n-m]}_{x[n]}\quad \Longrightarrow\quad\underbrace{\sum_{m=-\infty}^{\infty}x[m]h[n-m]}_{y[n]}\]
+
+The left-hand side is \(x[n]\) [see Eq. (3.30)], and the right-hand side is the system response \(y[n]\) to input \(x[n]\). Therefore,+
+
+Footnote †: margin: \({}^{\dagger}\) In deriving this result, we have assumed a time-invariant system. The system response to input \(\delta[n-m]\) for a time-varying system cannot be expressed as \(h[n-m]\); instead, it has the form \(h[n,m]\). Using this form, Eq. (3.31) is modified as follows:
+
+\[y[n]=\sum_{m=-\infty}^{\infty}x[m]h[n,m]\]
+
+The summation on the right-hand side is known as the _convolution sum_ of \(x[n]\) and \(h[n]\), and is represented symbolically by \(x[n]*h[n]\)
+
+\[x[n]*h[n]=\sum_{m=-\infty}^{\infty}x[m]h[n-m]\]
+
+Properties of the Convolution Sum
+
+The structure of the convolution sum is similar to that of the convolution integral. Moreover, the properties of the convolution sum are similar to those of the convolution integral. We shall enumerate these properties here without proof. The proofs are similar to those for the convolution integral and may be derived by the reader.
+
+[MISSING_PAGE_FAIL:47]
+
+**Example 3.20**: **Convolution of Causal Signals**
+
+Determine \(c[n]=x[n]*g[n]\) for
+
+\[x[n]=(0.8)^{n}u[n]\qquad\mbox{and}\qquad g[n]=(0.3)^{n}u[n]\]
+
+We have
+
+\[c[n]=\sum_{m=-\infty}^{\infty}x[m]g[n-m]\]
+
+Note that
+
+\[x[m]=(0.8)^{m}u[m]\qquad\mbox{and}\qquad g[n-m]=(0.3)^{n-m}u[n-m]\]
+
+Both \(x[n]\) and \(g[n]\) are causal. Therefore [see Eq. (3.33)],
+
+\[c[n]=\sum_{m=0}^{n}x[m]g[n-m]=\sum_{m=0}^{n}(0.8)^{m}u[m]\,(0.3)^{n-m}u[n-m]\]
+
+In this summation, \(m\) lies between \(0\) and \(n\) (\(0\leq m\leq n\)). Therefore, if \(n\geq 0\), then both \(m\) and \(n-m\geq 0\) so that \(u[m]=u[n-m]=1\). If \(n<0\), \(m\) is negative because \(m\) lies between \(0\) and \(n\), and \(u[m]=0\). Therefore,
+
+\[c[n]=\left\{\begin{array}{cc}\sum_{m=0}^{n}(0.8)^{m}\,(0.3)^{n-m}&n\geq 0 \\ 0&n<0\end{array}\right.\]
+
+or
+
+\[c[n]=(0.3)^{n}\sum_{m=0}^{n}\left(\frac{0.8}{0.3}\right)^{m}u[n]\]
+
+This is a geometric progression with common ratio \((0.8/0.3)\). From Sec. B.8-3 we have
+
+\[c[n] =(0.3)^{n}\frac{(0.8)^{n+1}-(0.3)^{n+1}}{(0.3)^{n}(0.8-0.3)}u[n]\] \[=2[(0.8)^{n+1}-(0.3)^{n+1}]u[n]\]
+
+**Drill 3.15**: **Convolution of Causal Signals**
+
+Show that \((0.8)^{n}u[n]*u[n]=5[1-(0.8)^{n+1}]u[n]\).
+
+[MISSING_PAGE_EMPTY:49]
+
+**Example 3.21**: **Convolution by Tables**
+
+Using Table 3.1, find the (zero-state) response \(y[n]\) of an LTID system described by the equation
+
+\[y[n+2]-0.6y[n+1]-0.16y[n]=5x[n+2]\]
+
+if the input \(x[n]=4^{-n}u[n]\).
+
+The input can be expressed as \(x[n]=4^{-n}u[n]=(1/4)^{n}u[n]=(0.25)^{n}u[n]\). The unit impulse response of this system, obtained in Ex. 3.18, is
+
+\[h[n]=[(-0.2)^{n}+4(0.8)^{n}]u[n]\]
+
+Therefore,
+
+\[y[n] =x[n]*h[n]\] \[=(0.25)^{n}u[n]*\left[(-0.2)^{n}u[n]+4(0.8)^{n}u[n]\right]\] \[=(0.25)^{n}u[n]*(-0.2)^{n}u[n]+(0.25)^{n}u[n]*4(0.8)^{n}u[n]\]
+
+We use pair 4 (Table 3.1) to find the foregoing convolution sums.
+
+\[y[n] =\left[\frac{(0.25)^{n+1}-(-0.2)^{n+1}}{0.25-(-0.2)}+4\frac{(0.25 )^{n+1}-(0.8)^{n+1}}{0.25-0.8}\right]u[n]\] \[=(2.22[(0.25)^{n+1}-(-0.2)^{n+1}]-7.27[(0.25)^{n+1}-(0.8)^{n+1}])u [n]\] \[=[-5.05(0.25)^{n+1}-2.22(-0.2)^{n+1}+7.27(0.8)^{n+1}]u[n]\]
+
+Recognizing that
+
+\[\gamma^{n+1}=\gamma\left(\gamma\right)^{n}\]
+
+we can express \(y[n]\) as
+
+\[y[n] =[-1.26(0.25)^{n}+0.444(-0.2)^{n}+5.81(0.8)^{n}]u[n]\] \[=[-1.26(4)^{-n}+0.444(-0.2)^{n}+5.81(0.8)^{n}]u[n]\]
+
+**DRILL 3.16**: **Convolution by Tables**
+
+Use Table 3.1 to show that
+
+**(a)**: \((0.8)^{n+1}u[n]*u[n]=4[1-0.8(0.8)^{n}]u[n]\)
+**(b)**: \(n3^{-n}u[n]*(0.2)^{n}u[n]=\frac{15}{4}\left[(0.2)^{n}-\left(1-\frac{2}{3}n \right)3^{-n}\right]u[n]\)
+**(c)**: \(e^{-n}u[n]*2^{-n}u[n]=\frac{2}{2-n}\left[e^{-n}-\frac{c}{2}2^{-n}\right]u[n]\)
+
+### 3.22 Filtering Perspective of the Zero-State Response
+
+Use the MATLAB filter command to compute and sketch the zero-state response for the system described by \((E^{2}+0.5E-1)y[n]=(2E^{2}+6E)x[n]\) and the input \(x[n]=4^{-n}u[n]\).
+
+We solve this problem using the same approach as Ex. 3.19. Although the input is bounded and quickly decays to zero, the system itself is unstable and an unbounded output results.
+
+>> n = (0:11); x = @(n) 4.^(-n).*(n>=0); >> a = [1 0.5 -1]; b = [2 6 0]; y = filter(b,a,x(n)); >> clf; stem(n,y,'k'); xlabel('n'); ylabel('y[n]'); axis([-0.5 11.5 -20 25]);
+
+Response to Complex Inputs
+
+As in the case of real continuous-time systems, we can show that for an LTID system with real \(h[n]\), if the input and the output are expressed in terms of their real and imaginary parts, then the real part of the input generates the real part of the response and the imaginary part of the input generates the imaginary part. Thus, if
+
+\[x[n]=x_{r}[n]+jx_{i}[n]\qquad\text{and}\qquad y[n]=y_{r}[n]+jy_{i}[n]\]
+
+using the right-directed arrow to indicate the input-output pair, we can show that
+
+\[x_{r}[n]\Longrightarrow y_{r}[n]\qquad\text{and}\qquad x_{i}[n] \Longrightarrow y_{i}[n] \tag{3.34}\]
+
+The proof is similar to that used to derive Eq. (2.31) for LTIC systems.
+
+### 3.2 Multiple Inputs
+
+Multiple inputs to LTI systems can be treated by applying the superposition principle. Each input is considered separately, with all other inputs assumed to be zero. The sum of all these individual system responses constitutes the total system output when all the inputs are applied simultaneously.
+
+Figure 3.21: Zero-state response for Ex. 3.22
+### 3.8.1 Graphical Procedure for the Convolution Sum
+
+The steps in evaluating the convolution sum are parallel to those followed in evaluating the convolution integral. The convolution sum of causal signals \(x[n]\) and \(g[n]\) is given by
+
+\[c[n]=\sum_{m=0}^{n}x[m]g[n-m]\]
+
+We first plot \(x[m]\) and \(g[n-m]\) as functions of \(m\) (not \(n\)), because the summation is over \(m\). Functions \(x[m]\) and \(g[m]\) are the same as \(x[n]\) and \(g[n]\), plotted, respectively, as functions of \(m\) (see Fig. 3.22). The convolution operation can be performed as follows:
+
+1. Invert \(g[m]\) about the vertical axis (\(m=0\)) to obtain \(g[-m]\) (Fig. 3.22d). Figure 3.22e shows both \(x[m]\) and \(g[-m]\).
+2. Shift \(g[-m]\) by \(n\) units to obtain \(g[n-m]\). For \(n>0\), the shift is to the right (delay); for \(n<0\), the shift is to the left (advance). Figure 3.22f shows \(g[n-m]\) for \(n>0\); for \(n<0\), see Fig. 3.22g.
+3. Next we multiply \(x[m]\) and \(g[n-m]\) and add all the products to obtain \(c[n]\). The procedure is repeated for each value of \(n\) over the range \(-\infty\) to \(\infty\).
+
+We shall demonstrate by an example the graphical procedure for finding the convolution sum. Although both the functions in this example are causal, this procedure is applicable to the general case.
+
+**Example 3.23**: **Graphical Procedure for the Convolution Sum**
+
+Find \(c[n]=x[n]*g[n]\), where \(x[n]\) and \(g[n]\) are depicted in Figs. 3.22a and 3.22b, respectively.
+
+We are given
+
+\[x[n]=(0.8)^{n}\qquad\text{and}\qquad g[n]=(0.3)^{n}\]
+
+Therefore,
+
+\[x[m]=(0.8)^{m}\qquad\text{and}\qquad g[n-m]=(0.3)^{n-m}\]Figure 3.22: Graphical procedure to convolve \(x[n]\) and \(g[n]\).
+
+Figure 3.22f shows the general situation for \(n\geq 0\). The two functions \(x[m]\) and \(g[n-m]\) overlap over the interval \(0\leq m\leq n\). Therefore,
+
+\[c[n] =\sum_{m=0}^{n}x[m]g[n-m]\] \[=\sum_{m=0}^{n}(0.8)^{m}(0.3)^{n-m}\] \[=(0.3)^{n}\sum_{m=0}^{n}\left(\frac{0.8}{0.3}\right)^{m}\] \[=2[(0.8)^{n+1}-(0.3)^{n+1}]\qquad n\geq 0\qquad\text{(see Sec. B.8-3)}\]
+
+For \(n<0\), there is no overlap between \(x[m]\) and \(g[n-m]\), as shown in Fig. 3.22g, so that
+
+\[c[n]=0\qquad n<0\]
+
+Combining pieces, we see that
+
+\[c[n]=2[(0.8)^{n+1}-(0.3)^{n+1}]u[n]\]
+
+which agrees with the result found earlier in Ex. 3.20.
+
+### 3.18 Graphical Procedure for the Convolution Sum
+
+Find \((0.8)^{n}u[n]*u[n]\) graphically and sketch the result.
+
+#### Answer
+
+\(5(1-(0.8)^{n+1})u[n]\)
+
+An Alternative Form of Graphical Procedure:
+
+The Sliding-Tape Method
+
+This algorithm is convenient when the sequences \(x[n]\) and \(g[n]\) are short or when they are available only in graphical form. The algorithm is basically the same as the graphical procedure in Fig. 3.22. The only difference is that instead of presenting the data as graphical plots, we display it as a sequence of numbers on tapes. Otherwise the procedure is the same, as will become clear in the following example.
+
+### 3.24 Sliding-Tape Method for the Convolution Sum
+
+Use the sliding-tape method to convolve the two sequences \(x[n]\) and \(g[n]\) depicted in Figs. 3.23a and 3.23b, respectively.
+
+In this procedure we write the sequences \(x[n]\,\text{and}\,g[n]\) in the slots of two tapes: \(x\) tape and \(g\) tape (Fig. 3.23c). Now leave the \(x\) tape stationary (to correspond to \(x[m]\)). The \(g[-m]\) tape is obtained by inverting the \(g[m]\) tape about the origin (\(m=0\)) so that the slots corresponding to \(x[0]\) and \(g[0]\) remain aligned (Fig. 3.23d). We now shift the inverted tape by \(n\) slots, multiply values on two tapes in adjacent slots, and add all the products to find \(c[n]\). Figures 3.23d-3.23i show the cases for \(n=0\)-5. Figures 3.23j, 3.23k, and 3.23l show the cases for \(n=-1,-2\), and \(-3\), respectively.
+
+For the case of \(n=0\), for example (Fig. 3.23d),
+
+\[c[0]=(-2\times 1)+(-1\times 1)+(0\times 1)=-3\]
+
+For \(n=1\) (Fig. 3.23e),
+
+\[c[1]=(-2\times 1)+(-1\times 1)+(0\times 1)+(1\times 1)=-2\]
+
+Similarly,
+
+\[\begin{array}{l}c[2]=(-2\times 1)+(-1\times 1)+(0\times 1)+(1\times 1)+(2 \times 1)=0\\ c[3]=(-2\times 1)+(-1\times 1)+(0\times 1)+(1\times 1)+(2\times 1)+(3\times 1)=3 \\ c[4]=(-2\times 1)+(-1\times 1)+(0\times 1)+(1\times 1)+(2\times 1)+(3\times 1)+(4 \times 1)=7\\ c[5]=(-2\times 1)+(-1\times 1)+(0\times 1)+(1\times 1)+(2\times 1)+(3\times 1)+(4 \times 1)=7\end{array}\]
+
+Figure 3.23i shows that \(c[n]=7\) for \(n\geq 4\).
+
+Similarly, we compute \(c[n]\) for negative \(n\) by sliding the tape backward, one slot at a time, as shown in the plots corresponding to \(n=-1\), \(-2\), and \(-3\), respectively (Figs. 3.23j, 3.23k, and 3.23l).
+
+\[\begin{array}{l}c[-1]=(-2\times 1)+(-1\times 1)=-3\\ c[-2]=(-2\times 1)=-2\\ c[-3]=0\end{array}\]
+
+Figure 3.23l shows that \(c[n]=0\) for \(n\leq 3\). Figure 3.23m shows the plot of \(c[n]\).
+
+Figure 3.23: Sliding-tape algorithm for discrete-time convolution.
+
+Figure 3.23: Sliding-tape algorithm for discrete-time convolution.
+
+### 3.19 Sliding-Tape Method for the Convolution Sum
+
+Use the graphical procedure of Ex. 3.24 (sliding-tape technique) to show that \(x[n]*g[n]=c[n]\) in Fig. 3.24.
+
+Verify the width property of convolution.
+
+**EXAMPLE 3.25**: **Convolution of Two Finite-Duration Signals Using MATLAB**
+
+For the signals \(x[n]\) and \(g[n]\) depicted in Fig. 3.24, use MATLAB to compute and plot \(c[n]=x[n]*g[n]\).
+
+For the signals \(x[n]\) and \(g[n]\) depicted in Fig.
+
+### 3.8-2 Interconnected Systems
+
+As with continuous-time case, we can determine the impulse response of systems connected in parallel (Fig. 3.26a) and cascade (Figs. 3.26b, 3.26c). We can use arguments identical to those used for the continuous-time systems in Sec. 2.4-3 to show that if two LTID systems \(\mathcal{S}_{1}\) and \(\mathcal{S}_{2}\) with impulse responses \(h_{1}[n]\) and \(h_{2}[n]\), respectively, are connected in parallel, the composite parallel system impulse response is \(h_{1}[n]+h_{2}[n]\). Similarly, if these systems are connected in cascade, the impulse response of the composite system is \(h_{1}[n]*h_{2}[n]\). Moreover, because \(h_{1}[n]*h_{2}[n]=h_{2}[n]*h_{1}[n]\), linear systems commute. Their orders can be interchanged without affecting the composite system behavior.
+
+### 3.9 Interconnected Systems
+
+If the two systems in cascade are the inverse of each other, with impulse responses \(h[n]\) and \(h_{i}[n]\), respectively, then the impulse response of the cascade of these systems is \(h[n]*h_{i}[n]\). But, the cascade of a system with its inverse is an identity system, whose output is the same as the input.
+
+Figure 3.26: Interconnected systems.
+
+Hence, the unit impulse response of an identity system is \(\delta[n]\). Consequently,
+
+\[h[n]*h_{i}[n]=\delta[n]\]
+
+As an example, we show that an accumulator system and a backward difference system are the inverse of each other. An accumulator system is specified by+
+
+Footnote †: Equations (3.35) and (3.36) are identical to Eqs. (3.10) and (3.8), respectively, with \(T=1\).
+
+\[y[n]=\sum_{k=-\infty}^{n}x[k] \tag{3.35}\]
+
+The backward difference system is specified by
+
+\[y[n]=x[n]-x[n-1] \tag{3.36}\]
+
+From Eq. (3.35), we find \(h_{\rm acc}[n]\), the impulse response of the accumulator, as
+
+\[h_{\rm acc}[n]=\sum_{k=-\infty}^{n}\delta[k]=u[n]\]
+
+Similarly, from Eq. (3.36), \(h_{\rm bdf}[n]\), the impulse response of the backward difference system is given by
+
+\[h_{\rm bdf}[n]=\delta[n]-\delta[n-1]\]
+
+We can verify that
+
+\[h_{\rm acc}*h_{\rm bdf}=u[n]*\{\delta[n]-\delta[n-1]\}=u[n]-u[n-1]=\delta[n]\]
+
+Roughly speaking, a discrete-time accumulator is analogous to a continuous-time integrator, and a backward difference system is analogous to a differentiator. We have already encountered examples of these systems in Exs. 3.8 and 3.9 (digital differentiator and integrator).
+
+System Response to \(\sum_{k=-\infty}^{n}x[k]\)
+
+Figure 3.26d shows a cascade of two LTID systems: a system \(\mathcal{S}\) with impulse response \(h[n]\), followed by an accumulator. Figure 3.26e shows a cascade of the same two systems in reverse order: an accumulator followed by \(\mathcal{S}\). In Fig. 3.26d, if the input \(x[n]\) to \(\mathcal{S}\) results in the output \(y[n]\), then the output of the system in Fig. 3.26d is the \(\sum y[k]\). In Fig. 3.26e, the output of the accumulator is the sum \(\sum x[k]\). Because the output of the system in Fig. 3.26e is identical to that of system Fig. 3.26d, it follows that
+
+\[\mbox{if }x[n]\Longrightarrow y[n],\qquad\mbox{then }\sum_{k=-\infty}^{n}x[k] \Longrightarrow\sum_{k=-\infty}^{n}y[k]\]If we let \(x[n]=\delta[n]\) and \(y[n]=h[n]\), we find that \(g[n]\), the unit step response of an LTID system with impulse response \(h[n]\), is given by
+
+\[g[n]=\sum_{k=-\infty}^{n}h[k] \tag{3.37}\]
+
+The reader can readily prove the inverse relationship
+
+\[h[n]=g[n]-g[n-1]\]
+
+## Appendix A Very Special Function for LTID Systems: The Everlasting Exponential \(z^{n}\)
+
+In Sec. 2.4-4, we showed that there exists one signal for which the response of an LTIC system is the same as the input within a multiplicative constant. The response of an LTIC system to an everlasting exponential input \(e^{st}\) is \(H(s)e^{st}\), where \(H(s)\) is the system transfer function. We now show that for an LTID system, the same role is played by an everlasting exponential \(z^{n}\). The system response \(y[n]\) in this case is given by
+
+\[y[n] =h[n]*z^{n}\] \[=\sum_{m=-\infty}^{\infty}h[m]z^{n-m}\] \[=z^{n}\sum_{m=-\infty}^{\infty}h[m]z^{-m}\]
+
+For causal \(h[n]\), the limits on the sum on the right-hand side would range from \(0\) to \(\infty\). In any case, this sum is a function of \(z\). Assuming that this sum converges, let us denote it by \(H[z]\). Thus,
+
+\[y[n]=H[z]z^{n} \tag{3.38}\]
+
+where
+
+\[H[z]=\sum_{m=-\infty}^{\infty}h[m]z^{-m} \tag{3.39}\]
+
+Equation (3.38) is valid only for values of \(z\) for which the sum on the right-hand side of Eq. (3.39) exists (converges). Note that \(H[z]\) is a constant for a given \(z\). Thus, the input and the output are the same (within a multiplicative constant) for the everlasting exponential input \(z^{n}\).
+
+\(H[z]\), which is called the _transfer function_ of the system, is a function of the complex variable \(z\). An alternate definition of the transfer function \(H[z]\) of an LTID system from Eq. (3.38) is
+
+\[H[z]=\left.\frac{\text{output signal}}{\text{input signal}}\right|_{\text{ input}=\text{everlasting exponential}}z^{n} \tag{3.40}\]
+
+The transfer function is defined for, and is meaningful to, LTID systems only. It does not exist for nonlinear or time-varying systems in general.
+
+We repeat again that in this discussion we are talking of the everlasting exponential, which starts at \(n=-\infty\), not the causal exponential \(z^{n}u[n]\), which starts at \(n=0\).
+
+For a system specified by Eq. (3.20), the transfer function is given by
+
+\[H[z]=\frac{P[z]}{Q[z]} \tag{3.41}\]
+
+This follows readily by considering an everlasting input \(x[n]=z^{n}\). According to Eq. (3.40), the output is \(y[n]=H[z]z^{n}\). Substitution of this \(x[n]\) and \(y[n]\) in Eq. (3.20) yields
+
+\[H[z]\left\{Q[E]z^{n}\right\}=P[E]z^{n}\]
+
+Moreover,
+
+\[E^{k}z^{n}=z^{n+k}=z^{k}z^{n}\]
+
+Hence,
+
+\[P[E]z^{n}=P[z]z^{n}\qquad\text{and}\qquad Q[E]z^{n}=Q[z]z^{n}\]
+
+Consequently,
+
+\[H[z]=\frac{P[z]}{Q[z]}\]
+
+## 3.20 DT System Transfer Function
+
+Show that the transfer function of the digital differentiator in Ex. 3.8 (big shaded block in Fig. 3.16b) is given by \(H[z]=(z-1)/Tz\), and the transfer function of an unit delay, specified by \(y[n]=x[n-1]\), is given by \(1/z\).
+
+### Total Response
+
+The total response of an LTID system can be expressed as a sum of the zero-input and zero-state responses:
+
+\[\text{total response}=\underbrace{\sum_{j=1}^{N}c_{j}y_{j}^{n}}_{\text{2IR}}+ \underbrace{x[n]*h[n]}_{\text{ZSR}}\]
+
+In this expression, the zero-input response should be appropriately modified for the case of repeated roots. We have developed procedures to determine these two components. From the system equation, we find the characteristic roots and characteristic modes. The zero-input response is a linear combination of the characteristic modes. From the system equation, we also determine \(h[n]\), the impulse response, as discussed in Sec. 3.7. Knowing \(h[n]\) and the input \(x[n]\), we find the zero-state response as the convolution of \(x[n]\) and \(h[n]\). The arbitrary constants \(c_{1},c_{2},\ldots,c_{n}\) in the zero-input response are determined from the \(n\) initial conditions. For the system described by the equation
+
+\[y[n+2]-0.6y[n+1]-0.16y[n]=5x[n+2]\]with initial conditions \(y[-1]=0,y[-2]=25/4\) and input \(x[n]=(4)^{-n}u[n]\), we have determined the two components of the response in Exs. 3.13 and 3.21, respectively. From the results in these examples, the total response for \(n\geq 0\) is
+
+\[\text{total response}=\underbrace{0.2(-0.2)^{n}+0.8(0.8)^{n}}_{\text{2IR}}+ \underbrace{0.444(-0.2)^{n}+5.81(0.8)^{n}-1.26(4)^{-n}}_{\text{ZSR}} \tag{3.42}\]
+
+Natural and Forced Response
+
+The characteristic modes of this system are \((-0.2)^{n}\) and \((0.8)^{n}\). The zero-input response is made up of characteristic modes exclusively, as expected, but the characteristic modes also appear in the zero-state response. When all the characteristic mode terms in the total response are lumped together, the resulting component is the _natural response_. The remaining part of the total response that is made up of noncharacteristic modes is the _forced response_. For the present case, Eq. (3.42) yields
+
+\[\text{total response}=\underbrace{0.644(-0.2)^{n}+6.61(0.8)^{n}}_{\text{ natural response}}+\underbrace{-1.26(4)^{-n}}_{\text{forced response}}\qquad n\geq 0\]
+
+Just like differential equations, the classical solution to difference equations includes the natural and forced responses, a decomposition that lacks the engineering intuition and utility afforded by the zero-input and zero-state responses. The classical approach cannot separate the responses arising from internal conditions and external input. While the natural and forced solutions can be obtained from the zero-input and zero-state responses, the converse is not true. Further, the classical method is unable to express the system response to an input \(x[n]\) as an explicit function of \(x[n]\). In fact, the classical method is restricted to a certain class of inputs and cannot handle arbitrary inputs as can the method to determine the zero-state response. For these (and other) reasons, we do not further detail the classical approach and its direct calculation of the forced and natural responses.
+
+### 3.9 System Stability
+
+The concepts and criteria for the BIBO (external) stability and internal (asymptotic) stability for discrete-time systems are identical to those corresponding to continuous-time systems. The comments in Sec. 2.5 for LTIC systems concerning the distinction between external and internal stability are also valid for LTID systems. Let us begin with external (BIBO) stability.
+
+#### External (BIBO) Stability
+
+Recall that
+
+\[y[n]=h[n]*x[n]=\sum_{m=-\infty}^{\infty}h[m]x[n-m]\]
+
+and
+
+\[|y[n]|=\left|\sum_{m=-\infty}^{\infty}h[m]x[n-m]\right|\leq\sum_{m=-\infty}^{ \infty}|h[m]|\,|x[n-m]|\]If \(x[n]\) is bounded, then \(|x[n-m]|<K_{1}\,<\infty\), and
+
+\[|y[n]|\leq K_{1}\sum_{m=-\infty}^{\infty}|h[m]|\]
+
+Clearly the output is bounded if the summation on the right-hand side is bounded; that is, if
+
+\[\sum_{n=-\infty}^{\infty}|h[n]|<K_{2}<\infty \tag{3.43}\]
+
+This is a sufficient condition for BIBO stability. We can show that this is also a necessary condition (see Prob. 3.9-1). Therefore, if the impulse response \(h[n]\) of an LTID system is absolutely summable, the system is (BIBO) stable. Otherwise it is unstable.
+
+All the comments about the nature of external and internal stability in Ch. 2 apply to discrete-time case. We shall not elaborate them further.
+
+### Internal (Asymptotic) Stability
+
+For LTID systems, as in the case of LTIC systems, internal stability, called asymptotical stability or stability in the sense of Lyapunov (also the zero-input stability), is defined in terms of the zero-input response of a system.
+
+For an LTID system specified by a difference equation in the form of Eq. (3.15) [or Eq. (3.20)], the zero-input response consists of the characteristic modes of the system. The mode corresponding to a characteristic root \(\gamma\) is \(\gamma^{n}\). To be more general, let \(\gamma\) be complex so that
+
+\[\gamma=|\gamma|e^{i\beta}\qquad\mbox{and}\qquad\gamma^{n}=|\gamma|^{n}e^{i \beta n}\]
+
+Since the magnitude of \(e^{i\beta n}\) is always unity regardless of the value of \(n\), the magnitude of \(\gamma^{n}\) is \(|\gamma|^{n}\). Therefore,
+
+\[\mbox{if }|\gamma|<1, \mbox{then }\gamma^{n}\to 0\mbox{ as }n\to\infty\] \[\mbox{if }|\gamma|>1, \mbox{then }\gamma^{n}\to\infty\mbox{ as }n\to\infty\] \[\mbox{and if }|\gamma|=1, \mbox{then }|\gamma|^{n}=1\mbox{ for all }n\]
+
+The characteristic modes corresponding to characteristic roots at various locations in the complex plane appear in Fig. 3.27.
+
+These results can be grasped more effectively in terms of the location of characteristic roots in the complex plane. Figure 3.28 shows a circle of unit radius, centered at the origin in a complex plane. Our discussion shows that if all characteristic roots of the system lie inside the _unit circle_, \(|\gamma_{i}|<1\) for all \(i\) and the system is asymptotically stable. On the other hand, even if one characteristic root lies outside the unit circle, the system is unstable. If none of the characteristic 
+
+[MISSING_PAGE_EMPTY:64]
+
+roots lie outside the unit circle, but some simple (unrepeated) roots lie on the circle itself, the system is marginally stable. If two or more characteristic roots coincide on the unit circle (repeated roots), the system is unstable. The reason is that for repeated roots, the zero-input response is of the form \(n^{r-1}\gamma^{n}\), and if \(|\gamma|=1\), then \(|n^{r-1}\gamma^{n}|=n^{r-1}\to\infty\) as \(n\to\infty\).2 Note, however, that repeated roots inside the unit circle do not cause instability.
+
+Footnote 2: If the development of discrete-time systems is parallel to that of continuous-time systems, we wonder why the parallel breaks down here. Why, for instance, are LHP and RHP not the regions demarcating stability and instability? The reason lies in the form of the characteristic modes. In continuous-time systems, we chose the form of characteristic mode as \(e^{\lambda_{i}t}\). In discrete-time systems, for computational convenience, we choose the form to be \(\gamma_{i}^{n}\). Had we chosen this form to be \(e^{\lambda_{i}n}\) where \(\gamma_{i}=e^{\lambda_{i}}\), then the LHP and RHP (for the location of \(\lambda_{i}\)) again would demarcate stability and instability. The reason is that if \(\gamma=e^{\lambda}\), \(|\gamma|=1\) implies \(|e^{\lambda}|=1\), and therefore \(\lambda=j\omega\). This shows that the unit circle in \(\gamma\) plane maps into the imaginary axis in the \(\lambda\) plane.
+
+To summarize:
+
+1. An LTID system is asymptotically stable if, and only if, all the characteristic roots are inside the unit circle. The roots may be simple or repeated.
+2. An LTID system is unstable if, and only if, either one or both of the following conditions exist: (i) at least one root is outside the unit circle; (ii) there are repeated roots on the unit circle.
+3. An LTID system is marginally stable if and only if there are no roots outside the unit circle and there are some unrepeated roots on the unit circle.
+
+### 3.9-3 Relationship Between BIBO and Asymptotic Stability
+
+For LTID systems, the relation between the two types of stability is similar to those in LTIC systems. For a system specified by Eq. (3.15), we can readily show that if a characteristic root \(\gamma_{k}\)is inside the unit circle, the corresponding mode \(\gamma_{k}^{n}\) is absolutely summable. In contrast, if \(\gamma_{k}\) lies outside the unit circle, or on the unit circle, \(\gamma_{k}^{n}\) is not absolutely summable.+
+
+Footnote †: \({}^{\dagger}\) This conclusion follows from the fact that (see Sec. B.8-3)
+
+\[\sum_{n=-\infty}^{\infty}|\gamma_{k}^{n}|u[n]=\sum_{n=0}^{\infty}|\gamma_{k}|^ {n}=\frac{1}{1-|\gamma_{k}|}\qquad|\gamma_{k}|<1\]
+
+ Moreover, if \(|\gamma|\geq 1\), the sum diverges and goes to \(\infty\). These conclusions are valid also for the modes of the form \(n^{\prime}\gamma_{k}^{n}\).
+
+This means that an asymptotically stable system is BIBO-stable. Moreover, a marginally stable or asymptotically unstable system is BIBO-unstable. The converse is not necessarily true. The stability picture portrayed by the external description is of questionable value. BIBO (external) stability cannot ensure internal (asymptotic) stability, as the following example shows.
+
+**Example 3.26**: **A BIBO-Stable but Asymptotically Unstable System**
+
+An LTID systems consists of two subsystems \(\mathcal{S}_{1}\) and \(\mathcal{S}_{2}\) in cascade (Fig. 3.29). The impulse response of these systems are \(h_{1}[n]\) and \(h_{2}[n]\), respectively, given by
+
+\[h_{1}[n]=4\delta[n]-3(0.5)^{n}u[n]\qquad\text{and}\qquad h_{2}[n]=2^{n}u[n]\]
+
+Investigate the BIBO and asymptotic stability of the composite system.
+
+The composite system impulse response \(h[n]\) is given by
+
+\[h[n]=h_{1}[n]*h_{2}[n]=h_{2}[n]*h_{1}[n] =2^{n}u[n]*(4\delta[n]-3(0.5)^{n}u[n])\] \[=4(2)^{n}u[n]-3\left[\frac{2^{n+1}-(0.5)^{n+1}}{2-0.5}\right]u[n]\] \[=(0.5)^{n}u[n]\]
+
+If the composite cascade system were to be enclosed in a black box with only the input and the output terminals accessible, any measurement from these external terminals would show that the impulse response of the system is \((0.5)^{n}u[n]\), without any hint of the unstable system sheltered inside the composite system.
+
+Figure 3.29: Composite system for Ex. 3.26.
+
+The composite system is BIBO-stable because its impulse response \((0.5)^{n}u[n]\) is absolutely summable. However, the system \(\mathcal{S}_{2}\) is asymptotically unstable because its characteristic root, \(2\), lies outside the unit circle. This system will eventually burn out (or saturate) because of the unbounded characteristic response generated by intended or unintended initial conditions, no matter how small.
+
+The system is asymptotically unstable, though BIBO-stable. This example shows that BIBO stability does not necessarily ensure asymptotic stability when a system is uncontrollable, unobservable, or both. The internal and the external descriptions of a system are equivalent only when the system is controllable and observable. In such a case, BIBO stability means the system is asymptotically stable, and vice versa.
+
+Fortunately, uncontrollable or unobservable systems are not common in practice. Henceforth, in determining system stability, we shall assume that unless otherwise mentioned, the internal and the external descriptions of the system are equivalent, implying that the system is controllable and observable.
+
+**EXAMPLE 3.27 Investigating Asymptotic and BIBO Stability**
+
+Determine the internal and external stability of systems specified by the following equations. In each case plot the characteristic roots in the complex plane.
+
+**(a)**: \(y[n+2]+2.5y[n+1]+y[n]=x[n+1]-2x[n]\)
+**(b)**: \(y[n]-y[n-1]+0.21y[n-2]=2x[n-1]+3x[n-2]\)
+**(c)**: \(y[n+3]+2y[n+2]+\frac{3}{2}y[n+1]+\frac{1}{2}y[n]=x[n+1]\)
+**(d)**: \((E^{2}-E+1)^{2}y[n]=(3E+1)x[n]\)
+
+**(a)**: The characteristic polynomial is
+
+\[\gamma^{2}+2.5\gamma+1=(\gamma+0.5)(\gamma+2)\]
+
+The characteristic roots are \(-0.5\) and \(-2\). Because \(|-2|>1\) (\(-2\) lies outside the unit circle), the system is BIBO-unstable and also asymptotically unstable (Fig. 3.30a).
+
+**(b)**: The characteristic polynomial is
+
+\[\gamma^{2}-\gamma+0.21=(\gamma-0.3)(\gamma-0.7)\]
+
+The characteristic roots are \(0.3\) and \(0.7\), both of which lie inside the unit circle. The system is BIBO-stable and asymptotically stable (Fig. 3.30b).
+
+**(c)**: The characteristic polynomial is
+
+\[\gamma^{3}+2\gamma^{2}+\frac{3}{2}\gamma+\frac{1}{2}=(\gamma+1)\big{(}\gamma^{ 2}+\gamma+\frac{1}{2}\big{)}=(\gamma+1)(\gamma+0.5-j0.5)(\gamma+0.5+j0.5)\]The characteristic roots are \(-1,-0.5\pm j0.5\) (Fig. 3.30c). One of the characteristic roots is on the unit circle and the remaining two roots are inside the unit circle. The system is BIBO-unstable but marginally stable.
+
+**(d)** The characteristic polynomial is
+
+\[(\gamma^{2}-\gamma+1)^{2}=\Big{(}\gamma-\tfrac{1}{2}-j\tfrac{\sqrt{3}}{2}\Big{)} ^{2}\Big{(}\gamma-\tfrac{1}{2}+j\tfrac{\sqrt{3}}{2}\Big{)}^{2}\]
+
+The characteristic roots are \((1/2)\pm j(\sqrt{3}/2)=1e^{\pm j(\pi/3)}\) repeated twice, and they lie on the unit circle (Fig. 3.30d). The system is BIBO-unstable and asymptotically unstable.
+
+**Figure 3.30**: Characteristic root locations for the system of Ex. 3.27.
+
+### 3.21 Assessing Stability by Characteristic Roots
+
+Using the complex plane, locate the characteristic roots of the following systems, and use the characteristic root locations to determine external and internal stability of each system.
+
+1. \((E+1)(E^{2}+6E+25)y[n]=3Ex[n]\)
+2. \((E-1)^{2}(E+0.5)y[n]=(E^{2}+2E+3)x[n]\)
+
+### 3.10 Intuitive Insights into System Behavior
+
+The intuitive insights into the behavior of continuous-time systems and their qualitative proofs, discussed in Sec. 2.6, also apply to discrete-time systems. For this reason, we shall merely mention here without discussion some of the insights presented in Sec. 2.6.
+
+The system's entire (zero-input and zero-state) behavior is strongly influenced by the characteristic roots (or modes) of the system. The system responds strongly to input signals similar to its characteristic modes and poorly to inputs very different from its characteristic modes. In fact, when the input is a characteristic mode of the system, the response goes to infinity, provided the mode is a nondecaying signal. This is the resonance phenomenon. The width of an impulse response \(h[n]\) indicates the response time (time required to respond fully to an input) of the system. It is the time constant of the system.1 Discrete-time pulses are generally dispersed when passed through a discrete-time system. The amount of dispersion (or spreading out) is equal to the system time constant (or width of \(h[n]\)). The system time constant also determines the rate at which the system can transmit information. A smaller time constant corresponds to a higher rate of information transmission, and vice versa. We keep in mind that concepts such as time constant and pulse dispersion only coarsely illustrate system behavior. Let us illustrate these ideas with an example.
+
+Footnote 1: This part of the discussion applies to systems with impulse response \(h[n]\) that is a mostly positive (or mostly negative) pulse.
+
+Since \(h[n]\) resembles a single, mostly positive pulse, we know that the DT system is lowpass. Similar to the CT case shown in Sec. 2.6, we can determine the time constant \(T_{h}\) as the width of a rectangle that approximates \(h[n]\). This rectangle possesses the same peak height and total sum (area), as does \(h[n]\). The peak of \(h[n]\) is 2, and the total sum (area) is
+
+\[\sum_{n=0}^{\infty}2(0.6)^{n}=2\frac{1-0}{1-0.6}=5\]
+
+Since the width of a DT signal is 1 less than its length, we see that the time constant \(T_{h}\) (rectangle width) is
+
+\[T_{h}=\text{rectangle width}=\frac{\text{area}}{\text{height}}-1=\frac{5}{2} -1=1.5\text{ samples}\]
+
+Since time constant, rise time, pulse dispersion are all given by the same value, we see that
+
+\[\text{time constant}=\text{rise time}=\text{pulse dispersion}=T_{h}=1.5\text{ samples}\]
+
+The approximate cutoff frequency of our DT system can be determined as the frequency of a DT sinusoid whose period equals the length of the rectangle approximation to \(h[n]\). That is,
+
+\[\text{cutoff frequency}=\frac{1}{T_{h}+1}=\frac{2}{5}\text{ cycles/sample}\]
+
+Equivalently, we can express the cutoff frequency as \(4\pi/5\) radians/sample.
+
+Notice that \(T_{h}\) is not an integer and thus lacks a clear physical meaning for our DT system. How, for example, can it take 1.5 samples for our DT system to fully respond to an input? We can put our minds at ease by remembering the approximate nature of \(T_{h}\), which is meant to provide only a rough understanding of system behavior.
+
+### 3.11 MATLAB: Discrete-Time Signals and Systems
+
+MATLAB is naturally and ideally suited to discrete-time signals and systems. Many special functions are available for discrete-time data operations, including the stem, filter, and conv commands. In this section, we investigate and apply these and other commands.
+
+### 3.11-1 Discrete-Time Functions and Stem Plots
+
+Consider the discrete-time function \(f[n]=e^{-n/5}\cos{(\pi n/5)}u[n]\). In MATLAB, there are many ways to represent \(f[n]\) including M-files or, for particular \(n\), explicit command line evaluation. In this example, however, we use an anonymous function.
+
+>> f = @(n) exp(-n/5).*cos(pi*n/5).*(n>=0);A true discrete-time function is undefined (or zero) for noninteger \(n\). Although anonymous function f is intended as a discrete-time function, its present construction does not restrict \(n\) to be integer, and it can therefore be misused. For example, MATLAB dutifully returns 0.8606 to f(0.5) when a NaN (not-a-number) or zero is more appropriate. The user is responsible for appropriate function use.
+
+Next, consider plotting the discrete-time function \(f[n]\) over (\(-10\leq n\leq 10\)). The stem command simplifies this task.
+
+>> n = (-10:10)'; >> stem(n,f(n),'k'); >> xlabel('n'); ylabel('f[n]'); Here, stem operates much like the plot command: dependent variable f(n) is plotted against independent variable n with black lines. The stem command emphasizes the discrete-time nature of the data, as Fig. 3.31 illustrates.
+
+For discrete-time functions, the operations of shifting, inversion, and scaling can have surprising results. Compare \(f[-2n]\) with \(f[-2n+1]\). Contrary to the continuous case, the second is not a shifted version of the first. We can use separate subplots, each over (\(-10\leq n\leq 10\)), to help illustrate this fact. Notice that unlike the plot command, the stem command cannot simultaneously plot multiple functions on a single axis; overlapping stem lines would make such plots difficult to read anyway.
+
+>> subplot(2,1,1); stem(n,f(-2*n),'k'); ylabel('f[-2n]'); >> subplot(2,1,2); stem(n,f(-2*n+1),'k'); ylabel('f[-2n+1]'); xlabel('n'); The results are shown in Fig. 3.32. Interestingly, the original function \(f[n]\) can be recovered by interleaving samples of \(f[-2n]\) and \(f[-2n+1]\) and then time-reflecting the result.
+
+Care must always be taken to ensure that MATLAB performs the desired computations. Our anonymous function f is a case in point: although it correctly downsamples, it does not properly upsample (see Prob. 3.11-2). MATLAB does what it is told, but it is not always told how to do everything correctly!
+
+Figure 3.31: \(f[n]\) over (\(-10\leq n\leq 10\)).
+
+### 3.11-2 System Responses Through Filtering
+
+MATLAB's filter command provides an efficient way to evaluate the system response of a constant coefficient linear difference equation represented in delay form as
+
+\[\sum_{k=0}^{N}a_{k}y[n-k]=\sum_{k=0}^{N}b_{k}x[n-k] \tag{3.44}\]
+
+In the simplest form, filter requires three input arguments: a length-(\(N+1\)) vector of feedforward coefficients [\(b_{0},b_{1},\ldots,b_{N}\)], a length-(\(N+1\)) vector of feedback coefficients [\(a_{0},a_{1},\ldots,a_{N}\)], and an input vector.+ Since no initial conditions are specified, the output corresponds to the system's zero-state response.
+
+Footnote †: It is important to pay close attention to the inevitable notational differences found throughout engineering documents. In MATLAB help documents, coefficient subscripts begin at 1 rather than 0 to better conform with MATLAB indexing conventions. That is, MATLAB labels \(a_{0}\) as a(1), \(b_{0}\) as b(1), and so forth.
+
+To serve as an example, consider a system described by \(y[n]-y[n-1]+y[n-2]=x[n]\). When \(x[n]=\delta[n]\), the zero-state response is equal to the impulse response \(h[n]\), which we compute over (\(0\leq n\leq 30\)).
+
+>> b = [1 0 0]; a = [1 -1 1]; >> n = (0:30)'; delta = @(n) 1.0.*(n==0); >> h = filter(b,a,delta(n)); >> clf; stem(n,h,'k'); axis([-.5 30.5 -1.1 1.1]); >> xlabel('n'); ylabel('h[n]');As shown in Fig. 3.33, \(h[n]\) appears to be (\(N_{0}=6\))-periodic for \(n\geq 0\). Since periodic signals are not absolutely summable, \(\sum_{n=-\infty}^{\infty}|h[n]|\) is not finite and the system is not BIBO-stable. Furthermore, the sinusoidal input \(x[n]=\cos{(2\pi n/6)}u[n]\), which is (\(N_{0}=6\))-periodic for \(n\geq 0\), should generate a resonant zero-state response.
+
+>> x = @(n) cos(2*pi*n/6).*(n>=0); >> y = filter(b,a,x(n)); >> stem(n,y,'k'); xlabel('n'); ylabel('y[n]');
+
+The response's linear envelope, shown in Fig. 3.34, confirms a resonant response. The characteristic equation of the system is \(\gamma^{2}-\gamma+1\), which has roots \(\gamma=e^{\pm i\pi/3}\). Since the input \(x[n]=\cos{(2\pi n/6)}u[n]=(1/2)(e^{i\pi n/3}+e^{-j\pi n/3})u[n]\) coincides with the characteristic roots, a resonant response is guaranteed.
+
+By adding initial conditions, the filter command can also compute a system's zero-input response and total response. Continuing the preceding example, consider finding the zero-input response for \(y[-1]=1\) and \(y[-2]=2\) over (\(0\leq n\leq 30\)).
+
+>> z_i = filic(b,a,[1 2]); >> y_0 = filter(b,a,zeros(size(n)),z_i); >> stem(n,y_0,'k'); xlabel('n'); ylabel('y_{0} [n]'); >> axis([-0.5 30.5 -2.1 2.1]);
+
+Figure 3.34: Resonant zero-state response \(y[n]\) for \(x[n]=\cos{(2\pi n/6)}u[n]\).
+
+There are many physical ways to implement a particular equation. MATLAB implements Eq. (3.44) by using the popular direct form II transposed structure.2 Consequently, initial conditions must be compatible with this implementation structure. The signal-processing toolbox function filtic converts the traditional \(y[-1]\), \(y[-2]\),..., \(y[-N]\) initial conditions for use with the filter command. An input of zero is created with the zeros command. The dimensions of this zero input are made to match the vector n by using the size command. Finally, _{ } forces subscript text in the graphics window, and ^{ } forces superscript text. The results are shown in Fig. 3.35.
+
+Footnote 2: Implementation structures, such as direct form II transposed, are discussed in Ch. 4.
+
+Given \(y[-1]=1\) and \(y[-2]=2\) and an input \(x[n]=\cos{(2\pi n/6)}u[n]\), the total response is easy to obtain with the filter command.
+
+>> y_total = filter(b,a,x(n),z_i); Summing the zero-state and zero-input response gives the same result. Computing the total absolute error provides a check.
+
+>> sum(abs(y_total-(y + y_0))) ans = 1.8430e-014 Within computer round-off, both methods return the same sequence.
+
+### 3.11-3 A Custom Filter Function
+
+The filtic command is available only if the signal-processing toolbox is installed. To accommodate installations without the signal-processing toolbox and to help develop your MATLAB skills, consider writing a function similar in syntax to filter that directly uses the ICs \(y[-1]\), \(y[-2]\),..., \(y[-N]\). Normalizing \(a_{0}=1\) and solving Eq. (3.44) for \(y[n]\) yield
+
+\[y[n]=\sum_{k=0}^{N}b_{k}x[n-k]-\sum_{k=1}^{N}a_{k}y[n-k]\]
+
+This recursive form provides a good basis for our custom filter function.
+
+Figure 3.35: Zero-input response \(y_{0}[n]\) for \(y[-1]=1\) and \(y[-2]=2\).
+
+function [y] = CH3MP1(b,a,x,yi); % CH3MP1.m : Chapter 3, MATLAB Program 1 % Function M-file filters data x to create y % INPUTS: b = vector of feedforward coefficients % a = vector of feedback coefficients % x = input data vector % yi = vector of initial conditions [y[-1], y[-2],...] % OUTPUTS: y = vector of filtered output data
+
+yi = flipud(yi(:)); % Properly format IC's. y = [yi;zeros(length(x),1)]; % Preinitialize y, beginning with IC's. x = [zeros(length(yi),1)];x(:)]; % Append x with zeros to match size of y. b = b/a(1);a = a/a(1); % Normalize coefficients. for n = length(yi)+1:length(y),  for nb = 0:length(b)-1,  y(n) = y(n) + b(nb+1)*x(n-nb); % Feedforward terms.  end  for na = 1:length(a)-1,  y(n) = y(n) - a(na+1)*y(n-na); % Feedback terms.  end end y = y(length(yi)+1:end); % Strip off IC's for final output.
+
+Most instructions in CH3MP1 have been discussed; now we turn to the flipud instruction. The flip up-down command flipud reverses the order of elements in a column vector. Although not used here, the flip left-right command fliplr reverses the order of elements in a row vector. Note that typing help _filename_ displays the first contiguous set of comment lines in an M-file. Thus, it is good programming practice to document M-files, as in CH3MP1, with an initial block of clear comment lines.
+
+As an exercise, the reader should verify that CH3MP1 correctly computes the impulse response \(h[n]\), the zero-state response \(y[n]\), the zero-input response \(y_{0}[n]\), and the total response \(y[n]+y_{0}[n]\).
+
+### Discrete-Time Convolution
+
+Convolution of two finite-duration discrete-time signals is accomplished by using the conv command. For example, the discrete-time convolution of two length-4 rectangular pulses, \(g[n]=(u[n]-u[n-4])*(u[n]-u[n-4])\), is a length-\((4+4-1=7)\) triangle. Representing \(u[n]-u[n-4]\) by the vector \([1,1,1,1]\), the convolution is computed by
+
+>> conv([1 1 1 1 1],[1 1 1 1])  ans = 1 2 3 4 3 2 1
+
+Notice that \((u[n+4]-u[n])*(u[n]-u[n-4])\) is also computed by conv([1 1 1 1 1],[1 1 1 1]) and obviously yields the same result. The difference between these two cases is the regions of support: \((0\leq n\leq 6)\) for the first and \((-4\leq n\leq 2)\) for the second. Although the conv command 
+
+[MISSING_PAGE_FAIL:76]
+
+## Chapter 3.12 Appendix: Impulse Response for a Special Case
+
+When \(a_{N}=0,A_{0}=b_{N}/a_{N}\) becomes indeterminate, and the procedure needs to be modified slightly. When \(a_{N}=0,Q[E]\) can be expressed as \(E\hat{Q}[E]\), and Eq. (3.26) can be expressed as
+
+\[E\hat{Q}[E]h[n]=P[E]\delta[n]=P[E]\left\{E\delta[n-1]\right\}=EP[E]\delta[n-1]\]
+
+Hence,
+
+\[\hat{Q}[E]h[n]=P[E]\delta[n-1]\]
+
+In this case the input vanishes not for \(n\geq 1\), but for \(n\geq 2\). Therefore, the response consists not only of the zero-input term and an impulse \(A_{0}\delta[n]\) (at \(n=0\)), but also of an impulse \(A_{1}\delta[n-1]\) (at \(n=1\)). Therefore,
+
+\[h[n]=A_{0}\delta[n]+A_{1}\delta[n-1]+y_{c}[n]u[n]\]
+
+We can determine the unknowns \(A_{0},A_{1}\), and the \(N-1\) coefficients in \(y_{c}[n]\) from the \(N+1\) number of initial values \(h[0]\), \(h[1]\), \(\ldots\), \(h[N]\), determined as usual from the iterative solution of the equation \(Q[E]h[n]=P[E]\delta[n]\).1 Similarly, if \(a_{N}=a_{N-1}=0\), we need to use the form \(h[n]=A_{0}\delta[n]+A_{1}\delta[n-1]+A_{2}\delta[n-2]+y_{c}[n]u[n]\). The \(N+1\) unknown constants are determined from the \(N+1\) values \(h[0]\), \(h[1]\), \(\ldots\), \(h[N]\), determined iteratively, and so on.
+
+Footnote 11: \(\hat{Q}[\gamma]\) is now an \((N-1)\)-order polynomial. Hence there are only \(N-1\) unknowns in \(y_{c}[n]\).
+
+### 3.13 Summary
+
+This chapter discusses time-domain analysis of LTID (linear, time-invariant, discrete-time) systems. The analysis is parallel to that of LTIC systems, with some minor differences. Discrete-time systems are described by difference equations. For an \(N\)th-order system, \(N\) auxiliary conditions must be specified for a unique solution. Characteristic modes are discrete-time exponentials of the form \(\gamma^{n}\) corresponding to an unrepeated root \(\gamma\), and the modes are of the form \(n^{i}\gamma^{n}\) corresponding to a repeated root \(\gamma\).
+
+The unit impulse function \(\delta[n]\) is a sequence of a single number of unit value at \(n=0\). The unit impulse response \(h[n]\) of a discrete-time system is a linear combination of its characteristic modes.2
+
+Footnote 2: There is a possibility of an impulse \(\delta[n]\) in addition to characteristic modes.
+
+The zero-state response (response due to external input) of a linear system is obtained by breaking the input into impulse components and then adding the system responses to all the impulse components. The sum of the system responses to the impulse components is in the form of a sum, known as the convolution sum, whose structure and properties are similar to the convolution integral. The system response is obtained as the convolution sum of the input \(x[n]\) with the system's impulse response \(h[n]\). Therefore, the knowledge of the system's impulse response allows us to determine the system response to any arbitrary input.
+
+LTID systems have a very special relationship to the everlasting exponential signal \(z^{n}\) because the response of an LTID system to such an input signal is the same signal within a multiplicative
+
+[MISSING_PAGE_FAIL:78]

@@ -1,0 +1,540 @@
+## Chapter 1 Signal Representations
+
+### 1.1 Introduction
+
+Signals are detectable physical quantities or variables by which messages or information can be transmitted. A wide variety of signals are of practical importance in describing physical phenomena. Examples include human voice, television pictures, teletype data, and atmospheric temperature. Electrical signals are the most easily measured and the most simply represented type of signals. Therefore, many engineers prefer to transform physical variables to electrical signals. For example, many physical quantities, such as temperature, humidity, speech, wind speed, and light intensity, can be transformed, using transducers, to time-varying current or voltage signals. Electrical engineers deal with signals that have a broad range of shapes, amplitudes, time durations, and perhaps other physical properties. For example, a radar-system designer analyzes high-energy microwave pulses, a communication-system engineer who is concerned with signal detection and signal design analyzes information-carrying signals, a power engineer deals with high-voltage signals, and a computer engineer deals with millions of pulses per second.
+
+Mathematically, signals are represented as functions of one or more independent variables. For example, time-varying current or voltage signals are functions of one variable (time). The vibration of a rectangular membrane can be represented as a function of two spatial variables (\(x\) and \(y\) coordinates), the electrical field intensity can be looked at as a function of two variables (time and space). Finally, an image signal can be regarded as a function of two variables (\(x\) and \(y\) coordinates). In this introductory course of signals and systems, we focus attention on signals involving one independent variable, which we consider to be time, although it can be different in some specific applications.
+
+We begin this chapter with an introduction to two classes of signals that we are concerned with throughout the text, namely, continuous-time and discrete-time signals.
+
+Then in Section 1.3, we define periodic signals. Section 1.4 deals with the issue of power and energy signals. A number of transformations of the independent variable are discussed in Section 1.5. In Section 1.6, we introduce several important elementary signals that not only occur frequently in applications, but also serve as a basis to represent other signals. Section 1.7 is devoted to the orthogonal representation of signals. Orthogonal-series representation of signals is of significant importance in many applications such as Fourier series, sampling functions, and representations of discrete-time signals. These specific applications are so important that they are studied in some detail throughout the text. Other types of signals that are of importance to engineers are mentioned in Section 1.8.
+
+## 1.2 Continuous-Time vs. Discrete-Time Signals
+
+One way to classify signals is according to the nature of the independent variable. If the independent variable is continuous, the corresponding signal is called a continuous-time signal and is defined for a continuum of values of the independent variable. A telephone or a radio signal as a function of time or an atmospheric pressure as a function of altitude are examples of continuous-time signals; see Figure 1.2.1.
+
+A continuous-time signal \(x(t)\) is said to be discontinuous (in amplitude) at \(t=t_{1}\) if \(x(t_{1}^{-})\neq x(t_{1}^{+})\), where \(t_{1}-t_{1}^{-}\) and \(t_{1}^{+}-t_{1}\) are infinitesimal positive numbers. Signal \(x(t)\) is continuous at \(t=t_{1}\) if \(x(t_{1}^{-})=x(t_{1}^{+})=x(t_{1})\). If signal \(x(t)\) is continuous at all points \(t\), we say that \(x(t)\) is continuous. There are many continuous-time signals of interest that are not continuous at all points \(t\). An example is the rectangular pulse function rect(\(t/\tau\)) defined by
+
+\[\text{rect}(t/\tau)=\begin{cases}1,&|t\,|<\dfrac{\tau}{2}\\ 0,&|t\,|>\dfrac{\tau}{2}\end{cases} \tag{1.2.1}\]
+
+Figure 1.2.1: Examples of continuous-time signals.
+
+ Continuous signal \(x(t)\) is said to be piecewise continuous if it is continuous at all \(t\) except at a finite or countably infinite number of points. For such functions, we define the value of the signal at a point of discontinuity \(t_{1}\) as
+
+\[x\left(t_{1}\right)=\frac{1}{2}\left[x\left(t_{1}^{+}\right)-x\left(t_{1}^{-} \right)\right] \tag{1.2.2}\]
+
+The rectangular pulse function rect(\(t/\tau\)) shown in Figure 1.2.2 is an example of a piecewise continuous signal. Another example is the pulse train shown in Figure 1.2.3. This signal is continuous at all \(t\) except at \(t=0\), \(\pm 1\), \(\pm 2\), \(\ldots\). It follows from the definition that finite jumps are the only discontinuities that a piecewise continuous signal can have. Finite jumps are known as ordinary discontinuities. Furthermore, it is clear that the class of piecewise continuous signals includes every continuous signal.
+
+If the independent variable takes on only discrete values \(t=kT_{s}\), where \(T_{s}\) is a fixed positive real number, and \(k\) ranges over the set of integers (i.e., \(k=0\), \(\pm 1\), \(\pm 2\), etc.), the corresponding signal \(x\left(kT_{s}\right)\) is called a discrete-time signal. Discrete-time signals arise naturally in many areas of business, economics, science, and engineering. Examples of discrete-time signals are the amount of a loan payment in the \(kth\) month, the weekly Dow Jones stock index, and the output of an information source that produces one of the digits 1, 2, \(\ldots\), \(M\) every \(T_{s}\) seconds. We consider discrete-time signals in more detail in Chapter 6.
+
+Figure 1.2.3: A pulse train.
+
+### 1.3 Periodic vs. Nonperiodic Signals
+
+Any continuous-time signal that satisfies the condition
+
+\[x\left(t\right)=x\left(t+nT\right),\qquad\quad n=1,\;2,\;3,\;\ldots \tag{1.3.1}\]
+
+where \(T\) is a constant known as the fundamental period, is classified as a periodic signal. A signal \(x\left(t\right)\) that is not periodic is referred to as an aperiodic signal. Familiar examples of periodic signals are the sinusoidal functions. A real-valued sinusoidal signal can be expressed mathematically by a time-varying function of the form
+
+\[x\left(t\right)=A\;\sin(\omega_{0}t+\phi) \tag{1.3.2}\]
+
+where
+
+\[A =\text{amplitude}\] \[\omega_{0} =\text{radian frequency in rad/s}\] \[\phi =\text{initial phase angle with respect to the time origin in rad}\]
+
+This sinusoidal signal is periodic with fundamental period \(T=2\pi/\omega_{0}\) for all values of \(\omega_{0}\).
+
+The sinusoidal time function described in Equation (1.3.2) is usually referred to as a sine wave. Examples of physical phenomena that approximately produce sinusoidal signals are the voltage output of an electrical alternator and the vertical displacement of a mass attached to a spring under the assumption that the spring has negligible mass and no damping. The pulse train shown in Figure 1.2.3 is another example of a periodic signal, with fundamental period \(T\) = 2. Notice that if \(x\left(t\right)\) is periodic with fundamental period \(T\), then \(x\left(t\right)\) is also periodic with period \(2T\), \(3T\), \(4T\), \(\cdot\).. The fundamental radian frequency of the periodic signal \(x\left(t\right)\) is related to the fundamental period by the relationship
+
+\[\omega_{0}=\frac{2\pi}{T} \tag{1.3.3}\]
+
+Engineers and most mathematicians refer to the sinusoidal signal with radian frequency \(\omega_{k}=k\omega_{0}\) as the \(k\)th harmonic. For example, the signal shown in Figure 1.2.3 has a fundamental radian frequency \(\omega_{0}=\pi\), a second harmonic radian frequency \(\omega_{2}=2\pi\), and a third harmonic radian frequency \(\omega_{3}=3\pi\). Figure 1.3.1 shows the first, second, and third harmonics of signal \(x\left(t\right)\) in Eq. (1.3.2) for specific values of \(A\), \(\omega_{0}\), and \(\phi\). As can be seen from the figure, the waveforms corresponding to each harmonic are distinct. In theory, we can associate an infinite number of distinct harmonic signals with a given sinusoidal waveform.
+
+Periodic signals occur frequently in physical problems. In this section, we discuss the mathematical representation of periodic signals. In Chapter 3, we show how to represent any periodic signal in terms of simple periodic signals, such as sine and cosine.
+
+**Example 1.3.1**: Harmonically related continuous-time exponentials are sets of complex exponentials with fundamental frequencies that are all multiples of a single positive frequency \(\omega_{0}\). Mathematically,\[\phi_{k}(t)=\exp\left[jk\omega_{0}t\right],\quad k=0,\ \pm 1,\ \pm 2,\ \ \ldots \tag{1.3.4}\]
+
+We show that for \(k\neq 0\), \(\phi_{k}(t)\) is periodic with fundamental period \(2\pi/\,k\omega_{0}\,|\) or fundamental frequency \(\,|k\omega_{0}\,|\).
+
+In order for signal \(\phi_{k}(t)\) to be periodic with period \(T>0\), we must have
+
+\[\exp\left[jk\omega_{0}(t+T)\right]=\exp\left[jk\omega_{0}t\right]\]
+
+or, equivalently,
+
+\[T=\frac{2\pi}{\,|k\omega_{0}\,|\,} \tag{1.3.5}\]
+
+Note that since a signal that is periodic with period \(T\) is also periodic with period \(IT\) for any positive integer \(l\), then all signals \(\phi_{k}(t)\) have a common period of \(2\pi/\omega_{0}\).
+
+The sum of two periodic signals may or may not be periodic. Consider the two periodic signals \(x\left(t\right)\) and \(y\left(t\right)\) with fundamental periods \(T_{1}\) and \(T_{2}\), respectively. We investigate under what conditions is the sum
+
+\[z\left(t\right)=ax\left(t\right)+by\left(t\right)\]
+
+periodic and what is the fundamental period of this signal if it is periodic. Since \(x\left(t\right)\) is periodic with period \(T_{1}\), then
+
+\[x(t)=x(t+kT_{1})\]
+
+Similarly,
+
+\[y(t)=y\left(t+lt_{2}\right)\]
+
+where \(k\) and \(l\) are integers, such that
+
+\[z\left(t\right)=ax\left(t+kT_{1}\right)+by\left(t+lt_{2}\right)\]
+
+In order for \(z\left(t\right)\) to be periodic with period \(T\), one needs
+
+\[ax\left(t+T\right)+by\left(t+T\right)=ax\left(t+kT_{1}\right)+by\left(t+lt_{2}\right)\]
+
+we therefore must have
+
+\[T=kT_{1}=IT_{2}\]
+
+Figure 1.3: Harmonically related sinusoids.
+
+or, equivalently,
+
+\[\frac{T_{1}}{T_{2}}=\frac{l}{k}\]
+
+In other words, the sum of two periodic signals is periodic only if the ratio of their respective periods can be expressed as a rational number.
+
+**Example 1.3.2**: We wish to determine which of the following signals are periodic.
+
+1. \(x_{1}(t)=\sin 5\pi t\)
+2. \(x_{2}^{\prime}(t)=\cos 4\pi t\)
+3. \(x_{3}(t)=\sin 13t\)
+4. \(x_{4}(t)=2x_{1}(t)-x_{2}(t)\)
+5. \(x_{5}(t)=x_{1}(t)+3x_{3}(t)\)
+
+For the previous signals, \(x_{1}(t)\) is periodic with period \(T_{1}=\frac{2}{5}\), \(x_{2}(t)\) is periodic with period \(T_{2}=\frac{1}{2}\), \(x_{3}(t)\) is periodic with fundamental period \(T_{3}=2\pi/13\), \(x_{4}(t)\) is periodic with period \(T_{4}=2\), but \(x_{5}(t)\) is not periodic because there is no \(l\) and \(k\) such that \(T_{5}=kT_{1}=lT_{3}\). In other words, the ratio of the periods of \(x_{1}(t)\) and \(x_{3}(t)\) is not a rational number.
+
+Note that if \(x(t)\) and \(y(t)\) have the same period \(T\), then \(z(t)=x(t)+y(t)\) is periodic with period \(T\), i.e., linear operations (addition in this case) do not affect the periodicity of the resulting signal. Nonlinear operations on periodic signals (such as multiplication) produce periodic signals with different fundamental periods. The following example demonstrates this fact.
+
+**Example 1.3.3**: Let \(x(t)=\cos\,\omega_{1}t\) and \(y(t)=\cos\,\omega_{2}t\). Consider the signal \(z(t)=x(t)y(t)\). Signal \(x(t)\) is periodic with periodic \(2\pi/\omega_{1}\), and signal \(y(t)\) is periodic with period \(2\pi/\omega_{2}\). The fact that \(z(t)=x(t)y(t)\) has two components, one with radian frequency \(\omega_{2}-\omega_{1}\) and the other with radian frequency \(\omega_{2}+\omega_{1}\), can be seen by rewriting the product of the two cosine signals as
+
+\[\cos\,\omega_{1}t\,\cos\,\omega_{2}t=\frac{1}{2}[\cos\,(\omega_{2}-\omega_{1} )t+\cos\,(\omega_{2}+\omega_{1})t]\]
+
+If \(\omega_{1}=\omega_{2}=\omega\), then \(z(t)\) will have a constant term \((\frac{1}{2})\) and a second harmonic term \((\frac{1}{2}\cos 2\omega)\). In general, nonlinear operations on periodic signals can produce higher-order harmonics.
+
+Since a periodic signal is a signal of infinite duration that should start at \(t=-\infty\) and go on to \(t=\infty\), then all practical signals are nonperiodic. Nevertheless, the study of the system response to periodic inputs is essential (as we see in Chapter 4) in the process of developing the system response to all practical inputs.
+
+### 1.4 Energy and Power Signals
+
+Let \(x\left(t\right)\) be a real-valued signal. If \(x\left(t\right)\) represents the voltage across a resistance \(R\), it produces a current \(i\left(t\right)=x\left(t\right)/R\). The instantaneous power of the signal is \(Ri^{2}\left(t\right)=x^{2}\left(t\right)/R\), and the energy expended during the incremental interval \(dt\) is \(x^{2}\left(t\right)/R\ dt\). In general, we do not necessarily know whether \(x\left(t\right)\) is a voltage or a current signal, and in order to normalize power, we assume that \(R=1\)ohm. Hence, the instantaneous power associated with signal \(x\left(t\right)\) is \(x^{2}\left(t\right)\). The signal energy over a time interval of length \(2L\) is defined as
+
+\[E_{2L}=\int\limits_{-L}^{L}\ |_{x}\left(t\right)|^{2}\ dt \tag{1.4.1}\]
+
+and the total energy in the signal over the range \(t\in\left(-\infty,\ \infty\right)\) can be defined as
+
+\[E=\lim\limits_{L\rightarrow\infty}\ \int\limits_{-L}^{L}|_{x}\left(t\right)|^{2}\ dt \tag{1.4.2}\]
+
+The average power can then be defined as
+
+\[P=\lim\limits_{L\rightarrow\infty}\ \left[\frac{1}{2L}\ \int\limits_{-L}^{L}|_{x} \left(t\right)|^{2}\ dt\right] \tag{1.4.3}\]
+
+Although we have used electrical signals to develop Equations (1.4.2) and (1.4.3), these equations define energy and power, respectively, of any arbitrary signal \(x\left(t\right)\).
+
+When the integral in Equation (1.4.2) exists and yields \(0<E<\infty\), signal \(x\left(t\right)\) is said to be an energy signal. Inspection of Equation (1.4.3) reveals that energy signals have zero power. On the other hand, if the integral limit in Equation (1.4.3) exists and yields \(0<P<\infty\), then \(x\left(t\right)\) is a power signal. Power signals have infinite energy.
+
+As stated earlier, periodic signals are assumed to exist for all time from \(-\infty\) to \(+\infty\) and, therefore, have infinite energy. If it happens that these periodic signals have finite average power (which they do in most cases), then they are power signals. In contrast, bounded finite-duration signals are energy signals.
+
+**Example 1.4.1**: In this example, we show that for a periodic signal with period \(T\), the average power is given by
+
+\[P=\frac{1}{T}\int\limits_{0}^{T}|_{x}\left(t\right)|^{2}\ dt \tag{1.4.4}\]
+
+If \(x\left(t\right)\) is periodic with period \(T\), then the integral in Equation (1.4.3) is the same over any interval of length \(T\). Allowing the limit to be taken in a manner such that \(2L\) is an integral multiple of the period, \(2L=mT\), the total energy of \(x\left(t\right)\) over an interval of length \(2L\) is \(m\) times the energy over one period. The average power is then
+
+\[P=\lim\limits_{m\rightarrow\infty}\left[\frac{1}{mT}\ \int\limits_{0}^{T}|_{x} \left(t\right)|^{2}\ dt\right]\]
+
+\[=\frac{2A^{2}\tau}{T}\]
+
+Therefore, \(x_{2}(t)\) is a power signal with infinite energy and average power of \(2A^{2}\tau/T\).
+
+**Example 1.4.3**: Consider the sinusoidal signal
+
+\[x\left(t\right)=A\,\sin(\omega_{0}t+\phi)\]
+
+This sinusoidal signal is periodic with period
+
+\[T=\frac{2\pi}{\omega_{0}}\]
+
+The average power of this signal is
+
+\[P =\frac{1}{T}\int\limits_{0}^{T}A^{2}\,\sin^{2}(\omega_{0}t+\phi) \ dt\] \[=\frac{A^{2}\omega_{0}}{2\pi}\int\limits_{0}^{2\pi/\omega_{0}} \left[\frac{1}{2}-\frac{1}{2}\cos(2\omega_{0}t+2\phi)\right]dt\] \[=\frac{A^{2}}{2}\]
+
+The last step follows because the signal \(\cos(2\omega_{0}t+2\phi)\) is periodic with period \(T/2\) and the area under a cosine signal over any interval of length \(lT\) is always zero, where \(l\) is a positive integer. (You should have no trouble confirming this result if you draw two complete periods of \(\cos\left(2\omega_{0}t+2\phi\right)\)).
+
+**Example 1.4.4**: Consider the two nonperiodic signals shown in Figure 1.4.2. These two signals are examples of energy signals. The rectangular pulse shown in Figure 1.4.2(a) is strictly time limited since \(x_{1}(t)\) is identically zero outside the pulse duration. The other signal is asymptotically time limited in the sense that \(x_{2}(t)\to 0\) as \(t\to\pm\infty\). Such signals may also be described loosely as "pulses." In either case, the average power equals zero. The energy for signal \(x_{1}(t)\) is
+
+\[E_{1} =\lim_{L\to\infty}\int\limits_{-L}^{L}x_{1}^{2}(t)\ dt\] \[=\int\limits_{-\tau/2}^{\tau/2}A^{2}\ dt=A^{2}\tau\]
+
+For \(x_{2}(t)\),
+
+\[E_{2}=\lim_{L\to\infty}\int\limits_{-L}^{L}A^{2}\exp\left[-2a\,|\,t\,|\right]dt\]
+
+To perform the time-shifting operation, replace \(t\) by \(t-2\) in the expression for \(x(t)\):
+
+\[x(t-2)=\begin{cases}(t-2)+1,&-1\leq t-2\leq 0\\ 1,&0\leq t-2\leq 2\\ -(t-2)+3,&2<t-2\leq 3\\ 0,&\text{otherwise}\end{cases}\]
+
+or, equivalently,
+
+\[x(t-2)=\begin{cases}t-1,&1\leq t\leq 2\\ 1,&2<t\leq 4\\ -t+5,&4<t\leq 5\\ 0,&\text{otherwise}\end{cases}\]
+
+\(x(t-2)\) is plotted in Figure 1.5.3(a) and can be described as \(x(t)\) shifted two units to the right on the time axis. Similarly, it can be shown that
+
+\[x(t+3)=\begin{cases}t+4,&-4\leq t\leq-3\\ 1,&-3<t\leq-1\\ -t,&-1<t\leq 0\\ 0,&\text{otherwise}\end{cases}\]
+
+Signal \(x(t+3)\) is plotted in Figure 1.5.3(b) and represents a shifted version of \(x(t)\), the amount of shift being three units to the left.
+
+Figure 1.5.1: The shifting operation.
+
+Figure 1.5.2: Plot of \(x(t)\) for Example
+
+**Example 1.5.2**: Vibration sensors are mounted on the front and rear axles of a moving vehicle to pick up vibrations due to the roughness of the road surface. The signal from the front sensor is \(x\left(t\right)\) and is shown in Figure 1.5.4. The signal from the rear axle sensor is modeled as \(x\left(t-120\right)\). If the sensors are placed 6 ft apart, it is possible to determine the speed of the vehicle by comparing the signal from the rear axle sensor with the signal from the front axle sensor.
+
+Figure 1.5.5 illustrates the time-delayed version of \(x\left(t\right)\), where the delay is 120 ms or 0.12 s. The delay \(\tau\) between the sensor signals from the front and rear axles is related to the distance \(d\) between the two axles and the speed \(v\) of the vehicle as
+
+\[d=v\tau\]
+
+so that
+
+\[v =\frac{d}{\tau}\] \[\equiv\frac{6\;ft}{0.12\;s}=50\;ft/s\]
+
+Figure 1.5.3: The shifting of \(x\left(t\right)\) of Example 1.5.1.
+
+Figure 1.5.4: Front axle sensor signal for Example 1.5.2.
+
+**Example 1.5.4**: We want to draw \(x(-t)\) and \(x(3-t)\) if \(x(t)\) is as shown in Figure 1.5.9(a). Signal \(x(t)\) can be written as
+
+\[x(t)=\begin{cases}t+1,&-1\leq t\leq 0\\ 1,&0<t\leq 2\\ 0,&\text{otherwise}\end{cases}\]
+
+\(x(-t)\) is obtained by replacing \(t\) by \(-t\) in the last equation so that
+
+\[x(-t)=\begin{cases}-t+1,&-1\leq-t\leq 0\\ 1,&0<-t\leq 2\\ 0,&\text{otherwise}\end{cases}\]
+
+or, equivalently,
+
+\[x(-t)=\begin{cases}-t+1,&0\leq t\leq 1\\ 1,&-2<t\leq 0\\ 0,&\text{otherwise}\end{cases}\]
+
+Figure 1.5.7: Transmitted and received pulse train of Example 1.5.3.
+
+Figure 1.5.8: The reflection operation.
+
+\(x(-t)\) is illustrated in Figure 5.9(b) and can be described as \(x(t)\) reflected about the vertical axis. Similarly, it can be shown that
+
+\[x(3-t)=\begin{cases}4-t,&3\leq t\leq 4\\ 1,&1<t\leq 3\\ 0,&\text{otherwise}\end{cases}\]
+
+\(x(3-t)\) vs. \(t\) is shown in Figure 5.9(c) and can be viewed as \(x(t)\) reflected and then shifted three units to the right. This result is obtained as follows:
+
+\[x(3-t)=x(-(t-3))\quad.\]
+
+Note that if we first shift \(x(t)\) by three units and then reflect the shifted signal, this results in \(x(-t-3)\), which is shown in Figure 5.9(d). Therefore, the operations of shifting and reflecting are not commutative.
+
+In addition to its use in representing physical phenomena such as in the video recorder example, reflection is extremely useful in examining the symmetry properties that the signal may possess. Signal \(x(t)\) is referred to as an even signal, or is said to be even symmetric, if it is identical with its reflection about the origin, that is,
+
+\[x(-t)=x(t) \tag{1.5.1}\]
+
+Figure 5.9: Plots of \(x(-t)\) and \(x(3-t)\) for Example 1.5.4.
+
+A signal is referred to as odd symmetric if
+
+\[x(-t)=-\ x(t) \tag{1.5.2}\]
+
+An arbitrary signal \(x(t)\) can always be expressed as a sum of even and odd signals as
+
+\[x(t)=x_{e}(t)+x_{0}(t) \tag{1.5.3}\]
+
+where \(x_{e}(t)\) is called the even part of \(x(t)\) and is given by (see Problem 1.14)
+
+\[x_{e}(t)=\frac{1}{2}\left[x(t)+x(-t)\right] \tag{1.5.4}\]
+
+and \(x_{\tilde{0}}(t)\) is called the odd part of \(x(t)\) and is expressed as
+
+\[x_{0}\left(t\right)=\frac{1}{2}\left[x(t)-x(-t)\right] \tag{1.5.5}\]
+
+**Example 1.5.5**: Consider signal \(x(t)\) defined by
+
+\[x(t)=\begin{cases}1,&t>0\\ 0,&t<0\end{cases}\]
+
+The even and odd parts of this signal are
+
+\[x_{e}(t)=\frac{1}{2},\qquad\text{ all }\quad t\text{ except }\ t=0\]
+
+\[x_{0}\left(t\right)=\begin{cases}-\frac{1}{2},&t<0\\ \frac{1}{2},&t>0\end{cases}\]
+
+The only problem here is the value of these functions at \(t=0\). If we define \(x(0)=\frac{1}{2}\) (the definition here is consistent with what we will be using to define the signal at a point of discontinuity), then
+
+\[x_{e}(0)=\frac{1}{2}\quad\text{ and }\quad x_{0}\left(0\right)=0\]
+
+Signals \(x_{e}(t)\) and \(x_{0}(t)\) are plotted in Figure 1.5.10.
+
+**Example 1.5.6**: Consider the signal
+
+\[x\left(t\right)=\begin{cases}A\ \exp[-\alpha t],&t>0\\ 0,&t<0\end{cases}\]
+
+The even part of the signal is given by
+
+\[x_{e}(t)=\begin{cases}\frac{1}{2}\ A\ \exp[-\alpha t],&t>0\\ \frac{1}{2}\ A\ \exp[\alpha t],&t<0\end{cases}\]\[=\frac{1}{2}\,A\exp[-\alpha\,|\,t\,|\,]\]
+
+The odd part of \(x\,(t)\) is
+
+\[x_{o}(t)=\begin{cases}\frac{1}{2}\,\,A\,\exp[-\alpha\,|\,],&t>0\\ -\frac{1}{2}\,\,A\,\exp[\alpha\,|\,],&t<0\end{cases}\]
+
+Signals \(x_{e}(t)\) and \(x_{0}(t)\) are as shown in Figure 1.5.11.
+
+#### The Time-Scaling Operation
+
+Consider the signals \(x(t)\), \(x(3t)\), and \(x\,(t/2)\) as shown in Figure 1.5.12. As can be seen, \(x\,(3t)\) can be described as \(x\,(t)\) contracted by a factor of 3. Similarly, \(x\,(t/2)\) can be 
+
+**Example 1.5.8**: The time it takes a signal to reach \(90\%\) of its final value, \(T_{90}\), is an important characteristic. We will find \(T_{90}\) for the following signals:
+
+1. \(x(t)\)
+2. \(x(2t)\)
+3. \(x(t/2)\)
+
+where \(x(t)=1-\exp[-t]\)
+
+1. The final value of signal \(x(t)\) is \(1\). To find the time required for \(x(t)\) to reach \(0.90\), we have to solve \[0.90=1-\exp[-T_{90}]\] which yields \(T_{90}\approx 2.3\).
+2. For signal \(x(2t)\), we have to solve \[0.90=1-\exp[-2T_{90}]\] which yields \(T_{90}\approx 1.15\).
+3. Signal \(x(t/2)\) has \(T_{90}\) given by \[0.90=1-\exp[-\frac{T_{90}}{2}]\] which results in \(T_{90}\approx 4.6\). These results were expected. In part (b), we compressed the signal by a factor of \(2\), and in part (c), we expanded the signal by the same factor.
+
+In conclusion, for any general signal \(x(t)\), the transformation \(\alpha t+\beta\) on the independent variable can be performed as follows:
+
+\[x(\alpha t+\beta)=x(\alpha(t+\beta/\alpha)) \tag{1.5.6}\]
+
+where \(\alpha\) and \(\beta\) are assumed to be real numbers. The operations should be performed in the following order:1. Scale by \(\alpha\). If \(\alpha\) is negative, reflect about the vertical axis.
+2. Shift to right by \(\beta/\alpha\) if \(\beta\) and \(\alpha\) have different signs, and to the left by \(\beta/\alpha\) if \(\beta\) and \(\alpha\) have the same sign.
+
+Note that the operations of reflecting and time scaling are commutative, whereas the operation of shifting and reflecting or shifting and time scaling are not.
+
+### 6 Elementary Signals
+
+There are several important elementary signals that not only occur frequently in applications, but also serve as a basis to represent other signals. Throughout the book, we will find that representing signals in terms of these elementary signals allows us to better understand the properties of both signals and systems. Furthermore, many of these signals have features that make them particularly useful in the solution of engineering problems and, therefore, of importance in our subsequent studies.
+
+#### The Unit Step Function
+
+The continuous-time unit step function is defined as
+
+\[u\left(t\right)=\begin{cases}1,&t>0\\ 0,&t<0\end{cases} \tag{6.1}\]
+
+and is shown in Figure 1.1.
+
+This signal is an important signal for analytic studies and it also has many practical applications. Note that the unit step function is continuous for all \(t\) except at \(t=0\), where there is a discontinuity at \(t=0\). According to our earlier discussion, we define \(u\left(0\right)=\frac{1}{2}\). An example of a unit step function is the output of a 1-V dc voltage source in series with a switch that is turned on at time \(t=0\).
+
+The rectangular pulse signal shown in Figure 1.1.2 is the result of an on-off switching operation of a constant voltage source in an electric circuit.
+
+Figure 1.1: Continuous-time unit step function.
+
+In general, a rectangular pulse that extends from -a to +a and has an amplitude \(A\) can be written as a difference between appropriately shifted step functions, i.e.,
+
+\[A\,\,\text{rect}(t/2a)=A\left[\begin{array}{c}u\left(t+a\right)-u\left(t-a \right)\end{array}\right] \tag{1.6.2}\]
+
+In our specific example:
+
+\[2\,\,\text{rect}(t/2)=2\left[u\left(t+1\right)-u\left(t-1\right)\right]\]
+
+Consider the signum function (written sgn) shown in Figure 1.6.3. The unit sgn function is defined by
+
+\[\text{sgn}\,t=\begin{bmatrix}1,&t>0\\ 0,&t=0\\ -1,&t<0\end{bmatrix} \tag{1.6.3}\]
+
+The signum function can be expressed in terms of the unit step function as
+
+\[\text{sgn}\,t=-1+2u\left(t\right)\]
+
+The signum function is one of the most often used signals in communication and in control theory.
+
+Figure 1.6.3: The signum function.
+
+\(x=\pm n\pi\). The value of the function at \(x=0\) is established by using L'Hopital's rule.
+
+A closely related function is \(\mathrm{sinc}\ x\), which is defined by
+
+\[\mathrm{sinc}\ x=\frac{\sin\ \pi x}{\pi x}=\mathrm{Sa}\left(\pi x\right) \tag{1.6.6}\]
+
+and is shown in Figure 1.6.6(b). Note that \(x\) is a compressed version of \(\mathrm{Sa}\left(x\right)\). The compression factor is \(\pi\).
+
+Figure 1.6.6: The sampling function.
+
+\[\int\limits_{t_{1}}^{t_{2}}x(t)\ \delta(t-t_{0})\ dt=\frac{1}{2}\ x(t_{0}),\ \ \ t_{0}=t_{1}\ \ \ \text{or}\ \ t_{0}=t_{2} \tag{1.6.9}\]
+
+which implies that signal \(x(t)\) can be expressed as a continuous sum of weighted impulses. This result can be interpreted graphically if we approximate \(x(t)\) by a sum of rectangular pulses each of width \(\Delta\) seconds and of varying heights, as shown in Figure 1.6.9. That is
+
+\[\hat{\lambda}(t)=\sum\limits_{k=-\infty}^{\infty}x(k\Delta)\operatorname{ rect}\left(\left(t-k\Delta\right)/\Delta\right)\]
+
+which can be written as
+
+\[\hat{\lambda}(t)=\sum\limits_{k=-\infty}^{\infty}x(k\Delta)\left[\frac{1}{ \Delta}\operatorname{ rect}\left(\left(t-k\Delta\right)/\Delta\right)\right]\left[k\Delta-(k-1)\Delta\right]\]Now each term in the sum represents the area under the kth pulse in the approximation \(\hat{\hat{x}}\left(t\right)\). We now let \(\Delta\to 0\) and replace \(k\Delta\) by \(\tau\), so that \(k\Delta-(k-1)\Delta=d\tau\) and the summation becomes an integral. Also, as \(\Delta\to 0\), \(1/\Delta\) rect\(\left((t-k\Delta)/\Delta\right)\) approaches \(\delta(t-\tau)\) and Equation (1.6.10) follows. The representation of Equation (1.6.10), along with the superposition principle, is used in Chapter 2 to study the behavior of special and important class of systems known as linear time-invariant systems.
+
+### 1.6 Sampling Property.
+
+If \(x\left(t\right)\) is continuous at \(t_{0}\), then
+
+\[x\left(t\right)\,\delta(t-t_{0})=x(t_{0})\,\delta(t-t_{0}) \tag{1.6.11}\]
+
+Graphically, this property can be illustrated by approximating the impulse signal by a rectangular pulse of width \(\Delta\) and height \(1/\Delta\), as shown in Figure 1.6.10, and then allowing \(\Delta\) to approach zero to obtain
+
+\[\lim_{\Delta\to 0}\,x\left(t\right)\,\frac{1}{\Delta}\,\text{rect}\left((t-t_{0})/ \Delta\right)=x(t_{0})\,\delta(t-t_{0})\]
+
+Mathematically, two functions, \(f_{1}(\delta(t))\) and \(f_{2}(\delta(t))\), are equivalent over the interval \((t_{1},t_{2})\) if for any continuous function \(y(t)\),
+
+Figure 1.6.10: The sampling property of the impulse function.
+
+\[\int\limits_{t_{1}}^{t_{2}}x(t)\ \delta(at+b)\ dt=\int\limits_{t_{1}}^{t_{2}} \frac{1}{a\ }\ x(t)\ \delta(t+\frac{b}{a})\ dt,\qquad t_{1}<\frac{b}{a}<t_{2}\]
+
+Applying the sifting property to the right-hand side yields
+
+\[\frac{1}{a}\ x(\frac{-b}{a})\]
+
+To evaluate the left-hand side, we use the following transformation of variables:
+
+\[\tau=at+b\]
+
+Then \(dt=(1/a)\ d\tau\) and the range \(t_{1}<t<t_{2}\) becomes \(at_{2}+b<\tau<at_{1}+b\). The left-hand side now becomes
+
+\[\int\limits_{t_{1}}^{t_{2}}x(t)\ \delta(at+b)\ dt=\int\limits_{at_{1}+b}^{at_{2 }+b}x(\frac{\tau-b}{a})\ \delta(\tau)\ \frac{1}{a}\ d\tau\]
+
+\[=\frac{1}{a}\ x(\frac{-b}{a})\]
+
+which is the same as the right-hand side.
+
+When \(a<0\), we have to show that
+
+\[\int\limits_{t_{1}}^{t_{2}}x(t)\ \delta(at+b)\ dt=\int\limits_{t_{1}}^{t_{2}} \frac{1}{|a|}\ x(t)\ \delta(t+\frac{b}{a})\ dt,\ \ \ \ \ t_{1}<\frac{b}{a}<t_{2}\]
+
+d. \(\int\limits_{-\infty}^{t}\delta(\tau)\;d\tau\) 1. Using the sifting property yields \[\int\limits_{-2}^{1}\left(t\,+\,t^{2}\right)\,\delta(t-3)\;dt\,=0\] since \(t=3\) is not in the interval \(-\,2\,<\,t\,<\,1\). 2. Using the sifting property yields \[\int\limits_{-2}^{4}\,\left(t\,+\,t^{2}\right)\,\delta(t-3)\;dt\,=3+3^{2}=12\] since \(t=3\) is within the interval \(-\,2\,<\,t\,<\,4\). 3. Using the scaling property and then the sifting property yields \[\int\limits_{0}^{3}\exp[t\,-\,2]\;\delta(2t-4)\;dt\,= \int\limits_{0}^{3}\exp[t\,-\,2]\;\frac{1}{2}\;\delta(t-2)\;dt\] \[=\frac{1}{2}\,\exp[0]=\frac{\mathbb{I}}{2}\] d. Consider the following two cases: _Case 1: \(t<0\)_ In this case, point \(\tau=0\) is not within the interval \(-\infty<\tau<t\), and the result of the integral is zero. _Case 2: \(t>0\)_ In this case, \(\tau=0\) lies within the interval \(-\infty<\tau<t\), and the value of the integral is \(1\). In summary, \[\int\limits_{-\infty}^{\tau}\delta(\tau)\;d\tau=\begin{cases}1,&t>0\\ 0,&t<0\end{cases}\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\
+
+Higher-order derivatives of \(\delta(t)\) can be defined by extending the definition of \(\delta^{\prime}(t)\). For example, the \(n\)th-order derivative of \(\delta(t)\) is defined by
+
+\[\int\limits_{t_{1}}^{t_{2}}x\left(t\right)\,\delta^{(n)}(t-t_{0})\ dt=(-1)^{n}x^{(n)}(t_{0}),\qquad t _{1}<t_{0}<t_{2} \tag{1.6.16}\]
+
+provided that the \(n\)th-order derivative of \(x\left(t\right)\) exists at \(t=t_{0}\). The graphical representation of \(\delta^{\prime}(t)\) is shown in Figure 1.6.11.
+
+**Example 1.6.7**: The current through inductor \(L\) with a \(1\)-mH inductance is \(i\left(t\right)=10\,\exp[-2t]\ u\left(t\right)\) ampere. The voltage drop across the inductor is given by
+
+\[v\left(t\right) =10^{-3}\times 10\ \frac{d}{dt}\,\exp[-2t]\ u\left(t\right)\] \[=10^{-2}(\exp[-2t]\ \delta(t)-2\exp[-2t]\ u\left(t\right))\ \ \text{ volts}\]
+
+where the last step follows from Equation (1.6.11). \(v\left(t\right)\) is plotted in Figure 1.6.12(a). The rate of change of \(v\left(t\right)\) is given by
+
+\[\frac{dv\left(t\right)}{dt} =10^{-2}[\delta^{\prime}(t)-2\exp[-2t]\,\delta(t)+4\exp[-2t]\ u \left(t\right)]\] \[=10^{-2}[\delta^{\prime}(t)-2\ \delta(t)+4\exp[-2t]\,u\left(t \right)]\ \ \text{V/s}\]
+
+Figure 1.6.12(b) demonstrates the behavior of \(dv\left(t\right)/dt\) vs. \(t\). Note that the derivative of \(x\left(t\right)u\left(t\right)\) is obtained by using the product rule of differentiation, i.e.,
+
+Figure 1.6.12: \(v\left(t\right)\) and \(dv\left(t\right)/dt\) for Example 1.6.7.
+
+\[\frac{d}{dt}\left[x\left(t\right)\,u\left(t\right)\right]=x\left(t\right)\delta(t)+ x^{\prime}(t)u\left(t\right)\]
+
+whereas the derivative of \(x\left(t\right)\,\delta(t)\) is
+
+\[\frac{d}{dt}[x\left(t\right)\delta(t)]=\frac{d}{dt}[x\left(0\right)\delta(t)]\]
+
+This result cannot be obtained by direct differentiation of the product because \(\delta(t)\) is interpreted as a functional rather than an ordinary function.
+
+### 7 Orthogonal Representations of Signals
+
+Orthogonal representations of signals are of general importance in solving many engineering problems. There are several reasons why this is so. First, it is mathematically convenient to represent arbitrary signals as a weighted sum of orthogonal waveforms, since many of the calculations involving signals are simplified by using such a representation. Second, it is possible to visualize the signal as a vector in an orthogonal coordinate system with the orthogonal waveforms being the unit coordinates.
+
+A set of signals \(\phi_{i}\), \(i=0\), \(\pm 1\), \(\pm 2\), \(\ldots\), are said to be orthogonal over an interval \((a,b)\) if
+
+\[\int\limits_{a}^{b}\phi_{i}(t)\,\phi_{k}^{*}(t)\ dt = \left\{\begin{array}{ll}E_{k},&l=k\\ 0,&l\neq k\end{array}\right. \tag{7.1}\] \[= E_{k}\delta(l-k)\]
+
+where superscript * stands for complex conjugating the signal and \(\delta(l-k)\) is called the Kronecker delta function and is defined as
+
+\[\delta(l-k)=\left\{\begin{array}{ll}1,&l=k\\ 0,&l\neq k\end{array}\right. \tag{7.2}\]
+
+If \(\phi_{i}(t)\) corresponds to a voltage or a current waveform associated with a 1 ohm resistive load, then, from Equation (1.4.1), \(E_{k}\) is the energy dissipated in the load in \(b-a\) seconds due to signal \(\phi_{k}(t)\). If the constants \(E_{k}\) are all equal to 1, the \(\phi_{i}(t)\) are said to be orthonormal signals. Normalizing any set of signals \(\phi_{i}(t)\) is achieved by dividing each signal by \(\sqrt{E_{i}}\).
+
+**Example 7.1**: Signals \(\phi_{m}(t)=\sin mt\), \(m=1,\,2,\,3\), \(\ldots\), form an orthogonal set on the interval \(-\pi<t<\pi\) because
+
+\[\begin{array}{ll}\int\limits_{-\pi}^{\pi}\phi_{m}(t)\,\phi_{n}^{*}(t)\ dt =&\int\limits_{-\pi}^{\pi}(\sin mt)\,\left(\sin nt\right)\,dt\\ =&\frac{1}{2}\int\limits_{-\pi}^{\pi}\cos\left(m-n\right)t\ dt -\frac{1}{2}\int\limits_{-\pi}^{\pi}\cos\left(m+n\right)t\ dt\end{array}.\]\[=\begin{bmatrix}\pi,&m=n\\ 0,&m\neq n\end{bmatrix}\]
+
+Since the energy in each signal equals \(\pi\), then the following signal set constitutes an orthonormal set over the interval \(-\pi<t<\pi:\)
+
+\[\frac{\sin t}{\sqrt{\pi}},\quad\frac{\sin 2t}{\sqrt{\pi}},\quad\frac{\sin 3t}{ \sqrt{\pi}},\.\.\.\]
+
+**Example 1.7.2**: Signals \(\phi_{k}(t)=\exp[j(2\pi k\ t)/T\ ],\)\(k=0,\pm 1,\)\(\pm 2,\)\(\ldots,\) form an orthogonal set on the interval \((0,\,T)\) because
+
+\[\int\limits_{0}^{T}\!\!\phi_{t}(t)\,\phi_{k}^{*}(t)\ dt =\int\limits_{0}^{T}\!\exp[\frac{j(2\pi l\ t)}{T}]\exp[\frac{-j( 2\pi k\ t)}{T}]\ dt\] \[=\left\{\begin{array}{ll}T,&l=k\\ 0,&l\neq k\end{array}\right.\]
+
+and, hence, \((1/\sqrt{T})\exp[(\,j\,2\pi k\ t)/T]\) constitute an orthonormal set over the interval \(0<t<T.\)
+
+**Example 1.7.3**: The three signals shown in Figure 1.7.1 are orthonormal since they are mutually orthogonal and each has unit energy.
+
+Orthonormal sets are useful in that they lead to a series representation of signals in a relatively simple fashion. Let \(\phi_{i}(t)\) be an orthonormal set of signals on an interval \(a<t<b\) and let \(x(t)\) be a given signal with finite energy over the same interval. We can represent \(x(t)\) in terms of \(\{\phi_{i}\}\) by a convergent series as
+
+\[x(t)=\sum\limits_{i\ =\ -\infty}^{\infty}c_{i}\,\phi_{t}(t) \tag{1.7.3}\]
+
+Figure 1.7.1: Three orthonormal signals.
+
+where
+
+\[c_{k}=\int\limits_{a}^{b}\!x(t)\,\phi_{k}^{*}(t)\ dt,\ \ \ \ \ \ k=0,\,\pm 1,\,\pm 2,\ \ldots \tag{1.7.4}\]
+
+Equation (1.7.4) follows by multiplying Equation (1.7.3) by \(\phi_{k}^{*}(t)\) and integrating the result over the range of definition of \(x(t)\). Note that the coefficients can be computed independently of each other. If the set \(\phi_{i}(t)\) is only an orthogonal set, then Equation (1.7.4) takes the form (see Problem 1.28)
+
+\[c_{i}=\frac{1}{E_{i}}\int\limits_{a}^{b}x(t)\ \phi_{i}*(t)\ dt \tag{1.7.5}\]
+
+The series representation of Equation (1.7.3) is called a generalized Fourier series of \(x(t)\) and the constants \(c_{i_{i}}\ i=0,\,\pm 1,\,\pm 2,\,\ldots\,\) are called the Fourier coefficients with respect to the orthogonal set \(\{\phi_{i}(t)\}\). In Chapter 3, we treat Fourier series in more detail.
+
+In general, the representation of an arbitrary signal in a series expansion of the form of Equation (1.7.3) requires that the sum on the right side is an infinite sum. In practice, we can use only a finite number of terms on the right side. When we truncate the infinite sum on the right to a finite number of terms, we get an approximation \(\hat{x}(t)\) to the original signal \(x(t)\). When we use only \(M\) terms, the representation error is
+
+\[e_{M}(t)=x\left(t\right)-\sum\limits_{i=1}^{M}\,c_{i}\phi_{i}(t) \tag{1.7.6}\]
+
+The energy in this error is
+
+\[\check{E_{e}}(\dot{M})=\int\limits_{a}^{b_{i}}\,|\,e_{\dot{M}}(t)\,|^{2}\ dt= \int\limits_{a}^{b}\,|\,x(t)-\sum\limits_{i=1}^{M}\,c_{i}\phi_{i}(t)\,|^{2}\ \dot{dt} \tag{1.7.7}\]
+
+It can be shown that for any \(M\), the choice of \(c_{k}\) according to Equation (1.7.4) minimizes the energy in error \(e_{M}\) (see Problem 1.27).
+
+Certain classes of signals, finite-length digital communication signals, for example, permit expansion in terms of a finite number of orthogonal functions \(\{\phi_{i}(t)\}\). In this case, \(i=1,\,2,\,\ldots\,\,N\), where \(N\) is the dimension of the signal set. The series representation is then reduced to
+
+\[x(t)=\mathbf{x}^{T}\,\boldsymbol{\phi}(t) \tag{1.7.8}\]
+
+where vectors \(\mathbf{x}\) and \(\boldsymbol{\phi}(t)\) are defined as
+
+\[\mathbf{x}=[c_{1},\,c_{2},\ldots\,c_{N}]^{T}\] \[\boldsymbol{\phi}(t)=[\phi_{1}(t),\phi_{2}(t),\ldots\,\phi_{N}(t) ]^{T} \tag{1.7.9}\]
+
+and superscript \(T\) denotes vector transposition. The normalized energy of \(x(t)\) over the interval \(a<t<b\) is
+
+\[E_{x}=\int\limits_{a}^{b}\,|\,x(t)\,|^{2}\ dt=\int\limits_{a}^{b}\,|\sum \limits_{i=1}^{N}\,c_{i}\phi_{i}(t)\,|^{2}\ dt\]
+
+\[\phi_{1}(t)=\frac{1}{\sqrt{2}}\,x_{2}(t),\qquad\phi_{2}(t)=\frac{\cdot\mid}{\sqrt{3 }}\left\{2\,u\left(t-1\right)-u\left(t\right)-u\left(t-3\right)\right\}\]
+
+and
+
+\[\phi_{3}(t)=\frac{1}{\sqrt{6}}\,x_{4}(t)\,.\]
+
+then
+
+Figure 1.7.2: Orthogonal representations of digital signals.
+
+\[\bar{\mathbf{x}}_{1}=[\sqrt{2},-\frac{\sqrt{3}}{3},2\frac{\sqrt{6}}{3} ]^{T},\qquad\mathbf{x}_{2}=[\sqrt{2},0,0]^{T}\] \[\bar{\mathbf{x}}_{3}=[\frac{\sqrt{2}}{2},2\frac{\sqrt{3}}{3},\frac {\sqrt{6}}{6}]^{T},\qquad\mathbf{x}_{4}=[0,0,\sqrt{6}\,]^{T}\]
+
+In closing, we should emphasize that the results presented in this section are general and the main purpose of this section is to introduce the reader to a general way of representing signals in terms of other bases in a formal way. We will see in Chapter 3, for example, that periodic signals have a series representation in terms of complex exponentials. Also, in Chapter 4, we will see that if the signal satisfies some restrictions, then we can write it in terms of an orthonormal basis (interpolating signals), with the series coefficients being samples of the signal obtained at appropriate time intervals.
+
+### Other Types of Signals
+
+There are many other types of signals that electrical engineers work with very often. Signals can be classified broadly as random and nonrandom, or deterministic. The study of random signals is well beyond the scope of this text, but some of the ideas and techniques that we discuss in this text are basic to more advanced topics. Random signals do not have the kind of totally predictable behavior that deterministic signals do. Voice, music, computer output, TV, and radar signals are neither pure sinusoids nor pure periodic waveforms. If they were, by knowing one period of the signal, we would predict what the signal would look like for all future time. Any signal that is capable of carrying meaningful information is in some way random. In other words, in order to contain information, a signal must, in some way, change in a nondeterministic manner.
+
+Signals can also be classified as analog or digital signals. In science and engineering, the word "analog" means to act similarly, but in a different domain. For example, the electric voltage at the output terminals of a stereo amplifier varies in exactly the same way as does the sound that activated the microphone that is feeding the amplifier. In other words, the electric voltage \(v(t)\) at every instant of time is proportional (analog) to the air pressure that is rapidly varying with time. Simply, an analog signal is a physical quantity that varies with time, usually in a smooth and continuous function.
+
+The values of a discrete-time signal can be continuous or discrete. If a discrete-time signal takes on all possible values on a finite or infinite range, it is said to be a continuous-amplitude discrete-time signal. Alternatively, if the discrete-time signal takes on values from a finite set of possible values, it is said to be a discrete-amplitude discrete-time signal, or, simply, a digital signal. Examples of digital signals are digitized images, computer input, and signals associated with digital information sources.
+
+Most of the signals that we encounter in nature are analog signals. A basic reason for this is that physical systems cannot respond instantaneously to changing inputs. Moreover, in many cases, the signal is not available in electrical form, thus requiringthe use of a transducer (mechanical, electrical, thermal, optical, and so on) to provide an electrical signal that is representative of the system signal. These transducers generally cannot respond instantaneously to changes and tend to smooth out the signals.
+
+Digital signal processing has developed rapidly over the past two decades. This is attributed to significant advances in digital computer technology and integrated-circuit fabrication. In order to process signals digitally, they must be in a digital form (discrete in time and discrete in amplitude). If the signal to be processed is in analog form, it is first converted to a discrete-time signal by sampling the signal at discrete instants in time. The discrete-time signal is then converted to a digital signal by a process called quantization.
+
+Quantization is the process of converting a continuous-amplitude signal into a discrete-amplitude signal and is basically an approximation process. The whole procedure is called analog-to-digital (A/D) conversion, and the corresponding device is called an A/D converter.
+
+### 9 Summary
+
+* Signals can be classified as continuous-time or discrete-time signals.
+* Continuous-time signals that satisfy the condition \(x\left(t\right)=x\left(t+T\right)\) are periodic with fundamental period \(T\).
+* The fundamental radian frequency of the periodic signal is related to the fundamental period \(T\) by the relationship \[\omega_{0}=\frac{2\pi}{T}\]
+* The complex exponential \(x\left(t\right)=\exp\left[j\omega_{0}t\right]\) is periodic with period \(T=2\pi/\omega_{0}\) for all \(\omega_{0}\).
+* Harmonically related continuous-time exponentials \[x_{k}(t)=\exp\left[jk\omega_{0}t\right]\] are periodic with common period \(T=2\pi/\omega_{0}\).
+* Energy \(E\) of signal \(x\left(t\right)\) is defined by \[E=\lim\limits_{L\rightarrow\infty}\int\limits_{-L}^{L}\left|x(t)\right|^{2}\ dt\]
+* Power \(P\) of signal \(x\left(t\right)\) is defined by \[P=\lim\limits_{L\rightarrow\infty}\ \frac{1}{2L}\int\limits_{-L}^{L}\left|x(t)\right|^{2}\ dt\]
+* Signal \(x\left(t\right)\) is an energy signal if \(0<E<\infty\).
+* Signal \(x\left(t\right)\) is a power signal if \(0<P<\infty\).

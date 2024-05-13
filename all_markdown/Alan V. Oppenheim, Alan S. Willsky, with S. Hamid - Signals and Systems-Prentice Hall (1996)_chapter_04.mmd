@@ -1,0 +1,1050 @@
+## Chapter The Continuous-Time Fourier Transform
+
+### 4.0 Introduction
+
+In Chapter 3, we developed a representation of periodic signals as linear combinations of complex exponentials. We also saw how this representation can be used in describing the effect of LTI systems on signals.
+
+In this and the following chapter, we extend these concepts to apply to signals that are not periodic. As we will see, a rather large class of signals, including all signals with finite energy, can also be represented through a linear combination of complex exponentials. Whereas for periodic signals the complex exponential building blocks are harmonically related, for aperiodic signals they are infinitesimally close in frequency, and the representation in terms of a linear combination takes the form of an integral rather than a sum. The resulting spectrum of coefficients in this representation is called the Fourier transform, and the synthesis integral itself, which uses these coefficients to represent the signal as a linear combination of complex exponentials, is called the inverse Fourier transform.
+
+The development of this representation for aperiodic signals in continuous time is one of Fourier's most important contributions, and our development of the Fourier transform follows very closely the approach he used in his original work. In particular, Fourier reasoned that an aperiodic signal can be viewed as a periodic signal with an infinite period. More precisely, in the Fourier series representation of a periodic signal, as the period increases the fundamental frequency decreases and the harmonically related components become closer in frequency. As the period becomes infinite, the frequency components form a continuum and the Fourier series sum becomes an integral. In the next section we develop the Fourier series representation for continuous-time periodic signals, and in the sections that follow we build on this foundation as we explore many of the importantproperties of the continuous-time Fourier transform that form the foundation of frequency-domain methods for continuous-time signals and systems. In Chapter 5, we parallel this development for discrete-time signals.
+
+### Representation of aperiodic signals:
+
+The continuous-time Fourier transform transform
+
+#### 4.1.1 Development of the Fourier Transform Representation of an Aperiodic Signal
+
+To gain some insight into the nature of the Fourier transform representation, we begin by revisiting the Fourier series representation for the continuous-time periodic square wave examined in Example 3.5. Specifically, over one period,
+
+\[x(t)\,=\,\left\{\begin{array}{ll}1,&|t|<T_{1}\\ 0,&T_{1}<|t|<T/2\end{array}\right.\]
+
+and periodically repeats with period \(T\), as shown in Figure 4.1.
+
+As determined in Example 3.5, the Fourier series coefficients \(a_{k}\) for this square wave are
+
+\[a_{k}\,=\,\frac{2\sin(k\omega_{0}T_{1})}{k\omega_{0}T}, \tag{4.1}\]
+
+where \(\omega_{0}\,=\,2\pi/T\). In Figure 3.7, bar graphs of these coefficients were shown for a fixed value of \(T_{1}\) and several different values of \(T\).
+
+An alternative way of interpreting eq. (4.1) is as samples of an envelope function, specifically,
+
+\[Ta_{k}\,=\,\left.\frac{2\sin\omega T_{1}}{\omega}\right|_{\omega \,=\,k\omega_{0}}. \tag{4.2}\]
+
+That is, with \(\omega\) thought of as a continuous variable, the function \((2\sin\omega T_{1})/\omega\) represents the envelope of \(Ta_{k}\), and the coefficients \(a_{k}\) are simply equally spaced samples of this envelope. Also, for fixed \(T_{1}\), the envelope of \(Ta_{k}\) is independent of \(T\). In Figure 4.2, we again show the Fourier series coefficients for the periodic square wave, but this time as samples of the envelope of \(Ta_{k}\), as specified in eq. (4.2). From the figure, we see that as
+
+Figure 4.1: A continuous-time periodic square wave.
+
+\(T\) increases, or equivalently, as the fundamental frequency \(\omega_{0}=2\pi/T\) decreases, the envelope is sampled with a closer and closer spacing. As \(T\) becomes arbitrarily large, the original periodic square wave approaches a rectangular pulse (i.e., all that remains in the time domain is an aperiodic signal corresponding to one period of the square wave). Also, the Fourier series coefficients, multiplied by \(T\), become more and more closely spaced samples of the envelope, so that in some sense (which we will specify shortly) the set of Fourier series coefficients approaches the envelope function as \(T\to\infty\).
+
+This example illustrates the basic idea behind Fourier's development of a representation for aperiodic signals. Specifically, we think of an aperiodic signal as the limit of a periodic signal as the period becomes arbitrarily large, and we examine the limiting behavior of the Fourier series representation for this signal. In particular, consider a signal \(x(t)\) that is of finite duration. That is, for some number \(T_{1}\), \(x(t)=0\) if \(|t|>T_{1}\), as illustrated in Figure 4.3(a). From this aperiodic signal, we can construct a periodic signal \(\tilde{x}(t)\) for which \(x(t)\) is one period, as indicated in Figure 4.3(b). As we choose the period \(T\) to be larger, \(\tilde{x}(t)\) is identical to \(x(t)\) over a longer interval, and as \(T\to\infty\), \(\tilde{x}(t)\) is equal to \(x(t)\) for any finite value of \(t\).
+
+Let us now examine the effect of this on the Fourier series representation of \(\tilde{x}(t)\). Rewriting eqs. (3.38) and (3.39) here for convenience, with the integral in eq. (3.39)
+
+As \(T\to\infty\), \(\tilde{x}(t)\) approaches \(x(t)\), and consequently, in the limit eq. (4.7) becomes a representation of \(x(t)\). Furthermore, \(\omega_{0}\to 0\) as \(T\to\infty\), and the right-hand side of eq. (4.7) passes to an integral. This can be seen by considering the graphical interpretation of the equation, illustrated in Figure 4.4. Each term in the summation on the right-hand side is the area of a rectangle of height \(X(j\omega_{0})e^{j\omega_{0}t}\) and width \(\omega_{0}\). (Here, \(t\) is regarded as fixed.) As \(\omega_{0}\to 0\), the summation converges to the integral of \(X(j\omega)e^{j\omega t}\). Therefore, using the fact that \(\tilde{x}(t)\to x(t)\) as \(T\to\infty\), we see that eqs. (4.7) and (4.5) respectively become
+
+\[\boxed{\ x(t)\ =\ \frac{1}{2\pi}\int_{-\infty}^{+\infty}X(j\omega)e^{j\omega t}d\omega} \tag{4.8}\]
+
+and
+
+\[\boxed{\ X(j\omega)\ =\ \int_{-\infty}^{+\infty}x(t)e^{-j\omega t}dt.} \tag{4.9}\]
+
+Equations (4.8) and (4.9) are referred to as the _Fourier transform pair,_ with the function \(X(j\omega)\) referred to as the _Fourier Transform_ or _Fourier integral_ of \(x(t)\) and eq. (4.8) as the _inverse Fourier transform_ equation. The _synthesis_ equation (4.8) plays a role for aperiodic signals similar to that of eq. (3.38) for periodic signals, since both represent a signal as a linear combination of complex exponentials. For periodic signals, these complex exponentials have amplitudes \(\{a_{k}\}\), as given by eq. (3.39), and occur at a discrete set of harmonically related frequencies \(k\omega_{0}\), \(k=0,\pm 1,\pm 2,\dots\). For aperiodic signals, the complex exponentials occur at a continuum of frequencies and, according to the synthesis equation (4.8), have "amplitude" \(X(j\omega)(d\omega/2\pi)\). In analogy with the terminology used for the Fourier series coefficients of a periodic signal, the transform \(X(j\omega)\) of an aperiodic signal \(x(t)\) is commonly referred to as the _spectrum_ of \(x(t)\), as it provides us with the information needed for describing \(x(t)\) as a linear combination (specifically, an integral) of sinusoidal signals at different frequencies.
+
+Based on the above development, or equivalently on a comparison of eq. (4.9) and eq. (3.39), we also note that the Fourier coefficients \(a_{k}\) of a periodic signal \(\tilde{x}(t)\) can be expressed in terms of equally spaced _samples_ of the Fourier transform of one period of \(\tilde{x}(t)\). Specifically, suppose that \(\tilde{x}(t)\) is a periodic signal with period \(T\) and Fourier coefficients
+
+Figure 4.4: Graphical interpretation of eq. (4.7).
+
+\(a_{k}\). Let \(x(t)\) be a finite-duration signal that is equal to \(\bar{x}(t)\) over exactly one period--say, for \(s\,\cong\,t\,\cong\,s+T\) for some value of \(s\)--and that is zero otherwise. Then, since eq. (3.39) allows us to compute the Fourier coefficients of \(\bar{x}(t)\) by integrating over any period, we can write
+
+\[a_{k}\,=\,\frac{1}{T}\,\int_{s}^{+T}\,\bar{x}(t)e^{-jk\omega_{0}t}dt\,=\,\frac{1 }{T}\,\int_{s}^{s+T}\,x(t)e^{-jk\omega_{0}t}dt.\]
+
+Since \(x(t)\) is zero outside the range \(s\,\cong\,t\,\cong\,s+T\) we can equivalently write
+
+\[a_{k}\,=\,\frac{1}{T}\,\int_{-\infty}^{+\infty}\,x(t)e^{-jk\omega_{0}t}dt.\]
+
+Comparing with eq. (4.9) we conclude that
+
+\[a_{k}\,=\,\left.\frac{1}{T}X(j\omega)\right|_{\omega\,=\,k\omega_{0}}, \tag{4.10}\]
+
+where \(X(j\omega)\) is the Fourier transform of \(x(t)\). Equation 4.10 states that the Fourier coefficients of \(\bar{x}(t)\) are proportional to samples of the Fourier transform of one period of \(\bar{x}(t)\). This fact, which is often of use in practice, is examined further in Problem 4.37.
+
+#### Convergence of Fourier Transforms
+
+Although the argument we used in deriving the Fourier transform pair assumed that \(x(t)\) was of arbitrary but finite duration, eqs. (4.8) and (4.9) remain valid for an extremely broad class of signals of infinite duration. In fact, our derivation of the Fourier transform suggests that a set of conditions like those required for the convergence of Fourier series should also apply here, and indeed, that can be shown to be the case.1 Specifically, consider \(X(j\omega)\) evaluated according to eq. (4.9), and let \(\hat{x}(t)\) denote the signal obtained by using \(X(j\omega)\) in the right-hand side of eq. (4.8). That is,
+
+Footnote 1: For a mathematically rigorous discussion of the Fourier transform and its properties and applications, see R. Bracewell, _The Fourier Transform and Its Applications,_ 2nd ed. (New York: McGraw-Hill Book Company, 1986); A. Papoulis, _The Fourier Integral and Its Applications_ (New York: McGraw-Hill Book Company, 1987); E. C. Titchmarsh, _Introduction to the Theory of Fourier Integrals_ (Oxford: Clarendon Press, 1948); and the book by Dym and McKean referenced in footnote 2 of Chapter 3.
+
+\[\hat{x}(t)\,=\,\frac{1}{2\pi}\,\int_{-\infty}^{+\infty}\,X(j\omega)e^{j\omega t }d\omega.\]
+
+What we would like to know is when eq. (4.8) is valid [i.e., when is \(\hat{x}(t)\) a valid representation of the original signal \(x(t)\)?]. If \(x(t)\) has finite energy, i.e., if it is square integrable, so that
+
+\[\int_{-\infty}^{+\infty}|x(t)|^{2}dt<\infty, \tag{4.11}\]
+
+then we are guaranteed that \(X(j\omega)\) is finite [i.e., eq. (4.9) converges] and that, with \(e(t)\) denoting the error between \(\hat{x}(t)\) and \(x(t)\) [i.e., \(e(t)\,=\,\hat{x}(t)-x(t)\)],\[\int_{-\infty}^{+\infty}|e(t)|^{2}dt\,=\,0. \tag{4.12}\]
+
+Equations (4.11) and (4.12) are the aperiodic counterparts of eqs. (3.51) and (3.54) for periodic signals. Thus, in a manner similar to that for periodic signals, if \(x(t)\) has finite energy, then, although \(x(t)\) and its Fourier representation \(\hat{x}(t)\) may differ significantly at individual values of \(t\), there is no energy in their difference.
+
+Just as with periodic signals, there is an alternative set of conditions which are sufficient to ensure that \(\hat{x}(t)\) is equal to \(x(t)\) for any \(t\) except at a discontinuity, where it is equal to the average of the values on either side of the discontinuity. These conditions, again referred to as the Dirichlet conditions, require that:
+
+1. \(x(t)\) be absolutely integrable; that is, \[\int_{-\infty}^{+\infty}|x(t)|dt<\infty.\] (4.13)
+2. \(x(t)\) have a finite number of maxima and minima within any finite interval.
+3. \(x(t)\) have a finite number of discontinuities within any finite interval. Futhermore, each of these discontinuities must be finite.
+
+Therefore, absolutely integrable signals that are continuous or that have a finite number of discontinuities have Fourier transforms.
+
+Although the two alternative sets of conditions that we have given are sufficient to guarantee that a signal has a Fourier transform, we will see in the next section that periodic signals, which are neither absolutely integrable nor square integrable over an _infinite_ interval, can be considered to have Fourier transforms if impulse functions are permitted in the transform. This has the advantage that the Fourier series and Fourier transform can be incorporated into a common framework, which we will find to be very convenient in subsequent chapters. Before examining the point further in Section 4.2, however, let us consider several examples of the Fourier transform.
+
+#### Examples of Continuous-Time Fourier Transforms
+
+**Example 4.1**: Consider the signal
+
+\[x(t)\,=\,e^{-at}u(t)\quad a>0.\]
+
+From eq. (4.9),
+
+\[X(j\omega)\,=\,\int_{0}^{\infty}e^{-at}e^{-j\omega t}dt\,=\,-\frac{1}{a+j\omega }\,e^{-(a+j\omega)t}\,\Bigg{|}_{0}^{\infty}.\]
+
+That is,
+
+\[X(j\omega)\,=\,\frac{1}{a+j\omega},\quad a>0.\]
+
+This signal is sketched in Figure 4.6. The Fourier transform of the signal is
+
+\[X(j\omega) = \int_{-\infty}^{+\infty}e^{-a|i|}e^{-j\omega t}\,dt=\int_{-\infty}^ {0}e^{\omega t}e^{-j\omega t}\,dt+\int_{0}^{\infty}e^{-\omega t}e^{-j\omega t}\,dt\] \[= \frac{1}{a-j\omega}+\frac{1}{a+j\omega}\] \[= \frac{2a}{a^{2}+\omega^{2}}.\]
+
+In this case \(X(j\omega)\) is real, and it is illustrated in Figure 4.7.
+
+## Example 4.3
+
+Now let us determine the Fourier transform of the unit impulse
+
+\[x(t)\,=\,\delta(t). \tag{4.14}\]
+
+Substituting into eq. (4.9) yields
+
+\[X(j\omega)\,=\,\int_{-\infty}^{+\infty}\delta(t)e^{-j\omega t}\,dt=\,1. \tag{4.15}\]
+
+That is, the unit impulse has a Fourier transform consisting of equal contributions at _all_ frequencies.
+
+Figure 4.7: Fourier transform of the signal considered in Example 4.2 and depicted in Figure 4.6.
+
+### Example 4.4
+
+Consider the rectangular pulse signal
+
+\[x(t)\,=\,\left\{\begin{array}{ll}1,&|t|<T_{1}\\ 0,&|t|>T_{1}\end{array}\right., \tag{4.16}\]
+
+as shown in Figure 4.8(a). Applying eq. (4.9), we find that the Fourier transform of this signal is
+
+\[X(j\omega)\,=\,\int_{-T_{1}}^{T_{1}}e^{-j\omega t}\,dt\,=\,2\frac{\sin\omega T _{1}}{\omega}, \tag{4.17}\]
+
+as sketched in Figure 4.8(b).
+
+As we discussed at the beginning of this section, the signal given by eq. (4.16) can be thought of as the limiting form of a periodic square wave as the period becomes arbitrarily large. Therefore, we might expect that the convergence of the synthesis equation for this signal would behave in a manner similar to that observed in Example 3.5 for the square wave. This is, in fact, the case. Specifically, consider the inverse Fourier transform for the rectangular pulse signal:
+
+\[\hat{x}(t)\,=\,\frac{1}{2\pi}\int_{-\infty}^{+\infty}2\frac{\sin\omega T_{1}} {\omega}e^{j\omega t}d\omega.\]
+
+Then, since \(x(t)\) is square integrable,
+
+Figure 4.8: (a) The rectangular pulse signal of Example 4.4 and (b) its Fourier transform.
+
+\[\int_{-\infty}^{+\infty}|x(t)-\hat{x}(t)|^{2}\,dt\,=\,0.\]
+
+Furthermore, because \(x(t)\) satisfies the Dirichlet conditions, \(\hat{x}(t)=x(t)\), except at the points of discontinuity, \(t=\pm T_{1}\), where \(\hat{x}(t)\) converges to 1/2, which is the average of the values of \(x(t)\) on both sides of the discontinuity. In addition, the convergence of \(\hat{x}(t)\) to \(x(t)\) exhibits the Gibbs phenomenon, much as was illustrated for the periodic square wave in Figure 3.9. Specifically, in analogy with the finite Fourier series approximation, eq. (3.47), consider the following integral over a finite-length interval of frequencies:
+
+\[\frac{1}{2\pi}\int_{-W}^{W}2\frac{\sin\omega T_{1}}{\omega}e^{j\omega t}\,d\omega.\]
+
+As \(W\to\infty\), this signal converges to \(x(t)\) everywhere, except at the discontinuities. Moreover, the signal exhibits ripples near the discontinuities. The peak amplitude of these ripples does not decrease as \(W\) increases, although the ripples do become compressed toward the discontinuity, and the energy in the ripples converges to zero.
+
+**Example 4.5**: Consider the signal \(x(t)\) whose Fourier transform is
+
+\[X(j\omega)=\left\{\begin{array}{ll}1,&|\omega|<W\\ 0,&|\omega|>W\end{array}.\right. \tag{4.18}\]
+
+This transform is illustrated in Figure 4.9(a). Using the synthesis equation (4.8), we can
+
+Figure 4.9: Fourier transform pair of Example 4.5: (a) Fourier transform for Example 4.5 and (b) the corresponding time function.
+
+then determine
+
+\[x(t)\,=\,\frac{1}{2\pi}\int_{-W}^{W}e^{j\omega t}d\omega\,=\,\frac{\sin Wt}{\pi t}, \tag{4.19}\]
+
+which is depicted in Figure 4.9(b).
+
+Comparing Figures 4.8 and 4.9 or, equivalently, eqs. (4.16) and (4.17) with eqs. (4.18) and (4.19), we see an interesting relationship. In each case, the Fourier transform pair consists of a function of the form \((\sin a\theta)/b\theta\) and a rectangular pulse. However, in Example 4.4, it is the _signal_\(x(t)\) that is a pulse, while in Example 4.5, it is the _transform_\(X(j\omega)\). The special relationship that is apparent here is a direct consequence of the _duality property_ for Fourier transforms, which we discuss in detail in Section 4.3.6.
+
+Functions of the form given in eqs. (4.17) and (4.19) arise frequently in Fourier analysis and in the study of LTI systems and are referred to as _sinc functions_. A commonly used precise form for the sinc function is
+
+\[\mathrm{sinc}(\theta)\,=\,\frac{\sin\pi\theta}{\pi\theta}. \tag{4.20}\]
+
+The sinc function is plotted in Figure 4.10. Both of the signals in eqs. (4.17) and (4.19) can be expressed in terms of the sinc function:
+
+\[\frac{2\sin\omega T_{1}}{\omega}\,=\,2T_{1}\,\,\mathrm{sinc}\! \left(\frac{\omega T_{1}}{\pi}\right)\] \[\frac{\sin Wt}{\pi t}\,=\,\frac{W}{\pi}\,\,\mathrm{sinc}\!\left( \frac{Wt}{\pi}\right).\]
+
+Finally, we can gain insight into one other property of the Fourier transform by examining Figure 4.9, which we have redrawn as Figure 4.11 for several different values of \(W\). From this figure, we see that as \(W\) increases, \(X(j\omega)\) becomes broader, while the main peak of \(x(t)\) at \(t=0\) becomes higher and the width of the first lobe of this signal (i.e., the part of the signal for \(|t|<\pi/W\)) becomes narrower. In fact, in the limit as \(W\to\infty\), \(X(j\omega)\,=1\) for all \(\omega\), and consequently, from Example 4.3, we see that \(x(t)\) in eq. (4.19) converges to an impulse as \(W\to\infty\). The behavior depicted in Figure 4.11 is an example of the inverse relationship that exists between the time and frequency domains,
+
+Figure 4.10: The sinc function.
+
+and we can see a similar effect in Figure 4.8, where an increase in \(T_{1}\) broadens \(x(t)\) but makes \(X(jo)\) narrower. In Section 4.3.5, we provide an explanation of this behavior in the context of the scaling property of the Fourier transform.
+
+### The Fourier Transform for Periodic Signals
+
+In the preceding section, we introduced the Fourier transform representation and gave several examples. While our attention in that section was focused on aperiodic signals, we can also develop Fourier transform representations for periodic signals, thus allowing us to
+
+Figure 4.11: Fourier transform pair of Figure 4.9 for several different values of \(W\).
+
+consider both periodic and aperiodic signals within a unified context. In fact, as we will see, we can construct the Fourier transform of a periodic signal directly from its Fourier series representation. The resulting transform consists of a train of impulses in the frequency domain, with the areas of the impulses proportional to the Fourier series coefficients. This will turn out to be a very useful representation.
+
+To suggest the general result, let us consider a signal \(x(t)\) with Fourier transform \(X(j\omega)\) that is a single impulse of area \(2\pi\) at \(\omega\,=\,\omega_{0}\); that is,
+
+\[X(j\omega)\,=\,2\pi\delta(\omega\,-\,\omega_{0}). \tag{4.21}\]
+
+To determine the signal \(x(t)\) for which this is the Fourier transform, we can apply the inverse transform relation, eq. (4.8), to obtain
+
+\[x(t) \,=\,\frac{1}{2\pi}\int_{-\infty}^{+\infty}2\pi\delta(\omega\,- \,\omega_{0})e^{j\omega t}\,d\omega\] \[\,=\,e^{j\omega_{0}t}.\]
+
+More generally, if \(X(j\omega)\) is of the form of a linear combination of impulses equally spaced in frequency, that is,
+
+\[X(j\omega)\,=\,\sum_{k\,=\,-\infty}^{+\infty}2\pi a_{k}\delta(\omega\,-\,k \omega_{0}), \tag{4.22}\]
+
+then the application of eq. (4.8) yields
+
+\[x(t)\,=\,\sum_{k\,=\,-\infty}^{+\infty}a_{k}e^{jka\omega_{0}t}. \tag{4.23}\]
+
+We see that eq. (4.23) corresponds exactly to the Fourier _series_ representation of a periodic signal, as specified by eq. (3.38). Thus, the Fourier transform of a periodic signal with Fourier series coefficients \(\{a_{k}\}\) can be interpreted as a train of impulses occurring at the harmonically related frequencies and for which the area of the impulse at the \(k\)th harmonic frequency \(k\omega_{0}\) is \(2\pi\) times the \(k\)th Fourier series coefficient \(a_{k}\).
+
+**Example 4.6**: Consider again the square wave illustrated in Figure 4.1. The Fourier series coefficients for this signal are
+
+\[a_{k}\,=\,\frac{\sin k\omega_{0}T_{1}}{\pi\,k},\]
+
+and the Fourier transform of the signal is
+
+\[X(j\omega)\,=\,\sum_{k\,=\,-\infty}^{+\infty}\frac{2\sin k\omega_{0}T_{1}}{k} \,\delta(\omega\,-\,k\omega_{0}),\]which is sketched in Figure 4.12 for \(T=4T_{1}\). In comparison with Figure 3.7(a), the only differences are a proportionality factor of \(2\pi\) and the use of impulses rather than a bar graph.
+
+### Example 4.7
+
+Let
+
+\[x(t)\,=\,\sin\omega_{0}t.\]
+
+The Fourier series coefficients for this signal are
+
+\[a_{1}\,=\,\frac{1}{2j},\]
+
+\[a_{-1}\,=\,-\frac{1}{2j},\]
+
+\[a_{k}\,=\,0,\qquad k\neq 1\quad\mbox{or}\quad-1.\]
+
+Thus, the Fourier transform is as shown in Figure 4.13(a). Similarly, for
+
+\[x(t)\,=\,\cos\omega_{0}t,\]
+
+the Fourier series coefficients are
+
+\[a_{1}\,=\,a_{-1}\,=\,\frac{1}{2},\]
+
+\[a_{k}\,=\,0,\qquad k\neq 1\quad\mbox{or}\quad-1.\]
+
+The Fourier transform of this signal is depicted in Figure 4.13(b). These two transforms will be of considerable importance when we analyze sinusoidal modulation systems in Chapter 8.
+
+Figure 4.12: Fourier transform of a symmetric periodic square wave.
+
+### Example 4.8
+
+A signal that we will find extremely useful in our analysis of sampling systems in Chapter 7 is the impulse train
+
+\[x(t)\,=\,\sum_{k\,=\,-\,-\,-\,\infty}^{+\infty}\delta(t-kT),\]
+
+which is periodic with period \(T\), as indicated in Figure 4.14(a). The Fourier series coefficients for this signal were computed in Example 3.8 and are given by
+
+\[a_{k}\,=\,\frac{1}{T}\int_{-\,T/2}^{+\,T/2}\delta(t)e^{-jka_{0}t}\,dt\,=\, \frac{1}{T}.\]
+
+That is, every Fourier coefficient of the periodic impulse train has the same value, \(1/T\). Substituting this value for \(a_{k}\) in eq. (4.22) yields
+
+\[X(j\omega)\,=\,\frac{2\pi}{T}\sum_{k\,=\,-\,\infty}^{+\infty}\delta\left( \omega\,-\,\frac{2\pi\,k}{T}\right).\]
+
+Thus, the Fourier transform of a periodic impulse train in the time domain with period \(T\) is a periodic impulse train in the frequency domain with period \(2\pi/T\), as sketched in Figure 4.14(b). Here again, we see an illustration of the inverse relationship between the time and the frequency domains. As the spacing between the impulses in the time domain (i.e., the period) gets longer, the spacing between the impulses in the frequency domain (namely, the fundamental frequency) gets smaller.
+
+We will sometimes find it convenient to refer to \(X(j\omega)\) with the notation \(\mathfrak{F}\{x(t)\}\) and to \(x(t)\) with the notation \(\mathfrak{F}^{-1}\{X(j\omega)\}\). We will also refer to \(x(t)\) and \(X(j\omega)\) as a Fourier transform pair with the notation
+
+\[x(t)\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}X(j\omega).\]
+
+Thus, with reference to Example 4.1,
+
+\[\frac{1}{a+j\omega} = \mathfrak{F}\{e^{-at}u(t)\},\] \[e^{-at}u(t) = \mathfrak{F}^{-1}\left\{\,\frac{1}{a+j\omega}\right\},\]
+
+and
+
+\[e^{-at}u(t)\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}} \frac{1}{a+j\omega}.\]
+
+#### Linearity
+
+If
+
+\[x(t)\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}X(j\omega)\]
+
+and
+
+\[y(t)\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}Y(j\omega),\]
+
+then
+
+\[ax(t)+by(t)\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}aX(j \omega)+bY(j\omega). \tag{4.26}\]
+
+The proof of eq. (4.26) follows directly by application of the analysis eq. (4.25) to \(ax(t)+by(t)\). The linearity property is easily extended to a linear combination of an arbitrary number of signals.
+
+#### Time Shifting
+
+If
+
+\[x(t)\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}X(j\omega),\]
+
+then
+
+\[x(t-t_{0})\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}e^{- j\omega t_{0}}X(j\omega). \tag{4.27}\]To establish this property, consider eq. (4.24):
+
+\[x(t)\,=\,\frac{1}{2\pi}\int_{-\infty}^{\infty}X(j\omega)e^{j\omega t}d\omega.\]
+
+Replacing \(t\) by \(t-t_{0}\) in this equation, we obtain
+
+\[x(t-t_{0}) \,=\,\frac{1}{2\pi}\int_{-\infty}^{+\infty}X(j\omega)e^{j\omega(t -t_{0})}d\omega\] \[\,=\,\frac{1}{2\pi}\int_{-\infty}^{+\infty}\Big{(}e^{-j\omega t_{ 0}}X(j\omega)\Big{)}e^{j\omega t}d\omega.\]
+
+Recognizing this as the synthesis equation for \(x(t-t_{0})\), we conclude that
+
+\[\mathfrak{F}\{x(t-t_{0})\}\,=\,e^{-j\omega t_{0}}X(j\omega).\]
+
+One consequence of the time-shift property is that a signal which is shifted in time does not have the _magnitude_ of its Fourier transform altered. That is, if we express \(X(j\omega)\) in polar form as
+
+\[\mathfrak{F}\{x(t)\}\,=\,X(j\omega)\,=\,|X(j\omega)|e^{j\times X(j\omega)},\]
+
+then
+
+\[\mathfrak{F}\{x(t-t_{0})\}\,=\,e^{-j\omega t_{0}}X(j\omega)\,=\,|X(j\omega)|e^ {j\|\,\pm X(j\omega)-\omega t_{0}}].\]
+
+Thus, the effect of a time shift on a signal is to introduce into its transform a phase shift, namely, \(-\omega t_{0}\), which is a linear function of \(\omega\).
+
+### Example 4.9
+
+To illustrate the usefulness of the Fourier transform linearity and time-shift properties, let us consider the evaluation of the Fourier transform of the signal \(x(t)\) shown in Figure 4.15(a).
+
+First, we observe that \(x(t)\) can be expressed as the linear combination
+
+\[x(t)\,=\,\frac{1}{2}\,x_{1}(t-2.5)\,+\,x_{2}(t-2.5),\]
+
+where the signals \(x_{1}(t)\) and \(x_{2}(t)\) are the rectangular pulse signals shown in Figure 4.15(b) and (c). Then, using the result from Example 4.4, we obtain
+
+\[X_{1}(j\omega)\,=\,\frac{2\sin(\omega/2)}{\omega}\quad\text{and}\quad X_{2}(j \omega)\,=\,\frac{2\sin(3\omega/2)}{\omega}.\]
+
+Finally, using the linearity and time-shift properties of the Fourier transform yields
+
+\[X(j\omega)\,=\,e^{-j5\omega/2}\left\{\,\frac{\sin(\omega/2)\,+\,2\sin(3\omega /2)}{\omega}\right\}.\]
+
+#### Conjugation and Conjugate Symmetry
+
+The conjugation property states that if
+
+\[x(t)\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}X(j\omega),\]
+
+then
+
+\[\boxed{x^{*}(t)\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}X^{* }(-j\omega).} \tag{4.28}\]
+
+This property follows from the evaluation of the complex conjugate of eq. (4.25):
+
+\[X^{*}(j\omega) =\left[\int_{-\infty}^{+\infty}x(t)e^{-j\omega t}\,dt\right]\] \[=\int_{-\infty}^{+\infty}x^{*}(t)e^{j\omega t}\,dt.\]
+
+Replacing \(\omega\) by \(-\omega\), we see that
+
+\[X^{*}(-j\omega) =\int_{-\infty}^{+\infty}x^{*}(t)e^{-j\omega t}\,dt. \tag{4.29}\]
+
+Figure 4.15: Decomposing a signal into the linear combination of two simpler signals. (a) The signal \(x(t)\) for Example 4.9; (b) and (c) the two component signals used to represent \(x(t)\).
+
+or, with the substitution \(\tau\,=\,-t\),
+
+\[X(-j\omega)\,=\,\int_{-\infty}^{+\infty}x(-\tau)e^{-j\omega\tau}d\tau.\]
+
+Since \(x(-\tau)\,=\,x(\tau)\), we have
+
+\[X(-j\omega) \,=\,\int_{-\infty}^{+\infty}x(\tau)e^{-j\omega t}d\tau\] \[\,=\,X(j\omega).\]
+
+Thus, \(X(j\omega)\) is an even function. This, together with eq. (4.30), also requires that \(X^{*}(j\omega)\,=\,X(j\omega)\) [i.e., that \(X(j\omega)\) is real]. Example 4.2 illustrates this property for the real, even signal \(e^{-\alpha|t|}\). In a similar manner, it can be shown that if \(x(t)\) is a real and odd function of time, so that \(x(t)\,=\,-\,x(-t)\), then \(X(j\omega)\) is purely imaginary and odd.
+
+Finally, as was discussed in Chapter 1, a real function \(x(t)\) can always be expressed in terms of the sum of an even function \(x_{e}(t)=\xi v\{x(t)\}\) and an odd function \(x_{o}(t)=\mathcal{O}d\{x(t)\}\); that is,
+
+\[x(t)\,=\,x_{e}(t)\,+\,x_{o}(t).\]
+
+From the linearity of the Fourier transform,
+
+\[\mathfrak{F}\{x(t)\}\,=\,\mathfrak{F}\{x_{e}(t)\}+\mathfrak{F}\{x_{o}(t)\},\]
+
+and from the preceding discussion, \(\mathfrak{F}\{x_{e}(t)\}\) is a real function and \(\mathfrak{F}\{x_{o}(t)\}\) is purely imaginary. Thus, we can conclude that, with \(x(t)\) real,
+
+\[x(t)\,\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}\,X(j \omega),\]
+
+\[\mathfrak{E}v\{x(t)\}\,\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}\, (\mathfrak{R}e\{X(j\omega)\},\]
+
+\[\mathcal{O}d\{x(t)\}\,\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}\, j\mathfrak{H}m\{X(j\omega)\}.\]
+
+One use of these symmetry properties is illustrated in the following example.
+
+**Example 4.10**: Consider again the Fourier transform evaluation of Example 4.2 for the signal \(x(t)=e^{-\alpha|t|}\), where \(a>0\). This time we will utilize the symmetry properties of the Fourier transform to aid the evaluation process.
+
+From Example 4.1, we have
+
+\[e^{-\alpha t}u(t)\,\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}\, \frac{1}{a+j\omega}.\]
+
+Note that for \(t>0\), \(x(t)\) equals \(e^{-\alpha t}u(t)\), while for \(t<0\), \(x(t)\) takes on mirror image values. That is,\[x(t) = e^{-a|t|}\,=\,e^{-a}u(t)+e^{a}u(-t)\] \[= \,2\bigg{[}\frac{e^{-a}u(t)+e^{a}u(-t)}{2}\bigg{]}\] \[= \,2\delta v\{e^{-a}u(t)\}.\] Since \(e^{-a}u(t)\) is real valued, the symmetry properties of the Fourier transform lead us to conclude that \[\delta v\{e^{-a}u(t)\}\stackrel{{\mathfrak{F}}}{{ \longleftrightarrow}}\delta\mathrm{Re}\bigg{[}\,\frac{1}{a+j\omega}\bigg{]}\,.\] It follows that \[X(j\omega) = \,2\delta\mathrm{Re}\bigg{[}\,\frac{1}{a+j\omega}\bigg{]}\,=\, \frac{2a}{a^{2}+\omega^{2}},\] which is the same as the answer found in Example 4.2.
+
+#### Differentiation and Integration
+
+Let \(x(t)\) be a signal with Fourier transform \(X(j\omega)\). Then, by differentiating both sides of the Fourier transform synthesis equation (4.24), we obtain
+
+\[\frac{dx(t)}{dt} = \,\frac{1}{2\pi}\int_{-\infty}^{+\infty}j\omega X(j\omega)e^{j \omega t}d\omega.\]
+
+Therefore,
+
+\[\boxed{\frac{dx(t)}{dt}\stackrel{{\mathfrak{F}}}{{ \longleftrightarrow}}j\omega X(j\omega).} \tag{4.31}\]
+
+This is a particularly important property, as it replaces the operation of differentiation in the time domain with that of multiplication by \(j\omega\) in the frequency domain. We will find the substitution to be extremely useful in our discussion in Section 4.7 on the use of Fourier transforms for the analysis of LTI systems described by differential equations.
+
+Since differentiation in the time domain corresponds to multiplication by \(j\omega\) in the frequency domain, one might conclude that integration should involve division by \(j\omega\) in the frequency domain. This is indeed the case, but it is only one part of the picture. The precise relationship is
+
+\[\boxed{\int_{-\infty}^{t}x(\tau)d\tau\stackrel{{ \mathfrak{F}}}{{\longleftrightarrow}}\frac{1}{j\omega}X(j\omega)+\pi X(0) \delta(\omega).} \tag{4.32}\]
+
+The impulse term on the right-hand side of eq. (4.32) reflects the dc or average value that can result from integration.
+
+The use of eqs. (4.31) and (4.32) is illustrated in the next two examples.
+
+## Example 4.11
+
+Let us determine the Fourier transform \(X(j\omega)\) of the unit step \(x(t)=u(t)\), making use of eq. (4.32) and the knowledge that
+
+\[g(t)\,=\,\delta(t)\stackrel{{ g}}{{\longleftrightarrow}}G(j \omega)\,=\,1.\]
+
+Noting that
+
+\[x(t)\,=\,\int_{-\infty}^{t}g(\tau)d\tau\]
+
+and taking the Fourier transform of both sides, we obtain
+
+\[X(j\omega)\,=\,\frac{G(j\omega)}{j\omega}\,+\,\pi G(0)\delta(\omega),\]
+
+where we have used the integration property listed in Table 4.1. Since \(G(j\omega)\,=\,1\), we conclude that
+
+\[X(j\omega)\,=\,\frac{1}{j\omega}\,+\,\pi\delta(\omega). \tag{4.33}\]
+
+Observe that we can apply the differentiation property of eq. (4.31) to recover the transform of the impulse. That is,
+
+\[\delta(t)\,=\,\frac{du(t)}{dt}\stackrel{{ g}}{{ \longleftrightarrow}}j\omega\left[\frac{1}{j\omega}\,+\,\pi\delta(\omega) \right]\,=\,\,1,\]
+
+where the last equality follows from the fact that \(\omega\delta(\omega)\,=\,0\).
+
+## Example 4.12
+
+Suppose that we wish to calculate the Fourier transform \(X(j\omega)\) for the signal \(x(t)\) displayed in Figure 4.16(a). Rather than applying the Fourier integral directly to \(x(t)\), we instead consider the signal
+
+\[g(t)\,=\,\frac{d}{dt}\,x(t).\]
+
+Figure 4.16: (a) A signal \(x(t)\) for which the Fourier transform is to be evaluated; (b) representation of the derivative of \(x(t)\) as the sum of two components.
+
+As illustrated in Figure 16(b), \(g(t)\) is the sum of a rectangular pulse and two impulses. The Fourier transforms of each of these component signals may be determined from Table 2:
+
+\[G(j\omega)\,=\,\left(\frac{2\sin\omega}{\omega}\right)-\,e^{j\omega}\,-\,e^{-\,j \omega}.\]
+
+Note that \(G(0)\,=\,0\). Using the integration property, we obtain
+
+\[X(j\omega)\,=\,\frac{G(j\omega)}{j\omega}\,+\,\pi G(0)\delta(\omega).\]
+
+With \(G(0)\,=\,0\) this becomes
+
+\[X(j\omega)\,=\,\frac{2\sin\omega}{j\omega^{2}}\,-\,\frac{2\cos\omega}{j\omega}.\]
+
+The expression for \(X(j\omega)\) is purely imaginary and odd, which is consistent with the fact that \(x(t)\) is real and odd.
+
+#### Time and Frequency Scaling
+
+If
+
+\[x(t)\stackrel{{\mathcal{F}}}{{\longleftrightarrow}}X(j\omega),\]
+
+then
+
+\[x(at)\stackrel{{\mathcal{F}}}{{\longleftrightarrow}}\frac{1}{|a |}X\left(\frac{j\omega}{a}\right), \tag{4.34}\]
+
+where \(a\) is a nonzero real number. This property follows directly from the definition of the Fourier transform--specifically,
+
+\[\mathcal{F}\{x(at)\}\,=\,\int_{-\infty}^{+\infty}x(at)e^{-j\omega t}dt.\]
+
+Using the substitution \(\tau\,=\,at\), we obtain
+
+\[\mathcal{F}\{x(at)\}\,=\,\left\{\begin{array}{ll}&\frac{1}{a} \int_{-\infty}^{+\infty}x(\tau)e^{-\,j(\omega/a)\tau}d\tau,\quad a>0\\ &-\frac{1}{a}\int_{-\infty}^{+\infty}x(\tau)e^{-\,j(\omega/a)\tau}d\tau,\quad a <0\end{array}\right.,\]
+
+which corresponds to eq. (4.34). Thus, aside from the amplitude factor \(1/|a|\), a linear scaling in time by a factor of \(a\) corresponds to a linear scaling in frequency by a factor of \(1/a\), and vice versa. Also, letting \(a\,=\,-1\), we see from eq. (4.34) that (4.35)
+
+That is, reversing a signal in time also reverses its Fourier transform.
+
+A common illustration of eq. (4.34) is the effect on frequency content that results when an audiotape is recorded at one speed and played back at a different speed. If the playback speed is higher than the recording speed, corresponding to compression in time (i.e., \(a>1\)), then the spectrum is expanded in frequency (i.e., the audible effect is that the playback frequencies are higher). Conversely, the signal played back will be scaled down in frequency if the playback speed is slower than the recording speed (\(0<a<1\)). For example, if a recording of the sound of a small bell ringing is played back at a reduced speed, the result will sound like the chiming of a larger and deeper sounding bell.
+
+The scaling property is another example of the inverse relationship between time and frequency that we have already encountered on several occasions. For example, we have seen that as we increase the period of a sinusoidal signal, we decrease its frequency. Also, as we saw in Example 4.5 (see Figure 4.11), if we consider the transform
+
+\[X(j\omega)\,=\,\left[\begin{array}{cc}1,&|\omega|<W\\ 0,&|\omega|>W\end{array}\right.,\]
+
+then as we increase \(W\), the inverse transform of \(X(j\omega)\) becomes narrower and taller and approaches an impulse as \(W\,\rightarrow\,\infty\). Finally, in Example 4.8, we saw that the spacing in the frequency domain between impulses in the Fourier transform of a periodic impulse train is inversely proportional to the spacing in the time domain.
+
+The inverse relationship between the time and frequency domains is of great importance in a variety of signal and systems contexts, including filtering and filter design, and we will encounter its consequences on numerous occasions in the remainder of the book. In addition, the reader may very well come across the implications of this property in studying a wide variety of other topics in science and engineering. One example is the uncertainty principle in physics; another is illustrated in Problem 4.49.
+
+#### Duality
+
+By comparing the transform and inverse transform relations given in eqs. (4.24) and (4.25), we observe that these equations are similar, but not quite identical, in form. This symmetry leads to a property of the Fourier transform referred to as _duality._ In Example 4.5, we alluded to duality when we noted the relationship that exists between the Fourier transform pairs of Examples 4.4 and 4.5. In the former example we derived the Fourier transform pair
+
+\[x_{1}(t)\,=\,\left\{\begin{array}{cc}1,&|t|<T_{1}\\ 0,&|t|>T_{1}\end{array}\right.\,\stackrel{{\mathcal{G}}}{{ \longleftrightarrow}}\,X_{1}(j\omega)\,=\,\frac{2\sin\omega\,T_{1}}{ \omega}, \tag{4.36}\]
+
+while in the latter we considered the pair
+
+\[x_{2}(t)\,\doteq\,\frac{\sin Wt}{\pi t}\,\stackrel{{ \mathcal{G}}}{{\longleftrightarrow}}\,X_{2}(j\omega)\,=\,\left\{ \begin{array}{cc}1,&|\omega|<W\\ 0,&|\omega|>W\end{array}\right.\,. \tag{4.37}\]The two Fourier transform pairs and the relationship between them are depicted in Figure 4.17.
+
+The symmetry exhibited by these two examples extends to Fourier transforms in general. Specifically, because of the symmetry between eqs. (4.24) and (4.25), for any transform pair, there is a dual pair with the time and frequency variables interchanged. This is best illustrated through an example.
+
+### Example 4.13
+
+Let us consider using duality to find the Fourier transform \(G(j\omega)\) of the signal
+
+\[g(t)\,=\,\frac{2}{1+t^{2}}.\]
+
+In Example 4.2 we encountered a Fourier transform pair in which the Fourier transform, as a function of \(\omega\), had a form similar to that of the signal \(x(t)\). Specifically, suppose we consider a signal \(x(t)\) whose Fourier transform is
+
+\[X(j\omega)\,=\,\frac{2}{1+\omega^{2}}.\]
+
+Then, from Example 4.2,
+
+\[x(t)\,=\,e^{-|t|}\,\smash{\mathop{\longleftrightarrow}\limits^{\bar{\omega} }}\,X(j\omega)\,=\frac{2}{1+\omega^{2}}\,.\]
+
+Figure 4.17: Relationship between the Fourier transform pairs of eqs. (4.36) and (4.37).
+
+The synthesis equation for this Fourier transform pair is
+
+\[e^{-|t|}=\ \ \frac{1}{2\pi}\int_{-\infty}^{\infty}\left(\frac{2}{1+\omega^{2}} \right)e^{j\omega t}d\omega.\]
+
+Multiplying this equation by \(2\pi\) and replacing \(t\) by \(-t\), we obtain
+
+\[2\pi e^{-|t|}=\ \int_{-\infty}^{\infty}\left(\frac{2}{1+\omega^{2}}\right)e^{- j\omega t}d\omega.\]
+
+Now, interchanging the names of the variables \(t\) and \(\omega\), we find that
+
+\[2\pi e^{-|\omega|}=\ \int_{-\infty}^{\infty}\left(\frac{2}{1+t^{2}}\right)e^{- j\omega t}dt. \tag{4.38}\]
+
+The right-hand side of eq. (4.38) is the Fourier transform analysis equation for \(2/(1+t^{2})\), and thus, we conclude that
+
+\[\mathfrak{F}\left\{\frac{2}{1+t^{2}}\right\}=\ 2\pi e^{-|\omega|}\,.\]
+
+The duality property can also be used to determine or to suggest other properties of Fourier transforms. Specifically, if there are characteristics of a function of time that have implications with regard to the Fourier transform, then the same characteristics associated with a function of frequency will have _dual_ implications in the time domain. For example, in Section 4.3.4, we saw that differentiation in the time domain corresponds to multiplication by \(j\omega\) in the frequency domain. From the preceding discussion, we might then suspect that multiplication by \(jt\) in the time domain corresponds roughly to differentiation in the frequency domain. To determine the precise form of this dual property, we can proceed in a fashion exactly analogous to that used in Section 4.3.4. Thus, if we differentiate the analysis equation (4.25) with respect to \(\omega\), we obtain
+
+\[\frac{dX(j\omega)}{d\omega}\,=\,\int_{-\infty}^{+\infty}-jtx(t)e^{-j\omega t}dt. \tag{4.39}\]
+
+That is,
+
+\[-jtx(t)\stackrel{{\mathfrak{F}}}{{\longleftrightarrow}}\frac{ dX(j\omega)}{d\omega}. \tag{4.40}\]
+
+Similarly, we can derive the dual properties of eqs. (4.27) and (4.32):
+
+\[e^{j\omega_{0}t}x(t)\stackrel{{\mathfrak{F}}}{{ \longleftrightarrow}}X(j(\omega\,-\omega_{0})) \tag{4.41}\]
+
+and
+
+\[-\frac{1}{jt}x(t)+\,\pi x(0)\delta(t)\stackrel{{ \mathfrak{F}}}{{\longleftrightarrow}}\int_{-\infty}^{\omega}x(\eta)d\eta. \tag{4.42}\]
+
+#### Parseval's Relation
+
+If \(x(t)\) and \(X(j\omega)\) are a Fourier transform pair, then
+
+\[\boxed{\int_{-\infty}^{+\infty}|x(t)|^{2}dt\,=\,\frac{1}{2\pi}\int_{-\infty}^{+ \infty}|X(j\omega)|^{2}d\omega.} \tag{4.43}\]
+
+This expression, referred to as Parseval's relation, follows from direct application of the Fourier transform. Specifically,
+
+\[\int_{-\infty}^{+\infty}|x(t)|^{2}dt \,=\,\int_{-\infty}^{+\infty}x(t)x^{*}(t)dt\] \[\,=\,\int_{-\infty}^{+\infty}x(t)\Bigg{[}\frac{1}{2\pi}\int_{- \infty}^{+\infty}X^{*}(j\omega)e^{-j\omega t}d\omega\Bigg{]}dt.\]
+
+Reversing the order of integration gives
+
+\[\int_{-\infty}^{+\infty}|x(t)|^{2}dt\,=\,\frac{1}{2\pi}\int_{-\infty}^{+\infty }X^{*}(j\omega)\Bigg{[}\int_{-\infty}^{+\infty}x(t)e^{-j\omega t}dt\Bigg{]}d\omega.\]
+
+The bracketed term is simply the Fourier transform of \(x(t)\); thus,
+
+\[\int_{-\infty}^{+\infty}|x(t)|^{2}dt\,=\,\frac{1}{2\pi}\int_{-\infty}^{+ \infty}|X(j\omega)|^{2}d\omega.\]
+
+The term on the left-hand side of eq. (4.43) is the total energy in the signal \(x(t)\). Parseval's relation says that this total energy may be determined either by computing the energy per unit time (\(|x(t)|^{2}\)) and integrating over all time or by computing the energy per unit frequency (\(|X(j\omega)|^{2}/2\pi\)) and integrating over all frequencies. For this reason, \(|X(j\omega)|^{2}\) is often referred to as the _energy-density spectrum_ of the signal \(x(t)\). (See also Problem 4.45.) Note that Parseval's relation for finite-energy signals is the direct counterpart of Parseval's relation for periodic signals (eq. 3.67), which states that the average _power_ of a periodic signal equals the sum of the average powers of its individual harmonic components, which in turn are equal to the squared magnitudes of the Fourier series coefficients.
+
+Parseval's relation and other Fourier transform properties are often useful in determining some time domain characteristics of a signal directly from the Fourier transform. The next example is a simple illustration of this.
+
+**Example 4.14**: For each of the Fourier transforms shown in Figure 4.18, we wish to evaluate the following time-domain expressions:
+
+\[E \,=\,\int_{-\infty}^{\infty}|x(t)|^{2}dt\] \[D \,=\,\left.\frac{d}{dt}\,x(t)\right|_{t=0}\]To evaluate \(E\) in the frequency domain, we may use Parseval's relation. That is,
+
+\[E\,=\,\frac{1}{2\pi}\int_{-\infty}^{\infty}|X(j\omega)|^{2}d\omega \tag{4.44}\]
+
+which evaluates to \(\frac{5}{8}\) for Figure 4.18(a) and to 1 for Figure 4.18(b).
+
+To evaluate \(D\) in the frequency domain, we first use the differentiation property to observe that
+
+\[g(t)\,=\,\frac{d}{dt}x(t)\,\stackrel{{ g}}{{ \longleftrightarrow}}\,j\omega X(j\omega)\,=\,G(j\omega).\]
+
+Noting that
+
+\[D\,=\,g(0)\,=\,\frac{1}{2\pi}\!\!\int_{-\infty}^{\infty}\!G(j \omega)d\omega \tag{4.45}\]
+
+we conclude:
+
+\[D\,=\,\int_{-\infty}^{\infty}j\omega X(j\omega)\,d\omega \tag{4.46}\]
+
+which evaluates to zero for figure 4.18(a) and to \(\frac{-1}{(2\sqrt{\pi}\,)}\) for Figure 4.18(b).
+
+There are many other properties of the Fourier transform in addition to those we have already discussed. In the next two sections, we present two specific properties that play
+
+Figure 4.18: The Fourier transforms considered in Example 4.14.
+
+Since \(y(t)\) and its Fourier transform \(Y(j\omega)\) are related by
+
+\[y(t)\,=\,\frac{1}{2\pi}\,\int_{-\infty}^{+\infty}Y(j\omega)e^{j\omega t}d\omega, \tag{4.50}\]
+
+we can identify \(Y(j\omega)\) from eq. (4.49), yielding
+
+\[Y(j\omega)\,=\,X(j\omega)H(j\omega). \tag{4.51}\]
+
+As a more formal derivation, we consider the convolution integral
+
+\[y(t)\,=\,\int_{-\infty}^{+\infty}x(\tau)h(t-\tau)d\tau. \tag{4.52}\]
+
+We desire \(Y(j\omega)\), which is
+
+\[Y(j\omega)\,=\,\mathfrak{F}\{y(t)\}\,=\,\int_{-\infty}^{+\infty}\left[\int_{- \infty}^{+\infty}x(\tau)h(t-\tau)d\tau\right]e^{-j\omega t}dt. \tag{4.53}\]
+
+Interchanging the order of integration and noting that \(x(\tau)\) does not depend on \(t\), we have
+
+\[Y(j\omega)\,=\,\int_{-\infty}^{+\infty}x(\tau)\left[\int_{-\infty}^{+\infty}h (t-\tau)e^{-j\omega t}dt\right]d\tau. \tag{4.54}\]
+
+By the time-shift property, eq. (4.27), the bracketed term is \(e^{-j\omega\tau}H(j\omega)\). Substituting this into eq. (4.54) yields
+
+\[Y(j\omega)\,=\,\int_{-\infty}^{+\infty}x(\tau)e^{-j\omega\tau}H(j\omega)d\tau \,=\,H(j\omega)\,\int_{-\infty}^{+\infty}x(\tau)e^{-j\omega\tau}d\tau. \tag{4.55}\]
+
+The integral is \(X(j\omega)\), and hence,
+
+\[Y(j\omega)\,=\,H(j\omega)X(j\omega).\]
+
+That is,
+
+\[\boxed{y(t)\,=\,h(t)*x(t)\stackrel{{\mathfrak{F}}}{{ \longleftrightarrow}}Y(j\omega)\,=\,H(j\omega)X(j\omega).} \tag{4.56}\]
+
+Equation (4.56) is of major importance in signal and system analysis. As expressed in this equation, the Fourier transform maps the convolution of two signals into the product of their Fourier transforms. \(H(j\omega)\), the Fourier transform of the impulse response, is the frequency response as defined in eq. (3.121) and captures the change in complex amplitude of the Fourier transform of the input at each frequency \(\omega\). For example, in frequency-selective filtering we may want to have \(H(j\omega)\approx 1\) over one range of frequencies, so that the frequency components in this band experience little or no attenuation or change due to the system, while over another range of frequencies we may want to have \(H(j\omega)\approx 0\), so that components in this range are eliminated or significantly attenuated.
+
+The frequency response \(H(j\omega)\) plays as important a role in the analysis of LTI systems as does its inverse transform, the unit impulse response. For one thing, since \(h(t)\) completely characterizes an LTI system, then so must \(H(j\omega)\). In addition, many of the properties of LTI systems can be conveniently interpreted in terms of \(H(j\omega)\). For example, in Section 2.3, we saw that the impulse response of the cascade of two LTI systems is the convolution of the impulse responses of the individual systems and that the overall impulse response does not depend on the order in which the systems are cascaded. Using eq. (4.56), we can rephrase this in terms of frequency responses. As illustrated in Figure 4.19, since the impulse response of the cascade of two LTI systems is the convolution of the individual impulse responses, the convolution property then implies that the overall frequency response of the cascade of two systems is simply the product of the individual frequency responses. From this observation, it is then clear that the overall frequency response does not depend on the order of the cascade.
+
+As discussed in Section 4.1.2, convergence of the Fourier transform is guaranteed only under certain conditions, and consequently, the frequency response cannot be defined for every LTI system. If, however, an LTI system is stable, then, as we saw in Section 2.3.7 and Problem 2.49, its impulse response is absolutely integrable; that is,
+
+\[\int_{-\infty}^{+\infty}|h(t)|dt<\infty. \tag{4.57}\]
+
+Equation (4.57) is one of the three Dirichlet conditions that together guarantee the existence of the Fourier transform \(H(j\omega)\) of \(h(t)\). Thus, assuming that \(h(t)\) satisfies the other two conditions, as essentially all signals of physical or practical significance do, we see that a stable LTI system has a frequency response \(H(j\omega)\).
+
+In using Fourier analysis to study LTI systems, we will be restricting ourselves to systems whose impulse responses possess Fourier transforms. In order to use transform techniques to examine unstable LTI systems we will develop a generalization of
+
+Figure 4.19: Three equivalent LTI systems. Here, each block represents an LTI system with the indicated frequency response.
+
+the continuous-time Fourier transform, the Laplace transform. We defer this discussion to Chapter 9, and until then we will consider the many problems and practical applications that we can analyze using the Fourier transform.
+
+#### Examples
+
+To illustrate the convolution property and its applications further, let us consider several examples.
+
+##### Example 4.15
+
+Consider a continuous-time LTI system with impulse response
+
+\[h(t)\,=\,\delta(t-t_{0}). \tag{4.58}\]
+
+The frequency response of this system is the Fourier transform of \(h(t)\) and is given by
+
+\[H(j\omega)\,=\,e^{-j\omega t_{0}}. \tag{4.59}\]
+
+Thus, for any input \(x(t)\) with Fourier transform \(X(j\omega)\), the Fourier transform of the output is
+
+\[Y(j\omega) \,=\,H(j\omega)X(j\omega) \tag{4.60}\] \[\,=\,e^{-j\omega t_{0}}X(j\omega).\]
+
+This result, in fact, is consistent with the time-shift property of Section 4.3.2. Specifically, a system for which the impulse response is \(\delta(t-t_{0})\) applies a time shift of \(t_{0}\) to the input--that is,
+
+\[y(t)\,=\,x(t-t_{0}).\]
+
+Thus, the shifting property given in eq. (4.27) also yields eq. (4.60). Note that, either from our discussion in Section 4.3.2 or directly from eq. (4.59), the frequency response of a system that is a pure time shift has unity magnitude at all frequencies (i.e., \(|e^{-j\omega t_{0}}|=1\)) and has a phase characteristic \(-\omega t_{0}\) that is a linear function of \(\omega\).
+
+##### Example 4.16
+
+As a second example, let us examine a differentiator--that is, an LTI system for which the input \(x(t)\) and the output \(y(t)\) are related by
+
+\[y(t)\,=\,\frac{dx(t)}{dt}.\]
+
+From the differentiation property of Section 4.3.4,
+
+\[Y(j\omega)\,=\,j\omega X(j\omega). \tag{4.61}\]
+
+Consequently, from eq. (4.56), it follows that the frequency response of a differentiator is
+
+\[H(j\omega)\,=\,j\omega. \tag{4.62}\]
+
+### Example 4.17
+
+Consider an integrator--that is, an LTI system specified by the equation
+
+\[y(t)\,=\,\int_{-\infty}^{t}x(\tau)d\tau.\]
+
+The impulse response for this system is the unit step \(u(t)\), and therefore, from Example 4.11 and eq. (4.33), the frequency response of the system is
+
+\[H(j\omega)\,=\,\frac{1}{j\omega}\,+\,\pi\delta(\omega).\]
+
+Then using eq. (4.56), we have
+
+\[Y(j\omega) \,=\,H(j\omega)X(j\omega)\] \[\,=\,\frac{1}{j\omega}X(j\omega)\,+\,\pi X(j\omega)\delta(\omega)\] \[\,=\,\frac{1}{j\omega}X(j\omega)\,+\,\pi X(0)\delta(\omega),\]
+
+which is consistent with the integration property of eq. (4.32).
+
+### Example 4.18
+
+As we discussed in Section 3.9.2, frequency-selective filtering is accomplished with an LTI system whose frequency response \(H(j\omega)\) passes the desired range of frequencies and significantly attenuates frequencies outside that range. For example, consider the ideal lowpass filter introduced in Section 3.9.2, which has the frequency reponse illustrated in Figure 4.20 and given by
+
+\[H(j\omega)\,=\,\left\{\begin{array}{ll}1&|\omega|<\omega_{c}\\ 0&|\omega|>\omega_{c}\end{array}\right.. \tag{4.63}\]
+
+Now that we have developed the Fourier transform representation, we know that the impulse response \(h(t)\) of this ideal filter is the inverse transform of eq. (4.63). Using the result in Example 4.5, we then have
+
+\[h(t)\,=\,\frac{\sin\omega_{c}t}{\pi t}, \tag{4.64}\]
+
+which is plotted in Figure 4.21.
+
+Figure 4.20: Frequency response of an ideal lowpass filter.
+
+From Example 4.18, we can begin to see some of the issues that arise in filter design that involve looking in both the time and frequency domains. In particular, while the ideal lowpass filter does have perfect frequency selectivity, its impulse response has some characteristics that may not be desirable. First, note that \(h(t)\) is not zero for \(t<0\). Consequently, the ideal lowpass filter is not causal, and thus, in applications requiring causal systems, the ideal filter is not an option. Moreover, as we discuss in Chapter 6, even if causality is not an essential constraint, the ideal filter is not easy to approximate closely, and non-ideal filters that are more easily implemented are typically preferred. Furthermore, in some applications (such as the automobile suspension system discussed in Section 6.7.1), oscillatory behavior in the impulse response of a lowpass filter may be undesirable. In such applications the time domain characteristics of the ideal lowpass filter, as shown in Figure 4.21, may be unacceptable, implying that we may need to trade off frequency-domain characteristics such as ideal frequency selectivity with time-domain properties.
+
+For example, consider the LTI system with impulse response
+
+\[h(t)\,=\,e^{-t}u(t). \tag{4.65}\]
+
+The frequency response of this system is
+
+\[H(\,j\omega)\,=\,\frac{1}{j\omega\,+\,1}. \tag{4.66}\]
+
+Comparing eqs. (3.145) and (4.66), we see that this system can be implemented with the simple \(RC\) circuit discussed in Section 3.10. The impulse response and the magnitude of the frequency response are shown in Figure 4.22. While the system does not have the strong frequency selectivity of the ideal lowpass filter, it is causal and has an impulse response that decays monotonically, i.e., without oscillations. This filter or somewhat more complex ones corresponding to higher order differential equations are quite frequently preferred to ideal filters because of their causality, ease of implementation, and flexibility in allowing trade-offs, among other design considerations such as frequency selectivity and oscillatory behavior in the time domain. Many of these issues will be discussed in more detail in Chapter 6.
+
+The convolution property is often useful in evaluating the convolution integral--i.e., in computing the response of LTI systems. This is illustrated in the next example.
+
+Figure 4.21: Impulse response of an ideal lowpass filter.
+
+### Example 4.19
+
+Consider the response of an LTI system with impulse response
+
+\[h(t)\,=\,e^{-a}u(t),\quad a>0,\]
+
+to the input signal
+
+\[x(t)\,=\,e^{-bt}u(t),\quad b>0.\]
+
+Rather than computing \(y(t)\,=\,x(t)*h(t)\) directly, let us transform the problem into the frequency domain. From Example 4.1, the Fourier transforms of \(x(t)\) and \(h(t)\) are
+
+\[X(j\omega)\,=\,\frac{1}{b+j\omega}\]
+
+and
+
+\[H(j\omega)\,=\,\frac{1}{a+j\omega}.\]
+
+Therefore,
+
+\[Y(j\omega)\,=\,\frac{1}{(a+j\omega)(b+j\omega)}. \tag{4.67}\]
+
+To determine the output \(y(t)\), we wish to obtain the inverse transform of \(Y(j\omega)\). This is most simply done by expanding \(Y(j\omega)\) in a partial-fraction expansion. Such expansions are extremely useful in evaluating inverse transforms, and the general method for performing a partial-fraction expansion is developed in the appendix. For this
+
+Figure 4.22: (a) Impulse response of the LTI system in eq. (4.65); (b) magnitude of the frequency response of the system.
+
+example, assuming that \(b\neq a\), the partial fraction expansion for \(Y(j\omega)\) takes the form
+
+\[Y(j\omega)\,=\,\frac{A}{a+j\omega}\,+\,\frac{B}{b+j\omega}, \tag{4.68}\]
+
+where \(A\) and \(B\) are constants to be determined. One way to find \(A\) and \(B\) is to equate the right-hand sides of eqs. (4.67) and (4.68), multiply both sides by \((a+j\omega)(b+j\omega)\), and solve for \(A\) and \(B\). Alternatively, in the appendix we present a more general and efficient method for computing the coefficients in partial-fraction expansions such as eq. (4.68). Using either of these approaches, we find that
+
+\[A\,=\,\frac{1}{b-a}\,=\,-B,\]
+
+and therefore,
+
+\[Y(j\omega)\,=\,\frac{1}{b-a}\biggl{[}\frac{1}{a+j\omega}\,-\,\frac{1}{b+j \omega}\,\biggr{]}. \tag{4.69}\]
+
+The inverse transform for each of the two terms in eq. (4.69) can be recognized by inspection. Using the linearity property of Section 4.3.1, we have
+
+\[y(t)\,=\,\frac{1}{b-a}[e^{-\alpha t}u(t)-e^{-bt}u(t)].\]
+
+When \(b=a\), the partial fraction expansion of eq. (4.69) is not valid. However, with \(b\,=\,a\), eq. (4.67) becomes
+
+\[Y(j\omega)\,=\,\frac{1}{(a+j\omega)^{2}}.\]
+
+Recognizing this as
+
+\[\frac{1}{(a+j\omega)^{2}}\,=\,j\frac{d}{d\omega}\,\biggl{[}\frac{1}{a+j\omega }\,\biggr{]},\]
+
+we can use the dual of the differentiation property, as given in eq. (4.40). Thus,
+
+\[e^{-\alpha t}u(t)\stackrel{{\,\ref{eq:y}}}{{\longleftrightarrow}} \frac{1}{a+j\omega}\] \[te^{-\alpha t}u(t)\stackrel{{\,\ref{eq:y}}}{{ \longleftrightarrow}}j\frac{d}{d\omega}\,\biggl{[}\frac{1}{a+j\omega}\, \biggr{]}\,=\,\frac{1}{(a+j\omega)^{2}},\]
+
+and consequently,
+
+\[y(t)\,=\,te^{-\alpha t}u(t).\]
+
+## Example 4.20
+
+As another illustration of the usefulness of the convolution property, let us consider the problem of determining the response of an ideal lowpass filter to an input signal \(x(t)\) that has the form of a sinc function. That is,
+
+\[x(t)\,=\,\frac{\sin\omega_{i}t}{\pi t}.\]
+
+Of course, the impulse response of the ideal lowpass filter is of a similar form, namely,\[h(t)\,=\,\frac{\sin\omega_{c}t}{\pi t}.\]
+
+The filter output \(y(t)\) will therefore be the convolution of two sinc functions, which, as we now show, also turns out to be a sinc function. A particularly convenient way of deriving this result is to first observe that
+
+\[Y(j\omega)\,=\,X(j\omega)H(j\omega),\]
+
+where
+
+\[X(j\omega)\,=\,\left\{\begin{array}{ll}1&|\omega|\,\leq\,\omega_{i}\\ 0&\text{elsewhere}\end{array}\right.\]
+
+and
+
+\[H(j\omega)\,=\,\left\{\begin{array}{ll}1&|\omega|\,\leq\,\omega_{c}\\ 0&\text{elsewhere}\end{array}\right..\]
+
+Therefore,
+
+\[Y(j\omega)\,=\,\left\{\begin{array}{ll}1&|\omega|\,\leq\,\omega_{0}\\ 0&\text{elsewhere}\end{array}\right.,\]
+
+where \(\omega_{0}\) is the smaller of the two numbers \(\omega_{i}\) and \(\omega_{c}\). Finally, the inverse Fourier transform of \(Y(j\omega)\) is given by
+
+\[y(t)\,=\,\left\{\begin{array}{ll}\frac{\sin\omega_{c}t}{\pi t}&\text{if } \omega_{c}\,\leq\,\omega_{i}\\ \frac{\sin\omega_{i}t}{\pi t}&\text{if }\omega_{i}\,\leq\,\omega_{c} \end{array}\right..\]
+
+That is, depending upon which of \(\omega_{c}\) and \(\omega_{i}\) is smaller, the output is equal to either \(x(t)\) or \(h(t)\).
+
+### The Multiplication Property
+
+The convolution property states that convolution in the _time_ domain corresponds to multiplication in the _frequency_ domain. Because of duality between the time and frequency domains, we would expect a dual property also to hold (i.e., that multiplication in the time domain corresponds to convolution in the frequency domain). Specifically,
+
+\[r(t)\,=\,s(t)p(t)\longleftrightarrow R(j\omega)\,=\,\frac{1}{2\pi}\!\!\int_{- \infty}^{+\infty}\!\!\!\!S(j\theta)P(j(\omega-\theta))d\theta \tag{4.70}\]
+
+This can be shown by exploiting duality as discussed in Section 4.3.6, together with the convolution property, or by directly using the Fourier transform relations in a manner analogous to the procedure used in deriving the convolution property.
+
+Multiplication of one signal by another can be thought of as using one signal to scale or _modulate_ the amplitude of the other, and consequently, the multiplication of two signals is often referred to as _amplitude modulation_. For this reason, eq. (4.70) is sometimes referred to as the _modulation property._ As we shall see in Chapters 7 and 8, this property has several very important applications. To illustrate eq. (4.70), and to suggest one of the applications that we will discuss in subsequent chapters, let us consider several examples.
+
+**Example 4.21**: Let \(s(t)\) be a signal whose spectrum \(S(j\omega)\) is depicted in Figure 4.23(a). Also, consider the signal
+
+\[p(t)\,=\,\cos\omega_{0}t.\]
+
+Then
+
+\[P(j\omega)\,=\,\pi\delta(\omega\,-\,\omega_{0})\,+\,\pi\delta(\omega\,+\, \omega_{0}),\]
+
+as sketched in Figure 4.23(b), and the spectrum \(R(j\omega)\) of \(r(t)\,=\,s(t)p(t)\) is obtained by
+
+Figure 4.23: Use of the multiplication property in Example 4.21: (a) the Fourier transform of a signal \(s(t)\); (b) the Fourier transform of \(p(t)\,=\,\cos\omega_{0}t\); (c) the Fourier transform of \(r(t)\,=\,s(t)p(t)\).
+
+an application of eq. (4.70), yielding
+
+\[R(j\omega) = \frac{1}{2}\pi\int_{-\infty}^{+\infty}\!\!\!\!S(j\theta)P(j(\omega- \theta))d\theta \tag{4.71}\] \[= \frac{1}{2}S(j(\omega-\omega_{0}))+\frac{1}{2}S(j(\omega+\omega_{0 })),\]
+
+which is sketched in Figure 4.23(c). Here we have assumed that \(\omega_{0}>\omega_{1}\), so that the two nonzero portions of \(R(j\omega)\) do not overlap. Clearly, the spectrum of \(r(t)\) consists of the sum of two shifted and scaled versions of \(S(j\omega)\).
+
+From eq. (4.71) and from Figure 4.23, we see that all of the information in the signal \(s(t)\) is preserved when we multiply this signal by a sinusoidal signal, although the information has been shifted to higher frequencies. This fact forms the basis for sinusoidal amplitude modulation systems for communications. In the next example, we learn how we can recover the original signal \(s(t)\) from the amplitude-modulated signal \(r(t)\).
+
+## Example 4.22
+
+Let us now consider \(r(t)\) as obtained in Example 4.21, and let
+
+\[g(t)\,=\,r(t)p(t),\]
+
+where, again, \(p(t)=\cos\omega_{0}t\). Then, \(R(j\omega),P(j\omega)\), and \(G(j\omega)\) are as shown in Figure 4.24.
+
+From Figure 4.24(c) and the linearity of the Fourier transform, we see that \(g(t)\) is the sum of \((1/2)s(t)\) and a signal with a spectrum that is nonzero only at higher frequencies.
+
+Figure 4.24: Spectra of signals considered in Example 4.22: (a) \(R(j\omega)\); (b) \(P(j\omega)\); (c) \(G(j\omega)\).
+
+cies (centered around \(\pm 2\omega_{0}\)). Suppose then that we apply the signal \(g(t)\) as the input to a frequency-selective lowpass filter with frequency response \(H(j\omega)\) that is constant at low frequencies (say, for \(|\omega|<\omega_{1}\)) and zero at high frequencies (for \(|\omega|>\omega_{1}\)). Then the output of this system will have as its spectrum \(H(j\omega)G(j\omega)\), which, because of the particular choice of \(H(j\omega)\), will be a scaled replica of \(S(j\omega)\). Therefore, the output itself will be a scaled version of \(s(t)\). In Chapter 8, we expand significantly on this idea as we develop in detail the fundamentals of amplitude modulation.
+
+### Example 4.23
+
+Another illustration of the usefulness of the Fourier transform multiplication property is provided by the problem of determining the Fourier transform of the signal
+
+\[x(t)\;=\;\frac{\sin(t)\sin(t/2)}{\pi t^{2}}.\]
+
+The key here is to recognize \(x(t)\) as the product of two sinc functions:
+
+\[x(t)\;=\;\pi\left(\frac{\sin(t)}{\pi t}\right)\!\!\left(\frac{\sin(t/2)}{\pi t }\right)\!.\]
+
+Applying the multiplication property of the Fourier transform, we obtain
+
+\[X(j\omega)\;=\;\frac{1}{2}\mathcal{G}\left\{\;\frac{\sin(t)}{\pi t}\right\}* \mathcal{G}\left\{\;\frac{\sin(t/2)}{\pi t}\right\}.\]
+
+Noting that the Fourier transform of each sinc function is a rectangular pulse, we can proceed to convolve those pulses to obtain the function \(X(j\omega)\) displayed in Figure 4.25.
+
+#### Frequency-Selective Filtering with Variable Center Frequency
+
+As suggested in Examples 4.21 and 4.22 and developed more fully in Chapter 8, one of the important applications of the multiplication property is amplitude modulation in communication systems. Another important application is in the implementation of frequency-selective bandpass filters with tunable center frequencies that can be adjusted by the simple turn of a dial. In a frequency-selective bandpass filter built with elements such as resistors, operational amplifiers, and capacitors, the center frequency depends on a number of element values, all of which must be varied simultaneously in the correct way if the center frequency is to be adjusted directly. This is generally difficult and cumbersome in comparison with building a filter whose characteristics are fixed. An alternative to directly varying the filter characteristics is to use a fixed frequency-selective filter and
+
+Figure 4.25: The Fourier transform of \(x(t)\) in Example 4.23.
+
+shift the spectrum of the signal appropriately, using the principles of sinusoidal amplitude modulation.
+
+For example, consider the system shown in Figure 4.26. Here, an input signal \(x(t)\) is multiplied by the complex exponential signal \(e^{j\omega_{0}t}\). The resulting signal is then passed through a lowpass filter with cutoff frequency \(\omega_{0}\), and the output is multiplied by \(e^{-j\omega_{0}t}\). The spectra of the signals \(x(t)\), \(y(t)\), \(w(t)\), and \(f(t)\) are illustrated in Figure 4.27.
+
+Figure 4.26: Implementation of a bandpass filter using amplitude modulation with a complex exponential carrier.
+
+Specifically, from either the multiplication property or the frequency-shifting property it follows that the Fourier transform of \(y(t)\,=\,e^{j\omega_{c}t}x(t)\) is
+
+\[Y(j\omega)=\int_{-\omega}^{+\infty}\delta(\theta-\omega_{c})X(\omega-\theta)d\theta\]
+
+so that \(Y(j\omega)\) equals \(X(j\omega)\) shifted to the right by \(\omega_{c}\) and frequencies in \(X(j\omega)\) near \(\omega=\omega_{c}\) have been shifted into the passband of the lowpass filter. Similarly, the Fourier transform of \(f(t)\,=\,e^{-j\omega_{c}t}w(t)\) is
+
+\[F(j\omega)\,=\,W(j(\omega\,+\omega_{0})),\]
+
+so that the Fourier transform of \(F\,(j\omega)\) is \(W\,(j\omega)\) shifted to the left by \(\omega_{c}\). From Figure 4.27, we observe that the overall system of Figure 4.26 is equivalent to an ideal bandpass filter with center frequency \(-\omega_{c}\) and bandwidth \(2\omega_{0}\), as illustrated in Figure 4.28. As the frequency \(\omega_{c}\) of the complex exponential oscillator is varied, the center frequency of the bandpass filter varies.
+
+In the system of Figure 4.26 with \(x(t)\) real, the signals \(y(t),w(t),\) and \(f(t)\) are all complex. If we retain only the real part of \(f(t)\), the resulting spectrum is that shown in Figure 4.29, and the equivalent bandpass filter passes bands of frequencies centered around \(\omega_{c}\) and \(-\omega_{c}\), as indicated in Figure 4.30. Under certain conditions, it is also possible to use sinusoidal rather than complex exponential modulation to implement the system of the latter figure. This is explored further in Problem 4.46.
+
+Figure 4.30: Equivalent bandpass filter for \(\Re(f(t))\) in Figure 4.29.
+
+### Tables of Fourier Properties and of Basic Fourier Transform Pairs
+
+In the preceding sections and in the problems at the end of the chapter, we have considered some of the important properties of the Fourier transform. These are summarized in Table 1, in which we have also indicated the section of this chapter in which each property has been discussed.
+
+In Table 2, we have assembled a list of many of the basic and important Fourier transform pairs. We will encounter many of these repeatedly as we apply the tools of
+
+#### 4.3.7 Parseval's Relation for Aperiodic Signals
+
+\[\int_{-\infty}^{+\infty}|x(t)|^{2}dt\,=\,\frac{1}{2\pi}\int_{-\infty}^{+\infty }|X(j\omega)|^{2}d\omega\]
+
+\begin{table}
+\begin{tabular}{l l l l} \hline \hline
+**Section** & **Property** & **Aperiodic signal** & **Fourier transform** \\ \hline  & & \(x(t)\) & \(X(j\omega)\) \\  & & \(y(t)\) & \(Y(j\omega)\) \\ - & & & \\ - & & & \\ - & & & \\ - & & & \\ - & & & \\ - & & & \\ - & & & \\ - & & & \\ - & & & \\ - & & & \\ - & & & \\ - & & & \\ - & & & \\ \hline \hline \end{tabular}
+\end{table}
+Table 1: PROPERTIES OF THE FOURIER TRANSFORM
+
+Fourier analysis in our examination of signals and systems. All of the transform pairs, except for the last one in the table, have been considered in examples in the preceding sections. The last pair is considered in Problem 4.40. In addition, note that several of the signals in Table 4.2 are periodic, and for these we have also listed the corresponding Fourier series coefficients.
+
+### Systems Characterized by Linear Constant-Coefficient Differential Equations
+
+As we have discussed on several occasions, a particularly important and useful class of continuous-time LTI systems is those for which the input and output satisfy a linear constant-coefficient differential equation of the form
+
+\[\sum_{k\,=\,0}^{N}a_{k}\frac{d^{k}y(t)}{dt^{k}}\,=\,\sum_{k\,=\,0}^{M}b_{k} \frac{d^{k}\,x(t)}{dt^{k}}. \tag{4.72}\]
+
+In this section, we consider the question of determining the frequency response of such an LTI system. Throughout the discussion we will always assume that the frequency response of the system exists, i.e., that eq. (3.121) converges.
+
+There are two closely related ways in which to determine the frequency response \(H(j\omega)\) for an LTI system described by the differential equation (4.72). The first of these, which relies on the fact that complex exponential signals are eigenfunctions of LTI systems, was used in Section 3.10 in our analysis of several simple, nonideal filters. Specifically, if \(x(t)\,=\,e^{j\omega t}\), then the output must be \(y(t)\,=\,H(j\omega)\,e^{j\omega t}\). Substituting these expressions into the differential equation (4.72) and performing some algebra, we can then solve for \(H(j\omega)\). In this section we use an alternative approach to arrive at the same answer, making use of the differentiation property, eq. (4.31), of Fourier transforms.
+
+Consider an LTI system characterized by eq. (4.72). From the convolution property,
+
+\[Y(j\omega)\,=\,H(j\omega)X(j\omega),\]
+
+or equivalently,
+
+\[H(j\omega)\,=\,\frac{Y(j\omega)}{\bar{X}(j\omega)}, \tag{4.73}\]
+
+where \(X(j\omega)\), \(Y(j\omega)\), and \(H(j\omega)\) are the Fourier transforms of the input \(x(t)\), output \(y(t)\), and impulse response \(h(t)\), respectively. Next, consider applying the Fourier transform to both sides of eq. (4.72) to obtain
+
+\[\mathfrak{F}\left\{\sum_{k\,=\,0}^{N}a_{k}\frac{d^{k}y(t)}{dt^{k}}\right\}\,= \,\mathfrak{F}\left\{\sum_{k\,=\,0}^{M}b_{k}\frac{d^{k}\,x(t)}{dt^{k}}\right\}. \tag{4.74}\]
+
+From the linearity property, eq. (4.26), this becomes
+
+\[\sum_{k\,=\,0}^{N}a_{k}\mathfrak{F}\left\{\frac{d^{k}y(t)}{dt^{k}}\right\}\,= \,\sum_{k\,=\,0}^{M}b_{k}\mathfrak{F}\left\{\frac{d^{k}\,x(t)}{dt^{k}}\right\}, \tag{4.75}\]and from the differentiation property, eq. (4.31),
+
+\[\sum_{k\,=\,0}^{N}a_{k}(j\omega)^{k}Y(j\omega)\,=\,\sum_{k\,=\,0}^{M}b_{k}(j \omega)^{k}X(j\omega),\]
+
+or equivalently,
+
+\[Y(j\omega)\Biggl{[}\sum_{k\,=\,0}^{N}a_{k}(j\omega)^{k}\Biggr{]}=\,X(j\omega) \Biggl{[}\sum_{k\,=\,0}^{M}b_{k}(j\omega)^{k}\Biggr{]}.\]
+
+Thus, from eq. (4.73),
+
+\[H(j\omega)\,=\,\frac{Y(j\omega)}{X(j\omega)}\,=\,\frac{\sum_{k\,=\,0}^{M}b_{k} (j\omega)^{k}}{\sum_{k\,=\,0}^{N}a_{k}(j\omega)^{k}}. \tag{4.76}\]
+
+Observe that \(H(j\omega)\) is thus a rational function; that is, it is a ratio of polynomials in \((j\omega)\). The coefficients of the numerator polynomial are the same coefficients as those that appear on the right-hand side of eq. (4.72), and the coefficients of the denominator polynomial are the same coefficients as appear on the left side of eq. (4.72). Hence, the frequency response given in eq. (4.76) for the LTI system characterized by eq. (4.72) can be written down directly by inspection.
+
+The differential equation (4.72) is commonly referred to as an \(N\)th-order differential equation, as the equation involves derivatives of the output \(y(t)\) up through the \(N\)th derivative. Also, the denominator of \(H(j\omega)\) in eq. (4.76) is an \(N\)th-order polynomial in \((j\omega)\).
+
+### Example 4.24
+
+Consider a stable LTI system characterized by the differential equation
+
+\[\frac{dy(t)}{dt}\,+\,ay(t)\,=\,x(t), \tag{4.77}\]
+
+with \(a>0\). From eq. (4.76), the frequency response is
+
+\[H(j\omega)\,=\,\frac{1}{j\omega\,+\,a}. \tag{4.78}\]
+
+Comparing this with the result of Example 4.1, we see that eq. (4.78) is the Fourier transform of \(e^{-at}u(t)\). The impulse response of the system is then recognized as
+
+\[h(t)\,=\,e^{-at}u(t).\]
+
+### Example 4.25
+
+Consider a stable LTI system that is characterized by the differential equation
+
+\[\frac{d^{2}y(t)}{dt^{2}}\,+\,4\frac{dy(t)}{dt}\,+\,3y(t)\,=\,\frac{dx(t)}{dt} \,+\,2x(t).\]From eq. (4.76), the frequency response is
+
+\[H(j\omega)\,=\,\frac{(j\omega)+2}{(j\omega)^{2}+4(j\omega)+3}. \tag{4.79}\]
+
+To determine the corresponding impulse response, we require the inverse Fourier transform of \(H(j\omega)\). This can be found using the technique of partial-fraction expansion employed in Example 4.19 and discussed in detail in the appendix. (In particular, see Example A.1, in which the details of the calculations for the partial-fraction expansion of eq. (4.79) are worked out.) As a first step, we factor the denominator of the right-hand side of eq. (4.79) into a product of lower order terms:
+
+\[H(j\omega)\,=\,\frac{j\omega+2}{(j\omega+1)(j\omega+3)}. \tag{4.80}\]
+
+Then, using the method of partial-fraction expansion, we find that
+
+\[H(j\omega)\,=\,\frac{\frac{1}{2}}{j\omega+1}\,+\,\frac{\frac{1}{2}}{j\omega+3}.\]
+
+The inverse transform of each term can be recognized from Example 4.24, with the result that
+
+\[h(t)\,=\,\frac{1}{2}e^{-t}u(t)+\frac{1}{2}e^{-3t}u(t).\]
+
+The procedure used in Example 4.25 to obtain the inverse Fourier transform is generally useful in inverting transforms that are ratios of polynomials in \(j\omega\). In particular, we can use eq. (4.76) to determine the frequency response of any LTI system described by a linear constant-coefficient differential equation and then can calculate the impulse response by performing a partial-fraction expansion that puts the frequency response into a form in which the inverse transform of each term can be recognized by inspection. In addition, if the Fourier transform \(X(j\omega)\) of the input to such a system is also a ratio of polynomials in \(j\omega\), then so is \(Y(j\omega)=H(j\omega)X(j\omega)\). In this case we can use the same technique to solve the differential equation--that is, to find the response \(y(t)\) to the input \(x(t)\). This is illustrated in the next example.
+
+**Example 4.26**
+
+Consider the system of Example 4.25, and suppose that the input is
+
+\[x(t)\,=\,e^{-t}u(t).\]
+
+Then, using eq. (4.80), we have
+
+\[Y(j\omega) \,=\,H(j\omega)X(j\omega)\,=\,\biggl{[}\frac{j\omega\,+2}{(j \omega+1)(j\omega+3)}\biggr{]}\biggl{[}\frac{1}{j\omega+1}\biggr{]}\] \[\,=\,\frac{j\omega+2}{(j\omega+1)^{2}(j\omega+3)}. \tag{4.81}\]As discussed in the appendix, in this case the partial-fraction expansion takes the form
+
+\[Y(j\omega)\,=\,\frac{A_{11}}{j\omega\,+\,1}\,+\,\frac{A_{12}}{(j\omega\,+\,1)^{2} }\,+\,\frac{A_{21}}{j\omega\,+\,3}, \tag{4.82}\]
+
+where \(A_{11}\), \(A_{12}\), and \(A_{21}\) are constants to be determined. In Example A.2 in the appendix, the technique of partial-fraction expansion is used to determine these constants. The values obtained are
+
+\[A_{11}\,=\,\frac{1}{4},\quad A_{12}\,=\,\frac{1}{2},\quad A_{21}\,=\,-\,\frac{ 1}{4},\]
+
+so that
+
+\[Y(j\omega)\,=\,\frac{\frac{1}{4}}{j\omega\,+\,1}\,+\,\frac{\frac{1}{2}}{(j \omega\,+\,1)^{2}}\,-\,\frac{\frac{1}{4}}{j\omega\,+\,3}. \tag{4.83}\]
+
+Again, the inverse Fourier transform for each term in eq. (4.83) can be obtained by inspection. The first and third terms are of the same type that we have encountered in the preceding two examples, while the inverse transform of the second term can be obtained from Table 4.2 or, as was done in Example 4.19, by applying the dual of the differentiation property, as given in eq. (4.40), to \(1/(j\omega\,+\,1)\). The inverse transform of eq. (4.83) is then found to be
+
+\[y(t)\,=\,\left[\frac{1}{4}e^{-t}\,+\,\frac{1}{2}te^{-t}\,-\,\frac{1}{4}e^{-3t }\right]u(t).\]
+
+From the preceding examples, we see how the techniques of Fourier analysis allow us to reduce problems concerning LTI systems characterized by differential equations to straightforward algebraic problems. This important fact is illustrated further in a number of the problems at the end of the chapter. In addition (see Chapter 6), the algebraic structure of the rational transforms encountered in dealing with LTI systems described by differential equations greatly facilitate the analysis of their frequency-domain properties and the development of insights into both the time-domain and frequency-domain characteristics of this important class of systems.
+
+### Summary
+
+In this chapter, we have developed the Fourier transform representation for continous-time signals and have examined many of the properties that make this transform so useful. In particular, by viewing an aperiodic signal as the limit of a periodic signal as the period becomes arbitrarily large, we derived the Fourier transform representation for aperiodic signals from the Fourier series representation for periodic signals developed in Chapter 3. In addition, periodic signals themselves can be represented using Fourier transforms consisting of trains of impulses located at the harmonic frequencies of the periodic signal and with areas proportional to the corresponding Fourier series coefficients.
+
+The Fourier transform possesses a wide variety of important properties that describe how different characteristics of signals are reflected in their transforms, and in this chapter we have derived and examined many of these properties. Among them are two that have particular significance for our study of signals and systems. The first is the convolution property, which is a direct consequence of the eigenfunction property of complex exponential signals and which leads to the description of an LTI system in terms of its frequency response. This description plays a fundamental role in the frequency-domain approach to the analysis of LTI systems, which we will continue to explore in subsequent chapters. The second property of the Fourier transform that has extremely important implications is the multiplication property, which provides the basis for the frequency-domain analysis of sampling and modulation systems. We examine these systems further in Chapters 7 and 8.
+
+We have also seen that the tools of Fourier analysis are particularly well suited to the examination of LTI systems characterized by linear constant-coefficient differential equations. Specifically, we have found that the frequency response for such a system can be determined by inspection and that the technique of partial-fraction expansion can then be used to facilitate the calculation of the impulse response of the system. In subsequent chapters, we will find that the convenient algebraic structure of the frequency responses of these systems allows us to gain considerable insight into their characteristics in both the time and frequency domains.
+
+## Chapter 4 Problems
+
+The first section of problems belongs to the basic category and the answers are provided in the back of the book. The remaining three sections contain problems belonging to the basic, advanced, and extension categories, respectively.
+
+### Basic Problems With Answers
+
+1. Use the Fourier transform analysis equation (4.9) to calculate the Fourier transforms of: **(a)**\(e^{-2(t-1)}\)**\(u(t-1)\)**  **(b)**\(e^{-2|t-1|}\)
+
+Sketch and label the magnitude of each Fourier transform.
+2. Use the Fourier transform analysis equation (4.9) to calculate the Fourier transforms of: **(a)**\(\delta(t+1)+\delta(t-1)\)**  **(b)**\(\frac{d}{dt}\{u(-2-t)+u(t-2)\}\)
+
+Sketch and label the magnitude of each Fourier transform.
+3. Determine the Fourier transform of each of the following periodic signals: **(a)**\(\sin(2\pi t+\frac{\pi}{4})\)**  **(b)**\(1+\cos(6\pi t+\frac{\pi}{8})\)
+4. Use the Fourier transform synthesis equation (4.8) to determine the inverse Fourier transforms of: **(a)**\(X_{1}(j\omega)=2\pi\;\delta(\omega)+\pi\;\delta(\omega-4\pi)+\pi\;\delta( \omega+4\pi)\)

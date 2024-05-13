@@ -1,0 +1,417 @@
+### 7.0 Introduction
+
+Under certain conditions, a continuous-time signal can be completely represented by and recoverable from knowledge of its values, or _samples,_ at points equally spaced in time. This somewhat surprising property follows from a basic result that is referred to as the _sampling theorem_. This theorem is extremely important and useful. It is exploited, for example, in moving pictures, which consist of a sequence of individual frames, each of which represents an instantaneous view (i.e., a sample in time) of a continuously changing scene. When these samples are viewed in sequence at a sufficiently fast rate, we perceive an accurate representation of the original continuously moving scene. As another example, printed pictures typically consist of a very fine grid of points, each corresponding to a sample of the spatially continuous scene represented in the picture. If the samples are sufficiently close together, the picture appears to be spatially continuous, although under a magnifying glass its representation in terms of samples becomes evident.
+
+Much of the importance of the sampling theorem also lies in its role as a bridge between continuous-time signals and discrete-time signals. As we will see in this chapter, the fact that under certain conditions a continuous-time signal can be completely recovered from a sequence of its samples provides a mechanism for representing a continuous-time signal by a discrete-time signal. In many contexts, processing discrete-time signals is more flexible and is often preferable to processing continuous-time signals. This is due in large part to the dramatic development of digital technology over the past few decades, resulting in the availability of inexpensive, lightweight, programmable, and easily reproducible discrete-time systems. The concept of sampling, then, suggests an extremely attractive and widely employed method for using discrete-time system technology to implement continuous-time systems and process continuous-time signals: We exploit sampling toconvert a continuous-time signal to a discrete-time signal, process the discrete-time signal using a discrete-time system, and then convert back to continuous time.
+
+In the following discussion, we introduce and develop the concept of sampling and the process of reconstructing a continuous-time signal from its samples. In this discussion, we both identify the conditions under which a continuous-time signal can be exactly reconstructed from its samples and examine the consequences when these conditions are not satisfied. Following this, we explore the processing of continuous-time signals that have been converted to discrete-time signals through sampling. Finally, we examine the sampling of discrete-time signals and the related concepts of decimation and interpolation.
+
+### Representation of a continuous-time signal by its samples: the sampling theorem
+
+In general, in the absence of any additional conditions or information, we would not expect that a signal could be uniquely specified by a sequence of equally spaced samples. For example, in Figure 7.1 we illustrate three different continuous-time signals, all of which have identical values at integer multiples of \(T\); that is,
+
+\[x_{1}(kT)\,=\,x_{2}(kT)\,=\,x_{3}(kT).\]
+
+Clearly, an infinite number of signals can generate a given set of samples. As we will see, however, if a signal is band limited--i.e., if its Fourier transform is zero outside a finite band of frequencies--and if the samples are taken sufficiently close together in relation to the highest frequency present in the signal, then the samples _uniquely_ specify the signal, and we can reconstruct it perfectly. This result, known as the _sampling theorem_, is of profound importance in the practical application of the methods of signal and system analysis.
+
+Figure 7.1: Three continuous-time signals with identical values at integer multiples of \(T\).
+
+#### Impulse-Train Sampling
+
+In order to develop the sampling theorem, we need a convenient way in which to represent the sampling of a continuous-time signal at regular intervals. A useful way to do this is through the use of a periodic impulse train multiplied by the continuous-time signal \(x(t)\) that we wish to sample. This mechanism, known as _impulse-train sampling,_ is depicted in Figure 7.2. The periodic impulse train \(p(t)\) is referred to as the _sampling function,_ the period \(T\) as the _sampling period,_ and the fundamental frequency of \(p(t),\omega_{s}=2\pi/T\), as the _sampling frequency._ In the time domain,
+
+\[x_{p}(t)\,=\,x(t)p(t), \tag{7.1}\]
+
+where
+
+\[p(t)\,=\,\sum_{n\,=\,-\,\infty}^{+\infty}\delta(t-nT). \tag{7.2}\]
+
+Because of the sampling property of the unit impulse discussed in Section 1.4.2, we know that multiplying \(x(t)\) by a unit impulse samples the value of the signal at the point at which the impulse is located; i.e., \(x(t)\delta(t-t_{0})\,=\,x(t_{0})\delta(t-t_{0})\). Applying this to eq. (7.1), we see, as illustrated in Figure 7.2, that \(x_{p}(t)\) is an impulse train with the amplitudes of
+
+Figure 7.2: Impulse-train sampling.
+
+a lowpass filter with gain \(T\) and a cutoff frequency greater than \(\omega_{M}\) and less than \(\omega_{s}-\omega_{M}\), as indicated in Figure 7.4. This basic result, referred to as the _sampling theorem_, can be stated as follows: 1
+
+Footnote 1: The important and elegant sampling theorem was available for many years in a variety of forms in the mathematics literature. See, for example, J. M. Whittaker, “Interpolatory Function Theory,” (New York: Stecher-Hafner Service Agency, 1964), chap. 4. It did not appear explicitly in the literature of communication theory until the publication in 1949 of the classic paper by Shannon entitled “Communication in the Presence of Noise” (_Proceedings of the IRE,_ January 1949, pp. 10–21). However, H. Nyquist in 1928 and D. Gabor in 1946 had pointed out, based on the use of the Fourier Series, that \(2TW\) numbers are sufficient to represent a function of duration \(T\) and highest frequency \(W\). [H. Nyquist, “Certain Topics in Telegraph Transmission Theory,” _AIEE Transactions,_ 1928, p. 617; D. Gabor, “Theory of Communication,”_Journal of IEE_ 93, no. 26 (1946), p. 429.]
+
+Sampling Theorem:
+
+Let \(x(t)\) be a band-limited signal with \(X(j\omega)\,=\,0\) for \(|\omega|>\omega_{M}\). Then \(x(t)\) is uniquely determined by its samples \(x(nT)\), \(n\,=\,0,\,\pm 1,\,\pm 2\),..., if
+
+\[\omega_{s}>2\omega_{M},\]
+
+where
+
+\[\omega_{s}\,=\,\frac{2\pi}{T}.\]
+
+Given these samples, we can reconstruct \(x(t)\) by generating a periodic impulse train in which successive impulses have amplitudes that are successive sample values. This impulse train is then processed through an ideal lowpass filter with gain \(T\) and cutoff frequency greater than \(\omega_{M}\) and less than \(\omega_{s}-\omega_{M}\). The resulting output signal will exactly equal \(x(t)\).
+
+The frequency \(2\omega_{M}\), which, under the sampling theorem, must be exceeded by the sampling frequency, is commonly referred to as the _Nyquist rate.2_
+
+Footnote 2: The frequency \(\omega_{M}\) corresponding to one-half the Nyquist rate is often referred to as the _Nyquist frequency._
+
+As discussed in Chapter 6, ideal filters are generally not used in practice for a variety of reasons. In any practical application, the ideal lowpass filter in Figure 7.4 would be
+
+Figure 7.4: Exact recovery of a continuous-time signal from its samples using an ideal lowpass filter: (a) system for sampling and reconstruction; (b) representative spectrum for \(x(t)\); (c) corresponding spectrum for \(x_{p}(t)\); (d) ideal lowpass filter to recover \(X(j_{\omega})\) from \(\chi_{p}(j_{\omega})\); (e) spectrum of \(x_{\nu}(t)\).
+
+replaced by a nonideal filter \(H(j\omega)\) that approximated the desired frequency characteristic accurately enough for the problem of interest (i.e., \(H(j\omega)\simeq 1\) for \(|\omega|<\omega_{M}\), and \(H(j\omega)\simeq 0\) for \(|\omega|>\omega_{S}-\omega_{M}\)). Obviously, any such approximation in the lowpass filtering stage will lead to some discrepancy between \(x(t)\) and \(x_{r}(t)\) in Figure 7.4 or, equivalently, between \(X(j\omega)\) and \(X_{r}(j\omega)\). The particular choice of nonideal filter is then dictated by the acceptable level of distortion for the application under consideration. For convenience and to emphasize basic principles such as the sampling theorem, we will regularly assume the availability and use of ideal filters throughout this and the next chapter, with the understanding that in practice such a filter must be replaced by a nonideal filter designed to approximate the ideal characteristics accurately enough for the problem at hand.
+
+#### Sampling with a Zero-Order Hold
+
+The sampling theorem, which is most easily explained in terms of impulse-train sampling, establishes the fact that a band-limited signal is uniquely represented by its samples. In practice, however, narrow, large-amplitude pulses, which approximate impulses, are also relatively difficult to generate and transmit, and it is often more convenient to generate the sampled signal in a form referred to as a _zero-order hold_. Such a system samples \(x(t)\) at a given instant and holds that value until the next instant at which a sample is taken, as illustrated in Figure 7.5. The reconstruction of \(x(t)\) from the output of a zero-order hold can again be carried out by lowpass filtering. However, in this case, the required filter no longer has constant gain in the passband. To develop the required filter characteristic, we first note that the output \(x_{0}(t)\) of the zero-order hold can in principle be generated by impulse-train sampling followed by an LTI system with a rectangular impulse response, as depicted in Figure 7.6. To reconstruct \(x(t)\) from \(x_{0}(t)\), we consider processing \(x_{0}(t)\) with an LTI system with impulse response \(h_{r}(t)\) and frequency response \(H_{r}(j\omega)\). The cascade of this system with the system of Figure 7.6 is shown in Figure 7.7, where we wish to specify \(H_{r}(j\omega)\) so that \(r(t)=x(t)\). Comparing the system in Figure 7.7 with that in Figure 7.4, we see that \(r(t)=x(t)\) if the cascade combination of \(h_{0}(t)\) and \(h_{r}(t)\) is the ideal lowpass filter \(H(j\omega)\) used in Figure 7.4. Since, from Example 4.4 and the time-shifting property in Section 4.3.2,
+
+\[H_{0}(j\omega)\,=\,e^{-j\omega T/2}\left[\frac{2\sin(\omega T/2)}{\omega} \right], \tag{7.7}\]
+
+this requires that
+
+\[H_{r}(j\omega)\,=\,\frac{e^{j\omega T/2}H(j\omega)}{2\sin(\omega T/2)}. \tag{7.8}\]
+
+Figure 7.5: Sampling utilizing a zero-order hold.
+
+Figure 7.7: Cascade of the representation of a zero-order hold (Figure 7.6) with a reconstruction filter.
+
+For example, with the cutoff frequency of \(H(j\omega)\) equal to \(\omega_{s}/2\), the ideal magnitude and phase for the reconstruction filter following a zero-order hold is that shown in Figure 7.8.
+
+Once again, in practice the frequency response in eq. (7.8) cannot be exactly realized, and thus an adequate approximation to it must be designed. In fact, in many situations, the output of the zero-order hold is considered an adequate approximation to the original signal by itself, without any additional lowpass filtering, and in essence represents a possible, although admittedly very coarse, interpolation between the sample values. Alternatively, in some applications, we may wish to perform some smoother interpolation between sample values. In the next section, we explore in more detail the general concept of interpreting the reconstruction of a signal from its samples as a process of interpolation.
+
+### Reconstruction of a signal from its samples using interpolation
+
+Interpolation, that is, the fitting of a continuous signal to a set of sample values, is a commonly used procedure for reconstructing a function, either approximately or exactly, from samples. One simple interpolation procedure is the zero-order hold discussed in Section 7.1. Another useful form of interpolation is _linear interpolation_, whereby adjacent sample points are connected by a straight line, as illustrated in Figure 7.9.
+
+Figure 7.9: Linear interpolation between sample points. The dashed curve represents the original signal and the solid curve the linear interpolation.
+
+Figure 7.8: Magnitude and phase for the reconstruction filter for a zero-order hold.
+
+complicated interpolation formulas, sample points may be connected by higher order polynomials or other mathematical functions.
+
+As we have seen in Section 7.1, for a band-limited signal, if the sampling instants are sufficiently close, then the signal can be reconstructed exactly; i.e., through the use of a lowpass filter, exact interpolation can be carried out between the sample points. The interpretation of the reconstruction of \(x(t)\) as a process of interpolation becomes evident when we consider the effect in the time domain of the lowpass filter in Figure 7.4. In particular, the output is
+
+\[x_{r}(t)\,=\,x_{p}(t)*h(t)\]
+
+or, with \(x_{p}(t)\) given by eq. (7.3),
+
+\[x_{r}(t)\,=\,\sum_{n\,=\,-\infty}^{+\infty}x(nT)h(t-nT). \tag{7.9}\]
+
+Equation (7.9) describes how to fit a continuous curve between the sample points \(x(nT)\) and consequently represents an interpolation formula. For the ideal lowpass filter \(H(j\omega)\) in Figure 7.4,
+
+\[h(t)\,=\,\frac{\omega_{c}T\sin(\omega_{c}t)}{\pi\omega_{c}t}, \tag{7.10}\]
+
+so that
+
+\[x_{r}(t)\,=\,\sum_{n\,=\,-\infty}^{+\infty}x(nT)\frac{\omega_{c}T}{\pi}\frac{ \sin(\omega_{c}(t-nT))}{\omega_{c}(t-nT)}. \tag{7.11}\]
+
+The reconstruction according to eq. (7.11) with \(\omega_{c}\,=\,\omega_{s}/2\) is illustrated in Figure 7.10. Figure 7.10 represents the original band-limited signal \(x(t)\), and Figure 7.10 represents \(x_{p}(t)\), the impulse train of samples. In Figure 7.10(c), the superposition of the individual terms in eq. (7.11) is illustrated.
+
+Interpolation using the impulse response of an ideal lowpass filter as in eq. (7.11) is commonly referred to as _band-limited interpolation_, since it implements exact reconstruction if \(x(t)\) is band limited and the sampling frequency satisfies the conditions of the sampling theorem. As we have indicated, in many cases it is preferable to use a less accurate, but simpler, filter or, equivalently, a simpler interpolating function than the function in eq. (7.10). For example, the zero-order hold can be viewed as a form of interpolation between sample values in which the interpolating function \(h(t)\) is the impulse response \(h_{0}(t)\) depicted in Figure 7.6. In that sense, with \(x_{0}(t)\) in the figure corresponding to the approximation to \(x(t)\), the system \(h_{0}(t)\) represents an approximation to the ideal lowpass filter required for the exact interpolation. Figure 7.11 shows the magnitude of the transfer function of the zero-order-hold interpolating filter, superimposed on the desired transfer function of the exact interpolating filter.
+
+Both from Figure 7.11 and from Figure 7.6, we see that the zero-order hold is a very rough approximation, although in some cases it is sufficient. For example, if additional lowpass filtering is naturally applied in a given application, it will tend to improve the overall interpolation. This is illustrated in the case of pictures in Figure 7.12. Figure 7.12(a) shows pictures with impulse sampling (i.e., sampling with spatially narrow pulses). Figure 7.12(b) is the result of applying a two-dimensional zero-order hold to Figure 7.12(a), with a resulting mosaic effect. However, the human visual system inherently imposes lowpass filtering, and consequently, when viewed at a distance, the discontinuities in the mosaic are smoothed. For example, in Figure 7.12(c) a
+
+Figure 7.10: Ideal band-limited interpolation using the sinc function: (a) band-limited signal \(x(t)\); (b) impulse train of samples of \(x(t)\); (c) ideal band-limited interpolation in which the impulse train is replaced by a superposition of sinc functions [eq. (7.11)].
+
+Figure 7.12: (a) The original pictures of Figures 6.2(a) and (g) with impulse sampling; (b) zero-order hold applied to the pictures in (a). The visual system naturally introduces lowpass filtering with a cutoff frequency that decreases with distance. Thus, when viewed at a distance, the discontinuities in the mosaic in Figure 7.12(b) are smoothed; (c) result of applying a zero-order hold after impulse sampling with one-fourth the horizontal and vertical spacing used in (a) and (b).
+
+zero-order hold is again used, but here the sample spacing in each direction is one-fourth that in Figure 7.12(a). With normal viewing, considerable lowpass filtering is naturally applied, although the mosaic effect is still evident.
+
+If the crude interpolation provided by the zero-order hold is insufficient, we can use a variety of smoother interpolation strategies, some of which are known collectively as _higher order holds_. In particular, the zero-order hold produces an output signal, as in Figure 7.5, that is discontinuous. In contrast, linear interpolation, as illustrated in Figure 7.9, yields reconstructions that are continuous, although with discontinous derivatives due to the changes in slope at the sample points. Linear interpolation, which is sometimes referred to as a first-order hold, can also be viewed as interpolation in the form of Figure 7.4 and eq. (7.9) with \(h(t)\) triangular, as illustrated in Figure 7.13. The associated transfer function is also shown in the figure and is
+
+\[H(j\omega)\,=\,\frac{1}{T}\left[\frac{\sin(\omega\,T/2)}{\omega/2}\right]^{2}. \tag{7.12}\]
+
+The transfer function of the first-order hold is shown superimposed on the transfer function for the ideal interpolating filter. Figure 7.14 corresponds to the same pictures as those in Figure 7.12(b), but with a first-order hold applied to the sampled picture. In an analogous fashion, we can define second- and higher order holds that produce reconstructions with a higher degree of smoothness. For example, the output of a second-order hold provides an interpolation of the sample values that is continuous and has a continuous first derivative and discontinuous second derivative.
+
+Figure 7.13: Linear interpolation (first-order hold) as impulse-train sampling followed by convolution with a triangular impulse response: (a) system for sampling and reconstruction; (b) impulse train of samples; (c) impulse response representing a first-order hold;
+
+### The Effect of Undersampling: Aliasing
+
+In previous sections in this chapter, it was assumed that the sampling frequency was sufficiently high that the conditions of the sampling theorem were met. As illustrated in Figure 7.3, with \(\omega_{s}>2\omega_{M}\), the spectrum of the sampled signal consists of scaled replications of the spectrum of \(x(t)\), and this forms the basis for the sampling theorem. When
+
+Figure 7.14: Result of applying a first-order hold rather than a zero-order hold after impulse sampling with one-third the horizontal and vertical spacing used in Figures 7.12(a) and (b).
+
+\(\omega_{s}<2\omega_{M},X(j\omega)\), the spectrum of \(x(t)\), is no longer replicated in \(X_{p}(j\omega)\) and thus is no longer recoverable by lowpass filtering. This effect, in which the individual terms in eq. (7.6) overlap, is referred to as _aliasing,_ and in this section we explore its effect and consequences.
+
+Clearly, if the system of Figure 7.4 is applied to a signal with \(\omega_{s}<2\omega_{M}\), the reconstructed signal \(x_{r}(t)\) will no longer be equal to \(x(t)\). However, as explored in Problem 7.25, the original signal and the signal \(x_{r}(t)\) that is reconstructed using band-limited interpolation will always be equal at the sampling instants; that is, for any choice of \(\omega_{s}\),
+
+\[x_{r}(nT)\,=\,x(nT),\qquad n\,=\,0,\,\pm 1,\,\pm 2,\ldots. \tag{7.13}\]
+
+Some insight into the relationship between \(x(t)\) and \(x_{r}(t)\) when \(\omega_{s}<2\omega_{M}\) is provided by considering in more detail the comparatively simple case of a sinusoidal signal. Thus, let
+
+\[x(t)\,=\,\cos\omega_{0}t, \tag{7.14}\]
+
+with Fourier transform \(X(j\omega)\) as indicated in Figure 7.15(a). In this figure, we have graphically distinguished the impulse at \(\omega_{0}\) from that at \(-\omega_{0}\) for convenience. Let us consider \(X_{p}(j\omega)\), the spectrum of the sampled signal, and focus in particular on the effect of a change in the frequency \(\omega_{0}\) with the sampling frequency \(\omega_{s}\) fixed. In Figures 7.15(b)-(e), we illustrate \(X_{p}(j\omega)\) for several values of \(\omega_{0}\). Also indicated by a dashed line is the passband of the lowpass filter of Figure 7.4 with \(\omega_{c}=\omega_{s}/2\). Note that no aliasing occurs in (b) and (c), since \(\omega_{0}<\omega_{s}/2\), whereas aliasing does occur in (d) and (e). For each of the four cases, the lowpass filtered output \(x_{r}(t)\) is given as follows:
+
+* \(\omega_{0}\,=\,\frac{\omega_{s}}{6}\); \(x_{r}(t)\,=\,\cos\omega_{0}t\,=\,x(t)\)
+* \(\omega_{0}\,=\,\frac{4\omega_{s}}{6}\); \(x_{r}(t)\,=\,\cos(\omega_{s}-\omega_{0})t\neq x(t)\)
+* \(\omega_{0}\,=\,\frac{5\omega_{s}}{6}\); \(x_{r}(t)\,=\,\cos(\omega_{s}-\omega_{0}
+
+filter interpolates between the samples, in particular always fitting a sinusoid of frequency less than \(\omega_{s}\)/2 to the samples of \(x(t)\).
+
+As a variation on the preceding examples, consider the signal
+
+\[x(t)\,=\,\cos(\omega_{0}t\,+\,\phi). \tag{7.15}\]Figure 7.16: Effect of aliasing on a sinusoidal signal. For each of four values of \(\omega_{0}\), the original sinusoidal signal (solid curve), its samples, and the reconstructed signal (dashed curve) are illustrated: (a) \(\omega_{0}=\omega_{0}/6\); (b) \(\omega_{0}=2\omega_{0}/6\); (c) \(\omega_{0}=4\omega_{0}/6\); (d) \(\omega_{0}=5\omega_{0}/6\). In (a) and (b) no aliasing occurs, whereas in (c) and (d) there is aliasing.
+
+Figure 7.16: Continued
+
+In this case, the Fourier transform of \(x(t)\) is essentially the same as Figure 7.15(a), except that the impulse indicated with a solid line now has amplitude \(\pi e^{j\phi}\), while the impulse indicated with a dashed line has amplitude with the opposite phase, namely, \(\pi e^{-j\phi}\). If we now consider the same set of choices for \(\omega_{0}\) as in Figure 7.15, the resulting spectra for the sampled versions of \(\cos(\omega_{0}t+\phi)\) are exactly as in the figure, with all solid impulses having amplitude \(\pi e^{j\phi}\) and all dashed ones having amplitude \(\pi e^{-j\phi}\). Again, in cases (b) and (c) the condition of the sampling theorem is met, so that \(x_{r}(t)=\cos(\omega_{0}t+\phi)=x(t)\), while in (d) and (e) we again have aliasing. However, we now see that there has been a reversal in the solid and dashed impulses appearing in the passband of the lowpass filter. As a result, we find that in these cases, \(x_{r}(t)=\cos[(\omega_{s}-\omega_{0})t-\phi]\), where we have a change in the sign of the phase \(\phi\), i.e., a _phase reversal_.
+
+It is important to note that the sampling theorem explicity requires that the sampling frequency be _greater than_ twice the highest frequency in the signal, rather than greater than or equal to twice the highest frequency. The next example illustrates that sampling a sinusoidal signal at exactly twice its frequency (i.e., exactly two samples per cycle) is not sufficient.
+
+### Example 7.1
+
+Consider the sinusoidal signal
+
+\[x(t)\,=\,\cos\left(\frac{\omega_{s}}{2}t+\phi\right)\!,\]
+
+and suppose that this signal is sampled, using impulse sampling, at exactly twice the frequency of the sinusoid, i.e., at sampling frequency \(\omega_{s}\). As shown in Problem 7.39, if this impulse-sampled signal is applied as the input to an ideal lowpass filter with cutoff frequency \(\omega_{s}\)/2, the resulting output is
+
+\[x_{r}(t)\,=\,(\cos\phi)\cos\left(\frac{\omega_{s}}{2}t\right)\!.\]
+
+As a consequence, we see that perfect reconstruction of \(x(t)\) occurs only in the case in which the phase \(\phi\) is zero (or an integer multiple of \(2\pi\)). Otherwise, the signal \(x_{r}(t)\) does not equal \(x(t)\).
+
+As an extreme example, consider the case in which \(\phi\,=\,-\pi\)/2, so that
+
+\[x(t)\,=\,\sin\left(\frac{\omega_{s}
+
+The effect of undersampling, whereby higher frequencies are reflected into lower frequencies, is the principle on which the stroboscopic effect is based. Consider, for example, the situation depicted in Figure 7.18, in which we have a disc rotating at a constant rate with a single radial line marked on the disc. The flashing strobe acts as a sampling system, since it illuminates the disc for extremely brief time intervals at a periodic rate. When the strobe frequency is much higher than the rotational speed of the disc, the speed of rotation of the disc is perceived correctly. When the strobe frequency becomes less than twice the rotational frequency of the disc, the rotation appears to be at a lower frequency than is actually the case. Furthermore, because of phase reversal, the disc will appear to be rotating in the wrong direction! Roughly speaking, if we track the position of a fixed line on the disc at successive samples, then when \(\omega_{0}<\omega_{s}<2\omega_{0}\), so that we sample somewhat more frequently than once per revolution, samples of the disc will show the fixed line in positions that are successively displaced in a counterclockwise direction, opposite to the clockwise rotation of the disc itself. At one flash per revolution, corresponding to \(\omega_{s}\,=\,\omega_{0}\), the radial line appears stationary (i.e., the rotational frequency of the disc and its harmonics have been aliased to zero frequency). A similar effect is commonly observed in Western movies,
+
+Figure 7.17: Sinusoidal signal for Example 7.1.
+
+Figure 7.18: Strobe effect.
+
+To begin let us express \(X_{p}(j\omega)\), the continuous-time Fourier transform of \(x_{p}(t)\), in terms of the sample values of \(x_{c}(t)\) by applying the Fourier transform to eq. (7.3). Since
+
+\[x_{p}(t)\,=\,\sum_{n\,=\,-\infty}^{+\infty}x_{c}(nT)\delta(t-nT), \tag{7.17}\]
+
+and since the transform of \(\delta(t-nT)\) is \(e^{-j\omega nT}\), it follows that
+
+\[X_{p}(j\omega)\,=\,\sum_{n\,=\,-\infty}^{+\infty}x_{c}(nT)e^{-j\omega nT}. \tag{7.18}\]
+
+Figure 7.21: Sampling with a periodic impulse train followed by conversion to a discrete-time sequence: (a) overall system; (b) \(x_{p}(t)\) for two sampling rates. The dashed envelope represents \(x_{c}(t)\); (c) the output sequence for the two different sampling rates.
+
+and, in particular, is periodic in \(\Omega\) with period \(2\pi\). This periodicity is, of course, characteristic of any discrete-time Fourier transform. The spectrum of \(x_{d}[n]\) is related to that of \(x_{c}(t)\) through periodic replication, represented by eq. (7.22), followed by linear frequency scaling, represented by eq. (7.21). The periodic replication is a consequence of the first step in the conversion process in Figure 7.21, namely, the impulse-train sampling. The linear frequency scaling in eq. (7.21) can be thought of informally as a consequence of the normalization in time introduced by converting from the impulse train \(x_{p}(t)\) to the discrete-time sequence \(x_{d}[n]\). From the time-scaling property of the Fourier transform in Section 4.3.5, scaling of the time axis by \(1/T\) will introduce a scaling of the frequency axis by \(T\). Thus, the relationship \(\Omega\,=\,\omega\,T\) is consistent with the notion that, in converting from \(x_{p}(t)\) to \(x_{d}[n]\), the time axis is scaled by \(1/T\).
+
+In the overall system of Figure 7.19, after processing with a discrete-time system, the resulting sequence is converted back to a continuous-time signal. This process is the reverse of the steps in Figure 7.21. Specifically, from the sequence \(y_{d}[n]\), a continuous-time impulse train \(y_{p}(t)\) can be generated. Recovery of the continuous-time signal \(y_{c}(t)\) from this impulse train is then accomplished by means of lowpass filtering, as illustrated in Figure 7.23.
+
+Now let us consider the overall system of Figure 7.19, represented as shown in Figure 7.24. Clearly, if the discrete-time system is an identity system (i.e., \(x_{d}[n]=y_{d}[n]\)), then, assuming that the conditions of the sampling theorem are met, the overall system will be an identity system. The characteristics of the overall system with a more general frequency response \(H_{d}(e^{j\Omega})\) are perhaps best understood by examining the representative example depicted in Figure 7.25. On the left-hand side of the figure are the representative
+
+Figure 7.24: Overall system for filtering a continuous-time signal using a discrete-time filter.
+
+Figure 7.25: Frequency-domain illustration of the system of Figure 7.24: (a) continuous-time spectrum \(X_{c}(\mu_{0})\); (b) spectrum after impulse-train sampling; (c) spectrum of discrete-time sequence \(X_{d}[n]\); (d) \(H_{d}(e^{\alpha_{1}})\) and \(X_{d}(e^{\alpha_{1}})\) that are multiplied to form \(Y_{d}(e^{\alpha_{1}})\); (e) spectra that are multiplied to form \(Y_{d}(\mu_{0})\); (f) spectra that are multiplied to form \(Y_{c}(\mu_{0})\).
+
+spectra \(X_{c}(j\omega)\), \(X_{p}(j\omega)\), and \(X_{d}(e^{j\Omega})\), where we assume that \(\omega_{M}<\omega_{s}/2\), so that there is no aliasing. The spectrum \(Y_{d}(e^{j\Omega})\) corresponding to the output of the discrete-time filter is the product of \(X_{d}(e^{j\Omega})\) and \(H_{d}(e^{j\Omega})\), and this is depicted in Figure 7.25(d) by overlaying \(H_{d}(e^{j\Omega})\) and \(X_{d}(e^{j\Omega})\). The transformation to \(Y_{c}(j\omega)\) then corresponds to applying a frequency scaling and lowpass filtering, resulting in the spectra indicated in Figure 7.25(e) and (f). Since \(Y_{d}(e^{j\Omega})\) is the product of the two overlaid spectra in Figure 7.25(d), the frequency scaling and lowpass filtering are applied to both. In comparing Figures 7.25(a) and (f), we see that
+
+\[Y_{c}(j\omega)\,=\,X_{c}(j\omega)H_{d}(e^{j\omega T}). \tag{7.24}\]
+
+Consequently, for inputs that are sufficiently band limited, so that the sampling theorem is satisfied, the overall system of Figure 7.24 is, in fact, equivalent to a continuous-time LTI system with frequency response \(H_{c}(j\omega)\) which is related to the discrete-time frequency response \(H_{d}(e^{j\Omega})\) through
+
+\[H_{c}(j\omega)\,=\,\left\{\begin{array}{ll}H_{d}(e^{j\omega T}),&\left| \omega\right|<\omega_{s}/2\\ 0,&\left|\omega\right|>\omega_{s}/2\end{array}.\right. \tag{7.25}\]
+
+The equivalent frequency response for this continuous-time filter is one period of the frequency response of the discrete-time filter with a linear scale change applied to the frequency axis. This relationship between the discrete-time frequency response and the equivalent continuous-time frequency response is illustrated in Figure 7.26.
+
+The equivalence of the overall system of Figure 7.24 to an LTI system is somewhat surprising in view of the fact that multiplication by an impulse train is _not_ a time-invariant operation. In fact, the overall system of Figure 7.24 is not time invariant for arbitrary inputs. For example, if \(x_{c}(t)\) was a narrow rectangular pulse of duration less than \(T\), then a time shift of \(x_{c}(t)\) could generate a sequence \(x[n]\) that either had all zero values or had one nonzero value, depending on the alignment of the rectangular pulse relative to the
+
+Figure 7.26: Discrete-time frequency response and the equivalent continuous-time frequency response for the system of Figure 7.24.
+
+sampling impulse train. However, as suggested by the spectra of Figure 7.25, for _band-limited input signals_ with a sampling rate sufficiently high so as to avoid aliasing, the system of Figure 7.24_is_ equivalent to a continuous-time LTI system. For such inputs, Figure 7.24 and eq. (7.25) provide the conceptual basis for continuous-time processing using discrete-time filters. This is now explored further in the context of some examples.
+
+#### Digital Differentiator
+
+Consider the discrete-time implementation of a continuous-time band-limited differentiating filter. As discussed in Section 3.9.1, the frequency response of a continuous-time differentiating filter is
+
+\[H_{c}(j\omega)\,=\,j\omega, \tag{7.26}\]
+
+and that of a band-limited differentiator with cutoff frequency \(\omega_{c}\) is
+
+\[H_{c}(j\omega)\,=\,\left\{\begin{array}{ll}j\omega,&\left|\omega\right|< \omega_{c}\\ 0,&\left|\omega\right|>\omega_{c}\end{array}\right., \tag{7.27}\]
+
+as sketched in Figure 7.27. Using eq. (7.25) with a sampling frequency \(\omega_{s}\,=\,2\omega_{c}\), we see that the corresponding discrete-time transfer function is
+
+\[H_{d}(e^{j\Omega})\,=\,j\left(\frac{\Omega}{T}\right),\quad\left|\Omega \right|<\pi, \tag{7.28}\]
+
+as sketched in Figure 7.28. With this discrete-time transfer function, \(y_{c}(t)\) in Figure 7.24 will be the derivative of \(x_{c}(t)\), assuming that there is no aliasing in sampling \(x_{c}(t)\).
+
+Figure 7.27: Frequency response of a continuous-time ideal band-limited differentiator \(H_{c}(j\omega)\,=\,j\omega\), \(\left|\omega\right|<\omega_{c}\).
+
+### Example 7.2
+
+By considering the output of the digital differentiator for a continuous-time sinc input, we may conveniently determine the impulse response \(h_{d}[n]\) of the discrete-time filter in the implementation of the digital differentiator. With reference to Figure 7.24, let
+
+\[x_{c}(t)\,=\,\frac{\sin(\pi t/T)}{\pi t}, \tag{7.29}\]
+
+where \(T\) is the sampling period. Then
+
+\[X_{c}(j\omega)\,=\,\left\{\begin{array}{ll}1,&|\omega|<\,\pi/T\\ 0,&\mbox{otherwise}\end{array}\right.,\]
+
+which is sufficiently band limited to ensure that sampling \(x_{c}(t)\) at frequency \(\omega_{s}\,=\,2\pi/T\) does not give rise to any aliasing. It follows that the output of the digital differentiator is
+
+\[y_{c}(t)\,=\,\frac{d}{dt}\,x_{c}(t)\,=\,\frac{\cos(\pi t/T)}{Tt}\,-\,\frac{\sin (\pi t/T)}{\pi t^{2}}. \tag{7.30}\]
+
+For \(x_{c}(t)\) as given by eq. (7.29), the corresponding signal \(x_{d}[n]\) in Figure 7.24 may be expressed as
+
+\[x_{d}[n]\,=\,x_{c}(nT)\,=\,\frac{1}{T}\delta[n]. \tag{7.31}\]
+
+That is, for \(n\neq 0\), \(x_{c}(nT)\,=\,0\), while
+
+\[x_{d}[0]\,=\,x_{c}(0)\,=\,\frac{1}{T}\]
+
+which can be verified by l'Hopital's rule. We can similarly evaluate \(y_{d}[n]\) in Figure 7.24 corresponding to \(y_{c}(t)\) in eq. (7.30). Specifically
+
+\[y_{d}[n]\,=\,y_{c}(nT)\,=\,\left\{\begin{array}{ll}\frac{(-1)^{ n}}{nT^{2}},&n\neq 0\\ 0&n\,=\,0\end{array}\right.. \tag{7.32}\]
+
+Figure 7.28: Frequency response of discrete-time filter used to implement a continuous-time band-limited differentiator.
+
+which can be verified for \(n\neq 0\) by direct substitution into eq. (7.30) and for \(n=0\) by application of l'Hopital's rule.
+
+Thus when the input to the discrete-time filter given by eq. (7.28) is the scaled unit impulse in eq. (7.31), the resulting output is given by eq. (7.32). We then conclude that the impulse response of this filter is given by
+
+\[h_{d}[n]=\left\{\begin{array}{ll}\frac{(-1)^{n}}{nT},&n\neq 0\\ 0,&n=0\end{array}\right.\]
+
+#### Half-Sample Delay
+
+In this section, we consider the implementation of a time shift (delay) of a continuous-time signal through the use of a system in the form of Figure 7.19. Thus, we require that the input and output of the overall system be related by
+
+\[y_{c}(t)\,=\,x_{c}(t-\Delta) \tag{7.33}\]
+
+when the input \(x_{c}(t)\) is band limited and the sampling rate is high enough to avoid aliasing and where \(\Delta\) represents the delay time. From the time-shifting property derived in Section 4.3.2
+
+\[Y_{c}(j\omega)\,=\,e^{-j\omega\Delta}X_{c}(j\omega).\]
+
+From eq. (7.25), the equivalent continuous-time system to be implemented must be band limited. Therefore, we take
+
+\[H_{c}(j\omega)\,=\,\left\{\begin{array}{ll}e^{-j\omega\Delta},&|\omega|< \omega_{c}\\ 0,&\mbox{otherwise}\end{array}\right., \tag{7.34}\]
+
+where \(\omega_{c}\) is the cutoff frequency of the continuous-time filter. That is, \(H_{c}(j\omega)\) corresponds to a time shift as in eq. (7.33) for band-limited signals and rejects all frequencies greater than \(\omega_{c}\). The magnitude and phase of the frequency response are shown in Figure 7.29(a). With the sampling frequency \(\omega_{s}\) taken as \(\omega_{s}=2\omega_{c}\), the corresponding discrete-time
+
+Figure 7.29: (a) Magnitude and phase of the frequency response for a continuous-time delay; (b) magnitude and phase of the frequency response for the corresponding discrete-time delay.
+
+frequency response is \[H_{d}(e^{j\Omega})\,=\,e^{-j\Omega\Delta/T},\quad|\Omega|<\pi,\] (7.35) and is shown in Figure 7.29(b).
+
+For appropriately band-limited inputs, the output of the system of Figure 7.24 with \(H_{d}(e^{j\Omega})\) as in eq. (7.35) is a delayed replica of the input. For \(\Delta/T\) an integer, the sequence \(y_{d}[n]\) is a delayed replica of \(x_{d}[n]\); that is,
+
+\[y_{d}[n]\,=\,x_{d}\,\bigg{[}n-\frac{\Delta}{T}\bigg{]}. \tag{7.36}\]
+
+For \(\Delta/T\) not an integer, eq. (7.36), as written, has no meaning, since sequences are defined only at integer values of the index. However, we can interpret the relationship between \(x_{d}[n]\) and \(y_{d}[n]\) in these cases in terms of band-limited interpolation. The signals \(x_{c}(t)\) and \(x_{d}[n]\) are related through sampling and band-limited interpolation, as are \(y_{c}(t)\) and \(y_{d}[n]\). With \(H_{d}(e^{j\Omega})\) in eq. (7.35), \(y_{d}[n]\) is equal to samples of a shifted version of the band-limited interpolation of the sequence \(x_{d}[n]\). This is illustrated in Figure 7.30 with \(\Delta/T\,=\,1/2\), which is sometimes referred to as a half-sample delay.
+
+### Example 7.3
+
+The approach in Example 7.2 is also applicable to determining the impulse response \(h_{d}[n]\) of the discrete-time filter in the half-sample delay system. With reference to Figure 7.24, let
+
+\[x_{c}(t)\,=\,\frac{\sin(\pi t/T)}{\pi t}. \tag{7.37}\]
+
+It follows from Example 7.2 that
+
+\[x_{d}[n]\,=\,x_{c}(nT)\,=\,\frac{1}{T}\delta[n].\]
+
+As in Example 5.6, the Fourier transform of the sampling sequence \(p[n]\) is
+
+\[P(e^{j\omega})\,=\,\frac{2\pi}{N}\sum_{k\,=\,-\infty}^{+\infty}\delta(\omega\,- \,k\omega_{s}), \tag{7.41}\]
+
+where \(\omega_{s}\), the sampling frequency, equals \(2\pi/N\). Combining eqs. (7.40) and (7.41), we have
+
+\[X_{p}(e^{j\omega})\,=\,\frac{1}{N}\sum_{k\,=\,0}^{N-1}X\Big{(}e^{j(\omega\,-k \omega_{s})}\Big{)}. \tag{7.42}\]
+
+Equation (7.42) is the counterpart for discrete-time sampling of eq. (7.6) for continuous-time sampling and is illustrated in Figure 7.32. In Figure 7.32(c), with \(\omega_{s}-\omega_{M}>\omega_{M}\), or equivalently, \(\omega_{s}>2\omega_{M}\), there is no aliasing [i.e., the nonzero portions of the replicas of \(X(e^{j\omega})\) do not overlap], whereas with \(\omega_{s}<2\omega_{M}\), as in Figure 7.32(d), frequency-domain aliasing results. In the absence of aliasing, \(X(e^{j\omega})\) is faithfully reproduced around \(\omega\,=\,0\) and integer multiples of \(2\pi\). Consequently, \(x[n]\) can be recovered from \(x_{p}[n]\) by means of a lowpass filter with gain \(N\) and a cutoff frequency greater than \(\omega_{M}\) and less than \(\omega_{s}-\omega_{M}\), as illustrated in Figure 7.33, where we have specified the cutoff frequency of the lowpass filter as \(\omega_{s}/2\). If the overall system of Figure 7.33(a) is applied to a sequence for which \(\omega_{s}<2\omega_{M}\), so that aliasing results, \(x_{r}[n]\) will no longer be equal to \(x[n]\). However, as with continuous-time sampling, the two sequences _will_ be equal at multiples of the sampling period; that is, corresponding to eq. (7.13), we have
+
+\[x_{r}[kN]\,=\,x[kN],\quad\,k\,=\,0,\,\pm 1,\,\pm 2,\,\ldots, \tag{7.43}\]
+
+independently of whether aliasing occurs. (See Problem 7.46.)
+
+Figure 7.32: Effect in the frequency domain of impulse-train sampling of a discrete-time signal: (a) spectrum of original signal; (b) spectrum of sampling sequence; (c) spectrum of sampled signal with \(\omega_{s}>2\omega_{M}\); (d) spectrum of sampled signal with \(\omega_{s}<2\omega_{M}\). Note that aliasing occurs.
+
+**Example 7.4**: Consider a sequence \(x[n]\) whose Fourier transform \(X(e^{j\omega})\) has the property that
+
+\[X(e^{j\omega})\,=\,0\qquad\mbox{for}\quad 2\pi/9\,\leq\,|\omega|\,\leq\,\pi.\]
+
+Figure 7.33: Exact recovery of a discrete-time signal from its samples using an ideal lowpass filter: (a) block diagram for sampling and reconstruction of a band-limited signal from its samples; (b) spectrum of the signal \(x[n]\); (c) spectrum of \(\varkappa_{\rm p}[n]\); (d) frequency response of an ideal lowpass filter with cutoff frequency \(\omega_{\rm s}/Z\); (e) spectrum of the reconstructed signal \(x_{\rm r}[n]\). For the example depicted here \(\omega_{\rm s}>2\omega_{M}\) so that no aliasing occurs and consequently \(x_{\rm r}[n]\,=\,x[n]\).
+
+To determine the lowest rate at which \(x[n]\) may be sampled without the possibility of aliasing, we must find the largest \(N\) such that
+
+\[\frac{2\pi}{N}\,\geq\,2\biggl{(}\frac{2\pi}{9}\biggr{)}\!\!\Longrightarrow\,N \,\leq\,9/2.\]
+
+We conclude that \(N_{\rm max}\,=\,4\), and the corresponding sampling frequency is \(2\pi/4\,=\,\pi/2\).
+
+The reconstruction of \(x[n]\) through the use of a lowpass filter applied to \(x_{p}[n]\) can be interpreted in the time domain as an interpolation formula similar to eq. (7.11). With \(h[n]\) denoting the impulse response of the lowpass filter, we have
+
+\[h[n]\,=\,\frac{N\omega_{c}}{\pi}\frac{\sin\omega_{c}n}{\omega_{c}n}. \tag{7.44}\]
+
+The reconstructed sequence is then
+
+\[x_{r}[n]\,=\,x_{p}[n]*h[n], \tag{7.45}\]
+
+or equivalently,
+
+\[x_{r}[n]\,=\,\sum_{k\,=\,-\infty}^{+\infty}x[kN]\frac{N\omega_{c}}{\pi}\frac{ \sin\omega_{c}(n\,-\,kN)}{\omega_{c}(n\,-\,kN)}. \tag{7.46}\]
+
+Equation (7.46) represents ideal band-limited interpolation and requires the implementation of an ideal lowpass filter. In typical applications a suitable approximation for the lowpass filter in Figure 7.33 is used, in which case the equivalent interpolation formula is of the form
+
+\[x_{r}[n]\,=\,\sum_{k\,=\,-\infty}^{+\infty}x[kN]h_{r}[n\,-\,kN], \tag{7.47}\]
+
+where \(h_{r}[n]\) is the impulse response of the interpolating filter. Some specific examples, including the discrete-time counterparts of the zero-order hold and first-order hold discussed in Section 7.2 for continuous-time interpolation, are considered in Problem 7.50.
+
+#### Discrete-Time Decimation and Interpolation
+
+There are a variety of important applications of the principles of discrete-time sampling, such as in filter design and implementation or in communication applications. In many of these applications it is inefficient to represent, transmit, or store the sampled sequence \(x_{p}[n]\) directly in the form depicted in Figure 7.31, since, in between the sampling instants, \(x_{p}[n]\) is _known_ to be zero. Thus, the sampled sequence is typically replaced by a new sequence \(x_{b}[n]\), which is simply every \(N\)th value of \(x_{p}[n]\); that is,
+
+\[x_{b}[n]\,=\,x_{p}[nN]. \tag{7.48}\]
+
+Also, equivalently,
+
+\[x_{b}[n]\,=\,x[nN], \tag{7.49}\]since \(x_{p}[n]\) and \(x[n]\) are equal at integer multiples of \(N\). The operation of extracting every \(N\)th sample is commonly referred to as _decimation_.3 The relationship between \(x[n]\), \(x_{p}[n]\), and \(x_{p}[n]\) is illustrated in Figure 34.
+
+Footnote 3: Technically, decimation would correspond to extracting every _tenth_ sample. However, it has become common terminology to refer to the operation as decimation even when \(N\) is not equal to 10.
+
+To determine the effect in the frequency domain of decimation, we wish to determine the relationship between \(X_{b}(e^{j\omega})\)--the Fourier transform of \(x_{b}[n]\)--and \(X(e^{j\omega})\). To this end, we note that
+
+\[X_{b}(e^{j\omega})\,=\,\sum_{k\,=\,-\,\infty}^{+\infty}x_{b}[k]e^{-j\omega k}, \tag{7.50}\]
+
+or, using eq. (7.48),
+
+\[X_{b}(e^{j\omega})\,=\,\sum_{k\,=\,-\,\infty}^{+\infty}x_{p}[kN]e^{-j\omega k}. \tag{7.51}\]
+
+If we let \(n\,=\,kN\), or equivalently \(k\,=\,n/N\), we can write
+
+\[X_{b}(e^{j\omega})\,=\,\sum_{\begin{subarray}{c}n\,=\,\text{integer}\\ \text{multiple of $N$}\end{subarray}}\,x_{p}[n]e^{-j\omega n/N},\]
+
+and since \(x_{p}[n]\,=\,0\) when \(n\) is not an integer multiple of \(N\), we can also write
+
+\[X_{b}(e^{j\omega})\,=\,\sum_{n\,=\,-\,\infty}^{+\infty}x_{p}[n]e^{-j\omega n/N}. \tag{7.52}\]Furthermore, we recognize the right-hand side of eq. (7.52) as the Fourier transform of \(x_{p}[n]\); that is,
+
+\[\sum_{n\,=\,-\,\infty}^{+\infty}x_{p}[n]e^{-ju\,n/N}\,=\,X_{p}(e^{ju\, /N}). \tag{7.53}\]
+
+Thus, from eqs. (7.52) and (7.53), we conclude that
+
+\[X_{b}(e^{ju\,})\,=\,X_{p}(e^{ju\,/N}). \tag{7.54}\]
+
+This relationship is illustrated in Figure 7.35, and from it, we observe that the spectra for the sampled sequence and the decimated sequence differ only in a frequency scaling or normalization. If the original spectrum \(X(e^{ju\,})\) is appropriately band limited, so that there is no aliasing present in \(X_{p}(e^{ju\,})\), then, as shown in the figure, the effect of decimation is to spread the spectrum of the original sequence over a larger portion of the frequency band.
+
+If the original sequence \(x[n]\) is obtained by sampling a continuous-time signal, the process of decimation can be viewed as reducing the sampling rate on the signal by a factor of \(N\). To avoid aliasing, \(X(e^{ju\,})\) cannot occupy the full frequency band. In other words, if the signal can be decimated without introducing aliasing, then the original continuous-time signal was oversampled, and thus, the sampling rate can be reduced without aliasing. With the interpretation of the sequence \(x[n]\) as samples of a continuous-time signal, the process of decimation is often referred to as _downsampling_.
+
+Figure 7.35: Frequency-domain illustration of the relationship between sampling and decimation.
+
+In some applications in which a sequence is obtained by sampling a continuous-time signal, the original sampling rate may be as low as possible without introducing aliasing, but after additional processing and filtering, the bandwidth of the sequence may be reduced. An example of such a situation is shown in Figure 7.36. Since the output of the discrete-time filter is band limited, downsampling or decimation can be applied.
+
+Just as in some applications it is useful to downsample, there are situations in which it is useful to convert a sequence to a _higher_ equivalent sampling rate, a process referred to as _upsampling_ or _interpolation_. Upsampling is basically the reverse of decimation or downsampling. As illustrated in Figures 7.34 and 7.35, in decimation we first sample and then retain only the sequence values at the sampling instants. To upsample, we reverse the process. For example, referring to Figure 7.34, we consider upsampling the sequence \(x_{b}[n]\) to obtain \(x[n]\). From \(x_{b}[n]\), we form the sequence \(x_{p}[n]\) by inserting \(N-1\) points with zero amplitude between each of the values in \(x_{b}[n]\). The interpolated sequence \(x[n]\) is then obtained from \(x_{p}[n]\) by lowpass filtering. The overall procedure is summarized in Figure 7.37.
+
+Figure 7.36: Continuous-time signal that was originally sampled at the Nyquist rate. After discrete-time filtering, the resulting sequence can be further downsampled. Here \(\mathcal{X}_{c}(j_{\omega})\) is the continuous-time Fourier transform of \(x_{c}(t)\), \(X_{d}(\varrho^{\omega})\) and \(Y_{d}(\varrho^{\omega})\) are the discrete-time Fourier transforms of \(x_{d}[n]\) and \(Y_{d}[n]\) respectively, and \(H_{d}(\varrho^{\omega})\) is the frequency response of the discrete-time lowpass filter depicted in the block diagram.
+
+Figure 7.37: Upsampling: (a) overall system; (b) associated sequences and spectra for upsampling by a factor of 2.
+
+### Example 7.5
+
+In this example, we illustrate how a combination of interpolation and decimation may be used to further downsample a sequence without incurring aliasing. It should be noted that maximum possible downsampling is achieved once the non-zero portion of one period of the discrete-time spectrum has expanded to fill the entire band from \(-\pi\) to \(\pi\).
+
+Consider the sequence \(x[n]\) whose Fourier transform \(X(e^{j\omega})\) is illustrated in Figure 7.38(a). As discussed in Example 7.4, the lowest rate at which impulse-train sampling may be used on this sequence without incurring aliasing is \(2\pi/4\). This corresponds to
+
+Figure 7.38: Spectra associated with Example 7.5. (a) Spectrum of \(x[n]\); (b) spectrum after downsampling by 4; (c) spectrum after upsampling \(x[n]\) by a factor of 2; (d) spectrum after upsampling \(x[n]\) by 2 and then downsampling by 9.
+
+sampling every 4th value of \(x[n]\). If the result of such sampling is decimated by a factor of 4, we obtain a sequence \(x_{b}[n]\) whose spectrum is shown in Figure 7.38(b). Clearly, there is still no aliasing of the original spectrum. However, this spectrum is zero for \(8\pi/9\,\leq\,|\omega|\,\leq\,\pi\), which suggests there is room for further downsampling.
+
+Specifically, examining Figure 7.38(a) we see that if we could scale frequency by a factor of 9/2, the resulting spectrum would have nonzero values over the entire frequency interval from \(-\pi\) to \(\pi\). However, since 9/2 is not an integer, we can't achieve this purely by downsampling. Rather we must first upsample \(x[n]\) by a factor of 2 and then downsample by a factor of 9. In particular, the spectrum of the signal \(x_{n}[n]\) obtained when \(x[n]\) is upsampled by a factor of 2, is displayed in Figure 7.38(c). When \(x_{n}[n]\) is then downsampled by a factor of 9, the spectrum of the resulting sequence \(x_{ub}[n]\) is as shown in Figure 7.38(d). This combined result effectively corresponds to downsampling \(x[n]\) by a noninteger amount, 9/2. Assuming that \(x[n]\) represents unaliased samples of a continuous-time signal \(x_{c}(t)\), our interpolated and decimated sequence represents the maximum possible (aliasing-free) downsampling of \(x_{c}(t)\).
+
+### Summary
+
+In this chapter we have developed the concept of sampling, whereby a continuous-time or discrete-time signal is represented by a sequence of equally spaced samples. The conditions under which the signal is exactly recoverable from the samples is embodied in the sampling theorem. For exact reconstruction, this theorem requires that the signal to be sampled be band limited and that the sampling frequency be greater than twice the highest frequency in the signal to be sampled. Under these conditions, exact reconstruction of the original signal is carried out by means of ideal lowpass filtering. The time-domain interpretation of this ideal reconstruction procedure is often referred to as ideal band-limited interpolation. In practical implementations, the lowpass filter is approximated and the interpolation in the time domain is no longer exact. In some instances, simple interpolation procedures such as a zero-order hold or linear interpolation (a first-order hold) suffice.
+
+If a signal is undersampled (i.e., if the sampling frequency is less than that required by the sampling theorem), then the signal reconstructed by ideal band-limited interpolation will be related to the original signal through a form of distortion referred to as aliasing. In many instances, it is important to choose the sampling rate so as to avoid aliasing. However, there are a variety of important examples, such as the stroboscope, in which aliasing is exploited.
+
+Sampling has a number of important applications. One particularly significant set of applications relates to using sampling to process continuous-time signals with discrete-time systems, by means of minicomputers, microprocessors, or any of a variety of devices specifically oriented toward discrete-time signal processing.
+
+The basic theory of sampling is similar for both continuous-time and discrete-time signals. In the discrete-time case there is the closely related concept of decimation, whereby the decimated sequence is obtained by extracting values of the original sequence at equally spaced intervals. The difference between sampling and decimation lies in the fact that, for the sampled sequence, values of zero lie in between the sample values, whereas in the decimated sequence these zero values are discarded, thereby compressing the sequence in time. The inverse of decimation is interpolation. The ideas of decima

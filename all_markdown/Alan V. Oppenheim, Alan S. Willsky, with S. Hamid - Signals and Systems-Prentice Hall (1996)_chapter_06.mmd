@@ -1,0 +1,641 @@
+## Chapter Time and frequency characterization of signals and systems
+
+### 6.0 Introduction
+
+The frequency-domain characterization of an LTI system in terms of its frequency response represents an alternative to the time-domain characterization through convolution. In analyzing LTI systems, it is often particularly convenient to utilize the frequency domain because differential and difference equations and convolution operations in the time domain become algebraic operations in the frequency domain. Moreover, concepts such as frequency-selective filtering are readily and simply visualized in the frequency domain. However, in system design, there are typically both time-domain and frequency-domain considerations. For example, as we briefly discussed in Examples 4.18 and 5.12, and as we will illustrate in more detail in this chapter, significant oscillatory behavior in the impulse response of a frequency-selective filter may be undesirable, and consequently, we may wish to sacrifice the level of frequency selectivity in a filter in order to meet the required tolerances on impulse response behavior. Situations such as this are the rule rather than the exception in practice, as in most applications we would like to specify or constrain certain characteristics of a system in both the time domain and the frequency domain, frequently resulting in conflicting requirements. Hence, in system design and analysis, it is important to relate time-domain and frequency-domain characteristics and trade-offs. Introducing these issues and relationships is the primary focus of the chapter.
+
+### 6.1 The magnitude-phase representation of the Fourier transform
+
+The Fourier transform is in general complex valued and, as we discussed, can be represented in terms of its real and imaginary components or in terms of magnitude and phase.
+
+The magnitude-phase representation of the continuous-time Fourier transform \(X(j\omega)\) is
+
+\[X(j\omega)\,=\,\,[X(j\omega)|e^{j\,\prec\,X(j\omega)}. \tag{6.1}\]
+
+Similarly the magnitude-phase representation of the discrete-time Fourier transform \(X(e^{j\omega})\) is
+
+\[X(e^{j\omega})\,=\,\,|X(e^{j\omega})|e^{j\,\prec\,X(e^{j\omega})}. \tag{6.2}\]
+
+In the following discussion, we concentrate for the most part on the continuous-time case in describing and illustrating several points related to magnitude-phase representations. The essential points apply equally to the discrete-time case.
+
+From the Fourier transform synthesis equation (4.8), we can think of \(X(j\omega)\) as providing us with a decomposition of the signal \(x(t)\) into a "sum" of complex exponentials at different frequencies. In fact, as discussed in Section 4.3.7, \(|X(j\omega)|^{2}\) may be interpreted as the energy-density spectrum of \(x(t)\). That is, \(|X(j\omega)|^{2}d\omega/2\pi\) can be thought of as the amount of energy in the signal \(x(t)\) that lies in the infinitesimal frequency band between \(\omega\) and \(\omega\,+\,d\omega\). Thus, the magnitude \(|X(j\omega)|\) describes the basic frequency content of a signal--i.e., \(|X(j\omega)|\) provides us with the information about the relative magnitudes of the complex exponentials that make up \(x(t)\). For example, if \(|X(j\omega)|\,=\,0\) outside of a small band of frequencies centered at zero, then \(x(t)\) will display only relatively low-frequency oscillations.
+
+The phase angle \(\,\mathchar 1335\relax X(j\omega)\), on the other hand, does not affect the amplitudes of the individual frequency components, but instead provides us with information concerning the relative phases of these exponentials. The phase relationships captured by \(\,\mathchar 1335\relax X(j\omega)\) have a significant effect on the nature of the signal \(x(t)\) and thus typically contain a substantial amount of information about the signal. In particular, depending upon what this phase function is, we can obtain very different-looking signals, even if the magnitude function remains unchanged. For example, consider again the example illustrated in Figure 3.3. In this case, a ship encounters the superposition of three wave trains, each of which can be modeled as a sinusoidal signal. With fixed magnitudes for these sinusoids, the amplitude of their sum may be quite small or very large, depending on the relative phases. The implications of phase for the ship, therefore, are quite significant. As another illustration of the effect of phase, consider the signal
+
+\[x(t)\,=\,1\,+\,\frac{1}{2}\cos(2\pi t\,+\,\phi_{1})\,+\,\cos(4\pi t\,+\,\phi_ {2})\,+\,\frac{2}{3}\cos(6\pi t\,+\,\phi_{3}). \tag{6.3}\]
+
+In Figure 3.4, we depicted \(x(t)\) for the case when \(\phi_{1}\,=\,\phi_{2}\,=\,\phi_{3}\,=\,0\). In Figure 6.1, we distortions of speech certainly do. As an extreme illustration, if \(x(t)\) is a tape recording of a sentence, then the signal \(x(-t)\) represents the sentence played backward. From Table 4.1, assuming \(x(t)\) is real valued, the corresponding effect in the frequency domain is to replace the Fourier transform phase by its negative:
+
+\[\mathfrak{F}\{x(-t)\}\,=\,X(-j\omega)\,=\,|X(j\omega)|e^{-j\cdot\xi X(j\omega)}.\]
+
+That is, the spectrum of a sentence played in reverse has the same magnitude function as the spectrum of the original sentence and differs only in phase. Clearly, this phase change has a significant impact on the intelligibility of the recording.
+
+A second example illustrating the effect and importance of phase is found in examining images. As we briefly discussed in Chapter 3, a black-and-white picture can be thought of as a signal \(x(t_{1},t_{2})\), with \(t_{1}\) denoting the horizontal coordinate of a point on the picture, \(t_{2}\) the vertical coordinate, and \(x(t_{1},t_{2})\) the brightness of the image at the point \((t_{1},t_{2})\). The Fourier transform \(X(j\omega_{1},\,j\omega_{2})\) of the image represents a decomposition of the image into complex exponential components of the form \(e^{j\omega_{1}t_{1}}e^{j\omega_{2}t_{2}}\) that capture the spatial variations of \(x(t_{1},t_{2})\) at different frequencies in each of the two coordinate directions. Several elementary aspects of two-dimensional Fourier analysis are addressed in Problems 4.53 and 5.56.
+
+In viewing a picture, some of the most important visual information is contained in the edges and regions of high contrast. Intuitively, regions of maximum and minimum intensity in a picture are places at which complex exponentials at different frequencies are in phase. Therefore, it seems plausible to expect the phase of the Fourier transform of a picture to contain much of the information in the picture, and in particular, the phase should capture the information about the edges. To substantiate this expectation, in Figure 6.2(a) we have repeated the picture shown in Figure 1.4. In Figure 6.2(b) we have depicted the magnitude of the two-dimensional Fourier transform of the image in Figure 6.2(a), where in this image the horizontal axis is \(\omega_{1}\), the vertical is \(\omega_{2}\), and the brightness of the image at the point \((\omega_{1},\omega_{2})\) is proportional to the magnitude of the transform \(X(j\omega_{1},\ j\omega_{2})\) of the image in Figure 6.2(a). Similarly, the phase of this transform is depicted in Figure 6.2(c). Figure 6.2(d) is the result of setting the phase [Figure 6.2(c)] of \(X(j\omega_{1},\ j\omega_{2})\) to zero (without changing its magnitude) and inverse transforming. In Figure 6.2(e) the magnitude of \(X(j\omega_{1},\ j\omega_{2})\) was set equal to 1, but the phase was kept unchanged from what it was in Figure 6.2(c). Finally, in Figure 6.2(f) we have depicted the image obtained by inverse transforming the function obtained by using the phase in Figure 6.2(c) and the magnitude of the transform of a _completely different_ image--the picture shown in Figure 6.2(g)! These figures clearly illustrate the importance of phase in representing images.
+
+### The Magnitude-Phase Representation of the Frequency Response of LTI Systems
+
+From the convolution property for continuous-time Fourier transforms, the transform \(Y(j\omega)\) of the output of an LTI system is related to the transform \(X(j\omega)\) of the input to the system by the equation
+
+\[Y(j\omega)\,=\,H(j\omega)X(j\omega),\]
+
+where \(H(j\omega)\) is the frequency response of the system--i.e., the Fourier transform of the system's impulse response. Similarly, in discrete time, the Fourier transforms of the input \(X(e^{j\omega})\) and output \(Y(e^{j\omega})\) of an LTI system with frequency response \(H(e^{j\omega})\) are related by
+
+\[Y(e^{j\omega})\,=\,H(e^{j\omega})X(e^{j\omega}). \tag{6.4}\]
+
+Thus, the effect that an LTI system has on the input is to change the complex amplitude of each of the frequency components of the signal. By looking at this effect in terms of the magnitude-phase representation, we can understand the nature of the effect in more
+
+Figure 6.2: (a) The image shown in Figure 1.4; (b) magnitude of the two-dimensional Fourier transform of (a); (c) phase of the Fourier transform of (a); (d) picture whose Fourier transform has magnitude as in (b) and phase equal to zero; (e) picture whose Fourier transform has magnitude equal to 1 and phase as in (c); (f) picture whose Fourier transform has phase as in (c) and magnitude equal to that of the transform of the picture shown in (g).
+
+Figure 6: (a) Continuous-time signal that is applied as the input to several systems for which the frequency response has unity magnitude; (b) response for a system with linear phase; (c) response for a system with nonlinear phase; and (d) response for a system with phase equal to the nonlinear phase of the system in part (c) plus a linear phase term.
+
+In Figure 3(a), we depict a signal that is applied as the input to three different systems. Figure 3(b) shows the output when the signal is applied as input to a system with frequency response \(H_{1}(j\omega)\,=\,e^{-j\omega t_{0}}\), resulting in an output that equals the input delayed by \(t_{0}\) seconds. In Figure 3(c), we display the output when the signal is applied to a system with unity gain and nonlinear phase function--i.e.,
+
+\[H_{2}(j\omega)\quad=\quad e^{j\triangleleft H_{2}(j\omega)}, \tag{6.10}\]
+
+where \(\triangleleft H_{2}(j\omega)\) is a nonlinear function of \(\omega\). Figure 3(d) shows the output from another system with nonlinear phase. In this case, the corresponding frequency response has a phase shift that is obtained by adding a linear phase term to \(\triangleleft H_{2}(j\omega)\)--i.e.,
+
+\[H_{3}(j\omega)\,=\,H_{2}(j\omega)e^{-j\omega t_{0}}. \tag{6.11}\]
+
+Thus, the output in Figure 3(d) can be thought of as the response to a cascade of the system \(H_{2}(j\omega)\) followed by a time shift, so that the waveforms in Figures 3(c) and (d) are related through a simple time shift.
+
+In Figure 4, we illustrate the effect of both linear and nonlinear phase in the discrete-time case. Once again, the signal in Figure 4(a) is applied as the input to three different LTI systems, all with unity gain (i.e., \(|H(e^{j\omega})|=1\)). The signals in the subsequent parts of Figure 4 depict the corresponding outputs. In the case of Figure 4(b), the system has linear phase characteristics with integer slope of \(-5\), so that the output equals the input delayed by \(5\). The phase shifts for the systems associated with Figures 4(c) and (d) are nonlinear, but the difference between these two phase functions is linear with integer slope so that the signals in Figures 4(c) and (d) are related by a time shift.
+
+Note that all the systems considered in the examples illustrated in Figures 3 and 4 have unity gain, so that the magnitude of the Fourier transform of the input to any of these systems is passed through _unchanged_ by the system. For this reason, such systems are commonly referred to as _all-pass_ systems. The characteristics of an all-pass system are completely determined by its phase-shift characteristics. A more general LTI system \(H(j\omega)\) or \(H(e^{j\omega})\), of course, imparts both magnitude shaping through the gain \(|H(j\omega)|\) or \(|H(e^{j\omega})|\) and phase shift that may or may not be linear.
+
+#### Group Delay
+
+As discussed in Section 6.2.1, systems with linear phase characteristics have the particularly simple interpretation as time shifts. In fact, from eqs. (6.8) and (6.9), the phase slope tells us the size of the time shift. That is, in continuous time, if \(\triangleleft H(j\omega)=-\omega t_{0}\), then the system imparts a time shift of \(-t_{0}\) or, equivalently, a _delay_ of \(t_{0}\). Similarly, in discrete time, \(\triangleleft H(e^{j\omega})=-\omega n_{0}\) corresponds to a delay of \(n_{0}\).
+
+The concept of delay can be very naturally and simply extended to include nonlinear phase characteristics. Suppose that we wish to examine the effects of the phase of a continuous-time LTI system on a narrowband input--i.e., an input \(x(t)\) whose Fourier transform is zero or negligibly small outside a small band of frequencies centered at \(\omega=\omega_{0}\). By taking the band to be very small, we can accurately approximate the phase of this system in the band with the linear approximation
+
+\[\triangleleft H(j\omega)\,=\,-\phi-\omega\alpha, \tag{6.12}\]Figure 6.4: (a) Discrete-time signal that is applied as input to several systems for which the frequency response has unity magnitude; (b) response for a system with linear phase with slope of \(-5\); (c) response for a system with nonlinear phase; and (d) response for a system whose phase characteristic is that of part (c) plus a linear phase term with integer slope.
+
+so that
+
+\[Y(j\omega)=X(j\omega)|H(j\omega)|e^{-j\phi}e^{-j\omega\alpha}. \tag{6.13}\]
+
+Thus, the approximate effect of the system on the Fourier transform of this narrowband input consists of the magnitude shaping corresponding to \(|H(j\omega)|\), multiplication by an overall constant complex factor \(e^{-j\phi}\) and multiplication by a linear phase term \(e^{-j\omega\alpha}\) corresponding to a time delay of \(\alpha\) seconds. This time delay is referred to as the _group delay_ at \(\omega=\omega_{0}\), as it is the effective common delay experienced by the small band or group of frequencies centered at \(\omega=\omega_{0}\).
+
+The group delay at each frequency equals the negative of the slope of the phase at that frequency; i.e., the group delay is defined as
+
+\[\tau(\omega)=-\frac{d}{d\omega}\{\measuredangle H(j\omega)\}. \tag{6.14}\]
+
+The concept of group delay applies directly to discrete-time systems as well. In the next example we illustrate the effect of nonconstant group delay on a signal.
+
+### Example 6.1
+
+Consider the impulse response of an all-pass system with a group delay that varies with frequency. The frequency response \(H(j\omega)\) for our example is the product of three factors; i.e.,
+
+\[H(j\omega)=\prod_{i=1}^{3}H_{i}(j\omega),\]
+
+where
+
+\[H_{i}(j\omega)=\frac{1+\left(j\omega/\omega_{i}\right)^{2}-2j\xi_{i}\left( \omega/\omega_{i}\right)}{1+\left(j\omega/\omega_{i}\right)^{2}+2j\xi_{i} \left(\omega/\omega_{i}\right)^{*}} \tag{6.15}\]
+
+\[\left\{\begin{array}{l}\omega_{1}=315\text{ rad/sec and }\xi_{1}=0.066,\\ \omega_{2}=943\text{ rad/sec and }\xi_{2}=0.033,\\ \omega_{3}=1888\text{ rad/sec and }\xi_{3}=0.058.\end{array}\right.\]
+
+It is often useful to express the frequencies \(\omega_{i}\) measured in radians per second in terms of frequencies \(f_{i}\) measured in Hertz, where
+
+\[\omega_{i}=2\pi f_{i}.\]
+
+In this case,
+
+\[f_{1}\simeq 50\text{ Hz}\] \[f_{2}=150\text{ Hz}\] \[f_{3}=300\text{ Hz}.\]
+
+Since the numerator of each of the factors \(H_{i}(j\omega)\) is the complex conjugate of the corresponding denominator, it follows that \(|H_{i}(j\omega)|=1\). Consequently, we may also conclude that
+
+\[|H(j\omega)|\,=\,1.\]
+
+The phase for each \(H_{i}(j\omega)\) can be determined from eq. (6.15):
+
+\[\sphericalangle H_{i}(j\omega)\,=\,-2\arctan\left[\,\frac{2\zeta_{i}\left(\omega/ \omega_{i}\right)}{1-\left(\omega/\omega_{i}\right)^{2}}\,\right],\]
+
+and
+
+\[\sphericalangle H(j\omega)\,=\,\sum_{i\,-\,1}^{3}\sphericalangle H_{i}(j\omega).\]
+
+If the values of \(\sphericalangle H(j\omega)\) are restricted to lie between \(-\pi\) and \(\pi\), we obtain the _principal-phase_ function (i.e., the phase modulo \(2\pi\)), as shown in Figure 6.5(a) where we have plotted the phase versus frequency measured in Hertz. Note that this function contains discontinuities of size \(2\pi\) at various frequencies, making the phase function non-differentiable at those points. However, the addition or subtraction of any integer multiple of \(2\pi\) to the value of the phase at any frequency leaves the original frequency response unchanged. Thus, by appropriately adding or subtracting such integer multiples of \(2\pi\) from various portions of the principal phase, we obtain the _unwrapped phase_ in Figure 6.5(b). The group delay as a function of frequency may now be computed as
+
+\[\tau(\omega)\,=\,-\frac{d}{d\omega}\{\sphericalangle[H(j\omega)]\},\]
+
+where \(\sphericalangle[H(j\omega)]\) represents the unwrapped-phase function corresponding to \(H(j\omega)\). A plot of \(\tau(\omega)\) is shown in Figure 6.5(c). Observe that frequencies in the close vicinity of 50 Hz experience greater delay than frequencies in the vicinity of 150 Hz or 300 Hz. The effect of such nonconstant group delay can also be qualitatively observed in the impulse response (see Figure 6.5(d)) of the LTI system. Recall that \(\mathcal{F}\{\delta(t)\}\,=\,1\). The frequency components of the impulse are all aligned in time in such a way that they combine to form the impulse, which is, of course, highly localized in time. Since the all-pass system has nonconstant group delay, different frequencies in the input are delayed by different amounts. This phenomenon is referred to as _dispersion_. In the current example, the group delay is highest at 50 Hz. Consequently, we would expect the latter parts of the impulse response to oscillate at lower frequencies near 50 Hz. This clearly evident in Figure 6.5(d).
+
+## Example 6.2
+
+Nonconstant group delay is among the factors considered important for assessing the transmission performance of switched telecommunications networks. In a survey1 involving locations all across the continental United States, AT&T/Bell System reported group delay characteristics for various categories of toll calls. Figure 6.6 displays some of the results of this study for two such classes. In particular, what is plotted in each curve in Figure 6.6(a) is the nonconstant portion of the group delay for a specific category of toll calls. That is, for each category, a common constant delay corresponding to Figure 6.5: Phase, group delay, and impulse response for the all-pass system of Example 6.1: (a) principal phase; (b) unwrapped phase; (c) group delay; (d) impulse response. Each of these quantities is plotted versus frequency measured in Hertz.
+
+the minimum of the group delay over all frequencies has been subtracted from the group delay, and the resulting difference is plotted in Figure 6.6(a). Consequently, each curve in Figure 6.6(a) represents the additional delay (beyond this common constant delay) experienced by the different frequency components of toll calls within each category. The curves labeled SHORT and MEDIUM respectively represent the results for short-distance (0-180 airline miles) and medium-distance (180-725 airline miles) toll calls. The group delay as a function of frequency is seen to be lowest at 1,700 Hz and increases monotonically as we move away from that figure in either direction.
+
+When the group delay characteristics illustrated in Figure 6.6(a) are combined with the characteristics of the magnitude of the frequency response reported in the same AT&T/Bell System survey and shown in Figure 6.6(b), we obtain impulse reponses of the type shown in Figure 6.7. The impulse response in Figure 6.7(a) corresponds to the short-distance category. The very low- and very high-frequency components of the response occur later than the components in the mid-frequency range. This is compatible with the fact that the frequency response is not a good indicator of the frequency response.
+
+Figure 6.6: (a) Non-constant portion of the group delay; and (b) frequency response magnitude as functions of frequency for short- and medium-distance toll calls in switched telecommunications networks [after Duffy and Thatcher]. Each of these quantities is plotted versus frequency measured in Hertz. Also, as is commonly done in practice, the magnitudes of the frequency responses are plotted using a logarithmic scale in units of _decibels_. That is, what is plotted in (b) is \(20\log_{10}|H(\mu_{0})|\) for the frequency responses corresponding to short- and medium-distance toll calls. The use of this logarithmic scale for the frequency-response magnitudes is discussed in detail in Section 6.2.3.
+
+the corresponding group delay characteristics in Figure 6.6(a). Similarly, Figure 6.7(b) illustrates the same phenomenon for the impulse response corresponding to medium-distance toll calls.
+
+#### Log-Magnitude and Bode Plots
+
+In graphically displaying continuous-time or discrete-time Fourier transforms and system frequency responses in polar form, it is often convenient to use a logarithmic scale for the magnitude of the Fourier transform. One of the principal reasons for doing this can be seen
+
+Figure 6.7: Impulse responses associated with the group delay and magnitude characteristics in Figure 6.6: (a) impulse response corresponding to the short-distance category of toll calls; (b) impulse response for the medium-distance category.
+
+from eqs. (6.5) and (6.6), which relate the magnitude and phase of the output of an LTI system to those of the input and frequency response. Note that the phase relationship is additive, while the magnitude relationship involves the product of \(|H(j\omega)|\) and \(|X(j\omega)|\). Thus, if the magnitudes of the Fourier transform are displayed on a logarithmic amplitude scale, eq. (6.5) takes the form of an additive relationship, namely,
+
+\[\log|Y(j\omega)|\,=\,\log|H(j\omega)|+\log|X(j\omega)|, \tag{6.16}\]
+
+with an exactly analogous expression in discrete time.
+
+Consequently, if we have a graph of the log magnitude and phase of the Fourier transform of the input and the frequency response of an LTI system, the Fourier transform of the output is obtained by adding the log-magnitude plots and by adding the phase plots. In a similar fashion, since the frequency response of the cascade of LTI systems is the product of the individual frequency responses, we can obtain plots of the log magnitude and phase of the overall frequency response of cascaded systems by adding the corresponding plots for each of the component systems. In addition, plotting the magnitude of the Fourier transform on a logarithmic scale allows detail to be displayed over a wider dynamic range. For example, on a linear scale, the detailed magnitude characteristics in the stopband of a frequency-selective filter with high attenuation are typically not evident, whereas they are on a logarithmic scale.
+
+Typically, the specific logarithmic amplitude scale used is in units of \(20\log_{10}\), referred to as _decibels2_ (abbreviated dB). Thus, 0 dB corresponds to a frequency response with magnitude equal to 1, 20 dB is equivalent to a gain of 10, \(-20\) dB corresponds to an attenuation of 0.1, and so on. Also, it is useful to note that 6 dB approximately corresponds to a gain of 2.
+
+Footnote 2: The origin of this particular choice of units and the term _decibels_ can be traced to the definition of power ratios in systems. Specifically, since the square of the magnitude of the Fourier transform of a signal can be interpreted as the energy per unit frequency, or power, in a signal, the square of the magnitude, \(|H(j\omega)|^{2}\) or \(|H(e^{\omega})|^{2}\), of the frequency response of a system can be thought of as the power ratio between the input and the output of an LTI system. In honor of Alexander Graham Bell, the inventor of the telephone, the term _bel_ was introduced to indicate a factor of 10 in a power ratio, and _decibel_ was used to denote one-tenth of this factor on a logarithmic scale (so that the cascade of 10 systems with 1-dB power ratios each would result in 1 bel of power amplification). Thus, \(10\log_{10}|H(j\omega)|^{2}\) is the number of decibels of power amplification for the frequency response \(H(j\omega)\), and this in turn equals \(20\log_{10}|H(j\omega)|\) in magnitude amplification.
+
+For continuous-time systems, it is also common and useful to use a logarithmic frequency scale. Plots of \(20\log_{10}|H(j\omega)|\) and \(\mathrel{\hbox to 0.0pt{\lower 4.0pt\hbox{ $\sim$}}\raise 1.0pt\hbox{$<$}}H(j\omega)\) versus \(\log_{10}(\omega)\) are referred to as _Bode plots_. A typical Bode plot is illustrated in Figure 6.8. Note that, as discussed in Section 4.3.3, if \(h(t)\) is real, then \(|H(j\omega)|\) is an even function of \(\omega\) and \(\mathrel{\hbox to 0.0pt{\lower 4.0pt\hbox{ $\sim$}}\raise 1.0pt\hbox{$<$}}H(j\omega)\) is an odd function of \(\omega\). Because of this, the plots for negative \(\omega\) are superfluous and can be obtained immediately from the plots for positive \(\omega\). This, of course, makes it possible to plot frequency response characteristics versus \(\log_{10}(\omega)\) for \(\omega>0\), as in the figure.
+
+The use of a logarithmic frequency scale offers a number of advantages in continuous time. For example, it often allows a much wider range of frequencies to be displayed than does a linear frequency scale. In addition, on a logarithmic frequency scale, the shape of a particular response curve doesn't change if the frequency is scaled. (See Problem 6.30.) Furthermore for continuous-time LTI systems described by differential equations, an approximate sketch of the log magnitude vs. log frequency can often be easily obtained through the use of asymptotes. In Section 6.5, we will illustrate this by developing simple piecewise-linear approximate Bode plots for first- and second-order continuous-time systems.
+
+In discrete time, the magnitudes of Fourier transforms and frequency responses are often displayed in dB for the same reasons that they are in continuous time. However, in discrete time a logarithmic frequency scale is not typically used, since the range of frequencies to be considered is always limited and the advantage found for differential equations (i.e., linear asymptotes) does not apply to difference equations. Typical graphical representations of the magnitude and phase of a discrete-time frequency response are shown in Figure 6.9. Here, we have plotted \(\spherical H(e^{j\omega})\) in radians and \(|H(e^{j\omega})|\) in decibels [i.e., \(20\,\log_{10}|H(e^{j\omega})|\)] as functions of \(\omega\). Note that for \(h[n]\) real, we actually need plot \(H(e^{j\omega})\) only for \(0\,\leq\,\omega\,\leq\,\pi\), because in this case the symmetry property of the Fourier transform implies that we can then calculate \(H(e^{j\omega})\) for \(-\,\pi\,\leq\,\omega\,\,\leq\,0\) using the relations \(|H(e^{j\omega})|=|H(e^{-j\omega})|\) and \(\spherical H(e^{-j\omega})=\,-\,\spherical H(e^{j\omega})\). Furthermore, we need not consider values of \(|\omega|\) greater than \(\pi\), because of the periodicity of \(H(e^{j\omega})\).
+
+Figure 6.8: A typical Bode plot. (Note that \(\omega\) is plotted using a logarithmic scale.)
+
+As emphasized in this section, a logarithmic amplitude scale is often useful and important. However, there are many situations in which it is convenient to use a linear amplitude scale. For example, in discussing ideal filters for which the magnitude of the frequency response is a nonzero constant over some frequency bands and zero over others, a linear amplitude scale is more appropriate. Thus, we have introduced both linear and logarithmic graphical representations for the magnitude of the Fourier transform and will use each as appropriate.
+
+### Time-Domain Properties of Ideal Frequency-selective Filters
+
+In Chapter 3, we introduced the class of frequency-selective filters, i.e., LTI systems with frequency responses chosen so as to pass one or several bands of frequencies with little or no attenuation and to stop or significantly attenuate frequencies outside those bands. As we discussed in Chapters 3, 4, and 5, there are a number of issues of importance that arise
+
+Figure 6.9: Typical graphical representations of the magnitude and phase of a discrete-time frequency response \(H(\mathsf{e}^{j\omega})\).
+
+in frequency-selective filtering applications and that relate directly to the characteristics of frequency-selective filters. In this section, we take another look at such filters and their properties. We focus our attention here on lowpass filters, although very similar concepts and results hold for other types of frequency-selective filters such as highpass or bandpass filters. (See Problems 6.5, 6.6, 6.26, and 6.38.)
+
+As introduced in Chapter 3, a continuous-time ideal lowpass filter has a frequency response of the form
+
+\[H(j\omega)\,=\,\left\{\begin{array}{cc}1&\left|\omega\right|\,\leq\,\omega_{c }\\ 0&\left|\omega\right|\,>\,\omega_{c}\end{array}\right.. \tag{6.17}\]
+
+This is illustrated in Figure 6.10(a). Similarly, a discrete-time ideal lowpass filter has a frequency response
+
+\[H(e^{j\omega})\,=\,\left\{\begin{array}{cc}1&\left|\omega\right|\,\leq\, \omega_{c}\\ 0&\omega_{c}<\left|\omega\right|\,\leq\,\pi\end{array}\right. \tag{6.18}\]
+
+and is periodic in \(\omega\), as depicted in Figure 6.10(b). As can be seen from eqs. (6.17) and (6.18) or from Figure 6.10, ideal lowpass filters have perfect frequency selectivity. That is, they pass without attenuation all frequencies at or lower than the cutoff frequency \(\omega_{c}\) and completely stop all frequencies in the stopband (i.e., higher than \(\omega_{c}\)). Moreover, these filters have zero phase characteristics, so they introduce no phase distortion.
+
+As we have seen in Section 6.2, nonlinear phase characteristics can lead to significant changes in the time-domain characteristics of a signal even when the magnitude of its
+
+Figure 6.10: (a) The frequency response of a continuous-time ideal lowpass filter; (b) the frequency response of a discrete-time ideal lowpass filter.
+
+spectrum is not changed by the system, and thus, a filter with a _magnitude_ characteristic as in eq. (6.17) or eq. (6.18), but with nonlinear phase, might produce undesirable effects in some applications. On the other hand, an ideal filter with linear phase over the passband, as illustrated in Figure 6.11, introduces only a simple time shift relative to the response of the ideal lowpass filter with zero phase characteristic.
+
+In Examples 4.18 and 5.12, we computed the impulse responses of ideal lowpass filters. In particular, the impulse response corresponding to the filter in eq. (6.17) is
+
+\[h(t)\,=\,\frac{\sin\omega_{c}t}{\pi t}, \tag{6.19}\]
+
+which is shown in Figure 6.12(a). Similarly, the impulse response of the discrete-time ideal filter in eq. (6.18) is
+
+\[h[n]\,=\,\frac{\sin\omega_{c}n}{\pi n}, \tag{6.20}\]
+
+which is depicted in Figure 6.12(b) for \(\omega_{c}\,=\,\pi/4\). If either of the ideal frequency responses of eqs. (6.17) and (6.18) is augmented with a linear phase characteristic, the impulse response is simply delayed by an amount equal to the negative of the slope of this phase function, as is illustrated in Figure 6.13 for the continuous-time impulse response. Note that in both continuous and discrete time, the width of the filter passband is proportional to \(\omega_{c}\), while the width of the main lobe of the impulse is proportional to \(1/\omega_{c}\). As the bandwidth of the filter increases, the impulse response becomes narrower, and vice versa, consistent with the inverse relationship between time and frequency discussed in Chapters 4 and 5.
+
+Figure 6.11: Continuous-time ideal lowpass filter with linear phase characteristic.
+
+Figure 6.12: (a) The impulse response of the continuous-time ideal lowpass filter of Figure 6.10(a); (b) the impulse response of the discrete-time ideal lowpass filter of Figure 6.10(b) with \(\omega_{c}=\pi/4\).
+
+Figure 6.13: Impulse response of an ideal lowpass filter with magnitude and phase shown in Figure 6.11.
+
+The step responses \(s(t)\) and \(s[n]\) of the ideal lowpass filters in continuous time and discrete time are displayed in Figure 14. In both cases, we note that the step responses exhibit several characteristics that may not be desirable. In particular, for these filters, the step responses overshoot their long-term final values and exhibit oscillatory behavior, frequently referred to as _ringing_. Also, recall that the step response is the running integral or sum of the impulse response--i.e.,
+
+\[s(t) = \int_{-\infty}^{t}h(\tau)d\tau,\] \[s[n] = \sum_{m\,=\,-\infty}^{n}h[m].\]
+
+Figure 14: (a) Step response of a continuous-time ideal lowpass filter; (b) step response of a discrete-time ideal lowpass filter.
+
+Since the impulse responses for the ideal filters have main lobes extending from \(-\pi/\omega_{c}\) to \(+\pi/\omega_{c}\), the step responses undergo their most significant change in value over this time interval. That is, the so-called _rise time_ of the step response, a rough measure of the response time of the filter, is also inversely related to the bandwidth of the filter.
+
+### Time-Domain and Frequency-Domain Aspects of Nonideal Filters
+
+The characteristics of ideal filters are not always desirable in practice. For example, in many filtering contexts, the signals to be separated do not always lie in totally disjoint frequency bands. A typical situation might be that depicted in Figure 6.15, where the spectra of two signals overlap slightly. In such a case, we may wish to trade off the fidelity with which the filter preserves one of these signals--say, \(x_{1}(t)\)--against the level to which frequency components of the second signal \(x_{2}(t)\) are attenuated. A filter with a gradual transition from passband to stopband is generally preferable when filtering the superposition of signals with overlapping spectra.
+
+Another consideration is suggested by examining the step responses of ideal lowpass filters, shown in Figure 6.14. For both continuous time and discrete time, the step response asymptotically approaches a constant equal to the value of the step. In the vicinity of the discontinuity, however, it overshoots this value and exhibits ringing. In some situations, this time-domain behavior may be undesirable.
+
+Moreover, even in cases where the ideal frequency-selective characteristics are desirable, they may not be attainable. For example, from eqs. (6.18) and (6.19) and Figure 6.12, it is evident that the ideal lowpass filter is noncausal. When filtering is to be carried out in real time, however, causality is a necessary constraint, and thus, a causal approximation to the ideal characteristics would be required. A further consideration that motivates providing some flexibility in the filter characteristics is ease of implementation. In general, the more precisely we try to approximate or implement an ideal frequency-selective filter, the more complicated or costly the implementation becomes, whether in terms of components such as resistors, capacitors, and operational amplifiers in continuous time or in terms of memory registers, multipliers, and adders in discrete time. In many contexts, a precise filter characteristic may not be essential and a simple filter will suffice.
+
+For all of these reasons, nonideal filters are of of considerable practical importance, and the characteristics of such filters are frequently specified or quantified in terms of several parameters in both the frequency and time domain. First, because the magnitude characteristics of the ideal frequency-selective filter may be unachievable or undesirable,
+
+Figure 6.15: Two spectra that are slightly overlapping.
+
+it is preferable to allow some flexibility in the behavior of the filter in the passband and in the stopband, as well as to permit a more gradual transition between the passband and stopband, as opposed to the abrupt transition characteristic of ideal filters. For example, in the case of lowpass filters, the specifications may allow some deviation from unity gain in the passband and from zero gain in the stopband, as well as including both a passband edge and stopband edge with a transition band between them. Thus, specifications for a continuous-time lowpass filter are often stated to require the magnitude of the frequency response of the filter to be restricted to the nonshaded area indicated in Figure 6.16. In this figure, a deviation from unity of plus and minus \(\delta_{1}\) is allowed in the passband, and a deviation of \(\delta_{2}\) from zero is allowed in the stopband. The amount by which the frequency response differs from unity in the passband is referred to as the _passband ripple_, and the amount by which it deviates from zero in the stopband is referred to as the _stopband ripple_. The frequency \(\omega_{p}\) is referred to as the _passband edge_ and \(\omega_{s}\) as the _stopband edge_. The frequency range from \(\omega_{p}\) to \(\omega_{s}\) is provided for the transition from passband to stopband and is referred to as the _transition band_. Similar definitions apply to discrete-time lowpass filters, as well as to other continuous- and discrete-time frequency-selective filters.
+
+In addition to the specification of magnitude characteristics in the frequency domain, in some cases the specification of phase characteristics is also important. In particular, a linear or nearly linear phase characteristic over the passband of the filter is frequently desirable.
+
+To control the time-domain behavior, specifications are frequently imposed on the step response of a filter. As illustrated in Figure 6.17, one quantity often of interest is the rise time \(t_{r}\) of the step response--i.e., the interval over which the step response rises toward its final value. In addition, the presence or absence of oscillatory behavior, or ringing, in the step response is often of importance. If such ringing is present, then there are three other quantities that are often used to characterize the nature of these oscillations: the overshoot \(\Delta\) of the final value of the step response, the ringing frequency \(\omega_{r}\), and the settling time \(t_{s}\)--i.e., the time required for the step response to settle to within a specified tolerance of its final value.
+
+For nonideal lowpass filters, a trade-off may be observed between the width of the transition band (a frequency-domain characteristic) and the settling time of the step response (a time-domain characteristic). The following example illustrates this trade-off.
+
+### Example 6.3
+
+Let us consider two specific lowpass filters designed to have a cutoff frequency of 500 Hz. Each filter has a fifth-order rational frequency response and a real-valued impulse response. The two filters are of specific types, one referred to as Butterworth filters and the other as elliptic filters. Both of these classes of filters are frequently used in practice.
+
+The magnitudes of the frequency responses of the two filters are plotted (versus frequency measured in Hertz) in Figure 6.18(a). We take the transition band of each filter as the region around the cutoff frequency (500 Hz) where the frequency response magnitude is neither within.05 of unity magnitude (the passband ripple) nor within.05 of zero magnitude (the stopband ripple). From Figure 6.18(a), it can be seen that the transition band of the Butterworth filter is _wider_ than the transition band of the elliptic filter.
+
+The price paid for the narrower transition band of the elliptic filter may be observed in Figure 6.18(b), in which the step responses of both filters are displayed. We see that the ringing in the elliptic filter's step response is more prominent than for the Butterworth step response. In particular, the settling time for the step response is longer in the case of the elliptic filter.
+
+The consideration of the trade-offs between time-domain and frequency-domain characteristics and of other issues such as the complexity and cost of filters forms the core of the important field of filter design. In the next few sections, and in several of the problems at the end of the chapter, we provide additional examples of LTI systems and filters and their time- and frequency-domain characteristics.
+
+Figure 6.17: Step response of a continuous-time lowpass filter, indicating the rise time \(t_{r}\), overshoot \(\Delta\), ringing frequency \(\omega_{r}\), and settling time \(t_{s}\)—i.e., the time at which the step response settles to within \(\pm\delta\) of its final value.
+
+Figure 6.18: Example of a fifth-order Butterworth filter and a fifth-order elliptic filter designed to have the same passband and stopband ripple and the same cutoff frequency: (a) magnitudes of the frequency responses plotted versus frequency measured in Hertz; (b) step responses.
+
+### First-order and second-order continuous-time systems
+
+LTI systems described by linear constant-coefficient differential equations are of great practical importance, because many physical systems can be modeled by such equations and because systems of this type can often be conveniently implemented. For a variety of practical reasons, high-order systems are frequently implemented or represented by combining first-order and second-order systems in cascade or parallel arrangements. Consequently, the properties of first- and second-order systems play an important role in analyzing, designing, and understanding the time-domain and frequency-domain behavior of higher order systems. In this section, we discuss these low-order systems in detail for continuous time. In Section 6.6, we examine their discrete-time counterparts.
+
+#### First-order Continuous-Time Systems
+
+The differential equation for a first-order system is often expressed in the form
+
+\[\tau\frac{dy(t)}{dt}+y(t)=x(t), \tag{6.21}\]
+
+where the coefficient \(\tau\) is a positive number whose significance will be made clear shortly. The corresponding frequency response for the first-order system is
+
+\[H(j\omega)=\frac{1}{j\omega\tau+1}, \tag{6.22}\]
+
+and the impulse response is
+
+\[h(t)=\frac{1}{\tau}e^{-t/\tau}u(t), \tag{6.23}\]
+
+which is sketched in Figure 6.19(a). The step response of the system is
+
+\[s(t)=h(t)*u(t)=[1-e^{-t/\tau}]u(t). \tag{6.24}\]
+
+This is sketched in Figure 6.19(b). The parameter \(\tau\) is the _time constant_ of the system, and it controls the rate at which the first-order system responds. For example, as illustrated in Figure 6.19, at \(t=\tau\) the impulse response has reached \(1/e\) times its value at \(t=0\), and the step response is within \(1/e\) of its final value. Therefore, as \(\tau\) is decreased, the impulse response decays more sharply, and the rise time of the step response becomes shorter-- i.e., it rises more sharply toward its final value. Note also that the step response of a first-order system does not exhibit any ringing.
+
+Figure 6.20 depicts the Bode plot of the frequency response of eq. (6.22). In this figure we illustrate one of the advantages of using a logarithmic frequency scale: We can, without too much difficulty, obtain a useful approximate Bode plot for a continuous-time first-order system. To see this, let us first examine the plot of the log magnitude of the frequency response. Specifically, from eq. (6.22), we obtain
+
+\[20\log_{10}|H(j\omega)|=-10\log_{10}[(\omega\tau)^{2}+1]. \tag{6.25}\]
+
+From this, we see that for \(\omega\tau\ll 1\), the log magnitude is approximately zero, while for \(\omega\tau\gg 1\), the log magnitude is approximately a _linear_ function of \(\log_{10}(\omega)\). That is,
+
+\[20\log_{10}|H(j\omega)|\simeq 0\qquad\mbox{for}\quad\omega\ll 1/\tau, \tag{6.26}\]Figure 6.19: Continuous-time first-order system: (a) impulse response; (b) step response.
+
+and
+
+\[\begin{array}{lcl}20\log_{10}|H(j\omega)|&\simeq&-20\log_{10}(\omega\tau)\\ &=&-20\log_{10}(\omega)-20\log_{10}(\tau)\quad\mbox{for}\quad\omega\gg 1/\tau. \end{array} \tag{6.27}\]
+
+In other words, for the first-order system, the low- and high-frequency asymptotes of the log magnitude are straight lines. The low-frequency asymptote [given by eq. (6.26)] is just the 0-dB line, while the high-frequency asymptote [specified by eq. (6.27)] corresponds to a decrease of 20 dB in \(|H(j\omega)|\) for every decade (i.e., factor of 10) in \(\omega\). This is sometimes referred to as a "20-dB-per-decade" asymptote.
+
+Note that the two asymptotic approximations given in eqs. (6.26) and (6.27) are equal at the point \(\log_{10}(\omega)\,=\,-\log_{10}(\tau)\), or equivalently, \(\omega\,=\,1/\tau\). Interpreted graphically, this means that the two straight-line asymptotes meet at \(\omega\,=\,1/\tau\), which suggests a straight-line approximation to the magnitude plot. That is, our approximation to \(20\log_{10}|H(j\omega)|\) equals 0 for \(\omega\,\leq\,1/\tau\) and is given by eq. (6.27) for \(\omega\,\geq\,1/\tau\). This approximation is also sketched (as a dashed line) in Figure 6.20. The point at which the slope of the approximation changes is precisely \(\omega\,=\,1/\tau\), which, for this reason, is often referred to as the _break frequency_. Also, note that at \(\omega\,=\,1/\tau\) the two terms \([(\omega\tau)^{2}\) and 1] in the argument of the logarithm in eq. (6.25) are equal. Thus, at this point, the actual value of the magnitude is
+
+\[20\log_{10}\left|H\left(j\frac{1}{\tau}\right)\right|\,=\,-10\log_{10}(2)\, \simeq\,-3\mbox{ dB}. \tag{6.28}\]
+
+Because of this, the point \(\omega\,=\,1/\tau\) is sometimes called the 3-dB point. From the figure, we see that only near the break frequency is there any significant error in the straight-line approximate Bode plot. Thus, if we wish to obtain a more accurate sketch of the Bode plot, we need only modify the approximation near the break frequency.
+
+It is also possible to obtain a useful straight-line approximation to \(\,\raisebox{-1.72pt}{\mbox{\Large$\times$}}\hskip-1.72ptH(j\omega)\):
+
+\[\begin{array}{lcl}\raisebox{-1.72pt}{\mbox{\Large$\times$}}\hskip-1.72ptH(j \omega)&=&-\tan^{-1}(\omega\tau)\\ &=&\left\{\begin{array}{ll}0,&\omega\,\leq\,0.1/\tau\\ -(\pi/4)[\log_{10}(\omega\tau)\,+\,1],&0.1/\tau\,\leq\,\omega\,\leq\,10/\tau. \end{array}\right.\end{array} \tag{6.29}\]
+
+Note that this approximation decreases linearly (from 0 to \(-\pi/2\)) as a function of \(\log_{10}(\omega)\) in the range
+
+\[\frac{0.1}{\tau}\,\,\leq\,\omega\,\,\leq\,\frac{10}{\tau},\]
+
+i.e., in the range from one decade below the break frequency to one decade above the break frequency. Also, zero is the correct asymptotic value of \(\,\raisebox{-1.72pt}{\mbox{\Large$\times$}}\hskip-1.72ptH(j\omega)\) for \(\omega\,\ll\,1/\tau\), and \(-\pi/2\) is the correct asymptotic value of \(\,\raisebox{-1.72pt}{\mbox{\Large$\times$}}\hskip-1.72ptH(j\omega)\) for \(\omega\,\gg\,1/\tau\). Furthermore, the approximation agrees with the actual value of \(\,\raisebox{-1.72pt}{\mbox{\Large$\times$}}\hskip-1.72ptH(j\omega)\) at the break frequency \(\omega\,=\,1/\tau\), at which point
+
+\[\raisebox{-1.72pt}{\mbox{\Large$\times$}}\hskip-1.72ptH\left(j\frac{1}{\tau} \right)=\,-\frac{\pi}{4}. \tag{6.30}\]
+
+This asymptotic approximation is also plotted in Figure 6.20, and from it we can see how, if desired, we can modify the straight-line approximation to obtain a more accurate sketch of \(\,\raisebox{-1.72pt}{\mbox{\Large$\times$}}\hskip-1.72ptH(j\omega)\).
+
+From this first-order system, we can again see the inverse relationship between time and frequency. As we make \(\tau\) smaller, we speed up the time response of the system [i.e., \(h(t)\) becomes more compressed toward the origin, and the rise time of the step response is reduced] and we simultaneously make the break frequency large [i.e., \(H(j\omega)\) becomes broader, since \(|H(j\omega)|\simeq 1\) for a larger range of frequencies]. This can also be seen by multiplying the impulse response by \(\tau\) and observing the relationship between \(\tau h(t)\) and \(H(j\omega)\):
+
+\[\tau h(t)\,=\,e^{-t/\tau}u(t),\quad H(j\omega)\,=\,\frac{1}{j\omega\tau+1}.\]
+
+Thus, \(\tau h(t)\) is a function of \(t/\tau\) and \(H(j\omega)\) is a function of \(\omega\tau\), and from this we see that changing \(\tau\) is essentially equivalent to a scaling in time and frequency.
+
+#### Second-Order Continuous-Time Systems
+
+The linear constant-coefficient differential equation for a second-order system is
+
+\[\frac{d^{2}y(t)}{dt^{2}}+2\xi\omega_{n}\frac{dy(t)}{dt}\,+\,\omega_{n}^{2}y(t )\,=\,\omega_{n}^{2}x(t). \tag{6.31}\]
+
+Equations of this type arise in many physical systems, including \(RLC\) circuits and mechanical systems, such as the one illustrated in Figure 6.21, composed of a spring, a mass, and a viscous damper or dashpot. In the figure, the input is the applied force \(x(t)\) and the output is the displacement of the mass \(y(t)\) from some equilibrium position at which the spring exerts no restoring force. The equation of motion for this system is
+
+\[m\frac{d^{2}y(t)}{dt^{2}}\,=\,x(t)\,-\,ky(t)-b\frac{dy(t)}{dt},\]
+
+or
+
+\[\frac{d^{2}y(t)}{dt^{2}}+\left(\frac{b}{m}\right)\frac{dy(t)}{dt}+\left(\frac{ k}{m}\right)y(t)\,=\,\frac{1}{m}\,x(t).\]
+
+Comparing this to eq. (6.31), we see that if we identify
+
+\[\omega_{n}\,=\,\sqrt{\frac{k}{m}} \tag{6.32}\]
+
+and
+
+\[\zeta\,=\,\frac{b}{2\sqrt{km}},\]
+
+Figure 6.21: Second-order system consisting of a spring and dashpot attached to a moveable mass and a fixed support.
+
+then [except for a scale factor of \(k\) on \(x(t)\)] the equation of motion for the system of Figure 6.21 reduces to eq. (6.31).
+
+The frequency response for the second-order system of eq. (6.31) is
+
+\[H(j\omega)\,=\,\frac{\omega_{n}^{2}}{(j\omega)^{2}+2\zeta\omega_{n}(j\omega)+ \omega_{n}^{2}}. \tag{6.33}\]
+
+The denominator of \(H(j\omega)\) can be factored to yield
+
+\[H(j\omega)\,=\,\frac{\omega_{n}^{2}}{(j\omega-c_{1})(j\omega-c_{2})},\]
+
+where
+
+\[\begin{array}{rcl}c_{1}&=&-\zeta\omega_{n}+\omega_{n}\sqrt{\xi^{\,2}-1},\\ c_{2}&=&-\zeta\omega_{n}-\omega_{n}\sqrt{\xi^{2}-1}.\end{array} \tag{6.34}\]
+
+For \(\zeta\neq 1\), \(c_{1}\) and \(c_{2}\) are unequal, and we can perform a partial-fraction expansion of the form
+
+\[H(j\omega)\,=\,\frac{M}{j\omega\,-\,c_{1}}\,-\,\frac{M}{j\omega\,-\,c_{2}}, \tag{6.35}\]
+
+where
+
+\[M\,=\,\frac{\omega_{n}}{2\sqrt{\xi^{\,2}-1}}. \tag{6.36}\]
+
+From eq. (6.35), the corresponding impulse response for the system is
+
+\[h(t)\,=\,M[e^{c_{1}t}\,-\,e^{c_{2}t}]u(t). \tag{6.37}\]
+
+If \(\zeta=1\), then \(c_{1}\,=\,c_{2}\,=\,-\omega_{n}\), and
+
+\[H(j\omega)\,=\,\frac{\omega_{n}^{2}}{(j\omega\,+\omega_{n})^{2}}. \tag{6.38}\]
+
+From Table 4.2, we find that in this case the impulse response is
+
+\[h(t)\,=\,\omega_{n}^{2}te^{-\omega_{n}t}u(t). \tag{6.39}\]
+
+Note from eqs. (6.37) and (6.39), that \(h(t)/\omega_{n}\) is a function of \(\omega_{n}t\). Furthermore, eq. (6.33) can be rewritten as
+
+\[H(j\omega)\,=\,\frac{1}{\left(j\omega/\omega_{n}\right)^{2}+2\zeta\left(j \omega/\omega_{n}\right)+1},\]
+
+from which we see that the frequency response is a function of \(\omega/\omega_{n}\). Thus, changing \(\omega_{n}\) is essentially identical to a time and frequency scaling.
+
+The parameter \(\zeta\) is referred to as the _damping ratio_ and the parameter \(\omega_{n}\) as the _undamped natural frequency_. The motivation for this terminology becomes clear when we take a more detailed look at the impulse response and the step response of a second-order system. First, from eq. (6.35), we see that for \(0<\zeta<1\), \(c_{1}\) and \(c_{2}\) are complex, and we can rewrite the impulse response in eq. (6.37) in the form
+
+\[h(t) = \frac{\omega_{n}e^{-\zeta\omega_{n}t}}{2j\sqrt{1-\zeta^{2}}}\{ \exp[j(\omega_{n}\sqrt{1-\zeta^{2}})t]-\exp[-j(\omega_{n}\sqrt{1-\zeta^{2}})t ]\}u(t)\] \[= \frac{\omega_{n}e^{-\zeta\omega_{n}t}}{\sqrt{1-\zeta^{2}}}[\sin( \omega_{n}\sqrt{1-\zeta^{2}})t]u(t).\]
+
+Thus, for \(0<\zeta<1\), the second-order system has an impulse response that has damped oscillatory behavior, and in this case the system is referred to as being _under-damped_. If \(\zeta>1\), both \(c_{1}\) and \(c_{2}\) are real and negative, and the impulse response is the difference between two decaying exponentials. In this case, the system is _overdamped_. The case of \(\zeta=1\), when \(c_{1}=c_{2}\), is called the _critically damped_ case. The impulse responses (multiplied by 1/\(\omega_{n}\)) for second-order systems with different values of \(\zeta\) are plotted in Figure 6.22(a).
+
+Figure 6.22: Response of continuous-time second-order systems with different values of the damping ratio \(\zeta\): (a) impulse response; (b) step response.
+
+The step response of a second-order system can be calculated from eq. (6.37) for \(\zeta\neq 1\). This yields the expression
+
+\[s(t)\,=\,h(t)*u(t)\,=\,\left\{\,1\,+\,M\left[\frac{e^{c_{1}t}}{c_{1}}-\frac{e^{c_{ 2}t}}{c_{2}}\right]\right\}\,u(t). \tag{6.41}\]
+
+For \(\zeta\,=\,1\), we can use eq. (6.39) to obtain
+
+\[s(t)\,=\,[1\,-\,e^{-\omega_{n}t}-\omega_{n}te^{-\omega_{n}t}]u(t). \tag{6.42}\]
+
+The step response of a second-order system is plotted in Figure 6.22(b) for several values of \(\zeta\). From this figure, we see that in the underdamped case, the step response exhibits both _overshoot_ (i.e., the step response exceeds its final value) and _ringing_ (i.e., oscillatory behavior). For \(\zeta\,=\,1\), the step response has the fastest response (i.e., the shortest rise time) that is possible without overshoot and thus has the shortest settling time. As \(\zeta\) increases beyond 1, the response becomes slower. This can be seen from eqs. (6.34) and (6.41). As \(\zeta\) increases, \(c_{1}\) becomes smaller in magnitude, while \(c_{2}\) increases in magnitude. Therefore, although the time constant (\(1/|c_{2}|\)) associated with \(e^{c_{2}t}\) decreases, the time constant (\(1/|c_{1}|\)) associated with \(e^{c_{1}t}\) increases. Consequently the term involving \(e^{c_{1}t}\) in eq. (6.41) takes a longer time to decay to zero, and thus it is the time constant associated with this term that determines the settling time of the step response. As a result the step response takes longer to settle for large values of \(\zeta\). In terms of our spring-dashpot example, as we increase the magnitude of the damping coefficient \(b\) beyond the critical value at which \(\zeta\) in eq. (6.33) equals 1, the motion of the mass becomes increasingly sluggish.
+
+Finally, note that, as we have said, the value of \(\omega_{n}\) essentially controls the time scale of the responses \(h(t)\) and \(s(t)\). For example, in the underdamped case, the larger \(\omega_{n}\) is, the more compressed is the impulse response as a function of \(t\), and the higher is the frequency of the oscillations or ringing in both \(h(t)\) and \(s(t)\). In fact, from eq. (6.40), we see that the frequency of the oscillations in \(h(t)\) and \(s(t)\) is \(\omega_{n}\sqrt{1-\zeta^{2}}\), which does increase with increasing \(\omega_{n}\). Note, however, that this frequency depends explicitly on the damping ratio and does not equal (and is in fact smaller than) \(\omega_{n}\), except in the _undamped_ case, \(\zeta\,=\,0\). (It is for this reason that the parameter \(\omega_{n}\) is traditionally referred to as the undamped natural frequency.) For the spring-dashpot example, we therefore conclude that the rate of oscillation of the mass equals \(\omega_{n}\) when no dashpot is present, and the oscillation frequency decreases when we include the dashpot.
+
+In Figure 6.23, we have depicted the Bode plot of the frequency response given in eq. (6.33) for several values of \(\zeta\). As in the first-order case, the logarithmic frequency scale leads to linear high- and low-frequency asymptotes for the log magnitude. Specifically, from eq. (6.33),
+
+\[20\log_{10}|H(j\omega)|\,=\,-10\log_{10}\left\{\left[1-\left(\frac{\omega}{ \omega_{n}}\right)^{2}\right]^{2}+4\zeta^{2}\left(\frac{\omega}{\omega_{n}} \right)^{2}\right\}. \tag{6.43}\]
+
+From this expression, it follows that
+
+\[20\log_{10}|H(j\omega)|\simeq\left\{\begin{array}{ll}0,&\mbox{for $\omega\ll \omega_{n}$}\\ -40\log_{10}\omega\,+\,40\log_{10}\omega_{n},&\mbox{for $\omega\gg\omega_{n}$} \end{array}\right. \tag{6.44}\]Therefore, the low-frequency asymptote of the log magnitude is the 0-dB line, while the high-frequency asymptote [given by eq. (6.44)] has a slope of \(-40\) dB per decade; i.e., \(|H(j\omega)|\) decreases by 40 dB for every increase in \(\omega\) of a factor of 10. Also, note that the two straight-line asymptotes meet at the point \(\omega=\omega_{n}\). Thus, we obtain a straight-line approximation to the log magnitude by using the approximation given in eq. (6.44) for \(\omega\leq\omega_{n}\). For this reason, \(\omega_{n}\) is referred to as the break frequency of the second-order system. This approximation is also plotted (as a dashed line) in Figure 6.23.
+
+We can, in addition, obtain a straight-line approximation to \(\mathcal{K}H(j\omega)\), whose exact expression can be obtained from eq. (6.33):
+
+\[\mathcal{K}H(j\omega)\,=\,-\tan^{-1}\bigg{(}\frac{2\zeta(\omega/\omega_{n})}{ 1-(\omega/\omega_{n})^{2}}\bigg{)}. \tag{6.45}\]
+
+Figure 6.23: Bode plots for second-order systems with several different values of damping ratio \(\zeta\).
+
+The approximation is
+
+\[\mathscr{K}H(j\omega)\simeq\left\{\begin{array}{ll}0,&\omega\,\,\leq\,0.1 \omega_{n}\\ -\frac{\pi}{2}\left[\log_{10}\left(\frac{\omega}{\omega_{n}}\right)+\,1\right],&0. 1\omega_{n}\,\,\leq\,\omega\,\,\leq\,10\omega_{n},\\ -\pi,&\omega\,\,\geq\,10\omega_{n}\end{array}\right. \tag{6.46}\]
+
+which is also plotted in Figure 6.23. Note that the approximation and the actual value again are equal at the break frequency \(\omega\,\,=\,\omega_{n}\), where
+
+\[\mathscr{K}H(j\omega_{n})\,\,=\,-\frac{\pi}{2}.\]
+
+It is important to observe that the asymptotic approximations, eqs. (6.44) and (6.46), we have obtained for a second-order system do not depend on \(\zeta\), while the actual plots of \(|H(j\omega)|\) and \(\mathscr{K}H(j\omega)\) certainly do, and thus, to obtain an accurate sketch, especially near the break frequency \(\omega\,\,=\,\omega_{n}\), we must take this into account by modifying the approximations to conform more closely to the actual plots. The discrepancy is most pronounced for small values of \(\zeta\). In particular, note that in this case the actual log magnitude has a peak around \(\omega\,\,=\,\omega_{n}\). In fact, straightforward calculations using eq. (6.43) show that, for \(\zeta\,\,<\,\sqrt{2}/2\,\,\simeq\,0.707\), \(|H(j\omega)|\) has a maximum value at
+
+\[\omega_{\max}\,\,=\,\omega_{n}\sqrt{1-2\xi^{2}}, \tag{6.47}\]
+
+and the value at this maximum point is
+
+\[|H(j\omega_{\max})|\,\,=\,\frac{1}{2\zeta\sqrt{1-\zeta^{2}}}. \tag{6.48}\]
+
+For \(\zeta>0.707\), however, \(H(j\omega)\) decreases monotonically as \(\omega\) increases from zero. The fact that \(H(j\omega)\) can have a peak is extremely important in the design of frequency-selective filters and amplifiers. In some applications, one may want to design such a circuit so that it has a sharp peak in the magnitude of its frequency response at some specified frequency, thereby providing large frequency-selective amplification for sinusoids at frequencies within a narrow band. The _quality_\(Q\) of such a circuit is defined to be a measure of the sharpness of the peak. For a second-order circuit described by an equation of the form of eq. (6.31), the quality is usually taken to be
+
+\[Q\,\,=\,\frac{1}{2\zeta},\]
+
+and from Figure 6.23 and eq. (6.48), we see that this definition has the proper behavior: The less damping there is in the system, the sharper is the peak in \(|H(j\omega)|\).
+
+#### 6.5.3 Bode Plots for Rational Frequency Responses
+
+At the start of this section, we indicated that first- and second-order systems can be used as basic building blocks for more complex LTI systems with rational frequency responses. One consequence of this is that the Bode plots presented here essentially provide us with all of the information we need to construct Bode plots for arbitrary rational frequency responses. Specifically, we have described the Bode plots for the frequency responses given by eqs. (6.22) and (6.33). In addition, we can readily obtain the Bode plots for frequency responses of the forms
+
+\[H(j\omega)\,=\,1\,+\,j\omega\tau \tag{6.49}\]
+
+and
+
+\[H(j\omega)\,=\,1\,+\,2\xi\left(\frac{j\omega}{\omega_{n}}\right)+\left(\frac{ j\omega}{\omega_{n}}\right)^{\!\!2}. \tag{6.50}\]
+
+The Bode plots for eqs. (6.49) and (6.50) follow directly from Figures 6.20 and 6.23 and from the fact that
+
+\[20\,\log_{10}|H(j\omega)|\,=\,-\,20\,\log_{10}\,\,\left|\frac{1}{H(j\omega)}\right|\]
+
+and
+
+\[\mathfrak{K}(H(j\omega))\,=\,-\,\mathfrak{K}\left(\frac{1}{H(j\omega)}\right).\]
+
+Also, consider a system function that is a constant gain
+
+\[H(j\omega)\,=\,K.\]
+
+Since \(K\,=\,|K|e^{j\cdot 0}\) if \(K>0\) and \(K\,=\,|K|e^{j\,\pi}\) if \(K<0\), we see that
+
+\[20\log_{10}|H(j\omega)|\,=\,20\log_{10}|K|\] \[\mathfrak{K}H(j\omega)\,=\,\left\{\begin{array}{ll}0,&\mbox{if $K>0$} \\ \pi,&\mbox{if $K<0$}\end{array}\right.\]
+
+Since a rational frequency response can be factored into the product of a constant gain and first- and second-order terms, its Bode plot can be obtained by summing the plots for each of the terms. We illustrate further the construction of Bode plots in the next two examples.
+
+**Example 6.4**: Let us obtain the Bode plot for the frequency response
+
+\[H(j\omega)\,=\,\frac{2\times 10^{4}}{(j\omega)^{2}\,+\,100\,j\omega\,+\,10^{4}}.\]
+
+First, we note that
+
+\[H(j\omega)\,=\,2\hat{H}(j\omega),\]
+
+where \(\hat{H}(j\omega)\) has the same form as the standard second-order frequency response specified by eq. (6.33). It follows that
+
+\[20\log_{10}|H(j\omega)|\,=\,20\log_{10}2\,+\,20\log|\hat{H}(j\omega)|.\]By comparing \(\hat{H}(j\omega)\) with the frequency response in eq. (6.33), we conclude that \(\omega_{n}=100\) and \(\zeta=1/2\) for \(\hat{H}(j\omega)\). Using eq. (6.44), we may now specify the asymptotes for \(20\log_{10}|\hat{H}(j\omega)|\):
+
+\[20\log_{10}|\hat{H}(j\omega)|\simeq 0\quad\text{for}\ \omega\ll 100,\]
+
+and
+
+\[20\log_{10}|\hat{H}(j\omega)|=-40\log_{10}\omega+80\quad\text{for}\ \omega\gg 100.\]
+
+It follows that \(20\log_{10}|H(j\omega)|\) will have the same asymptotes, except for a constant offset at all frequencies due to the addition of the \(20\log_{10}2\) term (which approximately equals 6 dB). The dashed lines in Figure 6.24 represent these asymptotes.
+
+Figure 6.24: Bode plot for system function in Example 6.4: (a) magnitude; (b) phase.
+
+In our discussion of first-order systems in this section, we restricted our attention to values of \(\tau>0\). In fact, it is not difficult to check that if \(\tau<0\), then the causal first-order system described by eq. (6.21) has an impulse response that is not absolutely integrable, and consequently, the system is unstable. Similarly, in analyzing the second-order causal system in eq. (6.31), we required that both \(\zeta\) and \(\omega_{n}^{2}\) be positive numbers. If either of these is not positive, the resulting impulse response is not absolutely integrable. Thus, in this section we have restricted attention to those causal first- and second-order systems that are stable and for which we can define frequency responses.
+
+Figure 6.25: Bode plot for system function in Example 6.5: (a) magnitude; (b) phase.
+
+and
+
+\[\spherical H(e^{j\omega})\,=\,-\tan^{-1}\left[\frac{a\sin\omega}{1-a\cos\omega}\right]. \tag{6.56}\]
+
+In Figure 6.28(a), we have plotted the log magnitude and the phase of the frequency response in eq. (6.52) for several values of \(a>0\). The case of \(a<0\) is illustrated in Figure 28(b). From these figures, we see that for \(a>0\), the system attenuates high frequencies [i.e., \(|H(e^{j\omega})|\) is smaller for \(\omega\) near \(\pm\pi\) than it is for \(\omega\) near \(0\)], while when \(a<0\), the system amplifies high frequencies and attenuates low frequencies. Note also that for \(|a|\) small, the maximum and minimum values, \(1/(1+a)\) and \(1/(1-a)\), of \(|H(e^{j\omega})|\) are close together in value, and the graph of \(|H(e^{j\omega})|\) is relatively flat. On the other hand, for \(|a|\) near \(1\), these quantities differ significantly, and consequently \(|H(e^{j\omega})|\) is more sharply peaked, providing filtering and amplification that is more selective over a narrow band of frequencies.
+
+Figure 28: Magnitude and phase of the frequency response of eq. (52) for a first-order system: (a) plots for several values of \(a>0\); (b) plots for several values of \(a<0\).
+
+#### Second-Order Discrete-Time Systems
+
+Consider next the second-order causal LTI system described by
+
+\[y[n]-2r\cos\theta y[n-1]+r^{2}y[n-2]\,=\,x[n], \tag{6.57}\]
+
+with \(0<r<1\) and \(0\,\leq\,\theta\,\leq\,\pi\). The frequency response for this system is
+
+\[H(e^{j\omega})\,=\,\frac{1}{1-2r\cos\theta e^{-j\omega}+r^{2}e^{-j2\omega}}. \tag{6.58}\]
+
+The denominator of \(H(e^{j\omega})\) can be factored to obtain
+
+\[H(e^{j\omega})\,=\,\frac{1}{[1-(re^{j\theta})e^{-j\omega}][1-(re^{-j\theta})e ^{-j\omega}]}. \tag{6.59}\]
+
+Figure 6.28: Continued
+
+The second-order system given by eq. (6.57) is the counterpart of the _underdamped_ second-order system in continuous time, while the special case of \(\theta=0\) is the critically damped case. That is, for any value of \(\theta\) other than zero, the impulse response has a damped
+
+Figure 29: Impulse response of the second-order system of eq. (6.57) for a range of values of \(r\) and \(\theta\).
+
+Figure 6.30: Step response of the second-order system of eq. (6.57) for a range of values of \(r\) and \(\theta\).
+
+\[y[n]-(d_{1}+d_{2})y[n-1]+d_{1}d_{2}y[n-2]\,=\,x[n]. \tag{6.71}\]
+
+In this case,
+
+\[H(e^{j\omega})\,=\,\frac{A}{1-d_{1}e^{-j\omega}}\,+\,\frac{B}{1-d_{2}e^{-j\omega}}, \tag{6.72}\]
+
+where
+
+\[A\,=\,\frac{d_{1}}{d_{1}-d_{2}},\quad B\,=\,\frac{d_{2}}{d_{2}-d_{1}}. \tag{6.73}\]
+
+Thus,
+
+\[h[n]\,=\,[Ad_{1}^{n}+Bd_{2}^{n}]u[n], \tag{6.74}\]
+
+Figure 6.31: Continued
+
+which is the sum of two decaying real exponentials. Also,
+
+\[s[n]\,=\,\left[A\left(\frac{1-d_{1}^{n+1}}{1-d_{1}}\right)+\,B\left(\frac{1-d_{2} ^{n+1}}{1-d_{2}}\right)\right]u[n]. \tag{6.75}\]
+
+The system with frequency response given by eq. (6.70) corresponds to the cascade of two first-order systems. Therefore, we can deduce most of its properties from our understanding of the first-order case. For example, the log-magnitude and phase plots for eq. (6.70) can be obtained by adding together the plots for each of the two first-order terms. Also, as we saw for first-order systems, the response of the system is fast if \(|d_{1}|\) and \(|d_{2}|\) are small, but the system has a long settling time if either of these magnitudes is near 1. Furthermore, if \(d_{1}\) and \(d_{2}\) are negative, the response is oscillatory. The case when both \(d_{1}\) and \(d_{2}\) are positive is the counterpart of the overdamped case in continuous time, with the impulse and step responses settling without oscillation.
+
+Figure 6.31: Continued
+
+In this section, we have restricted attention to those causal first- and second-order systems that are stable and for which the frequency response can be defined. In particular, the causal system described by eq. (6.51) is unstable for \(\mid a\mid\ \equiv\ 1\). Also, the causal system described by eq. (6.56) is unstable if \(r\ \ \equiv\ 1\), and that described by eq. (6.71) is unstable if either \(\mid d_{1}\mid\ \mbox{or}\mid d_{2}\mid\) exceeds 1.
+
+### Examples of Time- and Frequency-Domain Analysis of Systems
+
+Throughout this chapter, we have illustrated the importance of viewing systems in both the time domain and the frequency domain and the importance of being aware of trade-offs in the behavior between the two domains. In this section, we illustrate some of these issues further. In Section 6.7.1, we discuss these trade-offs for continuous time in the context of an automobile suspension system. In Section 6.7.2, we discuss an important class of discrete-time filters referred to as moving-average or nonrecursive systems.
+
+Figure 6.31: Continued
+
+#### Analysis of an Automobile Suspension System
+
+A number of the points that we have made concerning the characteristics and trade-offs in continuous-time systems can be illustrated in the interpretation of an automobile suspension system as a lowpass filter. Figure 6.32 shows a diagrammatic representation of a simple suspension system comprised of a spring and dashpot (shock absorber). The road surface can be thought of as a superposition of rapid small-amplitude changes in elevation (high frequencies), representing the roughness of the road surface, and gradual changes in elevation (low frequencies) due to the general topography. The automobile suspension system is generally intended to filter out rapid variations in the ride caused by the road surface (i.e., the system acts as a lowpass filter).
+
+The basic purpose of the suspension system is to provide a smooth ride, and there is no sharp, natural division between the frequencies to be passed and those to be rejected. Thus, it is reasonable to accept and, in fact, prefer a lowpass filter that has a gradual
+
+Figure 6.31: Continuedtransition from passband to stopband. Furthermore, the time-domain characteristics of the system are important. If the impulse response or step response of the suspension system exhibits ringing, then a large bump in the road (modeled as an impulse input) or a curb (modeled as a step input) will result in an uncomfortable oscillatory response. In fact, a common test for a suspension system is to introduce an excitation by depressing and then releasing the chassis. If the response exhibits ringing, it is an indication that the shock absorbers need to be replaced.
+
+Cost and ease of implementation also play an important role in the design of automobile suspension systems. Many studies have been carried out to determine the most desirable frequency-response characteristics for suspension systems from the point of view of passenger comfort. In situations where the cost may be warranted, such as for passenger railway cars, intricate and costly suspension systems are used. For the automotive industry, cost is an important factor, and simple, less costly suspension systems are generally used. A typical automotive suspension system consists simply of the chassis connected to the wheels through a spring and a dashpot.
+
+In the diagrammatic representation in Figure 6.32, \(y_{0}\) represents the distance between the chassis and the road surface when the automobile is at rest, \(y(t)+y_{0}\) the position of the chassis above the reference elevation, and \(x(t)\) the elevation of the road above the reference elevation. The differential equation governing the motion of the chassis is then
+
+\[M\frac{d^{2}y(t)}{dt^{2}}+b\frac{d\,y(t)}{dt}+ky(t)\;=\;kx(t)+b\frac{dx(t)}{dt}, \tag{6.76}\]
+
+where \(M\) is the mass of the chassis and \(k\) and \(b\) are the spring and shock absorber constants, respectively. The frequency response of the system is
+
+\[H(j\omega)\,=\,\frac{k+b\,j\omega}{(j\omega)^{2}M+b(j\omega)+k},\]
+
+or
+
+\[H(j\omega)\,=\,\frac{\omega_{n}^{2}+2\xi\omega_{n}(j\omega)}{(j\omega)^{2}+2 \xi\omega_{n}(j\omega)+\omega_{n}^{2}}, \tag{6.77}\]
+
+Figure 6.32: Diagrammatic representation of an automotive suspension system. Here, \(y_{0}\) represents the distance between the chassis and the road surface when the automobile is at rest, \(y(t)+y_{0}\) the position of the chassis above the reference elevation, and \(x(t)\) the elevation of the road above the reference elevation.
+
+where
+
+\[\omega_{n}\,=\,\sqrt{\frac{k}{M}}\quad\text{and}\quad 2\zeta\omega_{n}\,=\, \frac{b}{M}.\]
+
+As in Section 6.5.2, the parameter \(\omega_{n}\) is referred to as the undamped natural frequency and \(\zeta\) as the damping ratio. A Bode plot of the log magnitude of the frequency response in eq. (6.77) can be constructed by using first-order and second-order Bode plots. The Bode plot for eq. (6.77) is sketched in Figure 6.33 for several different values of the damping ratio. Figure 6.34 illustrates the step response for several different values of the damping ratio.
+
+As we saw in Section 6.5.2, the filter cutoff frequency is controlled primarily through \(\omega_{n}\), or equivalently for a chassis with a fixed mass, by an appropriate choice of spring constant \(k\). For a given \(\omega_{n}\), the damping ratio is then adjusted through the damping factor \(b\) associated with the shock asorbers. As the natural frequency \(\omega_{n}\) is decreased, the suspension will tend to filter out slower road variations, thus providing a smoother ride. On the other hand, we see from Figure 6.34 that the rise time of the system increases, and thus the system will feel more sluggish. On the one hand, it would be desirable to keep \(\omega_{n}\) small to improve the lowpass filtering; on the other hand, it would be desirable to have \(\omega_{n}\) large for a rapid time response. These, of course, are conflicting requirements and illustrate the need for a trade-off between time-domain and frequency-domain characteristics. Typically, a suspension system with a low value of \(\omega_{n}\), so that the rise time is long, is characterized as "soft" and one with a high value of \(\omega_{n}\), so that the rise time is short, is characterized as "hard." From Figures 6.33 and 6.34, we observe also that, as the damping ratio decreases, the frequency response of the system cuts off more sharply, but the overshoot and ringing in the step response tend to increase, another trade-off between the time and frequency
+
+Figure 6.33: Bode plot for the magnitude of the frequency response of the automobile suspension system for several values of the damping ratio.
+
+domains. Generally, the shock absorber damping is chosen to have a rapid rise time and yet avoid overshoot and ringing. This choice corresponds to the critically damped case, with \(\zeta\,=\,1.0\), considered in Section 6.5.2.
+
+#### Examples of Discrete-Time Nonrecursive Filters
+
+In Section 3.11, we introduced the two basic classes of LTI filters described by difference equations, namely, recursive or infinite impulse response (IIR) filters and nonrecursive or finite impulse response (FIR) filters. Both of these classes of filters are of considerable importance in practice and have their own advantages and disadvantages. For example, recursive filters implemented as interconnections of the first- and second-order systems described in Section 6.6 provide a flexible class of filters that can be easily and efficiently implemented and whose characteristics can be adjusted by varying the number and the parameters of each of the component first- and second-order subsystems. On the other hand, as shown in Problem 6.64, it is not possible to design a causal, recursive filter with exactly linear phase, a property that we have seen is often desirable since, in that case, the effect of the phase on the output signal is a simple time delay. In contrast, as we show in this section, nonrecursive filters _can_ have exactly linear phase. However, it is generally true that the same filter specifications require a higher order equation and hence more coefficients and delays when implemented with a nonrecursive equation, compared with a recursive difference equation. Consequently, for FIR filters, one of the principal trade-offs between the time and frequency domains is that increasing the flexibility in specifying the frequency domain characteristics of the filter, including, for example, achieving a higher degree of frequency selectivity, requires an FIR filter with an impulse response of longer duration.
+
+One of the most basic nonrecursive filters, introduced in Section 3.11.2, is the moving-average filter. For this class of filters, the output is the average of the values of the input over a finite window:
+
+\[y[n]\,=\,\frac{1}{N\,+\,M\,+\,1}\sum_{k\,=\,-N}^{M}x[n\,-\,k]. \tag{6.78}\]
+
+Figure 6.34: Step response of the automotive suspension system for various values of the damping ratio (\(\zeta\,=\,0.1\), \(0.2\), \(0.3\), \(0.4\), \(0.5\), \(0.6\), \(0.7\), \(0.8\), \(0.9\), \(1.0\), \(1.2\), \(1.5\), \(2.0\), \(5.0\)).
+
+The corresponding impulse response is a rectangular pulse, and the frequency response is
+
+\[H(e^{j\omega})\,=\,\frac{1}{N\,+\,M\,+\,1}\,e^{j\omega\left[(N\,-\,M\,)/2\right]} \,\frac{\sin[\omega(M\,+\,N\,+\,1)/2]}{\sin(\omega/2)}. \tag{6.79}\]
+
+In Figure 6.35, we show the log magnitude for \(M\,+\,N\,+\,1\,=\,33\) and \(M\,+\,N\,+\,1\,=\,65\). The main, center lobe of each of these frequency responses corresponds to the effective passband of the corresponding filter. Note that, as the impulse response increases in length, the width of the main lobe of the magnitude of the frequency response decreases. This provides another example of the trade-off between the time and frequency domains. Specifically, in order to have a narrower passband, the filter in eqs. (6.78) and (6.79) must have a longer impulse response. Since the length of the impulse response of an FIR filter has a direct impact on the complexity of its implementation, this implies a trade-off between frequency selectivity and the complexity of the filter, a topic of central concern in filter design.
+
+Moving-average filters are commonly applied in economic analysis in order to attenuate the short-term fluctuations in a variety of economic indicators in relation to longer term trends. In Figure 6.36, we illustrate the use of a moving-average filter of the form of eq. (6.78) on the weekly Dow Jones stock market index for a 10-year period. The weekly Dow Jones index is shown in Figure 6.36(a). Figure 6.36(b) is a 51-day moving average (i.e., \(N\,=\,M\,=\,25\)) applied to that index, and Figure 6.36(c) is a 201-day moving average (i.e., \(N\,=\,M\,=\,100\)) applied to the index. Both moving averages are considered useful, with the 51-day average tracking cyclical (i.e., periodic) trends that occur during the course of the year and the 201-day average primarily emphasizing trends over a longer time frame.
+
+The more general form of a discrete-time nonrecursive filter is
+
+\[y[n]\,=\,\sum_{k\,=\,-\,N}^{M}b_{k}x[n\,-\,k], \tag{6.80}\]
+
+so that the output of this filter can be thought of as a weighted average of \(N\,+\,M\,+\,1\) neighboring points. The simple moving-average filter in eq. (6.78) then corresponds to setting all of these weights to the same value, namely, \(1/(N\,+\,M\,+\,1)\). However, by choosing these coefficients in other ways, we have considerable flexibility in adjusting the filter's frequency response.
+
+There are, in fact, a variety of techniques available for choosing the coefficients in eq. (6.80) so as to meet certain specifications on the filter, such as sharpening the transition band as much as possible for a filter of a given length (i.e., for N+M+1 fixed). These procedures are discussed in detail in a number of texts,3 and although we do not discuss the procedures here, it is worth emphasizing that they rely heavily on the basic concepts and tools developed in this book. To illustrate how adjustment of the coefficients can influence the response of the filter, let us consider a filter of the form of eq. (6.80), with \(N\ =\ M\ =\ 16\) and the filter coefficients chosen to be
+
+\[b_{\,k}\,=\,\left\{\begin{array}{ll}\frac{\sin(2\pi k/33)}{\pi\,k},&|k|\,\leq \,32\\ 0,&|k|>32\end{array}.\right. \tag{6.81}\]
+
+Figure 6.35: Log-magnitude plots for the moving-average filter of eqs. (6.78) and (6.79) for (a) \(M+N+1=33\) and (b) \(M+N+1=65\).
+
+Figure 6.36: Effect of lowpass filtering on the Dow Jones weekly stock market index over a 10-year period using moving-average filters: (a) weekly index; (b) 51-day moving average applied to (a); (c) 201-day moving average applied to (a). The weekly stock market index and the two moving averages are discrete-time sequences. For clarity in the graphical display, the three sequences are shown here with their individual values connected by straight lines to form a continuous curve.
+
+The impulse response of the filter is
+
+\[h[n]\,=\,\left\{\begin{array}{ll}\frac{\sin(2\pi n/33)}{\pi n},& \left|n\right|\,\leq\,32\\ 0,&\left|n\right|>32\end{array}.\right. \tag{6.82}\]
+
+Comparing this impulse response with eq. (6.20), we see that eq. (6.82) corresponds to truncating, for \(|n|>32\), the impulse response for the ideal lowpass filter with cutoff frequency \(\omega_{c}\,=\,2\pi/33\).
+
+In general, the coefficients \(b_{k}\) can be adjusted so that the cutoff is at a desired frequency. For the example shown in Figure 6.37, the cutoff frequency was chosen to match approximately the cutoff frequency of Figure 6.35 for \(N\,=\,M\,=\,16\). Figure 6.37(a) shows the impulse response of the filter, and Figure 6.37(b) shows the log magnitude of the frequency response in dB. Comparing this frequency response to Figure 6.35, we observe that the passband of the filter has approximately the same width, but that the transition to
+
+Figure 6.37: (a) Impulse response for the nonrecursive filter of eq. (6.82); (b) log magnitude of the frequency response of the filter.
+
+the stopband is sharper. In Figures 6.38(a) and (b), the magnitudes (on a linear amplitude scale) of the two filters are shown for comparison. It should be clear from the comparison of the two examples that, by the intelligent choice of the weighting coefficients, the transition band can be sharpened. An example of a higher order lowpass filter (\(N\,=\,M\,=\,125\)), with the coefficients determined through a numerical algorithm referred to as the Parks-McClellan algorithm,[4] is shown in Figure 6.39. This again illustrates the trade-off between the time and frequency domains: If we increase the length \(N+M+1\) of a filter, then, by a judicious choice of the filter coefficients in eq. (6.80), we can achieve sharper transition band behavior and a greater degree of frequency selectivity.
+
+An important property of the examples we have given is that they all have zero or linear phase characteristics. For example, the phase of the moving-average filter of eq. (6.79) is \(\omega[(N-M)/2]\). Also, since the impulse response in eq. (6.82) is real and even, the impulse response of the filter described by that equation is real and even, and thus has zero phase. From the symmetry properties of the Fourier transform of real signals, we know that _any_ nonrecursive filter with an impulse response that is real and even will have a frequency response \(H(e^{ju})\) that is real and even and, consequently, has zero phase. Such a filter, of course, is noncausal, since its impulse response \(h[n]\) has nonzero values for \(n<0\). However, if a causal filter is required, then a simple change in the impulse response can achieve this, resulting in a system with _linear_ phase. Specifically, since \(h[n]\) is the impulse response of an FIR filter, it is identically zero outside a range of values centered at the origin (i.e., \(h[n]=0\) for all \(|n|>N\)). If we now define the nonrecursive LTI system resulting from a simple \(N\)-step delay of \(h[n]\), i.e.,
+
+\[h_{1}[n]\,=\,h[n-N], \tag{6.83}\]
+
+then \(h_{1}[n]\,=\,0\) for all \(n<0\), so that this LTI system is causal. Furthermore, from the time-shift property for discrete-time Fourier transforms, we see that the frequency response of the system is
+
+\[H_{1}(e^{j\omega})\,=\,H(e^{j\omega})e^{-j\omega N}. \tag{6.84}\]
+
+Since \(H(e^{j\omega})\) has zero phase, \(H_{1}(e^{j\omega})\) does indeed have linear phase.
+
+### Summary
+
+In this chapter, we have built on the foundation of Fourier analysis of signals and systems developed in Chapters 3-5 in order to examine in more detail the characteristics of LTI systems and the effects they have on signals. In particular, we have taken a careful look at the magnitude and phase characteristics of signals and systems, and we have introduced log-magnitude and Bode plots for LTI systems. We have also discussed the impact of phase and phase distortion on signals and systems. This examination led us to understand the special role played by linear phase characteristics, which impart a constant delay at all frequencies and which, in turn, led to the concept of nonconstant group delay and dispersion associated with systems having nonlinear phase characteristics. Using these tools and insights, we took another look at frequency-selective filters and the time-frequency trade-offs involved. We examined the properties of both ideal and non-ideal frequency-selective filters and saw that time-frequency considerations, causality constraints, and implementation issues frequently make non-ideal filters, with transition bands and tolerance limits in the passbands and stopbands, the preferred choice.
+
+Figure 6.39: Lowpass nonrecursive filter with 251 coefficients designed to obtain the sharpest possible cutoff.

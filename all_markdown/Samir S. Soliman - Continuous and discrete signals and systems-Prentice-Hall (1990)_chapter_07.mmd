@@ -1,0 +1,487 @@
+## Chapter Fourier Analysis
+
+of Discrete-Time Systems
+
+### 1 Introduction
+
+In the previous chapter, we considered techniques for the time-domain analysis of discrete-time systems. Recall that, as in the case of continuous-time systems, the primary characterization of a linear time-invariant discrete-time system that we used was in terms of the response of the system to the unit impulse. In this and subsequent chapters, we consider frequency-domain techniques for analyzing discrete-time systems. We start our discussion of these techniques with a consideration of the Fourier analysis of discrete-time signals. As we might suspect, the results that we obtain closely parallel those for continuous-time systems.
+
+To motivate our discussion of frequency-domain techniques, let us consider the response of a linear time-invariant discrete-time system to a complex exponential input of the form
+
+\[x\left(n\right)=z^{n} \tag{1.1.1}\]
+
+where \(z\) is a complex number. If the impulse response of the system is \(h\left(n\right)\), the output of the system is determined by the convolution sum as
+
+\[y\left(n\right) =\sum_{k\,=\,-\infty}^{\infty}h\left(k\right)x\left(n\,-\,k\right)\] \[=\sum_{k\,=\,-\infty}^{\infty}h\left(k\right)z^{n\,-\,k}\] \[=z^{n}\sum_{k\,=\,-\,-\infty}^{\infty}h\left(k\right)z^{-\,k} \tag{1.1.2}\]
+
+For a fixed \(z\), the summation is just a constant, which we denote by \(H\left(z\right)\), that is,\[H\left(z\right)=\sum_{k\,=\,-\,\infty}^{\infty}h\left(k\right)z^{-k} \tag{7.1.3}\]
+
+so that
+
+\[y\left(n\right)=H\left(z\right)x\left(n\right) \tag{7.1.4}\]
+
+As can be seen from Equation (7.1.4), output \(y\left(n\right)\) is just input \(x\left(n\right)\) multiplied by scaling factor \(H\left(z\right)\).
+
+We can extend this result to the case where the input to the system consists of a linear combination of complex exponentials of the form of Equation (7.1.1). Specifically, let
+
+\[x\left(n\right)=\sum_{k\,=\,1}^{N}a_{k}\,z_{k}^{n} \tag{7.1.5}\]
+
+It follows from the superposition property and Equation (7.1.3) that the ouput is given by
+
+\[y\left(n\right) =\sum_{k\,=\,1}^{N}a_{k}\,H\left(z_{k}\right)\,z_{k}^{n}\] \[=\sum_{k\,=\,1}^{N}b_{k}\,z_{k}^{n} \tag{7.1.6}\]
+
+That is, the output is also a linear combination of the complex exponentials in the input. Coefficient \(b_{k}\) associated with function \(z_{k}^{n}\) in the output is just the corresponding coefficient \(a_{k}\) multiplied by scaling factor \(H\left(z_{k}\right)\).
+
+**Example 7.1.1**: We want to find the output of the system with impulse response
+
+\[h\left(n\right)=(\frac{1}{2})^{n}u\left(n\right)\]
+
+when the input is
+
+\[x\left(n\right)=2\,\cos\,\,\frac{2\pi}{3}\,\,n\]
+
+To find the output, we first find \(H\left(z\right)\) as
+
+\[H\left(z\right)=\sum_{n\,=\,0}^{\infty}\,(\frac{1}{2})^{n}z^{-n}=\sum_{n\,=\, 0}^{\infty}\,(\frac{1}{2}\,z^{-1})^{n}=\frac{1}{1-\frac{1}{2}\,\,z^{-1}}\]
+
+where we have used Equation (6.3.7). The input can be expressed as
+
+\[x\left(n\right)=\exp\left[j\frac{2\pi}{3}n\,\right]+\exp\left[-j\frac{2\pi}{ 3}n\,\right]\]
+
+so that we have
+
+\[z_{1}=\exp\left[j\frac{2\pi}{3}\right],\qquad z_{2}=\exp\left[-j\frac{2\pi}{ 3}\right],\qquad a_{1}=a_{2}=1\]and
+
+\[H(z_{1})=\frac{1}{1-\frac{1}{2}\,\exp\left[\,-j(2\pi/3)\right]}=\frac{2}{\sqrt{7}} \,\exp\left[\,-j\phi\right],\]
+
+\[H(z_{2})=\frac{1}{1-\frac{1}{2}\,\exp\left[\,j(2\pi/3)\right]}=\frac{2}{\sqrt{7} }\,\exp\left[\,j\phi\right],\qquad\phi=\tan^{-1}\,\frac{\sqrt{3}}{5}\]
+
+It follows from Equation (7.1.5) that the output is given by
+
+\[y\left(n\right) =\frac{2}{\sqrt{7}}\,\exp\left[\,j\phi\right]\,\exp\left[\,j\frac{ 2\pi}{3}\,\,n\,\right]+\frac{2}{\sqrt{7}}\,\exp\left[\,-j\frac{2\pi}{3}\,\,n\,\right]\] \[=3\,\cos(\frac{2\pi}{3}\,\,n\,+\phi)\]
+
+A special case is where the input is of the form \(\exp\left[\,j\Omega_{k}\right]\), where \(\Omega_{k}\) is a real continuous variable. This corresponds to the case \(\left|\,z_{k}\,\right|=1\). For this input, the output is given by
+
+\[y\left(n\right)=H(e^{j\Omega k})\,\exp\left[\,j\Omega_{k}n\,\right] \tag{7.1.7}\]
+
+where, from Equation (7.1.3),
+
+\[H(e^{j\Omega})=H\left(\Omega\right)=\sum_{n\,=\,-\,-\,\infty}^{\infty}h\left( n\right)\exp\left[\,-j\Omega n\,\right] \tag{7.1.8}\]
+
+### Fourier-Series Representation of Discrete-Time Periodic Signals
+
+Often, as we have seen in our considerations of continuous-time systems, we are interested in the response of linear systems to periodic inputs. We recall that a discrete-time signal \(x\left(n\right)\) is periodic with period \(N\), if
+
+\[x\left(n\right)=x\left(n\,+\,N\right) \tag{7.2.1}\]
+
+for \(N\) some positive integer. It follows from our discussion in the previous section that if \(x\left(n\right)\) can be expressed as the sum of several complex exponentials, the response of the system is easily determined. In analogy with our representation of periodic signals in continuous time, we can expect that we can obtain such a representation in terms of the harmonics corresponding to the fundamental frequency \(2\pi/N\). That is, we seek a representation for \(x\left(n\right)\), of the form
+
+\[x\left(n\right)=\sum_{k}a_{k}\,\exp\left[\,j\Omega_{k}n\,\right]=\sum_{k}a_{k }\,x_{k}\left(n\right) \tag{7.2.2}\]
+
+where \(\Omega_{k}=2\pi k/N\). It is clear that \(x_{k}\left(n\right)\) are periodic since \(\Omega_{k}/2\pi\) is a rational number. We also recall from our discussions in Chapter 6 that there are only \(N\) distinct waveforms in this set corresponding to \(k=0\), \(1\), \(2\,\ldots\,N-1\) since 
+
+where \(\delta(m-k-rN)\) is the unit sample occurring at \(m=k+rN\). Substitution in Equation (7.2.7) then yields
+
+\[\sum_{n\,=\,0}^{N\,-\,1}x\,(n)\,\exp\,[-j\frac{2\pi}{N}kn\,]=\sum_{m\,=\,<N>}Na_{ m}\,\,\delta(m-k\,-rN) \tag{7.2.13}\]
+
+Since the summation on the right is carried out over \(N\) consecutive values of \(m\) for a fixed value of \(k\), it is clear that the only value that \(r\) can take in the range of summation is \(r=0\). Thus, the only nonzero value in the sum corresponds to \(m=k\) and the right-hand side of Equation (7.2.13) evaluates to \(Na_{k}\), so that
+
+\[a_{k}=\frac{1}{N}\sum_{n\,=\,0}^{N\,-\,1}x\,(n)\,\exp\,[\,-j\frac{2\pi}{N}kn\,] \tag{7.2.14}\]
+
+Because each of the terms in the summation in Equation (7.2.14) is periodic with period \(N\), the summation can be taken over any \(N\) successive values of \(n\). We thus have the pair of equations
+
+\[x\,(n)=\sum_{k\,=\,<N>}a_{k}\,\exp\,[\,j\,\,\frac{2\pi}{N}\,\,kn\,] \tag{7.2.15}\]
+
+\[a_{k}=\frac{1}{N}\,\sum_{n\,=\,<N>}x\,(n)\,\exp\,[\,-j\,\,\frac{2\pi}{N}\,\, kn\,] \tag{7.2.16}\]
+
+which together form the discrete-time Fourier-series pair.
+
+Since \(x_{k+N}(n)=x_{k}(n)\), it is clear that
+
+\[a_{k+N}=a_{k} \tag{7.2.17}\]
+
+Since the Fourier series for discrete-time periodic signals is a finite sum defined entirely by the values of the signal over one period, the series always converges. The Fourier series provides an _exact_ alternate representation of the time signal and issues such as convergence or the Gibbs phenomenon do not arise.
+
+Let \(x\,(n)=\exp\,[\,jK\Omega_{0}n\,]\) for some \(K\) with \(\Omega_{0}=2\pi/N\) so that \(x\,(n)\) is periodic with period \(N\). By writing \(x\,(n)\) as
+
+\[x\,(n)=\exp\,[\,j\frac{2\pi}{N}Kn\,]\,\,\,0\leq k\leq n-1\]
+
+it follows from Equation (7.2.15) that in the range \(0\leq i\leq N-1\), only \(a_{K}=1\) with all other \(a_{i}\) being zero. Since \(a_{K+N}=a_{K}\), the spectrum of \(x\,(n)\) is thus a line spectrum consisting of discrete impulses of magnitude \(1\) repeated at intervals \(N\,\Omega_{0}\) as shown in Figure 7.2.1.
+
+Let \(x\,(n)=\sin\,[\,(7\pi/4)n\,]\). Clearly, \(x\,(n)\) is periodic with period \(N=8\). By writing \(x\,(n)\) as
+
+\[x\,(n)= -\,\frac{1}{2j}\,\exp\,[\,-j\frac{2\pi}{8}\,7n\,]+\frac{1}{2j}\,\exp\,[ \,j\frac{2\pi}{8}\,\,7n\,]\]we see that
+
+\[a_{1}=-\frac{1}{2j}\,\ \ \ \ \ \ \ a_{7}=\frac{1}{2j}\,\ \ \ \ \ \ \ \text{all other}\ \ \ a_{i}=0,\ \ \ \ 0\ \leq i\leq 7\]
+
+**Example 7.2.3**: Consider the discrete-time periodic square wave shown in Figure 7.2.2. From Equation (7.2.16), the Fourier coefficients can be evaluated as follows:
+
+\[a_{k}=\frac{1}{N}\sum_{n\ =-M}^{M}\exp\left[\,-j\frac{2\pi}{N}\ kn\,\right]\]
+
+For \(k=0\),
+
+\[a_{0}=\frac{1}{N}\sum_{n\ =-M}^{M}\left(1\right)=\frac{2M\ +1}{N}\]
+
+For \(k\neq 0\), we can use Equation (6.3.7) to get
+
+\[a_{k} =\frac{1}{N}\ \frac{\exp\left[\,j(2\pi/N)kM\,\right]-\exp\left[\,-j(2\pi/ N)k(M+1)\right]}{1-\exp\left[\,-j(2\pi/N)k\,\right]}\] \[=\frac{1}{N}\ \frac{\exp\left[\,-j(2\pi/N)(k/2)\right]\ \{\,[\, \exp\left[\,j(2\pi/N)\ k(M+\frac{1}{2})\right]-\exp\left[\,-j(2\pi/N)\ k(M+ \frac{1}{2})\right]\}}{\exp\left[\,-j(2\pi/N)\ (k/2)\right]\{\exp\left[\,-j(2\pi/N)\ (k/2)\right]-\exp\left[\,-j(2\pi/N)\ (k/2)\right]\}}\] \[=\frac{1}{N}\ \frac{\sin\ [\ \frac{2\pi k}{N}(M+\frac{1}{2})]}{ \sin\ [\ (\frac{2\pi}{N})\ (\frac{k}{2})]}\,\ \ \ \ \ \ \ k=1,\ 2,\ \ldots\ N-\{\]
+
+Figure 7.2.2: Periodic square wave of Example 7.2.3.
+
+Figure 7.2.1: Spectrum of complex exponential for Example 7.2.1.
+
+We can, therefore, write an expression for coefficients \(a_{k}\) in terms of the sample values of the function
+
+\[f\left(\Omega\right)=\frac{\sin\left[\left(2M+1\right)\left(\Omega/2\right) \right]}{\sin\left(\Omega/2\right)}\]
+
+as
+
+\[a_{k}=\frac{1}{N}\cdot f\!\left(\frac{2\pi k}{N}\right)\]
+
+Function \(f\left(\cdot\right)\) is similar to the sampling function \((\sin x)/x\) that we have encountered in the continuous-time case. Whereas the sinc function is not periodic, function \(f(\Omega)\), being the ratio of two sinusoidal signals with commensurate frequencies, is periodic with period \(2\pi\). Figure 7.2.3 shows a plot of the Fourier-series coefficients for \(M=3\), for values of \(N\) corresponding to \(10\), \(20\), and \(30\).
+
+Figure 7.2.4 on page 34 shows the partial sums \(x_{p}(n)\) of the Fourier-series expansion for this example for \(N=11\) and \(M=3\) and for values of \(p=1\), \(2\), \(3\), \(4\), and, \(5\) where
+
+\[x_{p}(n)=\sum_{k\;=\;-p}^{p}a_{k}\;\exp\left[\,j\frac{2\pi}{N}\;kn\,\right]\]
+
+As can be seen from the figure, the partial sum is exactly the original sequence for \(p=5\).
+
+Let \(x\left(n\right)\) be the periodic extension of the sequence
+
+\[\left\{2,\;-1,\;1,\;2\right\}\]
+
+The period is \(N=4\), so that \(\exp\left[\,-j2\pi/N\,\right]=-j\). Coefficients \(a_{k}\) are therefore given by
+
+\[a_{0} =\frac{1}{4}(2-1+1+2)=1\] \[a_{1} =\frac{1}{4}\;(2+j-1-2j)=\frac{1}{4}-j\;\frac{1}{4}\] \[a_{2} =\frac{1}{4}\;(2+1+1-2)=\frac{1}{2}\] \[a_{3} =\frac{1}{4}\;(2-j-1+2j)=\frac{1}{4}+j\;\frac{1}{4}=a_{1}^{*}\]
+
+In general, if \(x\left(n\right)\) is a real periodic sequence
+
+\[a_{k}=a_{N-k}^{*} \tag{7.2.18}\]
+
+Consider the periodic sequence with the following Fourier-series coefficients:
+
+\[a_{k}=\frac{1}{6}\;\sin\;\frac{k\pi}{6}+\;\frac{1}{12}\;\cos\;\frac{k\pi}{2} \;,\;\;\;\;\;0\;\leq k\leq 11\]
+
+Signal \(x\left(n\right)\) can be determined as \[x(n) =\sum_{k\,=\,0}^{11}a_{k}\,\exp\left[j\frac{2\pi}{12}\ nk\right]\] \[=\sum_{k\,=\,0}^{11}\left[\frac{\exp\left[j(k\pi/6)\right]-\exp \left[-j(k\pi/6)\right]}{12j}+\frac{\exp\left[j(k\pi/2)\right]+\exp\left[-j(k \pi/2)\right]}{24}\right]\exp\left[j\frac{2\pi}{12}\ nk\right]\] \[=\sum_{k\,=\,0}^{11}\left[\frac{1}{12j}\left\{\exp\left[j\frac{2 \pi}{12}k(n+1)\right]-\exp\left[j\frac{2\pi}{12}k(n-1)\right]\right\}\right.\]\[+\frac{1}{24}\left\{\exp\left[\,j\frac{2\pi}{12}k\left(n+3\right)\right]+\exp\left[ \,j\frac{2\pi}{12}k\left(n-3\right)\right]\right\}\]
+
+By using Equation (7.2.12), we can write this equation as
+
+\[x\left(n\right)=\frac{1}{j}\ \delta\left(n+1\right)-\frac{1}{j}\ \delta\left(n-1 \right)+\frac{1}{2}\ \delta\left(n+3\right)+\frac{1}{2}\ \delta\left(n-3\right)\]
+
+The values of sequence \(x\left(n\right)\) in one period are therefore given by
+
+\[\left\{0,-\frac{1}{j},\,0,\,\frac{1}{2},\,0,\,0,\,0,\,0,\frac{1}{2},\,0,\, \frac{1}{j}\,\right\}\]
+
+where we have used the fact that \(x\left(N+k\right)=x\left(k\right)\). 
+
+It follows from the definition of Equation (7.2.16) that given two sequences \(x_{1}(n)\) and \(x_{2}(n)\), both of period \(N\), with Fourier-series coefficients \(a_{1k}\) and \(a_{2k}\), the coefficients for sequence \(Ax_{1}(n)+Bx_{2}(n)\) are equal to \(Aa_{1k}+Ba_{2k}\)
+
+Figure 7.2.4: Partial sums of the Fourier series expansion of periodic square wave.
+
+Given a periodic sequence with coefficients \(a_{k}\), we can find coefficients \(b_{k}\) corresponding to the shifted sequence \(x\left(n-m\right)\) as
+
+\[b_{k}=\frac{1}{N}\sum_{n\ =\ <N>}x\left(n-m\right)\exp\left[-j\ \frac{2\pi}{N}\ kn\ \right] \tag{7.2.19}\]
+
+By replacing \(n-m\) by \(n\) and noting that the summation is taken over any \(N\) successive values of \(n\), we can write
+
+\[b_{k}=\left(\frac{1}{N}\sum_{n\ =\ <N>}x\left(n\right)\exp\left[\ -j\frac{2\pi}{N}kn\ \right]\right)\exp\left[\ -j\frac{2\pi}{N}km\ \right]=\exp\left[\ -j\frac{2\pi}{N}km\ \right]\ a_{k} \tag{7.2.20}\]
+
+Let the periodic sequence \(x\left(n\right)\), with Fourier coefficients \(a_{k}\), be the input to a linear system with impulse response \(h\left(n\right)\) where \(h\left(n\right)\) is not periodic. [Note that if \(h\left(n\right)\) is also periodic, the linear convolution of \(x\left(n\right)\) and \(h\left(n\right)\) is not defined.] Since, from Equation (7.1.7), the response \(y_{k}(n)\) to input \(a_{k}\ \exp\left[\ j(2\pi/N)k\ n\right]\) is given by
+
+\[y_{k}(n)=a_{k}H\left(\frac{2\pi}{N}k\right)\exp\left[\ j\frac{2\pi}{N}kn\ \right] \tag{7.2.21}\]
+
+it follows that the response to \(x\left(n\right)\) can be written as
+
+\[y\left(n\right)=\sum_{k\ =\ <N>}y_{k}(n)=\sum_{k\ =\ <N>}a_{k}\ H\left(\frac{2\pi}{N}k \right)\exp\left[\ j\frac{2\pi}{N}kn\ \right] \tag{7.2.22}\]
+
+where \(H\left(\Omega\right)\) is defined in Equation (7.1.8).
+
+If \(x_{1}(n)\) and \(x_{2}(n)\) are both periodic sequences with the same period, and with Fourier coefficients \(a_{1k}\) and \(a_{2k}\), it can be shown that the Fourier-series coefficients of their periodic convolution is (see Problem 7.7b) \(Na_{1k}\ a_{2k}\):
+
+\[x_{1}(n)*x_{2}(n)\leftrightarrow Na_{1k}\ a_{2k}\]
+
+and the Fourier-series coefficients for their product is (see Problem 7.7a) \(a_{1k}*a_{2k}\)
+
+\[x_{1}(n)\ x_{2}(n)\leftrightarrow a_{1k}*a_{2k}\]
+
+These properties are summarized in Table 7.1.
+
+\begin{table}
+\begin{tabular}{l l} \hline \multicolumn{1}{c}{Periodic Signals} & \multicolumn{1}{c}{Fourier-Series Coefficients} \\ \hline \(x_{i}(n)\) periodic with period \(N\) & \(a_{ik}\)=\(\frac{1}{N}\sum_{<N>}x_{i}(n)\exp\left[\ -j\frac{2\pi}{N}nk\ \right]\) \\ \(Ax_{1}(n)+Bx_{2}(n)\) & \(Aa_{1k}+Ba_{2k}\) \\ \(x\left(n-m\right)\) & \(\exp\left[\ -j\frac{2\pi}{N}km\ \right]a_{k}\) \\ \(x\left(n\right)\)*\(h\left(n\right)\); \(h\left(n\right)\) not periodic & \(a_{k}H\left(\frac{2\pi}{N}k\right)\) \\  & \(H\left(\Omega\right)=\sum_{n\ =\ -\infty}^{\infty}h\left(n\right)\exp\left[\ -j\Omega n\right]\) \\ \(x_{1}(n)*x_{2}(n)\) & \(Na_{1k}a_{2k}\) \\ \(x_{1}(n)x_{2}(n)\) & \(a_{1k}*a_{2k}\) \\ \hline \end{tabular}
+\end{table}
+Table 7.1: Properties of Disrete-Time Fourier Series
+
+**Example 7.2.6**: Consider the system with impulse response \(h\left(n\right)=(\frac{1}{3})^{n}u\left(n\right)\). We want to find the Fourier-series representation for output \(y\left(n\right)\) when the input \(x\left(n\right)\) is the periodic extension of the sequence \(\left[2,-1,\,1,\,2\right]\). From Equation (7.2.22), it follows that we can write \(y\left(n\right)\) in a Fourier series as
+
+\[y\left(n\right)=\sum_{<N>}\,b_{k}\,\exp\left[\,j\frac{2\pi}{N}k\,n\,\right]\]
+
+with
+
+\[b_{k}=a_{k}\,H\left(\frac{2\pi}{N}\,k\right)\]
+
+From Example 7.2.4, we have
+
+\[a_{0}=1,\qquad a_{1}=a_{3}^{*}=\frac{1}{4}\,-j\frac{1}{4},\qquad a_{2}=\frac{ 1}{2}\]
+
+Using Equation (7.1.8), we can write
+
+\[H\left(\Omega\right)=\sum_{n\,=\,0}^{\infty}\,(\frac{1}{3})^{n}\,\exp\left[\,- j\Omega n\,\right]=\frac{1}{1-\frac{1}{3}\,\exp\left[\,-j\Omega\right]}\]
+
+so that with \(N=4\), we have
+
+\[H\left(\frac{2\pi}{N}\,\,k\right)=\frac{1}{1-\frac{1}{3}\,\exp\left[\,-j\frac {\pi}{2}k\,\right]}\]
+
+It follows that
+
+\[b_{0}=H\left(0\right)\,a_{0}=\frac{3}{2}\] \[b_{1}=H\left(\frac{\pi}{2}\right)\,a_{1}=\frac{3(1-j\,2)}{20}\] \[b_{2}=H\left(\pi\right)\,a_{2}=\frac{3}{8}\] \[b_{3}=b_{1}^{*}=\frac{3(1+j\,2)}{20}\qquad\qquad.\]
+
+### 7.3 The Discrete-Time Fourier Transform
+
+We now consider the frequency-domain representation of discrete-time signals that are not necessarily periodic. For continuous-time signals, we obtained such a representation by defining the Fourier transform of a signal \(x\left(t\right)\) as
+
+\[X\left(\omega\right)=\mathcal{F}\left\{x\left(t\right)\right\}=\int\limits_{- \infty}^{\infty}\,x\left(t\right)\,\exp\left[\,-j\omega t\,\right]\,dt \tag{7.3.1}\]with respect to the transform (frequency) variable \(\omega\). For discrete-time signals, we consider an analogous definition of the Fourier transform as
+
+\[X\left(\Omega\right)=\mathscr{T}\left\{x\left(n\right)\right\}=\sum_{n\,=\,-\, \infty}^{\infty}x\left(n\right)\,\exp\left[\,-j\Omega n\,\right] \tag{7.3.2}\]
+
+where the transform variable is now equal to \(\Omega\). The transform exists if \(x\left(n\right)\) satisfies a relation of the type
+
+\[\sum_{n\,=\,-\,\infty}^{\infty}\,|x\left(n\right)|\,<\,\infty\qquad\text{or} \qquad\sum_{n\,=\,-\,\infty}^{\infty}\,|x\left(n\right)|^{\,2}\,<\,\infty \tag{7.3.3}\]
+
+These 'conditions are sufficient to guarantee that the sequence has a discrete-time Fourier transform. As in the case of continuous-time signals, there are signals that are neither absolutely summable or have finite energy, but still have discrete-time Fourier transforms.
+
+We reiterate that although \(\omega\) has units of radians/second, \(\Omega\) has units of radians. Since \(\exp\left[\,j\Omega n\,\right]\) is periodic with period \(2\pi\), it follows that \(X\left(\Omega\right)\) is also periodic with the same period, since
+
+\[X\left(\Omega+2\pi\right) =\sum_{n\,=\,-\,\infty}^{\infty}x\left(n\right)\,\exp\left[\,-j \left(\Omega+2\pi\right)n\,\right]\] \[=\sum_{n\,=\,-\,\infty}^{\infty\infty}x\left(n\right)\,\exp \left[\,-j\Omega n\,\right]=X\left(\Omega\right) \tag{7.3.4}\]
+
+As a consequence, while in the continuous-time case, we have to consider values of \(\omega\) over the entire real axis, in the discrete-time case, we have to consider values of \(\Omega\) only over the range \([0,\,2\pi]\).
+
+To find the inverse relation between \(X\left(\Omega\right)\) and \(x\left(n\right)\), we replace the variable \(n\) in Equation (7.3.2) by \(p\) to get
+
+\[X\left(\Omega\right)=\sum_{p\,=\,-\,\infty}^{\infty\,\infty}x\left(p\right)\, \exp\left[\,-j\Omega p\,\right] \tag{7.3.5}\]
+
+Now multiply both sides of Equation (7.3.5) by \(\exp\left[\,j\Omega n\,\right]\) and integrate over the range \([0,\,2\pi]\) to get
+
+\[\int\limits_{\Omega\,=\,0}^{2\pi}X\left(\Omega\right)\,\exp\left[\,j\Omega n \,\right]\,d\Omega=\int\limits_{\Omega\,=\,0}^{2\pi}\sum_{p\,=\,-\,\infty}^{ \infty\,\infty}x\left(p\right)\,\exp\left[\,j\Omega\left(n-p\right)\right]\,d\Omega \tag{7.3.6}\]
+
+Interchanging the orders of summation and integration on the right side of Equation (7.3.6) then gives
+
+\[\int\limits_{0}^{2\pi}X\left(\Omega\right)\,\exp\left[\,j\Omega n\,\right]\,d \Omega=\sum_{p\,=\,-\,\infty}^{\infty\,\infty}x\left(p\right)\int\limits_{0} ^{2\pi}\exp\left[\,j\Omega\left(n-p\right)\right]\,d\Omega \tag{7.3.7}\]
+
+It can be verified (see Problem 7.10) that
+
+\[\int\limits_{0}^{2\pi}\exp\left[\,j\Omega\left(n-p\right)\right]\,d\Omega= \begin{cases}2\pi,&n=p\\ 0,&n\neq p\end{cases} \tag{7.3.8}\]so that the right-hand side of Equation (7.3.7) evaluates to \(2\pi x\left(n\right)\). We can, therefore, write
+
+\[x\left(n\right)=\frac{1}{2\pi}\int\limits_{0}^{2\pi}X\left(\Omega\right)\,\exp \left[\,j\Omega n\,\right]\,d\Omega \tag{7.3.9}\]
+
+Again, since the integrand in Equation (7.3.9) is periodic with period \(2\pi\), the integration can be carried out over any interval of length \(2\pi\). The discrete-time Fourier-transform relations, therefore, can be written as
+
+\[X\left(\Omega\right) =\sum\limits_{n\,=\,-\infty}^{\infty\infty}x\left(n\right)\,\exp \left[\,-j\Omega n\,\right] \tag{7.3.10}\] \[x\left(n\right) =\frac{1}{2\pi}\int\limits_{<2\pi>}X\left(\Omega\right)\exp \left[\,j\Omega n\,\right]\,d\Omega \tag{7.3.11}\]
+
+We consider a few examples.
+
+**Example 7.3.1**: Consider the sequence
+
+\[x\left(n\right)=\alpha^{n}\,u\left(n\right),\qquad\left|\alpha\right|\,<1\]
+
+For this example,
+
+\[X\left(\Omega\right)=\sum\limits_{n\,=\,0}^{\infty}\alpha^{n}\,\exp\left[\,-j \Omega n\,\right]=\frac{1}{1-\alpha\,\exp\left[\,-j\Omega\right]}\]
+
+The magnitude is given by
+
+\[\left|X\left(\Omega\right)\right|\,=\frac{1}{\sqrt{1+\alpha^{2}-2\alpha\,\cos \,\Omega}}\]
+
+and the phase by
+
+\[\mathrm{Arg}\,X\left(\Omega\right)=-\mathrm{tan}^{-1}\,\,\,\frac{\alpha\,\sin \,\Omega}{1-\alpha\,\cos\,\Omega}\]
+
+Figure 7.3.1 shows the magnitude and phase spectra of this signal corresponding to \(\alpha=\frac{1}{2}\). Note that these functions are periodic with period \(2\pi\).
+
+**Example 7.3.2**: Let
+
+\[x\left(n\right)=\alpha^{\left|n\,\right|}\,\,,\qquad\left|\alpha\right|\,<1\]
+
+We obtain its Fourier tranform as
+
+\[X\left(\Omega\right) =\sum\limits_{n\,=\,-\infty}^{\infty\,\infty}\alpha^{\left|n\, \right|}\,\exp\left[\,-j\Omega n\,\right]\] \[=\sum\limits_{n\,=\,-\infty}^{-1}\alpha^{-n}\,\exp\left[\,-j \Omega n\,\right]+\sum\limits_{n\,=\,0}^{\infty\,\infty}\alpha^{n}\,\exp \left[\,-j\Omega n\,\right]\]which can be put in closed form by using Equation (6.3.7) as
+
+\[X(\Omega) =\frac{-1}{1-\alpha^{-1}\exp\left[-j\Omega\right]}+\frac{1}{1- \alpha\,\exp\left[-j\Omega\right]}\] \[=\frac{1-\alpha^{2}}{1-2\alpha\,\cos\,\Omega+\alpha^{2}}\]
+
+In this case, \(X\left(\Omega\right)\) is real, so that the phase is identically zero. The magnitude is plotted in Figure 7.3.2.
+
+Consider the sequence \(x\left(n\right)=\exp\left[\,j\Omega_{0}\,n\,\right]\), with \(\Omega_{0}\) being arbitrary. Thus, \(x\left(n\right)\) is not necessarily a periodic signal. Then
+
+\[X\left(\Omega\right)=\sum\limits_{m\,=\,-\infty}^{\infty}2\pi\,\delta(\Omega- \Omega_{0}-2\pi m) \tag{7.3.12}\]
+
+In the range \(\left[0,\,2\pi\right]\), \(X\left(\Omega\right)\) consists of a \(\delta\) function of strength \(2\pi\), occurring at \(\Omega\,\)= \(\Omega_{0}\). As can be expected, and as indicated by Equation (7.3.12), \(X\left(\Omega\right)\) is a periodic extension, with period \(2\pi\), of this \(\delta\) function (see Figure 7.3.3). To establish Equation (7.3.12), we use the inverse Fourier relation of Equation (7.3.11) as
+
+\[x\left(n\right)=\mathcal{S}^{-1}\left\{x\left(\Omega\right)\right\}=\frac{1}{ 2\pi}\,\int\limits_{-\pi}^{\pi}X\left(\Omega\right)\,\exp\left[\,j\Omega n\, \right]\,d\Omega\]
+
+Figure 7.3.1: Fourier spectra of signal for Example 7.3.1.
+
+\[Y\left(\Omega\right) =\sum_{k\ =\ -\infty}^{\infty}h\left(k\right)\,X\left(\Omega \right)\,\exp\left[\,-j\Omega k\,\right]\] \[=H\left(\Omega\right)\,X\left(\Omega\right)\]
+
+As in the case of continuous-time systems, this property is extremely useful in the analysis of discrete-time linear systems. Function \(H\left(\Omega\right)\) is referred to as the _frequency response_ of the system.
+
+**Example 7.4.2**: A pure delay is described by the input output relation
+
+\[y\left(n\right)=x\left(n\,-\,n_{0}\right)\]
+
+Fourier transformation of both sides, using Equation (7.4.3), yields
+
+\[Y\left(\Omega\right)=\exp\left[\,-j\Omega\,n_{0}\,\right]X\left(\Omega\right)\]
+
+The frequency response of a pure delay is therefore given by
+
+\[H\left(\Omega\right)=\exp\left[\,-j\Omega\,n_{0}\,\right]\]
+
+Since \(H\left(\Omega\right)\) has unity gain for all frequencies and a linear phase, it is distortionless.
+
+**Example 7.4.3**: Let
+
+\[h\left(n\right) =(\frac{1}{2})^{n}u\left(n\right)\] \[x\left(n\right) =(\frac{1}{3})^{n}u\left(n\right)\]
+
+Their Fourier transforms are given by
+
+\[H\left(\Omega\right) =\frac{1}{1\,-\,\frac{1}{2}\,\exp\left[\,-j\Omega\right]}\] \[X\left(\Omega\right) =\frac{1}{1\,-\,\frac{1}{3}\,\exp\left[\,-j\Omega\right]}\]
+
+so that
+
+\[Y\left(\Omega\right)=H\left(\Omega\right)\,X\left(\Omega\right) =\frac{1}{1\,-\,\frac{1}{2}\,\exp\left[\,-j\Omega\right]}\,\, \frac{1}{1\,-\,\frac{1}{3}\,\exp\left[\,-j\Omega\right]}\] \[=\frac{3}{1\,-\,\frac{1}{2}\,\exp\left[\,-j\Omega\right]}-\frac{2 }{1\,-\,\frac{1}{3}\,\exp\left[\,-j\Omega\right]}\]
+
+The inverse transform can be obtained by using our results in Example 7.3.1 as
+
+\[y\left(n\right)=3(\frac{1}{2})^{n}\,\,u(n)-2(\frac{1}{3})^{n}\,u\left(n\right)\]
+
+**Example 7.4.4**: We consider a modification of the problem in Example 7.3.2. Thus, let
+
+\[h\left(n\right)=\alpha^{\left\lfloor n\right.-\left.n_{0}\right\rfloor}\text{, \qquad}-\infty<n<\infty\]
+
+represent the impulse response of a discrete-time system. It is clear that this is a non-causal IIR system. By following the same procedure as in Example 7.3.2, it can easily be verified that the frequency response is given by
+
+\[H\left(\Omega\right)=\frac{1-\alpha^{2}}{1-2\alpha\text{ cos }\Omega+\alpha^{2}} \text{ \ \ }\exp\left[\left.-j\Omega\right.n_{0}\right]\text{.}\]
+
+The magnitude function \(\left\lvert H\left(\Omega\right)\right\rvert\) is the same as \(X\left(\Omega\right)\) in Example 7.3.2 and is plotted in Figure 7.3.2. The phase is given by
+
+\[\text{Arg }H\left(\Omega\right)=-n_{0}\text{ }\Omega\]
+
+Thus \(H\left(\Omega\right)\) represents a linear-phase system, with the associated delay being equal to \(n_{0}\). In general, for a system to have a linear phase, it can be shown that \(h\left(n\right)\) must satisfy
+
+\[h\left(n\right)=h\left(2n_{0}-n\right)\text{, \quad}\rightharpoonup \infty<n<\infty\]
+
+If the system is an IIR system, it follows that this condition implies that the system is noncausal. Since a continuous-time system is always IIR, we cannot have linear phase in a continuous-time causal system. For a FIR discrete-time system, for which the impulse response is an \(N\)-point sequence, we can find a causal \(h\left(n\right)\) to satisfy the linear-phase condition by letting delay \(n_{0}\) be equal to \(\left(N-1\right)/2\). It can easily be verified that \(h\left(n\right)\) then satisfies
+
+\[h\left(n\right)=h\left(N-1-n\right)\text{, \quad 0 \leq}n\leq N-1\]
+
+**Example 7.4.5**: Let
+
+\[H\left(\Omega\right)=\begin{cases}1\text{, \quad 0 \leq}\left\lvert\Omega\right\rvert\leq\Omega_{c}\\ 0\text{, \quad }\Omega_{c}\leq\left\lvert\Omega\right\rvert<\pi\end{cases}\]
+
+That is, \(H\left(\Omega\right)\) represents the transfer function of an ideal low-pass discrete-time filter with a cutoff of \(\Omega_{c}\) radians. We can find the impulse response of this filter by using Equation (7.3.11) as
+
+\[h\left(n\right) =\frac{1}{2\pi}\int\limits_{-\Omega_{c}}^{\Omega_{c}}\exp\left[ \left.j\Omega n\right.\right]d\Omega\] \[=\frac{\sin\Omega_{c}n}{\pi n}\]
+
+#### Modulation
+
+Let \(y\left(n\right)\) be the product of the two sequences \(x_{1}(n)\) and \(x_{2}(n)\) with transforms \(X_{1}(\Omega)\) and \(X_{2}(\Omega)\), respectively. Then
+
+\[Y\left(\Omega\right)=\sum_{n\,=\,-\infty}^{\infty}x_{1}(n)\ x_{2}(n)\ \exp\left[\,-j\Omega n\,\right]\]
+
+If we use the inverse Fourier-transform relation to write \(x_{1}(n)\) in terms of its Fourier transform, we have
+
+\[\cdot\qquad Y(\Omega)=\sum_{n\,=\,-\infty}^{\infty}\left[\frac{1}{2\pi}\ \int\limits_{<2\pi>}X_{1}(\theta)\ \exp\left[\,j\theta n\,\right]\,d\theta\right]\ x_{2}(n)\ \exp\left[\,-j\Omega n\,\right]\]
+
+Interchanging the orders of summation and integration yields
+
+\[Y\left(\Omega\right)=\frac{1}{2\pi}\ \int\limits_{<2\pi>}X_{1}(\theta)\ \{\sum_{n\,=\,-\infty}^{\infty}x_{2}(n)\ \exp\left[\,-j(\Omega-\theta)n\,\right]\}\ d\theta\]
+
+so that
+
+\[Y\left(\Omega\right)=\frac{1}{2\pi}\ \int\limits_{<2\pi>}X_{1}(\theta)\ X_{2}( \Omega-\theta)\ d\theta \tag{7.4.8}\]
+
+We conclude this section with a discussion of periodic sequences.
+
+#### Fourier Transform of Discrete-Time Periodic Sequences
+
+Let \(x\left(n\right)\) be a periodic sequence with period \(N\), so that we can express \(x\left(n\right)\) in a Fourier-series expansion as
+
+\[x\left(n\right)=\sum_{k\,=\,0}^{N-1}a_{k}\ \exp\left[\,jk\Omega_{0}n\,\right] \tag{7.4.9}\]
+
+where
+
+\[\Omega_{0}=\frac{2\pi}{N} \tag{7.4.10}\]
+
+Then
+
+\[X\left(\Omega\right) =\mathcal{F}[x\left(n\right)]=\mathcal{F}[\sum_{k\,=\,0}^{N-1}a_ {k}\ \exp\left[\,jk\Omega_{0}\,n\,\right]]\] \[=\sum_{k\,=\,0}^{N-1}a_{k}\mathcal{F}[\exp\left[\,jk\Omega_{0}\, n\,\right]]\]
+
+Now, from Example 7.3.3, we have
+
+\[\mathcal{F}[\ \exp\left[\,jk\Omega_{0}\,n\,\right]]=\sum_{m\,=\,-\infty}^{ \infty}2\pi\ \delta(\Omega-k\Omega_{0}-N\Omega_{0}\,m)\]
+
+so that
+
+We can write analog signal \(x_{a}(t)\) in terms of its Fourier transform \(X_{a}(\omega)\) as
+
+\[x_{a}(t)=\frac{1}{2\pi}\int\limits_{-\pi}^{\infty}X_{a}(\omega)\,\exp\,[\,j\omega n \,]\ d\omega \tag{7.5.2}\]
+
+Sample values \(x\left(n\right)\) can be determined by setting \(t=nT\) in Equation (7.5.2) as
+
+\[x\left(n\right)=x_{a}(nT)=\frac{1}{2\pi}\int\limits_{-\infty}^{\infty}X_{a}( \omega)\,\exp\,[\,j\omega nT\,]\ d\omega \tag{7.5.3}\]
+
+However, since \(x\left(n\right)\) is a discrete-time signal, we can write it in terms of its _discrete-time_ Fourier transform \(X(\Omega)\) as
+
+\[x\left(n\right)=\frac{\cdot 1}{2\pi}\int\limits_{-\pi}^{\pi}X\left(\Omega\right) \,\exp\,[\,j\Omega n\,]\ d\Omega \tag{7.5.4}\]
+
+Both Equations (7.5.3) and (7.5.4) represent the same sequence \(x\left(n\right)\). As such, the transforms must also be related. In order to find this relation, let us divide the range \(-\infty<\omega<\infty\) into equal intervals of length \(2\pi/T\) and express the right-hand side of Equation (7.5.3) as a sum of integrals over these intervals as
+
+\[x\left(n\right)=\frac{1}{2\pi}\sum\limits_{r\ =\ -\infty}^{\infty}\int\limits_{ \left(2r\ -1\right)\pi/T}^{\pi/T}X_{a}(\omega)\,\exp\,[\,j\omega nT\,]\ d\omega \tag{7.5.5}\]
+
+If we now replace \(\omega\) by \(\omega+2\pi r/T\), we can write Equation (7.5.5) as
+
+\[x\left(n\right)=\frac{1}{2\pi}\sum\limits_{r\ =\ -\infty}^{\infty}\int\limits_{- \pi/T}^{\pi/T}X_{a}(\omega+\frac{2\pi}{T}\With this change of variable, the left-hand side of Equation (7.5.9) can be identified as the continuous-time Fourier transform of the sampled signal and is therefore equal to, the Fourier transform of signal. That is,
+
+(7.5.11)
+
+Also, since the sampling interval is, sampling frequency is equal to, radians/second. We can, therefore, write Equation (7.5.9) as
+
+(7.5.12)
+
+This is the result that we obtained in Chapter 4 when we were discussing the Fourier transform of sampled signals. It is clear from Equation (7.5.12) that is the periodic extension, with period, of the continuous-time Fourier transform of analog signal amplitude scaled by factor. Suppose that is a low-pass signal, such that its spectrum is zero for. Figure 7.5.1 shows the spectra of a typical band-limited analog signal and the corresponding sampled signal. As discussed in Chapter 4, and as can be seen from the figure, there is no overlap of the spectral components in if. We can then recover from the sampled signal by passing it through an ideal low-pass filter with a cutoff at  rad/s and a gain of. Thus, there is no aliasing distortion if the sampling frequency is such that
+
+(7.5.13)
+
+This is a restatement of the Nyquist sampling theorem that we encountered in Chapter 4, and specifies the minimum sampling frequency that must be used to recover a continuous-time signal from its samples. Clearly, if is not band-limited, there is always an overlap (aliasing).
+
+Equation (7.5.10) describes the mapping between analog frequency and digital frequency. It follows from the equation that whereas the units of are radians/second, those for are just radians.
+
+From Equation (7.5.11), and the definition of, it follows that the Fourier transform of signal is given by
+
+(7.5.14)
+
+We can use Equation (7.5.14) to justify the impulse-modulation model for sampled signals that we used in Chapter 4. By using the sifting property of the function, we can write Equation (7.5.14) as
+
+from which it follows that \[x_{s}(t)=x_{a}(t)\sum_{n\,=\,-\,-\,\infty}^{\infty}\delta(t-nT) \tag{7.5.15}\]
+
+That is, sampled signal \(x_{s}(t)\) can be considered to be the product of analog signal \(x_{a}(t)\) and impulse train \(\sum_{n\,=\,-\,\infty}^{\infty}\delta(t-nT)\).
+
+### Summary
+
+* A periodic discrete-time signal \(x(n)\) with period \(N\) can be represented by the discrete-time Fourier series (DTFS) \[x(n)=\sum_{k\,=\,0}^{N-1}a_{k}\,\exp{\,[\,j\frac{2\pi}{N}kn\,]}.\]
+* The DTFS coefficients \(a_{k}\) are given by \[a_{k}=\frac{1}{N}\sum_{n\,=\,0}^{N-1}x(n)\,\exp{\,[-j\frac{2\pi}{N}kn\,]}\]
+* Coefficients \(a_{k}\) are periodic with period \(N\), so that \(a_{k}=a_{k}+N\).
+* The DTFS is a finite sum over only \(N\) terms. It provides an _exact_ alternate representation of the time signal and issues such as convergence or the Gibbs phenomenon do not arise.
+* If \(a_{k}\) are the DTFS coefficients of signal \(x(n)\), then the coefficients for \(x(n-m)\) are equal to \(a_{k}\exp{\,[-j(2\pi/N)km\,]}\).
+
+Figure 7.5.1: Spectra of sampled signals (a) Analog Spectrum (b) Spectrum of \(x_{s}(t)\).
+
+* If the periodic sequence \(x\left(n\right)\) with DTFS coefficients \(a_{k}\) is input to a LTI system with impulse response \(h\left(n\right)\), the DTFS coefficients \(b_{k}\) of the output \(y\left(n\right)\), are given by \[b_{k}=a_{k}\,H\left(\frac{2\pi}{N}k\right)\] where \[H\left(\Omega\right)=\sum_{n\,=\,-\infty}^{\infty}h\left(n\right)\,\exp\left[ \,-j\Omega n\,\right]\]
+* The discrete-time Fourier transform (DTFT) of an aperiodic sequence \(x\left(n\right)\) is given by \[X\left(\Omega\right)=\sum_{n\,=\,-\infty}^{\infty}x\left(n\right)\exp[-j\Omega n\,]\]
+* The inverse relationship is given by \[x\left(n\right)=\frac{1}{2\pi}\int_{0}^{2\pi}X\left(\Omega\right)\exp\left[\, j\Omega n\,\right]\,d\Omega\]
+* The DTFT variable \(\Omega\) has units of radians.
+* The DTFT is periodic in \(\Omega\) with period \(2\pi\) so that \(X\left(\Omega\right)=X\left(\Omega+2\pi\right)\).
+* Other properties are similar to that of the continuous-time Fourier transform. In particular, if \(y\left(n\right)\) is the convolution of \(x\left(n\right)\) and \(h\left(n\right)\), then, \[Y\left(\Omega\right)=H\left(\Omega\right)X\left(\Omega\right)\]
+* When analog signal \(x_{a}(t)\) is sampled, the resulting signal can be considered to be either a CT signal \(x_{s}(t)\) with Fourier transform \(X_{s}(\omega)\) or a DT sequence \(x\left(n\right)\) with DTFT \(X\left(\Omega\right)\). The relation between the two is given by \[X_{s}(\omega)=X\left(\Omega\right)\big{|}_{\Omega\,=\,\omega\,T}\]
+* This equation can be used to derive the impulse modulation model for sampling: \[x_{s}(t)=x_{a}(t)\sum_{n\,=\,-\infty}^{\infty}\delta(t\,-nT)\]
+* Transform \(X_{s}(\omega)\) is related to \(X_{a}(\omega)\) by \[X_{s}(\omega)=\frac{1}{T}\sum_{r\,=\,-\infty}^{\infty}X_{a}(\omega+\,r\,\omega _{s})\]
+* We can use the last equation to derive the _sampling theorem_, which gives the minimum rate at which an analog signal must be sampled to permit error-free reconstruction. If the signal has a bandwidth of \(\omega_{c}\), then \(T<2\pi/\omega_{c}\).

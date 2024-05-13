@@ -1,0 +1,1573 @@
+## Chapter 7 Continuous-Time Signal Analysis: The Fourier Transform
+
+We can analyze linear systems in many different ways by taking advantage of the property of linearity, whereby the input is expressed as a sum of simpler components. The system response to any complex input can be found by summing the system's response to these simpler components of the input. In time-domain analysis, we separated the input into impulse components. In the frequency-domain analysis in Ch. 4, we separated the input into exponentials of the form \(e^{nt}\) (the Laplace transform), where the complex frequency \(s=\sigma+jo\). The Laplace transform, although very valuable for system analysis, proves somewhat awkward for signal analysis, where we prefer to represent signals in terms of exponentials \(e^{i\omega}\) instead of \(e^{nt}\). This is accomplished by the Fourier transform. In a sense, the Fourier transform may be considered to be a special case of the Laplace transform with \(s=jo\). Although this view is true most of the time, it does not always hold because of the nature of convergence of the Laplace and Fourier integrals.
+
+In Ch. 6, we succeeded in representing periodic signals as a sum of (everlasting) sinusoids or exponentials of the form \(e^{i\omega}\). The Fourier integral developed in this chapter extends this spectral representation to aperiodic signals.
+
+### 7.1 Aperiodic Signal Representation by the Fourier Integral
+
+Applying a limiting process, we now show that an aperiodic signal can be expressed as a continuous sum (integral) of everlasting exponentials. To represent an aperiodic signal \(x(t)\) such as the one depicted in Fig. 7.1a by everlasting exponentials, let us construct a new periodic signal \(x_{T_{0}}(t)\) formed by repeating the signal \(x(t)\) at intervals of \(T_{0}\) seconds, as illustrated in Fig. 7.1b. The period \(T_{0}\) is made long enough to avoid overlap between the repeating pulses. The periodic signal \(x_{T_{0}}(t)\) can be represented by an exponential Fourier series. If we let \(T_{0}\rightarrow\infty\), the pulses in the periodic signal repeat after an infinite interval and, therefore,
+
+\[\lim_{T_{0}\rightarrow\infty}x_{T_{0}}(t)=x(t)\]Thus, the Fourier series representing \(x_{T_{0}}(t)\) will also represent \(x(t)\) in the limit \(T_{0}\rightarrow\infty\). The exponential Fourier series for \(x_{T_{0}}(t)\) is given by
+
+\[x_{T_{0}}(t)=\sum_{n=-\infty}^{\infty}D_{n}e^{jn\omega_{0}t} \tag{7.1}\]
+
+where \(\omega_{0}=\frac{2\pi}{T_{0}}\) and
+
+\[D_{n}=\frac{1}{T_{0}}\int_{-T_{0}/2}^{T_{0}/2}x_{T_{0}}(t)e^{-jn\omega_{0}t}dt \tag{7.2}\]
+
+Observe that integrating \(x_{T_{0}}(t)\) over \((-T_{0}/2,T_{0}/2)\) is the same as integrating \(x(t)\) over \((-\infty,\infty)\). Therefore, Eq. (7.2) can be expressed as
+
+\[D_{n}=\frac{1}{T_{0}}\int_{-\infty}^{\infty}x(t)e^{-jn\omega_{0}t}dt \tag{7.3}\]
+
+It is interesting to see how the nature of the spectrum changes as \(T_{0}\) increases. To understand this fascinating behavior, let us define \(X(\omega)\), a continuous function of \(\omega\), as
+
+\[X(\omega)=\int_{-\infty}^{\infty}x(t)e^{-j\omega t}dt \tag{7.4}\]
+
+A glance at Eqs. (7.3) and (7.4) shows that
+
+\[D_{n}=\frac{1}{T_{0}}X(n\omega_{0}) \tag{7.5}\]
+
+Figure 7.1: Construction of a periodic signal: (a) signal \(x(t)\) and (b) periodic extension of \(x(t)\).
+
+This means that the Fourier coefficients \(D_{n}\) are \(1/T_{0}\) times the samples of \(X(\omega)\) uniformly spaced at intervals of \(\omega_{0}\), as depicted in Fig. 7.2a.+ Therefore, \((1/T_{0})X(\omega)\) is the envelope for the coefficients \(D_{n}\). We now let \(T_{0}\to\infty\) by doubling \(T_{0}\) repeatedly. Doubling \(T_{0}\) halves the fundamental frequency \(\omega_{0}\) so that there are now twice as many components (samples) in the spectrum. However, by doubling \(T_{0}\), the envelope \((1/T_{0})X(\omega)\) is halved, as shown in Fig. 7.2b. If we continue this process of doubling \(T_{0}\) repeatedly, the spectrum progressively becomes denser while its magnitude becomes smaller. Note, however, that the relative shape of the envelope remains the same [proportional to \(X(\omega)\) in Eq. (7.4)]. In the limit as \(T_{0}\to\infty\), \(\omega_{0}\to 0\) and \(D_{n}\to 0\). This result makes for a spectrum so dense that the spectral components are spaced at zero (infinitesimal) intervals. At the same time, the amplitude of each component is zero (infinitesimal). We have _nothing of everything, yet we have something!_ This paradox sounds like _Alice in Wonderland,_ but as we shall see, these are the classic characteristics of a very familiar phenomenon.++
+
+Footnote †: \({}^{\dagger}\)For the sake of simplicity, we assume \(D_{n}\), and therefore \(X(\omega)\), in Fig. 7.2, to be real. The argument, however, is also valid for complex \(D_{n}\) [or \(X(\omega)\)].
+
+Footnote ‡: If nothing else, the reader now has irrefutable proof of the proposition that 0% ownership of everything is better than 100% ownership of nothing.
+
+Substitution of Eq. (7.5) in Eq. (7.1) yields
+
+\[x_{T_{0}}(t)=\sum_{n=-\infty}^{\infty}\frac{X(n\omega_{0})}{T_{0}}e^{in_{00}t} \tag{7.6}\]
+
+As \(T_{0}\to\infty\), \(\omega_{0}\) becomes infinitesimal (\(\omega_{0}\to 0\)). Hence, we shall replace \(\omega_{0}\) by a more appropriate notation, \(\Delta\omega\). In terms of this new notation, \(\omega_{0}=\frac{2\pi}{T_{0}}\) becomes
+
+\[\Delta\omega=\frac{2\pi}{T_{0}}\]
+
+Figure 7.2: Change in the Fourier spectrum when the period \(T_{0}\) in Fig. 7.1 is doubled.
+
+and Eq. (7.6) becomes
+
+\[x_{T_{0}}(t)=\sum_{n=-\infty}^{\infty}\biggl{[}\frac{X(n\Delta\omega)\Delta \omega}{2\pi}\biggr{]}e^{(in\Delta\omega)t}\]
+
+This equation shows that \(x_{T_{0}}(t)\) can be expressed as a sum of everlasting exponentials of frequencies \(0,\pm\Delta\omega,\pm 2\Delta\omega,\pm 3\Delta\omega,\ldots\) (the Fourier series). The amount of the component of frequency \(n\Delta\omega\) is \([X(n\Delta\omega)\Delta\omega]/2\pi\). In the limit as \(T_{0}\to\infty\), \(\Delta\omega\to 0\) and \(x_{T_{0}}(t)\to x(t)\). Therefore,
+
+\[x(t)=\lim_{T_{0}\to\infty}x_{T_{0}}(t)=\lim_{\Delta\omega\to 0}\frac{1}{2\pi} \sum_{n=-\infty}^{\infty}X(n\Delta\omega)e^{(jn\Delta\omega)t}\Delta\omega \tag{7.7}\]
+
+The sum on the right-hand side of Eq. (7.7) can be viewed as the area under the function \(X(\omega)e^{i\omega t}\), as illustrated in Fig. 7.3. Therefore,
+
+\[x(t)=\frac{1}{2\pi}\int_{-\infty}^{\infty}X(\omega)e^{i\omega t}d\omega \tag{7.8}\]
+
+The integral on the right-hand side is called the _Fourier integral_. We have now succeeded in representing an aperiodic signal \(x(t)\) by a Fourier integral (rather than a Fourier series).2 This integral is basically a Fourier series (in the limit) with fundamental frequency \(\Delta\omega\to 0\), as seen from Eq. (7.7). The amount of the exponential \(e^{in\Delta\omega t}\) is \(X(n\Delta\omega)\Delta\omega/2\pi\). Thus, the function \(X(\omega)\) given by Eq. (7.4) acts as a spectral function.
+
+Footnote 2: This derivation should not be considered to be a rigorous proof of Eq. (7.8). The situation is not as simple as we have made it appear [1].
+
+We call \(X(\omega)\) the _direct_ Fourier transform of \(x(t)\), and \(x(t)\) the _inverse_ Fourier transform of \(X(\omega)\). The same information is conveyed by the statement that \(x(t)\) and \(X(\omega)\) are a Fourier transform pair. Symbolically, this statement is expressed as
+
+\[X(\omega)={\cal F}[x(t)]\qquad\mbox{and}\qquad x(t)={\cal F}^{-1}\left[X( \omega)\right]\]
+
+Figure 7.3: The Fourier series becomes the Fourier integral in the limit as \(T_{0}\to\infty\).
+
+or
+
+\[x(t)\Longleftrightarrow X(\omega)\]
+
+To recapitulate,
+
+\[X(\omega)=\int_{-\infty}^{\infty}x(t)e^{-j\omega t}dt \tag{7.9}\]
+
+and
+
+\[x(t)=\frac{1}{2\pi}\int_{-\infty}^{\infty}X(\omega)e^{i\omega t}d\omega \tag{7.10}\]
+
+It is helpful to keep in mind that the Fourier integral in Eq. (7.10) is of the nature of a Fourier series with fundamental frequency \(\Delta\omega\) approaching zero [Eq. (7.7)]. Therefore, most of the discussion and properties of Fourier series apply to the Fourier transform as well. _The transform \(X(\omega)\) is the frequency-domain specification of \(x(t)\)_.
+
+We can plot the spectrum \(X(\omega)\) as a function of \(\omega\). Since \(X(\omega)\) is complex, we have both amplitude and angle (or phase) spectra
+
+\[X(\omega)=|X(\omega)|e^{j\angle X(\omega)}\]
+
+in which \(|X(\omega)|\) is the amplitude and \(\angle X(\omega)\) is the angle (or phase) of \(X(\omega)\). According to Eq. (7.9),
+
+\[X(-\omega)=\int_{-\infty}^{\infty}x(t)e^{j\omega t}dt\]
+
+Taking the conjugates of both sides yields
+
+\[x^{*}(t)\Longleftrightarrow X^{*}(-\omega) \tag{7.11}\]
+
+This property is known as the _conjugation property_. Now, if \(x(t)\) is a real function of \(t\), then \(x(t)=x^{*}(t)\), and from the conjugation property, we find that
+
+\[X(-\omega)=X^{*}(\omega)\]
+
+This is the _conjugate symmetry_ property of the Fourier transform, applicable to real \(x(t)\). Therefore, for real \(x(t)\),
+
+\[|X(-\omega)|=|X(\omega)|\qquad\text{and}\qquad\angle X(-\omega)=-\angle X(\omega) \tag{7.12}\]
+
+Thus, for real \(x(t)\), the amplitude spectrum \(|X(\omega)|\) is an even function, and the phase spectrum \(\angle X(\omega)\) is an odd function of \(\omega\). These results were derived earlier for the Fourier spectrum of a periodic signal [Eq. (6.22)] and should come as no surprise.
+
+### 7.1 Aperiodic Signal Representation by the Fourier Integral
+
+**Example 7.1**: **Fourier Transform of a Causal Exponential**
+
+Find the Fourier transform of \(e^{-at}u(t)\).
+
+By definition [Eq. (7.9)],
+
+\[X(\omega)=\int_{-\infty}^{\infty}e^{-at}u(t)e^{-j\omega t}dt=\int_{0}^{\infty}e^ {-(a+j\omega)t}dt=\frac{-1}{a+j\omega}e^{-(a+j\omega)t}\bigg{|}_{0}^{\infty}\]
+
+But \(|e^{-j\omega t}|=1\). Therefore, as \(t\to\infty\), \(e^{-(a+j\omega)t}=e^{-at}e^{-j\omega t}=\infty\) if \(a<0\), but it is equal to \(0\) if \(a>0\). Therefore,
+
+\[X(\omega)=\frac{1}{a+j\omega}\qquad a>0\]
+
+Expressing \(a+j\omega\) in the polar form as \(\sqrt{a^{2}+\omega^{2}}\,e^{\mathrm{i}\tan^{-1}(\omega/a)}\), we obtain
+
+\[X(\omega)=\frac{1}{\sqrt{a^{2}+\omega^{2}}}e^{-j\tan^{-1}(\omega/a)}\]
+
+Therefore,
+
+\[|X(\omega)|=\frac{1}{\sqrt{a^{2}+\omega^{2}}}\qquad\mathrm{and}\qquad\angle X (\omega)=-\tan^{-1}\left(\frac{\omega}{a}\right)\]
+
+The amplitude spectrum \(|X(\omega)|\) and the phase spectrum \(\angle X(\omega)\) are depicted in Fig. 7.4b. Observe that \(|X(\omega)|\) is an even function of \(\omega\), and \(\angle X(\omega)\) is an odd function of \(\omega\), as expected.
+
+Existence of the Fourier Transform
+
+In Ex. 7.1 we observed that when \(a<0\), the Fourier integral for \(e^{-at}u(t)\) does not converge. Hence, the Fourier transform for \(e^{-at}u(t)\) does not exist if \(a<0\) (growing exponential). Clearly, not all signals are Fourier transformable.
+
+Figure 7.4: **(a) \(e^{-\alpha}u(t)\) and (b) its Fourier spectra.**Because the Fourier transform is derived here as a limiting case of the Fourier series, it follows that the basic qualifications of the Fourier series, such as _equality in the mean_ and convergence conditions in suitably modified form, apply to the Fourier transform as well. It can be shown that if \(x(t)\) has a finite energy, that is, if
+
+\[\int_{-\infty}^{\infty}\left|x(t)\right|^{2}dt<\infty\]
+
+then the Fourier transform \(X(\omega)\) is finite and converges to \(x(t)\) in the mean. This means, if we let
+
+\[\hat{x}(t)=\lim_{W\to\infty}\frac{1}{2\pi}\int_{-W}^{W}\!X(\omega)e^{i\omega t }d\omega\]
+
+then Eq. (7.10) implies
+
+\[\int_{-\infty}^{\infty}\left|x(t)-\hat{x}(t)\right|^{2}dt=0 \tag{7.13}\]
+
+In other words, \(x(t)\) and its Fourier integral [the right-hand side of Eq. (7.10)] can differ at some values of \(t\) without contradicting Eq. (7.13). We shall now discuss an alternate set of criteria due to Dirichlet for convergence of the Fourier transform.
+
+As with the Fourier series, if \(x(t)\) satisfies certain conditions (_Dirichlet conditions_), its Fourier transform is guaranteed to converge pointwise at all points where \(x(t)\) is continuous. Moreover, at the points of discontinuity, \(x(t)\) converges to the value midway between the two values of \(x(t)\) on either side of the discontinuity. The Dirichlet conditions are as follows:
+
+1. \(x(t)\) should be absolutely integrable, that is, \[\int_{-\infty}^{\infty}\left|x(t)\right|dt<\infty\] (7.14) If this condition is satisfied, we see that the integral on the right-hand side of Eq. (7.9) is guaranteed to have a finite value.
+2. \(x(t)\) must have only a finite number of finite discontinuities within any finite interval.
+3. \(x(t)\) must contain only a finite number of maxima and minima within any finite interval.
+
+We stress here that although the Dirichlet conditions are sufficient for the existence and pointwise convergence of the Fourier transform, they are not necessary. For example, we saw in Ex. 7.1 that a growing exponential, which violates Dirichlet's first condition in Eq. (7.14), does not have a Fourier transform. But the signal of the form \((\sin at)/t\), which _does_ violate this condition, does have a Fourier transform.
+
+Any signal that can be generated in practice satisfies the Dirichlet conditions and therefore has a Fourier transform. Thus, the physical existence of a signal is a sufficient condition for the existence of its transform.
+
+Linearity of the Fourier Transform
+
+The Fourier transform is linear; that is, if
+
+\[x_{1}(t)\Longleftrightarrow X_{1}(\omega)\qquad\text{and}\qquad x_{2}(t) \Longleftrightarrow X_{2}(\omega)\]
+
+then
+
+\[a_{1}x_{1}(t)+a_{2}x_{2}(t)\Longleftrightarrow a_{1}X_{1}(\omega)+a_{2}X_{2} (\omega) \tag{7.15}\]The proof is trivial and follows directly from Eq. (7.9). This result can be extended to any finite number of terms. It can be extended to an infinite number of terms only if the conditions required for interchangeability of the operations of summation and integration are satisfied.
+
+### Physical Appreciation of the Fourier Transform
+
+In understanding any aspect of the Fourier transform, we should remember that Fourier representation is a way of expressing a signal in terms of everlasting sinusoids (or exponentials). The Fourier spectrum of a signal indicates the relative amplitudes and phases of sinusoids that are required to synthesize that signal. A periodic signal Fourier spectrum has finite amplitudes and exists at discrete frequencies (\(\omega_{0}\) and its multiples). Such a spectrum is easy to visualize, but the spectrum of an aperiodic signal is not easy to visualize because it has a continuous spectrum. The continuous spectrum concept can be appreciated by considering an analogous, more tangible phenomenon. One familiar example of a continuous distribution is the loading of a beam. Consider a beam loaded with weights \(D_{1},D_{2},D_{3},\ldots,D_{n}\) units at the uniformly spaced points \(y_{1},y_{2},\ldots,y_{n}\), as shown in Fig. 7.5a.
+
+The total load \(W_{T}\) on the beam is given by the sum of these loads at each of the \(n\) points:
+
+\[W_{T}=\sum_{i=1}^{n}D_{i}\]
+
+Consider now the case of a continuously loaded beam, as depicted in Fig. 7.5b. In this case, although there appears to be a load at every point, the load at any one point is zero. This does not mean that there is no load on the beam. A meaningful measure of load in this situation is not the load at a point, but rather the loading density per unit length at that point. Let \(X(y)\) be the loading density per unit length of beam. It then follows that the load over a beam length \(\Delta y(\Delta y\to 0)\), at some point \(y\), is \(X(y)\,\Delta y\). To find the total load on the beam, we divide the beam into segments of interval \(\Delta y(\Delta y\to 0)\). The load over the \(n\)th such segment of length \(\Delta y\) is \(X(n\Delta y)\Delta y\). The total load \(W_{T}\) is given by
+
+\[W_{T}=\lim_{\Delta y\to 0}\sum_{y_{1}}^{y_{n}}X(n\Delta y)\,\Delta y=\int_{y_{1 }}^{y_{n}}X(y)\,dy\]
+
+The load now exists at every point, and \(y\) is now a continuous variable. In the case of discrete loading (Fig. 7.5a), the load exists only at \(n\) discrete points. At other points, there is no load. On the other hand, in the continuously loaded case, the load exists at every point, but at any specific
+
+Figure 7.5: Weight-loading analogy for the Fourier transform.
+
+point \(y\), the load is zero. The load over a small interval \(\Delta y\), however, is \([X(n\Delta y)]\,\Delta y\) (Fig. 7.5b). Thus, even though the load at a point \(y\) is zero, the relative load at that point is \(X(y)\).
+
+An exactly analogous situation exists in the case of a signal spectrum. When \(x(t)\) is periodic, the spectrum is discrete, and \(x(t)\) can be expressed as a sum of discrete exponentials with finite amplitudes:
+
+\[x(t)=\sum_{n}D_{n}e^{jm\omega t}\]
+
+For an aperiodic signal, the spectrum becomes continuous; that is, the spectrum exists for every value of \(\omega\), but the amplitude of each component in the spectrum is zero. The meaningful measure here is not the amplitude of a component of some frequency but the spectral density per unit bandwidth. From Eq. (7.7), it is clear that \(x(t)\) is synthesized by adding exponentials of the form \(e^{jn\Delta\omega t}\), in which the contribution by any one exponential component is zero. But the contribution by exponentials in an infinitesimal band \(\Delta\omega\) located at \(\omega=n\Delta\omega\) is \((1/2\pi)X(n\Delta\omega)\Delta\omega\), and the addition of all these components yields \(x(t)\) in the integral form:
+
+\[x(t)=\lim_{\Delta\omega\to 0}\frac{1}{2\pi}\sum_{n=-\infty}^{\infty}X(n\Delta \omega)e^{(jn\Delta\omega)t}\Delta\omega=\frac{1}{2\pi}\int_{-\infty}^{\infty} X(\omega)e^{i\omega t}\,d\omega\]
+
+Thus, \(n\Delta\omega\) approaches a continuous variable \(\omega\). The spectrum now exists at every \(\omega\). The contribution by components within a band \(d\omega\) is \((1/2\pi)X(\omega)\,d\omega=X(\omega)\,df\), where \(df\) is the bandwidth in hertz. Clearly, \(X(\omega)\) is the _spectral density_ per unit bandwidth (in hertz).2 It also follows that even if the amplitude of any one component is infinitesimal, the relative amount of a component of frequency \(\omega\) is \(X(\omega)\). Although \(X(\omega)\) is a spectral density, in practice, it is customarily called the _spectrum_ of \(x(t)\) rather than the spectral density of \(x(t)\). Deferring to this convention, we shall call \(X(\omega)\) the Fourier spectrum (or Fourier transform) of \(x(t)\).
+
+Footnote 2: To stress that the signal spectrum is a _density_ function, we shall shade the plot of \(|X(\omega)|\) (as in Fig. 7.4b). The representation of \(\angle X(\omega)\), however, will be a line plot, primarily to avoid visual confusion.
+
+Figure 7.6: The marvel of the Fourier transform.
+
+such a perfect and delicate balance boggles the human imagination. Yet the Fourier transform accomplishes it routinely, without much thinking on our part. Indeed, we become so involved in mathematical manipulations that we fail to notice this marvel.
+
+## 7.2 Transforms of Some Useful Functions
+
+For convenience, we now introduce a compact notation for the useful gate, triangle, and interpolation functions.
+
+### Unit Gate Function
+
+We define a unit gate function \(\operatorname{rect}\left(x\right)\) as a gate pulse of unit height and unit width, centered at the origin, as illustrated in Fig. 7.7a+:
+
+Footnote †: At \(\left|x\right|=0.5\), we require \(\operatorname{rect}\left(x\right)=0.5\) because the inverse Fourier transform of a discontinuous signal converges to the mean of its two values at the discontinuity.
+
+\[\operatorname{rect}\left(x\right)=\left\{\begin{array}{ll}0&\quad\left|x \right|>\frac{1}{2}\\ \frac{1}{2}&\quad\left|x\right|=\frac{1}{2}\\ 1&\quad\left|x\right|<\frac{1}{2}\end{array}\right. \tag{7.16}\]
+
+The gate pulse in Fig. 7.7b is the unit gate pulse \(\operatorname{rect}\left(x\right)\) expanded by a factor \(\tau\) along the horizontal axis and therefore can be expressed as \(\operatorname{rect}\left(x/\tau\right)\) (see Sec. 1.2-2). Observe that \(\tau\), the denominator of the argument of \(\operatorname{rect}\left(x/\tau\right)\), indicates the width of the pulse.
+
+### Unit Triangle Function
+
+We define a unit triangle function \(\Delta(x)\) as a triangular pulse of unit height and unit width, centered at the origin, as shown in Fig. 7.8a
+
+\[\Delta(x)=\left\{\begin{array}{ll}0&\quad\left|x\right|\geq\frac{1}{2}\\ 1-2\left|x\right|&\quad\left|x\right|<\frac{1}{2}\end{array}\right. \tag{7.17}\]
+
+Figure 7.7: A gate pulse.
+
+The pulse in Fig. 7.8b is \(\Delta(x/\tau)\). Observe that here, as for the gate pulse, the denominator \(\tau\) of the argument of \(\Delta(x/\tau)\) indicates the pulse width.
+
+### Interpolation Function \(\mathrm{Sinc}\left(x\right)\)
+
+The function \(\sin x/x\) is the "sine over argument" function denoted by \(\mathrm{sinc}\left(x\right)\).2 This function plays an important role in signal processing. It is also known as the _filtering or interpolating function_. We define
+
+Footnote 2: \(\mathrm{sinc}\left(x\right)\) is also denoted by \(\mathrm{Sa}\left(x\right)\) in the literature. Some authors define \(\mathrm{sinc}\left(x\right)\) as
+
+\[\mathrm{sinc}\left(x\right)=\frac{\sin x}{x} \tag{7.18}\]
+
+Inspection of Eq. (7.18) shows the following:
+
+1. \(\mathrm{sinc}\left(x\right)\) is an even function of \(x\).
+2. \(\mathrm{sinc}\left(x\right)=0\) when \(\sin x=0\) except at \(x=0\), where it appears to be indeterminate. This means that \(\mathrm{sinc}\left(x\right)=0\) for \(x=\pm\pi,\pm 2\pi,\pm 3\pi,\ldots.\)
+3. Using L'Hopital's rule, we find \(\mathrm{sinc}\left(0\right)=1\).
+4. \(\mathrm{sinc}\left(x\right)\) is the product of an oscillating signal \(\sin x\) (of period \(2\pi\)) and a monotonically decreasing function \(1/x\). Therefore, \(\mathrm{sinc}\left(x\right)\) exhibits damped oscillations of period \(2\pi\), with amplitude decreasing continuously as \(1/x\).
+
+Figure 7.9a shows \(\mathrm{sinc}\left(x\right)\). Observe that \(\mathrm{sinc}\left(x\right)=0\) for values of \(x\) that are positive and negative integer multiples of \(\pi\). Figure 7.9b shows \(\mathrm{sinc}\left(3\omega/7\right)\). The argument \(3\omega/7=\pi\) when \(\omega=7\pi/3\). Therefore, the first zero of this function occurs at \(\omega=7\pi/3\).
+
+### 7.1 Sketching Basic Functions
+
+Sketch: **(a)** rect (\(x/8\)), **(b)**\(\Delta(\omega/10)\), **(c)** \(\mathrm{sinc}\left(3\pi\omega/2\right)\), and **(d)** \(\mathrm{sinc}\left(t\right)\) rect (\(t/4\pi\)).
+
+Figure 7.8: A triangle pulse.
+
+### 7.2 Transforms of Some Useful Functions
+
+**Example 7.2**: **Fourier Transform of a Rectangular Pulse**
+
+Find the Fourier transform of \(x(t)=\operatorname{rect}\left(t/\tau\right)\) (Fig. 7.10a).
+
+\[X(\omega)=\int_{-\infty}^{\infty}\operatorname{rect}\left(\frac{t}{\tau} \right)e^{-j\omega t}dt\]
+
+Since \(\operatorname{rect}\left(t/\tau\right)=1\) for \(|t|<\tau/2\), and since it is zero for \(|t|>\tau/2\),
+
+\[X(\omega) =\int_{-\tau/2}^{\tau/2}e^{-j\omega t}dt\] \[=-\frac{1}{j\omega}(e^{-j\omega\tau/2}-e^{j\omega\tau/2})=\frac{2 \sin\left(\frac{\omega\tau}{2}\right)}{\omega}\] \[=\tau\,\frac{\sin\left(\frac{\omega\tau}{2}\right)}{\left(\frac {\omega\tau}{2}\right)}=\tau\,\operatorname{sinc}\left(\frac{\omega\tau}{2}\right)\]
+
+Figure 7.9: A sinc pulse.
+
+Therefore,
+
+\[\mathrm{rect}\left(\frac{t}{\tau}\right)\Longleftrightarrow\tau\ \mathrm{sinc} \left(\frac{\omega\tau}{2}\right) \tag{7.19}\]
+
+Recall that \(\mathrm{sinc}\left(x\right)=0\) when \(x=\pm n\pi\). Hence, \(\mathrm{sinc}\left(\omega\tau/2\right)=0\) when \(\omega\tau/2=\pm n\pi\); that is, when \(\omega=\pm 2n\pi/\tau,(n=1,2,3,\ldots)\), as depicted in Fig. 7.10b. The Fourier transform \(X(\omega)\) shown in Fig. 7.10b exhibits positive and negative values. A negative amplitude can be considered to be a positive amplitude with a phase of \(-\pi\) or \(\pi\). We use this observation to plot the amplitude spectrum \(|X(\omega)|=|\mathrm{sinc}\left(\omega\tau/2\right)|\) (Fig. 7.10c) and the phase spectrum \(\angle X(\omega)\) (Fig. 7.10d). The phase spectrum, which is required to be an odd function of \(\omega\), may be drawn in several other ways because a negative sign can be accounted for by a phase of \(\pm n\pi\), where \(n\) is any odd integer. All such representations are equivalent.
+
+### Bandwidth of \(\mathrm{rect}\left(\frac{t}{\tau}\right)\)
+
+The spectrum \(X(\omega)\) in Fig. 7.10 peaks at \(\omega=0\) and decays at higher frequencies. Therefore, \(\mathrm{rect}\left(t/\tau\right)\) is a lowpass signal with most of the signal energy in lower-frequency components. Strictly speaking, because the spectrum extends from \(0\) to \(\infty\), the bandwidth is \(\infty\). However, much of the spectrum is concentrated within the first lobe (from \(\omega=0\) to \(\omega=2\pi/\tau\)). Therefore, a rough estimate of the bandwidth of a rectangular pulse of width \(\tau\) seconds is \(2\pi/\tau\) rad/s, or \(1/\tau\) Hz.1 Note the reciprocal relationship of the pulse width with its bandwidth. We shall observe later that this result is true, in general.
+
+Figure 7.10: **(a)** A gate pulse \(x(t)\), **(b)** its Fourier spectrum \(X(\omega)\), **(c)** its amplitude spectrum \(|X(\omega)|\), and **(d)** its phase spectrum \(\angle X(\omega)\).
+
+**Example 7.3**: **Fourier Transform of the Dirac Delta Function**
+
+Find the Fourier transform of the unit impulse \(\delta(t)\).
+
+Using the sampling property of the impulse [Eq. (1.11)], we obtain
+
+\[{\cal F}[\delta(t)]=\int_{-\infty}^{\infty}\delta(t)e^{-j\omega t}dt=1\qquad \mbox{and}\qquad\delta(t)\Longleftrightarrow 1\]
+
+Figure 7.11 shows \(\delta(t)\) and its spectrum.
+
+**Example 7.4**: **Inverse Fourier Transform of the Dirac Delta Function**
+
+Find the inverse Fourier transform of \(\delta(\omega)\).
+
+On the basis of Eq. (7.10) and the sampling property of the impulse function,
+
+\[{\cal F}^{-1}[\delta(\omega)]=\frac{1}{2\pi}\int_{-\infty}^{\infty}\delta( \omega)e^{i\omega t}d\omega=\frac{1}{2\pi}\]
+
+Therefore,
+
+\[\frac{1}{2\pi}\Longleftrightarrow\delta(\omega)\qquad\mbox{and}\qquad 1 \Longleftrightarrow 2\pi\delta(\omega) \tag{7.20}\]
+
+This result shows that the spectrum of a constant signal \(x(t)=1\) is an impulse \(2\pi\,\delta(\omega)\), as illustrated in Fig. 7.12.
+
+The result [Eq. (7.20)] could have been anticipated on qualitative grounds. Recall that the Fourier transform of \(x(t)\) is a spectral representation of \(x(t)\) in terms of everlasting exponential components of the form \(e^{i\omega t}\). Now, to represent a constant signal \(x(t)=1\), we need a single
+
+Figure 7.11: **(a)** Unit impulse and **(b)** its Fourier spectrum.
+
+everlasting exponential \(e^{i\omega t}\) with \(\omega=0\).1 This results in a spectrum at a single frequency \(\omega=0\). Another way of looking at the situation is that \(x(t)=1\) is a dc signal that has a single frequency \(\omega=0\) (dc).
+
+Footnote 1: The constant multiplier \(2\pi\) in the spectrum \([X(\omega)=2\pi\,\delta(\omega)]\) may be a bit puzzling. Since \(1=e^{i\omega t}\) with \(\omega=0\), it appears that the Fourier transform of \(x(t)=1\) should be an impulse of strength unity rather than \(2\pi\). Recall, however, that in the Fourier transform \(x(t)\) is synthesized by exponentials not of amplitude \(X(n\Delta\omega)\Delta\omega\) but of amplitude \(1/2\pi\) times \(X(n\Delta\omega)\Delta\omega\), as seen from Eq. (7.7). Had we used variable \(f\) (hertz) instead of \(\omega\), the spectrum would have been the unit impulse.
+
+If an impulse at \(\omega=0\) is a spectrum of a dc signal, what does an impulse at \(\omega=\omega_{0}\) represent? We shall answer this question in the next example.
+
+**Example 7.5**: **Inverse Fourier Transform of a Shifted Dirac Delta Function**
+
+Find the inverse Fourier transform of \(\delta(\omega-\omega_{0})\).
+
+Using the sampling property of the impulse function, we obtain
+
+\[{\cal F}^{-1}[\delta(\omega-\omega_{0})]=\frac{1}{2\pi}\int_{-\infty}^{\infty }\delta(\omega-\omega_{0})e^{i\omega t}\,d\omega=\frac{1}{2\pi}\,e^{i\omega_{0 }t}\]
+
+Therefore,
+
+\[\frac{1}{2\pi}\,e^{i\omega_{0}t}\Longleftrightarrow\delta(\omega-\omega_{0}) \qquad\mbox{and}\qquad e^{i\omega_{0}t}\Longleftrightarrow 2\pi\,\delta( \omega-\omega_{0}) \tag{7.21}\]
+
+This result shows that the spectrum of an everlasting exponential \(e^{i\omega_{0}t}\) is a single impulse at \(\omega=\omega_{0}\). We reach the same conclusion by qualitative reasoning. To represent the everlasting
+
+Figure 7.12: **(a)** A constant (dc) signal and **(b)** its Fourier spectrum.
+
+exponential \(e^{ju_{0}t}\), we need a single everlasting exponential \(e^{ju_{0}t}\) with \(\omega=\omega_{0}\). Therefore, the spectrum consists of a single component at frequency \(\omega=\omega_{0}\).
+
+From Eq. (7.21) it follows that
+
+\[e^{-ju_{0}t}\Longleftrightarrow 2\pi\,\delta(\omega+\omega_{0})\]
+
+Recall Euler's formula
+
+\[\cos\omega_{0}t=\tfrac{1}{2}(e^{ju_{0}t}+e^{-ju_{0}t})\]
+
+Applying Eq. (7.21), we obtain
+
+\[\cos\omega_{0}t\Longleftrightarrow\pi\,[\delta(\omega+\omega_{0})+\delta( \omega-\omega_{0})]\]
+
+The spectrum of \(\cos\omega_{0}t\) consists of two impulses at \(\omega_{0}\) and \(-\omega_{0}\), as shown in Fig. 7.13b. The result also follows from qualitative reasoning. An everlasting sinusoid \(\cos\omega_{0}t\) can be synthesized by two everlasting exponentials, \(e^{ju_{0}t}\) and \(e^{-ju_{0}t}\). Therefore, the Fourier spectrum consists of only two components of frequencies \(\omega_{0}\) and \(-\omega_{0}\).
+
+**Example 7.7**: **Fourier Transform of a Periodic Signal**
+
+Determine the Fourier transform of a periodic signal \(x(t)\) using its Fourier series representation.
+
+We can use a Fourier series to express a periodic signal as a sum of exponentials of the form \(e^{ju_{0}t}\), whose Fourier transform is found in Eq. (7.21). Hence, we can readily find the Fourier transform of a periodic signal by using the linearity property in Eq. (7.15).
+
+Figure 7.13: **(a) A cosine signal and (b) its Fourier spectrum.**
+
+The Fourier series of a periodic signal \(x(t)\) with period \(T_{0}\) is given by
+
+\[x(t)=\sum_{n=-\infty}^{\infty}D_{n}e^{in\omega_{0}t}\qquad\omega_{0}=\frac{2\pi} {T_{0}}\]
+
+Taking the Fourier transform of both sides, we obtain+
+
+Footnote †: margin: \(\dagger\) We assume here that the linearity property can be extended to an infinite sum.
+
+\[X(\omega)=2\pi\sum_{n=-\infty}^{\infty}D_{n}\delta(\omega-n\omega_{0}) \tag{7.22}\]
+
+As shown in Eq. (6.24) from Ex. 6.9, the Fourier coefficients \(D_{n}\) for \(\delta_{T_{0}}(t)\) are constant \(D_{n}=1/T_{0}\). From Eq. (7.22), the Fourier transform of \(\delta_{T_{0}}(t)\) is therefore
+
+\[X(\omega)=\frac{2\pi}{T_{0}}\sum_{n=-\infty}^{\infty}\delta(\omega-n\omega_{0} )=\omega_{0}\delta_{\omega_{0}}(\omega),\qquad\mbox{where }\omega_{0}=\frac{2\pi}{T_{0}}\]
+
+The corresponding spectrum is shown in Fig. 7.14b.
+
+Figure 7.14: **(a)** The uniform impulse train and **(b)** its Fourier transform.
+
+### 7.2 Transforms of Some Useful Functions
+
+**Example 7.9**: **Fourier Transform of the Unit Step Function**
+
+Find the Fourier transform of the unit step function \(u(t)\).
+
+Trying to find the Fourier transform of \(u(t)\) by direct integration leads to an indeterminate result because
+
+\[U(\omega)=\int_{-\infty}^{\infty}u(t)e^{-j\omega t}dt=\int_{0}^{\infty}e^{-j \omega t}dt=\left.\frac{-1}{j\omega}e^{-j\omega t}\right|_{0}^{\infty}\]
+
+The upper limit of \(e^{-j\omega t}\) as \(t\to\infty\) yields an indeterminate answer. So we approach this problem by considering \(u(t)\) to be a decaying exponential \(e^{-\alpha t}u(t)\) in the limit as \(a\to 0\) (Fig. 7.15a). Thus,
+
+\[u(t)=\lim_{a\to 0}e^{-\alpha t}u(t)\]
+
+and
+
+\[U(\omega)=\lim_{a\to 0}\mathcal{F}\{e^{-\alpha t}u(t)\}=\lim_{a\to 0}\left.\frac{1}{a+j \omega}\right.\]
+
+Expressing the right-hand side in terms of its real and imaginary parts yields
+
+\[U(\omega)=\lim_{a\to 0}\left[\frac{a}{a^{2}+\omega^{2}}-j\frac{\omega}{a^{2}+ \omega^{2}}\right]=\lim_{a\to 0}\left[\frac{a}{a^{2}+\omega^{2}}\right]+ \frac{1}{j\omega}\]
+
+The function \(a/(a^{2}+\omega^{2})\) has interesting properties. First, the area under this function (Fig. 7.15b) is \(\pi\) regardless of the value of \(a\):
+
+\[\int_{-\infty}^{\infty}\frac{a}{a^{2}+\omega^{2}}\,d\omega=\tan^{-1}\left. \frac{\omega}{a}\right|_{-\infty}^{\infty}=\pi\]
+
+Figure 7.15: Derivation of the Fourier transform of the step function.
+
+[MISSING_PAGE_FAIL:19]
+
+[MISSING_PAGE_EMPTY:20]
+
+### 7.2 Inverse Fourier Transform of a Rectangular Pulse
+
+Show that the inverse Fourier transform of \(X(\omega)\) illustrated in Fig. 7.17 is \(x(t)=(\omega_{0}/\pi)\,\mathrm{sinc}\,(\omega_{0}t)\). Sketch \(x(t)\).
+
+### 7.3 Fourier Transform of a General Sinusoid
+
+The general (bilateral) Laplace transform of a signal \(x(t)\), according to Eq. (4.1), is
+
+\[X(s)=\int_{-\infty}^{\infty}x(t)e^{-st}\,dt \tag{7.24}\]
+
+Setting \(s=j\omega\) in this equation yields
+
+\[X(j\omega)=\int_{-\infty}^{\infty}x(t)e^{-j\omega t}\,dt\]
+
+where \(X(j\omega)=X(s)|_{s=j\omega}\). But, the right-hand-side integral defines \(X(\omega)\), the Fourier transform of \(x(t)\). Does this mean that the Fourier transform can be obtained from the corresponding Laplace transform by setting \(s=j\omega\)? In other words, is it true that \(X(j\omega)=X(\omega)\)? Yes and no. Yes, it is true in most cases. For example, when \(x(t)=e^{-\omega t}u(t)\), its Laplace transform is \(1/(s+a)\), and \(X(j\omega)=1/(j\omega+a)\), which is equal to \(X(\omega)\) (assuming \(a<0\)). However, for the unit step function \(u(t)\), the Laplace transform is
+
+\[u(t)\Longleftrightarrow\frac{1}{s}\qquad\mathrm{Re}\,s>0\]The Fourier transform is given by
+
+\[u(t)\Longleftrightarrow\frac{1}{j\omega}+\pi\,\delta(\omega)\]
+
+Clearly, \(X(j\omega)\neq X(\omega)\) in this case.
+
+To understand this puzzle, consider the fact that we obtain \(X(j\omega)\) by setting \(s=j\omega\) in Eq. (7.24). This implies that the integral on the right-hand side of Eq. (7.24) converges for \(s=j\omega\), meaning that \(s=j\omega\) (the imaginary axis) lies in the ROC for \(X(s)\). The general rule is that only when the ROC for \(X(s)\) includes the \(\omega\) axis, does setting \(s=j\omega\) in \(X(s)\) yield the Fourier transform \(X(\omega)\), that is, \(X(j\omega)=X(\omega)\). This is the case of absolutely integrable \(x(t)\). If the ROC of \(X(s)\) excludes the \(\omega\) axis, \(X(j\omega)\neq X(\omega)\). This is the case for exponentially growing \(x(t)\) and also \(x(t)\) that is constant or is oscillating with constant amplitude.
+
+The reason for this peculiar behavior has something to do with the nature of convergence of the Laplace and the Fourier integrals when \(x(t)\) is not absolutely integrable.2
+
+Footnote 2: To explain this point, consider the unit step function and its transforms. Both the Laplace and the Fourier transform synthesize \(x(t)\), using everlasting exponentials of the form \(e^{st}\). The frequency \(s\) can be anywhere in the complex plane for the Laplace transform, but it must be restricted to the \(\omega\) axis in the case of the Fourier transform. The unit step function is readily synthesized in the Laplace transform by a relatively simple spectrum \(X(s)=1/s\), in which the frequencies \(s\) are chosen in the RHP [the region of convergence for \(u(t)\) is \(\mathrm{Re}\,s>0\)]. In the Fourier transform, however, we are restricted to values of \(s\) on the \(\omega\) axis only. The function \(u(t)\) can still be synthesized by frequencies along the \(\omega\) axis, but the spectrum is more complicated than it is when we are free to choose the frequencies in the RHP. In contrast, when \(x(t)\) is absolutely integrable, the region of convergence for the Laplace transform includes the \(\omega\) axis, and we can synthesize \(x(t)\) by using frequencies along the \(\omega\) axis in both transforms. This leads to \(X(j\omega)=X(\omega)\).
+
+We may explain this concept by an example of two countries, X and Y. Suppose these countries want to construct similar dams in their respective territories. Country X has financial resources but not much manpower. In contrast, Y has considerable manpower but few financial resources. The dams will still be constructed in both countries, although the methods used will be different. Country X will use expensive but efficient equipment to compensate for its lack of manpower, whereas Y will use the cheapest possible equipment in a labor-intensive approach to the project. Similarly, both Fourier and Laplace integrals converge for \(u(t)\), but the makeup of the components used to synthesize \(u(t)\) will be very different for two cases because of the constraints of the Fourier transform, which are not present for the Laplace transform.
+
+## 7.3 Some Properties of the Fourier Transform
+
+We now study some of the important properties of the Fourier transform and their implications as well as applications. We have already encountered two important properties, linearity [Eq. (7.15)] and the conjugation property [Eq. (7.11)].
+
+Before embarking on this study, we shall explain an important and pervasive aspect of the Fourier transform: the time-frequency duality.
+
+[MISSING_PAGE_EMPTY:23]
+
+The dual of this property (the frequency-shifting property) states that
+
+\[x(t)e^{ju_{0}t}\Longleftrightarrow X(\omega-\omega_{0})\]
+
+Observe the role reversal of time and frequency in these two equations (with the minor difference of the sign change in the exponential index). The value of this principle lies in the fact that _whenever we derive any result, we can be sure that it has a dual_. This possibility can give valuable insights about many unsuspected properties or results in signal processing.
+
+The properties of the Fourier transform are useful not only in deriving the direct and inverse transforms of many functions, but also in obtaining several valuable results in signal processing. The reader should not fail to observe the ever-present duality in this discussion.
+
+Linearity
+
+The linearity property, already introduced as Eq. (7.15), states that if \(x_{1}(t)\Longleftrightarrow X_{1}(\omega)\) and \(x_{2}(t)\Longleftrightarrow X_{2}(\omega)\), then \(a_{1}x_{1}(t)+a_{2}x_{2}(t)\Longleftrightarrow a_{1}X_{1}(\omega)+a_{2}X_{2} (\omega)\).
+
+Conjugation and Conjugate Symmetry
+
+The conjugation property, which has already been introduced, states that if \(x(t)\Longleftrightarrow X(\omega)\), then
+
+\[x^{*}(t)\Longleftrightarrow X^{*}(-\omega)\]
+
+From this property follows the conjugate symmetry property, also introduced earlier, which states that if \(x(t)\) is real, then
+
+\[X(-\omega)=X^{*}(\omega)\]
+
+Duality
+
+The duality property states that if
+
+\[x(t)\Longleftrightarrow X(\omega)\]
+
+then
+
+\[X(t)\Longleftrightarrow 2\pi x(-\omega) \tag{7.25}\]
+
+Proof.: From Eq. (7.10) we can write
+
+\[x(t)=\frac{1}{2\pi}\int_{-\infty}^{\infty}X(u)e^{\mu t}\,du\]
+
+Hence,
+
+\[2\pi x(-t)=\int_{-\infty}^{\infty}X(u)e^{-\mu t}\,du\]
+
+Changing \(t\) to \(\omega\) yields Eq. (7.25).
+
+**Example 7.11**: **Applying the Duality Property of the Fourier Transform**
+
+Apply the duality property [Eq. (7.25)] of the Fourier transform to the pair in Fig. 7.19a.
+
+From Eq. (7.19) we have
+
+\[\underbrace{\operatorname{rect}\Bigl{(}\frac{t}{\tau}\Bigr{)}}_{x(t)} \Longleftrightarrow\underbrace{\tau\operatorname{sinc}\left(\frac{\omega \tau}{2}\right)}_{X(\omega)}\]
+
+Also, \(X(t)\) is the same as \(X(\omega)\) with \(\omega\) replaced by \(t\), and \(x(-\omega)\) is the same as \(x(t)\) with \(t\) replaced by \(-\omega\). Therefore, the duality property of Eq. (7.25) yields
+
+\[\underbrace{\tau\operatorname{sinc}\left(\frac{\tau\,t}{2}\right)}_{X(t)} \Longleftrightarrow\underbrace{2\pi\operatorname{rect}\left(\frac{-\omega} {\tau}\right)}_{2\pi\,x(-\omega)}=2\pi\operatorname{rect}\biggl{(}\frac{ \omega}{\tau}\biggr{)}\]
+
+In this result, we used the fact that \(\operatorname{rect}\left(-x\right)=\operatorname{rect}\left(x\right)\) because rect is an even function. Figure 7.19b shows this pair graphically. Observe the interchange of the roles of \(t\) and \(\omega\) (with the minor adjustment of the factor \(2\pi\)). This result appears as pair 18 in Table 7.1 (with \(\tau/2=W\)).
+
+As an interesting exercise, the reader should generate the dual of every pair in Table 7.1 by applying the duality property.
+
+Figure 7.19: The duality property of the Fourier transform.
+
+### 7.3 Some Properties of the Fourier Transform
+
+#### 7.3.1 The Scaling Property
+
+If
+
+\[x(t)\Longleftrightarrow X(\omega)\]
+
+then, for any real constant \(a\),
+
+\[x(at)\Longleftrightarrow\frac{1}{|a|}X\left(\frac{\omega}{a}\right) \tag{7.26}\]
+
+**Proof.** For a positive real constant \(a\),
+
+\[\mathcal{F}[x(at)]=\int_{-\infty}^{\infty}x(at)e^{-j\omega t}dt=\frac{1}{a} \int_{-\infty}^{\infty}x(u)e^{(-j\omega/a)u}\,du=\frac{1}{a}X\left(\frac{ \omega}{a}\right)\]
+
+Similarly, we can demonstrate that if \(a<0\),
+
+\[x(at)\Longleftrightarrow\frac{-1}{a}X\left(\frac{\omega}{a}\right)\]
+
+Hence follows Eq. (7.26).
+
+#### 7.3.2 Significance of the Scaling Property
+
+The function \(x(at)\) represents the function \(x(t)\) compressed in time by a factor \(a\) (see Sec. 1.2-2). Similarly, a function \(X(\omega/a)\) represents the function \(X(\omega)\) expanded in frequency by the same factor \(a\). _The scaling property states that time compression of a signal results in its spectral expansion, and time expansion of the signal results in its spectral compression_. Intuitively, compression in time by factor \(a\) means that the signal is varying faster by factor \(a\).1 To synthesize such a signal, the frequencies of its sinusoidal components must be increased by the factor \(a\), implying that its frequency spectrum is expanded by the factor \(a\). Similarly, a signal expanded in time varies more slowly; hence the frequencies of its components are lowered, implying that its frequency spectrum is compressed. For instance, the signal \(\cos 2\omega_{0}t\) is the same as the signal \(\cos\omega_{0}t\) time-compressed by a factor of 2. Clearly, the spectrum of the former (impulse at \(\pm 2\omega_{0}\)) is an expanded version of the spectrum of the latter (impulse at \(\pm\omega_{0}\)). The effect of this scaling is demonstrated in Fig. 7.20.
+
+### 7.2 The scaling property of the Fourier transform
+
+The scaling property implies that if \(x(t)\) is wider, its spectrum is narrower, and vice versa. Doubling the signal duration halves its bandwidth, and vice versa. This suggests that the bandwidth of a signal is inversely proportional to the signal duration or width (in seconds).2 We have already verified this fact for the gate pulse, where we found that the bandwidth of a gate pulse of width \(\tau\) seconds is \(1/\tau\) Hz. More discussion of this interesting topic can be found in the literature [2].
+
+Footnote 2: When a signal has infinite duration, we must consider its effective or equivalent duration. There is no unique definition of effective signal duration. One possible definition is given in Eq. (2.47).
+
+By letting \(a=-1\) in Eq. (7.26), we obtain the _inversion (or reflection) property of time and frequency:_
+
+\[x(-t)\Longleftrightarrow X(-\omega) \tag{7.27}\]
+
+Using the reflection property of the Fourier transform and Table 7.1, find the Fourier transforms of \(e^{at}u(-t)\) and \(e^{-a|t|}\).
+
+Application of Eq. (7.27) to pair 1 of Table 7.1 yields
+
+\[e^{at}u(-t)\Longleftrightarrow\frac{1}{a-j\omega}\qquad a>0\]
+
+Also,
+
+\[e^{-a|t|}=e^{-at}u(t)+e^{at}u(-t)\]
+
+Figure 7.20: The scaling property of the Fourier transform.
+
+Therefore,
+
+\[e^{-a|t|}\Longleftrightarrow\frac{1}{a+j\omega}+\frac{1}{a-j\omega}=\frac{2a}{a^ {2}+\omega^{2}}\qquad a>0 \tag{7.28}\]
+
+The signal \(e^{-a|t|}\) and its spectrum are illustrated in Fig. 7.21.
+
+## The Time-Shifting Property
+
+If
+
+\[x(t)\Longleftrightarrow X(\omega)\]
+
+then
+
+\[x(t-t_{0})\Longleftrightarrow X(\omega)e^{-j\omega t_{0}} \tag{7.29}\]
+
+Proof.: By definition,
+
+\[\mathcal{F}[x(t-t_{0})]=\int_{-\infty}^{\infty}x(t-t_{0})e^{-j\omega t}dt\]
+
+Letting \(t-t_{0}=u\), we have
+
+\[\mathcal{F}[x(t-t_{0})]=\int_{-\infty}^{\infty}x(u)e^{-j\omega(u+t_{0})}\,du=e ^{-j\omega t_{0}}\int_{-\infty}^{\infty}x(u)e^{-j\omega u}\,du=X(\omega)e^{-j \omega t_{0}}\]
+
+This result shows that _delaying a signal by \(t_{0}\) seconds does not change its amplitude spectrum. The phase spectrum, however, is changed by \(-\omega t_{0}\)_.
+
+## Physical Explanation of the Linear Phase
+
+Time delay in a signal causes a linear phase shift in its spectrum. This result can also be derived by heuristic reasoning. Imagine \(x(t)\) being synthesized by its Fourier components, which are sinusoids of certain amplitudes and phases. The delayed signal \(x(t-t_{0})\) can be synthesized by the same sinusoidal components, each delayed by \(t_{0}\) seconds. The amplitudes of the components remain unchanged. Therefore, the amplitude spectrum of \(x(t-t_{0})\) is identical to that of \(x(t)\). The time delay of \(t_{0}\) in each sinusoid, however, does change the phase of each component. Now, a sinusoid
+
+Figure 7.21: **(a) \(e^{-a|t|}\) and (b) its Fourier spectrum.**
+
+\(\cos\omega t\) delayed by \(t_{0}\) is given by
+
+\[\cos\omega\left(t-t_{0}\right)=\cos\left(\omega t-\omega t_{0}\right)\]
+
+Therefore a time delay \(t_{0}\) in a sinusoid of frequency \(\omega\) manifests as a phase delay of \(\omega t_{0}\). This is a linear function of \(\omega\), meaning that higher-frequency components must undergo proportionately higher phase shifts to achieve the same time delay. This effect is depicted in Fig. 7.22 with two sinusoids, the frequency of the lower sinusoid being twice that of the upper. The same time delay \(t_{0}\) amounts to a phase shift of \(\pi/2\) in the upper sinusoid and a phase shift of \(\pi\) in the lower sinusoid. This verifies the fact that _to achieve the same time delay, higher-frequency sinusoids must undergo proportionately higher phase shifts_. The principle of linear phase shift is very important, and we shall encounter it again in distortionless signal transmission and filtering applications.
+
+**Example 7.13**: **Fourier Transform Time-Shifting Property**
+
+Use the time-shifting property to find the Fourier transform of \(e^{-a|t-t_{0}|}\).
+
+This function, shown in Fig. 7.23a, is a time-shifted version of \(e^{-a|t|}\) (depicted in Fig. 7.21a). From Eqs. (7.28) and (7.29), we have
+
+\[e^{-a|t-t_{0}|}\Longleftrightarrow\frac{2a}{a^{2}+\omega^{2}}e^{-j\omega t_{0}}\]
+
+The spectrum of \(e^{-a|t-t_{0}|}\) (Fig. 7.23b) is the same as that of \(e^{-a|t|}\) (Fig. 7.21b), except for an added phase shift of \(-\omega t_{0}\).
+
+Figure 7.22: Physical explanation of the time-shifting property.
+
+[MISSING_PAGE_EMPTY:30]
+
+phase crosses \(\pm\pi\). The phase plot in Fig. 7.24c is redrawn in Fig. 7.24d using the principal value for the phase. This phase pattern, which contains phase discontinuities of magnitudes \(2\pi\) and \(\pi\), becomes repetitive at intervals of \(\omega=8\pi/\tau\).
+
+### 7.5 Fourier Transform Time-Shifting Property
+
+Use pair 18 of Table 7.1 and the time-shifting property to show that the Fourier transform of \(\operatorname{sinc}\left[\omega_{0}(t-T)\right]\) is \((\pi/\omega_{0})\operatorname{rect}\left(\omega/2\omega_{0}\right)e^{-j\omega T}\). Sketch the amplitude and phase spectra of the Fourier transform.
+
+Figure 7.24: A time-shifted rectangular pulse and its Fourier spectrum.
+
+The Frequency-Shifting Property
+
+If
+
+\[x(t)\Longleftrightarrow X(\omega)\]
+
+then
+
+\[x(t)e^{i\omega_{0}t}\Longleftrightarrow X(\omega-\omega_{0}) \tag{7.30}\]
+
+Proof.: By definition,
+
+\[{\cal F}[x(t)e^{i\omega_{0}t}]=\int_{-\infty}^{\infty}x(t)e^{i\omega_{0}t}e^{- j\omega t}\,dt=\int_{-\infty}^{\infty}x(t)e^{-j(\omega-\omega_{0})t}dt=X(\omega- \omega_{0})\]
+
+According to this property, the multiplication of a signal by a factor \(e^{i\omega_{0}t}\) shifts the spectrum of that signal by \(\omega=\omega_{0}\). Note the duality between the time-shifting and the frequency-shifting properties.
+
+Changing \(\omega_{0}\) to \(-\omega_{0}\) in Eq. (7.30) yields
+
+\[x(t)e^{-j\omega_{0}t}\Longleftrightarrow X(\omega+\omega_{0}) \tag{7.31}\]
+
+Because \(e^{i\omega_{0}t}\) is not a real function that can be generated, frequency shifting in practice is achieved by multiplying \(x(t)\) by a sinusoid. Observe that
+
+\[x(t)\cos\omega_{0}t={\frac{1}{2}}[x(t)e^{i\omega_{0}t}+x(t)e^{-j \omega_{0}t}]\]
+
+From Eqs. (7.30) and (7.31), it follows that
+
+\[x(t)\cos\omega_{0}t\Longleftrightarrow{\frac{1}{2}}[X(\omega- \omega_{0})+X(\omega+\omega_{0})] \tag{7.32}\]
+
+This result shows that the multiplication of a signal \(x(t)\) by a sinusoid of frequency \(\omega_{0}\) shifts the spectrum \(X(\omega)\) by \(\pm\omega_{0}\), as depicted in Fig. 7.25.
+
+Multiplication of a sinusoid \(\cos\omega_{0}t\) by \(x(t)\) amounts to modulating the sinusoid amplitude. This type of modulation is known as _amplitude modulation_. The sinusoid \(\cos\omega_{0}t\) is called the _carrier,_ the signal \(x(t)\) is the _modulating signal_, and the signal \(x(t)\cos\omega_{0}t\) is the _modulated signal_. Further discussion of modulation and demodulation appears in Sec. 7.7.
+
+To sketch a signal \(x(t)\cos\omega_{0}t\), we observe that
+
+\[x(t)\cos\omega_{0}t=\left\{\begin{array}{ll}x(t)&\quad\mbox{when $\cos\ \omega_{0}t=1$}\\ -x(t)&\quad\mbox{when $\cos\ \omega_{0}t=-1$}\end{array}\right.\]
+
+Therefore, \(x(t)\cos\omega_{0}t\) touches \(x(t)\) when the sinusoid \(\cos\omega_{0}t\) is at its positive peaks and touches \(-x(t)\) when \(\cos\omega_{0}t\) is at its negative peaks. This means that \(x(t)\) and \(-x(t)\) act as envelopes for the signal \(x(t)\cos\omega_{0}t\) (see Fig. 7.25). The signal \(-x(t)\) is a mirror image of \(x(t)\) about the horizontal axis. Figure 7.25 shows the signals \(x(t)\) and \(x(t)\cos\omega_{0}t\) and their spectra.
+
+**Example 7.15**: **Spectral Shifting by Amplitude Modulation**
+
+Find and sketch the Fourier transform of the modulated signal \(x(t)\cos 10t\) in which \(x(t)\) is a gate pulse rect \((t/4)\), as illustrated in Fig. 7.26a.
+
+From pair 17 of Table 7.1, we find rect \((t/4)\Longleftrightarrow 4\) sinc \((2\omega)\), which is depicted in Fig. 7.26b. From Eq. (7.32) it follows that
+
+\[x(t)\cos 10t\Longleftrightarrow\tfrac{1}{2}[X(\omega+10)+X(\omega-10)]\]
+
+In this case, \(X(\omega)=4\) sinc \((2\omega)\). Therefore,
+
+\[x(t)\cos 10t\Longleftrightarrow 2\text{ sinc}\left[2(\omega+10)\right]+2 \text{ sinc}\left[2(\omega-10)\right]\]
+
+The spectrum (Fig. 7.26c) of \(x(t)\cos 10t\) is obtained by shifting \(X(\omega)\) in Fig. 7.26b to the left by 10 and also to the right by 10, and then multiplying it by 0.5, as depicted in Fig. 7.26d.
+
+Figure 7.25: Amplitude modulation of a signal causes spectral shifting.
+
+### 7.6 Fourier Transform of an Amplitude-Modulated Signal
+
+**Sketch signal** \(e^{-|t|}\cos 10t\)**. Find the Fourier transform of this signal and sketch its spectrum.**
+
+**Answer:** \(X(\omega)=\frac{1}{(\omega-10)^{2}+1}+\frac{1}{(\omega+10)^{2}+1}\)**. See Fig. 7.21b for the spectrum of** \(e^{-\omega|t|}\)**.**
+
+### 7.7 Amplitude Modulation Using a Phase-Shifted Carrier
+
+**Show that**
+
+\[x(t)\cos\left(\omega_{0}t+\theta\right)\Longleftrightarrow\frac{1}{2}\left[ X(\omega-\omega_{0})e^{i\theta}+X(\omega+\omega_{0})e^{-i\theta}\right]\]
+
+## Applications of Modulation
+
+**Modulation is used to shift signal spectra. Some of the situations that call for spectrum shifting are presented next.**
+
+1. **If several signals, all occupying the same frequency band, are transmitted simultaneously over the same transmission medium, they will all interfere; it will be impossible to separate or retrieve them at a receiver. For example, if all radio stations decide to broadcast audio signals simultaneously, a receiver will not be able to separate them. This problem is solved
+
+Figure 7.26: An example of spectral shifting by amplitude modulation.
+
+by using modulation, whereby each radio station is assigned a distinct carrier frequency. Each station transmits a modulated signal. This procedure shifts the signal spectrum to its allocated band, which is not occupied by any other station. A radio receiver can pick up any station by tuning to the band of the desired station. The receiver must now demodulate the received signal (undo the effect of modulation). Demodulation therefore consists of another spectral shift required to restore the signal to its original band. Note that both modulation and demodulation implement spectral shifting; consequently, demodulation operation is similar to modulation (see Sec. 7.7).
+
+This method of transmitting several signals simultaneously over a channel by sharing its frequency band is known as _frequency-division multiplexing (FDM)_.
+2. For effective radiation of power over a radio link, the antenna size must be of the order of the wavelength of the signal to be radiated. Audio signal frequencies are so low (wavelengths are so large) that impracticably large antennas would be required for radiation. Here, shifting the spectrum to a higher frequency (a smaller wavelength) by modulation solves the problem.
+
+## 7.8 Convolution
+
+The time-convolution property and its dual, the frequency-convolution property, state that if
+
+\[x_{1}(t)\Longleftrightarrow X_{1}(\omega)\qquad\text{and}\qquad x_{2}(t) \Longleftrightarrow X_{2}(\omega)\]
+
+then
+
+\[x_{1}(t)\ast x_{2}(t)\Longleftrightarrow X_{1}(\omega)X_{2}(\omega)\quad \text{(time convolution)} \tag{7.33}\]and
+
+\[x_{1}(t)x_{2}(t)\Longleftrightarrow\frac{1}{2\pi}X_{1}(\omega)*X_{2}(\omega)\quad \text{(frequency convolution)} \tag{7.34}\]
+
+Proof.: By definition,
+
+\[\mathcal{F}|x_{1}(t)*x_{2}(t)| =\int_{-\infty}^{\infty}e^{-j\omega t}\left[\int_{-\infty}^{ \infty}x_{1}(\tau)x_{2}(t-\tau)\,d\tau\right]dt\] \[=\int_{-\infty}^{\infty}x_{1}(\tau)\left[\int_{-\infty}^{\infty}e ^{-j\omega t}x_{2}(t-\tau)\,dt\right]d\tau\]
+
+The inner integral is the Fourier transform of \(x_{2}(t-\tau)\), given by [time-shifting property in Eq. (7.29)] \(X_{2}(\omega)e^{-j\omega t}\). Hence,
+
+\[\mathcal{F}[x_{1}(t)*x_{2}(t)]=\int_{-\infty}^{\infty}x_{1}(\tau)e^{-j\omega \tau}X_{2}(\omega)\,d\tau=X_{2}(\omega)\int_{-\infty}^{\infty}x_{1}(\tau)e^{-j \omega\tau}d\tau=X_{1}(\omega)X_{2}(\omega)\]
+
+Let \(H(\omega)\) be the Fourier transform of the unit impulse response \(h(t)\), that is,
+
+\[h(t)\Longleftrightarrow H(\omega)\]
+
+Application of the time-convolution property to \(y(t)=x(t)*h(t)\) yields [assuming that both \(x(t)\) and \(h(t)\) are Fourier transformable]
+
+\[Y(\omega)=X(\omega)H(\omega) \tag{7.35}\]
+
+The frequency-convolution property of Eq. (7.34) can be proved in exactly the same way by reversing the roles of \(x(t)\) and \(X(\omega)\).
+
+**EXAMPLE 7.16**: **Time-Convolution Property to Show the Time-Integration Property**
+
+Use the time-convolution property to show that if
+
+\[x(t)\Longleftrightarrow X(\omega)\]
+
+then
+
+\[\int_{-\infty}^{t}x(\tau)\,d\tau\Longleftrightarrow\frac{X(\omega)}{j\omega }+\pi X(0)\delta(\omega)\]
+
+Because
+
+\[u(t-\tau)=\left\{\begin{array}{ll}1&\tau\leq t\\ 0&\tau>t\end{array}\right.\]
+
+it follows that
+
+\[x(t)*u(t)=\int_{-\infty}^{\infty}x(\tau)u(t-\tau)\,d\tau=\int_{-\infty}^{t}x (\tau)\,d\tau\]Now, from the time-convolution property [Eq. (7.33)], it follows that
+
+\[x(t)*u(t) =\int_{-\infty}^{t}x(\tau)\,d\tau\Longleftrightarrow X(\omega) \left[\frac{1}{j\omega}+\pi\,\delta(\omega)\right]\] \[=\frac{X(\omega)}{j\omega}+\pi\,X(0)\delta(\omega)\]
+
+In deriving the last result, we used Eq. (1.10).
+
+\begin{tabular}{||l||} \hline
+**DRIL 7.8** & **Fourier Transform Time-Convolution Property** \\ \hline \hline \end{tabular}
+
+Use the time-convolution property to show that:
+
+* \(x(t)*\delta(t)=x(t)\)
+* \(e^{-\alpha}u(t)*e^{-bt}u(t)=\frac{1}{b-a}[e^{-\alpha t}-e^{-bt}]u(t)\)
+
+Time Differentiation and Time Integration
+
+If
+
+\[x(t)\Longleftrightarrow X(\omega)\]
+
+then+
+
+Footnote †: \({}^{\dagger}\) Valid only if the transform of \(dx/dt\) exists. In other words, \(dx/dt\) must satisfy the Dirichlet conditions. The first Dirichlet condition implies
+
+\[\int_{-\infty}^{\infty}\left|\frac{dx(t)}{dt}\right|\,dt<\infty\]
+
+We also require that \(x(t)\to 0\) as \(t\to\pm\infty\). Otherwise, \(x(t)\) has a dc component, which gets lost in differentiation, and there is no one-to-one relationship between \(x(t)\) and \(dx/dt\).
+
+\[\frac{dx(t)}{dt}\Longleftrightarrow j\omega X(\omega)\quad\text{(time differentiation)} \tag{7.36}\]
+
+and
+
+\[\int_{-\infty}^{t}x(\tau)\,d\tau\Longleftrightarrow\frac{X(\omega)}{j\omega}+ \pi\,X(0)\delta(\omega)\quad\text{(time integration)} \tag{7.37}\]
+
+**Proof.** Differentiation of both sides of Eq. (7.10) yields
+
+\[\frac{dx(t)}{dt}=\frac{1}{2\pi}\int_{-\infty}^{\infty}j\omega X(\omega)e^{i \omega t}\,d\omega\]This result shows that
+
+\[\frac{dx(t)}{dt}\Longleftrightarrow ja\omega X(\omega)\]
+
+Repeated application of this property yields
+
+\[\frac{d^{n}x(t)}{dt^{n}}\Longleftrightarrow(j\omega)^{n}X(\omega)\]
+
+The time-integration property [Eq. (7.37)] has already been proved in Ex. 7.16.
+
+Table 7.2 summarizes the most important properties of the Fourier transform.
+
+\begin{table}
+\begin{tabular}{l l l} \hline \hline
+**Operation** & \(\mathbf{x(t)}\) & \(\mathbf{X(\omega)}\) \\ \hline Scalar multiplication & \(kx(t)\) & \(kX(\omega)\) \\ Addition & \(x_{1}(t)+x_{2}(t)\) & \(X_{1}(\omega)+X_{2}(\omega)\) \\ Conjugation & \(x^{*}(t)\) & \(X^{*}(-\omega)\) \\ Duality & \(X(t)\) & \(2\pi x(-\omega)\) \\ Scaling (\(a\) real) & \(x(at)\) & \(\frac{1}{|a|}X\left(\frac{\omega}{a}\right)\) \\ Time shifting & \(x(t-t_{0})\) & \(X(\omega)e^{-j\omega t_{0}}\) \\ Frequency shifting (\(\omega_{0}\) real) & \(x(t)e^{j\omega_{0}t}\) & \(X(\omega-\omega_{0})\) \\ Time convolution & \(x_{1}(t)*x_{2}(t)\) & \(X_{1}(\omega)X_{2}(\omega)\) \\ Frequency convolution & \(x_{1}(t)x_{2}(t)\) & \(\frac{1}{2\pi}X_{1}(\omega)*X_{2}(\omega)\) \\ Time differentiation & \(\frac{d^{n}x(t)}{dt^{n}}\) & \((j\omega)^{n}X(\omega)\) \\ Time integration & \(\int_{-\infty}^{t}x(u)\,du\) & \(\frac{X(\omega)}{j\omega}+\pi X(0)\delta(\omega)\) \\ \hline \hline \end{tabular}
+\end{table}
+Table 7.2: Fourier Transform Properties
+**Example 7.17**: **Fourier Transform Time-Differentiation Property**
+
+Use the time-differentiation property to find the Fourier transform of the triangle pulse \(\Delta(t/\tau)\) illustrated in Fig. 7.27a. Verify the correctness of the spectrum by using it to synthesize a periodic replication of the original time-domain signal with \(\tau=1\).
+
+To find the Fourier transform of this pulse, we differentiate the pulse successively, as illustrated in Fig. 7.27b and 7.27c. Because \(dx/dt\) is constant everywhere, its derivative, \(d^{2}x/dt^{2}\), is zero everywhere. But \(dx/dt\) has jump discontinuities with a positive jump of \(2/\tau\) at \(t=\pm\tau/2\), and a negative jump of \(4/\tau\) at \(t=0\). Recall that the derivative of a signal at a jump discontinuity is an impulse at that point of strength equal to the amount of jump. Hence, \(d^{2}x/dt^{2}\), the derivative of \(dx/dt\), consists of a sequence of impulses, as depicted in Fig. 7.27c; that is,
+
+\[\frac{d^{2}x(t)}{dt^{2}}=\frac{2}{\tau}\bigg{[}\delta\left(t+\frac{\tau}{2} \right)-2\delta(t)+\delta\left(t-\frac{\tau}{2}\right)\bigg{]}\]
+
+Figure 7.27: Finding the Fourier transform of a piecewise-linear signal using the time-differentiation property.
+
+From the time-differentiation property [Eq. (7.36)], \[\frac{d^{2}x(t)}{dt^{2}}\Longleftrightarrow(j\omega)^{2}X(\omega)=-\omega^{2}X(\omega)\] Also, from the time-shifting property [Eq. (7.29)], \[\delta(t-t_{0})\Longleftrightarrow e^{-j\omega t_{0}}\] Combining these results, we obtain \[-\omega^{2}X(\omega)=\frac{2}{\tau}\big{[}e^{i(\omega\tau/2)}-2+e^{-j(\omega \tau/2)}\big{]}=\frac{4}{\tau}\bigg{(}\cos\frac{\omega\tau}{2}-1\bigg{)}=- \frac{8}{\tau}\sin^{2}\bigg{(}\frac{\omega\tau}{4}\bigg{)}\] and \[X(\omega)=\frac{8}{\omega^{2}\tau}\sin^{2}\bigg{(}\frac{\omega\tau}{4}\bigg{)} =\frac{\tau}{2}\left[\frac{\sin\bigg{(}\frac{\omega\tau}{4}\bigg{)}}{\frac{ \omega\tau}{4}}\right]^{2}=\frac{\tau}{2}\text{sinc}^{2}\left(\frac{\omega \tau}{4}\right)\] The spectrum \(X(\omega)\) is depicted in Fig. 7.27d. This procedure of finding the Fourier transform can be applied to any function \(x(t)\) made up of straight-line segments with \(x(t)\rightarrow~{}0\) as \(|t|\rightarrow\infty\). The second derivative of such a signal yields a sequence of impulses whose Fourier transform can be found by inspection. This example suggests a numerical method of finding the Fourier transform of an arbitrary signal \(x(t)\) by approximating the signal by straight-line segments.
+
+Synthesizing a Periodic Replication to Verify Spectrum Correctness While a signal's spectrum \(X(\omega)\) provides useful insight into signal character, it can be difficult to look at \(X(\omega)\) and know that it is correct for a particular signal \(x(t)\). Is it obvious, for example, that \(X(\omega)=\frac{\tau}{2}\text{sinc}^{2}(\omega\tau/4)\) is really the spectrum of a \(\tau\)-duration rectangle function? Or is it possible that a mathematical error was made in the determination of \(X(\omega)\)? It is difficult to be certain by simple inspection of the spectrum.
+
+The same uncertainties exist when we are looking at a periodic signal's Fourier series spectrum. In the Fourier series case, we can verify the correctness of a signal's spectrum by synthesizing \(x(t)\) with a truncated Fourier series; the synthesized signal will match the original only if the computed spectrum is correct. This is exactly the approach that was taken in Ex. 6.11. And since a truncated Fourier series involves a simple sum, tools like MATLAB make waveform synthesis relatively simple, at least in the case of the Fourier series.
+
+In the case of the Fourier transform, however, synthesis of \(x(t)\) using Eq. (7.10) requires integration, a task not well suited to numerical packages such as MATLAB. All is not lost, however. Consider Eq. (7.5). By scaling and sampling the spectrum \(X(\omega)\) of an aperiodic signal \(x(t)\), we obtain the Fourier series coefficient of a signal that is the periodic replication of \(x(t)\). Similar to Ex. 6.11, we can then synthesize a periodic replication of \(x(t)\) with a truncated Fourier series to verify spectrum correctness. Let us demonstrate the idea for the current example with \(\tau=1\).
+
+To begin, we represent \(X(\omega)=\frac{\tau}{2}\mathrm{sinc}^{2}(\omega\tau/4)\) using an anonymous function in MATLAB. Since MATLAB computes \(\mathrm{sinc}(x)\) as \((\sin(\pi x))/\pi x\), we must scale the input by \(1/\pi\) to match the notation of \(\mathrm{sinc}\) in this book.
+
+>> tau = 1; X = @(omega) tau/2*(sinc(omega*tau/(4*pi))).^2; For our periodic replication, let us pick \(T_{0}=2\), which is comfortably wide enough to accommodate our (\(\tau=1\))-width function without overlap. We use Eq. (7.5) to define the needed Fourier series coefficients \(D_{n}\).
+
+>> T0 = 2; omega0 = 2*pi/T0; D = @(n) X(n*omega0)/T0; Let us use 25 harmonics to synthesize the periodic replication \(x_{25}(t)\) of our triangular signal \(x(t)\). To begin waveform synthesis, we set the dc portion of the signal.
+
+>> t = (-T0:.001:T0); x25 = D(0)*ones(size(t)); To add the desired 25 harmonics, we enter a loop for \(1\leq n\leq 25\) and add in the \(D_{n}\) and \(D_{-n}\) terms. Although the result should be real, small round-off errors cause the reconstruction to be complex. These small imaginary parts are removed by using the real command.
+
+>> for n = 1:25, >> x25 = x25+real(D(n)*exp(1j*omega0*n*t)+D(-n)*exp(-1j*omega0*n*t)); >> end Lastly, we plot the resulting truncated Fourier series synthesis of \(x(t)\).
+
+>> plot(t,x25,'k'); xlabel('t'); ylabel('x_{25}(t)'); Since the synthesized waveform shown in Fig. 7.28 closely matches a 2-periodic replication of the triangle wave in Fig. 7.27a, we have high confidence that both the computed \(D_{n}\) and, by extension, the Fourier spectrum \(X(\omega)\) are correct.
+
+Figure 7.28: Synthesizing a 2-periodic replication of \(x(t)\) using a truncated Fourier series.
+
+### 7.4 Signal Transmission Through LTIC Systems
+
+If \(x(t)\) and \(y(t)\) are the input and output of an LTIC system with impulse response \(h(t)\), then, as demonstrated in Eq. (7.35),
+
+\[Y(\omega)=H(\omega)X(\omega)\]
+
+This equation does not apply to (asymptotically) unstable systems because \(h(t)\) for such systems is not Fourier transformable. It applies to BIBO-stable as well as most of the marginally stable systems.2 Similarly, this equation does not apply if \(x(t)\) is not Fourier transformable.
+
+Footnote 2: For marginally stable systems, if the input \(x(t)\) contains a finite-amplitude sinusoid of the system’s natural frequency, which leads to resonance, the output is not Fourier transformable. It does, however, apply to marginally stable systems if the input does not contain a finite-amplitude sinusoid of the system’s natural frequency.
+
+In Ch. 4, we saw that the Laplace transform is more versatile and capable of analyzing all kinds of LTIC systems whether stable, unstable, or marginally stable. Laplace transform can also handle exponentially growing inputs. In comparison to the Laplace transform, the Fourier transform in system analysis is not just clumsier, but also very restrictive. Hence, the Laplace transform is preferable to the Fourier transform in LTIC system analysis. We shall not belabor the application of the Fourier transform to LTIC system analysis. We consider just one example here.
+
+**EXAMPLE 7.18 Fourier Transform to Determine the Zero-State Response**
+
+Use the Fourier transform to find the zero-state response of a stable LTIC system with frequency response
+
+\[H(s)=\frac{1}{s+2}\]
+
+and the input is \(x(t)=e^{-t}u(t)\). Stability implies that the region of convergence of \(H(s)\) includes the \(\omega\) axis.
+
+In this case,
+
+\[X(\omega)=\frac{1}{j\omega+1}\]Moreover, because the system is stable, the frequency response \(H(j\omega)=H(\omega)\). Hence,
+
+\[H(\omega)=H(s)|_{s=j\omega}=\frac{1}{j\omega+2}\]
+
+Therefore,
+
+\[Y(\omega)=H(\omega)X(\omega)=\frac{1}{(j\omega+2)(j\omega+1)}\]
+
+Expanding the right-hand side in partial fractions yields
+
+\[Y(\omega)=\frac{1}{j\omega+1}-\frac{1}{j\omega+2}\]
+
+and
+
+\[y(t)=(e^{-t}-e^{-2t})u(t)\]
+
+**DRILL 7.10**: **Fourier Transform to Determine the Zero-State Response**
+
+For the system in Ex. 7.18, show that the zero-input response to the input \(e^{t}u(-t)\) is \(y(t)=\frac{1}{3}[e^{t}u(-t)+e^{-2t}u(t)]\). **[_Hint:_** Use pair 2 (Table 7.1) to find the Fourier transform of \(e^{t}u(-t)\).]**
+
+## Heuristic Understanding of Linear System Response
+
+In finding the linear system response to arbitrary input, the time-domain method uses convolution integral and the frequency-domain method uses the Fourier integral. Despite the apparent dissimilarities of the two methods, their philosophies are amazingly similar. In the time-domain case, we express the input \(x(t)\) as a sum of its impulse components; in the frequency-domain case, the input is expressed as a sum of everlasting exponentials (or sinusoids). In the former case, the response \(y(t)\) obtained by summing the system's responses to impulse components results in the convolution integral; in the latter case, the response obtained by summing the system's response to everlasting exponential components results in the Fourier integral. These ideas can be expressed mathematically as follows:
+
+1. For the time-domain case, \[\delta(t)\Longrightarrow h(t)\] shows the system response to \(\delta(t)\) is the impulse response \(h(t)\) expresses \(x(t)\) as a sum of impulse components expresses \(y(t)\) as a sum of responses to the impulse components of input \(x(t)\)
+
+[MISSING_PAGE_FAIL:44]
+
+relative phases of the various components also change. In general, the output waveform will be different from the input waveform.
+
+### 7.2 Distortionless Transmission
+
+In several applications, such as signal amplification or message signal transmission over a communication channel, we require that the output waveform be a replica of the input waveform. In such cases we need to minimize the distortion caused by the amplifier or the communication channel. It is, therefore, of practical interest to determine the characteristics of a system that allows a signal to pass without distortion (_distortionless transmission_).
+
+Transmission is said to be distortionless if the input and the output have identical waveshapes within a multiplicative constant. A delayed output that retains the input waveform is also considered to be distortionless. Thus, in distortionless transmission, the input \(x(t)\) and the output \(y(t)\) satisfy the condition
+
+\[y(t)=G_{0}x(t-t_{d})\]
+
+The Fourier transform of this equation yields
+
+\[Y(\omega)=G_{0}X(\omega)e^{-j\omega t_{d}}\]
+
+But
+
+\[Y(\omega)=X(\omega)H(\omega)\]
+
+Therefore,
+
+\[H(\omega)=G_{0}\,e^{-j\omega t_{d}}\]
+
+This is the frequency response required of a system for distortionless transmission. From this equation, it follows that
+
+\[|H(\omega)|=G_{0}\qquad\text{and}\qquad\measured H(\omega)=-\omega t_{d} \tag{7.39}\]
+
+This result shows that for distortionless transmission, the amplitude response \(|H(\omega)|\) must be a constant, and the phase response \(\measured H(\omega)\) must be a linear function of \(\omega\) with slope \(-t_{d}\), where \(t_{d}\) is the delay of the output with respect to input (Fig. 7.29).
+
+### 7.3 Measure of Time-Delay Variation with Frequency
+
+The gain \(|H(\omega)|=G_{0}\) means that every spectral component is multiplied by a constant \(G_{0}\). Also, as seen in connection with Fig. 7.22, a linear phase \(\measured H(\omega)=-\omega t_{d}\) means that every spectral
+
+Figure 7.29: LTIC system frequency response for distortionless transmission.
+
+component is delayed by \(t_{d}\) seconds. This results in the output equal to \(G_{0}\) times the input delayed by \(t_{d}\) seconds. Because each spectral component is attenuated by the same factor (\(G_{0}\)) and delayed by exactly the same amount (\(t_{d}\)), the output signal is an exact replica of the input (except for attenuating factor \(G_{0}\) and delay \(t_{d}\)).
+
+For distortionless transmission, we require a _linear phase_ characteristic. The phase is not only a linear function of \(\omega\), it should also pass through the origin \(\omega=0\). In practice, many systems have a phase characteristic that may be only approximately linear. A convenient way of judging phase linearity is to plot the slope of \(\angle H(\omega)\) as a function of frequency. This slope, which is constant for an ideal linear phase (ILP) system, is a function of \(\omega\) in the general case and can be expressed as
+
+\[t_{g}(\omega)=-\frac{d}{d\omega}\angle H(\omega) \tag{7.40}\]
+
+If \(t_{g}(\omega)\) is constant, all the components are delayed by the same time interval \(t_{g}\). But if the slope is not constant, the time delay \(t_{g}\) varies with frequency. This variation means that different frequency components undergo different amounts of time delay, and consequently, the output waveform will not be a replica of the input waveform. As we shall see, \(t_{g}(\omega)\) plays an important role in bandpass systems and is called the _group delay_ or _envelope_ delay. Observe that constant \(t_{d}\) [Eq. (7.39)] implies constant \(t_{g}\). Note that \(\angle H(\omega)=\phi_{0}-\omega t_{g}\) also has a constant \(t_{g}\). Thus, constant group delay is a more relaxed condition.
+
+It is often thought (erroneously) that flatness of amplitude response \(|H(\omega)|\) alone can guarantee signal quality. However, a system that has a flat amplitude response may yet distort a signal beyond recognition if the phase response is not linear (\(t_{d}\) not constant).
+
+## The Nature of Distortion in Audio and Video Signals
+
+Generally speaking, the human ear can readily perceive amplitude distortion but is relatively insensitive to phase distortion. For the phase distortion to become noticeable, the variation in delay [variation in the slope of \(\angle H(\omega)\)] should be comparable to the signal duration (or the physically perceptible duration, in case the signal itself is long). In the case of audio signals, each spoken syllable can be considered to be an individual signal. The average duration of a spoken syllable is of a magnitude of the order of 0.01 to 0.1 second. Audio systems may have nonlinear phases, yet no noticeable signal distortion results because in practical audio systems, maximum variation in the slope of \(\angle H(\omega)\) is only a small fraction of a millisecond. This is the real truth underlying the statement that "the human ear is relatively insensitive to phase distortion" [3]. As a result, the manufacturers of audio equipment make available only \(|H(\omega)|\), the amplitude response characteristic of their systems.
+
+For video signals, in contrast, the situation is exactly the opposite. The human eye is sensitive to phase distortion but is relatively insensitive to amplitude distortion. Amplitude distortion in television signals manifests itself as a partial destruction of the relative half-tone values of the resulting picture, but this effect is not readily apparent to the human eye. Phase distortion (nonlinear phase), on the other hand, causes different time delays in different picture elements. The result is a smeared picture, and this effect is readily perceived by the human eye. Phase distortion is also very important in digital communication systems because the nonlinear phase characteristic of a channel causes pulse dispersion (spreading out), which in turn causes pulses to interfere with neighboring pulses. Such interference between pulses can cause an error in the pulse amplitude at the receiver: a binary **1** may read as **0**, and vice versa.
+
+### 7.4-2 Bandpass Systems and Group Delay
+
+The distortionless transmission conditions [Eq. (7.39)] can be relaxed slightly for bandpass systems. For lowpass systems, the phase characteristics not only should be linear over the band of interest but also should pass through the origin. For bandpass systems, the phase characteristics must be linear over the band of interest but need not pass through the origin.
+
+Consider an LTI system with amplitude and phase characteristics as shown in Fig. 7.30, where the amplitude spectrum is a constant \(G_{0}\) and the phase is \(\phi_{0}-\omega t_{g}\) over a band \(2W\) centered at frequency \(\omega_{c}\). Over this band, we can describe \(H(\omega)\) as1
+
+Footnote 1: Because the phase function is an odd function of \(\omega\), if \(\angle H(\omega)=\phi_{0}-\omega t_{g}\) for \(\omega\geq 0\), over the band \(2W\) (centered at \(\omega_{c}\)), then \(\angle H(\omega)=-\phi_{0}-\omega t_{g}\) for \(\omega<0\) over the band \(2W\) (centered at \(-\omega_{c}\)), as shown in Fig. 7.30a.
+
+\[H(\omega)=G_{0}e^{i(\phi_{0}-\omega t_{g})}\qquad\omega\geq 0 \tag{7.41}\]
+
+The phase of \(H(\omega)\) in Eq. (7.41), shown dotted in Fig. 7.30b, is linear but does not pass through the origin.
+
+Consider a modulated input signal \(z(t)=x(t)\cos\omega_{c}t\). This is a bandpass signal, whose spectrum is centered at \(\omega=\omega_{c}\). The signal \(\cos\omega_{c}t\) is the carrier, and the signal \(x(t)\), which is a lowpass signal of bandwidth \(W\) (see Fig. 7.25), is the _envelope_ of \(z(t)\).2 We shall now show that the transmission of \(z(t)\) through \(H(\omega)\) results in distortionless transmission of the envelope \(x(t)\). However, the carrier phase changes by \(\phi_{0}\). To show this, consider an input \(\hat{z}(t)=x(t)e^{i\omega_{c}t}\) and the corresponding output \(\hat{y}(t)\). From Eq. (7.30), \(\hat{Z}(\omega)=X(\omega-\omega_{c})\), and the corresponding output
+
+Figure 7.30: Generalized linear phase characteristics.
+
+spectrum \(\hat{Y}(\omega)\) is given by
+
+\[\hat{Y}(\omega)=H(\omega)\hat{Z}(\omega)=H(\omega)X(\omega-\omega_{c})\]
+
+Recall that the bandwidth of \(X(\omega)\) is \(W\) so that the bandwidth of \(X(\omega-\omega_{c})\) is \(2W\), centered at \(\omega_{c}\). Over this range, \(H(\omega)\) is given by Eq. (7.41). Hence,
+
+\[\hat{Y}(\omega)=G_{0}X(\omega-\omega_{c})e^{i(\phi_{0}-\omega t_{g})}=G_{0}e^{ i\phi_{0}}X(\omega-\omega_{c})e^{-\omega t_{g}}\]
+
+Use of Eqs. (7.29) and (7.30) yields \(\hat{y}(t)\) as
+
+\[\hat{y}(t)=G_{0}e^{i\phi_{0}}x(t-t_{g})e^{i\omega_{c}(t-t_{g})}=G_{0}x(t-t_{g}) e^{i[\omega_{c}(t-t_{g})+\phi_{0}]}\]
+
+This is the system response to input \(\hat{z}(t)=x(t)e^{i\omega_{c}t}\), which is a complex signal. We are really interested in finding the response to the input \(z(t)=x(t)\cos\omega_{c}t\), which is the real part of \(\hat{z}(t)=x(t)e^{i\omega_{c}t}\). Hence, we use Eq. (2.31) to obtain \(y(t)\), the system response to the input \(z(t)=x(t)\cos\omega_{c}t\), as
+
+\[y(t)=G_{0}x(t-t_{g})\cos\left[\omega_{c}(t-t_{g})+\phi_{0}\right)] \tag{7.42}\]
+
+where \(t_{g}\), the _group_ (or _envelope_) delay, is the negative slope of \(\angle H(\omega)\) at \(\omega_{c}\).2
+
+Footnote 2: Equation (7.42) can also be expressed as
+
+\[y(t)=G_{\alpha}x(t-t_{g})\cos\omega_{c}(t-t_{\rm ph})\]
+
+ where \(t_{\rm ph}\), called the _phase delay_ at \(\omega_{c}\), is given by \(t_{\rm ph}(\omega_{c})=(\omega_{c}t_{g}-\phi_{0})/\omega_{c}\). Generally, \(t_{\rm ph}\) varies with \(\omega\), and we can write \[t_{\rm ph}(\omega)=\frac{\omega t_{g}-\phi_{0}}{\omega}\]
+
+ Recall also that \(t_{g}\) itself may vary with \(\omega\). The output envelope \(x(t-t_{g})\) is the delayed version of the input envelope \(x(t)\) and is not affected by extra phase \(\phi_{0}\) of the carrier. In a modulated signal, such as \(x(t)\cos\omega_{c}t\), the information generally resides in the envelope \(x(t)\). Hence, the transmission is considered to be distortionless if the envelope \(x(t)\) remains undistorted.
+
+Most practical systems satisfy Eq. (7.41), at least over a very small band. Figure 7.30b shows a typical case in which this condition is satisfied for a small band \(W\) centered at frequency \(\omega_{c}\).
+
+A system in Eq. (7.41) is said to have a _generalized linear phase_ (GLP), as illustrated in Fig. 7.30. The ideal linear phase (ILP) characteristics is shown in Fig. 7.29. For distortionless transmission of bandpass signals, the system need satisfy Eq. (7.41) only over the bandwidth of the bandpass signal.
+
+**Caution.** Recall that the phase response associated with the amplitude response may have jump discontinuities when the amplitude response goes negative. Jump discontinuities also arise because of the use of the principal value for phase. Under such conditions, to compute the group delay [Eq. (7.40)], we should ignore the jump discontinuities.
+
+**Example 7.19**: **Distortionless Bandpass Transmission**
+
+**(a)**: A signal \(z(t)\), shown in Fig. 7.31b, is given by
+
+\[z(t)=x(t)\cos\omega_{c}t\]
+
+where \(\omega_{c}=2000\pi\). The pulse \(x(t)\) (Fig. 7.31a) is a lowpass pulse of duration 0.1 second and has a bandwidth of about 10 Hz. This signal is passed through a filter whose frequency response is shown in Fig. 7.31c (shown only for positive \(\omega\)). Find and sketch the filter output \(y(t)\).
+**(b)**: Find the filter response if \(\omega_{c}=4000\pi\).
+
+**(a)**: The spectrum \(Z(\omega)\) is a narrow band of width 20 Hz, centered at frequency \(f_{0}=1\) kHz. The gain at the center frequency (1 kHz) is 2. The group delay, which is the negative of the slope of the phase plot, can be found by drawing tangents at \(\omega_{c}\), as shown in Fig. 7.31c. The negative of the slope of the tangent represents \(t_{g}\), and the intercept along the vertical axis by the tangent represents \(\phi_{0}\) at that frequency. From the tangents at \(\omega_{c}\), we find \(t_{g}\), the group delay, as
+
+\[t_{g}=\frac{2.4\pi-0.4\pi}{2000\pi}=10^{-3}\]
+
+The vertical axis intercept is \(\phi_{0}=-0.4\pi\). Hence, by using Eq. (7.42) with gain \(G_{0}=2\), we obtain
+
+\[y(t)=2x(t-t_{g})\cos\left[\omega_{c}(t-t_{g})-0.4\pi\right]\qquad\omega_{c}=2 000\pi\quad t_{g}=10^{-3}\]
+
+Figure 7.31d shows the output \(y(t)\), which consists of the modulated pulse envelope \(x(t)\) delayed by 1 ms and the phase of the carrier changed by \(-0.4\pi\). The output shows no distortion of the envelope \(x(t)\), only the delay. The carrier phase change does not affect the shape of envelope. Hence, the transmission is considered distortionless.
+
+**(b)**: Figure 7.31c shows that when \(\omega_{c}=4000\pi\), the slope of \(\angle H(\omega)\) is zero so that \(t_{g}=0\). Also, the gain \(G_{0}=1.5\), and the intercept of the tangent with the vertical axis is \(\phi_{0}=-3.1\pi\). Hence,
+
+\[y(t)=1.5x(t)\cos\left(\omega_{c}t-3.1\pi\right)\]
+
+This, too, is a distortionless transmission for the same reasons as for case (a).
+
+Figure 7.31: Plots for Ex. 7.19.
+
+## Chapter 7 Continuous-time signal analysis: the Fourier transform
+
+### 7.5 Ideal and Practical Filters
+
+Ideal filters allow distortionless transmission of a certain band of frequencies and completely suppress the remaining frequencies. The ideal lowpass filter (Fig. 7.32), for example, allows all components below \(\omega=W\) rad/s to pass without distortion and suppresses all components above \(\omega=W\). Figure 7.33 illustrates ideal highpass and bandpass filter characteristics.
+
+The ideal lowpass filter in Fig. 7.32 has a linear phase of slope \(-t_{d}\), which results in a time delay of \(t_{d}\) seconds for all its input components of frequencies below \(W\) rad/s. Therefore, if the input is a signal \(x(t)\) bandlimited to \(W\) rad/s, the output \(y(t)\) is \(x(t)\) delayed by \(t_{d}\): that is,
+
+\[y(t)=x(t-t_{d})\]
+
+The signal \(x(t)\) is transmitted by this system without distortion, but with time delay \(t_{d}\). For this filter, \(|H(\omega)|=\operatorname{rect}\left(\omega/2W\right)\) and \(\angle H(\omega)=e^{-j\omega t_{d}}\) so that
+
+\[H(\omega)=\operatorname{rect}\left(\frac{\omega}{2W}\right)e^{-j\omega t_{d}}\]
+
+Figure 7.32: Ideal lowpass filter: **(a)** frequency response and **(b)** impulse response.
+
+Figure 7.33: Ideal **(a)** highpass and **(b)** bandpass filter frequency responses.
+
+The unit impulse response \(h(t)\) of this filter is obtained from pair 18 (Table 7.1) and the time-shifting property
+
+\[h(t)={\cal F}^{-1}\left[\mbox{rect}\left(\frac{\omega}{2W}\right)e^{-j\omega t_{ d}}\right]=\frac{W}{\pi}\,\mbox{sinc}\left[W(t-t_{d})\right]\]
+
+Recall that \(h(t)\) is the system response to impulse input \(\delta(t)\), which is applied at \(t=0\). Figure 7.32b shows a curious fact: the response \(h(t)\) begins even before the input is applied (at \(t=0\)). Clearly, the filter is noncausal and therefore physically unrealizable. Similarly, one can show that other ideal filters (such as the ideal highpass or ideal bandpass filters depicted in Fig. 7.33) are also physically unrealizable.
+
+For a physically realizable system, \(h(t)\) must be causal; that is,
+
+\[h(t)=0\qquad\mbox{ for }t<0\]
+
+In the frequency domain, this condition is equivalent to the well-known _Paley_-_Wiener criterion,_ which states that the necessary and sufficient condition for the amplitude response \(|H(\omega)|\) to be realizable is+
+
+Footnote †: \({}^{\dagger}\) We are assuming that \(|H(\omega)|\) is square integrable, that is,
+
+\[\int_{-\infty}^{\infty}|H(\omega)|^{2}\,d\omega<\infty\]
+
+ Note that the Paley-Wiener criterion is a criterion for the realizability of the amplitude response \(|H(\omega)|\).
+
+(0.1 ms) would be a reasonable choice. The truncation operation [cutting the tail of \(h(t)\) to make it causal], however, creates some unsuspected problems. We discuss these problems and their cure in Sec. 7.8.
+
+In practice, we can realize a variety of filter characteristics that approach the ideal. Practical (realizable) filter characteristics are gradual, without jump discontinuities in amplitude response.
+
+##### 7.11 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.12 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.13 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.14 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.15 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.16 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.17 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.17 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.18 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.19 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.2.1 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.2.2 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.2.3 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.2.4 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.2.5 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.2.6 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.2.7 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.2.7 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.2.8 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.2.9 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.3.1 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.3.2 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.3.3 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.3.4 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.3.1 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.3.2 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.3.5 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.3.6 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+
+##### 7.3.7 The Unrealizable Gaussian Response
+
+Show that a filter with Gaussian frequency response \(H(\omega)=e^{-\alpha\omega^{2}}\) is unrealizable. Demonstrate this fact in two ways: first by showing that its impulse response is noncausal, and then by showing that \(|H(\omega)|\) violates the Paley-Wiener criterion. [_Hint:_ Use pair 22 in Table 7.1.]
+Experienced electrical engineers instinctively think in both domains (time and frequency) whenever possible. When they look at a signal, they consider its waveform, the signal width (duration), and the rate at which the waveform decays. This is basically a time-domain perspective. They also think of the signal in terms of its frequency spectrum, that is, in terms of its sinusoidal components and their relative amplitudes and phases, whether the spectrum is lowpass, bandpass, highpass, and so on. This is a frequency-domain perspective. Experienced electrical engineers think of a system in terms of its impulse response \(h(t)\). The width of \(h(t)\) indicates the time constant (response time): that is, how quickly the system is capable of responding to an input, and how much dispersion (spreading) it will cause. This is a time-domain perspective. From the frequency-domain perspective, these engineers view a system as a filter, which selectively transmits certain frequency components and suppresses the others [frequency response \(H(\omega)\)]. Knowing the input signal spectrum and the frequency response of the system, they create a mental image of the output signal spectrum. This concept is precisely expressed by \(Y(\omega)=X(\omega)H(\omega)\).
+
+We can analyze LTI systems by time-domain techniques or by frequency-domain techniques. Then why learn both? The reason is that the two domains offer complementary insights into system behavior. Some aspects are easily grasped in one domain; other aspects may be easier to see in the other domain. Both time-domain and frequency-domain methods are as essential for the study of signals and systems as two eyes are essential to a human being for correct visual perception of reality. A person can see with either eye, but for proper perception of three-dimensional reality, both eyes are essential.
+
+It is important to keep the two domains separate, and not to mix the entities in the two domains. If we are using the frequency domain to determine the system response, we must deal with all signals in terms of their spectra (Fourier transforms) and all systems in terms of their frequency responses. For example, to determine the system response \(y(t)\) to an input \(x(t)\), we must first convert the input signal into its frequency-domain description \(X(\omega)\). The system description also must be in the frequency domain, that is, the frequency response \(H(\omega)\). The output signal spectrum \(Y(\omega)=X(\omega)H(\omega)\). Thus, the result (output) is also in the frequency domain. To determine the final answer \(y(t)\), we must take the inverse transform of \(Y(\omega)\).
+
+### 7.6 Signal Energy
+
+The signal energy \(E_{x}\) of a signal \(x(t)\) was defined in Ch. 1 as
+
+\[E_{x}=\int_{-\infty}^{\infty}|x(t)|^{2}\,dt \tag{7.44}\]
+
+Signal energy can be related to the signal spectrum \(X(\omega)\) by substituting Eq. (7.10) in Eq. (7.44):
+
+\[E_{x}=\int_{-\infty}^{\infty}x(t)x^{*}(t)\,dt=\int_{-\infty}^{\infty}x(t) \left[\frac{1}{2\pi}\int_{-\infty}^{\infty}X^{*}(\omega)e^{-j\omega t}\,d \omega\right]\,dt\]Here, we used the fact that \(x^{*}(t)\), being the conjugate of \(x(t)\), can be expressed as the conjugate of the right-hand side of Eq. (7.10). Now, interchanging the order of integration yields
+
+\[E_{x} =\frac{1}{2\pi}\int_{-\infty}^{\infty}X^{*}(\omega)\left[\int_{- \infty}^{\infty}x(t)e^{-j\omega t}\,dt\right]d\omega\] \[=\frac{1}{2\pi}\int_{-\infty}^{\infty}X(\omega)X^{*}(\omega)\,d \omega=\frac{1}{2\pi}\int_{-\infty}^{\infty}\left|X(\omega)\right|^{2}d\omega\]
+
+Consequently,
+
+\[E_{x}=\int_{-\infty}^{\infty}\left|x(t)\right|^{2}dt=\frac{1}{2\pi}\int_{- \infty}^{\infty}\left|X(\omega)\right|^{2}d\omega \tag{7.45}\]
+
+This is _Parseval's theorem_ (for the Fourier transform). A similar result was obtained in Eqs. (6.26) and (6.27) for a periodic signal and its Fourier series. This result allows us to determine the signal energy from either the time-domain specification \(x(t)\) or the corresponding frequency-domain specification \(X(\omega)\).
+
+The right-hand side of Eq. (7.45) can be interpreted to mean that the energy of a signal \(x(t)\) results from energies contributed by all the spectral components of the signal \(x(t)\). The total signal energy is the area under \(\left|X(\omega)^{2}\right|\) (divided by \(2\pi\)). If we consider a small band \(\Delta\omega\) (\(\Delta\omega\to 0\)), as illustrated in Fig. 7.35, the energy \(\Delta E_{x}\) of the spectral components in this band is the area of \(\left|X(\omega)\right|^{2}\) under this band (divided by \(2\pi\)):
+
+\[\Delta E_{x}=\frac{1}{2\pi}\left|X(\omega)\right|^{2}\Delta\omega=\left|X( \omega)\right|^{2}\Delta f\qquad\frac{\Delta\omega}{2\pi}=\Delta f\ \mathrm{Hz}\]
+
+Therefore, the energy contributed by the components in this band of \(\Delta f\) (in hertz) is \(\left|X(\omega)\right|^{2}\Delta f\). The total signal energy is the sum of energies of all such bands and is indicated by the area under \(\left|X(\omega)\right|^{2}\) as in Eq. (7.45). Therefore, \(\left|X(\omega)\right|^{2}\) is the _energy spectral density_ (per unit bandwidth in hertz).
+
+For real signals, \(X(\omega)\) and \(X(-\omega)\) are conjugates, and \(\left|X(\omega)\right|^{2}\) is an even function of \(\omega\) because
+
+\[\left|X(\omega)\right|^{2}=X(\omega)X^{*}(\omega)=X(\omega)X(-\omega)\]
+
+Figure 7.35: Interpretation of energy spectral density of a signal.
+
+[MISSING_PAGE_EMPTY:56]
+
+This result indicates that the spectral components of \(x(t)\) in the band from 0 (dc) to 12.706\(a\) rad/s (2.02\(a\) Hz) contribute 95% of the total signal energy; all the remaining spectral components (in the band from 12.706\(a\) rad/s to \(\infty\)) contribute only 5% of the signal energy.
+
+### 7.12 Signal Energy and Parseval's Theorem
+
+Use Parseval's theorem to show that the energy of the signal \(x(t)=2a/(t^{2}+a^{2})\) is \(2\pi/a\). [_Hint:_ Find \(X(\omega)\) using pair 3 of Table 7.1 and the duality property.]
+
+### 7.13 The Essential Bandwidth of a Signal
+
+The spectra of all practical signals extend to infinity. However, because the energy of any practical signal is finite, the signal spectrum must approach 0 as \(\omega\rightarrow\infty\). Most of the signal energy is contained within a certain band of \(B\) Hz, and the energy contributed by the components beyond \(B\) Hz is negligible. We can therefore suppress the signal spectrum beyond \(B\) Hz with little effect on the signal shape and energy. The bandwidth \(B\) is called the _essential bandwidth_ of the signal. The criterion for selecting \(B\) depends on the error tolerance in a particular application. We may, for example, select \(B\) to be that band which contains 95% of the signal energy.1 This figure may be higher or lower than 95%, depending on the precision needed. Using such a criterion, we can determine the essential bandwidth of a signal. The essential bandwidth \(B\) for the signal \(e^{-at}u(t)\), using 95% energy criterion, was determined in Ex. 7.20 to be 2.02\(a\) Hz.
+
+Footnote 1: For lowpass signals, the essential bandwidth may also be defined as a frequency at which the value of the amplitude spectrum is a small fraction (about 1%) of its peak value. In Ex. 7.20, for instance, the peak value, which occurs at \(\omega=0\), is \(1/a\).
+
+Suppression of all the spectral components of \(x(t)\) beyond the essential bandwidth results in a signal \(\hat{x}(t)\), which is a close approximation of \(x(t)\). If we use the 95% criterion for the essential bandwidth, the energy of the error (the difference) \(x(t)-\hat{x}(t)\) is 5% of \(E_{x}\).
+
+## 7.7 Application to Communications: Amplitude Modulation
+
+_Modulation_ causes a spectral shift in a signal and is used to gain certain advantages mentioned in our discussion of the frequency-shifting property. Broadly speaking, there are two classes of modulation: amplitude (linear) modulation and angle (nonlinear) modulation. In this section, we shall discuss some practical forms of amplitude modulation.
+
+### Double-Sideband, Suppressed-Carrier (DSB-SC) Modulation
+
+In amplitude modulation, the amplitude \(A\) of the carrier \(A\cos{(\omega_{c}t+\theta_{c})}\) is varied in some manner with the _baseband_ (message)+ signal \(m(t)\) (known as the _modulating signal_). The frequency \(\omega_{c}\) and the phase \(\theta_{c}\) are constant. We can assume \(\theta_{c}=0\) without loss of generality. If the carrier amplitude \(A\) is made directly proportional to the modulating signal \(m(t)\), the modulated signal is \(m(t)\cos{\omega_{c}t}\) (Fig. 7.36). As was indicated earlier [Eq. (7.32)], this type of modulation simply shifts the spectrum of \(m(t)\) to the carrier frequency (Fig. 7.36c). Thus, if
+
+Footnote †: The term _baseband_ is used to designate the band of frequencies of the signal delivered by the source or the input transducer.
+
+\[m(t)\Longleftrightarrow M(\omega)\]
+
+Figure 7.36: DSB-SC modulation.
+
+then
+
+\[m(t)\cos\omega_{c}t\Longleftrightarrow{{1\over 2}}\left[M(\omega+ \omega_{c})+M(\omega-\omega_{c})\right] \tag{7.48}\]
+
+Recall that \(M(\omega-\omega_{c})\) is \(M(\omega)\)-shifted to the right by \(\omega_{c}\) and \(M(\omega+\omega_{c})\) is \(M(\omega)\)-shifted to the left by \(\omega_{c}\). Thus, the process of modulation shifts the spectrum of the modulating signal to the left and the right by \(\omega_{c}\). Note also that if the bandwidth of \(m(t)\) is \(B\) Hz, then, as indicated in Fig. 7.36c, the bandwidth of the modulated signal is \(2B\) Hz. We also observe that the modulated signal spectrum centered at \(\omega_{c}\) is composed of two parts: a portion that lies above \(\omega_{c}\), known as the _upper sideband (USB)_, and a portion that lies below \(\omega_{c}\), known as the _lower sideband (LSB)_. Similarly, the spectrum centered at \(-\omega_{c}\) has upper and lower sidebands. This form of modulation is called _double sideband (DSB)_ modulation for the obvious reason.
+
+The relationship of \(B\) to \(\omega_{c}\) is of interest. Figure 7.36c shows that \(\omega_{c}\geq 2\pi B\) to avoid the overlap of the spectra centered at \(\pm\omega_{c}\). If \(\omega_{c}<2\pi B\), the spectra overlap and the information of \(m(t)\) are lost in the process of modulation, a loss that makes it impossible to get back \(m(t)\) from the modulated signal \(m(t)\cos\omega_{c}t\).1
+
+Footnote 1: Practical factors may impose additional restrictions on \(\omega_{c}\). For instance, in broadcast applications, a radiating antenna can radiate only a narrow band without distortion. This restriction implies that avoiding distortion caused by the radiating antenna calls for \(\omega_{c}/2\pi B\gg 1\). The broadcast band AM radio, for instance, with \(B=5\) kHz and the band of 550–1600 kHz for carrier frequency gives a ratio of \(\omega_{c}/2\pi B\) roughly in the range of 100–300.
+
+## 7.2 Double-Sideband Suppressed-Carrier Modulation
+
+For a baseband signal \(m(t)=\cos\omega_{m}t\), find the DSB-SC signal and sketch its spectrum. Identify the upper and lower sidebands.
+
+We shall work this problem in the frequency domain as well as the time domain to clarify the basic concepts of DSB-SC modulation. In the frequency-domain approach, we work with the signal spectra. The spectrum of the baseband signal \(m(t)=\cos\omega_{m}t\) is given by
+
+\[M(\omega)=\pi\left[\delta(\omega-\omega_{m})+\delta(\omega+\omega_{m})\right]\]
+
+The spectrum consists of two impulses located at \(\pm\omega_{m}\), as depicted in Fig. 7.37a.
+
+The DSB-SC (modulated) spectrum, as indicated by Eq. (7.48), is the baseband spectrum in Fig. 7.37a shifted to the right and the left by \(\omega_{c}\) (times 0.5), as depicted in Fig. 7.37b. This spectrum consists of impulses at \(\pm(\omega_{c}-\omega_{m})\) and \(\pm(\omega_{c}+\omega_{m})\). The spectrum beyond \(\omega_{c}\) is the upper sideband (USB), and the one below \(\omega_{c}\) is the lower sideband (LSB). Observe that the DSB-SC spectrum does not have as a component the carrier frequency \(\omega_{c}\). This is why the term _double-sideband, suppressed carrier_ (DSB-SC) is used for this type of modulation.
+
+In the time-domain approach, we work directly with signals in the time domain. For the baseband signal \(m(t)=\cos\omega_{m}t\), the DSB-SC signal \(\varphi_{\text{DSB-SC}}(t)\) is
+
+\[\varphi_{\text{DSB-SC}}(t) =m(t)\cos\omega_{c}t\] \[=\cos\omega_{m}t\cos\omega_{c}t\] \[=\tfrac{1}{2}[\cos\left(\omega_{c}+\omega_{m}\right)t+\cos\left( \omega_{c}-\omega_{m}\right)t] \tag{7.49}\]
+
+This result shows that when the baseband (message) signal is a single sinusoid of frequency \(\omega_{m}\), the modulated signal consists of two sinusoids: the component of frequency \(\omega_{c}+\omega_{m}\) (the upper sideband), and the component of frequency \(\omega_{c}-\omega_{m}\) (the lower sideband). Figure 7.37b illustrates precisely the spectrum of \(\varphi_{\text{DSB-SC}}(t)\). Thus, each component of frequency \(\omega_{m}\) in the modulating signal results in two components of frequencies \(\omega_{c}+\omega_{m}\) and \(\omega_{c}-\omega_{m}\) in the modulated signal. This being a DSB-SC (suppressed-carrier) modulation, there is no component of the carrier frequency \(\omega_{c}\) on the right-hand side of Eq. (7.49).+
+
+Footnote †: The term _suppressed carrier_ does not necessarily mean absence of the spectrum at the carrier frequency. “Suppressed carrier” merely implies that there is no discrete component of the carrier frequency. Since no discrete component exists, the DSB-SC spectrum does not have impulses at \(\pm\omega_{c}\), which further implies that the modulated signal \(m(t)\cos\omega_{c}t\) does not contain a term of the form \(k\cos\omega_{c}t\) [assuming that \(m(t)\) has a zero mean value].
+
+## 84 Demodulation of DSB-SC Signals
+
+The DSB-SC modulation translates or shifts the frequency spectrum to the left and the right by \(\omega_{c}\) (i.e., at \(+\omega_{c}\) and \(-\omega_{c}\)), as seen from Eq. (7.48). To recover the original signal \(m(t)\) from
+
+Figure 7.37: An example of DSB-SC modulation.
+
+the modulated signal, we must retranslate the spectrum to its original position. The process of recovering the signal from the modulated signal (retranslating the spectrum to its original position) is referred to as _demodulation_, or _detection_. Observe that if the modulated signal spectrum in Fig. 7.36c is shifted to the left and to the right by \(\omega_{c}\) (and halved), we obtain the spectrum illustrated in Fig. 7.38b, which contains the desired baseband spectrum in addition to an unwanted spectrum at \(\pm 2\omega_{c}\). The latter can be suppressed by a lowpass filter. Thus, demodulation, which is almost identical to modulation, consists of multiplication of the incoming modulated signal \(m(t)\cos\omega_{c}t\) by a carrier \(\cos\omega_{c}t\) followed by a lowpass filter, as depicted in Fig. 7.38a. We can verify this conclusion directly in the time domain by observing that the signal \(e(t)\) in Fig. 7.38a is
+
+\[e(t)=m(t)\cos^{2}\omega_{c}t=\tfrac{1}{2}[m(t)+m(t)\cos 2\omega_{c}t]\]
+
+Therefore, the Fourier transform of the signal \(e(t)\) is
+
+\[E(\omega)=\tfrac{1}{2}M(\omega)+\tfrac{1}{4}[M(\omega+2\omega_{c})+M(\omega-2 \omega_{c})]\]
+
+Hence, \(e(t)\) consists of two components \((1/2)m(t)\) and \((1/2)m(t)\cos 2\omega_{c}t\), with their spectra, as illustrated in Fig. 7.38b. The spectrum of the second component, being a modulated signal with carrier frequency \(2\omega_{c}\), is centered at \(\pm 2\omega_{c}\). Hence, this component is suppressed by the lowpass filter in Fig. 7.38a. The desired component \((1/2)M(\omega)\), being a lowpass spectrum (centered at \(\omega=0\)), passes through the filter unharmed, resulting in the output \((1/2)m(t)\).
+
+A possible form of lowpass filter characteristics is depicted (dotted) in Fig. 7.38b. In this method of recovering the baseband signal, called _synchronous detection,_ or _coherent detection,_ we use a carrier of exactly the same frequency (and phase) as the carrier used for modulation. Thus, for demodulation, we need to generate a local carrier at the receiver in frequency and phase coherence (synchronism) with the carrier used at the modulator. We shall demonstrate in Ex. 7.22 that both phase and frequency synchroni
+
+Figure 7.38: Demodulation of DSB-SC: **(a)** demodulator and **(b)** spectrum of \(e(t)\).
+
+### Example 7.22 Frequency and Phase Incoherence in DSB-SC
+
+Discuss the effect of lack of frequency and phase coherence (synchronism) between the carriers at the modulator (transmitter) and the demodulator (receiver) in DSB-SC.
+
+Let the modulator carrier be \(\cos\omega_{c}t\) (Fig. 7.36a). For the demodulator in Fig. 7.38a, we shall consider two cases: with carrier \(\cos\left(\omega_{c}t+\theta\right)\) (phase error of \(\theta\)) and with carrier \(\cos\left(\omega_{c}+\Delta\omega\right)t\) (frequency error \(\Delta\omega\)).
+
+**(a)** With the demodulator carrier \(\cos\left(\omega_{c}t+\theta\right)\) (instead of \(\cos\omega_{c}t\)) in Fig. 7.38a, the multiplier output is \(e(t)=m(t)\cos\omega_{c}t\cos\left(\omega_{c}t+\theta\right)\) instead of \(m(t)\cos^{2}\omega_{c}t\). From the trigonometric identity, we obtain
+
+\[e(t) =m(t)\cos\omega_{c}t\cos\left(\omega_{c}t+\theta\right)\] \[=\tfrac{1}{2}m(t)[\cos\theta+\cos\left(2\omega_{c}t+\theta\right)]\]
+
+The spectrum of the component \((1/2)m(t)\cos\left(2\omega_{c}t+\theta\right)\) is centered at \(\pm 2\omega_{c}\). Consequently, it will be filtered out by the lowpass filter at the output. The component \((1/2)m(t)\cos\theta\) is the signal \(m(t)\) multiplied by a constant \((1/2)\cos\theta\). The spectrum of this component is centered at \(\omega=0\) (lowpass spectrum) and will pass through the lowpass filter at the output, yielding the output \((1/2)m(t)\cos\theta\).
+
+If \(\theta\) is constant, the phase asynchronism merely yields an output that is attenuated (by a factor \(\cos\theta\)). Unfortunately, in practice, \(\theta\) is often the phase difference between the carriers generated by two distant generators and varies randomly with time. This variation would result in an output whose gain varies randomly with time.
+
+**(b)** In the case of frequency error, the demodulator carrier is \(\cos\left(\omega_{c}+\Delta\omega\right)t\). This situation is very similar to the phase error case in part (a) with \(\theta\) replaced by \((\Delta\omega)t\). Following the analysis in part (a), we can express the demodulator product \(e(t)\) as
+
+\[e(t) =m(t)\cos\omega_{c}t\cos\left(\omega_{c}+\Delta\omega\right)t\] \[=\tfrac{1}{2}m(t)[\cos\left(\Delta\omega\right)t+\cos\left(2 \omega_{c}+\Delta\omega\right)t]\]
+
+The spectrum of the component \((1/2)m(t)\cos\left(2\omega_{c}+\Delta\omega\right)t\) is centered at \(\pm(2\omega_{c}+\Delta\omega)\). Consequently, this component will be filtered out by the lowpass filter at the output. The component \((1/2)m(t)\cos\left(\Delta\omega\right)t\) is the signal \(m(t)\) multiplied by a low-frequency carrier of frequency \(\Delta\omega\). The spectrum of this component is centered at \(\pm\Delta\omega\). In practice, the frequency error \((\Delta\omega)\) is usually very small. Hence, the signal \((1/2)m(t)\cos\left(\Delta\omega\right)t\) (whose spectrum is centered at \(\pm\Delta\omega\)) is a lowpass signal and passes through the lowpass filter at the output, resulting in the output \((1/2)m(t)\cos\left(\Delta\omega\right)t\). The output is the desired signal \(m(t)\) multiplied by a very-low-frequency sinusoid \(\cos\left(\Delta\omega\right)t\). The output in this case is not merely an attenuated replica of the desired signal \(m(t)\), but represents \(m(t)\) multiplied by a time-varying gain \(\cos\left(\Delta\omega\right)t\). If, for instance, the transmitter and the receiver carrier frequencies differ just by 1 Hz, the output will be the desired signal \(m(t)\) multiplied by a time-varying signal whose gain goes from the maximum to 0 every half-second. This is like a restless child fiddling with the volume control knob of a receiver, going from maximum volume to zero volume every half-second. This kind of distortion (called the _beat effect_) is beyond repair.
+
+### 7.7-2 Amplitude Modulation (AM)
+
+For the suppressed-carrier scheme just discussed, a receiver must generate a carrier in frequency and phase synchronism with the carrier at a transmitter that may be located hundreds or thousands of miles away. This situation calls for a sophisticated receiver, which could be quite costly. The other alternative is for the transmitter to transmit a carrier \(A\cos\omega_{c}t\) [along with the modulated signal \(m(t)\cos\omega_{c}t\)] so that there is no need to generate a carrier at the receiver. In this case, the transmitter needs to transmit much larger power, a rather expensive procedure. In point-to-point communications, where there is one transmitter for each receiver, substantial complexity in the receiver system can be justified, provided there is a large enough saving in expensive high-power transmitting equipment. On the other hand, for a broadcast system with a multitude of receivers for each transmitter, it is more economical to have one expensive high-power transmitter and simpler, less expensive receivers. The second option (transmitting a carrier along with the modulated signal) is the obvious choice in this case. This is amplitude modulation (AM), in which the transmitted signal \(\varphi_{{}_{\rm AM}}(t)\) is given by
+
+\[\varphi_{{}_{\rm AM}}(t)=A\cos\omega_{c}t+m(t)\cos\omega_{c}t=[A+m(t)]\cos \omega_{c}t \tag{7.50}\]
+
+Recall that the DSB-SC signal is \(m(t)\cos\omega_{c}t\). From Eq. (7.50) it follows that the AM signal is identical to the DSB-SC signal with \(A+m(t)\) as the modulating signal [instead of \(m(t)\)]. Therefore, to sketch \(\varphi_{{}_{\rm AM}}(t)\), we sketch \(A+m(t)\) and \(-[A+m(t)]\) as the envelopes and fill in between with the sinusoid of the carrier frequency. Two cases are considered in Fig. 7.39. In the first case, \(A\) is large enough so that \(A+m(t)\geq 0\) (is nonnegative) for all values of \(t\). In the second case, \(A\) is not large enough to satisfy this condition. In the first case, the envelope (Fig. 7.39d) has the same shape as \(m(t)\) (although riding on a dc of magnitude \(A\)). In the second case, the envelope shape is not \(m(t)\), for some parts get rectified (Fig. 7.39e). Thus, we can detect the desired signal \(m(t)\) by detecting the envelope in the first case. In the second case, such a detection is not possible. We shall see that envelope detection is an extremely simple and inexpensive operation, which does not require generation of a local carrier for the demodulation. But as just noted, the envelope of AM has the information about \(m(t)\) only if the AM signal \([A+m(t)]\cos\omega_{c}t\) satisfies the condition \(A+m(t)>0\) for all \(t\). Thus, the condition for envelope detection of an AM signal is
+
+\[A+m(t)\geq 0\qquad\mbox{for all}\,t \tag{7.51}\]
+
+If \(m_{p}\) is the peak amplitude (positive or negative) of \(m(t)\), then Eq. (7.51) is equivalent to
+
+\[A\geq m_{p}\]
+
+Thus, the minimum carrier amplitude required for the viability of envelope detection is \(m_{p}\). This point is clearly illustrated in Fig. 7.39.
+
+We define the _modulation index_\(\mu\) as
+
+\[\mu=\frac{m_{p}}{A} \tag{7.52}\]
+
+where \(A\) is the carrier amplitude. Note that \(m_{p}\) is a constant of the signal \(m(t)\). Because \(A\geq m_{p}\) and because there is no upper bound on \(A\), it follows that
+
+\[0\leq\mu\leq 1\]as the required condition for the viability of demodulation of AM by an envelope detector.
+
+When \(A<m_{p}\), Eq. (7.52) shows that \(\mu>1\) (overmodulation, shown in Fig. 7.39e). In this case, the option of envelope detection is no longer viable. We then need to use synchronous demodulation. Note that synchronous demodulation can be used for any value of \(\mu\) (see Prob. 7.7-7). The envelope detector, which is considerably simpler and less expensive than the synchronous detector, can be used only when \(\mu\leq 1\).
+
+## Example 7.23 Amplitude Modulation
+
+Sketch \(\varphi_{\rm AM}(t)\) for modulation indices of \(\mu\) = 0.5 (50% modulation) and \(\mu\) = 1 (100% modulation), when \(m(t)=B\cos\omega_{m}t\). This case is referred to as _tone modulation_ because the modulating signal is a pure sinusoid (or tone).
+
+Figure 7.39: An AM signal **(a)** for two values of A **(b, c)** and the respective envelopes **(d, e)**.
+
+In this case, \(m_{p}=B\) and the modulation index according to Eq. (7.52) is
+
+\[\mu=\frac{B}{A}\]
+
+Hence, \(B=\mu A\) and
+
+\[m(t)=B\cos\omega_{m}t=\mu A\cos\omega_{m}t\]
+
+Therefore,
+
+\[\varphi_{\mbox{\tiny{AM}}}(t)=[A+m(t)]\cos\omega_{c}t=A[1+\mu\cos\omega_{m}t] \cos\omega_{c}t\]
+
+The modulated signals corresponding to \(\mu=0.5\) and \(\mu=1\) appear in Figs. 7.40a and 7.40b, respectively.
+
+### 7.4 Demodulation of AM: The Envelope Detector
+
+The AM signal can be demodulated coherently by a locally generated carrier (see Prob. 7.7-7). Since, however, coherent, or synchronous, demodulation of AM (with \(\mu\leq 1\)) will defeat the very purpose of AM, it is rarely used in practice. We shall consider here one of the noncoherent methods of AM demodulation, _envelope detection_.1
+
+Footnote 1: There are also other methods of noncoherent detection. The rectifier detector consists of a rectifier followed by a lowpass filter. This method is also simple and almost as inexpensive as the envelope detector [4]. The nonlinear detector, although simple and inexpensive, results in a distorted output.
+
+In an envelope detector, the output of the detector follows the envelope of the (modulated) input signal. The circuit illustrated in Fig. 7.41a functions as an envelope detector. During the positive cycle of the input signal, the diode conducts and the capacitor \(C\) charges up to the peak voltage of the input signal (Fig. 7.41b). As the input signal falls below this peak value, the diode is cut off, because the capacitor voltage (which is very nearly the peak voltage) is greater than the input signal voltage, a circumstance causing the diode to open. The capacitor now discharges through the resistor \(R\) at a slow rate (with a time constant \(RC\)). During the next positive cycle,the same drama repeats. When the input signal becomes greater than the capacitor voltage, the diode conducts again. The capacitor again charges to the peak value of this (new) cycle. As the input voltage falls below the new peak value, the diode cuts off again and the capacitor discharges slowly during the cutoff period, a process that changes the capacitor voltage very slightly.
+
+In this manner, during each positive cycle, the capacitor charges up to the peak voltage of the input signal and then decays slowly until the next positive cycle. Thus, the output voltage \(v_{C}(t)\) follows closely the envelope of the input. The capacitor discharge between positive peaks, however, causes a ripple signal of frequency \(\omega_{c}\) in the output. This ripple can be reduced by increasing the time constant \(RC\) so that the capacitor discharges very little between the positive peaks (\(RC\gg 1/\omega_{c}\)). Making \(RC\) too large, however, would make it impossible for the capacitor voltage to follow the envelope (see Fig. 7.41b). Thus, \(RC\) should be large in comparison to \(1/\omega_{c}\) but small in comparison to \(1/2\pi B\), where \(B\) is the highest frequency in \(m(t)\). Incidentally, these two conditions also require that \(\omega_{c}\gg 2\pi B\), a condition necessary for a well-defined envelope.
+
+The envelope-detector output \(v_{C}(t)\) is \(A+m(t)\) plus a ripple of frequency \(\omega_{c}\). The dc term \(A\) can be blocked out by a capacitor or a simple \(RC\) highpass filter. The ripple is reduced further by
+
+Figure 7.41: Demodulation by means of envelope detector.
+
+another (lowpass) \(RC\) filter. In the case of audio signals, the speakers also act as lowpass filters, which further enhances suppression of the high-frequency ripple.
+
+### 7.7-3 Single-Sideband Modulation (SSB)
+
+Now consider the baseband spectrum \(M(\omega)\) (Fig. 7.42a) and the spectrum of the DSB-SC modulated signal \(m(t)\cos\omega_{c}t\) (Fig. 7.42b). The DSB spectrum in Fig. 7.42b has two sidebands: the upper and the lower (USB and LSB), both containing complete information on \(M(\omega)\) [see Eq. (7.12)]. Clearly, it is redundant to transmit both sidebands, a process that requires twice the bandwidth of the baseband signal. A scheme in which only one sideband is transmitted is known
+
+Figure 7.42: Spectra for single-sideband transmission: **(a)** baseband, **(b)** DSB, **(c)** USB, **(d)** LSB, and **(e)** synchronously demodulated signal.
+
+as _single-sideband (SSB) transmission,_ which requires only half the bandwidth of the DSB signal. Thus, we transmit only the upper sidebands (Fig. 7.42c) or only the lower sidebands (Fig. 7.42d).
+
+An SSB signal can be coherently (synchronously) demodulated. For example, multiplication of a USB signal (Fig. 7.42c) by \(2\cos\omega_{c}t\) shifts its spectrum to the left and to the right by \(\omega_{c}\), yielding the spectrum in Fig. 7.42e. Lowpass filtering of this signal yields the desired baseband signal. The case is similar with an LSB signal. Hence, demodulation of SSB signals is identical to that of DSB-SC signals, and the synchronous demodulator in Fig. 7.38a can demodulate SSB signals. Note that we are talking of SSB signals without an additional carrier. Hence, they are suppressed-carrier signals (SSB-SC).
+
+**Example 7.24**: **Single-Sideband Modulation**
+
+Find the USB (upper sideband) and LSB (lower sideband) signals when \(m(t)=\cos\omega_{m}t\). Sketch their spectra, and show that these SSB signals can be demodulated using the synchronous demodulator in Fig. 7.38a.
+
+The DSB-SC signal for this case is
+
+\[\varphi_{\rm DSB-SC}(t)=m(t)\cos\omega_{c}t=\cos\omega_{m}t\cos\omega_{c}t =\tfrac{1}{2}[\cos\left(\omega_{c}-\omega_{m}\right)t+\cos\left(\omega_{c}+ \omega_{m}\right)t]\]
+
+As pointed out in Ex. 7.21, the terms \((1/2)\cos\left(\omega_{c}+\omega_{m}\right)t\) and \((1/2)\cos\left(\omega_{c}-\omega_{m}\right)t\) represent the upper and lower sidebands, respectively. The spectra of the upper and lower sidebands are given in Figs. 7.43a and 7.43b. Observe that these spectra can be obtained from the DSB-SC spectrum in Fig. 7.37b by using a proper filter to suppress the undesired sidebands. For instance, the USB signal in Fig. 7.43a can be obtained by passing the DSB-SC signal (Fig. 7.37b) through a highpass filter of cutoff frequency \(\omega_{c}\). Similarly, the LSB signal in Fig. 7.43b can be obtained by passing the DSB-SC signal through a lowpass filter of cutoff frequency \(\omega_{c}\).
+
+If we apply the LSB signal \((1/2)\cos\left(\omega_{c}-\omega_{m}\right)t\) to the synchronous demodulator in Fig. 7.38a, the multiplier output is
+
+\[e(t)=\tfrac{1}{2}\cos\left(\omega_{c}-\omega_{m}\right)t\cos\omega_{c}t= \tfrac{1}{4}[\cos\omega_{m}t+\cos\left(2\omega_{c}-\omega_{m}\right)t]\]
+
+The term \((1/4)\cos\left(2\omega_{c}-\omega_{m}\right)t\) is suppressed by the lowpass filter, producing the desired output \((1/4)\cos\omega_{m}t\) [which is \(m(t)/4\)]. The spectrum of this term is \(\pi[\delta(\omega+\omega_{m})+\delta(\omega-\omega_{m})]/4\), as depicted in Fig. 7.43c. In the same way, we can show that the USB signal can be demodulated by the synchronous demodulator.
+
+In the frequency domain, demodulation (multiplication by \(\cos\omega_{c}t\)) amounts to shifting the LSB spectrum (Fig. 7.43b) to the left and the right by \(\omega_{c}\) (times 0.5) and then suppressing the high frequency, as illustrated in Fig. 7.43c. The resulting spectrum represents the desired signal \((1/4)m(t)\).
+
+### 7.6 Comparison of SSB Signals
+
+Two methods are commonly used to generate SSB signals. The _selective-filtering method_ uses sharp cutoff filters to eliminate the undesired sideband, and the second method uses phase-shifting networks to achieve the same goal [4].2 We shall consider here only the first method.
+
+Footnote 2: The \(\omega_{c}\) is defined as \(\omega_{m}=\omega_{c}+\omega_{m}\), where \(\omega_{c}\) is the angle between the two points.
+
+Selective filtering is the most commonly used method of generating SSB signals. In this method, a DSB-SC signal is passed through a sharp cutoff filter to eliminate the undesired sideband.
+
+To obtain the USB, the filter should pass all components above \(\omega_{c}\) unattenuated and completely suppress all components below \(\omega_{c}\). Such an operation requires an ideal filter, which is unrealizable. It can, however, be realized closely if there is some separation between the passband and the stopband. Fortunately, the voice signal provides this condition, because its spectrum shows little power content at the origin (Fig. 7.44). Moreover, articulation tests show that for speech signals, frequency components below 300 Hz are not important. In other words, we may suppress all speech components below 300 Hz without appreciably affecting intelligibility.3 Thus, filtering of the unwanted sideband becomes relatively easy for speech signals because we have a 600 Hz transition region around the cutoff frequency \(\omega_{c}\). For some signals, which have considerable power
+
+Figure 7.43: Single-sideband spectra for \(m(t)=\cos\omega_{m}t\): **(a)** USB, **(b)** LSB, and **(c)** synchronously demodulated LSB signal.
+
+at low frequencies (around \(\omega=0\)), SSB techniques cause considerable distortion. Such is the case with video signals. Consequently, for video signals, instead of SSB, we use another technique, the _vestigial sideband (VSB)_, which is a compromise between SSB and DSB. It inherits the advantages of SSB and DSB but avoids their disadvantages at a cost of slightly increased bandwidth. VSB signals are relatively easy to generate, and their bandwidth is only slightly (typically 25%) greater than that of SSB signals. In VSB signals, instead of rejecting one sideband completely (as in SSB), we accept a gradual cutoff from one sideband [4].
+
+### Frequency-Division Multiplexing
+
+Signal multiplexing allows transmission of several signals on the same channel. Later, in Ch. 8 (Sec. 8.2-2), we shall discuss time-division multiplexing (TDM), where several signals time-share the same channel, such as a cable or an optical fiber. In frequency-division multiplexing (FDM), the use of modulation, as illustrated in Fig. 7.45, makes several signals share the band of the same channel. Each signal is modulated by a different carrier frequency. The various carriers are adequately separated to avoid overlap (or interference) between the spectra of various modulated signals. These carriers are referred to as _subcarriers_. Each signal may use a different kind of modulation, for example, DSB-SC, AM, SSB-SC, VSB-SC, or even other forms of modulation, not discussed here [such as FM (frequency modulation) or PM (phase modulation)]. The modulated-signal spectra may be separated by a small guard band to avoid interference and to facilitate signal separation at the receiver.
+
+When all the modulated spectra are added, we have a composite signal that may be considered to be a new baseband signal. Sometimes, this composite baseband signal may be used to further modulate a high-frequency (radio frequency, or RF) carrier for the purpose of transmission.
+
+At the receiver, the incoming signal is first demodulated by the RF carrier to retrieve the composite baseband, which is then bandpass-filtered to separate the modulated signals. Then each modulated signal is individually demodulated by an appropriate subcarrier to obtain all the basic baseband signals.
+
+## 7.8 Data Truncation: Window Functions
+
+We often need to truncate data in diverse situations from numerical computations to filter design. For example, if we need to compute numerically the Fourier transform of some signal, say, \(e^{-t}u(t)\), we will have to truncate the signal \(e^{-t}u(t)\) beyond a sufficiently large value of \(t\) (typically five time constants and above). The reason is that in numerical computations, we have to deal with 
+
+[MISSING_PAGE_EMPTY:71]
+
+by adding the first \(n\) harmonics and truncating all the higher harmonics. These examples show that data truncation can occur in both time and frequency domains. On the surface, truncation appears to be a simple problem of cutting off the data at a point at which values are deemed to be sufficiently small. Unfortunately, this is not the case. Simple truncation can cause some unsuspected problems.
+
+### Window Functions
+
+Truncation operation may be regarded as multiplying a signal of a large width by a window function of a smaller (finite) width. Simple truncation amounts to using a _rectangular window_\(w_{R}(t)\) (shown later in Fig. 7.48a) in which we assign unit weight to all the data within the window width (\(|t|<T/2\)), and assign zero weight to all the data lying outside the window (\(|t|>T/2\)). It is also possible to use a window in which the weight assigned to the data within the window may not be constant. In a _triangular window_\(w_{T}(t)\), for example, the weight assigned to data decreases linearly over the window width (shown later in Fig. 7.48b).
+
+Consider a signal \(x(t)\) and a window function \(w(t)\). If \(x(t)\Longleftrightarrow X(\omega)\) and \(w(t)\Longleftrightarrow W(\omega)\), and if the windowed function \(x_{w}(t)\Longleftrightarrow X_{w}(\omega)\), then
+
+\[x_{w}(t)=x(t)w(t)\qquad\mbox{and}\qquad X_{w}(\omega)=\frac{1}{2\pi}X( \omega)*W(\omega)\]
+
+According to the width property of convolution, it follows that the width of \(X_{w}(\omega)\) equals the sum of the widths of \(X(\omega)\) and \(W(\omega)\). Thus, truncation of a signal increases its bandwidth by the amount of bandwidth of \(w(t)\). Clearly, the truncation of a signal causes its spectrum to spread (or smear) by the amount of the bandwidth of \(w(t)\). Recall that the signal bandwidth is inversely proportional to the signal duration (width). Hence, the wider the window, the smaller its bandwidth, and the smaller the _spectral spreading_. This result is predictable because a wider window means that we are accepting more data (closer approximation), which should cause smaller distortion (smaller spectral spreading). Smaller window width (poorer approximation) causes more spectral spreading (more distortion). In addition, since \(W(\omega)\) is really not strictly bandlimited and its spectrum \(\to 0\) only asymptotically, the spectrum of \(X_{w}(\omega)\to 0\) asymptotically also at the same rate as that of \(W(\omega)\), even if \(X(\omega)\) is, in fact, strictly bandlimited. Thus, windowing causes the spectrum of \(X(\omega)\) to spread into the band where it is supposed to be zero. This effect is called _leakage_. The following example clarifies these twin effects of spectral spreading and leakage.
+
+Let us consider \(x(t)=\cos\omega_{0}t\) and a rectangular window \(w_{R}(t)=\mbox{rect}\,(t/T)\), illustrated in Fig. 7.46b. The reason for selecting a sinusoid for \(x(t)\) is that its spectrum consists of spectral lines of zero width (Fig. 7.46a). Hence, this choice will make the effect of spectral spreading and leakage easily discernible. The spectrum of the truncated signal \(x_{w}(t)\) is the convolution of the two impulses of \(X(\omega)\) with the sinc spectrum of the window function. Because the convolution of any function with an impulse is the function itself (shifted at the location of the impulse), the resulting spectrum of the truncated signal is \(1/2\pi\) times the two sinc pulses at \(\pm\omega_{0}\), as depicted in Fig. 7.46c (also see Fig. 7.26). Comparison of spectra \(X(\omega)\) and \(X_{w}(\omega)\) reveals the effects of truncation. These are:
+
+1. The spectral lines of \(X(\omega)\) have zero width. But the truncated signal is spread out by \(2\pi/T\) about each spectral line. The amount of spread is equal to the width of the mainlobe of the window spectrum. One effect of this _spectral spreading_ (or smearing) is that if \(x(t)\) has two spectral components of frequencies differing by less than \(4\pi/T\) rad/s (\(2/T\) Hz), they will be indistinguishable in the truncated signal. The result is loss of spectral resolution. We would like the spectral spreading [mainlobe width of \(W(\omega)\)] to be as small as possible.
+2. In addition to the mainlobe spreading, the truncated signal has sidelobes, which decay slowly with frequency. The spectrum of \(x(t)\) is zero everywhere except at \(\pm\omega_{0}\). On the other hand, the spectrum of \(x(t)\) is zero everywhere at \(\pm\omega_{0}\).
+3. The spectrum of \(x(t)\) is zero everywhere at \(\pm\omega_{0}\).
+4. The spectrum of \(x(t)\) is zero everywhere at \(\pm\omega_{0}\).
+5. The spectrum of \(x(t)\) is zero everywhere at \(\pm\omega_{0}\).
+6. The spectrum of \(x(t)\) is zero everywhere at \(\pm\omega_{0}\).
+
+Figure 7.46: Windowing and its effects.
+
+other hand, the truncated signal spectrum \(X_{w}(\omega)\) is zero nowhere because of the sidelobes. These sidelobes decay asymptotically as \(1/\omega\). Thus, the truncation causes spectral _leakage_ in the band where the spectrum of the signal \(x(t)\) is zero. The peak _sidelobe_ magnitude is \(0.217\) times the mainlobe magnitude (\(13.3\) dB below the peak mainlobe magnitude). Also, the sidelobes decay at a rate \(1/\omega\), which is \(-6\) dB/octave (or \(-20\) dB/decade). This is the sidelobe's _rolloff rate_. We want smaller sidelobes with a faster rate of decay (high rolloff rate). Figure 7.46d, which plots \(|W_{R}(\omega)|\) as a function of \(\omega\), clearly shows the mainlobe and sidelobe features, with the first sidelobe amplitude \(-13.3\) dB below the mainlobe amplitude and the sidelobes decaying at a rate of \(-6\) dB/octave (or \(-20\) dB/decade).
+
+So far, we have discussed the effect on the signal spectrum of signal truncation (truncation in the time domain). Because of the time-frequency duality, the effect of spectral truncation (truncation in frequency domain) on the signal shape is similar.
+
+## Remedies for Side Effects of Truncation
+
+For better results, we must try to minimize the twin side effects of truncations: spectral spreading (mainlobe width) and leakage (sidelobe). Let us consider each of these ills.
+
+1. The spectral spread (mainlobe width) of the truncated signal is equal to the bandwidth of the window function \(w(t)\). We know that the signal bandwidth is inversely proportional to the signal width (duration). Hence, to reduce the spectral spread (mainlobe width), we need to increase the window width.
+2. To improve the leakage behavior, we must search for the cause of the slow decay of sidelobes. In Ch. 6, we saw that the Fourier spectrum decays as \(1/\omega\) for a signal with jump discontinuity, decays as \(1/\omega^{2}\) for a continuous signal whose first derivative is discontinuous, and so on.+ Smoothness of a signal is measured by the number of continuous derivatives it possesses. The smoother the signal, the faster the decay of its spectrum. Thus, we can achieve a given leakage behavior by selecting a suitably smooth (tapered) window. Footnote †: This result was demonstrated for periodic signals. However, it applies to aperiodic signals also. This is because we showed in the beginning of this chapter that if \(x_{T_{0}}(t)\) is a periodic signal formed by periodic extension of an aperiodic signal \(x(t)\), then the spectrum of \(x_{T_{0}}(t)\) is \((1/T_{0}\) times) the samples of \(X(\omega)\). Thus, what is true of the decay rate of the spectrum of \(x_{T_{0}}(t)\) is also true of the rate of decay of \(X(\omega)\).
+3. For a given window width, the remedies for the two effects are incompatible. If we try to improve one, the other deteriorates. For instance, among all the windows of a given width, the rectangular window has the smallest spectral spread (mainlobe width), but its sidelobes have high level and they decay slowly. A tapered (smooth) window of the same width has smaller and faster decaying sidelobes, but it has a wider mainlobe.++ But we can compensate for the increased mainlobe width by widening the window. Thus, we can remedy both the side effects of truncation by selecting a suitably smooth window of sufficient width.
+
+Footnote ‡: A tapered window yields a higher mainlobe width because the effective width of a tapered window is smaller than that of the rectangular window; see Sec. 2.6-2 [Eq. (2.47)] for the definition of effective width. Therefore, from the reciprocity of the signal width and its bandwidth, it follows that the rectangular window mainlobe is narrower than a tapered window.
+
+There are several well-known tapered-window functions, such as Bartlett (triangular), Hanning (von Hann), Hamming, Blackman, and Kaiser, which truncate the data gradually. Thesewindows offer different trade-offs with respect to spectral spread (mainlobe width), the peak sidelobe magnitude, and the leakage rolloff rate, as indicated in Table 3[5, 6]. Observe that all windows are symmetrical about the origin (i.e., are even functions of \(t\)). Because of this feature, \(W(\omega)\) is a real function of \(\omega\); that is, \(\angle W(\omega)\) is either \(0\) or \(\pi\). Hence, the phase function of the truncated signal has a minimal amount of distortion.
+
+Figure 7.47 shows two well-known tapered-window functions, the von Hann (or Hanning) window \(w_{\mathrm{Han}}(x)\) and the Hamming window \(w_{\mathrm{Han}}(x)\). We have intentionally used the independent variable \(x\) because windowing can be performed in the time domain as well as in the frequency domain, so \(x\) could be \(t\) or \(\omega\), depending on the application.
+
+There are hundreds of windows, all with different characteristics. But the choice depends on a particular application. The rectangular window has the narrowest mainlobe. The Bartlett
+
+\begin{table}
+\begin{tabular}{l l l l l} \hline \hline  & & \begin{tabular}{l} **Rolloff** \\ **Rate** \\ **Width** \\ \end{tabular} & 
+\begin{tabular}{l} **Peak** \\ **Sidelobe** \\ **Level (dB)** \\ \end{tabular} \\ \hline
+1 & Rectangular: \(\mathrm{rect}\left(\dfrac{t}{T}\right)\) & \(\dfrac{4\pi}{T}\) & \(-6\) & \(-13.3\) \\
+2 & Bartlett: \(\Delta\left(\dfrac{t}{2T}\right)\) & \(\dfrac{8\pi}{T}\) & \(-12\) & \(-26.5\) \\
+3 & Hanning: \(0.5\left[1+\cos\left(\dfrac{2\pi t}{T}\right)\right]\) & \(\dfrac{8\pi}{T}\) & \(-18\) & \(-31.5\) \\
+4 & Hamming: \(0.54+0.46\cos\left(\dfrac{2\pi t}{T}\right)\) & \(\dfrac{8\pi}{T}\) & \(-6\) & \(-42.7\) \\
+5 & Blackman: \(0.42+0.5\cos\left(\dfrac{2\pi t}{T}\right)+0.08\cos\left(\dfrac{4\pi t}{T}\right)\) & \(\dfrac{12\pi}{T}\) & \(-18\) & \(-58.1\) \\
+6 & Kaiser: \(\dfrac{I_{0}\left[\alpha\sqrt{1-4\left(\dfrac{t}{T}\right)^{2}}\right]}{I_{0} (\alpha)}\) & \(0\leq\alpha\leq 10\) & \(\dfrac{11.2\pi}{T}\) & \(-6\) & \(-59.9\) \\  & & & & (\(\alpha=8.168\)) \\ \hline \hline \end{tabular}
+\end{table}
+Table 3: Some Window Functions and Their Characteristics
+
+Figure 7.47: **(a)** Hanning and **(b)** Hamming windows.
+
+(triangle) window (also called the Fejer or Cesaro) is inferior in all respects to the Hanning window. For this reason, it is rarely used in practice. Hanning is preferred over Hamming in spectral analysis because it has faster sidelobe decay. For filtering applications, on the other hand, the Hamming window is chosen because it has the smallest sidelobe magnitude for a given mainlobe width. The Hamming window is the most widely used general-purpose window. The Kaiser window, which uses \(I_{0}(\alpha)\), the modified zero-order Bessel function, is more versatile and adjustable. Selecting a proper value of \(\alpha\) (0 \(\leq\)\(\alpha\)\(\leq\) 10) allows the designer to tailor the window to suit a particular application. The parameter \(\alpha\) controls the mainlobe-sidelobe trade-off. When \(\alpha\) = 0, the Kaiser window is the rectangular window. For \(\alpha\) = 5.4414, it is the Hamming window, and when \(\alpha\) = 8.885, it is the Blackman window. As \(\alpha\) increases, the mainlobe width increases and the sidelobe level decreases.
+
+### Using Windows in Filter Design
+
+We shall design an ideal lowpass filter of bandwidth \(W\) rad/s, with frequency response \(H(\omega)\), as shown in Fig. 7.48e or Fig. 7.48f. For this filter, the impulse response \(h(t)=(W/\pi)\,\mathrm{sinc}\,(Wt)\) (Fig. 7.48c) is noncausal and, therefore, unrealizable. Truncation of \(h(t)\) by a suitable window (Fig. 7.48a) makes it realizable, although the resulting filter is now an approximation to the desired ideal filter.2 We shall use a rectangular window \(w_{R}(t)\) and a triangular (Bartlett) window \(w_{T}(t)\) to truncate \(h(t)\), and then examine the resulting filters. The truncated impulse responses \(h_{R}(t)=h(t)w_{R}(t)\) and \(h_{T}(t)=h(t)w_{T}(t)\) are depicted in Fig. 7.48d. Hence, the windowed filter frequency response is the convolution of \(H(\omega)\) with the Fourier transform of the window, as illustrated in Figs. 7.48e and 7.48f. We make the following observations.
+
+Footnote 2: In addition to truncation, we need to delay the truncated function by \(T/2\) to render it causal. However, the time delay only adds a linear phase to the spectrum without changing the amplitude spectrum. Thus, to simplify our discussion, we shall ignore the delay.
+
+1. The windowed filter spectra show _spectral spreading_ at the edges, and instead of a sudden switch there is a gradual transition from the passband to the stopband of the filter. The transition band is smaller (\(2\pi/T\) rad/s) for the rectangular case than for the triangular case (\(4\pi/T\) rad/s).
+2. Although \(H(\omega)\) is bandlimited, the windowed filters are not. But the stopband behavior of the triangular case is superior to that of the rectangular case. For the rectangular window, the leakage in the stopband decreases slowly (as \(1/\omega\)) in comparison to that of the triangular window (as \(1/\omega^{2}\)). Moreover, the rectangular case has a higher peak sidelobe amplitude than that of the triangular window.
+
+## 7.9 MATLAB: Fourier Transform Topics
+
+MATLAB is useful for investigating a variety of Fourier transform topics. In this section, a rectangular pulse is used to investigate the scaling property, Parseval's theorem, essential bandwidth, and spectral sampling. Kaiser window functions are also investigated.
+
+Figure 7.48: Window-based filter design.
+
+### The Sinc Function and the Scaling Property
+
+As shown in Ex. 7.2, the Fourier transform of \(x(t)=\mathrm{rect}\,(t/\tau)\) is \(X(\omega)=\tau\,\mathrm{sinc}\,(\omega\tau/2)\). To represent \(X(\omega)\) in MATLAB, a sinc function is first required. As an alternative to the signal processing toolbox function \(\mathrm{sinc}\), which computes \(\mathrm{sinc}(x)\) as \(\sin(\pi x)/\pi x\), we create our own function that follows the conventions of this book and defines \(\mathrm{sinc}(x)=\sin(x)/x\).
+
+function [y] = CH7MP1(x) % CH7MP1.m : Chapter 7, MATLAB Program 1 % Function M-file computes the sinc function, y = \(\mathrm{sin(x)/x}\).
+
+y(x==0) = 1; y(x^=0) = \(\mathrm{sin(x(x^=0))./x(x^=0)}\); The computational simplicity of \(\mathrm{sinc}\,(x)=\sin\,(x)/x\) is somewhat deceptive: \(\sin\,(0)/0\) results in a divide-by-zero error. Thus, program CH7MP1 assigns \(\mathrm{sinc}\,(0)=1\) and computes the remaining values according to the definition. Notice that CH7MP1 cannot be directly replaced by an anonymous function. Anonymous functions cannot have multiple lines or contain certain commands such as =, if, or for. M-files, however, can be used to define an anonymous function. For example, we can represent \(X(\omega)\) as an anonymous function that is defined in terms of CH7MP1.
+
+>> X = @(omega,tau) tau*CH7MP1(omega*tau/2); Once we have defined \(X(\omega)\), it is simple to investigate the effects of scaling the pulse width \(\tau\). Consider the three cases \(\tau=1.0\), \(\tau=0.5\), and \(\tau=2.0\).
+
+>> omega = linspace(-4*pi,4*pi,200); >> plot(omega,X(omega,1),'k-',omega,X(omega,0.5),'k-',omega,X(omega,2),'k-'); >> grid; axis tight; xlabel('omega'); ylabel('X(omega)'); >> legend('Baseline (\(\backslash\)tau = 1)','Compressed (\(\backslash\)tau = 0.5)',... >> 'Expanded (\(\backslash\)tau = 2.0)'); Figure 7.49 confirms the reciprocal relationship between signal duration and spectral bandwidth: time compression causes spectral expansion, and time expansion causes spectral compression. Additionally, spectral amplitudes are directly related to signal energy. As a signal is compressed, signal energy and thus spectral magnitude decrease. The opposite effect occurs when the signal is expanded.
+
+### Parseval's Theorem and Essential Bandwidth
+
+Parseval's theorem concisely relates energy between the time domain and the frequency domain:
+
+\[\int_{-\infty}^{\infty}|x(t)|^{2}\,dt=\frac{1}{2\pi}\int_{-\infty}^{\infty}|X( \omega)|^{2}\,d\omega\]
+
+This too is easily verified with MATLAB. For example, a unit amplitude pulse \(x(t)\) with duration \(\tau\) has energy \(E_{x}=\tau\). Thus,
+
+\[\int_{-\infty}^{\infty}|X(\omega)|^{2}\,d\omega=2\pi\,\tau\]
+
+Letting \(\tau=1\), the energy of \(X(\omega)\) is computed by using the quad function.
+
+>> X_squared = @(omega, tau) (tau*CH7MP1(omega*tau/2)).^2; >> quad(X_squared,-1e6,1e6,[],[],1) ans = 6.2817 Although not perfect, the result of the numerical integration is consistent with the expected value of \(2\pi\approx 6.2832\). For quad, the first argument is the function to be integrated, the next two arguments are the limits of integration, the empty square brackets indicate default values for special options, and the last argument is the secondary input \(\tau\) for the anonymous function X_squared. Full format details for quad are available from MATLAB's help facilities.
+
+A more interesting problem involves computing a signal's essential bandwidth. Consider, for example, finding the essential bandwidth \(W\), in radians per second, that contains fraction \(\beta\) of the energy of the square pulse \(x(t)\). That is, we want to find \(W\) such that
+
+\[\frac{1}{2\pi}\int_{-W}^{W}|X(\omega)|^{2}\,d\omega=\beta\tau\]
+
+Program CH7MP2 uses a guess-and-check method to find \(W\).
+
+function [W,E_W] = CH7MP2(tau,beta,tol) % CH7MP2.m : Chapter 7, MATLAB Program 2 % Function M-file computes essential bandwidth W for square pulse. % INPUTS: tau = pulse width % beta = fraction of signal energy desired in W % tol = tolerance of relative energy error % OUTPUS: W = essential bandwidth [rad/s] % E_W = Energy contained in bandwidth W W = 0; step = 2*pi/tau; % Initial guess and step values X_squared = @(omega,tau) (tau*CH7MP1(omega*tau/2)).^2; E = beta*tau; % Desired energy in W relerr = (E-0)/E; % Initial relative error is 100 percent while(abs(relerr) > tol), if (relerr>0), % W too small, so...  W=W+step; %... increase W by step elseif (relerr<0), % W too large, so...  step = step/2; %... decrease step and then WW = W-step;  end  E_W = 1/(2*pi)*quad(X_squared,-W,W,[],[],tau);  relerr = (E - E_W)/E; end Although this guess-and-check method is not the most efficient, it is relatively simple to understand: CH7MP2 sensibly adjusts \(W\) until the relative error is within tolerance. The number of iterations needed to converge to a solution depends on a variety of factors and is not known beforehand. The while command is ideal for such situations:
+
+while _expression_,  statements;  end While the _expression_ is true, the _statements_ are continually repeated.
+
+To demonstrate CH7MP2, consider the 90% essential bandwidth \(W\) for a pulse of 1 second duration. Typing [W,E_W]=CH7MP2(1,0.9,0.001) returns an essential bandwidth \(W=5.3014\) that contains 89.97% of the energy. Reducing the error tolerance improves the estimate. CH7MP2(1,0.9,0.00005) returns an essential bandwidth \(W=5.3321\) that contains 90.00% of the energy. These essential bandwidth calculations are consistent with estimates presented after Ex. 7.2.
+
+### Spectral Sampling
+
+Consider a signal with finite duration \(\tau\). A periodic signal \(x_{T_{0}}(t)\) is constructed by repeating \(x(t)\) every \(T_{0}\) seconds, where \(T_{0}\geq\tau\). From Eq. (7.5), we can write the Fourier series coefficients of \(x_{T_{0}}(t)\) as \(D_{n}=(1/T_{0})X(n2\pi/T_{0})\). Put another way, the Fourier series coefficients are obtained by sampling the spectrum \(X(\omega)\).
+
+By using spectral sampling, it is simple to determine the Fourier series coefficients for an arbitrary duty-cycle, square-pulse periodic signal. The square pulse \(x(t)=\mathrm{rect}\,(t/\tau)\) has spectrum \(X(\omega)=\tau\)\(\mathrm{sinc}(\omega\tau/2)\). Thus, the \(n\)th Fourier coefficient of the periodic extension \(x_{T_{0}}(t)\) is \(D_{n}=(\tau/T_{0})\mathrm{sinc}\,(n\pi\,\tau/T_{0})\). As in Ex. 6.4, \(\tau=\pi\) and \(T_{0}=2\pi\) provide a square-pulse periodic signal. The Fourier coefficients are determined by
+
+>> tau = pi; T_0 = 2*pi; n = [0:10]; >> D_n = tau/T_0*MS7P1(n*pi*tau/T_0); >> stem(n,D_n); xlabel('n'); ylabel('D_n'); >> axis([-0.5 10.5 -0.2 0.55]); The results, shown in Fig. 7.50, agree with Fig. 6.6b. Doubling the period to \(T_{0}=4\pi\) effectively doubles the density of spectral samples and halves the spectral amplitude, as shown in Fig. 7.51.
+
+As \(T_{0}\) increases, the spectral sampling becomes progressively finer while the amplitude becomes infinitesimal. An evolution of the Fourier series toward the Fourier integral is seen by allowing the period \(T_{0}\) to become large. Figure 7.52 shows the result for \(T_{0}=40\pi\).
+
+If \(T_{0}=\tau\), the signal \(x_{T_{0}}\) is a constant and the spectrum should concentrate energy at dc. In this case, the sinc function is sampled at the zero crossings and \(D_{n}=0\) for all \(n\) not equal to 0. Only the sample corresponding to \(n=0\) is nonzero, indicating a dc signal, as expected. It is a simple matter to modify the previous code to verify this case.
+
+#### Kaiser Window Functions
+
+A window function is useful only if it can be easily computed and applied to a signal. The Kaiser window, for example, is flexible but appears rather intimidating:
+
+\[w_{K}(t)=\left\{\begin{array}{cl}\frac{I_{0}\big{(}\alpha\sqrt{1-4(t/T)^{2}} \big{)}}{I_{0}(\alpha)}&|t|<T/2\\ 0&\text{otherwise}\end{array}\right.\]Fortunately, the bark of a Kaiser window is worse than its bite! The function \(I_{0}(x)\), a zero-order modified Bessel function of the first kind, can be computed according to
+
+\[I_{0}(x)=\sum_{k=0}^{\infty}\left(\frac{x^{k}}{2^{k}k!}\right)^{2}\]
+
+or, more simply, by using the MATLAB function besseli(0,x). In fact, MATLAB supports a wide range of Bessel functions, including Bessel functions of the first and second kinds (besselj and bessely), modified Bessel functions of the first and second kinds (besseli and besselk), Hankel functions (besselh), and Airy functions (airy).
+
+Program CH7MP3 computes Kaiser windows at times \(t\) by using parameters \(T\) and \(\alpha\).
+
+function [w_K] = CH7MP3(t,T,alpha) % CH7MP3.m : Chapter 7, MATLAB Program 3 % Function M-file computes a width-T Kaiser window using parameter alpha. % Alpha can also be a string identifier:'rectangular', 'Hamming', or % 'Blackman'. % INPUTS: t = independent variable of the window function % T = window width % alpha = Kaiser parameter or string identifier % OUTPUTS: w_K = Kaiser window function if strncmpi(alpha,'rectangular',1),  alpha = 0; elseif strncmpi(alpha,'Hamming',3),  alpha = 5.4414; elseif strncmpi(alpha,'Blackman',1),  alpha = 8.885; elseif isa(alpha,'char')  disp('Unrecognized string identifier.'); return end w_K = zeros(size(t)); i = find(abs(t)<T/2); w_K(i) = besseli(0,alpha*sqrt(1-4*t(i).^2/(T^2)))/besseli(0,alpha);
+
+Recall that \(\alpha=0\), \(\alpha=5.4414\), and \(\alpha=8.885\) correspond to rectangular, Hamming, and Blackman windows, respectively. CH7MP3 is written to allow these special-case Kaiser windows to be identified by name rather than by \(\alpha\) value. While unnecessary, this convenient feature is achieved with the help of the strncmpi command.
+
+The strncmpi(S1,S2,N) command compares the first N characters of strings S1 and S2, ignoring case. More completely, MATLAB has four variants of string comparison: strcmp, strcmpi, strncmp, and strncmpi. Comparisons are restricted to the first \(N\) characters when n is present; case is ignored when i is present. Thus, CH7MP3 identifies any string alpha that starts with the letter r or R as a rectangular window. To prevent confusion with a Hanning window, the first three characters must match to identify a Hamming window. The isa(alpha,'char') command determines whether alpha is a character string. MATLAB help documents the many other classes that isa can identify. In CH7MP3, isa is used to terminate execution if a string identifier alpha has not been recognized as one of the three special cases.
+
+Figure 7.53 shows the three special-case, unit-duration Kaiser windows generated by
+
+>> t = [-0.6:001:0.6]; T = 1; >> plot(t,CHTMP3(t,T,'r'),'k-',t,CHTMP3(t,T,'ham'),'k-.',t,CHTMP3(t,T,'b'),'k-.'); >> axis([-0.6 0.6 -.1 1.1]); xlabel('t'); ylabel('w_K(t)'); >> legend('Rectangular','Hamming','Blackman','Location','EastOutside');
+
+### 7.10 Summary
+
+In Ch. 6, we represented periodic signals as a sum of (everlasting) sinusoids or exponentials (Fourier series). In this chapter we extended this result to aperiodic signals, which are represented by the Fourier integral (instead of the Fourier series). An aperiodic signal \(x(t)\) may be regarded as a periodic signal with period \(T_{0}\rightarrow\infty\) so that the Fourier integral is basically a Fourier series with a fundamental frequency approaching zero. Therefore, for aperiodic signals, the Fourier spectra are continuous. This continuity means that a signal is represented as a sum of sinusoids (or exponentials) of all frequencies over a continuous frequency interval. The Fourier transform \(X(\omega)\), therefore, is the spectral density (per unit bandwidth in hertz).
+
+An ever-present aspect of the Fourier transform is the duality between time and frequency, which also implies duality between the signal \(x(t)\) and its transform \(X(\omega)\). This duality arises because of near-symmetrical equations for direct and inverse Fourier transforms. The duality principle has far-reaching consequences and yields many valuable insights into signal analysis.
+
+The scaling property of the Fourier transform leads to the conclusion that the signal bandwidth is inversely proportional to signal duration (signal width). Time shifting of a signal does not change its amplitude spectrum, but it does add a linear phase component to its spectrum. Multiplication of a signal by an exponential \(e^{i\omega_{0}t}\) shifts the spectrum to the right by \(\omega_{0}\). In practice, spectral shifting is achieved by multiplying a signal by a sinusoid such as \(\cos\omega_{0}t\) (rather than the exponential \(e^{i\omega_{0}t}\)). This process is known as amplitude modulation. Multiplication of two signals results in convolution of their spectra, whereas convolution of two signals results in multiplication of their spectra.
+
+For an LTIC system with the frequency response \(H(\omega)\), the input and output spectra \(X(\omega)\) and \(Y(\omega)\) are related by the equation \(Y(\omega)=X(\omega)H(\omega)\). This is valid only for asymptotically stable systems. It also applies to marginally stable systems if the input does not contain a finite-amplitude
+
+Figure 7.53: Special-case, unit-duration Kaiser windows.
+
+sinusoid of the natural frequency of the system. For asymptotically unstable systems, the frequency response \(H(\omega)\) does not exist. For distortionless transmission of a signal through an LTIC system, the amplitude response \(|H(\omega)|\) of the system must be constant, and the phase response \(\angle H(\omega)\) should be a linear function of \(\omega\) over a band of interest. Ideal filters, which allow distortionless transmission of a certain band of frequencies and suppress all the remaining frequencies, are physically unrealizable (noncausal). In fact, it is impossible to build a physical system with zero gain [\(H(\omega)=0\)] over a finite band of frequencies. Such systems (which include ideal filters) can be realized only with infinite time delay in the response.
+
+The energy of a signal \(x(t)\) is equal to \(1/2\pi\) times the area under \(|X(\omega)^{2}|\) (Parseval's theorem). The energy contributed by spectral components within a band \(\Delta f\) (in hertz) is given by \(|X(\omega)|^{2}\Delta f\). Therefore, \(|X(\omega)|^{2}\) is the energy spectral density per unit bandwidth (in hertz).
+
+The process of modulation shifts the signal spectrum to different frequencies. Modulation is used for many reasons: to transmit several messages simultaneously over the same channel for the sake of utilizing channel's high bandwidth, to effectively radiate power over a radio link, to shift a signal spectrum at higher frequencies to overcome the difficulties associated with signal processing at lower frequencies, and to effect the exchange of transmission bandwidth and transmission power required to transmit data at a certain rate. Broadly speaking, there are two types of modulation, amplitude and angle modulation. Each class has several subclasses.
+
+In practice, we often need to truncate data. Truncating is like viewing data through a window, which permits only certain portions of the data to be seen and hides (suppresses) the remainder. Abrupt truncation of data amounts to a rectangular window, which assigns a unit weight to data seen from the window and zero weight to the remaining data. Tapered windows, on the other hand, reduce the weight gradually from 1 to 0. Data truncation can cause some unsuspected problems. For example, in computation of the Fourier transform, windowing (data truncation) causes spectral spreading (spectral smearing) that is characteristic of the window function used. A rectangular window results in the least spreading, but it does so at the cost of a high and oscillatory spectral leakage outside the signal band, which decays slowly as \(1/\omega\). In comparison to a rectangular window, tapered windows, in general, have larger spectral spreading (smearing), but the spectral leakage is smaller and decays faster with frequency. If we try to reduce spectral leakage by using a smoother window, the spectral spreading increases. Fortunately, spectral spreading can be reduced by increasing the window width. Therefore, we can achieve a given combination of spectral spread (transition bandwidth) and leakage characteristics by choosing a suitable tapered window function of a sufficiently long width \(T\).
+
+## References
+
+* [1] Churchill, R. V., and Brown, J. W. _Fourier Series and Boundary Value Problems,_ 3rd ed. McGraw-Hill, New York, 1978.
+* [2] Bracewell, R. N. _Fourier Transform and Its Applications,_ rev. 2nd ed. McGraw-Hill, New York, 1986.
+* [3] Guillemin, E. A. _Theory of Linear Physical Systems_. Wiley, New York, 1963.
+* [4] Lathi, B. P. _Modern Digital and Analog Communication Systems,_ 3rd ed. Oxford University Press, New York, 1998.
+* [5] Hamming, R. W. _Digital Filters,_ 2nd ed. Prentice-Hall, Englewood Cliffs, NJ, 1983.
+* [6] Harris, F. J. On the use of windows for harmonic analysis with the discrete Fourier transform. _Proceedings of the IEEE,_ vol. 66, no. 1, pp. 51-83, January 1978.

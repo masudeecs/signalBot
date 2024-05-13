@@ -1,0 +1,988 @@
+### 10.0 Introduction
+
+In Chapter 9, we developed the Laplace transform as an extension of the continuous-time Fourier transform. This extension was motivated in part by the fact that it can be applied to a broader class of signals than the Fourier transform can, since there are many signals for which the Fourier transform does not converge but the Laplace transform does. The Laplace transform allowed us, for example, to perform transform analysis of unstable systems and to develop additional insights and tools for LTI system analysis.
+
+In this chapter, we use the same approach for discrete time as we develop the \(z\)-transform, which is the discrete-time counterpart of the Laplace transform. As we will see, the motivations for and properties of the \(z\)-transform closely parallel those of the Laplace transform. Just as with the relationship between continuous-time and discrete-time Fourier transforms, however, we will encounter some important distinctions between the \(z\)-transform and the Laplace transform that arise from the fundamental differences between continuous-time and discrete-time signals and systems.
+
+### 10.1 The z-Transform
+
+As we saw in Section 3.2, for a discrete-time linear time-invariant system with impulse response \(h[n]\), the response \(y[n]\) of the system to a complex exponential input of the form \(z^{n}\) is
+
+\[y[n]\,=\,H(z)z^{n}, \tag{10.1}\]
+
+Comparing eqs. (10.9) and (10.11), and Figures 10.2 and 10.3, we see that the algebraic expression for \(X(z)\) and the corresponding pole-zero plot are identical in Examples 10.1 and 10.2, and the \(z\)-transforms differ only in their regions of convergence. Thus, as with the Laplace transform, specification of the \(z\)-transform requires both the algebraic expression and the region of convergence. Also, in both examples, the sequences were exponentials and the resulting \(z\)-transforms were rational. In fact, as further suggested by the following examples, \(X(z)\) will be rational whenever \(x[n]\) is a linear combination of real or complex exponentials:
+
+**Example 10.3**: Let us consider a signal that is the sum of two real exponentials:
+
+\[x[n]\,=\,7\left(\frac{1}{3}\right)^{n}u[n]-6\left(\frac{1}{2}\right)^{n}u[n]. \tag{10.12}\]
+
+The \(z\)-transform is then
+
+\[X(z) = \sum_{n\,=\,-\infty}^{+\infty}\left\{7\left(\frac{1}{3}\right)^{ n}u[n]-6\left(\frac{1}{2}\right)^{n}u[n]\right\}\,z^{-n} \tag{10.13}\] \[= 7\sum_{n\,=\,-\infty}^{+\infty}\left(\frac{1}{3}\right)^{n}u[n] z^{-n}-6\sum_{n\,=\,-\infty}^{+\infty}\left(\frac{1}{2}\right)^{n}u[n]z^{-n}\] \[= 7\sum_{n\,=\,0}^{\infty}\left(\frac{1}{3}z^{-1}\right)^{n}-6 \sum_{n\,=\,0}^{+\infty}\left(\frac{1}{2}z^{-1}\right)^{n}\] \[= \frac{7}{1-\frac{1}{3}z^{-1}}-\frac{6}{1-\frac{1}{2}z^{-1}}\,= \,\frac{1-\frac{3}{2}z^{-1}}{(1-\frac{1}{3}z^{-1})(1-\frac{1}{2}z^{-1})}\] \[= \frac{z(z-\frac{3}{2})}{(z-\frac{1}{3})(z-\frac{1}{2})}. \tag{10.15}\]
+
+For convergence of \(X(z)\), both sums in eq. (10.13) must converge, which requires that both \(|(1/3)z^{-1}|<1\) and \(|(1/2)z^{-1}|<1\), or equivalently, \(|z|>1/3\) and \(|z|>1/2\). Thus, the region of convergence is \(|z|>1/2\).
+
+Figure 10.3: Pole-zero plot and region of convergence for Example 10.2 for \(0<a<1\).
+
+The \(z\)-transform for this example can also be obtained using the results of Example 10.1. Specifically, from the definition of the \(z\)-transform in eq. (10.3), we see that the \(z\)-transform is linear; that is, if \(x[n]\) is the sum of two terms, then \(X(z)\) will be the sum of the \(z\)-transforms of the individual terms and will converge when both \(z\)-transforms converge. From Example 10.1,
+
+\[\left(\frac{1}{3}\right)^{n}u[n]\xleftrightarrow{Z}\frac{1}{1-\frac{1}{3}z^{- 1}},\quad|z|>\tfrac{1}{3} \tag{10.16}\]
+
+and
+
+\[\left(\frac{1}{2}\right)^{n}u[n]\xleftrightarrow{Z}\frac{1}{1-\frac{1}{2}z^{- 1}},\quad|z|>\tfrac{1}{2}, \tag{10.17}\]
+
+and consequently,
+
+\[\begin{split} 7\left(\frac{1}{3}\right)^{n}u[n]-6\left(\frac{1}{2} \right)^{n}u[n]\xleftrightarrow{Z}\\ \frac{7}{1-\frac{1}{3}z^{-1}}-\frac{6}{1-\frac{1}{2}z^{-1}}, \quad|z|>\tfrac{1}{2},\end{split} \tag{10.18}\]
+
+as we determined before. The pole-zero plot and ROC for the \(z\)-transform of each of the individual terms and for the combined signal are shown in Figure 10.4.
+
+**Example 10.4**: Let us consider the signal
+
+\[x[n] = (\tfrac{1}{3})^{n}\sin(\tfrac{\pi}{4}n)u[n]\] \[= \tfrac{1}{2j}(\tfrac{1}{3}e^{j\pi/4})^{n}u[n]-\tfrac{1}{2j}(\tfrac{1 }{3}e^{-j\pi/4})^{n}u[n].\]
+
+The \(z\)-transform of this signal is
+
+\[X(z) = \sum_{n-\infty}^{\infty}\left\{\,\frac{1}{2j}\left(\frac{1}{3}e^ {j\pi/4}\right)^{n}u[n]-\frac{1}{2j}\left(\frac{1}{3}e^{-j\pi/4}\right)^{n}u[n ]\right\}\,z^{-n}\] \[= \frac{1}{2j}\sum_{n-0}^{\infty}\left(\frac{1}{3}e^{j\pi/4}z^{-1} \right)^{n}-\frac{1}{2j}\sum_{n-0}^{\infty}\left(\frac{1}{3}e^{-j\pi/4}z^{-1} \right)^{n}\] \[= \frac{1}{2j}\frac{1}{1-\tfrac{1}{3}e^{j\pi/4}z^{-1}}-\frac{1}{2j }\frac{1}{1-\tfrac{1}{3}e^{-j\pi/4}z^{-1}},\]
+
+or equivalently,
+
+\[X(z)\,=\,\frac{\frac{1}{3\sqrt{2}}z}{(z-\frac{1}{3}e^{j\pi/4})(z-\frac{1}{3}e ^{-j\pi/4})} \tag{10.20}\]
+
+For convergence of \(X(z)\), both sums in eq. (10.19) must converge, which requires that \(|(1/3)e^{j\pi/4}z^{-1}|<1\) and \(|(1/3)e^{-j\pi/4}z^{-1}|<1\), or equivalently, \(|z|>1/3\). The pole-zero plot and ROC for this example are shown in Figure 10.5.
+
+In each of the preceding four examples, we expressed the \(z\)-transform both as a ratio of polynomials in \(z\) and as a ratio of polynomials in \(z^{-1}\). From the definition of the \(z\)-transform as given in eq. (10.3), we see that, for sequences which are zero for \(n<0\), \(X(z)\) involves only negative powers of \(z\). Thus, for this class of signals, it is particularly convenient for \(X(z)\) to be expressed in terms of polynomials in \(z^{-1}\) rather than \(z\), and
+
+Figure 10.5: Pole-zero plot and ROC for the \(z\)-transform in Example 10.4.
+
+when appropriate, we will use that form in our discussion. However, reference to the poles and zeros is always in terms of the roots of the numerator and denominator expressed as polynomials in \(z\). Also, it is sometimes convenient to refer to \(X(z)\), written as a ratio of polynomials in \(z\), as having poles at infinity if the degree of the numerator exceeds the degree of the denominator or zeros at infinity if the numerator is of smaller degree than the denominator.
+
+### The region of convergence for the z-transform
+
+In Chapter 9, we saw that there were specific properties of the region of convergence of the Laplace transform for different classes of signals and that understanding these properties led to further insights about the transform. In a similar manner, we explore a number of properties of the region of convergence for the \(z\)-transform. Each of the following properties and its justification closely parallel the corresponding property in Section 9.2.
+
+**Property 1:** The ROC of \(X(z)\) consists of a ring in the \(z\)-plane centered about the origin.
+
+This property is illustrated in Figure 10.6 and follows from the fact that the ROC consists of those values of \(z=re^{j\omega}\) for which \(x[n]r^{-n}\) has a Fourier transform that converges. That is, the ROC of the \(z\)-transform of \(x[n]\) consists of the values of \(z\) for which \(x[n]r^{-n}\) is absolutely summable:2
+
+Footnote 2: For a thorough treatment of the mathematical properties of \(z\)-transforms, see R.V. Churchill and J.W. Brown, _Complex Variables and Applications_ (5th ed.) (New York: McGraw–Hill, 1990), and E. I. Jury, _Theory and Application of the z-Transform Method_ (Malabar, FL: R. E. Krieger Pub. Co., 1982).
+
+\[\sum_{n=-\infty}^{+\infty}|x[n]|r^{-n}<\infty. \tag{10.21}\]
+
+This \(z\)-transform is well defined except at \(z=0\), where there is a pole. Thus, the ROC consists of the entire \(z\)-plane, including \(z=\infty\) but excluding \(z=0\). Similarly, consider an impulse advanced in time, namely, \(\delta[n+1]\). In this case,
+
+\[\delta[n+1]\stackrel{{ z}}{{\longleftrightarrow}}\sum_{n^{z}=- \times}^{i^{\times}}\delta[n+1]z\ ^{n}=z, \tag{10.25}\]
+
+which is well defined for all finite values of \(z\). Thus, the ROC consists of the entire finite \(z\)-plane (including \(z=0\)), but there is a pole at infinity.
+
+**Property 4:** If \(x[n]\) is a right-sided sequence, and if the circle \(|z|=r_{0}\) is in the ROC, then all finite values of \(z\) for which \(|z|>r_{0}\) will also be in the ROC.
+
+The justification for this property follows in a manner identical to that of Property 4 in Section 9.2. A right-sided sequence is zero prior to some value of \(n\), say, \(N_{1}\). If the circle \(|z|=r_{0}\) is in the ROC, then \(x[n]r_{0}^{-n}\) is absolutely summable. Now consider \(|z|=r_{1}\) with \(r_{1}>r_{0}\), so that \(r_{1}^{-n}\) decays more quickly than \(r_{0}^{-n}\) for increasing \(n\). As illustrated in Figure 10.7, this more rapid exponential decay will further attenuate sequence valuesfor positive values of \(n\) and cannot cause sequence values for negative values of \(n\) to become unbounded, since \(x[n]\) is right sided and, in particular, \(x[n]z^{-n}=0\) for \(n<N_{1}\). Consequently, \(x[n]r_{1}^{-n}\) is absolutely summable.
+
+For right-sided sequences in general, eq. (10.3) takes the form
+
+\[X(z)\,=\,\sum_{n\,=\,N_{1}}^{\infty}x[n]z^{-n}, \tag{10.26}\]
+
+where \(N_{1}\) is finite and may be positive or negative. If \(N_{1}\) is negative, then the summation in eq. (10.26) includes terms with positive powers of \(z\), which become unbounded as \(|z|\,\to\,\infty\). Consequently, for right-sided sequences in general, the ROC will not include infinity. However, for the particular class of causal sequences, i.e., sequences that are zero for \(n<0\), \(N_{1}\) will be nonnegative, and consequently, the ROC will include \(z\,=\,\infty\).
+
+**Property 5:** If \(x[n]\) is a left-sided sequence, and if the circle \(|z|\,=\,r_{0}\) is in the ROC, then all values of \(z\) for which \(0<|z|<r_{0}\) will also be in the ROC.
+
+Again, this property closely parallels the corresponding property for Laplace transforms, and the proof of it and its basis in intuition are similar to the proof and intuition for Property 4. In general, for left-sided sequences, from eq. (10.3), the summation for the \(z\)-transform will be of the form
+
+\[X(z)\,=\,\sum_{n\,=\,-\infty}^{N_{2}}x[n]z^{-n}, \tag{10.27}\]
+
+where \(N_{2}\) may be positive or negative. If \(N_{2}\) is positive, then eq. (10.27) includes negative powers of \(z\), which become unbounded as \(|z|\,\to\,0\). Consequently, for left-sided sequences, the ROC will not in general include \(z\,=\,0\). However, if \(N_{2}\,\leq\,0\) (so that \(x[n]\,=\,0\) for all \(n>0\)), the ROC will include \(z\,=\,0\).
+
+**Property 6:** If \(x[n]\) is two sided, and if the circle \(|z|\,=\,r_{0}\) is in the ROC, then the ROC will consist of a ring in the \(z\)-plane that includes the circle \(|z|\,=\,r_{0}\).
+
+As with Property 6 in Section 9.2, the ROC for a two-sided signal can be examined by expressing \(x[n]\) as the sum of a right-sided and a left-sided signal. The ROC for the right-sided component is a region bounded on the inside by a circle and extending outward to (and possibly including) infinity. The ROC for the left-sided component is a region bounded on the outside by a circle and extending inward to, and possibly including, the origin. The ROC for the composite signal includes the intersection of the ROCs of the components. As illustrated in Figure 10.8, the overlap (assuming that there is one) is a ring in the \(z\)-plane.
+
+We illustrate the foregoing properties with examples that closely parallel Examples 9.6 and 9.7.
+
+**Example 10.6**: Consider the signal
+
+\[x[n]=\left\{\begin{array}{ll}a^{n},&0\ \leq\ n\ \leq\ N-1,\ a>0\\ 0,&\text{otherwise}\end{array}\right..\]
+
+Then
+
+\[\begin{split} X(z)&=\sum_{n=0}^{N-1}a^{n}z^{-n}\\ &=\sum_{n-0}^{N-1}(az^{-1})^{n}\\ &=\frac{1-(az^{-1})^{N}}{1-az^{-1}}\ =\ \frac{1}{z^{N-1}}\frac{z^{N}-a^{N}} {z-a}.\end{split} \tag{10.28}\]
+
+Figure 10.8: (a) ROC for right-sided sequence; (b) ROC for left-sided sequence; (c) intersection of the ROCs in (a) and (b), representing the ROC for a two-sided sequence that is the sum of the right-sided and the left-sided sequence.
+
+Since \(x[n]\) is of finite length, it follows from Property 3 that the ROC includes the entire \(z\)-plane except possibly the origin and/or infinity. In fact, from our discussion of Property 3, since \(x[n]\) is zero for \(n<0\), the ROC will extend to infinity. However, since \(x[n]\) is nonzero for some positive values of \(n\), the ROC will not include the origin. This is evident from eq. (10.28), from which we see that there is a pole of order \(N-1\) at \(z=0\). The \(N\) roots of the numerator polynomial are at
+
+\[z_{k}\,=\,ae^{i(2\pi k/N)},\quad k\,=\,0,\,1,\ldots,\,N-1. \tag{10.29}\]
+
+The root for \(k\,=\,0\) cancels the pole at \(z\,=\,a\). Consequently, there are no poles other than at the origin. The remaining zeros are at
+
+\[z_{k}\,=\,ae^{i(2\pi k/N)},\quad k\,=\,1,\ldots,\,N-1. \tag{10.30}\]
+
+The pole-zero pattern is shown in Figure 10.9.
+
+### Example 10.7
+
+Let
+
+\[x[n]\,=\,b^{[n]},\quad b>0. \tag{10.31}\]
+
+This two-sided sequence is illustrated in Figure 10.10, for both \(b<1\) and \(b>1\). The \(z\)-transform for the sequence can be obtained by expressing it as the sum of a right-sided and a left-sided sequence. We have
+
+\[x[n]\,=\,b^{n}u[n]\,+\,b^{-n}u[-n-1]. \tag{10.32}\]
+
+From Example 10.1,
+
+\[b^{n}u[n]\,\stackrel{{ Z}}{{\longleftrightarrow}}\,\frac{1}{1- bz^{-1}},\quad|z|>\dot{b}, \tag{10.33}\]
+
+and from Example 10.2,
+
+\[b^{-n}u[-n-1]\,\stackrel{{ Z}}{{\longleftrightarrow}}\,\frac{-1}{1- b^{-1}z^{-1}},\quad|z|<\frac{1}{\dot{b}}. \tag{10.34}\]
+
+Figure 10.9: Pole-zero pattern for Example 10.6 with \(N=16\) and \(0\,<\,a\,<\,1\). The region of convergence for this example consists of all values of \(z\) except \(z\,=\,0\).
+
+In Figures 10.11(a)-(d) we show the pole-zero pattern and ROC for eqs. (10.33) and (10.34), for values of \(b>1\) and \(0<b<1\). For \(b>1\), there is no common ROC, and thus the sequence in eq. (10.31) will not have a \(z\)-transform, even though the right-sided and left-sided components do individually. For \(b<1\), the ROCs in eqs. (10.33) and (10.34) overlap, and thus the \(z\)-transform for the composite sequence is
+
+\[X(z)\,=\,\frac{1}{1-bz^{-1}}\,-\,\frac{1}{1-b^{-1}z^{-1}},\quad b<|z|<\frac{1}{ b}, \tag{10.35}\]
+
+or equivalently,
+
+\[X(z)\,=\,\frac{b^{2}-1}{b}\,\frac{z}{(z-b)(z-b^{-1})},\quad b<|z|<\frac{1}{b}. \tag{10.36}\]
+
+The corresponding pole-zero pattern and ROC are shown in Figure 10.11(e).
+
+Figure 10.11: Pole-zero plots and ROCs for Example 10.7: (a) eq. (10.33) for \(b>1\); (b) eq. (10.34) for \(b>1\); (c) eq. (10.33) for \(0<b<1\); (d) eq. (10.34) for \(0<b<1\); (e) pole-zero plot and ROC for eq. (10.36) with \(0<b<1\). For \(b>1\), the \(z\)-transform of \(x[n]\) in eq. (10.31) does not converge for any value of \(z\).
+
+In discussing the Laplace transform in Chapter 9, we remarked that for a rational Laplace transform, the ROC is always bounded by poles or infinity. We observe that in the foregoing examples a similar statement applies to the \(z\)-transform, and in fact, this is always true:
+
+**Property 7:** If the \(z\)-transform \(X(z)\) of \(x[n]\) is rational, then its ROC is bounded by poles or extends to infinity.
+
+Combining Property 7 with Properties 4 and 5, we have
+
+**Property 8:** If the \(z\)-transform \(X(z)\) of \(x[n]\) is rational, and if \(x[n]\) is right sided, then the ROC is the region in the \(z\)-plane outside the outermost pole--i.e., outside the circle of radius equal to the largest magnitude of the poles of \(X(z)\). Furthermore, if \(x[n]\) is causal (i.e., if it is right sided and equal to 0 for \(n<0\)), then the ROC also includes \(z=\infty\).
+
+Thus, for right-sided sequences with rational transforms, the poles are all closer to the origin than is any point in the ROC.
+
+**Property 9:** If the \(z\)-transform \(X(z)\) of \(x[n]\) is rational, and if \(x[n]\) is left sided, then the ROC is the region in the \(z\)-plane inside the innermost nonzero pole--i.e., inside the circle of radius equal to the smallest magnitude of the poles of \(X(z)\) other than any at \(z=0\) and extending inward to and possibly including \(z=0\). In particular, if \(x[n]\) is anticausal (i.e., if it is left sided and equal to 0 for \(n>0\)), then the ROC also includes \(z=0\).
+
+Thus, for left-sided sequences, the poles of \(X(z)\) other than any at \(z=0\) are farther from the origin than is any point in the ROC.
+
+For a given pole-zero pattern, or equivalently, a given rational algebraic expression \(X(z)\), there are a limited number of different ROCs that are consistent with the preceding properties. To illustrate how different ROCs can be associated with the same pole-zero pattern, we present the following example, which closely parallels Example 9.8.
+
+**Example 10.8**
+
+Let us consider all of the possible ROCs that can be connected with the function
+
+\[X(z)=\frac{1}{(1-\frac{1}{3}z^{-1})(1-2z^{-1})}. \tag{10.37}\]
+
+The associated pole-zero pattern is shown in Figure 10.12(a). Based on our discussion in this section, there are three possible ROCs that can be associated with this algebraic expression for the \(z\)-transform. These ROCs are indicated in Figure 10.12(b)\(-\)(d). Each corresponds to a different sequence. Figure 10.12(b) is associated with a right-sided sequence, Figure 10.12(c) with a left-sided sequence, and Figure 10.12(d) with a two-sided sequence. Since Figure 10.12(d) is the only one for which the ROC includes the unit circle, the sequence corresponding to this choice of ROC is the only one of the three for which the Fourier transform converges.
+
+### 10.3 The Inverse z-Transform
+
+In this section, we consider several procedures for determining a sequence when its \(z\)-transform is known. To begin, let us consider the formal relation expressing a sequence in terms of its \(z\)-transform. This expression can be obtained on the basis of the interpretation, developed in Section 10.1, of the \(z\)-transform as the Fourier transform of an exponentially weighted sequence. Specifically, as expressed in eq. (10.7),
+
+\[X(re^{j\omega})\,=\,\mathcal{F}\{x[n]r^{-n}\}, \tag{10.38}\]
+
+for any value of \(r\) so that \(z\,=\,re^{j\omega}\) is inside the ROC. Applying the inverse Fourier transform to both sides of eq. (10.38) yields
+
+\[x[n]r^{-n}\,=\,\mathcal{F}^{-1}\{X(re^{j\omega})\},\]
+
+Figure 10.12: The three possible ROCs that can be connected with the expression for the \(z\)-transform in Example 10.8: (a) pole-zero pattern for \(X(z)\); (b) pole-zero pattern and ROC if \(x[n]\) is right sided; (c) pole-zero pattern and ROC if \(x[n]\) is left sided; (d) pole-zero pattern and ROC if \(x[n]\) is two sided. In each case, the zero at the origin is a second-order zero.
+
+
+this example, the partial-fraction expansion, expressed in polynomials in \(z^{-1}\), is
+
+\[X(z)\,=\,\frac{1}{1-\frac{1}{4}z^{-1}}\,+\,\frac{2}{1-\frac{1}{3}z^{-1}}. \tag{10.43}\]
+
+Thus, \(x[n]\) is the sum of two terms, one with \(z\)-transform \(1/[1-(1/4)z^{-1}]\) and the other with \(z\)-transform \(2/[1-(1/3)z^{-1}]\). In order to determine the inverse \(z\)-transform of each of these individual terms, we must specify the ROC associated with each. Since the ROC for \(X(z)\) is outside the outermost pole, the ROC for each individual term in eq. (10.43) must also be outside the pole associated with that term. That is, the ROC for each term consists of all points with magnitude greater than the magnitude of the corresponding pole. Thus,
+
+\[x[n]\,=\,x_{1}[n]+x_{2}[n], \tag{10.44}\]
+
+where
+
+\[x_{1}[n]\,\longleftrightarrow\,\frac{z}{1-\frac{1}{4}z^{-1}}, \quad|z|>\frac{1}{4}, \tag{10.45}\] \[x_{2}[n]\,\longleftrightarrow\,\frac{z}{1-\frac{1}{3}z^{-1}}, \quad|z|>\frac{1}{3}. \tag{10.46}\]
+
+From Example 10.1, we can identify by inspection that
+
+\[x_{1}[n]\,=\,\left(\frac{1}{4}\right)^{\!\!n}u[n] \tag{10.47}\]
+
+and
+
+\[x_{2}[n]\,=\,2\left(\frac{1}{3}\right)^{\!\!n}u[n], \tag{10.48}\]
+
+and thus,
+
+\[x[n]\,=\,\left(\frac{1}{4}\right)^{\!\!n}u[n]\,+\,2\left(\frac{1}{3}\right)^{ \!\!n}u[n]. \tag{10.49}\]
+
+## Example 10.10
+
+Now let us consider the same algebraic expression for \(X(z)\) as in eq. (10.42), but with the ROC for \(X(z)\) as \(1/4<|z|<1/3\). Equation (10.43) is still a valid partial-fraction expansion of the algebraic expression for \(X(z)\), but the ROC associated with the individual terms will change. In particular, since the ROC for \(X(z)\) is outside the pole at \(z=1/4\), the ROC corresponding to this term in eq. (10.43) is also outside the pole and consists of all points with magnitude greater than \(1/4\), as it did in the previous example. However, since in this example the ROC for \(X(z)\) is inside the pole at \(z=1/3\), that is, since the points in the ROC all have magnitude less than \(1/3\), the ROC corresponding to this term must also lie inside this pole. Thus, the \(z\)-transform pairs for the individual components in eq. (10.44) are
+
+\[x_{1}[n]\,\longleftrightarrow\,\frac{z}{1-\frac{1}{4}z^{-1}}, \quad|z|>\frac{1}{4}, \tag{10.50}\]and
+
+\[x_{2}[n]\xleftrightarrow{}^{Z}\frac{2}{1-\frac{1}{3}z^{-1}},\quad|z|< \frac{1}{3}. \tag{10.51}\]
+
+The signal \(x_{1}[n]\) remains as in eq. (10.47), while from Example 10.2, we can identify
+
+\[x_{2}[n]\,=\,-2\left(\frac{1}{3}\right)^{n}u[-n-1], \tag{10.52}\]
+
+so that
+
+\[x[n]\,=\,\left(\frac{1}{4}\right)^{n}u[n]\,-\,2\left(\frac{1}{3} \right)^{n}u[-n-1]. \tag{10.53}\]
+
+## Example 10.11
+
+Finally, consider \(X(z)\) as in eq. (10.42), but now with the ROC \(|z|<\) 1/4. In this case the ROC is inside both poles, i.e., the points in the ROC all have magnitude smaller than either of the poles at \(z=\) 1/3 or \(z=\) 1/4. Consequently the ROC for each term in the partial-fraction expansion in eq. (10.43) must also lie inside the corresponding pole. As a result, the \(z\)-transform pair for \(x_{1}[n]\) is given by
+
+\[x_{1}[n]\xleftrightarrow{}^{Z}\frac{1}{1-\frac{1}{4}z^{-1}},\quad| z|<\frac{1}{4}, \tag{10.54}\]
+
+while the \(z\)-transform pair for \(x_{2}[n]\) is given by eq. (10.51). Applying the result of Example 10.2 to eq. (10.54), we find that
+
+\[x_{1}[n]\,=\,-\left(\frac{1}{4}\right)^{n}u[-n-1],\]
+
+so that
+
+\[x[n]\,=\,-\left(\frac{1}{4}\right)^{n}u[-n-1]-2\left(\frac{1}{3} \right)^{n}u[-n-1].\]
+
+The foregoing examples illustrate the basic procedure of using partial-fraction expansions to determine inverse \(z\)-transforms. As with the corresponding method for the Laplace transform, the procedure relies on expressing the \(z\)-transform as a linear combination of simpler terms. The inverse transform of each term can then be obtained by inspection. In particular, suppose that the partial-fraction expansion of \(X(z)\) is of the form
+
+\[X(z)\,=\,\sum_{i\,=\,1}^{m}\frac{A_{i}}{1-a_{i}z^{-1}}, \tag{10.55}\]
+
+so that the inverse transform of \(X(z)\) equals the sum of the inverse transforms of the individual terms in the equation. If the ROC of \(X(z)\) is outside the pole at \(z\,=\,a_{i}\), the inverse transform of the corresponding term in eq. (10.55) is \(A_{i}a_{i}^{n}u[n]\). On the other hand, if the ROC of \(X(z)\) is inside the pole at \(z\,=\,a_{i}\), the inverse transform of this term is \(-A_{i}a_{i}^{n}u[-n-1]\). In general, the partial-fraction expansion of a rational transform may include terms in addition to the first-order terms in eq. (10.55). In Section 10.6, we list a number of other \(z\)-transform pairs that can be used in conjunction with the \(z\)-transform properties to be developed in Section 10.5 to extend the inverse transform method outlined in the preceding example to arbitrary rational \(z\)-transforms.
+
+Another very useful procedure for determining the inverse \(z\)-transform relies on a power-series expansion of \(X(z)\). This procedure is motivated by the observation that the definition of the \(z\)-transform given in eq. (10.3) can be interpreted as a power series involving both positive and negative powers of \(z\). The coefficients in this power series are, in fact, the sequence values \(x[n]\). To illustrate how a power-series expansion can be used to obtain the inverse \(z\)-transform, let us consider three examples.
+
+**Example 10.12**: Consider the \(z\)-transform
+
+\[X(z)\,=\,4z^{2}\,+\,2\,+\,3z^{-1},\,\,0<|z|<\infty. \tag{10.56}\]
+
+From the power-series definition of the \(z\)-transform in eq. (10.3), we can determine the inverse transform of \(X(z)\) by inspection:
+
+\[x[n]\,=\,\left\{\begin{array}{ll}4,&n\,=\,-\,2\\ 2,&n\,=\,0\\ 3,&n\,=\,1\\ 0,&\text{otherwise}\end{array}\right..\]
+
+That is,
+
+\[x[n]\,=\,4\delta[n+2]+2\delta[n]+3\delta[n-1]. \tag{10.57}\]
+
+Comparing eqs. (10.56) and (10.57), we see that different powers of \(z\) serve as placeholders for sequence values at different points in time; i.e., if we simply use the transform pair
+
+\[\delta[n+n_{0}]\stackrel{{ Z}}{{\longleftrightarrow}}z^{n_{0}},\]
+
+we can immediately pass from eq. (10.56) to (10.57) and vice versa.
+
+**Example 10.13**: Consider
+
+\[X(z)\,=\,\frac{1}{1-az^{-1}},\quad|z|>|a|.\]
+
+This expression can be expanded in a power series by long division:
+
+\[1-az^{-1}\,\frac{1+az^{-1}+a^{2}z^{-2}+\cdots}{1}\] \[\frac{1-az^{-1}}{az^{-1}}\qquad\qquad\qquad\qquad\qquad\frac{az^{ -1}-a^{2}z^{-2}}{a^{2}z^{-2}}\]
+
+or equivalently,
+
+\[x[n]\,=\,\frac{-(-a)^{n}}{n}u[n-1].\]
+
+In Problem 10.63 we consider a related example with region of convergence \(|z|<|a|\).
+
+### Geometric evaluation of the Fourier transform
+
+From the pole-zero plot
+
+In Section 10.1 we noted that the \(z\)-transform reduces to the Fourier transform for \(|z|\,=\,1\) (i.e., for the contour in the \(z\)-plane corresponding to the unit circle), provided that the ROC of the \(z\)-transform includes the unit circle, so that the Fourier transform converges. In a similar manner, we saw in Chapter 9 that, for continuous-time signals, the Laplace transform reduces to the Fourier transform on the \(j\omega\)-axis in the \(s\)-plane. In Section 9.4, we also discussed the geometric evaluation of the continuous-time Fourier transform from the pole-zero plot. In the discrete-time case, the Fourier transform can again be evaluated geometrically by considering the pole and zero vectors in the \(z\)-plane. However, since in this case the rational function is to be evaluated on the contour \(|z|=1\), we consider the vectors from the poles and zeros to the unit circle rather than to the imaginary axis. To illustrate the procedure, let us consider first-order and second-order systems, as discussed in Section 6.6.
+
+#### First-Order Systems
+
+The impulse response of a first-order causal discrete-time system is of the general form
+
+\[h[n]\,=\,a^{n}u[n], \tag{10.64}\]
+
+and from Example 10.1, its \(z\)-transform is
+
+\[H(z)\,=\,\frac{1}{1-az^{-1}}\,=\,\frac{z}{z-a},\quad|z|>|a|. \tag{10.65}\]
+
+For \(|a|<1\), the ROC includes the unit circle, and consequently, the Fourier transform of \(h[n]\) converges and is equal to \(H(z)\) for \(z=e^{j\omega}\). Thus, the frequency response for the first-order system is
+
+\[H(e^{j\omega})\,=\,\frac{1}{1-ae^{-j\omega}}. \tag{10.66}\]
+
+Figure 10.13(a) depicts the pole-zero plot for \(H(z)\) in eq. (10.65), including the vectors from the pole (at \(z\,=\,a\)) and zero (at \(z\,=\,0\)) to the unit circle. With this plot, the geometric evaluation of \(H(z)\) can be carried out using the same procedure as described in Section 9.4. In particular, if we wish to evaluate the frequency response in eq. (10.65), we perform the evaluation for values of \(z\) of the form \(z=e^{j\omega}\). The magnitude of the frequency response at frequency \(\omega\) is the ratio of the length of the vector \(\mathbf{v}_{1}\) to the length of the vector \(\mathbf{v}_{2}\) shown in Figure 10.13(a). The phase of the frequency response is the angle of \(\mathbf{v}_{1}\) with respect to the real axis minus the angle of \(\mathbf{v}_{2}\). Furthermore, the vector \(\mathbf{v}_{1}\) from
+
+the zero at the origin to the unit circle has a constant length of unity and thus has no effect on the magnitude of \(H(e^{j\omega})\). The phase contributed to \(H(e^{j\omega})\) by the zero is the angle of the zero vector with respect to the real axis, which we see is equal to \(\omega\). For \(0<a<1\), the pole vector has minimum length at \(\omega=0\) and monotonically increases in length as \(\omega\) increases from zero to \(\pi\). Thus, the magnitude of the frequency response will be
+
+Figure 10.13: (a) Pole and zero vectors for the geometric determination of the frequency response for a first-order system for a value of \(a\) between 0 and 1; (b) magnitude of the frequency response for \(a=0.95\) and \(a=0.5\); (c) phase of the frequency response for \(a=0.95\) and \(a=0.5\).
+
+along the unit circle from \(\omega\ =\ 0\) toward \(\omega\ =\ \pi\), the length of the vector \({\bf v}_{2}\) first decreases and then increases, with a minimum length in the vicinity of the pole location, at \(\omega\ =\ \theta\). This is consistent with the fact that the magnitude of the frequency response peaks for \(\omega\) near \(\theta\) when the length of the vector \({\bf v}_{2}\) is small. Based on the behavior of the pole vectors, it is also evident that as \(r\) increases toward unity, the minimum length of the pole vectors will decrease, causing the frequency response to peak more sharply with increasing \(r\). Also, for \(r\) near unity, the angle of the vector \({\bf v}_{2}\) changes sharply for \(\omega\) in the vicinity of \(\theta\). Furthermore, from the form of the impulse response [eq. (10.67) and Figure 6.29] or the
+
+Figure 10.14: (a) Zero vector \({\bf v}_{1}\) and pole vectors \({\bf v}_{2}\) and \({\bf v}_{3}\) used in the geometric calculation of the frequency responses for a second-order system; (b) magnitude of the frequency response corresponding to the reciprocal of the product of the lengths of the pole vectors for \(r=0.95\) and \(r=0.75\); (c) phase of the frequency response for \(r=0.95\) and \(r=0.75\).
+
+step response [eq. (6.67) and Figure 6.30], we see, as we did with the first-order system, that as the poles move closer to the origin, corresponding to \(r\) decreasing, the impulse response decays more rapidly and the step response settles more quickly.
+
+### Properties of the z-transform
+
+As with the other transforms we have developed, the \(z\)-transform possesses a number of properties that make it an extremely valuable tool in the study of discrete-time signals and systems. In this section, we summarize many of these properties. Their derivations are analogous to the derivations of properties for the other transforms, and thus, many are left as exercises at the end of the chapter. (See Problems 10.43 and 10.51-10.54.)
+
+#### Linearity
+
+If
+
+\[x_{1}[n]\stackrel{{ Z}}{{\longleftrightarrow}}X_{1}(z),\quad \text{with ROC}\,=\,R_{1},\]
+
+and
+
+\[x_{2}[n]\stackrel{{ Z}}{{\longleftrightarrow}}X_{2}(z),\quad \text{with ROC}\,=\,R_{2},\]
+
+then
+
+\[ax_{1}[n]+bx_{2}[n]\stackrel{{ Z}}{{\longleftrightarrow}}aX_{1}(z)+bX_{2}(z), \quad\text{with ROC containing $R_{1}\cap R_{2}$.} \tag{10.71}\]
+
+As indicated, the ROC of the linear combination is at least the intersection of \(R_{1}\) and \(R_{2}\). For sequences with rational \(z\)-transforms, if the poles of \(aX_{1}(z)+bX_{2}(z)\) consist of all of the poles of \(X_{1}(z)\) and \(X_{2}(z)\) (i.e., if there is no pole-zero cancellation), then the region of convergence will be exactly equal to the overlap of the individual regions of convergence. If the linear combination is such that some zeros are introduced that cancel poles, then the region of convergence may be larger. A simple example of this occurs when \(x_{1}[n]\) and \(x_{2}[n]\) are both of infinite duration, but the linear combination is of finite duration. In this case the region of convergence of the linear combination is the entire \(z\)-plane, with the possible exception of zero and/or infinity. For example, the sequences \(a^{n}u[n]\) and \(a^{n}u[n-1]\) both have a region of convergence defined by \(|z|>|a|\), but the sequence corresponding to the difference \((a^{n}u[n]-a^{n}u[n-1])=\delta[n]\) has a region of convergence that is the entire \(z\)-plane.
+
+#### Time Shifting
+
+If
+
+\[x[n]\stackrel{{ Z}}{{\longleftrightarrow}}X(z),\quad\text{ with ROC}\,=\,R,\]
+
+#### Time Reversal
+
+If
+
+\[x[n]\xlongleftrightarrow{Z}X(z),\quad\text{with ROC}\,=\,R,\]
+
+then
+
+\[x[-n]\xlongleftrightarrow{Z}X(\tfrac{1}{z}),\quad\text{with ROC}\,=\,\tfrac{1}{R}. \tag{10.75}\]
+
+That is, if \(z_{0}\) is in the ROC for \(x[n]\), then \(1/z_{0}\) is in the ROC for \(x[-n]\).
+
+#### Time Expansion
+
+As we discussed in Section 5.3.7, the continuous-time concept of time scaling does not directly extend to discrete time, since the discrete-time index is defined only for integer values. However, the discrete-time concept of time expansion--i.e., of inserting a number of zeros between successive values of a discrete-time sequence \(x[n]\)--can be defined and does play an important role in discrete-time signal and system analysis. Specifically, the sequence \(x_{(k)}[n]\), introduced in Section 5.3.7 and defined as
+
+\[x_{(k)}[n]\,=\left\{\begin{array}{ll}x[n/k],&\text{if $n$ is a multiple of $k$}\\ 0,&\text{if $n$ is not a multiple of $k$}\end{array}\right. \tag{10.76}\]
+
+has \(k-1\) zeros inserted between successive values of the original signal. In this case, if
+
+\[x[n]\xlongleftrightarrow{Z}X(z),\quad\text{with ROC}\,=\,R,\]
+
+Figure 10.15: Effect on the pole-zero plot of time-domain multiplication by a complex exponential sequence \(e^{\text{i}w_{0}n}\): (a) pole-zero pattern for the \(z\)-transform for a signal \(x[n]\); (b) pole-zero pattern for the \(z\)-transform of \(x[n]e^{\text{i}w_{0}n}\).
+
+then
+
+\[x_{(k)}[n]\stackrel{{ Z}}{{\longleftrightarrow}}X(z^{k}),\quad \text{with ROC}\,=\,R^{1/k}. \tag{10.77}\]
+
+That is, if \(z\) is in the ROC of \(X(z)\), then the point \(z^{1/k}\) is in the ROC of \(X(z^{k})\). Also, if \(X(z)\) has a pole (or zero) at \(z\,=\,a\), then \(X(z^{k})\) has a pole (or zero) at \(z\,=\,a^{1/k}\).
+
+The interpretation of this result follows from the power-series form of the \(z\)-transform, from which we see that the coefficient of the term \(z^{-n}\) equals the value of the signal at time \(n\). That is, with
+
+\[X(z)\,=\,\sum_{n\,=\,-\infty}^{+\infty}x[n]z^{-n},\]
+
+it follows that
+
+\[X(z^{k})\,=\,\sum_{n\,=\,-\infty}^{+\infty}x[n](z^{k})^{-n}\,=\,\sum_{n\,=\,- \infty}^{+\infty}x[n]z^{-kn}. \tag{10.78}\]
+
+Examining the right-hand side of eq. (10.78), we see that the only terms that appear are of the form \(z^{-kn}\). In other words, the coefficient of the term \(z^{-m}\) in this power series equals \(0\) if \(m\) is not a multiple of \(k\) and equals \(x[m/k]\) if \(m\) is a multiple of \(k\). Thus, the inverse transform of eq. (10.78) is \(x_{(k)}[n]\).
+
+#### Conjugation
+
+If
+
+\[x[n]\stackrel{{ Z}}{{\longleftrightarrow}}X(z),\quad\text{ with ROC}\,=\,R, \tag{10.79}\]
+
+then
+
+\[x^{*}[n]\stackrel{{ Z}}{{\longleftrightarrow}}X^{*}(z^{*}), \quad\text{with ROC}\,=\,R. \tag{10.80}\]
+
+Consequently, if \(x[n]\) is real, we can conclude from eq. (10.80) that
+
+\[X(z)\,=\,X^{*}(z^{*}).\]
+
+Thus, if \(X(z)\) has a pole (or zero) at \(z\,=\,z_{0}\), it must also have a pole (or zero) at the complex conjugate point \(z\,=\,z_{0}^{*}\). For example, the transform \(X(z)\) for the real signal \(x[n]\) in Example 10.4 has poles at \(z\,=\,(1/3)e^{\pm j\pi/4}\).
+
+#### The Convolution Property
+
+If
+
+\[x_{1}[n]\stackrel{{ Z}}{{\longleftrightarrow}}X_{1}(z),\quad \text{with ROC}\,=\,R_{1},\]and
+
+\[x_{2}[n]\stackrel{{ Z}}{{\longleftrightarrow}}X_{2}(z),\quad\text{ with ROC }=\ R_{2},\]
+
+then
+
+\[\boxed{\begin{array}{l}x_{1}[n]*x_{2}[n]\stackrel{{ Z}}{{ \longleftrightarrow}}X_{1}(z)X_{2}(z),\ \text{ with ROC containing }R_{1}\cap R_{2}.\end{array}} \tag{10.81}\]
+
+Just as with the convolution property for the Laplace transform, the ROC of \(X_{1}(z)X_{2}(z)\) includes the intersection of \(R_{1}\) and \(R_{2}\) and may be larger if pole-zero cancellation occurs in the product. The convolution property for the \(z\)-transform can be derived in a variety of different ways. A formal derivation is developed in Problem 10.56. A derivation can also be carried out analogous to that used for the convolution property for the continuous-time Fourier transform in Section 4.4, which relied on the interpretation of the Fourier transform as the change in amplitude of a complex exponential through an LTI system.
+
+For the \(z\)-transform, there is another often useful interpretation of the convolution property. From the definition in eq. (10.3), we recognize the \(z\)-transform as a series in \(z^{-1}\) where the coefficient of \(z^{-n}\) is the sequence value \(x[n]\). In essence, the convolution property equation (10.81) states that when two polynomials or power series \(X_{1}(z)\) and \(X_{2}(z)\) are multiplied, the coefficients in the polynomial representing the product are the convolution of the coefficients in the polynomials \(X_{1}(z)\) and \(X_{2}(z)\). (See Problem 10.57).
+
+### Example 10.15
+
+Consider an LTI system for which
+
+\[y[n]\,=\,h[n]*x[n], \tag{10.82}\]
+
+where
+
+\[h[n]\,=\,\delta[n]-\delta[n-1].\]
+
+Note that
+
+\[\delta[n]-\delta[n-1]\stackrel{{ Z}}{{\longleftrightarrow}}1-z^{-1}, \tag{10.83}\]
+
+with ROC equal to the entire \(z\)-plane except the origin. Also, the \(z\)-transform in eq. (10.83) has a zero at \(z\,=\,1\). From eq. (10.81), we see that if
+
+\[x[n]\stackrel{{ Z}}{{\longleftrightarrow}}X(z),\quad\text{ with ROC }=\ R,\]
+
+then
+
+\[y[n]\stackrel{{ Z}}{{\longleftrightarrow}}(1-z^{-1})X(z), \tag{10.84}\]
+
+with ROC equal to \(R\), with the possible deletion of \(z\,=\,0\) and/or addition of \(z\,=\,1\).
+
+Note that for this system
+
+\[y[n]\,=\,[\delta[n]-\delta[n-1]]*x[n]\,=\,x[n]-x[n-1].\]That is, \(y[n]\) is the first difference of the sequence \(x[n]\). Since the first-difference operation is commonly thought of as a discrete-time counterpart to differentiation, eq. (10.83) can be thought of as the \(z\)-transform counterpart of the Laplace transform differentiation property presented in Section 9.5.7.
+
+### Example 10.16
+
+Suppose we now consider the inverse of first differencing, namely, accumulation or summation. Specifically, let \(w[n]\) be the running sum of \(x[n]\):
+
+\[w[n]\,=\,\sum_{k\,=\,-\infty}^{n}x[k]\,=\,u[n]*x[n]. \tag{10.85}\]
+
+Then, using eq. (10.81) together with the \(z\)-transform of the unit step in Example 10.1, we see that
+
+\[w[n]\,\,=\,\sum_{k\,=\,-\infty}^{n}x[k]\,\stackrel{{ Z}}{{ \longleftrightarrow}}\,\frac{1}{1-z^{-1}}X(z), \tag{10.86}\]
+
+with ROC including at least the intersection of \(R\) with \(|z|>1\). Eq. (10.86) is the discrete-time \(z\)-transform counterpart of the integration property in Section 9.5.9.
+
+#### Differentiation in the z-Domain
+
+If
+
+\[x[n]\,\stackrel{{ Z}}{{\longleftrightarrow}}\,X(z),\quad \text{with ROC}\,=\,R,\]
+
+then
+
+\[nx[n]\,\stackrel{{ Z}}{{\longleftrightarrow}}\,-z\,\frac{dX(z )}{dz},\quad\text{with ROC}\,=\,R. \tag{10.87}\]
+
+This property follows in a straightforward manner by differentiating both sides of the expression for the \(z\)-transform given in eq. (10.3). As an example of the use of this property, let us apply it to determining the inverse \(z\)-transform considered in Example 10.14.
+
+### Example 10.17
+
+If
+
+\[X(z)\,=\,\log(1\,+\,az^{-1}),\quad|z|>|a|, \tag{10.88}\]
+
+then
+
+\[nx[n]\,\stackrel{{ Z}}{{\longleftrightarrow}}\,-z\,\frac{dX(z )}{dz}\,=\,\frac{az^{-1}}{1+az^{-1}},\quad|z|>|a|. \tag{10.89}\]
+
+By differentiating, we have converted the \(z\)-transform to a rational expression. The inverse \(z\)-transform of the right-hand side of eq. (10.89) can be obtained by using Example 10.1 together with the time-shifting property, eq. (10.72), set forth in Section 10.5.2.
+
+Specifically, from Example 10.1 and the linearity property,
+
+\[a(-a)^{n}u[n]\stackrel{{ Z}}{{\longleftrightarrow}}\frac{a}{1+az^{-1 }},\quad|z|>|a|. \tag{10.90}\]
+
+Combining this with the time-shifting property yields
+
+\[a(-a)^{n-1}u[n-1]\stackrel{{ Z}}{{\longleftrightarrow}}\frac{ az^{-1}}{1+az^{-1}},\quad|z|>|a|.\]
+
+Consequently,
+
+\[x[n]\,=\,\frac{-(-a)^{n}}{n}u[n-1]. \tag{10.91}\]
+
+## Example 10.18
+
+As another example of the use of the differentiation property, consider determining the inverse \(z\)-transform for
+
+\[X(z)\,=\,\frac{az^{-1}}{(1-az^{-1})^{2}},\quad|z|>|a|. \tag{10.92}\]
+
+From Example 10.1,
+
+\[a^{n}u[n]\stackrel{{ Z}}{{\longleftrightarrow}}\frac{1}{1-az^{- 1}},\quad|z|>|a|, \tag{10.93}\]
+
+and hence,
+
+\[na^{n}u[n]\stackrel{{ Z}}{{\longleftrightarrow}}-z\frac{d}{dz} \left(\frac{1}{1-az^{-1}}\right)=\,\frac{az^{-1}}{(1-az^{-1})^{2}},\quad|z|>|a|. \tag{10.94}\]
+
+#### The Initial-Value Theorem
+
+If \(x[n]\,=\,0\), \(n<0\), then
+
+\[x[0]\,=\,\lim_{z\to\infty}X(z). \tag{10.95}\]
+
+This property follows by considering the limit of each term individually in the expression for the \(z\)-transform, with \(x[n]\) zero for \(n<0\). With this constraint,
+
+\[X(z)\,=\,\sum_{n\,=\,0}^{\infty}x[n]z^{-n}.\]
+
+As \(z\to\infty\), \(z^{-n}\to 0\) for \(n>0\), whereas for \(n\,=\,0\), \(z^{-n}\,=\,1\). Thus, eq. (10.95) follows.
+
+As one consequence of the initial-value theorem, for a causal sequence, if \(x[0]\) is finite, then \(\lim_{z\to\infty}X(z)\) is finite. Consequently, with \(X(z)\) expressed as a ratio of polynomials in \(z\), the order of the numerator polynomial cannot be greater than the order of the denominator polynomial; or, equivalently, the number of finite zeros of \(X(z)\) cannot be greater than the number of finite poles.
+
+### Example 10.19
+
+The initial-value theorem can also be useful in checking the correctness of the \(z\)-transform calculation for a signal. For example, consider the signal \(x[n]\) in Example 10.3. From eq. (10.12), we see that \(x[0]\,=\,1\). Also, from eq. (10.14),
+
+\[\lim_{z\to\infty}X(z)\,=\,\lim_{z\to\infty}\frac{1-\frac{3}{2}z^{-1}}{(1-\frac {1}{3}z^{-1})(1-\frac{1}{2}z^{-1})}\,=\,1,\]
+
+which is consistent with the initial-value theorem.
+
+### Summary of Properties
+
+In Table 10.1, we summarize the properties of the \(z\)-transform.
+
+### Some Common z-Transform Pairs
+
+As with the inverse Laplace transform, the inverse \(z\)-transform can often be easily evaluated by expressing \(X(z)\) as a linear combination of simpler terms, the inverse transforms of which are recognizable. In Table 10.2, we have listed a number of useful \(z\)-transform pairs. Each of these can be developed from previous examples in combination with the properties of the \(z\)-transform listed in Table 10.1. For example, transform pairs 2 and 5 follow directly from Example 10.1, and transform pair 7 is developed in Example 10.18. These, together with the time-reversal and time-shifting properties set forth in Sections 10.5.4 and 10.5.2, respectively, then lead to transform pairs 3, 6, and 8. Transform pairs 9 and 10 can be developed using transform pair 2 together with the linearity and scaling properties developed in Sections 10.5.1 and 10.5.3, respectively.
+
+### Analysis and Characterization of Lti Systems using z-transforms
+
+The \(z\)-transform plays a particularly important role in the analysis and representation of discrete-time LTI systems. From the convolution property presented in Section 10.5.7,
+
+\[Y(z)\,=\,H(z)X(z), \tag{10.96}\]
+
+where \(X(z)\), \(Y(z)\), and \(H(z)\) are the \(z\)-transforms of the system input, output, and impulse response, respectively. \(H(z)\) is referred to as the _system function_ or _transfer function_ of the system. For \(z\) evaluated on the unit circle (i.e., for \(z\,=\,e^{j\omega}\)), \(H(z)\) reduces to the frequency response of the system, provided that the unit circle is in the ROC for \(H(z)\). Also, from our discussion in Section 3.2, we know that if the input to an LTI system is the complex exponential signal \(x[n]\,=\,z^{n}\), then the output will be \(H(z)z^{n}\). That is, \(z^{n}\) is an eigenfunction of the system with eigenvalue given by \(H(z)\), the \(z\)-transform of the impulse response.
+
+Many properties of a system can be tied directly to characteristics of the poles, zeros, and region of convergence of the system function, and in this section we illustrate some of these relationships by examining several important system properties and an important class of systems.
+
+If \(H(z)\) is rational, then, from Property 8 in Section 10.2, for the system to be causal, the ROC must be outside the outermost pole and infinity must be in the ROC. Equivalently, the limit of \(H(z)\) as \(z\longrightarrow\infty\) must be finite. As we discussed in Section 10.5.9, this is equivalent to the numerator of \(H(z)\) having degree no larger than the denominator when both are expressed as polynomials in \(z\). That is:
+
+A discrete-time LTI system with rational system function \(H(z)\) is causal if and only if: (a) the ROC is the exterior of a circle outside the outermost pole; and (b) with \(H(z)\) expressed as a ratio of polynomials in \(z\), the order of the numerator cannot be greater than the order of the denominator.
+
+**Example 10.20**
+
+Consider a system with system function whose algebraic expression is
+
+\[H(z)\,=\,\frac{z^{3}-2z^{2}+z}{z^{2}+\frac{1}{4}z+\frac{1}{8}}.\]
+
+Without even knowing the ROC for this system, we can conclude that the system is not causal, because the numerator of \(H(z)\) is of higher order than the denominator.
+
+**Example 10.21**
+
+Consider a system with system function
+
+\[H(z)\,=\,\frac{1}{1-\frac{1}{2}z^{-1}}\,+\,\frac{1}{1-2z^{-1}},\quad|z|>2 \tag{10.97}\]
+
+Since the ROC for this system function is the exterior of a circle outside the outermost pole, we know that the impulse response is right-sided. To determine if the system is causal, we then need only check the other condition required for causality, namely that \(H(z)\), when expressed as a ratio of polynomials in \(z\), has numerator degree no larger than the denominator. For this example,
+
+\[H(z)\,=\,\frac{2-\frac{5}{2}z^{-1}}{(1-\frac{1}{2}z^{-1})(1-2z^{-1})}\,=\, \frac{2z^{2}-\frac{5}{2}z}{z^{2}-\frac{5}{2}z+1}, \tag{10.98}\]
+
+so that the numerator and denominator of \(H(z)\) are both of degree two, and consequently we can conclude that the system is causal. This can also be verified by calculating the inverse transform of \(H(z)\). In particular, using transform pair 5 in Table 10.2, we find that the impulse response of this system is
+
+\[h[n]\,=\left[\left(\frac{1}{2}\right)^{n}+2^{n}\right]u[n]. \tag{10.99}\]
+
+Since \(h[n]\,=\,0\) for \(n<0\), we can confirm that the system is causal.
+
+**10.7.2**: **Stability**
+
+As we discussed in Section 2.3.7, the stability of a discrete-time LTI system is equivalent to its impulse response being absolutely summable. In this case the Fourier transform of \(h[n]\)converges, and consequently, the ROC of \(H(z)\) must include the unit circle. Summarizing, we obtain the following result:
+
+An LTI system is stable if and only if the ROC of its system function \(H(z)\) includes the unit circle, \(|z|\,=\,1\).
+
+### Example 10.22
+
+Consider again the system function in eq. (10.97). Since the associated ROC is the region \(|z|>2\), which does not include the unit circle, the system is not stable. This can also be seen by noting that the impulse response in eq. (10.99) is not absolutely summable. If, however, we consider a system whose system function has the same algebraic expression as in eq. (10.97) but whose ROC is the region 1/2 \(<|z|<2\), then the ROC does contain the unit circle, so that the corresponding system is noncausal but stable. In this case, using transform pairs 5 and 6 from Table 10.2, we find that the corresponding impulse response is
+
+\[h[n]\,=\,\left(\frac{1}{2}\right)^{n}u[n]\,-\,2^{n}u[-n\,-\,1], \tag{10.100}\]
+
+which is absolutely summable.
+
+Also, for the third possible choice of ROC associated with the algebraic expression for \(H(z)\) in eq. (10.97), namely, \(|z|<1/2\), the corresponding system is neither causal (since the ROC is not outside the outermost pole) nor stable (since the ROC does not include the unit circle). This can also be seen from the impulse response, which (using transform pair 6 in Table 10.2) is
+
+\[h[n]\,=\,-\left[\left(\frac{1}{2}\right)^{n}\,+\,2^{n}\,\right]u[-\,n\,-\,1].\]
+
+As Example 10.22 illustrates, it is perfectly possible for a system to be stable but not causal. However, if we focus on causal systems, stability can easily be checked by examining the locations of the poles. Specifically, for a causal system with rational system function, the ROC is outside the outermost pole. For this ROC to include the unit circle, \(|z|\,=\,1\), all of the poles of the system must be inside the unit circle. That is:
+
+A causal LTI system with rational system function \(H(z)\) is stable if and only if all of the poles of \(H(z)\) lie inside the unit circle--i.e., they must all have magnitude smaller than 1.
+
+### Example 10.23
+
+Consider a causal system with system function
+
+\[H(z)\,=\,\frac{1}{1-az^{-1}},\]
+
+which has a pole at \(z=a\). For this system to be stable, its pole must be inside the unit circle, i.e., we must have \(|a|<1\). This is consistent with the condition for the absolute summability of the corresponding impulse response \(h[n]\,=\,a^{n}u[n]\).
+
+### Example 10.24
+
+The system function for a second-order system with complex poles was given in eq. (10.69), specifically,
+
+\[H(z)\,=\,\frac{1}{1-(2r\cos\theta)z^{-1}+r^{2}z^{-2}}, \tag{10.101}\]
+
+with poles located at \(z_{1}=re^{\,j\theta}\) and \(z_{2}=re^{-\,j\theta}\). Assuming causality, we see that the ROC is outside the outermost pole (i.e., \(|z|>|r|\)). The pole-zero plot and ROC for this system are shown in Figure 10.16 for \(r<1\) and \(r>1\). For \(r<1\), the poles are inside the unit circle, the ROC includes the unit circle, and therefore, the system is stable. For \(r>1\), the poles are outside the unit circle, the ROC does not include the unit circle, and the system is unstable.
+
+### LTI Systems Characterized by Linear Constant-Coefficient Difference Equations
+
+For systems characterized by linear constant-coefficient difference equations, the properties of the \(z\)-transform provide a particularly convenient procedure for obtaining the system function, frequency response, or time-domain response of the system. Let us illustrate this with an example.
+
+### Example 10.25
+
+Consider an LTI system for which the input \(x[n]\) and output \(y[n]\) satisfy the linear constant-coefficient difference equation
+
+\[y[n]-\frac{1}{2}y[n-1]\,=\,x[n]+\frac{1}{3}\,x[n-1]. \tag{10.102}\]
+
+Figure 10.16: Pole-zero plot for a second-order system with complex poles: (a) \(r<1\); (b) \(r>1\).
+
+Applying the \(z\)-transform to both sides of eq. (10.102), and using the linearity property set forth in Section 10.5.1 and the time-shifting property presented in Section 10.5.2, we obtain
+
+\[Y(z)-\frac{1}{2}z^{-1}Y(z)\,=\,X(z)+\frac{1}{3}z^{-1}X(z),\]
+
+or
+
+\[Y(z)\,=\,X(z)\Bigg{[}\frac{1+\frac{1}{3}z^{-1}}{1-\frac{1}{2}z^{-1}}\Bigg{]}. \tag{10.103}\]
+
+From eq. (10.96), then,
+
+\[H(z)\,=\,\frac{Y(z)}{X(z)}\,=\,\frac{1+\frac{1}{3}z^{-1}}{1-\frac{1}{2}z^{-1}}. \tag{10.104}\]
+
+This provides the algebraic expression for \(H(z)\), but not the region of convergence. In fact, there are two distinct impulse responses that are consistent with the difference equation (10.102), one right sided and the other left sided. Correspondingly, there are two different choices for the ROC associated with the algebraic expression (10.104). One, \(|z|>\) 1/2, is associated with the assumption that \(h[n]\) is right sided, and the other, \(|z|<\) 1/2, is associated with the assumption that \(h[n]\) is left sided.
+
+Consider first the choice of ROC equal to \(|z|>1\). Writing
+
+\[H(z)\,=\,\left(1+\frac{1}{3}z^{-1}\right)\frac{1}{1-\frac{1}{2}z^{-1}},\]
+
+we can use transform pair 5 in Table 10.2, together with the linearity and time-shifting properties, to find the corresponding impulse response
+
+\[h[n]\,=\,\left(\frac{1}{2}\right)^{n}u[n]\,+\,\frac{1}{3}\left(\frac{1}{2} \right)^{n-1}u[n-1].\]
+
+For the other choice of ROC, namely, \(|z|<1\), we can use transform pair 6 in Table 10.2 and the linearity and time-shifting properties, yielding
+
+\[h[n]\,=\,-\left(\frac{1}{2}\right)^{n}u[-n-1]-\frac{1}{3}\left(\frac{1}{2} \right)^{n-1}u[-n].\]
+
+In this case, the system is anticausal (\(h[n]\,=\,0\) for \(n>0\)) and unstable.
+
+For the more general case of an \(N\)th-order difference equation, we proceed in a manner similar to that in Example 10.25, applying the \(z\)-transform to both sides of the equation and using the linearity and time-shifting properties. In particular, consider an LTI system for which the input and output satisfy a linear constant-coefficient difference equation of the form
+
+\[\sum_{k=0}^{N}a_{k}y[n-k]\,=\,\sum_{k=0}^{M}b_{k}x[n-k]. \tag{10.105}\]Then taking \(z\)-transforms of both sides of eq. (10.105) and using the linearity and time-shifting properties, we obtain
+
+\[\sum_{k\,=\,0}^{N}a_{k}z^{-k}Y(z)\,=\,\sum_{k\,=\,0}^{M}b_{k}z^{-k}X(z),\]
+
+or
+
+\[Y(z)\sum_{k\,=\,0}^{N}a_{k}z^{-k}\,=\,X(z)\sum_{k\,=\,0}^{M}b_{k}z^{-k},\]
+
+so that
+
+\[H(z)\,=\,\frac{Y(z)}{X(z)}\,=\,\frac{\sum_{k\,=\,0}^{M}b_{k}z^{-k} }{\sum_{k\,=\,0}^{N}a_{k}z^{-k}}. \tag{10.106}\]
+
+We note in particular that the system function for a system satisfying a linear constant-coefficient difference equation is always rational. Consistent with our previous example and with the related discussion for the Laplace transform, the difference equation by itself does not provide information about which ROC to associate with the algebraic expression \(H(z)\). An additional constraint, such as the causality or stability of the system, however, serves to specify the region of convergence. For example, if we know in addition that the system is causal, the ROC will be outside the outermost pole. If the system is stable, the ROC must include the unit circle.
+
+#### Examples Relating System Behavior to the System Function
+
+As the previous subsections illustrate, many properties of discrete-time LTI systems can be directly related to the system function and its characteristics. In this section, we give several additional examples to show how \(z\)-transform properties can be used in analyzing systems.
+
+**Example 10.26**:
+
+Suppose that we are given the following information about an LTI system:
+
+1. If the input to the system is \(x_{1}[n]\,=\,\left(1/6\right)^{n}u[n]\), then the output is
+
+\[y_{1}[n]\,=\,\left[a\left(\frac{1}{2}\right)^{n}+10\left(\frac{1}{3}\right)^{ n}\right]u[n],\]
+
+where \(a\) is a real number.
+
+2. If \(x_{2}[n]\,=\,(-1)^{n}\), then the output is \(y_{2}[n]\,=\,\frac{7}{4}(-1)^{n}\). As we now show, from these two pieces of information, we can determine the system function \(H(z)\) for this system, including the value of the number \(a\), and can also immediately deduce a number of other properties of the system.
+
+The \(z\)-transforms of the signals specified in the first piece of information are \[X_{1}(z) = \frac{1}{1-\frac{1}{6}z^{-1}},\quad|z|>\frac{1}{6}, \tag{10.107}\] \[Y_{1}(z) = \frac{a}{1-\frac{1}{2}z^{-1}}+\frac{10}{1-\frac{1}{3}z^{-1}}\] (10.108) \[= \frac{(a+10)-(5+\frac{a}{3})z^{-1}}{(1-\frac{1}{2}z^{-1})(1-\frac {1}{3}z^{-1})},\quad|z|>\frac{1}{2}.\]
+
+From eq. (10.96), it follows that the algebraic expression for the system function is
+
+\[H(z)\,=\,\frac{Y_{1}(z)}{X_{1}(z)}\,=\,\frac{[(a+10)-(5+\frac{a}{3})z^{-1}][1- \frac{1}{6}z^{-1}]}{(1-\frac{1}{2}z^{-1})(1-\frac{1}{3}z^{-1})}. \tag{10.109}\]
+
+Furthermore, we know that the response to \(x_{2}[n]\,=\,(-1)^{n}\) must equal \((-1)^{n}\) multiplied by the system function \(H(z)\) evaluated at \(z\,=\,-1\). Thus from the second piece of information given, we see that
+
+\[\frac{7}{4}\,=\,H(-1)\,=\,\frac{[(a+10)+5+\frac{a}{3}][\frac{7}{6}]}{(\frac{3} {2})(\frac{4}{3})}. \tag{10.110}\]
+
+Solving eq. (10.110), we find that \(a\,=\,-9\), so that
+
+\[H(z)\,=\,\frac{(1-2z^{-1})(1-\frac{1}{6}z^{-1})}{(1-\frac{1}{2}z^{-1})(1-\frac {1}{3}z^{-1})}, \tag{10.111}\]
+
+or
+
+\[H(z)\,=\,\frac{1-\frac{13}{6}z^{-1}+\frac{1}{3}z^{-2}}{1-\frac{5}{6}z^{-1}+ \frac{1}{6}z^{-2}}, \tag{10.112}\]
+
+or, finally,
+
+\[H(z)\,=\,\frac{z^{2}-\frac{13}{6}z+\frac{1}{3}}{z^{2}-\frac{5}{6}z+\frac{1}{6 }}. \tag{10.113}\]
+
+Also, from the convolution property, we know that the ROC of \(Y_{1}(z)\) must include at least the intersections of the ROCs of \(X_{1}(z)\) and \(H(z)\). Examining the three possible ROCs for \(H(z)\) (namely, \(|z|<\) 1/3, 1/3 \(<|z|<\) 1/2, and \(|z|>\) 1/2), we find that the only choice that is consistent with the ROCs of \(X_{1}(z)\) and \(Y_{1}(z)\) is \(|z|>\) 1/2.
+
+Since the ROC for the system includes the unit circle, we know that the system is stable. Furthermore, from eq. (10.113) with \(H(z)\) viewed as a ratio of polynomials in \(z\), the order of the numerator does not exceed that of the denominator, and thus we can conclude that the LTI system is causal. Also, using eqs. (10.112) and (10.106), we can write the difference equation that, together with the condition of initial rest, characterizes the system:
+
+\[y[n]-\frac{5}{6}y[n-1]+\frac{1}{6}y[n-2]\,=\,x[n]-\frac{13}{6}\,x[n-1]+\frac{1} {3}\,x[n-2].\]
+
+## Example 10.27
+
+Consider a stable and causal system with impulse response \(h[n]\) and rational system function \(H(z)\). Suppose it is known that \(H(z)\) contains a pole at \(z=\) 1/2 and a zero somewhere on the unit circle. The precise number and locations of all of the other polesand zeros are unknown. For each of the following statements, let us determine whether we can definitely say that it is true, whether we can definitely say that it is false, or whether there is insufficient information given to determine if it is true or not:
+
+* \(\mathfrak{F}\left\{\,(1/2)^{n}h[n]\right\}\) converges.
+* \(H(e^{j\omega})\,=\,0\) for some \(\omega\).
+* \(h[n]\) has finite duration.
+* \(h[n]\) is real.
+* \(g[n]\,=\,n[h[n]*h[n]]\) is the impulse response of a stable system.
+
+Statement (a) is true. \(\mathfrak{F}\left\{\,(1/2)^{n}h[n]\right\}\) corresponds to the value of the \(z\)-transform of \(h[n]\) at \(z\,=\,2\). Thus, its convergence is equivalent to the point \(z\,=\,2\) being in the ROC. Since the system is stable and causal, all of the poles of \(H(z)\) are inside the unit circle, and the ROC includes all the points outside the unit circle, including \(z\,=\,2\).
+
+Statement (b) is true because there is a zero on the unit circle.
+
+Statement (c) is false because a finite-duration sequence must have an ROC that includes the entire \(z\)-plane, except possibly \(z\,=\,0\) and/or \(z\,=\,\infty\). This is not consistent with having a pole at \(z\,=\,1/2\).
+
+Statement (d) requires that \(H(z)\,=\,H^{*}(z^{*})\). This in turn implies that if there is a pole (zero) at a nonreal location \(z\,=\,z_{0}\), there must also be a pole (zero) at \(z\,=\,z_{0}^{*}\). Insufficient information is given to validate such a conclusion.
+
+Statement (e) is true. Since the system is causal, \(h[n]\,=\,0\) for \(n\,<\,0\). Consequently, \(h[n]*h[n]\,=\,0\) for \(n\,<\,0\); i.e., the system with \(h[n]*h[n]\) as its impulse response is causal. The same is then true for \(g[n]\,=\,n[h[n]*h[n]]\). Furthermore, by the convolution property set forth in Section 10.5.7, the system function corresponding to the impulse response \(h[n]*h[n]\) is \(H^{2}(z)\), and by the differentiation property presented in Section 10.5.8, the system function corresponding to \(g[n]\) is
+
+\[G(z)\,=\,-z\frac{d}{dz}H^{2}(z)\,=\,-2zH(z)\bigg{[}\frac{d}{dz}H(z)\bigg{]}. \tag{10.114}\]
+
+From eq. (10.114), we can conclude that the poles of \(G(z)\) are at the same locations as those of \(H(z)\), with the possible exception of the origin. Therefore, since \(H(z)\) has all its poles inside the unit circle, so must \(G(z)\). It follows that \(g[n]\) is the impulse response of a causal and stable system.
+
+## 0.8 System Function Algebra and Block Diagram Representations
+
+Just as with the Laplace transform in continuous time, the \(z\)-transform in discrete time allows us to replace time-domain operations such as convolution and time shifting with algebraic operations. This was exploited in Section 10.7.3, where we were able to replace the difference-equation description of an LTI system with an algebraic description. The use of the \(z\)-transform to convert system descriptions to algebraic equations is also helpful in analyzing interconnections of LTI systems and in representing and synthesizing systems as interconnections of basic system building blocks.
+
+#### System Functions for Interconnections of LTI Systems
+
+The system function algebra for analyzing discrete-time block diagrams such as series, parallel, and feedback interconnections is exactly the same as that for the corresponding continuous-time systems in Section 9.8.1. For example, the system function for the cascade of two discrete-time LTI systems is the product of the system functions for the individual systems in the cascade. Also, consider the feedback interconnection of two systems, as shown in Figure 10.17. It is relatively involved to determine the difference equation or impulse response for the overall system working directly in the time domain. However, with the systems and sequences expressed in terms of their \(z\)-transforms, the analysis involves only algebraic equations. The specific equations for the interconnection of Figure 10.17 exactly parallel eqs. (9.159)-(9.163), with the final result that the overall system function for the feedback system of Figure 10.17 is
+
+\[\frac{Y(z)}{X(z)}\,=\,H(z)\,=\,\frac{H_{1}(z)}{1\,+\,H_{1}(z)H_{2}(z)}. \tag{10.115}\]
+
+#### Block Diagram Representations for Causal LTI Systems
+
+Described by Difference Equations and Rational
+
+System Functions
+
+As in Section 9.8.2, we can represent causal LTI systems described by difference equations using block diagrams involving three basic operations--in this case, addition, multiplication by a coefficient, and a unit delay. In Section 2.4.3, we described such a block diagram for a first-order difference equation. We first revisit that example, this time using system function algebra, and then consider several slightly more complex examples to illustrate the basic ideas in constructing block diagram representations.
+
+##### Example 10.28
+
+Consider the causal LTI system with system function
+
+\[H(z)\,=\,\frac{1}{1\,-\,\frac{1}{4}\,z^{-1}}. \tag{10.116}\]
+
+Using the results in Section 10.7.3, we find that this system can also be described by the difference equation
+
+\[y[n]-\frac{1}{4}\,y[n-1]\,=\,x[n],\]
+
+Figure 10.17: Feedback interconnection of two systems.
+
+together with the condition of initial rest. In Section 2.4.3 we constructed a block diagram representation for a first-order system of this form, and an equivalent block diagram (corresponding to Figure 2.28 with \(a=-1/4\) and \(b=1\)) is shown in Figure 10.18(a). Here, \(z^{-1}\) is the system function of a unit delay. That is, from the time-shifting property, the input and output of this system are related by
+
+\[w[n]\,=\,y[n-1].\]
+
+The block diagram in Figure 10.18(a) contains a feedback loop much as for the system considered in the previous subsection and pictured in Figure 10.17. In fact, with some minor modifications, we can obtain the equivalent block diagram shown in Figure 10.18(b), which is exactly in the form shown in Figure 10.17, with \(H_{1}(z)=1\) and \(H_{2}(z)=\,-1/4z^{-1}\). Then, applying eq. (10.115), we can verify that the system function of the system in Figure 10.18 is given by eq. (10.116).
+
+### Example 10.29
+
+Suppose we now consider the causal LTI system with system function
+
+\[H(z)\,=\,\frac{1-2z^{-1}}{1-\frac{1}{4}z^{-1}}\,=\,\left(\frac{1}{1-\frac{1}{4 }z^{-1}}\right)\!(1-2z^{-1}). \tag{10.117}\]
+
+As eq. (10.117) suggests, we can think of this system as the cascade of a system with system function \(1/[1-(1/4)z^{-1}]\) and one with system function \(1-2z^{-1}\). We have illustrated the cascade in Figure 10.19(a), in which we have used the block diagram in Figure 10.18(a) to represent \(1/[1-(1/4)z^{-1}]\). We have also represented \(1-2z^{-1}\) using a unit delay, an adder, and a coefficient multiplier. Using the time-shifting property, we then see that the input \(v[n]\) and output \(y[n]\) of the system with the system function
+
+Figure 10.18: (a) Block diagram representations of the causal LTI system in Example 10.28; (b) equivalent block diagram representation.
+
+are related by
+
+\[y[n]\,=\,v[n]-2v[n-1].\]
+
+While the block diagram in Figure 10.19(a) is certainly a valid representation of the system in eq. (10.117), it has an inefficiency whose elimination leads to an alternative block-diagram representation. To see this, note that the input to both unit delay elements in Figure 10.19(a) is \(v[n]\), so that the outputs of these elements are identical; i.e.,
+
+\[w[n]\,=\,s[n]\,=\,v[n-1].\]
+
+Consequently, we need not keep both of these delay elements, and we can simply use the output of one of them as the signal to be fed to both coefficient multipliers. The result is the block diagram representation in Figure 10.19(b). Since each unit delay element requires a memory register to store the preceding value of its input, the representation in Figure 10.19(b) requires less memory than that in Figure 10.19(a).
+
+### Example 10.30
+
+Next, consider the second-order system function
+
+\[H(z)\,=\,\frac{1}{(1+\frac{1}{2}z^{-1})(1-\frac{1}{4}z^{-1})}\,=\,\frac{1}{1+ \frac{1}{4}z^{-1}-\frac{1}{8}z^{-2}}, \tag{10.118}\]
+
+which is also described by the difference equation
+
+\[y[n]+\frac{1}{4}y[n-1]-\frac{1}{8}y[n-2]\,=\,x[n]. \tag{10.119}\]
+
+Figure 10.19: (a) Block-diagram representations for the system in Example 10.29; (b) equivalent block-diagram representation using only one unit delay element.
+
+Using the same ideas as in Example 10.28, we obtain the block-diagram representation for this system shown in Figure 10.20(a). Specifically, since the two system function blocks in this figure with system function \(z^{-1}\) are unit delays, we have
+
+\[f[n] = y[n-1],\] \[e[n] = f[n-1]=y[n-2],\]
+
+so that eq. (10.119) can be rewritten as
+
+\[y[n] = -\frac{1}{4}y[n-1]+\frac{1}{8}y[n-2]+x[n],\]
+
+Figure 10.20: Block-diagram representations for the system in Example 10.30: (a) direct form; (b) cascade form; (c) parallel form.
+
+and
+
+\[H(z)\,=\,4\,+\,\frac{5/3}{1+\frac{1}{2}z^{-1}}\,-\,\frac{14/3}{1-\frac{1}{4}z^{-1 }}. \tag{10.124}\]
+
+Eq. (10.123) suggests a cascade-form representation, while eq. (10.124) leads to a parallel-form block diagram. These are also considered in Problem 10.38.
+
+The concepts used in constructing block-diagram representations in the preceding examples can be applied directly to higher order systems, and several examples are considered in Problem 10.39. As in continuous time, there is typically considerable flexibility in doing this--e.g., in how numerator and denominator factors are paired in a product representation as in eq. (10.123), in the way in which each factor is implemented, and in the order in which the factors are cascaded. While all of these variations lead to representations of the same system, in practice there are differences in the behavior of the different block diagrams. Specifically, each block-diagram representation of a system can be translated directly into a computer algorithm for the implementation of the system. However, because the finite word length of a computer necessitates quantizing the coefficients in the block diagram and because there is numerical roundoff as the algorithm operates, each of these representations will lead to an algorithm that only approximates the behavior of the original system. Moreover, the errors in each of these approximations will be somewhat different. Because of these differences, considerable effort has been put into examining the relative merits of the various block-diagram representations in terms of their accuracy and sensitivity to quantization effects. For discussions of this subject, the reader may turn to the references on digital signal processing in the bibliography at the end of the book.
+
+### 10.9 The unilateral z-transform
+
+The form of the \(z\)-transform considered thus far in this chapter is often referred to as the _bilateral z-transform_. As was the case with the Laplace transform, there is an alternative form, referred to as the _unilateral z-transform_, that is particularly useful in analyzing causal systems specified by linear constant-coefficient difference equations with nonzero initial conditions (i.e., systems that are not initially at rest). In this section, we introduce the unilateral \(z\)-transform and illustrate some of its properties and uses, paralleling our discussion of the unilateral Laplace transform in Section 9.9.
+
+Figure 10.21: Direct-form representation for the system in Example 10.31.
+
+The unilateral \(z\)-transform of a sequence \(x[n]\) is defined as
+
+\[\mathfrak{C}(z)\,=\,\sum_{n\,=\,0}^{\infty}x[n]z^{-n}. \tag{10.125}\]
+
+As in previous chapters, we adopt a convenient shorthand notation for a signal and its unilateral \(z\)-transform:
+
+\[x[n]\,\stackrel{{\mathcal{U}Z}}{{\longleftrightarrow}}\, \mathfrak{C}(z)\,=\,\mathcal{U}\mathcal{Z}[\,x[n]\,]. \tag{10.126}\]
+
+The unilateral \(z\)-transform differs from the bilateral transform in that the summation is carried out only over nonnegative values of \(n\), whether or not \(x[n]\) is zero for \(n<0\). Thus the unilateral \(z\)-transform of \(x[n]\) can be thought of as the bilateral transform of \(x[n]u[n]\) (i.e., \(x[n]\) multiplied by a unit step). In particular, then, for any sequence that is zero for \(n<0\), the unilateral and bilateral \(z\)-transforms will be identical. Referring to the discussion of regions of convergence in Section 10.2, we also see that, since \(x[n]u[n]\) is always a right-sided sequence, the region of convergence of \(\mathfrak{C}(z)\) is always the exterior of a circle.
+
+Because of the close connection between bilateral and unilateral \(z\)-transforms, the calculation of unilateral transforms proceeds much as for bilateral transforms, with the caveat that we must take care to limit the range of summation in the transform to \(n\,\cong\,0\). Similarly, the calculation of inverse unilateral transforms is basically the same as for bilateral transforms, once we take into account the fact that the ROC for a unilateral transform is _always_ the exterior of a circle.
+
+#### Examples of Unilateral z-Transforms and Inverse Transforms
+
+**Example 10.32**
+
+Consider the signal
+
+\[x[n]\,=\,a^{n}u[n]. \tag{10.127}\]
+
+Since \(x[n]\,=\,0\), \(n<0\), the unilateral and bilateral transforms are equal for this example, and thus, in particular,
+
+\[\mathfrak{C}(z)\,=\,\frac{1}{1-az^{-1}},\qquad|z|>|a|. \tag{10.128}\]
+
+**Example 10.33**
+
+Let
+
+\[x[n]\,=\,a^{n+1}u[n+1]. \tag{10.129}\]
+
+In this case the unilateral and bilateral transforms are _not_ equal, since \(x[-1]\,=\,1\neq 0\). The bilateral transform is obtained from Example 10.1 and the time-shifting property set forth in Section 10.5.2. Specifically,
+
+\[X(z)\,=\,\frac{z}{1-az^{-1}},\qquad|z|>|a|. \tag{10.130}\]In contrast, the unilateral transform is
+
+\[\mathfrak{IC}(z) = \sum_{n=0}^{\pi}x[n]z^{-n}\] \[= \sum_{n=0}^{\pi}a^{n+1}z^{-n},\]
+
+or
+
+\[\mathfrak{IC}(z) = \frac{a}{1-az^{-1}},\qquad|z|>|a|. \tag{10.131}\]
+
+## Example 10.34
+
+Consider the unilateral \(z\)-transform
+
+\[\mathfrak{IC}(z) = \frac{3-\frac{5}{6}z^{-1}}{(1-\frac{1}{4}z^{-1})(1-\frac{1}{3}z^ {-1})}. \tag{10.132}\]
+
+In Example 10.9, we considered the inverse transform for a bilateral \(z\)-transform \(X(z)\) of the same form as in eq. (10.132) and for several different ROCs. In the case of the unilateral transform, the ROC must be the exterior of the circle of radius equal to the largest magnitude of the poles of \(\mathfrak{IC}(z)\)--in this instance, all points \(z\) with \(|z|>\) 1/3. We can then invert the unilateral transform exactly as in Example 10.9, yielding
+
+\[x[n] = \left(\frac{1}{4}\right)^{n}u[n]+2\!\left(\frac{1}{3}\right)^{n}u[n] \quad\text{for}\quad n\,\,\approx\,0. \tag{10.133}\]
+
+In eq. (10.133), we have emphasized the fact that inverse unilateral \(z\)-transforms provide us with information about \(x[n]\)_only_ for \(n\,\,\geq\,0\).
+
+Another approach to inverse transforms introduced in Section 10.3, namely, identifying the inverse transforms from the coefficients in the power-series expansion of the \(z\)-transform, also can be used for unilateral transforms. However, in the unilateral case, a constraint which must be satisfied is that, as a consequence of eq. (10.125), the power-series expansion for the transform cannot contain terms with positive powers of \(z\). For instance, in Example 10.13 we performed long division on the bilateral transform
+
+\[X(z) = \frac{1}{1-az^{-1}} \tag{10.134}\]
+
+in two ways, corresponding to the two possible ROCs for \(X(z)\). Only one of these choices, namely, that corresponding to the ROC \(|z|>|a|\), led to a series expansion without positive powers of \(z\), i.e.,
+
+\[\frac{1}{1-az^{-1}} = 1+az^{-1}+a^{2}z^{-2}+\ldots, \tag{10.135}\]and this is the _only_ choice for the expansion if eq. (10.134) represents a unilateral transform.
+
+Note that the requirement that \(\Im(z)\) have a power-series expansion with no terms with positive powers of \(z\) implies that not every function of \(z\) can _be_ a unilateral \(z\)-transform. In particular, if we consider a rational function of \(z\) written as a ratio of polynomials in \(z\) (not in \(z^{-1}\)), i.e.,
+
+\[\frac{p(z)}{q(z)}, \tag{10.136}\]
+
+then for this to be a unilateral transform (with the appropriately chosen ROC as the exterior of a circle), the degree of the numerator must be no bigger than the degree of the denominator.
+
+### Example 10.35
+
+A simple example illustrating the preceding point is given by the rational function in eq. (10.130), which we can write as a ratio of polynomials in \(z\):
+
+\[\frac{z^{2}}{z-a}. \tag{10.137}\]
+
+There are two possible bilateral transforms that can be associated with this function, namely those corresponding to the two possible ROCs, \(|z|<|a|\) and \(|z|>|a|\). The choice \(|z|>|a|\) corresponds to a right-sided sequence, but _not_ to a signal that is zero for all \(n<0\), since its inverse transform, which is given by eq. (10.129), is nonzero for \(n\,=\,-1\).
+
+More generally, if we associate eq. (10.136) with the bilateral transform with the ROC that is the exterior of the circle with radius given by the magnitude of the largest root of \(q(z)\), then the inverse transform will certainly be right sided. However, for it to be zero for _all_\(n<0\), it must also be the case that degree(\(p(z)\)) \(\,\leq\,\) degree(\(q(z)\)).
+
+#### Properties of the Unilateral z-Transform
+
+The unilateral \(z\)-transform has many important properties, some of which are identical to their bilateral counterparts and several of which differ in significant ways. Table 10.3 summarizes these properties. Note that we have not included a column explicitly identifying the ROC for the unilateral \(z\)-transform for each signal, since the ROC of any unilateral \(z\)-transform is always the exterior of a circle. For example, the ROC for a rational unilateral \(z\)-transform is always outside the outermost pole.
+
+By contrasting this table with the corresponding Table 10.1 for bilateral \(z\)-transforms, we can gain considerable insight into the nature of the unilateral transform. In particular, several properties--namely, linearity, scaling in the \(z\)-domain, time expansion, conjugation, and differentiation in the \(z\)-domain--are identical to their bilateral counterparts, as is the initial-value theorem stated in Section 10.5.9, which is fundamentally a unilateral transform property, since it requires \(x[n]=0\) for \(n<0\). One bilateral property, namely, the time-reversal property set forth in Section 10.5.4, obviously has no meaningful counterpart for the unilateral transform, while the remaining properties differ in important ways between the bilateral and unilateral cases.
+
+**Example 10.36**: Consider the causal LTI system described by the difference equation
+
+\[y[n]+3y[n-1]=x[n], \tag{10.140}\]
+
+together with the condition of initial rest. The system function for this system is
+
+\[\mathcal{H}(z)=\frac{1}{1+3z^{-1}}. \tag{10.141}\]
+
+Suppose that the input to the system is \(x[n]=\alpha u[n]\), where \(\alpha\) is a given constant. In this case, the unilateral (and bilateral) \(z\)-transform of the output \(y[n]\) is
+
+\[\begin{split}\mathcal{Y}(z)&=\ \mathcal{H}(z) \mathcal{C}(z)=\frac{\alpha}{(1+3z^{-1})(1-z^{-1})}\\ &=\ \frac{(3/4)\alpha}{1+3z^{-1}}+\frac{(1/4)\alpha}{1-z^{-1}}.\end{split} \tag{10.142}\]
+
+Applying Example 10.32 to each term of eq. (10.142) yields
+
+\[y[n]=\alpha\biggl{[}\frac{1}{4}+\biggl{(}\frac{3}{4}\biggr{)}(-3)^{n}\biggr{]} u[n]. \tag{10.143}\]
+
+An important point to note here is that the convolution property for unilateral \(z\)-transforms applies _only_ if the signals \(x_{1}[n]\) and \(x_{2}[n]\) in eq. (10.138) are both identically zero for \(n<0\). While it is generally true that the bilateral transform of \(x_{1}[n]*x_{2}[n]\) equals the product of the bilateral transforms of \(x_{1}[n]\) and \(x_{2}[n]\), the unilateral transform of \(x_{1}[n]*x_{2}[n]\) in general does not equal the product of the unilateral transforms if \(x_{1}[n]\) or \(x_{2}[n]\) is nonzero for \(n<0\). This point is explored further in Problem 10.41.
+
+Much of the importance of the unilateral \(z\)-transform lies in its application to analyzing causal systems and, in particular, systems characterized by linear constant-coefficient difference equations with possibly nonzero initial conditions. In Section 10.7 we saw how the bilateral transform--particularly the shifting property for bilateral \(z\)-transforms--could be used to analyze and compute solutions for LTI systems characterized by such difference equations, together with the assumption of initial rest. As we will now see, the shifting property for unilateral transforms, which differs from its bilateral counterpart, plays an analogous role for initialized systems.
+
+To develop the shifting property for the unilateral transform, consider the signal
+
+\[y[n]=x[n-1]. \tag{10.144}\]
+
+Then
+
+\[\begin{split}\mathcal{Y}(z)&=\sum_{n=0}^{\infty}x[n -1]z^{-n}\\ &=\ x[-1]+\sum_{n=1}^{\infty}x[n-1]z^{-n}\\ &=\ x[-1]+\sum_{n=0}^{\infty}x[n]z^{-(n+1)},\end{split}\]or
+
+\[\mathcal{Y}(z)\,=\,\,x[-1]\,+\,z^{-1}\sum_{n\,=\,0}^{\infty}\,x[n]z^{-n}, \tag{10.145}\]
+
+so that
+
+\[\mathcal{Y}(z)\,=\,\,x[-1]+\,z^{-1}\mathcal{C}(z). \tag{10.146}\]
+
+By repeated application of eq. (10.146), the unilateral transform of
+
+\[w[n]\,=\,\,y[n\,-\,1]\,=\,\,x[n-2] \tag{10.147}\]
+
+is
+
+\[\mathcal{Y}(z)\,=\,\,x[-2]\,+\,x[-1]z^{-1}\,+\,z^{-2}\mathcal{C}(z). \tag{10.148}\]
+
+Continuing this iterative procedure, we can also determine the unilateral transform of \(x[n-m]\) for any positive value of \(m\).
+
+Eq. (10.146) is sometimes referred to as the time delay property, since \(y[n]\) in eq. (10.144) is a delayed version of \(x[n]\). There is also a time advance property for unilateral transforms that relates the transform of an advanced version of \(x[n]\) to \(\mathcal{C}(z)\). Specifically, as shown in Problem 10.60,
+
+\[x[n\,+\,1]\,\stackrel{{ uZ}}{{\longleftrightarrow}}\,z \mathcal{C}(z)\,-\,zx[0]. \tag{10.149}\]
+
+#### Solving Difference Equations Using the Unilateral z-Transform
+
+The following example illustrates the use of unilateral \(z\)-transforms and the time delay property to solve linear constant-coefficient difference equations with nonzero initial conditions:
+
+**Example 10.37**: Consider again the difference equation (10.140) with \(x[n]\,=\,\alpha u[n]\) and with the initial condition
+
+\[y[-1]\,=\,\beta. \tag{10.150}\]
+
+Applying the unilateral transform to both sides of eq. (10.140) and using the linearity and time delay properties, we obtain
+
+\[\mathcal{Y}(z)\,+\,3\beta\,+\,3z^{-1}\mathcal{Y}(z)\,=\,\frac{\alpha}{1-z^{-1 }}. \tag{10.151}\]
+
+Solving for \(\mathcal{Y}(z)\) yields
+
+\[\mathcal{Y}(z)\,=\,-\,\frac{3\beta}{1+3z^{-1}}\,+\,\frac{\alpha}{(1+3z^{-1})( 1-z^{-1})}. \tag{10.152}\]Referring to Example 10.36 and, in particular, eq. (10.142), we see that the second term on the right-hand side of eq. (10.152) equals the unilateral \(z\)-transform of the response of the system when the initial condition in eq. (10.150) is zero (\(\beta\,=\,0\)). That is, this term represents the response of the causal LTI system described by eq. (10.140), together with the condition of initial rest. As in continuous-time, this response is frequently referred to as the zero-state response, i.e., the response when the initial condition or state is zero.
+
+The first term on the right-hand side of eq. (10.152) is interpreted as the unilateral transform of the zero-input response--i.e., the response of the system when the input is zero (\(\alpha=0\)). The zero-input response is a linear function of the value \(\beta\) of the initial condition. Moreover, eq. (10.152) illustrates the fact that the solution of a linear constant-coefficient difference equation with nonzero initial state is the superposition of the zero-state and zero-input responses. The zero-state response, obtained by setting the initial condition to zero, corresponds to the response of the causal LTI system defined by the difference equation and the condition of initial rest. The zero-input response is the response to the initial condition alone with the input set to zero. Problems 10.20 and 10.42 provide other examples illustrating the use of unilateral transforms to solve difference equations with nonzero initial conditions.
+
+Finally, for any values of \(\alpha\) and \(\beta\), we can expand \(\mathcal{Y}(z)\) in eq. (10.152) by the method of partial fractions and invert the result to obtain \(y[n]\). For example, if \(\alpha=8\) and \(\beta\,=\,1\),
+
+\[\mathcal{Y}(z)\,=\,\frac{3}{1+3z^{-1}}\,+\,\frac{2}{1-z^{-1}}, \tag{10.153}\]
+
+and applying the unilateral transform pair in Example 10.32 to each term yields
+
+\[y[n]\,=\,[3(-3)^{n}+2]u[n],\quad\text{for $n\,\geq\,0$.} \tag{10.154}\]
+
+### Summary
+
+In this chapter, we have developed the \(z\)-transform for discrete-time signals and systems. The discussion and development closely paralleled the corresponding treatment of the Laplace transform for continuous-time signals, but with some important differences. For example, in the complex \(s\)-plane the Laplace transform reduces to the Fourier transform on the imaginary axis, whereas in the complex \(z\)-plane the \(z\)-transform reduces to the Fourier transform on the unit circle. For the Laplace transform the ROC consists of a strip or half-plane (i.e., a strip extending to infinity in one direction), whereas for the \(z\)-transform the ROC is a ring, perhaps extending outward to infinity or inward to include the origin. As with the Laplace transform, time-domain characteristics such as the right-sided, left-sided, or two-sided nature of a sequence and the causality or stability of an LTI system can be associated with properties of the region of convergence. In particular, for rational \(z\)-transforms, these time-domain characteristics can be associated with the pole locations in relation to the region of convergence.
+
+Because of the properties of \(z\)-transforms, LTI systems, including those described by linear constant-coefficient difference equations, can be analyzed in the transform domain by algebraic manipulations. System function algebra also is a very useful tool for the analysis of interconnections of LTI systems and for the construction of block diagram representations of LTI systems described by difference equations.

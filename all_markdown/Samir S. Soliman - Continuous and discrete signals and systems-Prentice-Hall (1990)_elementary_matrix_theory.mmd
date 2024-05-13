@@ -1,0 +1,193 @@
+## Elementary Matrix Theory
+
+This appendix presents the minimum amount of matrix theory needed to comprehend the material in Chapters 2 and 6 in this book. It is recommended that even those well versed in matrix theory read this appendix to become familiar with the notation. For those not so well versed, the presentation is terse and oriented toward them. For a more comprehensive presentation of matrix theory, we suggest the study of textbooks solely concerned with the subject.
+
+### Basic Definition
+
+A matrix, denoted by a capital boldface letter such as \(\mathbf{A}\) or \(\mathbf{\Phi}\) or by the notation \([a_{ij}]\), is a rectangular array of elements. Such arrays occur in various branches of applied mathematics. Matrices are useful because they enable us to consider an array of many numbers as a single object and perform calculations on these objects in a compact form. Matrix elements can be real numbers, complex numbers, polynomials, or functions. A matrix that contains only one row is called a row matrix, and a matrix that contains only one column is called a column matrix. Square matrices have the same number of rows and columns. A matrix \(\mathbf{A}\) is of order \(m\times n\) (read \(m\) by \(n\)) if it has \(m\) rows and \(n\) columns.
+
+The complex conjugate of matrix \(\mathbf{A}\) is obtained by conjugating every element in \(\mathbf{A}\) and is denoted by \(\mathbf{A}^{*}\). A matrix is real if all elements of the matrix are real. Clearly, for real matrices \(\mathbf{A}^{*}\) = \(\mathbf{A}\). Two matrices are equal if their corresponding elements are equal. \(\mathbf{A}\) = \(\mathbf{B}\) means \([a_{ij}]\) = \([b_{ij}]\) for all \(i\) and \(j\). The matrices should be of the same order.
+
+### Basic Operations
+
+#### 3.2.1 Matrix Addition
+
+A matrix \(\mathbf{C=A+B}\) is formed by adding corresponding elements, that is,
+
+\[[c_{ij}]=[a_{ij}]+[b_{ij}] \tag{11}\]
+
+Matrix subtraction is analogously defined. The matrices must be of the same order. Addition of matrices is commutative and associative.
+
+#### 3.2.2 Differentiation and Integration
+
+The derivative or integral of the matrix is obtained by differentiating or integrating each element.
+
+#### 3.2.3 Matrix Multiplication
+
+Matrix multiplication is an extension of the dot product of vectors. Recall that the dot product of the two \(N\)-dimensional vectors \(\mathbf{u}\) and \(\mathbf{v}\) is defined as
+
+\[\mathbf{u}\cdot\mathbf{v}=\sum_{i\ =\ 1}^{N}\ a_{i}v_{i}\]
+
+Elements \([c_{ij}]\) of the product matrix \(\mathbf{c=AB}\) are found by taking the dot product of the \(i\)th row of matrix \(\mathbf{A}\) and the \(j\)th column of matrix \(\mathbf{B}\), so that
+
+\[[c_{ij}]=\sum_{k\ =\ 1}^{N}\ a_{ik}b_{kj} \tag{12}\]
+
+The process of matrix multiplication is, therefore, conveniently referred to as the multiplication of rows into columns, as demonstrated in Figure 1.
+
+This definition requires that the number of columns of \(\mathbf{A}\) be the same as the number of rows of \(\mathbf{B}\). In this case, matrices \(\mathbf{A}\) and \(\mathbf{B}\) are said to be compatible. Otherwise theproduct is undefined. Matrix multiplication is associative, (**AB**)C = A(**BC**), but not, in general, commutative, **AB**\(\neq\)_bldBA_. As an example, let
+
+\[\mathbf{A}=\begin{bmatrix}3&-2\\ 1&5\end{bmatrix}\qquad\text{and}\qquad\mathbf{B}=\begin{bmatrix}-4&1\\ 1&6\end{bmatrix}\]
+
+Then, by Equation (C.2),
+
+\[\mathbf{AB}=\begin{bmatrix}(3)(-4)+(-2)(1)&(3)(1)+(-2)(6)\\ (1)(-4)+(5)(1)&(1)(1)+(5)(6)\end{bmatrix}=\begin{bmatrix}-14&-9\\ 1&31\end{bmatrix}\]
+
+and **BA** is given by
+
+\[\mathbf{BA}=\begin{bmatrix}(-4)(3)+(1)(1)&(-4)(-2)+(1)(5)\\ (1)(3)+(6)(1)&(1)(-2)+(6)(5)\end{bmatrix}=\begin{bmatrix}-11&-3\\ 9&28\end{bmatrix}\]
+
+Matrix multiplication has the following properties:
+
+\[(k\mathbf{A})\mathbf{B}=k\left(\mathbf{AB}\right)=\mathbf{A}(k\mathbf{B})\] (C.3a) \[\mathbf{A}(\mathbf{BC})=(\mathbf{AB})\text{C}\] (C.3b) \[\mathbf{A}+\mathbf{B})\mathbf{C}=\mathbf{AC}+\mathbf{BC}\] (C.3c) \[\mathbf{C}(\mathbf{A}+\mathbf{B})=\mathbf{CA}+\mathbf{CB}\] (C.3d) \[\mathbf{AB}\neq\mathbf{BA}\quad\text{ in general}\] (C.3e) \[\mathbf{AB}=\mathbf{0}\qquad\text{does not necessarily imply}\qquad \mathbf{A}=\mathbf{0}\qquad\text{or}\qquad\mathbf{B}=\mathbf{0}\] (C.3f)
+
+These properties hold provided **A**, **B**, and **C** are such that the expressions on the left are defined (\(k\) is any number). An example of (C.3f) is
+
+\[\begin{bmatrix}3&3\\ 4&4\end{bmatrix}\begin{bmatrix}-1&1\\ 1&-1\end{bmatrix}=\begin{bmatrix}0&0\\ 0&0\end{bmatrix}\]
+
+The properties expressed by Equations (C.3e) and (C.3f) are quite unusual because they have no counterparts in the usual mulltiplication of numbers and should, therefore, be carefully observed. As in the vector case, there is no matrix division.
+
+### Special Matrices
+
+_Zero Matrix._ The zero matrix, denoted by \(\mathbf{0}\), is a matrix whose elements are all zero.
+
+_Diagonal Matrix._ The diagonal matrix, denoted by **D**, is a square matrix whose off-diagonal elements are all zeros.
+
+_Unit Matrix._ The unit matrix, denoted by **I**, is a diagonal matrix whose diagonal elements are all ones. Note: **AI** = **AI** = **A**, where **A** is any compatible matrix.
+
+_Upper Triangular Matrix._ The upper triangular matrix has all zeros below the main diagonal.
+
+_Unitary Matrix._ Matrix **A** is unitary if
+
+\[\textbf{A}^{\uparrow}\textbf{A}=\textbf{I}\]
+
+A real unitary matrix is called an orthogonal matrix.
+
+### The Inverse of a Matrix
+
+In this section, we consider exclusively square matrices. The inverse of an \(n\times n\) matrix **A** is denoted by \(\textbf{A}^{-1}\) and is an \(n\times n\) matrix such that
+
+\[\textbf{A}\textbf{A}^{-1}=\textbf{A}^{-1}\textbf{A}=\textbf{I}\]
+
+where **I** is the \(n\times n\) unit matrix. If the determinant of matrix **A** is zero, then **A** has no inverse and is called singular; on the other hand, if the determinant is nonzero, the inverse exists and **A** is called a nonsingular matrix.
+
+In general, finding the inverse of a matrix is a tedious process. For some special cases, the inverse is easily determined. For a \(2\times 2\) matrix
+
+\[\textbf{A}=\begin{bmatrix}a_{11}&a_{12}\\ a_{21}&a_{22}\end{bmatrix}\]
+
+we have
+
+\[\textbf{A}^{-1}=\frac{1}{(a_{11}\ a_{22}-a_{12}\ a_{21})}\ \begin{bmatrix}a_{22}&-a_{12}\\ -a_{21}&a_{11}\end{bmatrix}\] (C.4)
+
+provided \(a_{11}a_{22}\neq a_{12}\,a_{21}\). For a diagonal matrix, we have
+
+\[A=\begin{bmatrix}a_{11}&\cdot&\cdot&\cdot&\cdot&0\\ 0&a_{22}&\cdot&\cdot&\cdot&0\\ \cdot&\cdot&\cdot&\cdot&\cdot&\cdot\\ \cdot&\cdot&\cdot&\cdot&\cdot&\cdot\\ \cdot&\cdot&\cdot&\cdot&\cdot&\cdot\\ 0&\cdot&\cdot&\cdot&\cdot&a_{m}\end{bmatrix},\ A^{-1}=\begin{bmatrix} \dfrac{1}{a_{11}}&\cdot&\cdot&\cdot&\cdot&0\\ \hline a_{11}&\cdot&\cdot&\cdot&\cdot&0\\ 0&\dfrac{1}{a_{22}}&\cdot&\cdot&\cdot&0\\ \cdot&\cdot&\cdot&\cdot&\cdot&\cdot\\ \cdot&\cdot&\cdot&\cdot&\cdot&\cdot\\ \cdot&\cdot&\cdot&\cdot&\cdot&\cdot\\ 0&\cdot&\cdot&\cdot&\cdot&\dfrac{1}{a_{m}}\\ \end{bmatrix}\] (C.5)
+
+provided \(a_{ii}\neq 0\) for any \(i\).
+
+The inverse of the inverse is the given matrix **A**, that is,
+
+\[(\textbf{A}^{-1})^{-1}=\textbf{A}\] (C.6)
+
+The inverse of a product **AC** can be obtained by inverting each factor and multiplying the results in reverse order:
+
+are obtained by solving the equation
+
+\[\det\left[\begin{array}{cc}3-\lambda&4\\ 1&3-\lambda\end{array}\right]=0\]
+
+or
+
+\[(3-\lambda)(3-\lambda)-4=0\]
+
+This second-degree equation has the two real roots, \(\lambda_{\downarrow}=1\) and \(\lambda_{2}=5\). There are two eigenvectors. The eigenvector associated with \(\lambda_{1}=1\) is the solution to
+
+\[\left[\begin{array}{cc}3&4\\ 1&3\end{array}\right]\left[\begin{array}{c}x_{1}\\ x_{2}\end{array}\right]=\left[\begin{array}{c}x_{1}\\ x_{2}\end{array}\right]\]
+
+or
+
+\[\left[\begin{array}{cc}2&4\\ 1&2\end{array}\right]\left[\begin{array}{c}x_{1}\\ x_{2}\end{array}\right]=\left[\begin{array}{c}0\\ 0\end{array}\right]\]
+
+Then \(2x_{1}+4x_{2}=0\) and \(x_{1}+2x_{2}=0\), from which \(x_{1}=-2x_{2}\). By choosing \(x_{2}=1\), we find that the eigenvector \(\mathbf{x}_{1}\) is
+
+\[\mathbf{x}_{1}=\left[\begin{array}{c}-2\\ 1\end{array}\right]\]
+
+The eigenvector associated with \(\lambda_{2}=5\) is the solution to
+
+\[\left[\begin{array}{cc}3&4\\ 1&3\end{array}\right]\left[\begin{array}{c}x_{1}\\ x_{2}\end{array}\right]=5\left[\begin{array}{c}x_{1}\\ x_{2}\end{array}\right]\]
+
+or
+
+\[\left[\begin{array}{cc}-2&4\\ 1&-2\end{array}\right]\left[\begin{array}{c}x_{1}\\ x_{2}\end{array}\right]=0\]
+
+which has the solution \(x_{2}=2x_{1}\). Choosing \(x_{1}=1\) gives
+
+\[\mathbf{x}_{2}=\left[\begin{array}{c}1\\ 2\end{array}\right]\]
+
+### Functions of a matrix
+
+Any analytic scalar function \(f\left(t\right)\) of a scalar \(t\) can be uniquely expressed in a convergent Maclaurin series as
+
+\[f\left(t\right)=\sum_{k=0}^{\infty}\left\{\frac{d^{k}}{dt^{k}}\,f\left(t \right)\right\}_{t=0}\frac{t^{k}}{k!}\]
+
+The same type of expansion can be used to define functions of matrices. Thus, the function \(f\left(\mathbf{A}\right)\) of the \(n\times n\) matrix \(\mathbf{A}\) can be expanded as
+
+\[f\left(\mathbf{A}\right)=\sum_{k=0}^{\infty}\ \left\{\frac{d^{k}}{dt^{k}}\ f \left(t\right)\right\}_{l=0}\frac{\mathbf{A}^{k}}{k!}\.\] (C.10)
+
+For example,
+
+\[\sin\ \mathbf{A} =\left(\sin\ 0\right)\ \mathbf{I}+\left(\cos\ 0\right)\ \mathbf{A}+\left(-\sin\ 0 \right)\ \frac{\mathbf{A}^{2}}{2!}\] \[+\cdots\ +\left(-1\right)^{n}\ \frac{\mathbf{A}^{2n+1}}{ \left(2n+1\right)!}+\cdots\.\] \[=\mathbf{A}-\frac{\mathbf{A}^{3}}{3!}+\frac{\mathbf{A}^{5}}{5!}- \ \cdots\ \left(-1\right)^{n}\ \frac{\mathbf{A}^{2n}+1}{\left(2n+1\right)!}+\cdots\]
+
+and
+
+\[\exp\left[\ \mathbf{A}t\right] =\exp\left[0\right]\ \mathbf{A}+\exp\left[0\right]\ \mathbf{A}t\] \[+\exp\left[0\right]\ \frac{\mathbf{A}^{2}t^{2}}{2!}+\ \cdots\ +\exp\left[0\right]\frac{\mathbf{A}^{n}t^{n}}{n!}+\ \cdots\] \[=\mathbf{I}+\mathbf{A}t+\frac{\mathbf{A}^{2}t^{2}}{2!}+\ \cdots\ + \frac{\mathbf{A}^{n}t^{n}}{n!}+\ \cdots\]
+
+#### c.6.1 Cayley-Hamilton Theorem
+
+The Cayley-Hamilton (C-H) theorem states that any matrix satisfies its own characteristic equation. That is, given an arbitrary \(n\times n\) matrix \(\mathbf{A}\) with characteristic polynomial \(g\left(\lambda\right)=\det(\mathbf{A}-\lambda\mathbf{I})\), then \(g\left(\mathbf{A}\right)=\mathbf{0}\). As an example, if
+
+\[\mathbf{A}=\left[\begin{array}{cc}3&4\\ 1&3\end{array}\right]\]
+
+so that
+
+\[\det\left[\mathbf{A}-\lambda\mathbf{I}\right]=g(\lambda)=\lambda^{2}-6\lambda+5\]
+
+by the Cayley-Hamilton theorem, we have
+
+\[g\left(\mathbf{A}\right)=\mathbf{A}^{2}-6\mathbf{A}+5\mathbf{I}=\mathbf{0}\.\]
+
+or
+
+\[\mathbf{A}^{2}=6\mathbf{A}-5\mathbf{B}\] (C.11)
+
+In general, the Cayley-Hamilton theorem enables us to express any power of a matrix in terms of a linear combination of \(\mathbf{A}^{k}\) for \(k=0\), \(1\), \(2\), \(\ldots\), \(n-1\). For example, \(\mathbf{A}^{3}\) can be found from Equation (C.11) by multiplying both sides by \(\mathbf{A}\) to obtain
+
+\[\mathbf{A}^{3} =6\ \mathbf{A}^{2}-5\mathbf{A}\] \[=6\left[6\mathbf{A}-5\mathbf{I}\right]-5\mathbf{A}\] \[=31\mathbf{A}-30\mathbf{I}\]
+
+\[\exp\left[\mathbf{A}t\right] =\left(\begin{array}{cc}\frac{5}{4}\exp\left[t\right]-\frac{1}{4} \exp\left[\,5t\right]\end{array}\right)\left[\begin{array}{cc}1&0\\ 0&1\end{array}\right]\,+\left(\begin{array}{cc}\frac{1}{4}(\exp\left[5t \right]-\exp\left[t\right])\end{array}\right)\left[\begin{array}{cc}3&4\\ 1&3\end{array}\right]\] \[=\left[\begin{array}{cc}\frac{1}{2}\exp\left[5t\right]-\exp \left[t\right]&\exp\left[5t\right]-\exp\left[t\right]\\ \frac{1}{4}(\exp\left[5t\right]-\exp\left[t\right])&\frac{1}{2}\exp\left[5t \right]-\exp\left[t\right]\end{array}\right]\]
+
+If the eigenvalues are not distinct, then we have less equations than the number of unknowns. By differentiating the equation corresponding to the repeated eigenvalue with resepect to \(\lambda\), we obtain a new equation that can be used to solve for \(\gamma_{0}(t)\), \(\gamma_{1}(t)\),..., \(\gamma_{n-1}(t)\).
+
+For example, consider
+
+\[\mathbf{A}=\begin{bmatrix}-1&0&0\\ 0&-4&4\\ 0&-1&0\end{bmatrix}\]
+
+This matrix has eigenvalues \(\lambda_{1}=-1\) and \(\lambda_{2}=\lambda_{3}=-2\). Coefficients \(\gamma_{0}(t)\), \(\gamma_{1}(t)\), and \(\gamma_{2}(t)\) are obtained as the solution to the following set of equations:
+
+\[\exp\left[-t\right] =\gamma_{0}(t)-\gamma_{1}(t)+\gamma_{2}(t)\] \[\exp\left[-2t\right] =\gamma_{0}(t)-2\gamma_{1}(t)+4\gamma_{2}(t)\] \[t\exp\left[-2t\right] =\gamma_{1}(t)-4\gamma_{2}(t)\]
+
+Solving for \(\gamma_{i}\) yields
+
+\[\gamma_{0}(t) =4\,\exp\left[-t\right]-3\,\exp\left[-2t\right]-2t\,\exp\left[-2t\right]\] \[\gamma_{1}(t) =4\,\exp\left[-t\right]-4\,\exp\left[-2t\right]-3t\,\exp\left[-2t\right]\] \[\gamma_{2}(t) =\exp\left[-t\right]-\exp\left[-2t\right]-t\,\exp\left[-2t\right]\]
+
+Thus, matrix \(\exp\left[\mathbf{A}t\right]\) is
+
+\[\exp\left[\mathbf{A}t\right] =\gamma_{0}(t)\begin{bmatrix}1&0&0\\ 0&1&0\\ 0&0&0\end{bmatrix}+\gamma_{1}(t)\begin{bmatrix}-1&0&0\\ 0&-4&4\\ 0&-1&0\end{bmatrix}+\gamma_{2}(t)\begin{bmatrix}1&0&0\\ 0&12&-16\\ 0&4&4\end{bmatrix}\] \[=\begin{bmatrix}\exp\left[-t\right]&0&\cdot&0\\ 0&\cdot&\cdot&0\\ 0&\cdot&\cdot&\cdot&\

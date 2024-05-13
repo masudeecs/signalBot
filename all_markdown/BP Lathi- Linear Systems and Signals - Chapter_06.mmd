@@ -1,0 +1,1382 @@
+## Chapter 6 Continuous-Time Signal Analysis: The Fourier Series
+
+Electrical engineers instinctively think of signals in terms of their frequency spectra and think of systems in terms of their frequency response. Most teenagers know about the audible portion of audio signals having a bandwidth of about 20 kHz and the need for good-quality speakers to respond up to 20 kHz. This is basically thinking in the frequency domain. In Chs. 4 and 5 we discussed extensively the frequency-domain representation of systems and their spectral response (system response to signals of various frequencies). In Chs. 6 through 9, we discuss spectral representation of signals, where signals are expressed as a sum of sinusoids or exponentials. Actually, we touched on this topic in Chs. 4 and 5. Recall that the Laplace transform of a continuous-time signal is its spectral representation in terms of exponentials (or sinusoids) of complex frequencies. Similarly the \(z\)-transform of a discrete-time signal is its spectral representation in terms of discrete-time exponentials. However, in the earlier chapters we were concerned mainly with system representation; the spectral representation of signals was incidental to the system analysis. Spectral analysis of signals is an important topic in its own right, and now we turn to this subject.
+
+In this chapter we show that a periodic signal can be represented as a sum of sinusoids (or exponentials) of various frequencies. These results are extended to aperiodic signals in Ch. 7 and to discrete-time signals in Ch. 9. The fascinating subject of sampling of continuous-time signals is discussed in Ch. 8, leading to A/D (analog-to-digital) and D/A conversion. Chapter 8 forms the bridge between the continuous-time and the discrete-time worlds.
+
+### 6.1 Periodic Signal Representation by Trigonometric Fourier Series
+
+As seen in Sec. 1.3-3 [Eq. (1.7)], a periodic signal \(x(t)\) with period \(T_{0}\) (Fig. 6.1) has the property
+
+\[x(t)=x(t+T_{0})\qquad\text{for all }t\]
+
+The _smallest_ value of \(T_{0}\) that satisfies this periodicity condition is the _fundamental period_ of \(x(t)\). As argued in Sec. 1.3-3, this equation implies that \(x(t)\) starts at \(-\infty\) and continues to \(\infty\). Moreover, the area under a periodic signal \(x(t)\) over any interval of duration \(T_{0}\) is the same; that is, for any
+
+### Periodic Signal Representation by Trigonometric Fourier Series
+
+To prove the periodicity of \(x(t)\), all we need is to show that \(x(t)=x(t+T_{0})\). From Eq. (6.1),
+
+\[x(t+T_{0}) =a_{0}+\sum_{n=1}^{\infty}a_{n}\cos n\omega_{0}(t+T_{0})+b_{n}\sin n \omega_{0}(t+T_{0})\] \[=a_{0}+\sum_{n=1}^{\infty}a_{n}\cos(n\omega_{0}t+n\omega_{0}T_{0}) +b_{n}\sin\left(n\omega_{0}t+n\omega_{0}T_{0}\right)\]
+
+From Eq. (6.2), we have \(n\omega_{0}T_{0}=2\pi\,n\), and
+
+\[x(t+T_{0}) =a_{0}+\sum_{n=1}^{\infty}a_{n}\cos\left(n\omega_{0}t+2\pi\,n \right)+b_{n}\sin\left(n\omega_{0}t+2\pi\,n\right)\] \[=a_{0}+\sum_{n=1}^{\infty}a_{n}\cos n\omega_{0}t+b_{n}\sin n \omega_{0}t=x(t)\]
+
+We could also infer this result intuitively. In one fundamental period \(T_{0}\), the \(n\)th harmonic executes \(n\) complete cycles. Hence, every sinusoid on the right-hand side of Eq. (6.1) executes a complete number of cycles in one fundamental period \(T_{0}\). Therefore, at \(t=T_{0}\), every sinusoid starts as if it were the origin and repeats the same drama over the next \(T_{0}\) seconds, and so on, ad infinitum. Hence, the sum of such harmonics results in a periodic signal of period \(T_{0}\).
+
+This result shows that any combination of sinusoids of frequencies \(0,\,f_{0},\,2f_{0},\,\ldots\), \(k\!f_{0}\) is a periodic signal of period \(T_{0}=1/f_{0}\) regardless of the values of amplitudes \(a_{k}\) and \(b_{k}\) of these sinusoids. By changing the values of \(a_{k}\) and \(b_{k}\) in Eq. (6.1), we can construct a variety of periodic signals, all of the same period \(T_{0}\) (\(T_{0}=1/f_{0}=2\pi/\omega_{0}\)).
+
+The converse of this result is also true. We shall show in Sec. 6.5-4 that _a periodic signal \(x(t)\) with a period \(T_{0}\) can be expressed as a sum of a sinusoid of frequency \(f_{0}\)_ (\(f_{0}=1/T_{0}\)) _and all its harmonics, as shown in Eq. (6.1).+_ The infinite series on the right-hand side of Eq. (6.1) is known as the _trigonometric Fourier series_ of a periodic signal \(x(t)\).
+
+Footnote †: Strictly speaking, this statement applies only if a periodic signal \(x(t)\) is a continuous function of \(t\). However, Sec. 6.5-4 shows that it can be applied even for discontinuous signals, if we interpret the equality in Eq. (6.1) in the mean-square sense instead of in the ordinary sense. This means that the power of the difference between the periodic signal \(x(t)\) and its Fourier series on the right-hand side of Eq. (6.1) approaches zero as the number of terms in the series approaches infinity.
+
+## Computing the Coefficients of a Fourier Series
+
+To determine the coefficients of a Fourier series, consider an integral \(I\) defined by
+
+\[I=\int_{T_{0}}\cos n\omega_{0}t\cos m\omega_{0}t\,dt\]
+
+where \(\int_{T_{0}}\) stands for integration over any contiguous interval of \(T_{0}\) seconds. By using a trigonometric identity (see Sec. B.8-6), this integral can be expressed as
+
+\[I=\tfrac{1}{2}\biggl{[}\int_{T_{0}}\cos\left(n+m\right)\omega_{0}t\,dt+\int_{ T_{0}}\cos\left(n-m\right)\omega_{0}t\,dt\biggr{]} \tag{6.3}\]Because \(\cos\omega_{0}t\) executes one complete cycle during any interval of duration \(T_{0}\), \(\cos\left(n+m\right)\omega_{0}t\) executes \(\left(n+m\right)\) complete cycles during any interval of duration \(T_{0}\). Therefore, the first integral in Eq. (6.3), which represents the area under \(n+m\) complete cycles of a sinusoid, equals zero. The same argument shows that the second integral in Eq. (6.3) is also zero, except when \(n=m\). Hence, \(I\) in Eq. (6.3) is zero for all \(n\neq m\). When \(n=m\), the first integral in Eq. (6.3) is still zero, but the second integral yields
+
+\[I=\tfrac{1}{2}\int_{T_{0}}dt=\frac{T_{0}}{2}\]
+
+Thus,
+
+\[\int_{T_{0}}\cos n\omega_{0}t\cos m\omega_{0}t\,dt=\begin{cases}0&n\neq m\\ \frac{T_{0}}{2}&m=n\neq 0\end{cases} \tag{6.4}\]
+
+Using similar arguments, we can show that
+
+\[\int_{T_{0}}\sin n\omega_{0}t\sin m\omega_{0}t\,dt=\begin{cases}0&n\neq m\\ \frac{T_{0}}{2}&n=m\neq 0\end{cases} \tag{6.5}\]
+
+and
+
+\[\int_{T_{0}}\sin n\omega_{0}t\cos m\omega_{0}t\,dt=0\qquad\text{for all $n$ and $m$} \tag{6.6}\]
+
+To determine \(a_{0}\) in Eq. (6.1), we integrate both sides of Eq. (6.1) over one period \(T_{0}\) to yield
+
+\[\int_{T_{0}}x(t)\,dt=a_{0}\int_{T_{0}}dt+\sum_{n=1}^{\infty}\biggl{[}a_{n} \int_{T_{0}}\cos n\omega_{0}t\,dt+b_{n}\int_{T_{0}}\sin n\omega_{0}t\,dt \biggr{]}\]
+
+Recall that \(T_{0}\) is the period of a sinusoid of frequency \(\omega_{0}\). Therefore, functions \(\cos n\omega_{0}t\) and \(\sin n\omega_{0}t\) execute \(n\) complete cycles over any interval of \(T_{0}\) seconds so that the area under these functions over an interval \(T_{0}\) is zero, and the last two integrals on the right-hand side of the foregoing equation are zero. This yields
+
+\[\int_{T_{0}}x(t)\,dt=a_{0}\int_{T_{0}}\,dt=a_{0}T_{0}\qquad\text{and}\qquad a _{0}=\frac{1}{T_{0}}\int_{T_{0}}x(t)\,dt\]
+
+Next we multiply both sides of Eq. (6.1) by \(\cos m\omega_{0}t\) and integrate the resulting equation over an interval \(T_{0}\):
+
+\[\int_{T_{0}}x(t)\cos m\omega_{0}t\,dt=a_{0}\int_{T_{0}}\cos m \omega_{0}t\,dt +\sum_{n=1}^{\infty}\biggl{[}a_{n}\int_{T_{0}}\cos n\omega_{0}t \cos m\omega_{0}t\,dt\] \[+\,b_{n}\int_{T_{0}}\,\sin n\omega_{0}t\cos m\omega_{0}t\,dt \biggr{]}\]
+
+The first integral on the right-hand side is zero because it is an area under \(m\) integral number of cycles of a sinusoid. Also, the last integral on the right-hand side vanishes because of Eq. (6.6). This leaves only the middle integral, which is also zero for all \(n\neq m\) because of Eq. (6.4). But\(n\) takes on all values from 1 to \(\infty\), including \(m\). When \(n=m\), this integral is \(T_{0}/2\), according to Eq. (6.4). Therefore, from the infinite number of terms on the right-hand side, only one term survives to yield \(a_{n}T_{0}/2=a_{m}T_{0}/2\) (recall that \(n=m\)). Therefore,
+
+\[\int_{T_{0}}x(t)\cos{m\omega_{0}t}\,dt=\frac{a_{m}T_{0}}{2}\qquad\mbox{and} \qquad a_{m}=\frac{2}{T_{0}}\int_{T_{0}}x(t)\cos{m\omega_{0}t}\,dt\]
+
+Similarly, by multiplying both sides of Eq. (6.1) by \(\sin{n\omega_{0}t}\) and then integrating over an interval \(T_{0}\), we obtain
+
+\[b_{m}=\frac{2}{T_{0}}\int_{T_{0}}x(t)\sin{m\omega_{0}t}\,dt\]
+
+To sum up our discussion, which applies to real or complex \(x(t)\), we have shown that a periodic signal \(x(t)\) with period \(T_{0}\) can be expressed as a sum of a sinusoid of period \(T_{0}\) and its harmonics:
+
+\[x(t)=a_{0}+\sum_{m=1}^{\infty}a_{n}\cos{n\omega_{0}t}+b_{n}\sin{n\omega_{0}t} \tag{6.7}\]
+
+where \(\omega_{0}=2\pi f_{0}=\frac{2\pi}{T_{0}}\) and
+
+\[a_{0}=\frac{1}{T_{0}}\int_{T_{0}}x(t)\,dt,\quad a_{n}=\frac{2}{T_{0}}\int_{T_ {0}}x(t)\cos{n\omega_{0}t}\,dt,\quad\mbox{and}\quad b_{n}=\frac{2}{T_{0}}\int _{T_{0}}x(t)\sin{n\omega_{0}t}\,dt \tag{6.8}\]
+
+### Compact Form of Fourier Series
+
+The results derived so far are general and apply whether \(x(t)\) is a real or a complex function of \(t\). However, when \(x(t)\) is real, coefficients \(a_{n}\) and \(b_{n}\) are real for all \(n\), and the trigonometric Fourier series can be expressed in a _compact form_, using the results in Eq. (B.16):
+
+\[x(t)=C_{0}+\sum_{n=1}^{\infty}C_{n}\cos{(n\omega_{0}t}+\theta_{n}) \tag{6.9}\]
+
+where \(C_{n}\) and \(\theta_{n}\) are related to \(a_{n}\) and \(b_{n}\), as [see Eq. (B.17)]
+
+\[C_{0}=a_{0},\quad C_{n}=\sqrt{{a_{n}}^{2}+{b_{n}}^{2}},\quad\mbox{and}\quad \theta_{n}=\tan^{-1}\left(\frac{-b_{n}}{a_{n}}\right) \tag{6.10}\]
+
+These results are summarized in Table 6.1.
+
+The compact form in Eq. (6.9) uses the cosine form. We could just as well have used the sine form, with terms \(\sin{(n\omega_{0}t}+\theta_{n})\) instead of \(\cos{(n\omega_{0}t}+\theta_{n})\). The literature overwhelmingly favors the cosine form, for no apparent reason except possibly that the cosine phasor is represented by the horizontal axis, which happens to be the reference axis in phasor representation.
+
+Equation (6.8) shows that \(a_{0}\) (or \(C_{0}\)) is the average value of \(x(t)\) (averaged over one period). This value can often be determined by inspection of \(x(t)\).
+
+Because \(a_{n}\) and \(b_{n}\) are real, \(C_{n}\) and \(\theta_{n}\) are also real. In the following discussion of trigonometric Fourier series, we shall assume real \(x(t)\), unless mentioned otherwise.
+
+#### The Fourier Spectrum
+
+The compact trigonometric Fourier series in Eq. (6.9) indicates that a periodic signal \(x(t)\) can be expressed as a sum of sinusoids of frequencies 0 (dc), \(\omega_{0}\), \(2\omega_{0}\), \(\ldots\), \(n\omega_{0}\), \(\ldots\), whose amplitudes are \(C_{0}\), \(C_{1}\), \(C_{2}\), \(\ldots\), \(C_{n}\), \(\ldots\), and whose phases are 0, \(\theta_{1}\), \(\theta_{2}\), \(\ldots\), \(\theta_{n}\), \(\ldots\), respectively. We can readily plot amplitude \(C_{n}\) versus \(n\) (_the amplitude spectrum_) and \(\theta_{n}\) versus \(n\) (the _phase spectrum_).1 Because \(n\) is proportional to the frequency \(n\omega_{0}\), these plots are scaled plots of \(C_{n}\) versus \(\omega\) and \(\theta_{n}\) versus \(\omega\). The two plots together are the _frequency spectra_ of \(x(t)\). These spectra show at a glance the frequency contents of the signal \(x(t)\) with their amplitudes and phases. Knowing these spectra, we can reconstruct or synthesize the signal \(x(t)\) according to Eq. (6.9). Therefore, frequency spectra, which are an alternative way of describing a periodic signal \(x(t)\), are in every way equivalent to the plot of \(x(t)\) as a function of \(t\). The frequency spectra of a signal constitute the _frequency-domain description_ of \(x(t)\), in contrast to the _time-domain description_, where \(x(t)\) is specified as a function of time.
+
+Footnote 1: The amplitude \(C_{n}\), by definition here, is nonnegative. Some authors define amplitude \(A_{n}\) that can take positive or negative values and magnitude \(C_{n}=|A_{n}|\) that can only be nonnegative. Thus, what we call amplitude spectrum becomes magnitude spectrum. The distinction between amplitude and magnitude, although useful, is avoided in this book in the interest of keeping definitions of essentially similar entities to a minimum.
+
+In computing \(\theta_{n}\), the phase of the \(n\)th harmonic from Eq. (6.10), the quadrant in which \(\theta_{n}\) lies should be determined from the signs of \(a_{n}\) and \(b_{n}\). For example, if \(a_{n}=-1\) and \(b_{n}=1\), \(\theta_{n}\) lies in the third quadrant, and
+
+\[\theta_{n}=\tan^{-1}\left(\tfrac{-1}{-1}\right)=-135^{\circ}\]
+
+Observe that
+
+\[\tan^{-1}\left(\tfrac{-1}{-1}\right)\neq\tan^{-1}(1)=45^{\circ}\]
+
+\begin{table}
+\begin{tabular}{l l l} \hline
+**Series Form** & **Coefficient Computation** & **Conversion Formulas** \\ \hline
+**Trigonometric** & \(a_{0}=\dfrac{1}{T_{0}}\int_{T_{0}}f(t)\,dt\) & \(a_{0}=C_{0}=D_{0}\) \\ \(f(t)=a_{0}+\sum_{n=1}^{\infty}a_{n}\cos n\omega_{0}t+b_{n}\sin n\omega_{0}t\) & \(a_{n}=\dfrac{2}{T_{0}}\int_{T_{0}}f(t)\cos n\omega_{0}t\,dt\) & \(a_{n}-jb_{n}=C_{n}e^{j\theta_{n}}=2D_{n}\) \\  & \(b_{n}=\dfrac{2}{T_{0}}\int_{T_{0}}f(t)\sin n\omega_{0}t\,dt\) & \(a_{n}+jb_{n}=C_{n}e^{-j\theta_{n}}=2D_{-n}\) \\
+**Compact trigonometric** & \(C_{0}=a_{0}\) & \(C_{0}=D_{0}\) \\ \(f(t)=C_{0}+\sum_{n=1}^{\infty}C_{n}\cos(n\omega_{0}t+\theta_{n})\) & \(C_{n}=\sqrt{{a_{n}}^{2}+{b_{n}}^{2}}\) & \(C_{n}=2|D_{n}|\) & \(n\geq 1\) \\  & \(\theta_{n}=\tan^{-1}\left(\dfrac{-b_{n}}{a_{n}}\right)\) & \(\theta_{n}=\angle D_{n}\) \\
+**Exponential** & \(D_{n}=\dfrac{1}{T_{0}}\int_{T_{0}}f(t)e^{-j\max t}\,dt\) & \\ \hline \end{tabular}
+\end{table}
+Table 6.1: Fourier Series Representation of a Periodic Signal of Period \(T_{0}\) (\(\omega_{0}=2\pi/T_{0}\))Although \(C_{n}\), the amplitude of the \(n\)th harmonic as defined in Eq. (6.10), is positive, we shall find it convenient to allow \(C_{n}\) to take on negative values when \(b_{n}=0\). This will become clear in later examples.
+
+**EXAMPLE 6.1 Compact Trigonometric Fourier Series of Periodic Exponential Wave**
+
+Find the compact trigonometric Fourier series for the periodic signal \(x(t)\) shown in Fig. 6.2a. Sketch the amplitude and phase spectra for \(x(t)\).
+
+In this case the period \(T_{0}=\pi\) and the fundamental frequency \(f_{0}=1/T_{0}=1/\pi\) Hz, and
+
+\[\omega_{0}=\frac{2\pi}{T_{0}}=2\,\mbox{rad/s}\]
+
+Figure 6.2: **(a) A periodic signal and (b, c) its Fourier spectra.**
+
+Therefore, \[x(t)=a_{0}+\sum_{n=1}^{\infty}a_{n}\cos 2nt+b_{n}\sin 2nt\] where \[a_{0}=\frac{1}{\pi}\int_{T_{0}}x(t)\,dt\] In this example the obvious choice for the interval of integration is from \(0\) to \(\pi\). Hence, \[a_{0}=\frac{1}{\pi}\int_{0}^{\pi}e^{-t/2}\,dt=0.504\] \[a_{n}=\frac{2}{\pi}\int_{0}^{\pi}e^{-t/2}\cos 2nt\,dt=0.504\left( \frac{2}{1+16n^{2}}\right)\] and \[b_{n}=\frac{2}{\pi}\int_{0}^{\pi}e^{-t/2}\sin 2nt\,dt=0.504\left( \frac{8n}{1+16n^{2}}\right)\] Therefore, \[x(t)=0.504\Bigg{[}1+\sum_{n=1}^{\infty}\frac{2}{1+16n^{2}}(\cos 2nt+4n\sin 2nt) \Bigg{]}\] Also from Eq. (6.10), \[C_{0}=a_{0}=0.504\] \[C_{n}=\sqrt{a_{n}^{2}+b_{n}^{2}}=0.504\sqrt{\frac{4}{(1+16n^{2} )^{2}}+\frac{64n^{2}}{(1+16n^{2})^{2}}}=0.504\left(\frac{2}{\sqrt{1+16n^{2}} }\right)\] \[\theta_{n}=\tan^{-1}\left(\frac{-b_{n}}{a_{n}}\right)=\tan^{-1}( -4n)=-\tan^{-1}4n\] Amplitude and phases of the dc and the first seven harmonics are computed from the above equations as \[\begin{array}{c|ccccccccc}n&0&1&2&3&4&5&6&7\\ \hline C_{n}&0.504&0.244&0.125&0.084&0.063&0.0504&0.042&0.036\\ \hline\theta_{n}&0^{\circ}&-75.96^{\circ}&-82.87^{\circ}&-85.24^{\circ}&-86.42 ^{\circ}&-87.14^{\circ}&-87.61^{\circ}&-87.95^{\circ}\\ \end{array}\] We can use these numerical values to express \(x(t)\) as \[x(t) =0.504+0.504\sum_{n=1}^{\infty}\frac{2}{\sqrt{1+16n^{2}}}\cos{(2 nt-\tan^{-1}4n)}\] \[=0.504+0.244\cos{(2t-75.96^{\circ})}+0.125\cos{(4t-82.87^{\circ})}\] \[\quad+0.084\cos{(6t-85.24^{\circ})}+0.063\cos{(8t-86.42^{\circ})} +\cdots\] (6.11)The amplitude and phase spectra for \(x(t)\), in Figs. 6.2b and 6.2c, tell us at a glance the frequency composition of \(x(t)\), that is, the amplitudes and phases of various sinusoidal components of \(x(t)\). Knowing the frequency spectra, we can reconstruct \(x(t)\), as shown on the right-hand side of Eq. (6.11). Therefore the frequency spectra (Figs. 6.2b, 6.2c) provide an alternative description--the frequency-domain description of \(x(t)\). The time-domain description of \(x(t)\) is shown in Fig. 6.2a. _A signal, therefore, has a dual identity: the time-domain identity \(x(t)\) and the frequency-domain identity (Fourier spectra). The two identities complement each other; taken together, they provide a better understanding of a signal._
+
+An interesting aspect of Fourier series is that whenever there is a jump discontinuity in \(x(t)\), the series at the point of discontinuity converges to an average of the left-hand and right-hand limits of \(x(t)\) at the instant of discontinuity.2 In the present example, for instance, \(x(t)\) is discontinuous at \(t=0\) with \(x(0^{+})=1\) and \(x(0^{-})=x(\pi)=e^{-\pi/2}=0.208\). The corresponding Fourier series converges to a value \((1+0.208)/2=0.604\) at \(t=0\). This is easily verified from Eq. (6.11) by setting \(t=0\).
+
+Footnote 2: This behavior of the Fourier series is dictated by its convergence in the mean, discussed later in Secs. 6.2 and 6.5.
+
+Figure 6.3: Fourier Series spectra for Ex. 6.1 using MATLAB.
+
+### 6.2 Compact Trigonometric Fourier Series of a Periodic Triangle Wave
+
+Find the compact trigonometric Fourier series for the triangular periodic signal \(x(t)\) shown in Fig. 6.4a, and sketch the amplitude and phase spectra for \(x(t)\).
+
+In this case the period \(T_{0}=2\). Hence,
+
+\[\omega_{0}=\frac{2\pi}{2}=\pi\]
+
+and
+
+\[x(t)=a_{0}+\sum_{n=1}^{\infty}a_{n}\cos n\pi t+b_{n}\sin n\pi t\]
+
+Figure 6.4: **(a)** A triangular periodic signal and **(b, c)** its Fourier spectra.
+
+### 6.3 Converting a Trigonometric FS to a Compact Trigonometric FS
+
+A periodic signal \(x(t)\) is represented by a trigonometric Fourier series
+
+\[x(t)=2+3\cos 2t+4\sin 2t+2\sin\left(3t+30^{\circ}\right)-\cos\left(7t+150^{ \circ}\right)\]
+
+Express this series as a compact trigonometric Fourier series, and sketch amplitude and phase spectra for \(x(t)\).
+
+In compact trigonometric Fourier series, the sine and cosine terms of the same frequency are combined into a single term and all terms are expressed as cosine terms with positive amplitudes. Using Eqs. (6.9) and (6.10), we have
+
+\[3\cos 2t+4\sin 2t=5\cos\left(2t-53.13^{\circ}\right)\]
+
+Also,
+
+\[\sin\left(3t+30^{\circ}\right)=\cos\left(3t+30^{\circ}-90^{\circ}\right)=\cos \left(3t-60^{\circ}\right)\]
+
+and
+
+\[-\cos\left(7t+150^{\circ}\right)=\cos\left(7t+150^{\circ}-180^{\circ}\right)= \cos\left(7t-30^{\circ}\right)\]
+
+Therefore,
+
+\[x(t)=2+5\cos\left(2t-53.13^{\circ}\right)+2\cos\left(3t-60^{\circ}\right)+\cos \left(7t-30^{\circ}\right)\]
+
+Figure 6.5: Fourier spectra of the signal.
+
+Here the period is \(T_{0}=2\pi\) and \(\omega_{0}=2\pi/T_{0}=1\). Therefore,
+
+\[x(t)=a_{0}+\sum_{n=1}^{\infty}a_{n}\cos nt+b_{n}\sin nt\]
+
+where
+
+\[a_{0}=\frac{1}{T_{0}}\int_{T_{0}}x(t)\,dt\]
+
+From Fig. 6.6a, it is clear that a proper choice of region of integration is from \(-\pi\) to \(\pi\). But since \(x(t)=1\) only over \((-\pi/2,\pi/2)\), and \(x(t)=0\) over the remaining segment,
+
+\[a_{0}=\frac{1}{2\pi}\int_{-\pi/2}^{\pi/2}dt=\frac{1}{2}\]
+
+We could have found \(a_{0}\), the average value of \(x(t)\), to be \(1/2\) merely by inspection of \(x(t)\) in Fig. 6.6a. Also,
+
+\[a_{n} =\frac{1}{\pi}\int_{-\pi/2}^{\pi/2}\cos nt=\frac{2}{n\pi}\sin \left(\frac{n\pi}{2}\right)\] \[=\begin{cases}0&\quad\text{$n$ even}\\ \frac{2}{\pi\,n}&\quad\text{$n=1,5,9,13,\ldots$}\\ -\frac{2}{\pi\,n}&\quad\text{$n=3,7,11,15,\ldots$}\end{cases}\] \[b_{n} =\frac{1}{\pi}\int_{-\pi/2}^{\pi/2}\sin nt\,dt=0\]
+
+Therefore
+
+\[x(t)=\frac{1}{2}+\frac{2}{\pi}\bigg{(}\cos t-\frac{1}{3}\cos 3t+\frac{1}{5} \cos 5t-\frac{1}{7}\cos 7t+\cdot\cdot\cdot\bigg{)} \tag{6.13}\]
+
+Observe that \(b_{n}=0\) and all the sine terms are zero. Only the cosine terms appear in the trigonometric series. The series is therefore already in the compact form except that the amplitudes of alternating harmonics are negative. Now by definition, amplitudes \(C_{n}\) are positive [see Eq. (6.10)]. The negative sign can be accommodated by associating a proper phase, as seen from the trigonometric identity+
+
+Footnote †: \({}^{\dagger}\) Because \(\cos\left(x\pm\pi\right)=-\cos x\), we could have chosen the phase \(\pi\) or \(-\pi\). In fact, \(\cos\left(x\pm N\pi\right)=-\cos x\) for any odd integral value of \(N\). Therefore the phase can be chosen as \(\pm N\pi\), where \(N\) is any convenient odd integer.
+
+\[-\cos x=\cos\left(x-\pi\right)\]
+
+Using this fact, we can express the series in Eq. (6.13) as
+
+\[x(t)=\frac{1}{2} +\frac{2}{\pi}\bigg{[}\cos\,\omega_{0}t+\frac{1}{3}\cos\left(3 \omega_{0}t-\pi\right)+\frac{1}{5}\cos\,5\omega_{0}t\] \[+\,\frac{1}{7}\cos\left(7\omega_{0}t-\pi\right)+\frac{1}{9}\cos 9 \omega_{0}t+\cdot\cdot\cdot\bigg{]}\]This is the desired form of the compact trigonometric Fourier series. The amplitudes are
+
+\[C_{0}=\frac{1}{2}\qquad\text{and}\qquad C_{n}=\begin{cases}0&\quad\text{$n$ even}\\ \frac{2}{\pi n}&\quad\text{$n$ odd}\end{cases}\]
+
+The phases are
+
+\[\theta_{n}=\begin{cases}0&\quad\text{for all $n\neq 3,7,11,15,\ldots$}\\ -\pi&\quad\text{$n=3,7,11,15,\ldots$}\end{cases}\]
+
+We might use these values to plot amplitude and phase spectra. However, we can simplify our task in this special case if we allow amplitude \(C_{n}\) to take on negative values. If this is allowed, we do not need a phase of \(-\pi\) to account for the sign as seen from Eq. (6.13). This means that phases of all components are zero, and we can discard the phase spectrum and manage with only the amplitude spectrum, as shown in Fig. 6.6b. Observe that there is no loss of information in doing so and that the amplitude spectrum in Fig. 6.6b has the complete information about the Fourier series in Eq. (6.13). _Therefore, whenever all sine terms vanish (\(b_{n}=0\)), it is convenient to allow \(C_{n}\) to take on negative values_. This permits the spectral information to be conveyed by a single spectrum.2
+
+Footnote 2: Here, the distinction between amplitude \(A_{n}\) and magnitude \(C_{n}=|A_{n}|\) would have been useful. But, for the reasons mentioned in the footnote on page 598, we refrain from this distinction formally.
+
+Let us investigate the behavior of the series at the points of discontinuities. For the discontinuity at \(t=\pi/2\), the values of \(x(t)\) on either sides of the discontinuity are \(x((\pi/2)^{-})=1\) and \(x((\pi/2)^{+})=0\). We can verify by setting \(t=\pi/2\) in Eq. (6.13) that \(x(\pi/2)=0.5\), which is a value midway between the values of \(x(t)\) on either side of the discontinuity at \(t=\pi/2\).
+
+#### The Effect of Symmetry
+
+The Fourier series for the signal \(x(t)\) in Fig. 6.2a (Ex. 6.1) consists of sine and cosine terms, but the series for the signal \(x(t)\) in Fig. 6.4a (Ex. 6.2) consists of sine terms only, and the series for the signal \(x(t)\) in Fig. 6.6a (Ex. 6.4) consists of cosine terms only. This is no accident. We can show that the Fourier series of any even periodic function \(x(t)\) consists of cosine terms only and the series for any odd periodic function \(x(t)\) consists of sine terms only. Moreover, because of symmetry (even or odd), the information of one period of \(x(t)\) is implicit in only half the period, as seen in Figs. 6.4a and 6.6a. In these cases, knowing the signal over a half-period and knowing the kind of symmetry (even or odd), we can determine the signal waveform over a complete period. For this reason, the Fourier coefficients in these cases can be computed by integrating over only half the period rather than a complete period. To prove this result, recall that
+
+\[a_{0}=\frac{1}{T_{0}}\int_{-T_{0}/2}^{T_{0}/2}x(t)\,dt,\quad a_{n}=\frac{2}{T_ {0}}\int_{-T_{0}/2}^{T_{0}/2}x(t)\cos n\omega_{0}t\,dt,\quad\text{and}\quad b _{n}=\frac{2}{T_{0}}\int_{-T_{0}/2}^{T_{0}/2}x(t)\sin n\omega_{0}t\,dt\]
+
+Recall also that \(\cos n\omega_{0}t\) is an even function and \(\sin n\omega_{0}t\) is an odd function of \(t\). If \(x(t)\) is an even function of \(t\), then \(x(t)\cos n\omega_{0}t\) is also an even function and \(x(t)\sin n\omega_{0}t\) is an odd function of \(t\)(see Sec. 1.5-1). Therefore, following from Eq. (1.16),
+
+\[a_{0}=\frac{2}{T_{0}}\int_{0}^{T_{0}/2}x(t)\,dt,\quad a_{n}=\frac{4}{T_{0}}\int_{ 0}^{T_{0}/2}x(t)\cos n\omega_{0}t\,dt,\quad\mbox{and}\quad b_{n}=0 \tag{6.14}\]
+
+Similarly, if \(x(t)\) is an odd function of \(t\), then \(x(t)\cos n\omega_{0}t\) is an odd function of \(t\) and \(x(t)\sin n\omega_{0}t\) is an even function of \(t\). Therefore,
+
+\[a_{n}=0\quad\mbox{and}\quad b_{n}=\frac{4}{T_{0}}\int_{0}^{T_{0}/2}x(t)\sin n \omega_{0}t\,dt \tag{6.15}\]
+
+Observe that because of symmetry, the integration required to compute the coefficients need be performed over only half the period.
+
+If a periodic signal \(x(t)\) shifted by half the period remains unchanged except for a sign--that is, if
+
+\[x\left(t-\frac{T_{0}}{2}\right)=-x(t)\]
+
+then the signal is said to have a _half-wave_ symmetry. It can be shown that for a signal with a half-wave symmetry, all the even-numbered harmonics vanish (see Prob. 6.1-6). The signal in Fig. 6.4a is an example of such a symmetry. The signal in Fig. 6.6a also has this symmetry, although it is not obvious owing to a dc component. If we subtract the dc component of 0.5 from this signal, the remaining signal has half-wave symmetry. For this reason, this signal has only odd harmonics and a dc component of 0.5.
+
+## 6.1 Compact Trigonometric Fourier Series
+
+Find the compact trigonometric Fourier series for periodic signals shown in Fig. 6.7. Sketch their amplitude and phase spectra. Allow \(C_{n}\) to take on negative values if \(b_{n}=0\) so that the phase spectrum can be eliminated. [_Hint:_ Use Eqs. (6.14) and (6.15) for appropriate symmetry conditions.]
+
+### Answers
+
+**(a)**: \(x(t)=\frac{1}{3}-\frac{4}{\pi^{2}}\left(\cos\pi t-\frac{1}{4}\cos 2\pi t+ \frac{1}{9}\cos 3\pi t-\frac{1}{16}\cos 4\pi t+\cdots\right)\)
+**(b)**: \(x(t)=\frac{2A}{\pi}\Big{[}\sin\pi t-\frac{1}{2}\sin 2\pi t+\frac{1}{3} \sin 3\pi t-\frac{1}{4}\sin 4\pi t+\cdots\Big{]}\)
+
+**(c)**: \(x(t)=\frac{2A}{\pi}\Big{[}\cos(\pi t-90^{\circ})+\frac{1}{2}\cos(2\pi t+90^{ \circ})+\frac{1}{3}\cos(3\pi t-90^{\circ})\)
+
+**(d)**: \(x(t)=\frac{2A}{\pi}\Big{[}\sin\pi t-\frac{1}{2}\sin 2\pi t+\frac{1}{3} \sin 3\pi t-\frac{1}{4}\sin 4\pi t+\cdots\Big{]}\)
+**(d)**: \(x(t)=\frac{2A}{\pi}\Big{[}\cos(\pi t-90^{\circ})+\frac{1}{2}\cos(2\pi t+90^{ \circ})+\frac{1}{3}\cos(3\pi t-90^{\circ})\)
+
+**(e)**: \(x(t)=\frac{2A}{\pi}\Big{[}\sin\pi t-\frac{1}{2}\sin 2\pi t+\frac{1}{3} \sin 3\pi t-\frac{1}{4}\sin 4\pi t+\cdots\Big{]}\)
+**(e)**: \(x(t)=\frac{2A}{\pi}\Big{[}\cos(\pi t-90^{\circ})+\frac{1}{2}\cos(2\pi t+90^{ \circ})+\frac{1}{3}\cos(3\pi t-90^{\circ})\)
+
+### Determining the Fundamental Frequency and Period
+
+We have seen that every periodic signal can be expressed as a sum of sinusoids of a fundamental frequency \(\omega_{0}\) and its harmonics. One may ask whether a sum of sinusoids of _any_ frequencies represents a periodic signal. If so, how does one determine the period? Consider the following three functions:
+
+\[x_{1}(t) =2+7\cos\left(\tfrac{1}{2}t+\theta_{1}\right)+3\cos\left(\tfrac{2} {3}t+\theta_{2}\right)+5\cos\left(\tfrac{7}{6}t+\theta_{3}\right)\] \[x_{2}(t) =2\cos\left(2t+\theta_{1}\right)+5\sin\left(\pi t+\theta_{2}\right)\] \[x_{3}(t) =3\sin\left(3\sqrt{2}t+\theta\right)+7\cos\left(6\sqrt{2}t+\phi\right)\]
+
+Recall that every frequency in a periodic signal is an integer multiple of the fundamental frequency \(\omega_{0}\). Therefore the ratio of any two frequencies is of the form \(m/n\), where \(m\) and \(n\) are integers. This means that the ratio of any two frequencies is a rational number. When the ratio of two frequencies is a rational number, the frequencies are said to be _harmonically_ related.
+
+The largest number of which all the frequencies are integer multiples is the fundamental frequency. In other words, the fundamental frequency is the _greatest common factor_ (GCF) of all the frequencies in the series. The frequencies in the spectrum of \(x_{1}(t)\) are \(1/2\), \(2/3\), and \(7/6\) (we do not consider dc). The ratios of the successive frequencies are 3:4 and 4:7, respectively. Because both these numbers are rational, all the three frequencies in the spectrum are harmonically related, and the signal \(x_{1}(t)\) is periodic. The GCF, that is, the greatest number of which \(1/2\), \(2/3\), and \(7/6\) are integer multiples, is \(1/6\).1 Moreover, \(3(1/6)=1/2\), \(4(1/6)=2/3\), and \(7(1/6)=7/6\). Therefore the fundamental frequency is \(1/6\), and the three frequencies in the spectrum are the third, fourth, and seventh harmonics. Observe that the fundamental frequency component is absent in this Fourier series.
+
+Figure 6.7: Periodic signals for Drills 6.1 and 6.6.
+
+The signal \(x_{2}(t)\) is not periodic because the ratio of two frequencies in the spectrum is \(2/\pi\), which is not a rational number. The signal \(x_{3}(t)\) is periodic because the ratio of frequencies \(3\sqrt{2}\) and \(6\sqrt{2}\) is \(1/2\), a rational number. The greatest common factor of \(3\sqrt{2}\) and \(6\sqrt{2}\) is \(3\sqrt{2}\). Therefore, the fundamental frequency \(\omega_{0}=3\sqrt{2}\), and the period
+
+\[T_{0}=\frac{2\pi}{(3\sqrt{2})}=\frac{\sqrt{2}}{3}\pi\]
+
+### 6.2 Determining Periodicity, Fundamental Frequency, and Harmonic Content
+
+Determine whether the signal
+
+\[x(t)=\cos\left(\tfrac{2}{3}t+30^{\circ}\right)+\sin\left(\tfrac{4}{5}t+45^{ \circ}\right)\]
+
+is periodic. If it is periodic, find the fundamental frequency and the period. What harmonics are present in \(x(t)\)?
+
+### 6.3 Answers
+
+Periodic with \(\omega_{0}=2/15\) and period \(T_{0}=15\pi\). Signal \(x(t)\) contains the fifth and sixth harmonics.
+
+## Appendix A Historical Note: Baron Jean-Baptiste-Joseph Fourier (1768-1830)
+
+The Fourier series and integral comprise a most beautiful and fruitful development, which serves as an indispensable instrument in the treatment of many problems in mathematics, science, and engineering. Maxwell was so taken by the beauty of the Fourier series that he called it a great mathematical poem. In electrical engineering, it is central to the areas of communication, signal processing, and several other fields, including antennas, but its initial reception by the scientific world was not enthusiastic. In fact, Fourier could not get his results published as a paper.
+
+Fourier, a tailor's son, was orphaned at age 8 and educated at a local military college (run by Benedictine monks), where he excelled in mathematics. The Benedictines prevailed upon the young genius to choose the prietshood as his vocation, but revolution broke out before he could take his vows. Fourier joined the people's party. But in its early days, the French Revolution, like most such upheavals, liquidated a large segment of the intelligentsia, including prominent scientists such as Lavoisier. Observing this trend, many intellectuals decided to leave France to save themselves from a rapidly rising tide of barbarism. Fourier, despite his early enthusiasm for the Revolution, narrowly escaped the guillotine twice. It was to the everlasting credit of Napoleon that he stopped the persecution of the intelligentsia and founded new schools to replenish their ranks. The 26-year-old Fourier was appointed chair of mathematics at the newly created Ecole Normale in 1794 [1].
+
+Napoleon was the first modern ruler with a scientific education, and he was one of the rare persons who are equally comfortable with soldiers and scientists. The age of Napoleon was one of the most fruitful in the history of science. Napoleon liked to sign himself as "member of _Institut de France_" (a fraternity of scientists), and he once expressed to Laplace his regret that "force of circumstances has led me so far from the career of a scientist" [2]. Many great figures in science and mathematics, including Fourier and Laplace, were honored and promoted by Napoleon. In 1798 he took a group of scientists, artists, and scholars--Fourier among them--on his Egyptian expedition, with the promise of an exciting and historic union of adventure and research. Fourier proved to be a capable administrator of the newly formed Institut d'Egypte, which, incidentally, was responsible for the discovery of the Rosetta Stone. The inscription on this stone in two languages and three scripts (hieroglyphic, demotic, and Greek) enabled Thomas Young and Jean-Francois Champollion, a protege of Fourier, to invent a method of translating hieroglyphic writings of ancient Egypt--the only significant result of Napoleon's Egyptian expedition.
+
+Back in France in 1801, Fourier briefly served in his former position as professor of mathematics at the Ecole Polytechnique in Paris. In 1802 Napoleon appointed him the prefect of Isere (with its headquarters in Grenoble), a position in which Fourier served with distinction. Fourier was named Baron of the Empire by Napoleon in 1809. Later, when Napoleon was exiled to Elba, his route was to take him through Grenoble. Fourier had the route changed to avoid meeting Napoleon, which would have displeased Fourier's new master, King Louis XVIII. Within a year, Napoleon escaped from Elba and returned to France. At Grenoble, Fourier was brought before him in chains. Napoleon scolded Fourier for his ungrateful behavior but reappointed him the prefect of Rhone at Lyons. Within four months Napoleon was defeated at Waterloo and was exiled to St. Helena, where he died in 1821. Fourier once again was in disgrace as a Bonapartist and had to pawn his possessions to keep himself alive. But through the intercession of a former student, who was now a prefect of Paris, he was appointed director of the statistical bureau of the Seine, a position that allowed him ample time for scholarly pursuits. Later, in 1827, he was elected to the powerful position of perpetual secretary of the Paris Academy of Science, a section of the Institut de France [3].
+
+While serving as the prefect of Grenoble, Fourier carried on his elaborate investigation of the propagation of heat in solid bodies, which led him to the Fourier series and the Fourier integral. On December 21, 1807, he announced these results in a prize paper on the theory of heat. Fourier claimed that an arbitrary function (continuous or with discontinuities) defined in a finite interval by an arbitrarily capricious graph can always be expressed as a sum of sinusoids (Fourier series). The judges, who included the great French mathematicians Laplace, Lagrange, Legendre, Monge, and LaCroix, admitted the novelty and importance of Fourier's work but criticized it for lack of mathematical rigor and generality. Lagrange thought it incredible that a sum of sines and cosines could add up to anything but an infinitely differentiable function. Moreover, one of the properties of an infinitely differentiable function is that if we know its behavior over an arbitrarily small interval, we can determine its behavior over the entire range (the Taylor-Maclaurin series). Such a function is far from an arbitrary or a capriciously drawn graph [4]. Laplace had additional reason to criticize Fourier's work. Laplace and his students had already approached the problem of heat conduction from a different angle, and Laplace was reluctant to accept the superiority of Fourier's method [5]. Fourier thought the criticism unjustified but was unable to prove his claim because the tools required for operations with infinite series were not available at the time. However, posterity has proved Fourier to be closer to the truth than his critics. This is the classic conflict between pure mathematicians and physicists or engineers, as we saw earlier (Ch. 4) in the life of Oliver Heaviside. In 1829 Dirichlet proved Fourier's claim concerning capriciously drawn functions with a few restrictions (Dirichlet conditions).
+
+Although three of the four judges were in favor of publication, Fourier's paper was rejected because of vehement opposition by Lagrange. Fifteen years later, after several attempts and disappointments, Fourier published the results in expanded form as a text, _Theorie analytique de la chaleur,_ which is now a classic.
+
+### 6.2 Existence and Convergence of
+
+The Fourier Series
+
+For the existence of the Fourier series, coefficients \(a_{0},a_{n}\), and \(b_{n}\) in Eq. (6.8) must be finite. It follows from Eq. (6.8) that the existence of these coefficients is guaranteed if \(x(t)\) is absolutely integrable over one period; that is,
+
+\[\int_{T_{0}}|x(t)|\,dt\,<\infty \tag{6.16}\]
+
+However, existence, by itself, does not inform us about the nature and the manner in which the series converges. We shall first discuss the notion of convergence.
+
+### Convergence of a Series
+
+The key to many puzzles lies in the nature of the convergence of the Fourier series. Convergence of infinite series is a complex problem. It took mathematicians several decades to understand the convergence aspect of the Fourier series. We shall barely scratch the surface here.
+
+Nothing annoys a student more than the discussion of convergence. "Have we not proved," they ask, "that a periodic signal \(x(t)\) can be expressed as a Fourier series"? Then why spoil the fun by this annoying discussion? All we have shown so far is that a signal represented by a Fourier series in Eq. (6.1) is periodic. We have not proved the converse, that every periodic signal can be expressed as a Fourier series. This issue will be tackled later, in Sec. 6.5-4, where it will be shown that a periodic signal can be represented by a Fourier series, as in Eq. (6.1), where the equality of the two sides of the equation is not in the ordinary sense, but in the mean-square sense (explained later in this discussion). But the astute reader should have been skeptical of the claims of the Fourier series to represent discontinuous functions in Figs. 6.2a and 6.6a. If \(x(t)\) has a jump discontinuity, say, at \(t=0\), then \(x(0^{+}),x(0)\), and \(x(0^{-})\) are generally different. How could a series consisting of the sum of continuous functions of the smoothest type (sinusoids) add to one value at \(t=0^{-}\) and a different value at \(t=0\) and yet another value at \(t=0^{+}\)? The demand is impossible to satisfy unless the math involved executes some spectacular acrobatics. How does a Fourier series act under such conditions? Precisely for this reason, the great mathematicians Lagrange and Laplace, two of the judges examining Fourier's paper, were skeptical of Fourier's claims and voted against publication of the paper that later became a classic.
+
+There are also other issues. In any practical application, we can use only a finite number of terms in a series. If, with a fixed number of terms, the series guarantees convergence within an arbitrarily small error at every value of \(t\), such a series is highly desirable and is called a _uniformly convergent_ series. If a series converges at every value of \(t\), but to guarantee convergence within a given error requires a different number of terms at different \(t\), then the series is still convergent, but less desirable. It goes under the name _pointwise convergent_ series.
+
+Finally, we have the case of a series that refuses to converge at some \(t\), no matter how many terms are added. But the series may _converge in the mean_; that is, the energy of the difference between \(x(t)\) and the corresponding finite term series approaches zero as the number of terms approaches infinity.2 To explain this concept, let us consider representation of a function \(x(t)\) by an infinite series
+
+Footnote 2: The behavior is called “convergence in the mean” because minimizing the error energy over a certain interval is equivalent to minimizing the mean-square value of the error over the same interval.
+
+\[x(t)=\sum_{n=1}^{\infty}z_{n}(t)\]
+
+Let the partial sum of the first \(N\) terms of the series on the right-hand side be denoted by \(x_{N}(t)\), that is,
+
+\[x_{N}(t)=\sum_{n=1}^{N}z_{n}(t)\]If we approximate \(x(t)\) by \(x_{N}(t)\) (the partial sum of the first \(N\) terms of the series), the _error_ in the approximation is the difference \(x(t)-x_{N}(t)\). The series converges _in the mean_ to \(x(t)\) in the interval \((0,T_{0})\) if
+
+\[\int_{0}^{T_{0}}|x(t)-x_{N}(t)|^{2}\,dt\to 0\qquad\mbox{as}\quad N\to\infty\]
+
+Hence, the energy of the error \(x(t)-x_{N}(t)\) approaches zero as \(N\to\infty\). This form of convergence does not require the series to be equal to \(x(t)\) for all \(t\). It just requires the energy of the difference (area under \(|x(t)-x_{N}(t)|^{2}\)) to vanish as \(N\to\infty\). Superficially it may appear that if the energy of a signal over an interval is zero, the signal (the error) must be zero everywhere. This is not true. The signal energy can be zero even if there are nonzero values at a finite number of isolated points. This is because although the signal is nonzero at a point (and zero everywhere else), the area under its square is still zero. Thus, a series that converges in the mean to \(x(t)\) need not converge to \(x(t)\) at a finite number of points. This is precisely what happens to the Fourier series when \(x(t)\) has jump discontinuities. This is also what makes Fourier series convergence compatible with the Gibbs phenomenon, to be discussed later in this section.
+
+There is a simple criterion for ensuring that a periodic signal \(x(t)\) has a Fourier series that converges in the mean. The Fourier series for \(x(t)\) converges to \(x(t)\) in the mean if \(x(t)\) has a finite energy over one period, that is,
+
+\[\int_{T_{0}}|x(t)|^{2}\,dt<\infty \tag{6.17}\]
+
+Thus, the periodic signal \(x(t)\), having a finite energy over one period, guarantees the convergence in the mean of its Fourier series. In all the examples discussed so far, Eq. (6.17) is satisfied; hence the corresponding Fourier series converges in the mean. Equation (6.17), like Eq. (6.16), guarantees that the Fourier coefficients are finite.
+
+We shall now discuss an alternate set of criteria, due to Dirichlet, for convergence of the Fourier series.
+
+Dirichlet ConditionsDirichlet showed that if \(x(t)\) satisfies certain conditions (_Dirichlet conditions_), its Fourier series is guaranteed to converge pointwise at all points where \(x(t)\) is continuous. Moreover, at the points of discontinuities, \(x(t)\) converges to the value midway between the two values of \(x(t)\) on either side of the discontinuity. These conditions are:
+
+1. The function \(x(t)\) must be absolutely integrable; that is, it must satisfy Eq. (6.16).
+2. The function \(x(t)\) must have only a finite number of finite discontinuities in one period.
+3. The function \(x(t)\) must contain only a finite number of maxima and minima in one period.
+
+All practical signals, including those in Exs. 6.1, 6.2, 6.3, and 6.4, satisfy these conditions.
+
+### The Role of Amplitude and Phase Spectra in Waveshaping
+
+The trigonometric Fourier series of a signal \(x(t)\) shows explicitly the sinusoidal components of \(x(t)\). We can synthesize \(x(t)\) by adding the sinusoids in the spectrum of \(x(t)\). Let us synthesize the square-pulse periodic signal \(x(t)\) of Fig. 6.6a by adding successive harmonics in its spectrum step by step and observing the similarity of the resulting signal to \(x(t)\). The Fourier series for this function as found in Eq. (6.13) is
+
+\[x(t)=\frac{1}{2}+\frac{2}{\pi}\bigg{(}\cos t-\frac{1}{3}\cos 3t+\frac{1}{5} \cos 5t-\frac{1}{7}\cos 7t+\cdot\cdot\cdot\bigg{)}\]
+
+We start the synthesis with only the first term in the series (\(n=0\)), a constant \(1/2\) (dc); this is a gross approximation of the square wave, as shown in Fig. 6.8a. In the next step we add the dc (\(n=0\)) and the first harmonic (fundamental), which results in a signal shown in Fig. 6.8b. Observe that the synthesized signal somewhat resembles \(x(t)\). It is a smoothed-out version of \(x(t)\). The sharp corners in \(x(t)\) are not reproduced in this signal because sharp corners mean rapid changes, and their reproduction requires rapidly varying (i.e., higher-frequency) components, which are excluded. Figure 6.8c shows the sum of dc, first, and third harmonics (even harmonics are absent). As we increase the number of harmonics progressively, as shown in Figs. 6.8d (sum up to the fifth harmonic) and 6.8e (sum up to the nineteenth harmonic), the edges of the pulses become sharper and the signal resembles \(x(t)\) more closely.
+
+Asymptotic Rate of Amplitude Spectrum Decay
+
+Figure 6.8 brings out one interesting aspect of the Fourier series. Lower frequencies in the Fourier series affect the large-scale behavior of \(x(t)\), whereas the higher frequencies determine the fine structure such as rapid wiggling. Hence, sharp changes in \(x(t)\), being a part of fine structure, necessitate higher frequencies in the Fourier series. The sharper the change [the higher the time derivative \(\dot{x}(t)\)], the higher are the frequencies needed in the series.
+
+The amplitude spectrum indicates the amounts (amplitudes) of various frequency components of \(x(t)\). If \(x(t)\) is a smooth function, its variations are less rapid. Synthesis of such a function requires predominantly lower-frequency sinusoids and relatively small amounts of rapidly varying (higher-frequency) sinusoids. The amplitude spectrum of such a function would decay swiftly with frequency. To synthesize such a function, we require fewer terms in the Fourier series for a good approximation. On the other hand, a signal with sharp changes, such as jump discontinuities, contains rapid variations, and its synthesis requires a relatively large amount of high-frequency components. The amplitude spectrum of such a signal would decay slowly with frequency, and to synthesize such a function, we require many terms in its Fourier series for a good approximation. The square wave \(x(t)\) is a discontinuous function with jump discontinuities, and therefore its amplitude spectrum decays rather slowly, as \(1/n\) [see Eq. (6.13)]. On the other hand, the triangular-pulse periodic signal in Fig. 6.4a is smoother because it is a continuous function (no jump discontinuities). Its spectrum decays rapidly with frequency as \(1/n^{2}\) [see Eq. (6.12)].
+
+We can show that if the first \(k-1\) derivatives of a periodic signal \(x(t)\) are continuous and the \(k\)th derivative is discontinuous, then its amplitude spectrum \(C_{n}\) decays with frequency at least as rapidly as \(1/n^{k+1}\)[6]. This result provides a simple and useful means for predicting the asymptoticrate of convergence of the Fourier series. In the case of the square-wave signal (Fig. 6.6a), the zeroth derivative of the signal (the signal itself) is discontinuous so that \(k=0\). For the triangular periodic signal in Fig. 6.4a, the first derivative is discontinuous; that is, \(k=1\). For this reason, the spectra of these signals decay as \(1/n\) and \(1/n^{2}\), respectively.
+
+Figure 6.8: Synthesis of a square-pulse periodic signal by successive addition of its harmonics.
+
+### 6.2 Existence and Convergence of the Fourier Series
+
+**Example 6.5**: **Square-Wave Synthesis by Truncated Fourier Series Using MATLAB**
+
+Use MATLAB to synthesize and plot the square wave of Fig. 6.8a using a Fourier series that is truncated to the 19th harmonic. The result should match Fig. 6.8e.
+
+To synthesize the waveform, we use the Fourier series of Eq. (6.13).
+
+>> x = @(t) 1.0*(mod(t+pi/2,2*pi)<=pi); >> t = linspace(-2*pi,2*pi,10001); >> x19 = 0.5*ones(size(t)); >> for n=1:19, x19 = x19+2/(pi*n)*sin(pi*n/2)*cos(n*t); end >> plot(t,x19,'k-'); axis([-2*pi 2*pi -0.2 1.2]); >> xlabel('t'); ylabel('x_{19}(t)'); As expected, the result of Fig. 6.9 matches Fig. 6.8e.
+
+### Phase Spectrum: The Woman Behind a Successful Man
+
+The role of the amplitude spectrum in shaping the waveform \(x(t)\) is quite clear. However, the role of the phase spectrum in shaping this waveform is less obvious. Yet, the phase spectrum, like the woman behind a successful man,2 plays an equally important role in waveshaping. We can explain this role by considering a signal \(x(t)\) that has rapid changes, such as jump discontinuities. To synthesize an instantaneous change at a jump discontinuity, the phases of the various sinusoidal components in its spectrum must be such that all (or most) of the harmonic components will have
+
+Figure 6.9: Using MATLAB to synthesize a square wave via truncated Fourier series.
+
+one sign before the discontinuity and the opposite sign after the discontinuity. This will result in a sharp change in \(x(t)\) at the point of discontinuity. We can verify this fact in any waveform with jump discontinuity. Consider, for example, the sawtooth waveform in Fig. 6.7b. This waveform has a discontinuity at \(t=1\). The Fourier series for this waveform, as given in Drill 6.1b, is
+
+\[x(t)=\frac{2A}{\pi}\left[\cos\left(\pi\,t-90^{\circ}\right)+\frac{1}{2}\cos \left(2\pi\,t+90^{\circ}\right)+\frac{1}{3}\cos\left(3\pi\,t-90^{\circ}\right) +\frac{1}{4}\cos\left(4\pi\,t+90^{\circ}\right)+\cdot\cdot\cdot\right]\]
+
+Figure 6.10 shows the first three components of this series. The phases of all the (infinite) components are such that all the components are positive just before \(t=1\) and turn negative just after \(t=1\), the point of discontinuity. The same behavior is also observed at \(t=-1\), where a similar discontinuity occurs. This sign change in all the harmonics adds up to produce very nearly a jump discontinuity. The role of the phase spectrum is crucial in achieving a sharp change in the waveform. If we ignore the phase spectrum when trying to reconstruct this signal, the result will be a smeared and spread-out waveform. In general, the phase spectrum is just as crucial as the amplitude spectrum in determining the waveform. _The synthesis of any signal \(x(t)\) is achieved by using a proper combination of amplitudes and phases of various sinusoids. This unique combination is the Fourier spectrum of \(x(t)\)._
+
+Figure 6.10: Role of the phase spectrum in shaping a periodic signal.
+
+## Fourier Synthesis of Discontinuous Functions:
+
+The Gibbs Phenomenon
+
+Figure 6.8 showed the square function \(x(t)\) and its approximation by a truncated trigonometric Fourier series that includes only the first \(N\) harmonics for \(N=1\), 3, 5, and 19. The plot of the truncated series approximates closely the function \(x(t)\) as \(N\) increases, and we expect that the series will converge exactly to \(x(t)\) as \(N\to\infty\). Yet the curious fact, as seen from Fig. 6.8, is that even for large \(N\), the truncated series exhibits an oscillatory behavior and an overshoot approaching a value of about 9% in the vicinity of the discontinuity at the nearest peak of oscillation.2 Regardless of the value of \(N\), the overshoot remains at about 9%. Such strange behavior certainly would undermine anyone's faith in the Fourier series. In fact, this behavior puzzled many scholars at the turn of the century. Josiah Willard Gibbs, an eminent mathematical physicist who was the inventor of vector analysis, gave a mathematical explanation of this behavior (now called the _Gibbs phenomenon_).
+
+Footnote 2: There is also an undershoot of 9% at the other side [at \(t=(\pi/2)^{+}\)] of the discontinuity.
+
+We can reconcile the apparent aberration in the behavior of the Fourier series by observing from Fig. 6.8 that the frequency of oscillation of the synthesized signal is \(N\!\!f_{0}\), so the width of the spike with 9% overshoot is approximately \(1/2N\!\!f_{0}\). As we increase \(N\), the frequency of oscillation increases and the spike width \(1/2N\!\!f_{0}\) diminishes. As \(N\to\infty\), the error power \(\to 0\) because the error consists mostly of the spikes, whose widths \(\to 0\). Therefore, as \(N\to\infty\), the corresponding Fourier series differs from \(x(t)\) by about 9% at the immediate left and right of the points of discontinuity, and yet the error power \(\to 0\). The reason for all this confusion is that in this case, the Fourier series converges in the mean. When this happens, all we promise is that the error energy (over one period) \(\to 0\) as \(N\to\infty\). Thus, the series may differ from \(x(t)\) at some points and yet have the error signal power zero, as verified earlier. Note that the series, in this case, also converges pointwise at all points except the points of discontinuity. It is precisely at the discontinuities that the series differs from \(x(t)\) by 9%.3
+
+Footnote 3: Actually, at discontinuities, the series converges to a value midway between the values on either side of the discontinuity. The 9% overshoot occurs at \(t=(\pi/2)^{-}\) and 9% undershoot occurs at \(t=(\pi/2)^{+}\).
+
+When we use only the first \(N\) terms in the Fourier series to synthesize a signal, we are abruptly terminating the series, giving a unit weight to the first \(N\) harmonics and zero weight to all the remaining harmonics beyond \(N\). This abrupt termination of the series causes the Gibbs phenomenon in synthesis of discontinuous functions. Section 7.8 offers more discussion on the Gibbs phenomenon, its ramifications, and cure.
+
+The Gibbs phenomenon is present only when there is a jump discontinuity in \(x(t)\). When a continuous function \(x(t)\) is synthesized by using the first \(N\) terms of the Fourier series, the synthesized function approaches \(x(t)\) for all \(t\) as \(N\to\infty\). No Gibbs phenomenon appears. This can be seen in Fig. 6.11, which shows one cycle of a continuous periodic signal being synthesized from the first 19 harmonics. Compare the similar situation for a discontinuous signal in Fig. 6.8.
+
+## 6.3 Rate of Spectral Decay
+
+By inspection of signals in Figs. 6.2a, 6.7a, and 6.7b, determine the asymptotic rate of decay of their amplitude spectra.
+
+It was Bocher who gave the name _Gibbs phenomenon_ to this behavior. Gibbs showed that the peculiar behavior in the synthesis of a square wave was inherent in the behavior of the Fourier series because of nonuniform convergence at the points of discontinuity.
+
+This, however, is not the end of the story. Both Bocher and Gibbs were under the impression that this property had remained undiscovered until Gibbs's work published in 1899. It is now known that what is called the Gibbs phenomenon had been observed in 1848 by Wilbraham of Trinity College, Cambridge, who clearly saw the behavior of the sum of the Fourier series components in the periodic sawtooth signal later investigated by Gibbs [9]. Apparently, this work was not known to most people, including Gibbs and Bocher.
+
+### Exponential Fourier Series
+
+By using Euler's equality, we can express \(\cos n\omega_{0}t\) and \(\sin n\omega_{0}t\) in terms of exponentials \(e^{in\omega_{0}t}\) and \(e^{-jm\omega_{0}t}\). Clearly, we should be able to express the trigonometric Fourier series in Eq. (6.7) in terms of exponentials of the form \(e^{jm\omega_{0}t}\) with the index \(n\) taking on all integer values from \(-\infty\) to \(\infty\), including zero. Derivation of the exponential Fourier series from the results already derived for the trigonometric Fourier series is straightforward, involving conversion of sinusoids to exponentials. We shall, however, derive them here independently, without using the prior results of the trigonometric series.
+
+This discussion shows that the _exponential Fourier series_ for a periodic signal \(x(t)\) can be expressed as
+
+\[x(t)=\sum_{n=-\infty}^{\infty}D_{n}e^{in\omega_{0}t}\]To derive the coefficients \(D_{n}\), we multiply both sides of this equation by \(e^{-jmu\omega_{0}t}\) (\(m\) integer) and integrate over one period. This yields
+
+\[\int_{T_{0}}x(t)\,e^{-jmu\omega_{0}t}\,dt=\sum_{n=-\infty}^{\infty}D_{n}\int_{T_{ 0}}e^{j(n-m)\omega_{0}t}\,dt\]
+
+To simplify this expression, we use the _orthogonality_ property of exponentials, which states that+
+
+Footnote †: \({}^{\dagger}\) We can readily prove this property as follows. For the case of \(m=n\), the integrand in Eq. (6.18) is unity and the integral is \(T_{0}\). When \(m\neq n\), the integral on the left-hand side of Eq. (6.18) can be expressed as
+
+\[\int_{T_{0}}e^{j(n-m)\omega_{0}t}\,dt=\int_{T_{0}}\cos{(n-m)\omega_{0}t}\,dt+ j\int_{T_{0}}\sin{(n-m)\omega_{0}t}\,dt\]
+
+Both the integrals on the right-hand side represent area under \(n-m\) number of cycles. Because \(n-m\) is an integer, both the areas are zero. Hence, Eq. (6.18) follows.
+
+\[\int_{T_{0}}x(t)\,e^{-jmu\omega_{0}t}\,dt=\begin{cases}0&m\neq n\\ T_{0}&m=n\end{cases} \tag{6.18}\]
+
+Thus,
+
+\[\int_{T_{0}}x(t)\,e^{-jmu\omega_{0}t}\,dt=D_{m}T_{0}\]
+
+from which we obtain
+
+\[D_{m}=\frac{1}{T_{0}}\int_{T_{0}}x(t)\,e^{-jmu\omega_{0}t}\,dt.\]
+
+To summarize, the exponential Fourier series can be expressed as
+
+\[x(t)=\sum_{n=-\infty}^{\infty}D_{n}e^{jmu\omega_{0}t}\qquad\text{where}\qquad D _{n}=\frac{1}{T_{0}}\int_{T_{0}}x(t)\,e^{-jmu\omega_{0}t}\,dt \tag{6.19}\]
+
+Observe the compactness of Eq. (6.19) and compare it with the trigonometric Fourier series expression. Such a comparison demonstrates very clearly the principal virtue of the exponential Fourier series. First, the form of the series is most compact. Second, the mathematical expression for deriving the coefficients of the series is also compact. It is much more convenient to handle the exponential series than the trigonometric one. For these reasons we shall use the exponential (rather than trigonometric) representation of signals in the rest of the book.
+
+We can now relate \(D_{n}\) to trigonometric series coefficients \(a_{n}\) and \(b_{n}\). Setting \(n=0\) in Eq. (6.19), we obtain
+
+\[D_{0}=a_{0}\]
+
+Moreover, for \(n\neq 0\),
+
+\[D_{n}=\frac{1}{T_{0}}\int_{T_{0}}x(t)\cos{n\omega_{0}t}\,dt-\frac{j}{T_{0}} \int_{T_{0}}x(t)\sin{n\omega_{0}t}\,dt=\frac{1}{2}\left(a_{n}-jb_{n}\right) \tag{6.20}\]\[D_{-n}=\frac{1}{T_{0}}\int_{T_{0}}x(t)\cos n\omega_{0}t\,dt+\frac{j}{T_{0}}\int_{ T_{0}}x(t)\sin n\omega_{0}t\,dt=\frac{1}{2}\left(a_{n}+jb_{n}\right) \tag{6.21}\]
+
+These results are valid for general \(x(t)\), real or complex. When \(x(t)\) is real, \(a_{n}\) and \(b_{n}\) are real, and Eqs. (6.20) and (6.21) show that \(D_{n}\) and \(D_{-n}\) are conjugates.
+
+\[D_{-n}=D_{n}^{*}\]
+
+Moreover, from Eq. (6.10), we observe that
+
+\[a_{n}-jb_{n}=\sqrt{a_{n}^{2}+b_{n}^{2}}\,e^{j\tan^{-1}\left(\frac{-b_{n}}{a_{n} }\right)}=C_{n}e^{j\theta_{n}}\]
+
+Hence,
+
+\[D_{0}=a_{0}=C_{0}\]
+
+and
+
+\[D_{n}=\tfrac{1}{2}C_{n}e^{j\theta_{n}}\qquad D_{-n}=\tfrac{1}{2}C_{n}e^{-j \theta_{n}}\]
+
+Therefore, for \(n\neq 0\),
+
+\[|D_{n}|=|D_{-n}|=\tfrac{1}{2}C_{n},\quad\angle D_{n}=\theta_{n},\quad\text{ and}\angle D_{-n}=-\theta_{n} \tag{6.22}\]
+
+Note that \(|D_{n}|\) are the amplitudes and \(\angle D_{n}\) are the angles of various exponential components. From Eq. (6.22) it follows that when \(x(t)\) is real, the amplitude spectrum (\(|D_{n}|\) versus \(\omega\)) is an even function of \(\omega\) and the angle spectrum (\(\angle D_{n}\) versus \(\omega\)) is an odd function of \(\omega\). For complex \(x(t)\), \(D_{n}\) and \(D_{-n}\) are generally not conjugates.
+
+## Example 6.6 Exponential Fourier Series of Periodic Exponential Wave
+
+Find the exponential Fourier series for the signal of Fig. 6.2a from Ex. 6.1.
+
+In this case \(T_{0}=\pi\), \(\omega_{0}=2\pi/T_{0}=2\), and
+
+\[x(t)=\sum_{n=-\infty}^{\infty}D_{n}e^{j2nt}\]
+
+where
+
+\[D_{n} =\frac{1}{T_{0}}\int_{T_{0}}x(t)e^{-j2nt}\,dt=\frac{1}{\pi}\int_ {0}^{\pi}e^{-t/2}\,e^{-j2nt}\,dt=\frac{1}{\pi}\int_{0}^{\pi}e^{-(1/2+j2n)t}\,dt\] \[=\frac{-1}{\pi\left(\tfrac{1}{2}+j2n\right)}e^{-(1/2+j2n)t}\bigg{|} _{0}^{\pi}=\frac{0.504}{1+j4n}\]and
+
+\[x(t) =0.504\sum_{n=-\infty}^{\infty}\frac{1}{1+j4n}e^{j2nt}\] \[=0.504\left[1+\frac{1}{1+j4}e^{j2t}+\frac{1}{1+j8}e^{j4t}+\frac{1} {1+j12}e^{j6t}+\cdot\cdot\cdot\cdot\right.\] \[\qquad\qquad+\left.\frac{1}{1-j4}e^{-j2t}+\frac{1}{1-j8}e^{-j4t}+ \frac{1}{1-j12}e^{-j6t}+\cdot\cdot\cdot\right]\]
+
+Observe that the coefficients \(D_{n}\) are complex. Moreover, \(D_{n}\) and \(D_{-n}\) are conjugates, as expected.
+
+### Exponential Fourier Spectra
+
+In exponential spectra, we plot coefficients \(D_{n}\) as a function of \(\omega\). But since \(D_{n}\) is complex in general, we need both parts of one of two sets of plots: the real and the imaginary parts of \(D_{n}\), or the magnitude and the angle of \(D_{n}\). We prefer the latter because of its close connection to the amplitudes and phases of corresponding components of the trigonometric Fourier series. We therefore plot \(|D_{n}|\) versus \(\omega\) and \(\angle D_{n}\) versus \(\omega\). This requires that the coefficients \(D_{n}\) be expressed in polar form as \(|D_{n}|e^{j\angle D_{n}}\), where \(|D_{n}|\) are the amplitudes and \(\angle D_{n}\) are the angles of various exponential components. Equation (6.22) shows that for real \(x(t)\), the amplitude spectrum (\(|D_{n}|\) versus \(\omega\)) is an even function of \(\omega\) and the angle spectrum (\(\angle D_{n}\) versus \(\omega\)) is an odd function of \(\omega\).
+
+For the series in Ex. 6.6, for instance,
+
+\[D_{0} =0.504\] \[D_{1} =\frac{0.504}{1+j4}=0.122e^{-j75.96^{\circ}} \implies |D_{1}|=0.122,\ \angle D_{1}=-75.96^{\circ}\] \[D_{-1} =\frac{0.504}{1-j4}=0.122e^{j75.96^{\circ}} \implies |D_{-1}|=0.122,\ \angle D_{-1}=75.96^{\circ}\]
+
+and
+
+\[D_{2} =\frac{0.504}{1+j8}=0.0625e^{-j82.87^{\circ}} \implies |D_{2}|=0.0625,\ \angle D_{2}=-82.87^{\circ}\] \[D_{-2} =\frac{0.504}{1-j8}=0.0625e^{j82.87^{\circ}} \implies |D_{-2}|=0.0625,\ \angle D_{-2}=82.87^{\circ}\]
+
+and so on. Note that \(D_{n}\) and \(D_{-n}\) are conjugates, as expected [see Eq. (6.22)].
+
+Figure 6.12 shows the frequency spectra (amplitude and angle) of the exponential Fourier series for the periodic signal \(x(t)\) in Fig. 6.2a.
+
+We notice some interesting features of these spectra. First, the spectra exist for positive as well as negative values of \(\omega\) (the frequency). Second, the amplitude spectrum is an even function of \(\omega\) and the angle spectrum is an odd function of \(\omega\).
+
+At times it may appear that the phase spectrum of a real periodic signal fails to satisfy the odd symmetry: for example, when \(D_{k}=D_{-k}=-10\). In this case, \(D_{k}=10e^{i\pi}\), and therefore, \(D_{-k}=10e^{-j\pi}\). Recall that \(e^{\pm j\pi}=-1\). Here, although \(D_{k}=D_{-k}\), their phases should be taken as \(\pi\) and \(-\pi\).
+
+**Example 6.7**: **Plotting Fourier Series Spectra with MATLAB**
+
+Using MATLAB and the results of Ex. 6.6, compute and plot the exponential Fourier spectra for the periodic signal \(x(t)\) shown in Fig. 6.2a. The result should match Fig. 6.12.
+
+The expression for \(D_{n}\) is derived in Ex. 6.6.
+
+>> clf; n = (-5:5); D_n = 0.504./(1+4j*n); >> subplot(1,2,1); stem(n,abs(D_n),'.k'); >> xlabel('n'); ylabel('|D_n|'); >> subplot(1,2,2); stem(n,angle(D_n),'.k'); >> xlabel('n'); ylabel('\angle D_n [rad]');
+
+Except that it is plotted as a function of \(n\) rather than \(\omega\), the result in Fig. 6.13 matches Fig. 6.12.
+
+Figure 6.12: Exponential Fourier spectra for the signal in Fig. 6.2a.
+
+### 6.8 Relating Exponential to Trigonometric Fourier Series Spectra
+
+The trigonometric Fourier spectra of a certain periodic signal \(x(t)\) are shown in Fig. 6.14a. After inspecting these spectra, sketch the corresponding exponential Fourier spectra and verify your results analytically.
+
+The trigonometric spectral components exist at frequencies \(0,3,6,\) and \(9.\) The exponential spectral components exist at \(0,3,6,9,\) and \(-3,\)\(-6,\)\(-9.\) Consider first the amplitude spectrum. The dc component remains unchanged: that is, \(D_{0}=C_{0}=16.\) Now \(|D_{n}|\) is an even function of \(\omega\) and \(|D_{n}|=|D_{-n}|=C_{n}/2.\) Thus, all the remaining spectrum \(|D_{n}|\) for positive \(n\) is half the trigonometric amplitude spectrum \(C_{n},\) and the spectrum \(|D_{n}|\) for negative \(n\) is a reflection about the vertical axis of the spectrum for positive \(n,\) as shown in Fig. 6.14b.
+
+The angle spectrum is \(\angle D_{n}=\theta_{n}\) for positive \(n\) and is \(-\theta_{n}\) for negative \(n,\) as depicted in Fig. 6.14b. We shall now verify that both sets of spectra represent the same signal.
+
+Signal \(x(t),\) whose trigonometric spectra are shown in Fig. 6.14a, has four spectral components of frequencies \(0,\)\(3,\)\(6,\) and \(9.\) The dc component is \(16.\) The amplitude and the phase of the component of frequency \(3\) are \(12\) and \(-\pi/4,\) respectively. Therefore, this component can be expressed as \(12\cos{(3t-\pi/4)}.\) Proceeding in this manner, we can write the Fourier series
+
+Figure 6.14: Fourier series spectra for Ex. 6.8.
+
+for \(x(t)\) as
+
+\[x(t)=16+12\cos\left(3t-\frac{\pi}{4}\right)+8\cos\left(6t-\frac{\pi}{2}\right)+4 \cos\left(9t-\frac{\pi}{4}\right)\]
+
+Consider now the exponential spectra in Fig. 14b. They contain components of frequencies \(0\) (dc), \(\pm 3\), \(\pm 6\), and \(\pm 9\). The dc component is \(D_{0}=16\). The component \(e^{3t}\) (frequency \(3\)) has magnitude \(6\) and angle \(-\pi/4\). Therefore, this component strength is \(6e^{-j\pi/4}\), and it can be expressed as \((6e^{-j\pi/4})e^{j3t}\). Similarly, the component of frequency \(-3\) is \((6e^{j\pi/4})e^{-j3t}\). Proceeding in this manner, \(\hat{x}(t)\), the signal corresponding to the spectra in Fig. 14b, is
+
+\[\hat{x}(t) =16+\left[6e^{-j\pi/4}e^{j3t}+6e^{j\pi/4}e^{-j3t}\right]+\left[4e^ {-j\pi/2}e^{j6t}+4e^{j\pi/2}e^{-j6t}\right]\] \[+\left[2e^{-j\pi/4}e^{j9t}+2e^{j\pi/4}e^{-j9t}\right]\] \[=16+6\left[e^{i(3t-\pi/4)}+e^{-j(3t-\pi/4)}\right]+4\left[e^{j(6 t-\pi/2)}+e^{-j(6t-\pi/2)}\right]\] \[+\left.2\left[e^{i(9t-\pi/4)}+e^{-j(9t-\pi/4)}\right]\right.\] \[=16+12\cos\left(3t-\frac{\pi}{4}\right)+8\cos\left(6t-\frac{\pi}{ 2}\right)+4\cos\left(9t-\frac{\pi}{4}\right)\]
+
+Clearly both sets of spectra represent the same periodic signal.
+
+### Bandwidth of a Signal
+
+The difference between the highest and the lowest frequencies of the spectral components of a signal is the _bandwidth_ of the signal. The bandwidth of the signal whose exponential spectra are shown in Fig. 14b is \(9\) (in radians). The highest and lowest frequencies are \(9\) and \(0\), respectively. Note that the component of frequency \(12\) has zero amplitude and is nonexistent. Moreover, the lowest frequency is \(0\), not \(-9\). Recall that the frequencies (in the conventional sense) of the spectral components at \(\omega=-3\), \(-6\), and \(-9\) in reality are \(3\), \(6\), and \(9\).2 The bandwidth can be more readily seen from the trigonometric spectra in Fig. 14a.
+
+Footnote 2: Some authors _do_ define bandwidth as the difference between the highest and the lowest (negative) frequency in the exponential spectrum. The bandwidth according to this definition is twice that defined here. In reality, this phrasing defines not the signal bandwidth but the _spectral width_ (width of the exponential spectrum of the signal).
+
+**Example 6.9**: **Fourier Series Spectra of an Impulse Train**
+
+Find the exponential Fourier series and sketch the corresponding spectra for the impulse train \(\delta_{T_{0}}(t)\) depicted in Fig. 15a. From this result, sketch the trigonometric spectrum and write the trigonometric Fourier series for \(\delta_{T_{0}}(t)\).
+
+The unit impulse train shown in Fig. 6.15a can be expressed as
+
+\[\sum_{n=-\infty}^{\infty}\delta(t-nT_{0})\]
+
+Following Papoulis, we shall denote this function as \(\delta_{T_{0}}(t)\) for the sake of notational brevity.
+
+The exponential Fourier series is given by
+
+\[\delta_{T_{0}}(t)=\sum_{n=-\infty}^{\infty}D_{n}e^{ip\alpha_{0}t}\qquad\omega_ {0}=\frac{2\pi}{T_{0}} \tag{6.23}\]
+
+where
+
+\[D_{n}=\frac{1}{T_{0}}\int_{T_{0}}\delta_{T_{0}}(t)e^{-jm\alpha_{0}t}dt\]
+
+Choosing the interval of integration \((-T_{0}/2,T_{0}/2)\) and recognizing that over this interval \(\delta_{T_{0}}(t)=\delta(t)\), we get
+
+\[D_{n}=\frac{1}{T_{0}}\int_{-T_{0}/2}^{T_{0}/2}\delta(t)e^{-jm\alpha_{0}t}dt\]
+
+Figure 6.15: **(a)** Impulse train and **(b, c)** its Fourier spectra.
+
+In this integral, the impulse is located at \(t=0\). From the sampling property of Eq. (1.11), the integral on the right-hand side is the value of \(e^{-jm\omega_{0}t}\) at \(t=0\) (where the impulse is located). Therefore,
+
+\[D_{n}=\frac{1}{T_{0}} \tag{6.24}\]
+
+From this result, we see that the exponential spectrum is constant for all frequencies, as shown in Fig. 6.15b. The spectrum, being real, requires only the amplitude plot. All phases are zero.
+
+Substituting \(D_{n}=\frac{1}{T_{0}}\) into Eq. (6.23) yields the desired exponential Fourier series
+
+\[\delta_{T_{0}}(t)=\frac{1}{T_{0}}\sum_{n=-\infty}^{\infty}e^{jn\omega_{0}t} \qquad\omega_{0}=\frac{2\pi}{T_{0}}\]
+
+To sketch the trigonometric spectrum, we use Eq. (6.22) to obtain
+
+\[C_{0} =D_{0}=\frac{1}{T_{0}}\] \[C_{n} =2|D_{n}|=\frac{2}{T_{0}}\qquad n=1,2,3,\ldots.\] \[\theta_{n} =0\]
+
+Figure 6.15c shows the trigonometric Fourier spectrum. From this spectrum we can express \(\delta_{T_{0}}(t)\) as
+
+\[\delta_{T_{0}}(t)=\frac{1}{T_{0}}\left[1+2(\cos\omega_{0}t+\cos 2\omega_{0}t+ \cos 3\omega_{0}t+\cdots)\right]\qquad\omega_{0}=\frac{2\pi}{T_{0}} \tag{6.25}\]
+
+## Effect of Symmetry in Exponential Fourier Series
+
+When \(x(t)\) has an even symmetry, \(b_{n}=0\), and from Eq. (6.20), \(D_{n}=a_{n}/2\), which is real (positive or negative). Hence, \(\angle D_{n}\) can only be 0 or \(\pm\pi\). Moreover, we may compute \(D_{n}=a_{n}/2\) by using Eq. (6.14), which requires integration over a half-period only. Similarly, when \(x(t)\) has an odd symmetry, \(a_{n}=0\), and \(D_{n}=-jb_{n}/2\) is imaginary (positive or negative). Hence, \(\angle D_{n}\) can only be 0 or \(\pm\pi/2\). Moreover, we may compute \(D_{n}=-jb_{n}/2\) by using Eq. (6.15), which requires integration over a half-period only. Note, however, that in the exponential case, we are using the symmetry property indirectly by finding the trigonometric coefficients. We cannot apply it directly in finding \(D_{n}\) from Eq. (6.19) since the function \(e^{in\omega_{0}t}\) is neither even nor odd.
+
+### 6.4 Relating Trigonometric to Exponential Fourier Series Spectra
+
+The exponential Fourier spectra of a certain periodic signal \(x(t)\) are shown in Fig. 6.16. Determine and sketch the trigonometric Fourier spectra of \(x(t)\) by inspection of Fig. 6.16. Now write the (compact) trigonometric Fourier series for \(x(t)\).
+
+### 6.3 Exponential Fourier Series and Spectra
+
+Find the exponential Fourier series and sketch the corresponding Fourier spectra for the periodic signals shown in Fig. 6.7.
+
+Figure 6.16: Exponential Fourier series spectra for Drill 6.4.
+
+Figure 6.17: Full-wave rectified sine wave for Drill 6.5.
+
+## Chapter 6 Continuous-time signal analysis: the Fourier series
+
+### 6.1.1 The Fourier series
+
+The Fourier series of a periodic signal \(x(t)\) is given by
+
+\[x(t)=C_{0}+\sum_{n=1}^{\infty}C_{n}\cos\left(n\omega_{0}t+\theta_{n}\right)\]
+
+Every term on the right-hand side of this equation is a power signal. As shown in Ex. 1.2, Eq. (3), the power of \(x(t)\) is equal to the sum of the powers of all the sinusoidal components on the right-hand side.
+
+\[P_{x}={C_{0}}^{2}+\frac{1}{2}\sum_{n=1}^{\infty}C_{n}^{2} \tag{6.26}\]
+
+This result is one form of _Parseval's theorem_, as applied to power signals. It states that the power of a periodic signal is equal to the sum of the powers of its Fourier components.
+
+We can apply the same argument to the exponential Fourier series (see Prob. 1.1-11). The power of a periodic signal \(x(t)\) can be expressed as a sum of the powers of its exponential components. In Eq. (4), we showed that the power of an exponential \(De^{iso_{0}t}\) is \(|D^{2}|\). We can use this result to express the power of a periodic signal \(x(t)\) in terms of its exponential Fourier series coefficients as
+
+\[P_{x}=\sum_{n=-\infty}^{\infty}|D_{n}|^{2} \tag{6.27}\]
+
+For a real \(x(t)\), \(|D_{-n}|=|D_{n}|\). Therefore,
+
+\[P_{x}={D_{0}}^{2}+2\sum_{n=1}^{\infty}|D_{n}|^{2} \tag{6.28}\]The output \(y(t)\) is the clipped signal in Fig. 6.18a. The distortion signal \(y_{d}(t)\), shown in Fig. 6.18b, is the difference between the undistorted sinusoid \(10\cos\omega_{0}t\) and the output signal \(y(t)\). The signal \(y_{d}(t)\), whose period is \(T_{0}\) [the same as that of \(y(t)\)], can be described over the first cycle as
+
+\[y_{d}(t)=\begin{cases}10\cos\omega_{0}t-8&|t|\leq 0.1024T_{0}\\ 10\cos\omega_{0}t+8&\dfrac{T_{0}}{2}-0.1024T_{0}\leq|t|\leq\dfrac{T_{0}}{2}+0. 1024T_{0}\\ 0&\text{everywhere else}\end{cases}\]
+
+Observe that \(y_{d}(t)\) is an even function of \(t\) and its mean value is zero. Hence, \(a_{0}=C_{0}=0\), and \(b_{n}=0\). Thus, \(C_{n}=a_{n}\) and the Fourier series for \(y_{d}(t)\) can be expressed as
+
+\[y_{d}(t)=\sum_{n=1}^{\infty}C_{n}\cos n\omega_{0}t\]
+
+As usual, we can compute the coefficients \(C_{n}\) (which is equal to \(a_{n}\)) by integrating \(y_{d}(t)\cos n\omega_{0}t\) over one cycle (and then dividing by \(2/T_{0}\)). Because \(y_{d}(t)\) has even symmetry, we can find \(a_{n}\) by integrating the expression over a half-cycle only using Eq. (6.14). The
+
+Figure 6.18: **(a)** A clipped sinusoid \(\cos\omega_{0}t\). **(b)** The distortion component \(x_{d}(t)\) of the signal in (a).
+
+straightforward evaluation of the appropriate integral yields\({}^{\dagger}\)
+
+\[C_{n}=\left\{\begin{array}{ll}\frac{20}{\pi}\left[\frac{\sin[0.6435(n+1)]}{n+1}+ \frac{\sin\left[0.6435(n-1)\right]}{n-1}\right]-\frac{32}{\pi}\left[\frac{\sin \left(0.6435n\right)}{n}\right]&n\;\mbox{odd}\\ 0&n\;\mbox{even}\end{array}\right.\]
+
+Computing the coefficients \(C_{1}\), \(C_{2}\), \(C_{3}\), \(\ldots\) from this expression, we can write
+
+\[y_{d}(t)=1.04\cos\omega_{0}t+0.733\cos 3\omega_{0}t+0.311\cos 5\omega_{0}t+\cdot\cdot\cdot\]
+
+Computing Harmonic Distortion
+
+We can compute the amount of harmonic distortion in the output signal by computing the power of the distortion component \(y_{d}(t)\). Because \(y_{d}(t)\) is an even function of \(t\) and because the energy in the first half-cycle is identical to the energy in the second half-cycle, we can compute the power by averaging the energy over a quarter-cycle. Thus,
+
+\[P_{y_{d}} =\frac{1}{T_{0}}\int_{-T_{0}/2}^{T_{0}/2}\!\!\!y_{d}{}^{2}(t)\,dt =\frac{1}{T_{0}/4}\int_{0}^{T_{0}/4}\!\!\!y_{d}{}^{2}(t)\,dt\] \[=\frac{4}{T_{0}}\int_{0}^{0.1024T_{0}}(10\cos\omega_{0}t-8)^{2}\, dt=0.865\]
+
+The power of the desired signal \(10\cos\omega_{0}t\) is \((10)^{2}/2=50\). Hence, the total harmonic distortion is\({}^{\ddagger}\)
+
+\[D_{\rm tot}=\frac{0.865}{50}\times 100=1.73\%\]
+
+The power of the third harmonic components of \(y_{d}(t)\) is \((0.733)^{2}/2=0.2686\). The third harmonic distortion is
+
+\[D_{3}=\frac{0.2686}{50}\times 100=0.5372\%\]
+
+thereby eliminating the need for integration by parts.+ Differentiating \(x(t)\) twice yields a pair of shifted impulse trains, weighted by \(\pm 4A\). This second differentiation eliminates the need for any integration whatsoever, since the Fourier series coefficients of an impulse train are known to be \(\frac{1}{T_{0}}\) (see Ex. 6.9).
+
+Footnote †: \({}^{\dagger}\) Differentiation also destroys the dc component of the signal, providing further justification as to why the dc component needs to be separately computed.
+
+Stated mathematically, we see that
+
+\[\frac{d^{2}}{dt^{2}}x(t)=4A\delta_{2}(t+\tfrac{1}{2})-4A\delta_{2}(t-\tfrac{1} {2})\]
+
+Transforming this expression and using the Fourier series properties of scalar multiplication, addition, frequency shifting, and time differentiation yield (for \(n\neq 0\))
+
+\[(jn\pi)^{2}D_{n}=4A\frac{e^{jn\omega_{0}/2}}{2}-4A\frac{e^{-jn\omega_{0}/2}}{2}\]
+
+Substituting \(\omega_{0}=2\pi/T_{0}=\pi\) and solving for \(D_{n}\) yield
+
+\[D_{n}=4A\frac{e^{i\pi/2}-e^{-jn\pi/2}}{-2n^{2}\pi^{2}}\]
+
+Combining with the dc component and simplifying expressions, the final result is
+
+\[D_{n}=\left\{\begin{array}{cc}0&n=0\\ \frac{-A4\sin(n\pi/2)}{n^{2}\pi^{2}}&n\neq 0\end{array}\right.\]
+
+Overall, this is a neat way to determine the signal's spectrum. Through the selective use of properties, we have determined \(D_{n}\) without any integration. With a little care, this basic approach can yield the spectrum of _any piecewise polynomial periodic function_. Since all periodic functions of practical interest to engineers can, to an arbitrary level of accuracy, be represented as piecewise polynomial functions, we can always find their spectra without integration except for the dc term \(D_{0}\).
+
+Using a Truncated Fourier Series to Verify Spectrum Correctness
+
+While a signal's spectrum \(D_{n}\) provides useful insight into signal character, it can be difficult to look at \(D_{n}\) and know that it is correct for a particular signal \(x(t)\). For example, is it at all obvious that \(D_{n}=\frac{4A\gamma\sin(n\pi/2)}{-n^{2}\pi^{2}}\) is the spectrum for the triangle wave of Fig. 6.4? Probably not.
+
+There is an easy way, however, to verify a signal's spectrum: synthesize \(x(t)\) using a suitable truncation of Eq. (6.19). If the synthesized signal closely matches the original, we can be relatively certain that the spectrum \(D_{n}\) is correct. What is a suitable truncation? Well, it depends. All significant \(D_{n}\) terms need to be included, but not so many as to make the reconstruction impractical to compute. Since in the present case \(D_{n}\) decays at a rate \(1/n^{2}\), a good approximation is possible with a relatively few number of terms; a 10-harmonic truncation should be just fine. Let us use MATLAB to synthesize \(x(t)\) using a 10-harmonic truncated Fourier series.
+
+To begin, we define \(A\), \(D_{n}\), \(T_{0}\), \(\omega_{0}\), and a time vector that spans two periods of the waveform.
+
+>> A = 1; D = @(n) -A*4j*sin(n*pi/2)./(n.^2*pi^2); >> T0 = 2; omega0 = 2*pi/T0; t = (-T0:.001:T0); Next, we set the dc portion of the signal.
+
+>> D0 = 0; x10 = D0*ones(size(t)); To add the desired 10 harmonics, we enter a loop for \(1\leq n\leq 10\) and add in the \(D_{n}\) and \(D_{-n}\) terms. Although \(x(t)\) should be real, small round-off errors cause the reconstruction to be complex. These small imaginary parts are removed using the real command.
+
+>> for n = 1:10, >> x10 = x10+real(D(n)*exp(1j*omega0*n*t)+D(-n)*exp(-1j*omega0*n*t)); >> end Lastly, we plot the resulting truncated Fourier series synthesis of \(x(t)\).
+
+>> plot(t,x10,'k'); xlabel('t'); ylabel('x_{10}(t)'); Since the synthesized waveform shown in Fig. 6.19 closely matches the original waveform in Fig. 6.4, we have high confidence that the computed \(D_{n}\) are correct.
+
+### 6.4 LTIC System Response to Periodic Inputs
+
+A periodic signal can be expressed as a sum of everlasting exponentials (or sinusoids). We also know how to find the response of an LTIC system to an everlasting exponential. From this information, we can readily determine the response of an LTIC system to periodic inputs. A periodic signal \(x(t)\) with period \(T_{0}\) can be expressed as an exponential Fourier series
+
+\[x(t)=\sum_{n=-\infty}^{\infty}D_{n}e^{in_{0}t}\qquad\omega_{0}=\frac{2\pi}{T_ {0}}\]
+
+Figure 6.19: A 10-harmonic truncated Fourier series of \(x(t)\).
+
+In Sec. 4.8, we showed that the response of an LTIC system with transfer function \(H(s)\) to an everlasting exponential input \(e^{iout}\) is an everlasting exponential \(H(j\omega)e^{iout}\). This input-output pair can be displayed as+
+
+Footnote †: margin: This result applies only to asymptotically stable systems. This is because when \(s=j\omega\), the integral on the right-hand side of Eq. (2.39) does not converge for unstable systems. Moreover, for marginally stable systems also, that integral does not converge in the ordinary sense, and \(H(j\omega)\) cannot be obtained from \(H(s)\) by replacing \(s\) with \(j\omega\).
+
+\[\underbrace{e^{iout}}_{\text{input}}\Longrightarrow\underbrace{H(j\omega)e^{ iout}}_{\text{output}}\]
+
+Therefore, from the linearity property,
+
+\[\underbrace{\sum_{n=-\infty}^{\infty}D_{n}e^{im\omega_{0}t}}_{\text{input}\ x(t)} \Longrightarrow\underbrace{\sum_{n=-\infty}^{\infty}D_{n}H(j\omega_{0})e^{ im\omega_{0}t}}_{\text{response}\ y(t)} \tag{6.29}\]
+
+The response \(y(t)\) is obtained in the form of an exponential Fourier series and is therefore a periodic signal of the same period as that of the input.
+
+We shall demonstrate the utility of these results by the following example.
+
+**Example 6.12**: **Full-Wave Rectifier**
+
+A full-wave rectifier (Fig. 6.20a) is used to obtain a dc signal from a sinusoid \(\sin\,t\). The rectified signal \(x(t)\), depicted in Fig. 6.17, is applied to the input of a lowpass \(RC\) filter, which suppresses the time-varying component and yields a dc component with some residual ripple. Find the filter output \(y(t)\). Find also the dc output and the rms value of the ripple voltage.
+
+First, we shall find the Fourier series for the rectified signal \(x(t)\), whose period is \(T_{0}=\pi\). Consequently, \(\omega_{0}=2\), and
+
+\[x(t)=\sum_{n=-\infty}^{\infty}D_{n}e^{i2nt}\]
+
+where
+
+\[D_{n}=\frac{1}{\pi}\int_{0}^{\pi}\sin t\,e^{-j2nt}\,dt=\frac{2}{\pi\left(1-4n ^{2}\right)} \tag{6.30}\]
+
+Therefore,
+
+\[x(t)=\sum_{n=-\infty}^{\infty}\frac{2}{\pi\left(1-4n^{2}\right)}e^{i2nt}\]Next, we find the transfer function of the \(RC\) filter in Fig. 6.20a. This filter is identical to the \(RC\) circuit in Ex. 1.17 (Fig. 1.35) for which the differential equation relating the output (capacitor voltage) to the input \(x(t)\) was found to be [Eq. (1.31)]:
+
+\[(3D+1)y(t)=x(t)\]
+
+The transfer function \(H(s)\) for this system is found from Eq. (2.41) as
+
+\[H(s)=\frac{1}{3s+1}\]
+
+and
+
+\[H(j\omega)=\frac{1}{3j\omega+1} \tag{6.31}\]
+
+From Eq. (6.29), the filter output \(y(t)\) can be expressed as (with \(\omega_{0}=2\))
+
+\[y(t)=\sum_{n=-\infty}^{\infty}D_{n}H(jn\omega_{0})e^{jn\omega_{0}t}=\sum_{n=- \infty}^{\infty}D_{n}H(j2n)e^{j2nt}\]
+
+Substituting \(D_{n}\) and \(H(j2n)\) from Eqs. (6.30) and (6.31) in the foregoing equation, we obtain
+
+\[y(t)=\sum_{n=-\infty}^{\infty}\frac{2}{\pi(1-4n^{2})(j6n+1)}e^{j2nt}\]
+
+Figure 6.20: **(a)** Full-wave rectifier with a lowpass filter and **(b)** its output.
+
+Note that the output \(y(t)\) is also a periodic signal given by the exponential Fourier series on the right-hand side. The output is shown in Fig. 6.20b.
+
+The output Fourier series coefficient corresponding to \(n=0\) is the dc component of the output, given by \(2/\pi\). The remaining terms in the Fourier series constitute the unwanted component called the ripple. We can determine the rms value of the ripple voltage by using Eq. (6.27) to find the power of the ripple component. The power of the ripple is the power of all the components except the dc (\(n=0\)). Note that \(\hat{D}_{n}\), the exponential Fourier coefficient for the output \(y(t)\), is
+
+\[\hat{D}_{n}=\frac{2}{\pi(1-4n^{2})(j6n+1)}\]
+
+Therefore, from Eq. (6.28), we have
+
+\[P_{\rm ripple}=2\sum_{n=1}^{\infty}|D_{n}|^{2}=2\sum_{n=1}^{\infty}\left|\frac{ 2}{\pi(1-4n^{2})(j6n+1)}\right|^{2}=\frac{8}{\pi^{2}}\sum_{n=1}^{\infty}\frac {1}{(1-4n^{2})^{2}(36n^{2}+1)}\]
+
+Numerical computation of the right-hand side yields \(P_{\rm ripple}=0.0025\), and the ripple rms value \(=\sqrt{P_{\rm ripple}}=0.05\). This shows that the rms ripple voltage is 5% of the amplitude of the input sinusoid.
+
+### 6.4 Why Use Exponentials?
+
+The exponential Fourier series is just another way of representing trigonometric Fourier series (or vice versa). The two forms carry identical information--no more, no less. The reasons for preferring the exponential form have already been mentioned: this form is more compact, and the expression for deriving the exponential coefficients is also more compact than those in the trigonometric series. Furthermore, the LTIC system response to exponential signals is also simpler (more compact) than the system response to sinusoids. In addition, the exponential form proves to be much easier than the trigonometric form to manipulate mathematically and otherwise handle in the area of signals as well as systems. Moreover, exponential representation proves much more convenient for analysis of complex \(x(t)\). For these reasons, in our future discussion we shall use the exponential form exclusively.
+
+A minor disadvantage of the exponential form is that it cannot be visualized as easily as sinusoids. For intuitive and qualitative understanding, the sinusoids have the edge over exponentials. Fortunately, this difficulty can be overcome readily because of the close connection between exponential and Fourier spectra. For the purpose of mathematical analysis, we shall continue to use exponential signals and spectra; but to understand the physical situation intuitively or qualitatively, we shall speak in terms of sinusoids and trigonometric spectra. Thus, although all mathematical manipulation will be in terms of exponential spectra, we shall now speak of exponential and sinusoids interchangeably when we discuss intuitive and qualitative insights in attempting to arrive at an understanding of physical situations. This is an important point; readers should make an extra effort to familiarize themselves with the two forms of spectra, their relationships, and their convertibility.
+
+### 6.5-1 Component of a Vector
+
+A vector is specified by its magnitude and its direction. We shall denote all vectors by boldface. For example, \(\mathbf{x}\) is a certain vector with magnitude or length \(|\mathbf{x}|\). For the two vectors \(\mathbf{x}\) and \(\mathbf{y}\) shown in Fig. 6.21, we define their dot (inner or scalar) product as
+
+\[\mathbf{x}\cdot\mathbf{y}=|\mathbf{x}||\mathbf{y}|\cos\theta\]
+
+where \(\theta\) is the angle between these vectors. Using this definition, we can express \(|\mathbf{x}|\), the length of a vector \(\mathbf{x}\), as
+
+\[|\mathbf{x}|^{2}=\mathbf{x}\cdot\mathbf{x}\]
+
+Let the component of \(\mathbf{x}\) along \(\mathbf{y}\) be \(c\mathbf{y}\) as depicted in Fig. 6.21. Geometrically, the component of \(\mathbf{x}\) along \(\mathbf{y}\) is the projection of \(\mathbf{x}\) on \(\mathbf{y}\) and is obtained by drawing a perpendicular from the tip of \(\mathbf{x}\) on the vector \(\mathbf{y}\), as illustrated in Fig. 6.21. What is the mathematical significance of a component of a vector along another vector? As seen from Fig. 6.21, the vector \(\mathbf{x}\) can be expressed in terms of vector \(\mathbf{y}\) as
+
+\[\mathbf{x}=c\mathbf{y}+\mathbf{e}\]
+
+However, this is not the only way to express \(\mathbf{x}\) in terms of \(\mathbf{y}\). From Fig. 6.22, which shows two of the infinite other possibilities, we have
+
+\[\mathbf{x}=c_{1}\mathbf{y}+\mathbf{e}_{1}=c_{2}\mathbf{y}+\mathbf{e}_{2}\]
+
+In each of these three representations, \(\mathbf{x}\) is represented in terms of \(\mathbf{y}\) plus another vector called the _error vector_. If we approximate \(\mathbf{x}\) by \(c\mathbf{y}\),
+
+\[\mathbf{x}\simeq c\mathbf{y}\]
+
+the error in the approximation is the vector \(\mathbf{e}=\mathbf{x}-c\mathbf{y}\). Similarly, the errors in approximations in these drawings are \(\mathbf{e}_{1}\) (Fig. 6.22a) and \(\mathbf{e}_{2}\) (Fig. 6.22b). What is unique about the approximation in Fig. 6.21 is that the error vector is the smallest. We can now define mathematically the component of a vector \(\mathbf{x}\) along vector \(\mathbf{y}\) to be \(c\mathbf{y}\) where \(c\) is chosen to minimize the length of the error vector \(\mathbf{e}=\mathbf{x}-c\mathbf{y}\). Now, the length of the component of \(\mathbf{x}\) along \(\mathbf{y}\) is \(|\mathbf{x}|\cos\theta\). But it is also \(c|\mathbf{y}|\), as seen from Fig. 6.21. Therefore,
+
+\[c|\mathbf{y}|=|\mathbf{x}|\cos\theta\]
+
+Multiplying both sides by \(|\mathbf{y}|\) yields
+
+\[c|\mathbf{y}|^{2}=|\mathbf{x}||\mathbf{y}|\cos\theta=\mathbf{x}\cdot\mathbf{y}\]
+
+Figure 6.21: Component (projection) of a vector along another vector.
+
+Therefore,
+
+\[c=\frac{\mathbf{x}\cdot\mathbf{y}}{\mathbf{y}\cdot\mathbf{y}}=\frac{1}{|\mathbf{y} |^{2}}\,\mathbf{x}\cdot\mathbf{y} \tag{6.32}\]
+
+From Fig. 6.21, it is apparent that when \(\mathbf{x}\) and \(\mathbf{y}\) are perpendicular, or orthogonal, then \(\mathbf{x}\) has a zero component along \(\mathbf{y}\); consequently, \(c=0\). Keeping an eye on Eq. (6.32), we therefore define \(\mathbf{x}\) and \(\mathbf{y}\) to be _orthogonal_ if the inner (scalar or dot) product of the two vectors is zero, that is, if
+
+\[\mathbf{x}\cdot\mathbf{y}=0\]
+
+### 5.5-2 Signal Comparison and Component of a Signal
+
+The concept of a vector component and orthogonality can be extended to signals. Consider the problem of approximating a real signal \(x(t)\) in terms of another real signal \(y(t)\) over an interval \((t_{1},t_{2})\):
+
+\[x(t)\simeq cy(t)\qquad t_{1}<t<t_{2}\]
+
+The error \(e(t)\) in this approximation is
+
+\[e(t)=\begin{cases}x(t)-cy(t)&\quad t_{1}<t<t_{2}\\ 0&\quad\text{otherwise}\end{cases}\]
+
+We now select a criterion for the "best approximation." We know that the signal energy is one possible measure of a signal size. For best approximation, we shall use the criterion that minimizes the size or energy of the error signal \(e(t)\) over the interval \((t_{1},t_{2})\). This energy \(E_{e}\) is given by
+
+\[E_{e}=\int_{t_{1}}^{t_{2}}e^{2}(t)\,dt=\int_{t_{1}}^{t_{2}}[x(t)-cy(t)]^{2}\,dt\]
+
+Note that the right-hand side is a definite integral with \(t\) as the dummy variable. Hence, \(E_{e}\) is a function of the parameter \(c\) (not \(t\)) and \(E_{e}\) is minimum for some choice of \(c\). To minimize \(E_{e}\), a necessary condition is
+
+\[\frac{dE_{e}}{dc}=0\]
+
+or
+
+\[\frac{d}{dc}\left[\int_{t_{1}}^{t_{2}}[x(t)-cy(t)]^{2}\,dt\right]=0\]
+
+Figure 6.22: Approximation of a vector in terms of another vector.
+
+Expanding the squared term inside the integral, we obtain
+
+\[\frac{d}{dc}\left[\int_{t_{1}}^{t_{2}}x^{2}(t)\,dt\right]-\frac{d}{dc}\left[2c \int_{t_{1}}^{t_{2}}x(t)y(t)\,dt\right]+\frac{d}{dc}\left[c^{2}\int_{t_{1}}^{t_ {2}}y^{2}(t)\,dt\right]=0\]
+
+from which we get
+
+\[-2\int_{t_{1}}^{t_{2}}x(t)y(t)\,dt+2c\int_{t_{1}}^{t_{2}}y^{2}(t)\,dt=0\]
+
+\[c=\frac{\int_{t_{1}}^{t_{2}}x(t)y(t)\,dt}{\int_{t_{1}}^{t_{2}}y^{2}(t)\,dt}= \frac{1}{E_{y}}\int_{t_{1}}^{t_{2}}x(t)y(t)\,dt \tag{6.33}\]
+
+We observe a remarkable similarity between the behavior of vectors and signals, as indicated by Eqs. (6.32) and (6.33). It is evident from these two parallel expressions that _the area under the product of two signals corresponds to the inner (scalar or dot) product of two vectors_. In fact, the area under the product of \(x(t)\) and \(y(t)\) is called the _inner product_ of \(x(t)\) and \(y(t)\), and is denoted by \((x,y)\). The energy of a signal is the inner product of a signal with itself, and corresponds to the vector length square (which is the inner product of the vector with itself).
+
+To summarize our discussion, if a signal \(x(t)\) is approximated by another signal \(y(t)\) as
+
+\[x(t)\simeq cy(t)\]
+
+then the optimum value of \(c\) that minimizes the energy of the error signal in this approximation is given by Eq. (6.33).
+
+Taking our clue from vectors, we say that a signal \(x(t)\) contains a component \(cy(t)\), where \(c\) is given by Eq. (6.33). Note that in vector terminology, \(cy(t)\) is the projection of \(x(t)\) on \(y(t)\). Continuing with the analogy, we say that if the component of a signal \(x(t)\) of the form \(y(t)\) is zero (i.e., \(c=0\)), the signals \(x(t)\) and \(y(t)\) are orthogonal over the interval \((t_{1},t_{2})\). Therefore, we define the real signals \(x(t)\) and \(y(t)\) to be orthogonal over the interval \((t_{1},t_{2})\) if+
+
+Footnote †: margin: \(\dagger\) For complex signals, the definition is modified as in Eq. (6.37), in Sec. 6.5-3.
+
+\[\int_{t_{1}}^{t_{2}}x(t)y(t)\,dt=0 \tag{6.34}\]
+
+## 7 Example 6.13 **Sine-Wave Approximation of a Square Wave**
+
+For the square signal \(x(t)\) shown in Fig. 6.23, find the component in \(x(t)\) of the form \(\sin t\). In other words, approximate \(x(t)\) in terms of \(\sin t\)
+
+\[x(t)\simeq c\sin t\qquad 0<t<2\pi\]
+
+so that the energy of the error signal is minimum.
+
+In this case,
+
+\[y(t)=\sin t\qquad\text{and}\qquad E_{y}=\int_{0}^{2\pi}\sin^{2}(t)\,dt=\pi\]
+
+From Eq. (6.33), we find
+
+\[c=\frac{1}{\pi}\int_{0}^{2\pi}x(t)\sin t\,dt=\frac{1}{\pi}\left[\int_{0}^{\pi} \sin t\,dt+\int_{\pi}^{2\pi}-\sin t\,dt\right]=\frac{4}{\pi}\]
+
+Thus,
+
+\[x(t)\simeq\frac{4}{\pi}\sin t\]
+
+represents the best approximation of \(x(t)\) by the function \(\sin t\), which will minimize the error energy. This sinusoidal component of \(x(t)\) is shaded in Fig. 6.23. By analogy with vectors, we say that the square function \(x(t)\) depicted in Fig. 6.23 has a component of signal \(\sin t\) and that the magnitude of this component is \(4/\pi\).
+
+### 6.7 Sine Wave Approximation of a Ramp Function
+
+Show that over an interval \((-\pi<t<\pi)\), the "best" approximation of the signal \(x(t)=t\) in terms of the function \(\sin t\) is \(2\sin t\). Verify that the error signal \(e(t)=t-2\sin t\) is orthogonal to the signal \(\sin t\) over the interval \(-\pi<t<\pi\). Sketch the signals \(t\) and \(2\sin t\) over the interval \(-\pi<t<\pi\).
+
+### 6.5-3 Extension to Complex Signals
+
+So far we have restricted ourselves to real functions of \(t\). To generalize the results to complex functions of \(t\), consider again the problem of approximating a signal \(x(t)\) by a signal \(y(t)\) over an
+
+Figure 6.23: Approximation of a square wave in terms of a single sinusoid.
+
+interval (\(t_{1}<t<t_{2}\)):
+
+\[x(t)\simeq cy(t)\]
+
+where \(x(t)\) and \(y(t)\) now can be complex functions of \(t\). Recall that the energy \(E_{y}\) of the complex signal \(y(t)\) over an interval (\(t_{1},t_{2}\)) is
+
+\[E_{y}=\int_{t_{1}}^{t_{2}}\left|y(t)\right|^{2}dt\]
+
+In this case, both the coefficient \(c\) and the error
+
+\[e(t)=x(t)-cy(t)\]
+
+are complex (in general). For the "best" approximation, we choose \(c\) to minimize the energy \(E_{e}\) of the error signal \(e(t)\). Now,
+
+\[E_{e}=\int_{t_{1}}^{t_{2}}\left|x(t)-cy(t)\right|^{2}dt \tag{6.35}\]
+
+Recall also that
+
+\[|u+v|^{2}=(u+v)(u^{*}+v^{*})=|u|^{2}+|v|^{2}+u^{*}v+uv^{*} \tag{6.36}\]
+
+After some manipulation, we can use this result to rearrange Eq. (6.35) as
+
+\[E_{e}=\int_{t_{1}}^{t_{2}}\left|x(t)\right|^{2}dt-\left|\frac{1}{\sqrt{E_{y}} }\int_{a}^{t_{2}}x(t)y^{*}(t)\,dt\right|^{2}+\left|c\sqrt{E_{y}}-\frac{1}{ \sqrt{E_{y}}}\int_{t_{1}}^{t_{2}}x(t)y^{*}(t)\,dt\right|^{2}\]
+
+Since the first two terms on the right-hand side are independent of \(c\), it is clear that \(E_{e}\) is minimized by choosing \(c\) so that the third term on the right-hand side is zero. This yields
+
+\[c=\frac{1}{E_{y}}\int_{t_{1}}^{t_{2}}x(t)y^{*}(t)\,dt\]
+
+In light of this result, we need to redefine orthogonality for the complex case as follows: two complex functions \(x_{1}(t)\) and \(x_{2}(t)\) are orthogonal over an interval (\(t_{1}<t<t_{2}\)) if
+
+\[\int_{t_{1}}^{t_{2}}x_{1}(t)x_{2}^{*}(t)\,dt=0\qquad\text{or}\qquad\int_{t_{ 1}}^{t_{2}}x_{1}^{*}(t)x_{2}(t)\,dt=0 \tag{6.37}\]
+
+Either equality suffices. This is a general definition of orthogonality, which reduces to Eq. (6.34) when the functions are real.
+
+### 6.8 Complex Exponential Approximation of a Square Wave
+
+Show that over an interval (\(0<t<2\pi\)), the "best" approximation of the square signal \(x(t)\) in Fig. 6.23 in terms of the signal \(e^{it}\) is given by \((2/j\pi)\,e^{it}\). Verify that the error signal \(e(t)=x(t)-(2/j\pi)\,e^{it}\) is orthogonal to the signal \(e^{it}\).
+
+### Energy of the Sum of Orthogonal Signals
+
+We know that the square of the length of a sum of two orthogonal vectors is equal to the sum of the squares of the lengths of the two vectors. Thus, if vectors \(\mathbf{x}\) and \(\mathbf{y}\) are orthogonal, and if \(\mathbf{z}=\mathbf{x}+\mathbf{y}\), then
+
+\[\left|\mathbf{z}\right|^{2}=\left|\mathbf{x}\right|^{2}+\left|\mathbf{y}\right| ^{2}\]
+
+We have a similar result for signals. The energy of the sum of two orthogonal signals is equal to the sum of the energies of the two signals. Thus, if signals \(x(t)\) and \(y(t)\) are orthogonal over an interval \((t_{1},t_{2})\), and if \(z(t)=x(t)+y(t)\), then
+
+\[E_{z}=E_{x}+E_{y}\]
+
+We now prove this result for complex signals, of which real signals are a special case. From Eq. (6.36), it follows that
+
+\[\int_{t_{1}}^{t_{2}}\left|x(t)+y(t)\right|^{2}dt =\int_{t_{1}}^{t_{2}}\left|x(t)\right|^{2}dt+\int_{t_{1}}^{t_{2}} \left|y(t)\right|^{2}dt+\int_{t_{1}}^{t_{2}}x(t)y^{*}(t)\,dt+\int_{t_{1}}^{t_{2 }}x^{*}(t)y(t)\,dt\] \[=\int_{t_{1}}^{t_{2}}\left|x(t)\right|^{2}dt+\int_{t_{1}}^{t_{2}} \left|y(t)\right|^{2}dt\]
+
+The last result follows from the fact that because of orthogonality, the two integrals of the products \(x(t)y^{*}(t)\) and \(x^{*}(t)y(t)\) are zero [see Eq. (6.37)]. This result can be extended to the sum of any number of mutually orthogonal signals.
+
+### Signal Representation by an Orthogonal Signal Set
+
+In this section we show a way of representing a signal as a sum of orthogonal signals. Here again we can benefit from the insight gained from a similar problem in vectors. We know that a vector can be represented as a sum of orthogonal vectors, which form the coordinate system of a vector space. The problem in signals is analogous, and the results for signals are parallel to those for vectors. So, let us review the case of vector representation.
+
+### Orthogonal Vector Space
+
+Let us investigate a three-dimensional Cartesian vector space described by three mutually orthogonal vectors \(\mathbf{x}_{1}\), \(\mathbf{x}_{2}\), and \(\mathbf{x}_{3}\), as illustrated in Fig. 6.24. First, we shall seek to approximate a three-dimensional vector \(\mathbf{x}\) in terms of two mutually orthogonal vectors \(\mathbf{x}_{1}\) and \(\mathbf{x}_{2}\):
+
+\[\mathbf{x}\simeq c_{1}\mathbf{x}_{1}+c_{2}\mathbf{x}_{2}\]
+
+The error \(\mathbf{e}\) in this approximation is
+
+\[\mathbf{e}=\mathbf{x}-(c_{1}\mathbf{x}_{1}+c_{2}\mathbf{x}_{2})\]
+
+or
+
+\[\mathbf{x}=c_{1}\mathbf{x}_{1}+c_{2}\mathbf{x}_{2}+\mathbf{e}\]As in the earlier geometrical argument, we see from Fig. 6.24 that the length of \(\mathbf{e}\) is minimum when \(\mathbf{e}\) is perpendicular to the \(\mathbf{x}_{1}\)-\(\mathbf{x}_{2}\) plane, and \(c_{1}\mathbf{x}_{1}\) and \(c_{2}\mathbf{x}_{2}\) are the projections (components) of \(\mathbf{x}\) on \(\mathbf{x}_{1}\) and \(\mathbf{x}_{2}\), respectively. Therefore, the constants \(c_{1}\) and \(c_{2}\) are given by Eq. (6.32). Observe that the error vector is orthogonal to both the vectors \(\mathbf{x}_{1}\) and \(\mathbf{x}_{2}\).
+
+Now, let us determine the "best" approximation to \(\mathbf{x}\) in terms of all three mutually orthogonal vectors \(\mathbf{x}_{1}\), \(\mathbf{x}_{2}\), and \(\mathbf{x}_{3}\):
+
+\[\mathbf{x}\simeq c_{1}\mathbf{x}_{1}+c_{2}\mathbf{x}_{2}+c_{3}\mathbf{x}_{3} \tag{6.38}\]
+
+Figure 6.24 shows that a unique choice of \(c_{1}\), \(c_{2}\), and \(c_{3}\) exists, for which Eq. (6.38) is no longer an approximation but an equality
+
+\[\mathbf{x}=c_{1}\mathbf{x}_{1}+c_{2}\mathbf{x}_{2}+c_{3}\mathbf{x}_{3}\]
+
+In this case, \(c_{1}\mathbf{x}_{1},c_{2}\mathbf{x}_{2}\), and \(c_{3}\mathbf{x}_{3}\) are the projections (components) of \(\mathbf{x}\) on \(\mathbf{x}_{1},\mathbf{x}_{2}\), and \(\mathbf{x}_{3}\), respectively; that is,
+
+\[c_{i}=\frac{\mathbf{x}\cdot\mathbf{x}_{i}}{\mathbf{x}_{i}\cdot\mathbf{x}_{i}} =\frac{1}{\left|\mathbf{x}_{i}\right|^{2}}\,\mathbf{x}\cdot\mathbf{x}_{i} \qquad i=1,2,3 \tag{6.39}\]
+
+Note that the error in the approximation is zero when \(\mathbf{x}\) is approximated in terms of three mutually orthogonal vectors: \(\mathbf{x}_{1}\), \(\mathbf{x}_{2}\), and \(\mathbf{x}_{3}\). The reason is that \(\mathbf{x}\) is a three-dimensional vector, and the vectors \(\mathbf{x}_{1}\), \(\mathbf{x}_{2}\), and \(\mathbf{x}_{3}\) represent a _complete set_ of orthogonal vectors in three-dimensional space. Completeness here means that it is impossible to find another vector \(\mathbf{x}_{4}\) in this space, which is orthogonal to all three vectors, \(\mathbf{x}_{1},\mathbf{x}_{2}\), and \(\mathbf{x}_{3}\). Any vector in this space can then be represented (with zero error) in terms of these three vectors. Such vectors are known as _basis_ vectors. If a set of vectors \(\{\mathbf{x}_{i}\}\) is not complete, the error in the approximation will generally not be zero. Thus, in the three-dimensional case discussed earlier, it is generally not possible to represent a vector \(\mathbf{x}\) in terms of only two basis vectors without an error.
+
+The choice of basis vectors is not unique. In fact, a set of basis vectors corresponds to a particular choice of coordinate system. Thus, a three-dimensional vector \(\mathbf{x}\) may be represented in many different ways, depending on the coordinate system used.
+
+Figure 6.24: Representation of a vector in three-dimensional space.
+
+## Orthogonal Signal Space
+
+We start with real signals and then extend the discussion to complex signals. We proceed with our signal approximation problem, using clues and insights developed for vector approximation. As before, we define orthogonality of a real signal set \(x_{1}(t),x_{2}(t),\,\ldots,\,x_{N}(t)\) over interval \((t_{1},t_{2})\) as
+
+\[\int_{t_{1}}^{t_{2}}x_{m}(t)x_{n}(t)\,dt=\begin{cases}0&\quad m\neq n\\ E_{n}&\quad m=n\end{cases} \tag{6.40}\]
+
+If the energies \(E_{n}=1\) for all \(n\), then the set is _normalized_ and is called an _orthonormal set_. An orthogonal set can always be normalized by dividing \(x_{n}(t)\) by \(\sqrt{E_{n}}\) for all \(n\).
+
+Now, consider approximating a signal \(x(t)\) over the interval \((t_{1},t_{2})\) by a set of \(N\) real, mutually orthogonal signals \(x_{1}(t)\), \(x_{2}(t),\ldots,x_{N}(t)\) as
+
+\[x(t)\simeq c_{1}x_{1}(t)+c_{2}x_{2}(t)+\cdot\cdot\cdot+c_{N}x_{N}(t)\simeq \sum_{n=1}^{N}c_{n}x_{n}(t) \tag{6.41}\]
+
+In the approximation of Eq. (6.41), the error \(e(t)\) is
+
+\[e(t)=x(t)-\sum_{n=1}^{N}c_{n}x_{n}(t)\]
+
+and \(E_{e}\), the error signal energy, is
+
+\[E_{e}=\int_{t_{1}}^{t_{2}}e^{2}(t)\,dt=\int_{t_{1}}^{t_{2}}\left[x(t)-\sum_{n =1}^{N}c_{n}x_{n}(t)\right]^{2}\,dt \tag{6.42}\]
+
+According to our criterion for best approximation, we select the values of \(c_{i}\) that minimize \(E_{e}\). Hence, the necessary condition is \(\partial E_{e}/dc_{i}=0\) for \(i=1,2,\ldots,N\), that is,
+
+\[\frac{\partial}{\partial c_{i}}\int_{t_{1}}^{t_{2}}\left[x(t)-\sum_{n=1}^{N} c_{n}x_{n}(t)\right]^{2}\,dt=0\]
+
+When we expand the integrand, we find that all the cross-multiplication terms arising from the orthogonal signals are zero by virtue of orthogonality: that is, all terms of the form \(\int x_{m}(t)x_{n}(t)\,dt\) with \(m\neq n\) vanish. Similarly, the derivative with respect to \(c_{i}\) of all terms that do not contain \(c_{i}\) is zero. For each \(i\), this leaves only two nonzero terms:
+
+\[\frac{\partial}{\partial c_{i}}\int_{t_{1}}^{t_{2}}\left[-2c_{i}x(t)x_{i}(t)+ c_{i}^{2}{x_{i}}^{2}(t)\right]dt=0\]or
+
+\[-2\int_{t_{1}}^{t_{2}}x(t)x_{i}(t)\,dt+2c_{i}\int_{t_{1}}^{t_{2}}{x_{i}}^{2}(t)\, dt=0\qquad i=1,2,\ldots,N\]
+
+Therefore,
+
+\[c_{i}=\frac{\int_{t_{1}}^{t_{2}}x(t)x_{i}(t)\,dt}{\int_{t_{1}}^{t_{2}}{x_{i}}^{ 2}(t)\,dt}=\frac{1}{E_{i}}\int_{t_{1}}^{t_{2}}x(t)x_{i}(t)\,dt\qquad i=1,2, \ldots,N \tag{6.43}\]
+
+A comparison of Eq. (6.43) with Eq. (6.39) forcefully brings out the analogy of signals with vectors.
+
+**Finality Property.** Equation (6.43) shows one interesting property of the coefficients of \(c_{1}\), \(c_{2}\), \(\ldots\), \(c_{N}\): the optimum value of any coefficient in Eq. (6.41) is independent of the number of terms used in the approximation. For example, if we used only one term (\(N=1\)) or two terms (\(N=2\)) or any number of terms, the optimum value of the coefficient \(c_{1}\) would be the same [as given by Eq. (6.43)]. The advantage of this approximation of a signal \(x(t)\) by a set of mutually orthogonal signals is that we can continue to add terms to the approximation without disturbing the previous terms. This property of _finality_ of the values of the coefficients is very important from a practical point of view.+
+
+Footnote †: \({}^{\dagger}\) Contrast this situation with a polynomial approximation of \(x(t)\). Suppose we wish to find a two-point approximation of \(x(t)\) by a polynomial in \(t\); that is, the polynomial is to be equal to \(x(t)\) at two points \(t_{1}\) and \(t_{2}\). This can be done by choosing a first-order polynomial \(a_{0}+a_{1}t\) with
+
+\[x(t_{1})=a_{0}+a_{1}t_{1}\qquad\mbox{and}\qquad x(t_{2})=a_{0}+a_{1}t_{2}\]
+
+Solution of these equations yields the desired values of \(a_{0}\) and \(a_{1}\). For a three-point approximation, we must choose the polynomial \(a_{0}+a_{1}t+a_{2}t^{2}\) with
+
+\[x(t_{i})=a_{0}+a_{1}t_{i}+{a_{2}}{t_{i}}^{2}\qquad i=1,2,\,\mbox{and}\,\,3\]
+
+The approximation improves with a larger number of points (higher-order polynomial), but the coefficients \(a_{0}\), \(a_{1}\), \(a_{2}\), \(\ldots\) do not have the finality property. Every time we increase the number of terms in the polynomial, we need to recalculate the coefficients.
+
+Substitution of Eqs. (6.40) and (6.43) in this equation yields
+
+\[E_{e}=\int_{t_{1}}^{t_{2}}x^{2}(t)\,dt+\sum_{n=1}^{N}c_{n}^{2}E_{n}-2\sum_{n=1}^{ N}c_{n}^{2}E_{n}=\int_{t_{1}}^{t_{2}}x^{2}(t)\,dt-\sum_{n=1}^{N}c_{n}^{2}E_{n} \tag{6.44}\]
+
+Observe that because the term \(c_{k}^{2}E_{k}\) is nonnegative, the error energy \(E_{e}\) generally decreases as \(N\), the number of terms, is increased. Hence, it is possible that the error energy \(\to 0\) as \(N\to\infty\). When this happens, the orthogonal signal set is said to be _complete_. In this case, Eq. (6.41) is no more an approximation but an equality
+
+\[x(t)=c_{1}x_{1}(t)+c_{2}x_{2}(t)+\cdot\cdot\cdot+c_{n}x_{n}(t)+\cdot\cdot \cdot=\sum_{n=1}^{\infty}c_{n}x_{n}(t)\qquad t_{1}<t<t_{2} \tag{6.45}\]
+
+where the coefficients \(c_{n}\) are given by Eq. (6.43). Because the error signal energy approaches zero, it follows that the energy of \(x(t)\) is now equal to the sum of the energies of its orthogonal components \(c_{1}x_{1}(t)\), \(c_{2}x_{2}(t)\), \(c_{3}x_{3}(t)\), \(\cdot\cdot\cdot\).
+
+The series on the right-hand side of Eq. (6.45) is called the _generalized Fourier series_ of \(x(t)\) with respect to the set \(\{x_{n}(t)\}\). When the set \(\{x_{n}(t)\}\) is such that the error energy \(E_{e}\to 0\) as \(N\to\infty\) for every member of some particular class, we say that the set \(\{x_{n}(t)\}\) is complete on \((t_{1},t_{2})\) for that class of \(x(t)\), and the set \(\{x_{n}(t)\}\) is called a set of _basis functions_ or _basis signals_. Unless otherwise mentioned, in the future we shall consider only the class of energy signals.
+
+Thus, when the set \(\{x_{n}(t)\}\) is complete, we have the equality of Eq. (6.45). One subtle point that must be understood clearly is the meaning of equality in Eq. (6.45). _The equality here is not an equality in the ordinary sense, but in the sense that the error energy, that is, the energy of the difference between the two sides of Eq. (6.45), approaches zero_. If the equality exists in the ordinary sense, the error energy is always zero, but the converse is not necessarily true. The error energy can approach zero even though \(e(t)\), the difference between the two sides, is nonzero at some isolated instants. The reason is that even if \(e(t)\) is nonzero at such instants, the area under \(e^{2}(t)\) is still zero; thus the Fourier series on the right-hand side of Eq. (6.45) may differ from \(x(t)\) at a finite number of points.
+
+In Eq. (6.45), the energy of the left-hand side is \(E_{x}\), and the energy of the right-hand side is the sum of the energies of all the orthogonal components.2 Thus,
+
+Footnote 2: Note that the energy of a signal \(cx(t)\) is \(c^{2}E_{x}\).
+
+\[\int_{t_{1}}^{t_{2}}x^{2}(t)\,dt=c_{1}^{2}E_{1}+c_{2}^{2}E_{2}+\cdot\cdot\cdot= \sum_{n=1}^{\infty}c_{n}^{2}E_{n} \tag{6.46}\]
+
+This is _Parseval's theorem_ expressed for energy signals. In Eqs. (6.26) and (6.27), we have already encountered Parseval's theorem for power signals. Recall that the signal energy (area under the squared value of a signal) is analogous to the square of the length of a vector in the vector-signal analogy. In vector space, we know that the square of the length of a vector is equal to the sum of the squares of the lengths of its orthogonal components. Parseval's theorem of Eq. (6.46) is the statement of this fact as it applies to signals.
+
+Generalization to Complex Signals
+
+The foregoing results can be generalized to complex signals as follows: a set of functions \(x_{1}(t)\), \(x_{2}(t)\), \(\ldots,x_{N}(t)\) is mutually orthogonal over the interval \((t_{1},\,t_{2})\) if
+
+\[\int_{t_{1}}^{t_{2}}x_{m}(t)x_{n}^{*}(t)\,dt=\begin{cases}0&\quad m\neq n\\ E_{n}&\quad m=n\end{cases}\]
+
+If this set is complete for a certain class of functions, then a function \(x(t)\) in this class can be expressed as
+
+\[x(t)=c_{1}x_{1}(t)+c_{2}x_{2}(t)+\cdot\cdot\cdot+c_{i}x_{i}(t)+\cdot\cdot\cdot\]
+
+where
+
+\[c_{n}=\frac{1}{E_{n}}\int_{t_{1}}^{t_{2}}x(t)x_{n}^{*}(t)\,dt \tag{6.47}\]
+
+**EXAMPLE 6.14 Approximating a Square Wave with a Set of Harmonic Sine Waves**
+
+In Ex. 6.13, the square signal \(x(t)\) in Fig. 6.23 is approximated by a single sinusoid \(\sin t\). In this example, we approximate \(x(t)\) using the set of harmonic sine waves \(\sin t\), \(\sin 2t\), \(\ldots\), \(\sin nt\), \(\ldots\), and see how the approximation improves with the number of terms.
+
+To begin, we note that the set of harmonic sine waves \(\sin t\), \(\sin 2t\), \(\ldots\),\(\sin nt\), \(\ldots\) is orthogonal over any interval of duration \(2\pi\).2 The reader can verify this fact by showing that for any real number \(a\),
+
+Footnote 2: This sine set, along with the cosine set \(\cos 0t\), \(\cos t\), \(\cos 2t\), \(\ldots\),\(\cos nt\), \(\ldots\), forms a complete set. In this case, however, the coefficients \(c_{i}\) corresponding to the cosine terms are zero. For this reason, we have omitted cosine terms in this example. This composite sine and cosine set is the basis set for the trigonometric Fourier series.
+
+\[\int_{a}^{a+2\pi}\sin mt\,\sin nt\,dt=\begin{cases}0&\quad m\neq n\\ \pi&\quad m=n\end{cases} \tag{6.48}\]
+
+Using this set, we approximate \(x(t)\) as
+
+\[x(t)\simeq c_{1}\sin t+c_{2}\sin 2t+\cdot\cdot\cdot+c_{n}\sin Nt\]where
+
+\[c_{n} =\frac{\int_{0}^{2\pi}x(t)\sin nt\,dt}{\int_{0}^{2\pi}\sin^{2}nt\,dt}\] \[=\frac{1}{\pi}\left[\int_{0}^{\pi}\sin nt\,dt+\int_{\pi}^{2\pi}- \sin nt\,dt\right]\] \[=\left\{\begin{array}{ll}\frac{4}{\pi n}&\quad n\text{ odd} \\ 0&\quad n\text{ even}\end{array}\right.\]
+
+Figure 6.25: Approximation of a square wave by a sum of harmonic sinusoids.
+
+Therefore, \[x(t)\simeq\frac{4}{\pi}\bigg{(}\sin t+\frac{1}{3}\sin 3t+\frac{1}{5}\sin 5t+ \cdot\cdot\cdot+\frac{1}{N}\sin Nt\bigg{)}\] (6.49) Note that coefficients of terms \(\sin kt\) are zero for even values of \(k\). Figure 6.25 shows how the approximation improves as we increase the number of terms in the series.
+
+Let us investigate the error signal energy as \(N\to\infty\). From Eq. (6.44),
+
+\[E_{e}=\int_{0}^{2\pi}x^{2}(t)\,dt-\sum_{n=1}^{\infty}c_{n}^{2}E_{n}\]
+
+Note that
+
+\[\int_{0}^{2\pi}x^{2}(t)\,dt =\int_{0}^{\pi}1^{2}\,dt+\int_{\pi}^{2\pi}-1^{2}\,dt=2\pi\] \[c_{n}^{2} =\begin{cases}\frac{16}{n^{2}\pi^{2}}&\text{$n$ odd}\\ 0&\text{$n$ even}\end{cases}\]
+
+and from Eq. (6.48),
+
+\[E_{n}=\pi\]
+
+Therefore,
+
+\[E_{e}=2\pi-\sum_{n=1,3,5,\ldots}^{N}\frac{16}{n^{2}\pi^{2}}\pi=2\pi-\frac{16} {\pi}\sum_{n=1,3,5,\ldots}^{N}\frac{1}{n^{2}}\]
+
+For a single-term approximation (\(N=1\)),
+
+\[E_{e}=2\pi-\frac{16}{\pi}=1.1938\]
+
+For a two-term approximation (\(N=3\)),
+
+\[E_{e}=2\pi-\frac{16}{\pi}\left(1+\frac{1}{9}\right)=0.6243\]
+
+Continuing this process, we compute the error energy \(E_{e}\) for various values of \(N\) as
+
+\[\begin{array}{c|cccc}N&1&3&5&7&99&\infty\\ \hline E_{e}&1.1938&0.6243&0.4206&0.3166&0.02545&0\end{array}\]
+
+Clearly, \(x(t)\) can be represented by the infinite series
+
+\[x(t)=\frac{4}{\pi}\bigg{(}\sin t+\frac{1}{3}\sin 3t+\frac{1}{5}\sin 5t+\cdot \cdot\cdot\bigg{)}=\frac{4}{\pi}\sum_{n=1,3,5,\ldots}^{\infty}\frac{1}{n} \sin nt\]The equality exists in the sense that the error signal energy \(\to 0\) as \(N\to\infty\). In this case, the error energy decreases rather slowly with \(N\), indicating that the series converges slowly. This is to be expected because \(x(t)\) has jump discontinuities and consequently, according to discussion in Sec. 6.2-2, the series converges asymptotically as \(1/n\).
+
+### 6.9 Approximating a Ramp Signal with a Set of Harmonic Sine Waves
+
+Approximate the signal \(x(t)=t-\pi\) (Fig. 6.26) over the interval \((0,2\pi)\) in terms of the set of sinusoids \(\{\sin nt\}\), \(n=0,1,2,\ldots\), used in Ex. 6.14. Find \(E_{e}\), the error energy. Show that \(E_{e}\to 0\) as \(N\to\infty\).
+
+### 6.10 Sample Examples of Generalized Fourier Series
+
+Signals are vectors in every sense. Like a vector, a signal can be represented as a sum of its components in a variety of ways. Just as vector coordinate systems are formed by mutually orthogonal vectors (rectangular, cylindrical, spherical), we also have signal coordinate systems (basis signals) formed by a variety of sets of mutually orthogonal signals. There exist a large number of orthogonal signal sets that can be used as basis signals for generalized Fourier series. Some well-known signal sets are trigonometric (sinusoid) functions, exponential functions, Walsh functions, Bessel functions, Legendre polynomials, Laguerre functions, Jacobi polynomials, Hermite polynomials, and Chebyshev polynomials. The functions that concern us most in this book are the trigonometric and the exponential sets discussed earlier in this chapter.
+
+Figure 6.26: Ramp signal for Drill 6.9.
+
+From Eq. (6.50), we know that the Legendre Fourier series takes the form
+
+\[x(t)=c_{0}P_{0}(t)+c_{1}P_{1}(t)+\cdot\cdot\cdot+c_{r}P_{r}(t)+\cdot\cdot\cdot\]
+
+The coefficients \(c_{0},c_{1},c_{2},\ldots,c_{r}\) may be found from Eq. (6.51). We have
+
+\[x(t)=\begin{cases}1&\cdot\cdot\cdot-1<t<0\\ -1&\cdot\cdot\cdot 0<t<1\end{cases}\]
+
+and
+
+\[c_{0} =\frac{1}{2}\int_{-1}^{1}x(t)\,dt=0\] \[c_{1} =\frac{3}{2}\int_{-1}^{1}tx(t)\,dt=\frac{3}{2}\left(\int_{-1}^{0} t\,dt-\int_{0}^{1}t\,dt\right)=-\frac{3}{2}\] \[c_{2} =\frac{5}{2}\int_{-1}^{1}x(t)\left(\frac{3}{2}t^{2}-\frac{1}{2} \right)dt=0\]
+
+This result follows immediately from the fact that the integrand is an odd function of \(t\). In fact, this is true of all \(c_{r}\) for even values of \(r\), that is,
+
+\[c_{0}=c_{2}=c_{4}=c_{6}=\cdot\cdot\cdot=0\]
+
+Also,
+
+\[c_{3}=\frac{7}{2}\int_{-1}^{1}x(t)\left(\frac{5}{2}t^{3}-\frac{3}{2}t\right) dt=\frac{7}{2}\left[\int_{-1}^{0}\left(\frac{5}{2}t^{3}-\frac{3}{2}t\right) dt-\int_{0}^{1}\left(\frac{5}{2}t^{3}-\frac{3}{2}t\right)dt\right]=\frac{7}{8}\]
+
+In a similar way, coefficients \(c_{5},c_{7},\ldots\) can be evaluated. We now have
+
+\[x(t)=-\tfrac{3}{2}t+\tfrac{7}{8}\big{(}\tfrac{5}{2}t^{3}-\tfrac{3}{2}t\big{)}+\cdot\cdot\cdot\]
+
+## Trigonometric Fourier Series
+
+We have already proved [see Eqs. (6.4), (6.5), and (6.6)] that the trigonometric signal set
+
+\[\begin{array}{c}\{1,\cos\omega_{0}t,\,\cos 2\omega_{0}t,\,\ldots,\,\cos n\omega_{ 0}t,\,\ldots;\\ \sin\omega_{0}t,\,\sin 2\omega_{0}t,\,\ldots,\,\sin n\omega_{0}t,\,\ldots\}\]
+
+is orthogonal over any interval of duration \(T_{0}\), where \(T_{0}=1/f_{0}\) is the period of the sinusoid of frequency \(f_{0}\). This is a complete set for a class of signals with finite energies [11, 12]. Therefore, we can express a signal \(x(t)\) by a trigonometric Fourier series over any interval of duration \(T_{0}\) seconds as
+
+\[x(t) =a_{0}+a_{1}\cos\omega_{0}t+a_{2}\cos 2\omega_{0}t+\cdot\cdot\cdot\] \[\qquad+b_{1}\sin\omega_{0}t+b_{2}\sin 2\omega_{0}t+\cdot\cdot\cdot\]or
+
+\[x(t)=a_{0}+\sum_{n=1}^{\infty}a_{n}\cos n\omega_{00}t+b_{n}\sin n\omega_{0}t\qquad t _{1}<t<t_{1}+T_{0}\]
+
+where
+
+\[\omega_{0}=2\pi f_{0}=\frac{2\pi}{T_{0}}\]
+
+We can use Eq. (6.43) to determine the Fourier coefficients \(a_{0}\), \(a_{n}\), and \(b_{n}\). Thus,
+
+\[a_{n}=\frac{\int_{t_{1}}^{t_{1}+T_{0}}x(t)\cos n\omega_{0}t\,dt}{\int_{t_{1}}^ {t_{1}+T_{0}}\cos^{2}n\omega_{0}t\,dt} \tag{6.52}\]
+
+The integral in the denominator of Eq. (6.52) has already been found to be \(T_{0}/2\) when \(n\neq 0\) [Eq. (6.4) with \(m=n\)]. For \(n=0\), the denominator is \(T_{0}\). Hence,
+
+\[a_{0}=\frac{1}{T_{0}}\int_{t_{1}}^{t_{1}+T_{0}}x(t)\,dt\quad\mbox{and}\quad a _{n}=\frac{2}{T_{0}}\int_{t_{1}}^{t_{1}+T_{0}}x(t)\cos n\omega_{0}t\,dt\qquad n =1,2,3,\ldots \tag{6.53}\]
+
+Similarly, we find that
+
+\[b_{n}=\frac{2}{T_{0}}\int_{t_{1}}^{t_{1}+T_{0}}x(t)\sin n\omega_{0}t\,dt\qquad n =1,2,3,\ldots \tag{6.54}\]
+
+Note that the Fourier series in Eq. (6.49) of Ex. 6.14 is indeed the trigonometric Fourier series with \(T_{0}=2\pi\) and \(\omega_{0}=2\pi/T_{0}\). In this particular example, it is easy to verify from Eq. (6.53) that \(a_{n}=0\) for all \(n\), including \(n=0\). Hence, the Fourier series in that example consisted only of sine terms.
+
+### Exponential Fourier Series
+
+As shown in the footnote on page 6.22, the set of exponentials \(e^{in\omega_{0}t}\) (\(n=0,\pm 1,\pm 2,\ldots\)) is a set of functions orthogonal over any interval of duration \(T_{0}=2\pi/\omega_{0}\). An arbitrary signal \(x(t)\) can now be expressed over an interval \((t_{1},t_{1}+T_{0})\) as
+
+\[x(t)=\sum_{n=-\infty}^{\infty}D_{n}e^{in\omega_{0}t}\qquad t_{1}<t<t_{1}+T_{0}\]
+
+where [see Eq. (6.47)]
+
+\[D_{n}=\frac{1}{T_{0}}\int_{t_{1}}^{t_{1}+T_{0}}x(t)e^{-jn\omega_{0}t}dt\]
+
+### Why Use the Exponential Set?
+
+If \(x(t)\) can be represented in terms of hundreds of different orthogonal sets, why do we exclusively use the exponential (or trigonometric) set for the representation of signals or LTI systems? It so happens that the exponential signal is an eigenfunction of LTI systems. In other words, for an LTI system, only an exponential input \(e^{n}\) yields the response that is also an exponential of the same form, given by \(H(s)e^{st}\). The same is true of the trigonometric set. This fact makes the use of exponential signals natural for LTI systems in the sense that the system analysis using exponentials as the basis signals is greatly simplified.
+
+### 6.6 Numerical Computation of \(D_{n}\)
+
+We can compute \(D_{n}\) numerically by using the DFT (the discrete Fourier transform discussed in Sec. 8.5), which uses the samples of a periodic signal \(x(t)\) over one period. The sampling interval is \(T\) seconds. Hence, there are \(N_{0}=T_{0}/T\) number of samples in one period \(T_{0}\). To find the relationship between \(D_{n}\) and the samples of \(x(t)\), consider Eq. (6.19) and write
+
+\[D_{n} =\frac{1}{T_{0}}\int_{T_{0}}x(t)e^{-j\pi\Omega_{0}t}\,dt\] \[=\lim_{T\to 0}\,\frac{1}{N_{0}T}\sum_{k=0}^{N_{0}-1}x(kT)e^{-j \pi\Omega_{0}k}\,T\] \[=\lim_{T\to 0}\,\frac{1}{N_{0}}\sum_{k=0}^{N_{0}-1}x(kT)e^{-j \pi\Omega_{0}k} \tag{6.55}\]
+
+where \(x(kT)\) is the \(k\)th sample of \(x(t)\) and
+
+\[N_{0}=\frac{T_{0}}{T}\qquad\mbox{and}\qquad\Omega_{0}=\omega_{0}T=\frac{2\pi}{ N_{0}}\]
+
+In practice, it is impossible to make \(T\to 0\) in computing the right-hand side of Eq. (6.55). We can make \(T\) small, but not zero, which will cause the data to increase without limit. Thus, we shall ignore the limit on \(T\) in Eq. (6.55) with the implicit understanding that \(T\) is reasonably small. Nonzero \(T\) will result in some computational error, which is inevitable in any numerical evaluation of an integral. The error resulting from nonzero \(T\) is called the _aliasing error,_ which is discussed in more detail in Ch. 8. Thus, we can express Eq. (6.55) as
+
+\[D_{n}\approx\frac{1}{N_{0}}\sum_{k=0}^{N_{0}-1}x(kT)e^{-j\pi\Omega_{0}k} \tag{6.56}\]
+
+Since \(\Omega_{0}N_{0}=2\pi\), we know that \(e^{j\pi\Omega_{0}(k+N_{0})}=e^{j\pi\Omega_{0}k}\), and it follows that
+
+\[D_{n+N_{0}}=D_{n}\]
+
+The periodicity property \(D_{n+N_{0}}=D_{n}\) means that beyond \(n=N_{0}/2\), the coefficients represent the values for negative \(n\). For instance, when \(N_{0}=32\), \(D_{17}=D_{-15}\), \(D_{18}=D_{-14}\), \(\ldots\), \(D_{31}=D_{-1}\). The cycle repeats again from \(n=32\) on.
+
+We can use the efficient FFT (the _fast Fourier transform_ discussed in Sec. 8.6) to compute the right-hand side of Eq. (6.56). We shall use MATLAB to implement the FFT algorithm. For this purpose, we need samples of \(x(t)\) over one period starting at \(t=0\). In this algorithm, it is also preferable (although not necessary) that \(N_{0}\) be a power of 2, (i.e., \(N_{0}=2^{m}\) where \(m\) is an integer).
+
+**Example 6.16**: **Numerical Computation of Fourier Spectra**
+
+Numerically compute and then plot the exponential Fourier spectra for the periodic signal in Fig. 6.2a (Ex. 6.1).
+
+The samples of \(x(t)\) start at \(t=0\) and the last (\(N_{0}\)th) sample is at \(t=T_{0}-T\). At the points of discontinuity, the sample value is taken as the average of the values of the function on two sides of the discontinuity. Thus, the sample at \(t=0\) is not 1 but \((e^{-\pi/2}+1)/2=0.604\). To determine \(N_{0}\), we require that \(D_{n}\) for \(n\geq N_{0}/2\) be negligible. Because \(x(t)\) has a jump discontinuity, \(D_{n}\) decays rather slowly as \(1/n\). Hence, a choice of \(N_{0}=200\) is acceptable because the (\(N_{0}/2\))nd (100th) harmonic is about 1% of the fundamental. However, we also require \(N_{0}\) to be a power of 2. Hence, we shall take \(N_{0}=256=2^{8}\).
+
+First, the basic parameters are established.
+
+>> T_0 = pi; N_0 = 256; T = T_0/N_0; t = (0:T:T*(N_0-1))'; >> x = exp(-t/2); x(1) = (exp(-pi/2)+1)/2; Next, the DFT, computed by means of the fft function, is used to approximate the exponential Fourier spectra up to \(n=N_{0}/2\). To facilitate comparison with previous plots of \(D_{n}\), we only plot the results over \(-5\leq n\leq 5\).
+
+>> D_n = fft(x)/N_0; n = [-N_0/2:N_0/2-1]'; >> clf; subplot(1,2,1); stem(n,abs(fftshift(D_n)),'.k'); >> axis([-5 5 0.6]); xlabel('n'); ylabel('|D_n|'); >> subplot(1,2,2); stem(n,angle(fftshift(D_n)),'.k'); >> axis([-5 5 -2 2]); xlabel('n'); ylabel('\(\backslash\)angle D_n [rad]'); As shown in Fig. 6.28, the resulting approximation is visually indistinguishable from the true Fourier series spectra shown in Fig. 6.12 or Fig. 6.13.
+
+Figure 6.28: Numerical approximation of exponential Fourier series spectra using the DFT.
+
+## 6.7 MATLAB: Fourier Series Applications
+
+Computational packages such as MATLAB simplify the Fourier-based analysis, design, and synthesis of periodic signals. MATLAB permits rapid and sophisticated calculations, which promote practical application and intuitive understanding of the Fourier series.
+
+### 6.7-1 Periodic Functions and the Gibbs Phenomenon
+
+It is sufficient to define any \(T_{0}\)-periodic function over the interval (\(0\leq t<T_{0}\)). For example, consider the \(2\pi\)-periodic function given by
+
+\[x(t)=\begin{cases}t/A&0\leq t<A\\ 1&A\leq t<\pi\\ 0&\pi\leq t<2\pi\\ x(t+2\pi)&\text{otherwise}\end{cases}\]
+
+Although similar to a square wave, \(x(t)\) has a linearly rising edge of width \(A\), where (\(0<A<\pi\)). As \(A\to 0,x(t)\) approaches a square wave; as \(A\to\pi,x(t)\) approaches a type of sawtooth wave.
+
+In MATLAB, the mod command helps represent periodic functions such as \(x(t)\).
+
+>> x = @(t,A) mod(t,2*pi)/A*(mod(t,2*pi)<A)+((mod(t,2*pi)>=A)&(mod(t,2*pi)<pi)); Sometimes referred to as the signed remainder after division, mod(t,2*pi) returns the value \(t\) modulo \(2\pi\). Thought of another way, the mod operator appropriately shifts \(t\) into \([0,T_{0})\), where \(x(t)\) is conveniently defined. Notice also that an anonymous function can be defined with multiple input variables.
+
+The exponential Fourier series coefficients for \(x(t)\) (see Prob. 6.3-2) are given by
+
+\[D_{n}=\begin{cases}\dfrac{2\pi-A}{4\pi}&n=0\\ \dfrac{1}{2\pi\,n}\left(\dfrac{e^{-jnA}-1}{nA}+je^{-jn\pi}\right)&\text{ otherwise}\end{cases}\]
+
+Since \(x(t)\) is real, \(D_{-n}=D_{n}^{*}\). Truncating the Fourier series at \(|n|=N\) yields the approximation
+
+\[x(t)\approx x_{N}(t)=D_{0}+\sum_{n=1}^{N}\left(D_{n}e^{jnt}+D_{n}^{*}e^{-jnt}\right) \tag{6.57}\]
+
+For a user-specified \(N\), program CHGMP1 uses Eq. (6.57) to compute \(x_{N}(t)\) over (\(-\pi/4\leq t<2\pi+\pi/4\)).
+
+function [x_N,t] = CH6MP1(A,N); % CH6MP1.m : Chapter 6, MATLAB Program 1 % Function M-file approximates x(t) using Fourier series truncated at |n|=N % INPUTS: A = width of rising edge % N = largest harmonic of truncated Fourier series % OUTPUTS: x_N = Nth harmonic truncated Fourier series% t = time vector for x_N
+
+ % Define FS coefficients for signal x(t)  D = @(n) 1/(2*pi*n)*((exp(-1j*n*A)-1)/(n*A) + 1j*exp(-1j*n*pi));  % Construct truncated FS approximation of x(t) using N harmonics  t = linspace(-pi/4,2*pi+pi/4,10000); % Time vector exceeds one period.  x_N = (2*pi-A)/(4*pi)*ones(size(t)); % Compute dc term  for n = 1:N,  % Compute N remaining terms  x_N = x_N+real(D(n)*exp(1j*n*t) + conj(D(n))*exp(-1j*n*t));  end Although theoretically not required, the real command ensures that small computer round-off errors do not cause a complex-valued result.
+
+Using program CH6MP1 with \(A=\pi/2\) and \(N=20\), Fig. 6.29 compares \(x(t)\) and \(x_{20}(t)\).
+
+ >> A = pi/2; [x_20,t] = CH6MP1(A,20);  >> plot(t,x_20,'k',t,x(t,A),'k:'); axis([-pi/4,2*pi+pi/4,-0.1,1.1]);  >> xlabel('t'); ylabel('x_{20}(t)'); As expected, the falling edge is accompanied by the overshoot that is characteristic of the Gibbs phenomenon.
+
+Increasing \(N\) to 100, as shown in Fig. 6.30, improves the approximation but does not reduce the overshoot.
+
+ >> [x_100,t] = CH6MP1(A,100);  >> plot(t,x_100,'k',t,x(t,A),'k:'); axis([-pi/4,2*pi+pi/4,-0.1,1.1]);  >> xlabel('t'); ylabel('x_{100}(t)');
+
+Reducing \(A\) to \(\pi/64\) produces a curious result. For \(N=20\), both the rising and falling edges are accompanied by roughly 9% of overshoot, as shown in Fig. 6.31. As the number of terms is increased, overshoot persists only in the vicinity of jump discontinuities. For \(x_{N}(t)\), increasing \(N\) decreases the overshoot near the rising edge but not near the falling edge. Remember that it is a
+
+Figure 6.29: Comparison of \(x_{20}(t)\) and \(x(t)\) when \(A=\pi/2\).
+
+true jump discontinuity that causes the Gibbs phenomenon. A continuous signal, no matter how sharply it rises, can always be represented by a Fourier series at every point within any small error by increasing \(N\). This is not the case when a true jump discontinuity is present. Figure 6.32 illustrates this behavior using \(N=100\).
+
+Figure 6.31: Comparison of \(x_{20}(t)\) and \(x(t)\) when \(A=\pi/64\).
+
+Figure 6.32: Comparison of \(x_{100}(t)\) and \(x(t)\) when \(A=\pi/64\).
+
+### 6.7-2 Optimization and Phase Spectra
+
+Although magnitude spectra typically receive the most attention, phase spectra are critically important in some applications. Consider the problem of characterizing the frequency response of an unknown system. By applying sinusoids one at a time, the frequency response is empirically measured one point at a time. This process is tedious at best. Applying a superposition of many sinusoids, however, allows simultaneous measurement of many points of the frequency response. Such measurements can be taken by a spectrum analyzer equipped with a transfer function mode or by applying Fourier analysis techniques, which are discussed in later chapters.
+
+A multitone test signal \(m(t)\) is constructed as a superposition of \(N\) real sinusoids
+
+\[m(t)=\sum_{n=1}^{N}M_{n}\cos\left(\omega_{n}t+\theta_{n}\right)\]
+
+where \(M_{n}\) and \(\theta_{n}\) establish the relative magnitude and phase of each sinusoidal component. It is sensible to constrain all gains to be equal, \(M_{n}=M\) for all \(n\). This ensures equal treatment at each point of the measured frequency response. Although the value \(M\) is normally chosen to set the desired signal power, we set \(M=1\) for convenience.
+
+While not required, it is also sensible to space the sinusoidal components uniformly in frequency.
+
+\[m(t)=\sum_{n=1}^{N}\cos\left(n\omega_{0}t+\theta_{n}\right) \tag{6.58}\]
+
+Another sensible alternative, which spaces components logarithmically in frequency, is treated in Prob. 6.7-4.
+
+Equation (6.58) is now a truncated compact-form Fourier series with a flat magnitude spectrum. Frequency resolution and range are set by \(\omega_{0}\) and \(N\), respectively. For example, a 2 kHz range with a resolution of 100 Hz requires \(\omega_{0}=2\pi\,100\) and \(N=20\). The only remaining unknowns are the \(\theta_{n}\).
+
+While it is tempting to set \(\theta_{n}=0\) for all \(n\), the results are quite unsatisfactory. MATLAB helps demonstrate the problem by using \(\omega_{0}=2\pi\,100\) and \(N=20\) sinusoids, each with a peak-to-peak voltage of 1 volt.
+
+>> m = @(theta,t,omega) sum(cos(omega*t+theta*ones(size(t)))); >> N = 20; omega = 2*pi*100*[1:N]'; theta = zeros(size(omega)); >> t = linspace(-0.01,0.01,10000); >> plot(t,m(theta,t,omega),'k'); xlabel('t [sec]'); ylabel('m(t [volts]'); As shown in Fig. 6.33, \(\theta_{n}=0\) causes each sinusoid to constructively add. The resulting 20 volt peak can saturate system components, such as operational amplifiers operating with \(\pm 12\) volt rails. To improve signal performance, the maximum amplitude of \(m(t)\) over \(t\) needs to be reduced.
+
+One way to reduce \(\max_{t}\left(|m(t)|\right)\) is to reduce \(M\), the strength of each component. Unfortunately, this approach reduces the system's signal-to-noise ratio and ultimately degrades measurement quality. Therefore, reducing \(M\) is not a smart decision. The phases \(\theta_{n}\), however, can be adjusted to reduce \(\max_{t}\left(|m(t)|\right)\) while preserving signal power. In fact, since \(\theta_{n}=0\) maximizes \(\max_{t}\left(|m(t)|\right)\), just about any other choice of \(\theta_{n}\) will improve the situation. Even a random choice should improve performance.
+
+As with any computer, MATLAB cannot generate truly random numbers. Rather, it generates pseudo-random numbers. Pseudo-random numbers are deterministic sequences that appear to be random. The particular sequence of numbers that is realized depends entirely on the initial state of the pseudo-random number generator. Setting the generator's initial state to a known value allows a "random" experiment with reproducible results. The command rng(0) initializes the state of the pseudo-random number generator to a known condition of zero, and the MATLAB command rand(a,b) generates an a-by-b matrix of pseudo-random numbers that are uniformly distributed over the interval \((0,1)\). Radian phases occupy the wider interval \((0,2\pi)\), so the results from rand need to be appropriately scaled.
+
+>> rng(0); theta_rand0 = 2*pi*rand(N,1);
+
+Next, we recompute and plot \(m(t)\) using the randomly chosen \(\theta_{n}\).
+
+>> m_rand0 = m(theta_rand0,t,omega); >> plot(t,m_rand0,'k'); axis([-0.01,0.01,-10,10]); >> xlabel('t [sec]'); ylabel('m(t) [volts]'); >> set(gca,'ytic',[min(m_rand0),max(m_rand0)]); grid on;
+
+For a vector input, the min and max commands return the minimum and maximum values of the vector. Using these values to set \(y\) axis tick marks makes it easy to identify the extreme values of the \(m(t)\). As seen from Fig. 6.34, the maximum amplitude is now 7.6307, which is significantly smaller than the maximum of 20 when \(\theta_{n}=0\).
+
+Randomly chosen phases suffer a fatal fault: there is little guarantee of optimal performance. For example, repeating the experiment with rng(5) produces a maximum magnitude of 8.2399 volts, as shown in Fig. 6.35. This value is significantly higher than the previous maximum of 7.6307 volts. Clearly, it is better to replace a random solution with an optimal solution.
+
+What constitutes "optimal"? Many choices exist, but desired signal criteria naturally suggest that optimal phases minimize the maximum magnitude of \(m(t)\) over all \(t\). To find these optimal phases, MATLAB's fminsearch command is useful. First, the function to be minimized, called the objective function, is defined.
+
+>> maxmagm = 0(theta,t,omega) max(abs(sum(cos(omega*t+theta*ones(size(t))))));
+
+Figure 6.33: Test signal \(m(t)\) with \(\theta_{n}=0\).
+
+The anonymous function argument order is important; fminsearch uses the first input argument as the variable of minimization. To minimize over \(\theta\), as desired, \(\theta\) must be the first argument of the objective function maxmagn.
+
+Next, the time vector is shortened to include only one period of \(m(t)\).
+
+>> t = linspace(0,0.01,401); A full period ensures that all values of \(m(t)\) are considered; the short length of t helps ensure that functions execute quickly. An initial value of \(\theta\) is randomly chosen to begin the search.
+
+>> rng(0); theta_init = 2*pi*rand(N,1); >> theta_opt = fminsearch(maxmagn,theta_init,[],t,omega); Notice that fminsearch finds the minimizer to maxmagn over \(\theta\) by using an initial value theta_init. Most numerical minimization techniques are capable of finding only local minima, and fminsearch is no exception. As a result, fminsearch does not always produce a unique solution. The empty square brackets indicate no special options are requested, and the remaining ordered arguments are secondary inputs for the objective function. Full format details for fminsearch are available from MATLAB's help facilities.
+
+Figure 6.34: Test signal \(m(t)\) with random \(\theta_{n}\) found by using rng(0).
+
+Figure 6.35: Test signal \(m(t)\) with random \(\theta_{n}\) found by using rand(’state’,1).
+
+Figure 36 shows the phase-optimized test signal. The maximum magnitude is reduced to a value of 5.3632 volts, which is a significant improvement over the original peak of 20 volts.
+
+Although the signals shown in Figs. 33 through 36 look different, they all possess the same magnitude spectra. The signals differ only in phase spectra. It is interesting to investigate the similarities and differences of these signals in ways other than graphs and mathematics. For example, is there an audible difference between the signals? For computers equipped with sound capability, the MATLAB sound command can be used to find out.
+
+>> Fs = 8000; t = [0:1/Fs:2]; % Two second records at a sampling rate of 8kHz >> sound(m(theta,t,omega)/20,Fs); % Play (scaled) m(t) constructed using zero phases Since the sound command clips magnitudes that exceed 1, the input vector is scaled by 1/20 to avoid clipping and the resulting sound distortion. The signals using other phase assignments are created and played in a similar fashion. How well does the human ear discern the differences in phase spectra? If you are like most people, you will not be able to discern any differences in how these waveforms sound.
+
+## 6.8 Summary
+
+In this chapter we showed how a periodic signal can be represented as a sum of sinusoids or exponentials. If the frequency of a periodic signal is \(f_{0}\), then it can be expressed as a weighted sum of a sinusoid of frequency \(f_{0}\) and its harmonics (the trigonometric Fourier series). We can reconstruct the periodic signal from a knowledge of the amplitudes and phases of these sinusoidal components (amplitude and phase spectra).
+
+If a periodic signal \(x(t)\) has an even symmetry, its Fourier series contains only cosine terms (including dc). In contrast, if \(x(t)\) has an odd symmetry, its Fourier series contains only sine terms. If \(x(t)\) has neither type of symmetry, its Fourier series contains both sine and cosine terms.
+
+At points of discontinuity, the Fourier series for \(x(t)\) converges to the mean of the values of \(x(t)\) on either side of the discontinuity. For signals with discontinuities, the Fourier series converges in the mean and exhibits Gibbs phenomenon at the points of discontinuity. The amplitude spectrum of the Fourier series for a periodic signal \(x(t)\) with jump discontinuities decays slowly (as \(1/n\)) with frequency. We need a large number of terms in the Fourier series to approximate \(x(t)\) within
+
+Figure 36: Test signal \(m(t)\) with optimized phases.
+
+a given error. In contrast, the amplitude spectrum of a smoother periodic signal decays faster with frequency and we require a smaller number of terms in the series to approximate \(x(t)\) within a given error.
+
+A sinusoid can be expressed in terms of exponentials. Therefore, the Fourier series of a periodic signal can also be expressed as a sum of exponentials (the exponential Fourier series). The exponential form of the Fourier series and the expressions for the series coefficients are more compact than those of the trigonometric Fourier series. Also, the response of LTIC systems to an exponential input is much simpler than that for a sinusoidal input. Moreover, the exponential form of representation lends itself better to mathematical manipulations than does the trigonometric form. This includes the establishment of useful Fourier series properties that simplify work and help provide a more intuitive understanding of signals. For these reasons, the exponential form of the series is preferred in modern practice in the areas of signals and systems.
+
+The plots of amplitudes and angles of various exponential components of the Fourier series as functions of the frequency are the exponential Fourier spectra (amplitude and angle spectra) of the signal. Because a sinusoid \(\cos\omega_{0}t\) can be represented as a sum of two exponentials, \(e^{i\omega_{0}t}\) and \(e^{-j\omega_{0}t}\), the frequencies in the exponential spectra range from \(\omega=-\infty\) to \(\infty\). By definition, frequency of a signal is always a positive quantity. Presence of a spectral component of a negative frequency \(-na_{0}\) merely indicates that the Fourier series contains terms of the form \(e^{-j\omega_{0}t}\). The spectra of the trigonometric and exponential Fourier series are closely related, and one can be found by the inspection of the other.
+
+In Sec. 6.5 we discuss a method of representing signals by the generalized Fourier series, of which the trigonometric and exponential Fourier series are special cases. Signals are vectors in every sense. Just as a vector can be represented as a sum of its components in a variety of ways, depending on the choice of the coordinate system, a signal can be represented as a sum of its components in a variety of ways, of which the trigonometric and exponential Fourier series are only two examples. Just as we have vector coordinate systems formed by mutually orthogonal vectors, we also have signal coordinate systems (basis signals) formed by mutually orthogonal signals. Any signal in this signal space can be represented as a sum of the basis signals. Each set of basis signals yields a particular Fourier series representation of the signal. The signal is equal to its Fourier series, not in the ordinary sense, but in the special sense that the energy of the difference between the signal and its Fourier series approaches zero. This allows for the signal to differ from its Fourier series at some isolated points.
+
+## References
+
+* [1] Bell, E. T. _Men of Mathematics._ Simon & Schuster, New York, 1937.
+* [2] Durant, W., and Durant, A. _The Age of Napoleon,_ Part XI in _The Story of Civilization Series._ Simon & Schuster, New York, 1975.
+* [3] Calinger, R. _Classics of Mathematics,_ 4th ed. Moore Publishing, Oak Park, IL, 1982.
+* [4] Lanczos, C. _Discourse on Fourier Series._ Oliver Boyd, London, 1966.
+* [5] Korner, T. W. _Fourier Analysis._ Cambridge University Press, Cambridge, UK, 1989.
+* [6] Guillemin, E. A. _Theory of Linear Physical Systems._ Wiley, New York, 1963.
+* [7] Gibbs, W. J. _Nature,_ vol. 59, p. 606, April 1899.
+* [8] Bocher, M. _Annals of Mathematics,_ vol. 7, no. 2, 1906.

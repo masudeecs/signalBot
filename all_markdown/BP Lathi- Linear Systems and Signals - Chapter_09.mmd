@@ -1,0 +1,1143 @@
+## Chapter Fourier Analysis of Discrete-Time Signals
+
+In Chs. 6 and 7, we studied the ways of representing a continuous-time signal as a sum of sinusoids or exponentials. In this chapter we shall discuss similar development for discrete-time signals. Our approach is parallel to that used for continuous-time signals. We first represent a periodic \(x[n]\) as a Fourier series formed by a discrete-time exponential (or sinusoid) and its harmonics. Later we extend this representation to an aperiodic signal \(x[n]\) by considering \(x[n]\) as a limiting case of a periodic signal with the period approaching infinity.
+
+### 9.1 Discrete-Time Fourier Series (DTFS)
+
+A continuous-time sinusoid \(\cos{\it{ot}}\) is a periodic signal regardless of the value of \(\omega\). Such is not the case for the discrete-time sinusoid \(\cos{\Omega}n\) (or exponential \(e^{i\Omega n}\)). A sinusoid \(\cos{\Omega}n\) is periodic only if \(\Omega/2\pi\) is a rational number. This can be proved by observing that if this sinusoid is \(N_{0}\) periodic, then
+
+\[\cos{\Omega}\left(n+N_{0}\right)=\cos{\Omega}n\]
+
+This is possible only if
+
+\[\Omega N_{0}=2\pi\,m\qquad m\text{ integer}\]
+
+Here, both \(m\) and \(N_{0}\) are integers. Hence, \(\Omega/2\pi=m/N_{0}\) is a rational number. Thus, a sinusoid \(\cos{\Omega}n\) (or exponential \(e^{i\Omega n}\)) is periodic only if
+
+\[\frac{\Omega}{2\pi}=\frac{m}{N_{0}}\qquad\text{ a rational number}\]
+
+When this condition (\(\Omega/2\pi\) a rational number) is satisfied, the period \(N_{0}\) of the sinusoid \(\cos{\Omega}n\) is given by
+
+\[N_{0}=m\left(\frac{2\pi}{\Omega}\right) \tag{9.1}\]
+
+To compute \(N_{0}\), we must choose the smallest value of \(m\) that will make \(m(2\pi/\Omega)\) an integer. For example, if \(\Omega=4\pi/17\), then the smallest value of \(m\) that will make \(m(2\pi/\Omega)=m(17/2)\) aninteger is 2. Therefore,
+
+\[N_{0}=m\left(\frac{2\pi}{\Omega}\right)=2\left(\frac{17}{2}\right)=17\]
+
+However, a sinusoid \(\cos(0.8n)\) is not a periodic signal because \(0.8/2\pi\) is not a rational number.
+
+### 9.1-1 Periodic Signal Representation by Discrete-Time Fourier Series
+
+A continuous-time periodic signal of period \(T_{0}\) can be represented as a trigonometric Fourier series consisting of a sinusoid of the fundamental frequency \(\omega_{0}=2\pi/T_{0}\), and all its harmonics. The exponential form of the Fourier series consists of exponentials \(e^{i\vartheta t}\), \(e^{\pm j\omega_{0}t}\), \(e^{\pm j2\omega_{0}t}\), \(e^{\pm j3\omega_{0}t}\), \(\ldots\).
+
+A discrete-time periodic signal can be represented by a discrete-time Fourier series using a parallel development. Recall that a periodic signal \(x[n]\) with period \(N_{0}\) is characterized by the fact that
+
+\[x[n]=x[n+N_{0}]\]
+
+The smallest value of \(N_{0}\) for which this equation holds is the _fundamental period_. The _fundamental frequency_ is \(\Omega_{0}=2\pi/N_{0}\) rad/sample. An \(N_{0}\)-periodic signal \(x[n]\) can be represented by a discrete-time Fourier series made up of sinusoids of fundamental frequency \(\Omega_{0}=2\pi/N_{0}\) and its harmonics. As in the continuous-time case, we may use a trigonometric or an exponential form of the Fourier series. Because of its compactness and ease of mathematical manipulations, the exponential form is preferable to the trigonometric. For this reason, we shall bypass the trigonometric form and go directly to the exponential form of the discrete-time Fourier series.
+
+The exponential Fourier series consists of the exponentials \(e^{i\Omega n}\), \(e^{\pm j\Omega_{0}n}\), \(e^{\pm j2\Omega_{0}n}\), \(\ldots\), \(e^{\pm j\mu\Omega_{0}n}\), \(\ldots\), and so on. There would be an infinite number of harmonics, except for the property proved in Sec. 5.5-1, that discrete-time exponentials whose frequencies are separated by \(2\pi\) (or integer multiples of \(2\pi\)) are identical because
+
+\[e^{i(\Omega\pm 2\pi\,m)n}=e^{i\Omega n}e^{\pm 2\pi\,mn}=e^{i\Omega n}\qquad m \mbox{ integer}\]
+
+The consequence of this result is that the \(r\)th harmonic is identical to the \((r+N_{0})\)th harmonic. To demonstrate this, let \(g_{n}\) denote the \(n\)th harmonic \(e^{in\Omega_{0}n}\). Then
+
+\[g_{r+N_{0}}=e^{i(r+N_{0})\Omega_{0}n}=e^{i(r\Omega_{0}n+2\pi\,n)}=e^{ir\Omega _{0}n}=g_{r}\]
+
+and
+
+\[g_{r}=g_{r+N_{0}}=g_{r+2N_{0}}=\cdots=g_{r+mN_{0}}\qquad m\mbox{ integer}\]
+
+Thus, the first harmonic is identical to the \((N_{0}+1)\)th harmonic, the second harmonic is identical to the \((N_{0}+2)\)th harmonic, and so on. In other words, there are only \(N_{0}\) independent harmonics, and their frequencies range over an interval \(2\pi\) (because the harmonics are separated by \(\Omega_{0}=2\pi/N_{0}\)). This means that, unlike the continuous-time counterpart, the discrete-time Fourier series has only a finite number (\(N_{0}\)) of terms. This result is consistent with our observation in Sec. 5.5-1 that all discrete-time signals are bandlimited to a band from \(-\pi\) to \(\pi\). Because the harmonics are separated by \(\Omega_{0}=2\pi/N_{0}\), there can only be \(N_{0}\) harmonics in this band. We also saw that this band can be taken from 0 to \(2\pi\) or any other contiguous band of width \(2\pi\). This means we may choose the \(N_{0}\) independent harmonics \(e^{j\tau\Omega_{0}n}\) over \(0\leq r\leq N_{0}-1\), or over \(-1\leq r\leq N_{0}-2\), or over \(1\leq r\leq N_{0}\), or over any other suitable choice for that matter. Every one of these sets will have the same harmonics, although in different order.
+
+Let us consider the first choice, which corresponds to exponentials \(e^{j\tau\Omega_{0}n}\) for \(r=0\), \(1\), \(2\), \(\ldots\), \(N_{0}-1\). The Fourier series for an \(N_{0}\)-periodic signal \(x[n]\) consists of only these \(N_{0}\) harmonics, and can be expressed as
+
+\[x[n]=\sum_{r=0}^{N_{0}-1}{\cal D}_{r}e^{j\tau\Omega_{0}n}\qquad\Omega_{0}= \frac{2\pi}{N_{0}}\]
+
+To compute coefficients \({\cal D}_{r}\), we multiply both sides by \(e^{-jm\Omega_{0}n}\) and sum over \(n\) from \(n=0\) to \((N_{0}-1)\).
+
+\[\sum_{n=0}^{N_{0}-1}x[n]e^{-jm\Omega_{0}n}=\sum_{n=0}^{N_{0}-1}\sum_{r=0}^{N_{ 0}-1}{\cal D}_{r}e^{i(r-m)\Omega_{0}n} \tag{9.2}\]
+
+The right-hand sum, after interchanging the order of summation, results in
+
+\[\sum_{r=0}^{N_{0}-1}{\cal D}_{r}\left[\sum_{n=0}^{N_{0}-1}e^{i(r-m)\Omega_{0}n }\right]\]
+
+The inner sum, according to Eq. (8.15) in Sec. 8.5, is zero for all values of \(r\neq m\). It is nonzero with a value \(N_{0}\) only when \(r=m\). This fact means the outside sum has only one term \({\cal D}_{m}N_{0}\) (corresponding to \(r=m\)). Therefore, the right-hand side of Eq. (9.2) is equal to \({\cal D}_{m}N_{0}\), and
+
+\[\sum_{n=0}^{N_{0}-1}x[n]e^{-jm\Omega_{0}n}={\cal D}_{m}N_{0}\]
+
+and
+
+\[{\cal D}_{m}=\frac{1}{N_{0}}\sum_{n=0}^{N_{0}-1}x[n]e^{-jm\Omega_{0}n}\]
+
+We now have a discrete-time Fourier series (DTFS) representation of an \(N_{0}\)-periodic signal \(x[n]\) as
+
+\[x[n]=\sum_{r=0}^{N_{0}-1}{\cal D}_{r}e^{j\tau\Omega_{0}n} \tag{9.3}\]
+
+where
+
+\[{\cal D}_{r}=\frac{1}{N_{0}}\sum_{n=0}^{N_{0}-1}x[n]e^{-j\tau\Omega_{0}n} \qquad\Omega_{0}=\frac{2\pi}{N_{0}} \tag{9.4}\]
+
+Observe that DTFS Eqs. (9.3) and (9.4) are identical (within a scaling constant) to the DFT Eqs. (8.13) and (8.12).+ Therefore, we can use the efficient FFT algorithm to compute the DTFS coefficients.
+
+### 9.1-2 Fourier Spectra of a Periodic Signal \(x[n]\)
+
+The Fourier series consists of \(N_{0}\) components
+
+\[\mathcal{D}_{0},\mathcal{D}_{1}e^{i\Omega_{0}n},\mathcal{D}_{2}e^{i2\Omega_{0}n},\ldots,\mathcal{D}_{N_{0}-1}e^{i(N_{0}-1)\Omega_{0}n}\]
+
+The frequencies of these components are \(0\), \(\Omega_{0}\), \(2\Omega_{0}\), \(\ldots\), \((N_{0}-1)\Omega_{0}\), where \(\Omega_{0}=2\pi/N_{0}\). The amount of the \(r\)th harmonic is \(\mathcal{D}_{r}\). We can plot this amount \(\mathcal{D}_{r}\) (the Fourier coefficient) as a function of index \(r\) or frequency \(\Omega\). Such a plot, called the _Fourier spectrum_ of \(x[n]\), gives us, at a glance, the graphical picture of the amounts of various harmonics of \(x[n]\).
+
+In general, the Fourier coefficients \(\mathcal{D}_{r}\) are complex, and they can be represented in the polar form as
+
+\[\mathcal{D}_{r}=|\mathcal{D}_{r}|e^{i\angle\mathcal{D}_{r}}\]
+
+The plot of \(|\mathcal{D}_{r}|\) versus \(\Omega\) is called the amplitude spectrum and that of \(\angle\mathcal{D}_{r}\) versus \(\Omega\) is called the angle (or phase) spectrum. These two plots together are the frequency spectra of \(x[n]\). Knowing these spectra, we can reconstruct or synthesize \(x[n]\) according to Eq. (9.3). Therefore, the Fourier (or frequency) spectra, which are an alternative way of describing a periodic signal \(x[n]\), are in every way equivalent (in terms of the information) to the plot of \(x[n]\) as a function of \(n\). The Fourier spectra of a signal constitute the _frequency-domain_ description of \(x[n]\), in contrast to the time-domain description, where \(x[n]\) is specified as a function of index \(n\) (representing time).
+
+The results are very similar to the representation of a continuous-time periodic signal by an exponential Fourier series except that, generally, the continuous-time signal spectrum bandwidth is infinite and consists of an infinite number of exponential components (harmonics). The spectrum of the discrete-time periodic signal, in contrast, is bandlimited and has at most \(N_{0}\) components.
+
+### 9.2 Periodic Extension of Fourier Spectrum
+
+We now show that if \(\phi[r]\) is an \(N_{0}\)-periodic function of \(r\), then
+
+\[\sum_{r=0}^{N_{0}-1}\phi[r]=\sum_{r=\langle N_{0}\rangle}\phi[r] \tag{9.5}\]
+
+where \(r=\langle N_{0}\rangle\) indicates summation over any \(N_{0}\) consecutive values of \(r\). Because \(\phi[r]\) is \(N_{0}\) periodic, the same values repeat with period \(N_{0}\). Hence, the sum of any set of \(N_{0}\) consecutive values of \(\phi[r]\) must be the same no matter the value of \(r\) at which we start summing. Basically, it represents the sum over one cycle.
+
+To apply this result to the DTFS, we observe that \(e^{-jr\Omega_{0}n}\) is \(N_{0}\) periodic because
+
+\[e^{-jr\Omega_{0}(n+N_{0})}=e^{-jr\Omega_{0}n}e^{-j2\pi r}=e^{-jr\Omega_{0}n}\]
+
+Therefore, if \(x[n]\) is \(N_{0}\) periodic, \(x[n]e^{-jr\Omega_{0}n}\) is also \(N_{0}\) periodic. Hence, from Eq. (9.4), it follows that \(\mathcal{D}_{r}\) is also \(N_{0}\) periodic, as is \(\mathcal{D}_{r}e^{jr\Omega_{0}n}\). Now, because of Eq. (9.5), we can express Eqs. (9.3) and (9.4) as
+
+\[x[n]=\sum_{r=\langle N_{0}\rangle}\mathcal{D}_{r}e^{jr\Omega_{0}n} \tag{9.6}\]
+
+the spectral components in the fundamental frequency range \((-\pi\leq\Omega<\pi)\). Thus,
+
+\[x[n]=\sum_{r=-10}^{9}\mathcal{D}_{r}e^{j0.1\pi m}\]
+
+where, according to Eq. (9.7),
+
+\[\mathcal{D}_{r} =\frac{1}{20}\sum_{n=-10}^{9}\sin 0.1\pi ne^{-j0.1\pi m}\] \[=\frac{1}{20}\sum_{n=-10}^{9}\frac{1}{2j}(e^{j0.1\pi n}-e^{-j0.1 \pi n})e^{-j0.1\pi m}\] \[=\frac{1}{40j}\left[\sum_{n=-10}^{9}e^{j0.1\pi n(1-r)}-\sum_{n=-1 0}^{9}e^{-j0.1\pi n(1+r)}\right]\]
+
+Figure 9.1: Discrete-time sinusoid \(\sin 0.1\pi n\) and its Fourier spectra.
+
+we select the frequency range \(0\leq\Omega<2\pi\) (or \(0\leq r<20\)), we obtain the Fourier series as
+
+\[x[n]=\sin 0.1\pi n=\frac{1}{2j}(e^{j0.1\pi n}-e^{j1.9\pi n})\]
+
+This series is equivalent to that in Eq. (9.8) because the two exponentials \(e^{i1.9\pi n}\) and \(e^{-j0.1\pi n}\) are equivalent. This follows from the fact that \(e^{i1.9\pi n}=e^{i1.9\pi n}\times e^{-j2\pi n}=e^{-j0.1\pi n}\).
+
+We could have selected the spectrum over any other range of width \(\Omega=2\pi\) in Figs. 9.1b and 9.1c as a valid discrete-time Fourier series. The reader may verify this by proving that such a spectrum starting anywhere (and of width \(\Omega=2\pi\)) is equivalent to the same two components on the right-hand side of Eq. (9.8).
+
+**Drill 9.1 DTFS Spectra on Alternate Intervals**
+
+From the spectra in Fig. 9.1, write the Fourier series corresponding to the interval \(-10\geq r>-30\) (or \(-\pi\geq\Omega>-3\pi\)). Show that this Fourier is equivalent to that in Eq. (9.8).
+
+**Drill 9.2 Discrete-Time Fourier Series of a Sum of Sinusoids**
+
+Find the period and the DTFS for
+
+\[x[n]=4\cos 0.2\pi n+6\sin 0.5\pi n\]
+
+over the interval \(0\leq r\leq 19\). Use Eq. (9.4) to compute \({\cal D}_{r}\).
+
+**Answers**
+
+\(N_{0}=20\) and \(x[n]=2e^{i0.2\pi n}+(3e^{-j\pi/2})e^{i0.5\pi n}+(3e^{j\pi/2})e^{i1.5\pi n}+2e ^{i1.8\pi n}\)
+
+**Drill 9.3 Fundamental Period of Discrete-Time Sinusoids**
+
+Find the fundamental periods \(N_{0}\), if any, for: **(a)**\(\sin(301\pi n/4)\) and **(b)**\(\cos 1.3n\).
+
+**Answers**
+
+**(a)**\(N_{0}=8\), **(b)**\(N_{0}\) does not exist because the sinusoid is not periodic.
+
+In this case, \(N_{0}=32\) and \(\Omega_{0}=2\pi/32=\pi/16\). Therefore,
+
+\[x[n]=\sum_{r=(32)}{\cal D}_{r}e^{ir(\pi/16)n}\]
+
+where
+
+\[{\cal D}_{r}=\frac{1}{32}\sum_{n=(32)}x[n]e^{-ir(\pi/16)n}\]
+
+For our convenience, we shall choose the interval \(-16\leq n\leq 15\) for this summation, although any other interval of the same width (32 points) would give the same result.1
+
+Footnote 1: In this example we have used the same equations as those for the DFT in Ex. 8.9, within a scaling constant. In the present example, the values of \(x[n]\) at \(n=4\) and \(-4\) are taken as 1 (full value), whereas in Ex. 8.9 these values are 0.5 (half the value). This is the reason for the slight difference in spectra in Figs. 9.2b and 8.19d. Unlike continuous-time signals, discontinuity is a meaningless concept in discrete-time signals.
+
+\[{\cal D}_{r}=\frac{1}{32}\sum_{n=-16}^{15}x[n]e^{-ir(\pi/16)n}\]
+
+Figure 9.2: **(a)** Periodic sampled gate pulse and **(b)** its Fourier spectrum.
+
+Now, \(x[n]=1\) for \(-4\leq n\leq 4\) and is zero for all other values of \(n\). Therefore,
+
+\[{\cal D}_{r}=\frac{1}{32}\sum_{n=-4}^{4}e^{-jr(\pi/16)n} \tag{9.9}\]
+
+This is a geometric progression with a common ratio \(e^{-j(\pi/16)r}\). Therefore (see Sec. B.8-3),+
+
+Footnote †: \({}^{\dagger}\) Strictly speaking, the geometric progression sum formula applies only if the common ratio \(e^{-j(\pi/16)r}\neq 1\). When \(r=0\), this ratio is unity. Hence, Eq. (9.10) is valid for values of \(r\neq 0\). For the case \(r=0\), the sum in Eq. (9.9) is given by
+
+\[{\frac{1}{32}}\sum_{n=-4}^{4}x[n]={\frac{9}{32}}\]
+
+Fortunately, the value of \({\cal D}_{0}\), as computed from Eq. (9.10), also happens to be \(9/32\). Hence, Eq. (9.10) is valid for all \(r\).
+
+## Chapter 9.2 Aperiodic Signal Representation
+
+by Fourier Integral
+
+In Sec. 9.1 we succeeded in representing periodic signals as a sum of (everlasting) exponentials. In this section we extend this representation to aperiodic signals. The procedure is identical conceptually to that used in Ch. 7 for continuous-time signals.
+
+Applying a limiting process, we now show that an aperiodic signal can be expressed as a continuous sum (integral) of everlasting exponentials. To represent an aperiodic signal such as the one illustrated in Fig. 9.4a by everlasting exponential signals, let us construct a new periodic signal formed by repeating the signal every units, as shown in Fig. 9.4b. The period is made large enough to avoid overlap between the repeating cycles (). The periodic signal can be represented by an exponential Fourier series. If we let, the signal\(x[n]\) repeats after an infinite interval, and therefore,
+
+\[\lim_{N_{0}\to\infty}x_{N_{0}}[n]=x[n]\]
+
+Thus, the Fourier series representing \(x_{N_{0}}[n]\) will also represent \(x[n]\) in the limit \(N_{0}\to\infty\). The exponential Fourier series for \(x_{N_{0}}[n]\) is given by
+
+\[x_{N_{0}}[n]=\sum_{r=\langle N_{0}\rangle}{\cal D}_{r}e^{ir\Omega_{0}n}\qquad \Omega_{0}=\frac{2\pi}{N_{0}} \tag{9.11}\]
+
+where
+
+\[{\cal D}_{r}=\frac{1}{N_{0}}\sum_{n=-\infty}^{\infty}x[n]e^{-ir\Omega_{0}n} \tag{9.12}\]
+
+The limits for the sum on the right-hand side of Eq. (9.12) should be from \(-N\) to \(N\). But because \(x[n]=0\) for \(|n|>N\), it does not matter if the limits are taken from \(-\infty\) to \(\infty\).
+
+It is interesting to see how the nature of the spectrum changes as \(N_{0}\) increases. To understand this behavior, let us define \(X(\Omega)\), a continuous function of \(\Omega\), as
+
+\[X(\Omega)=\sum_{n=-\infty}^{\infty}x[n]e^{-j\Omega n} \tag{9.13}\]
+
+From this definition and Eq. (9.12), we have
+
+\[{\cal D}_{r}=\frac{1}{N_{0}}X(r\Omega_{0}) \tag{9.14}\]
+
+This result shows that the Fourier coefficients \({\cal D}_{r}\) are \(1/N_{0}\) times the samples of \(X(\Omega)\) taken every \(\Omega_{0}\) rad/s.1 Therefore, \((1/N_{0})X(\Omega)\) is the envelope for the coefficients \({\cal D}_{r}\). We now let \(N_{0}\to\infty\) by doubling \(N_{0}\) repeatedly. Doubling \(N_{0}\) halves the fundamental frequency \(\Omega_{0}\), with the result that the spacing between successive spectral components (harmonics) is halved, and there are now twice as many components (samples) in the spectrum. At the same time, by doubling \(N_{0}\), the envelope of the coefficients \({\cal D}_{r}\) is halved, as seen from Eq. (9.14). If we continue this process of doubling \(N_{0}\) repeatedly, the number of components doubles in each step; the spectrum progressively becomes denser, while its magnitude \({\cal D}_{r}\) becomes smaller. Note, however, that the relative shape of the envelope remains the same [proportional to \(X(\Omega)\) in Eq. (9.13)]. In the limit, as \(N_{0}\to\infty\), the fundamental frequency \(\Omega_{0}\to 0\), and \({\cal D}_{r}\to 0\). The separation between successive harmonics, which is \(\Omega_{0}\), is approaching zero (infinitesimal), and the spectrum becomes so dense that it appears to be continuous. But as the number of harmonics increases indefinitely, the harmonic amplitudes \({\cal D}_{r}\) become vanishingly small (infinitesimal). We discussed an identical situation in Sec. 7.1.
+
+Footnote 1: For the sake of simplicity we assume \({\cal D}_{r}\) and therefore \(X(\Omega)\) to be real. The argument, however, is also valid for complex \({\cal D}_{r}\) [or \(X(\Omega)\)].
+
+We follow the procedure in Sec. 7.1 and let \(N_{0}\to\infty\). According to Eq. (9.13),
+
+\[X(r\Omega_{0})=\sum_{n=-\infty}^{\infty}x[n]e^{-jr\Omega_{0}n}\]Using Eq. (9.14), we can express Eq. (9.11) as
+
+\[x_{N_{0}}[n]=\frac{1}{N_{0}}\sum_{r=\langle N_{0}\rangle}X(r\Omega_{0})e^{ir \Omega_{0}n}=\sum_{r=\langle N_{0}\rangle}X(r\Omega_{0})e^{ir\Omega_{0}n}\left( \frac{\Omega_{0}}{2\pi}\right)\]
+
+In the limit as \(N_{0}\rightarrow\infty\), \(\Omega_{0}\to 0\) and \(x_{N_{0}}[n]\to x[n]\). Therefore,
+
+\[x[n]=\lim_{\Omega_{0}\to 0}\sum_{r=\langle N_{0}\rangle}\left[\frac{X(r \Omega_{0})\Omega_{0}}{2\pi}\right]e^{ir\Omega_{0}n} \tag{9.15}\]
+
+Because \(\Omega_{0}\) is infinitesimal, it will be appropriate to replace \(\Omega_{0}\) with an infinitesimal notation \(\Delta\Omega\):
+
+\[\Delta\Omega=\frac{2\pi}{N_{0}} \tag{9.16}\]
+
+Equation (9.15) can be expressed as
+
+\[x[n]=\lim_{\Delta\Omega\to 0}\frac{1}{2\pi}\sum_{r=\langle N_{0}\rangle}X(r \Delta\Omega)e^{ir\Delta\Omega n}\Delta\Omega \tag{9.17}\]
+
+The range \(r=\langle N_{0}\rangle\) implies the interval of \(N_{0}\) number of harmonics, which is \(N_{0}\Delta\Omega=2\pi\) according to Eq. (9.16). In the limit, the right-hand side of Eq. (9.17) becomes the integral
+
+\[x[n]=\frac{1}{2\pi}\int_{2\pi}X(\Omega)e^{ir\Omega}\,d\Omega \tag{9.18}\]
+
+where \(\int_{2\pi}\) indicates integration over any continuous interval of \(2\pi\). The spectrum \(X(\Omega)\) is given by [Eq. (9.13)]
+
+\[X(\Omega)=\sum_{n=-\infty}^{\infty}x[n]e^{-j\Omega n} \tag{9.19}\]
+
+The integral on the right-hand side of Eq. (9.18) is called the _Fourier integral_. We have now succeeded in representing an aperiodic signal \(x[n]\) by a Fourier integral (rather than a Fourier series). This integral is basically a Fourier series (in the limit) with fundamental frequency \(\Delta\Omega\to 0\), as seen in Eq. (9.17). The amount of the exponential \(e^{ir\Delta\Omega n}\) is \(X(r\Delta\Omega)\,\Delta\Omega/2\pi\). Thus, the function \(X(\Omega)\) given by Eq. (9.19) acts as a spectral function, which indicates the relative amounts of various exponential components of \(x[n]\).
+
+We call \(X(\Omega)\) the (direct) discrete-time Fourier transform (DTFT) of \(x[n]\), and \(x[n]\) the inverse discrete-time Fourier transform (IDTFT) of \(X(\Omega)\). This nomenclature can be represented as
+
+\[X(\Omega)=\mathrm{DTFT}[x[n]]\qquad\text{and}\qquad x[n]=\mathrm{IDTFT}\{X( \Omega)\}\]
+
+The same information is conveyed by the statement that \(x[n]\) and \(X(\Omega)\) are a (discrete-time) Fourier transform pair. Symbolically, this is expressed as
+
+\[x[n]\Longleftrightarrow X(\Omega)\]
+
+The Fourier transform \(X(\Omega)\) is the frequency-domain description of \(x[n]\).
+
+### 9.2-1 Nature of Fourier Spectra
+
+We now discuss several important features of the discrete-time Fourier transform and the spectra associated with it.
+
+Fourier Spectra Are Continuous Functions of \(\Omega\)
+
+Although \(x[n]\) is a discrete-time signal, \(X(\Omega)\), its DTFT is a continuous function of \(\Omega\) for the simple reason that \(\Omega\) is a continuous variable, which can take any value over a continuous interval from \(-\infty\) to \(\infty\).
+
+Fourier Spectra Are Periodic Functions of \(\Omega\)
+
+with Period \(2\pi\)
+
+From Eq. (9.19), it follows that
+
+\[X(\Omega+2\pi)=\sum_{n=-\infty}^{\infty}x[n]e^{-j(\Omega+2\pi)n}=\sum_{n=- \infty}^{\infty}x[n]e^{-j\Omega n}e^{-j2\pi n}=X(\Omega)\]
+
+Clearly, the spectrum \(X(\Omega)\) is a continuous, periodic function of \(\Omega\) with period \(2\pi\). We must remember, however, that to synthesize \(x[n]\), we need to use the spectrum over a frequency interval of only \(2\pi\), starting at any value of \(\Omega\) [see Eq. (9.18)]. As a matter of convenience, we shall choose this interval to be the fundamental frequency range (\(-\pi\), \(\pi\)). It is, therefore, not necessary to show discrete-time-signal spectra beyond the fundamental range, although we often do so.
+
+The reason for the periodic behavior of \(X(\Omega)\) was discussed in Ch. 5, where we showed that, in a basic sense, the discrete-time frequency \(\Omega\) is bandlimited to \(|\Omega|\leq\pi\). However, all discrete-time sinusoids with frequencies separated by an integer multiple of \(2\pi\) are identical. This is why the spectrum is \(2\pi\) periodic.
+
+Conjugate Symmetry of \(X(\Omega)\)
+
+From Eq. (9.19), we obtain the DTFT of \(x^{*}[n]\) as
+
+\[\mbox{DTFT}[x^{*}[n]]=\sum_{n=-\infty}^{\infty}x^{*}[n]e^{-j\Omega n}=X^{*}(- \Omega)\]
+
+In other words,
+
+\[x^{*}[n]\Longleftrightarrow X^{*}(-\Omega) \tag{9.20}\]
+
+For real \(x[n]\), Eq. (9.20) reduces to \(x[n]\Longleftrightarrow X^{*}(-\Omega)\), which implies that for real \(x[n]\)
+
+\[X(\Omega)=X^{*}(-\Omega)\]
+
+Therefore, for real \(x[n]\), \(X(\Omega)\) and \(X(-\Omega)\) are conjugates. Since \(X(\Omega)\) is generally complex, we have both amplitude and angle (or phase) spectra
+
+\[X(\Omega)=|X(\Omega)|e^{j\angle X(\Omega)}\]
+
+Because of conjugate symmetry of \(X(\Omega)\), it follows that for real \(x[n]\),
+
+\[|X(\Omega)|=|X(-\Omega)|\qquad\mbox{and}\qquad\angle X(\Omega)=-\angle X(- \Omega)\]Therefore, the amplitude spectrum \(|X(\Omega)|\) is an even function of \(\Omega\) and the phase spectrum \(\triangle X(\Omega)\) is an odd function of \(\Omega\) for real \(x[n]\).
+
+Physical Appreciation of the Discrete-Time Fourier Transform
+
+In understanding any aspect of the Fourier transform, we should remember that Fourier representation is a way of expressing a signal \(x[n]\) as a sum of everlasting exponentials (or sinusoids). The Fourier spectrum of a signal indicates the relative amplitudes and phases of the exponentials (or sinusoids) required to synthesize \(x[n]\).
+
+A detailed explanation of the nature of such sums over a continuum of frequencies is provided in Sec. 7.1-1.
+
+Existence of the Dtft
+
+Because \(|e^{-j\Omega n}|=1\), from Eq. (9.19), it follows that the existence of \(X(\Omega)\) is guaranteed if \(x[n]\) is absolutely summable; that is,
+
+\[\sum_{n=-\infty}^{\infty}|x[n]|<\infty \tag{9.21}\]
+
+This shows that the condition of absolute summability is a sufficient condition for the existence of the DTFT representation. This condition also guarantees its uniform convergence. The inequality
+
+\[\left[\sum_{n=-\infty}^{\infty}|x[n]|\right]^{2}\geq\sum_{n=-\infty}^{\infty} |x[n]|^{2}\]
+
+shows that the energy of an absolutely summable sequence is finite. However, not all finite-energy signals are absolutely summable. Signal \(x[n]=\operatorname{sinc}\left(n\right)\) is such an example. For such signals, the DTFT converges, not uniformly, but in the mean.2
+
+Footnote 2: This means
+
+\[\lim_{M\to\infty}\int_{-\pi}^{\pi}\left|X(\Omega)-\sum_{n=-M}^{M}x[n]e^{-j \Omega n}\right|^{2}d\Omega=0\]
+
+To summarize, \(X(\Omega)\) exists under a weaker condition
+
+\[\sum_{n=-\infty}^{\infty}|x[n]|^{2}<\infty \tag{9.22}\]
+
+The DTFT under this condition is guaranteed to converge in the mean. Thus, the DTFT of the exponentially growing signal \(\gamma^{n}u[n]\) does not exist when \(|\gamma|>1\) because the signal violates Eqs. (9.21) and (9.22). But the DTFT exists for the signal \(\operatorname{sinc}(n)\), which violates Eq. (9.21) but does satisfy Eq. (9.22) (see later, Ex. 9.6). In addition, if the use of \(\delta(\Omega)\), the continuous-time impulse function, is permitted, we can even find the DTFT of some signals that violate both Eq. (9.21) and Eq. (9.22). Such signals are not absolutely summable, nor do they have finite energy. For example, as seen from pairs 11 and 12 of Table 9.1, the DTFT of \(x[n]=1\) for all \(n\) and \(x[n]=e^{j\Omega_{0}n}\) exist, although they violate Eqs. (9.21) and (9.22).
+
+### 9.2 Aperiodic Signal Representation by Fourier Integral
+
+**Example 9.3**: **DTFT of a Causal Exponential**
+
+Find the DTFT of \(x[n]=\gamma^{n}u[n]\).
+
+Using the definition, the DTFT is
+
+\[X(\Omega)=\sum_{n=0}^{\infty}\gamma^{n}e^{-j\Omega n}=\sum_{n=0}^{\infty}( \gamma e^{-j\Omega})^{n}\]
+
+This is an infinite geometric series with a common ratio \(\gamma e^{-j\Omega}\). Therefore (see Sec. B.8-3),
+
+\[X(\Omega)=\frac{1}{1-\gamma e^{-j\Omega}}\]
+
+provided \(|\gamma e^{-j\Omega}|<1\). But because \(|e^{-j\Omega}|=1\), this condition implies \(|\gamma|<1\). Therefore,
+
+\[X(\Omega)=\frac{1}{1-\gamma e^{-j\Omega}}\qquad|\gamma|<1\]
+
+If \(|\gamma|>1\), \(X(\Omega)\) does not converge. This result is in conformity with Eqs. (9.21) and (9.22). To determine magnitude and phase responses, we note that
+
+\[X(\Omega)=\frac{1}{1-\gamma\cos\Omega+j\gamma\sin\Omega} \tag{9.23}\]
+
+so
+
+\[|X(\Omega)|=\frac{1}{\sqrt{(1-\gamma\cos\Omega)^{2}+(\gamma\sin\Omega)^{2}}} =\frac{1}{\sqrt{1+\gamma^{2}-2\gamma\cos\Omega}}\]
+
+and
+
+\[\measuredangle X(\Omega)=-\tan^{-1}\left[\frac{\gamma\sin\Omega}{1-\gamma\cos \Omega}\right]\]
+
+Figure 9.5 shows \(x[n]=\gamma^{n}u[n]\) and its spectra for \(\gamma=0.8\). Observe that the frequency spectra are continuous and periodic functions of \(\Omega\) with the period \(2\pi\). As explained earlier, we need to use the spectrum only over the frequency interval of \(2\pi\). We often select this interval to be the fundamental frequency range \((-\pi,\pi)\).
+
+The amplitude spectrum \(|X(\Omega)|\) is an even function and the phase spectrum \(\measuredangle X(\Omega)\) is an odd function of \(\Omega\).
+
+**Example 9.4**: **DTFT of an Anticausal Exponential**
+
+Find the DTFT of \(\gamma^{n}u[-(n+1)]\) depicted in Fig. 9.6.
+
+**Figure 9.6**: Exponential \(\gamma^{n}u[-(n+1)]\).
+
+Using the definition, the DTFT is
+
+\[X(\Omega)=\sum_{n=-\infty}^{\infty}\gamma^{n}u[-(n+1)]e^{-j\Omega n}=\sum_{n=-1}^ {-\infty}(\gamma e^{-j\Omega})^{n}=\sum_{n=-1}^{-\infty}\left(\frac{1}{\gamma} e^{j\Omega}\right)^{-n}\]
+
+Setting \(n=-m\) yields
+
+\[x[n]=\sum_{m=1}^{\infty}\left(\frac{1}{\gamma}e^{j\Omega}\right)^{m}=\frac{1}{ \gamma}e^{j\Omega}+\left(\frac{1}{\gamma}e^{j\Omega}\right)^{2}+\left(\frac{1} {\gamma}e^{j\Omega}\right)^{3}+\cdot\cdot\cdot\]
+
+This is a geometric series with a common ratio \(e^{j\Omega}/\gamma\). Therefore, from Sec. B.8-3,
+
+\[X(\Omega)=\frac{1}{\gamma e^{-j\Omega}-1}=\frac{1}{(\gamma\cos\Omega-1)-j \gamma\sin\Omega},\qquad|\gamma|>1\]
+
+Therefore,
+
+\[|X(\Omega)|=\frac{1}{\sqrt{1+\gamma^{2}-2\gamma\cos\Omega}}\qquad\text{and} \qquad\angle X(\Omega)=\tan^{-1}\left[\frac{\gamma\sin\Omega}{\gamma\cos\Omega -1}\right]\]
+
+Except for the change of sign, this Fourier transform (and the corresponding frequency spectra) is identical to that of \(x[n]=\gamma^{n}u[n]\). Yet there is no ambiguity in determining the IDFT of \(X(\Omega)=1/(\gamma e^{-j\Omega}-1)\) because of the restrictions on the value of \(\gamma\) in each case. If \(|\gamma|<1\), then the inverse transform is \(x[n]=-\gamma^{n}u[n]\). If \(|\gamma|>1\), it is \(x[n]=\gamma^{n}[-(n+1)]\).
+
+## Example 9.5 DTFT of a Rectangular Pulse
+
+Find the DTFT of the discrete-time rectangular pulse illustrated in Fig. 9.7a. This pulse is also known as the 9-point rectangular window function.
+
+\[X(\Omega)=\sum_{n=-\infty}^{\infty}x[n]e^{-j\Omega n}=\sum_{n=-(M-1)/2}^{(M-1) /2}(e^{-j\Omega})^{n}\qquad M=9\]
+
+This is a geometric progression with a common ratio \(e^{-j\Omega}\) and (see Sec. B.8-3)
+
+\[X(\Omega) =\frac{e^{-j(M+1)/2)\Omega}-e^{j[(M-1)/2]\Omega}}{e^{-j\Omega}-1}\] \[=\frac{e^{-j\Omega/2}\big{(}e^{-j(M/2)\Omega}-e^{j(M/2)\Omega} \big{)}}{e^{-j\Omega/2}(e^{-j\Omega/2}-e^{j\Omega/2})}\]\[=\frac{\sin\left(\frac{M}{2}\Omega\right)}{\sin\left(0.5\Omega\right)} \tag{9.24}\] \[=\frac{\sin\left(4.5\Omega\right)}{\sin\left(0.5\Omega\right)}\qquad \text{for }M=9 \tag{9.25}\]
+
+Figure 9.7b shows the spectrum \(X(\Omega)\) for \(M=9\).
+
+### Discrete-Time Fourier Transform Using MATLAB
+
+Within a scale factor, the DTFS is identical to the DFT and, therefore, the FFT. That is, the DTFS is just the FFT scaled by \(\frac{1}{N_{0}}\). Combined with Eq. (9.14), we see that the DFT \(X_{r}\) of finite-duration signal \(x[n]\) (repeated with period \(N_{0}\) large enough to avoid overlap) is just samples of the DTFT \(X(\Omega)\) taken at \(\Omega=r\Omega_{0}\). That is, the length-\(N_{0}\) DFT of signal \(x[n]\) yields \(N_{0}\) samples of its DTFT \(X(\Omega)\) as
+
+\[X_{r}=X(r\Omega_{0}),\qquad\text{where }\Omega_{0}=\frac{2\pi}{N_{0}} \tag{9.26}\]
+
+This relationship provides a way to use MATLAB's fft command to validate our DTFT calculations. By appropriately zero-padding \(x[n]\), we can obtain as many samples of \(X(\Omega)\) as are desired. Let us demonstrate the process for the current example using \(N_{0}=64\). Notice that in taking the DFT, we modulo-\(N_{0}\) shift our rectangular pulse signal to occupy \(0\leq n\leq N_{0}-1\).
+
+>> Omega = linspace(0,2*pi,1000); >> X = sin(4.5*Omega)./sin(0.5*Omega); X(mod(Omega,2*pi)==0) = 4.5/0.5; >> N_0 = 64; M = 9; x = [ones(1,M+1)/2) zeros(1,N_0-M) ones(1,(M-1)/2)]; >> Xr = fft(x); Omega_0 = 2*pi/N_0; r = 0:N_0-1;
+
+Figure 9.7: **(a)** Discrete-time gate pulse and **(b)** its Fourier spectrum.
+
+### 9.2 Aperiodic Signal Representation by Fourier Integral
+
+>> plot(Omega,abs(X),'k-',Omega_0*r,abs(Xr),'k.'); axis([0 2*pi 0 9.5]); >> xlabel('\Omega'); ylabel('|X(\Omega)|'); As shown in Fig. 9.8, the FFT samples align exactly with our analytical DTFT result.
+
+### 9.6 Inverse DTFT of a Rectangular Spectrum
+
+Find the inverse DTFT of the rectangular pulse spectrum described over the fundamental band (\(|\Omega|\leq\pi\)) by \(X(\Omega)=\operatorname{rect}\left(\Omega/2\Omega_{c}\right)\) for \(\Omega_{c}\leq\pi\). Because of the periodicity property, \(X(\Omega)\) repeats at the intervals of \(2\pi\), as shown in Fig. 9.9a.
+
+Figure 9.8: Using the FFT to verify the DTFT for Ex. 9.5.
+
+Figure 9.9: Periodic gate spectrum and its inverse discrete-time Fourier transform.
+
+According to Eq. (9.18),
+
+\[x[n] =\frac{1}{2\pi}\int_{-\pi}^{\pi}X(\Omega)e^{in\Omega}\,d\Omega=\frac {1}{2\pi}\int_{-\Omega_{c}}^{\Omega_{c}}e^{in\Omega}\,d\Omega\] \[=\frac{1}{j2\pi n}e^{in\Omega}\bigg{|}_{-\Omega_{c}}^{\Omega_{c}}= \frac{\sin\left(\Omega_{c}n\right)}{\pi n}=\frac{\Omega_{c}}{\pi}\,\mathrm{sinc }\left(\Omega_{c}n\right)\]
+
+The signal \(x[n]\) is depicted in Fig. 9.9b (for the case \(\Omega_{c}=\pi/4\)).
+
+### 9.4 Finding the DTFT
+
+Find the DTFT and sketch the corresponding amplitude and phase spectra for
+
+1. \(x[n]=\gamma^{[k]}\) with \(|\gamma|<1\)
+2. \(y[n]=\delta[n+1]-\delta[n-1]\)
+
+ANSWERS
+
+1. \(X(\Omega)=\frac{1-\gamma^{2}}{1-2\gamma\cos\Omega+\gamma^{2}}\)
+2. \(|Y(\Omega)|=2|\sin\Omega|\) and \(\angle Y(\omega)=(\pi/2)[1-\mathrm{sgn}\left(\sin\Omega\right)]\)
+
+### 9.2-2 Connection Between the DTFT and the \(z\)-Transform
+
+The connection between the (bilateral) \(z\)-transform and the DTFT is similar to that between the Laplace transform and the Fourier transform. The \(z\)-transform of \(x[n]\), according to Eq. (5.1), is
+
+\[X[z]=\sum_{n=-\infty}^{\infty}x[n]z^{-n} \tag{9.27}\]
+
+Setting \(z=e^{i\Omega}\) in this equation yields
+
+\[X[e^{i\Omega}]=\sum_{n=-\infty}^{\infty}x[n]e^{-i\Omega n}\]
+
+The right-hand side sum defines \(X(\Omega)\), the DTFT of \(x[n]\). Does this mean that the DTFT can be obtained from the corresponding \(z\)-transform by setting \(z=e^{i\Omega}\)? In other words, is it true that \(X[e^{i\Omega}]=X(\Omega)\)? Yes, it is true in most cases. For example, when \(x[n]=a^{n}u[n]\), its \(z\)-transform is \(z/(z-a)\), and \(X[e^{i\Omega}]=e^{i\Omega}/(e^{i\Omega}-a)\), which is equal to \(X(\Omega)\) (assuming \(|a|<1\)). However, for the unit step function \(u[n]\), the \(z\)-transform is \(z/(z-1)\), and \(X[e^{i\Omega}]=e^{i\Omega}/(e^{i\Omega}-1)\). As seen from Table 9.1, pair 10, this is not equal to \(X(\Omega)\) in this case.
+
+We obtained \(X[e^{i\Omega}]\) by setting \(z=e^{i\Omega}\) in Eq. (9.27). This implies that the sum on the right-hand side of Eq. (9.27) converges for \(z=e^{i\Omega}\), which means the unit circle (characterized by \(z=e^{i\Omega}\)) lies in the region of convergence for \(X[z]\). Hence, the general rule is that setting \(z=e^{i\Omega}\) in \(X[z]\) yields the DTFT \(X(\Omega)\) only when the ROC for \(X[z]\) includes the unit circle. This applies for all \(x[n]\) that are absolutely summable. If the ROC of \(X[z]\) excludes the unit circle, \(X[e^{i\Omega}]\neq X(\Omega)\). This applies to all exponentially growing \(x[n]\) and also \(x[n]\), which either is constant or oscillates with constant amplitude.
+
+The reason for this peculiar behavior has something to do with the nature of convergence of the \(z\)-transform and the DTFT.+
+
+Footnote †: To explain this point, consider the unit step function \(u[n]\) and its transforms. Both the \(z\)-transform and the DTFT synthesize \(x[n]\), using everlasting exponentials of the form \(z^{n}\). The value of \(z\) can be anywhere in the complex \(z\)-plane for the \(z\)-transform, but it must be restricted to the unit circle (\(z=e^{i\Omega}\)) in the case of the DTFT. The unit step function is readily synthesized in the \(z\)-transform by a relatively simple spectrum \(X[z]=z/(z-1)\), by choosing \(z\) outside the unit circle (the ROC for \(u[n]\) is \(|z|>1\)). In the DTFT, however, we are restricted to values of \(z\) only on the unit circle (\(z=e^{i\Omega}\)). The function \(u[n]\) can still be synthesized by values of \(z\) on the unit circle, but the spectrum is more complicated than when we are free to choose \(z\) anywhere, including the region outside the unit circle. In contrast, when \(x[n]\) is absolutely summable, the region of convergence for the \(z\)-transform includes the unit circle, and we can synthesize \(x[n]\) by using \(z\) along the unit circle in both the transforms. This leads to \(X[e^{i\Omega}]=X(\Omega)\).
+
+This discussion shows that although the DTFT may be considered to be a special case of the \(z\)-transform, we need to circumscribe such a view. This cautionary note is supported by the fact that a periodic signal has the DTFT, but its \(z\)-transform does not exist.
+
+### 9.3 Properties of the DTFT
+
+A close connection exists between the DTFT and the CTFT (continuous-time Fourier transform). For this reason, which Sec. 9.4 discusses, the properties of the DTFT are very similar to those of the CTFT, as the following discussion shows.
+
+### Linearity of the DTFT
+
+If
+
+\[x_{1}[n]\Longleftrightarrow X_{1}(\Omega)\qquad\text{and}\qquad x_{2}[n] \Longleftrightarrow X_{2}(\Omega)\]
+
+then
+
+\[a_{1}x_{1}[n]+a_{2}x_{2}[n]\Longleftrightarrow a_{1}X_{1}(\Omega)+a_{2}X_{ 2}(\Omega)\]
+
+The proof is trivial. The result can be extended to any finite sums.
+
+### Conjugate Symmetry of \(X(\Omega)\)
+
+In Eq. (9.20), we proved the _conjugation property_
+
+\[x^{*}[n]\Longleftrightarrow X^{*}(-\Omega) \tag{9.28}\]We also showed that as a consequence of this, when \(x[n]\) is real, \(X(\Omega)\) and \(X(-\Omega)\) are conjugates, that is,
+
+\[X(-\Omega)=X^{*}(\Omega)\]
+
+This is the _conjugate symmetry_ property. Since \(X(\Omega)\) is generally complex, we have both amplitude and angle (or phase) spectra
+
+\[X(\Omega)=|X(\Omega)|e^{j\angle X(\Omega)}\]
+
+Hence, for real \(x[n]\), it follows that
+
+\[|X(\Omega)|=|X(-\Omega)|\qquad\text{and}\qquad\angle X(\Omega)=-\angle X(-\Omega)\]
+
+Therefore, for real \(x[n]\), the amplitude spectrum \(|X(\Omega)|\) is an even function of \(\Omega\) and the phase spectrum \(\angle X(\Omega)\) is an odd function of \(\Omega\).
+
+### Time and Frequency Reversal
+
+Also called the reflection property, the time and frequency reversal property states that
+
+\[x[-n]\Longleftrightarrow X(-\Omega) \tag{9.29}\]
+
+Demonstration of this property is straightforward. From Eq. (9.19), the DTFT of \(x[-n]\) is
+
+\[\text{DTFT}\{x[-n]\}=\sum_{n=-\infty}^{\infty}x[-n]e^{-j\Omega n}=\sum_{m=- \infty}^{\infty}x[m]e^{j\Omega m}=X(-\Omega)\]
+
+**Example 9.7**: **Using the Reflection Property**
+
+Use the time-frequency reversal property of Eq. (9.29) and pair 2 in Table 9.1 to derive pair 4 in Table 9.1.
+
+Pair 2 states that
+
+\[\gamma^{n}u[n]=\frac{e^{i\Omega}}{e^{i\Omega}-\gamma}\qquad|\gamma|<1\]
+
+Hence, from Eq. (9.29),
+
+\[\gamma^{-n}u[-n]=\frac{e^{-j\Omega}}{e^{-j\Omega}-\gamma}\qquad|\gamma|<1\]
+
+Moreover, \(\gamma^{|n|}\) could be expressed as a sum of \(\gamma^{n}\,u[n]\) and \(\gamma^{-n}\,u[-n]\), except that the impulse at \(n=0\) is counted twice (once from each of the two exponentials). Hence,
+
+\[\gamma^{|n|}=\gamma^{n}u[n]+\gamma^{-n}u[-n]-\delta[n]\]Combining these results and invoking the linearity property, we can write
+
+\[\mathrm{DTFT}\{\nu^{[n]}\}=\frac{e^{i\Omega}}{e^{i\Omega}-\gamma}+\frac{e^{-j \Omega}}{e^{-j\Omega}-\gamma}-1=\frac{1-\gamma^{2}}{1-2\gamma\cos\Omega+\gamma^ {2}}\qquad|\gamma|<1\]
+
+which agrees with pair 4 in Table 9.1.
+
+**Drill 9.5 Using the Reflection Property**
+
+In Table 9.1, derive pair 13 from pair 15 by using the time-reversal property of Eq. (9.29).
+
+Multiplication by \(n\): Frequency Differentiation
+
+\[nx[n]\Longleftrightarrow j\frac{dX(\Omega)}{d\Omega} \tag{9.30}\]
+
+The result follows immediately by differentiating both sides of Eq. (9.19) with respect to \(\Omega\).
+
+**Example 9.8 Using the Frequency-Differentiation Property**
+
+Use the frequency-differentiation property of Eq. (9.30) and pair 2 in Table 9.1 to derive pair 5 in Table 9.1.
+
+Pair 2 states that
+
+\[\gamma^{n}u[n]=\frac{e^{i\Omega}}{e^{i\Omega}-\gamma}\qquad|\gamma|<1\]
+
+Hence, from Eq. (9.30),
+
+\[n\gamma^{n}u[n]=j\frac{d}{d\Omega}\left\{\frac{e^{i\Omega}}{e^{i\Omega}-\gamma }\right\}=\frac{\gamma\,e^{i\Omega}}{(e^{i\Omega}-\gamma)^{2}}\qquad|\gamma|<1\]
+
+which agrees with pair 5 in Table 9.1.
+
+## Chapter Time-Shifting Property
+
+If
+
+\[x[n]\Longleftrightarrow X(\Omega)\]
+
+then
+
+\[x[n-k]\Longleftrightarrow X(\Omega)e^{-jk\Omega}\qquad\text{for integer $k$} \tag{9.31}\]
+
+This property can be proved by direct substitution in the equation defining the direct transform. From Eq. (9.19), we obtain
+
+\[x[n-k] \Longleftrightarrow\sum_{n=-\infty}^{\infty}x[n-k]e^{-j\Omega n}= \sum_{m=-\infty}^{\infty}x[m]e^{-j\Omega[m+k]}\] \[=e^{-j\Omega k}\sum_{n=-\infty}^{\infty}x[m]e^{-j\Omega m}=e^{-jk \Omega}X(\Omega)\]
+
+This result shows that _delaying a signal by \(k\) samples does not change its amplitude spectrum. The phase spectrum, however, is changed by \(-k\Omega\)_. This added phase is a linear function of \(\Omega\) with slope \(-k\).
+
+### 9.12 Exponential of Linear Phase
+
+Time delay in a signal causes a linear phase shift in its spectrum. The heuristic explanation of this result is exactly parallel to that for continuous-time signals given in Sec. 7.3 (see Fig. 7.22).
+
+In Ex. 9.6, we found that
+
+\[\frac{1}{4}\operatorname{sinc}\left(\frac{\pi\,n}{4}\right)\Longleftrightarrow \sum_{m=-\infty}^{\infty}\operatorname{rect}\left(\frac{\Omega-2\pi\,m}{\pi/2 }\right)\]
+
+Use of the time-shifting property [Eq. (9.31)] yields (for integer \(k\))
+
+\[\frac{1}{4}\operatorname{sinc}\left(\frac{\pi\,(n-2)}{4}\right)\Longleftrightarrow \sum_{m=-\infty}^{\infty}\operatorname{rect}\left(\frac{\Omega-2\pi\,m}{\pi/2 }\right)e^{-j\Omega}\]
+
+The spectrum of the shifted signal is shown in Fig. 9.10b.
+
+### 9.6 Using the Time-Shifting Property
+
+Verify the result in Eq. (9.24) from pair 7 in Table 9.1 and the time-shifting property of the DTFI.
+
+Frequency-Shifting Property
+
+If
+
+\[x[n]\Longleftrightarrow X(\Omega)\]
+
+then
+
+\[x[n]e^{i\Omega_{c}n}\Longleftrightarrow X(\Omega-\Omega_{c}) \tag{9.32}\]
+
+This property is the dual of the time-shifting property. To prove the frequency-shifting property, we use Eq. (9.19) as
+
+\[x[n]e^{i\Omega_{c}n}\Longleftrightarrow\sum_{n=-\infty}^{\infty}x[n]e^{i \Omega_{c}n}e^{-i\Omega n}=\sum_{n=-\infty}^{\infty}x[n]e^{-i(\Omega-\Omega_{ c})n}=X(\Omega-\Omega_{c})\]
+
+From this result, it follows that
+
+\[x[n]e^{-i\Omega_{c}n}\Longleftrightarrow X(\Omega+\Omega_{c})\]
+
+Figure 9.10: Shifted signal \(x[n]\) possesses spectrum \(X(\Omega)\) with linear phase component \(-2\Omega\).
+
+Adding this pair to the pair in Eq. (9.32), we obtain
+
+\[x[n]\cos\left(\Omega_{c}n\right)\Longleftrightarrow\tfrac{1}{2}\{X(\Omega- \Omega_{c})+X(\Omega+\Omega_{c})\} \tag{9.33}\]
+
+This is the _modulation property_.
+
+Multiplying both sides of pair (9.32) by \(e^{i\theta}\), we obtain
+
+\[x[n]e^{i(\Omega_{c}n+\theta)}\Longleftrightarrow X(\Omega-\Omega_{c})e^{i \theta}\]
+
+Using this pair, we can generalize the modulation property as
+
+\[x[n]\cos\left(\Omega_{c}n+\theta\right)\Longleftrightarrow\tfrac{1}{2}\{X( \Omega-\Omega_{c})e^{i\theta}+X(\Omega+\Omega_{c})e^{-j\theta}\}\]
+
+**Example 9.10**: **Modulation Property**
+
+A signal \(x[n]=\operatorname{sinc}\left(\pi n/4\right)\) modulates a carrier \(\cos\Omega_{c}n\). Find and sketch the spectrum of the modulated signal \(x[n]\cos\Omega_{c}n\) for
+
+**(a)**: \(\Omega_{c}=\pi/2\)
+**(b)**: \(\Omega_{c}=7\pi/8=0.875\pi\)
+
+**(a)** For \(x[n]=\operatorname{sinc}\left(\pi n/4\right)\), we find (Table 9.1, pair 8)
+
+\[X(\Omega)=4\sum_{m=-\infty}^{\infty}\operatorname{rect}\left(\frac{\Omega-2 \pi m}{\pi/2}\right)\]
+
+Figure 9.11a shows the DTFT \(X(\Omega)\). From the modulation property of Eq. (9.33), we obtain
+
+\[x[n]\cos\left(0.5\pi n\right)\Longleftrightarrow 2\sum_{m=-\infty}^{\infty} \operatorname{rect}\left(\frac{\Omega-0.5\pi-2\pi m}{0.5\pi}\right)+ \operatorname{rect}\left(\frac{\Omega+0.5\pi-2\pi m}{0.5\pi}\right)\]
+
+Figure 9.11b shows half the \(X(\Omega)\) shifted by \(\pi/2\) and Fig. 9.11c shows half the \(X(\Omega)\) shifted by \(-\pi/2\). The spectrum of the modulated signal is obtained by adding these two shifted spectra and multiplying by half, as shown in Fig. 9.11d.
+
+**(b)** Figure 9.12a shows \(X(\Omega)\), which is the same as that in part (a). For \(\Omega_{c}=7\pi/8=0.875\pi\), the modulation property of Eq. (9.33) yields
+
+\[x[n]\cos\left(0.875\pi n\right)\Longleftrightarrow 2\sum_{m=-\infty}^{ \infty}\operatorname{rect}\left(\frac{\Omega-0.875\pi-2\pi m}{0.5\pi}\right)+ \operatorname{rect}\left(\frac{\Omega+0.875\pi-2\pi m}{0.5\pi}\right)\]Figure 9.12b shows \(X(\Omega)\) shifted by \(7\pi/8\) and Fig. 9.12c shows \(X(\Omega)\) shifted by \(-7\pi/8\). The spectrum of the modulated signal is obtained by adding these two shifted spectra and multiplying by half, as shown in Fig. 9.12d. In this case, the two shifted spectra overlap. Since the operation of modulation thus causes aliasing, it does not achieve the desired effect of spectral shifting. In this example, to realize spectral shifting without aliasing requires \(\Omega_{c}\leq 3\pi/4\).
+
+Figure 9.11: Instance of modulation for Ex. 9.10a.
+
+**DRIL 9.7 Using the Frequency-Shifting Property**
+
+In Table 9.1, derive pairs 12 and 13 from pair 11 and the frequency-shifting/modulation property.
+
+Figure 9.12: Instance of modulation for Ex. 9.10b.
+
+### Time- and Frequency-Convolution Property
+
+If
+
+\[x_{1}[n]\Longleftrightarrow X_{1}(\Omega)\qquad\mbox{and}\qquad x_{2}[n] \Longleftrightarrow X_{2}(\Omega)\]
+
+then
+
+\[x_{1}[n]\ast x_{2}[n]\Longleftrightarrow X_{1}(\Omega)X_{2}(\Omega) \tag{9.34}\]
+
+and
+
+\[x_{1}[n]x_{2}[n]\Longleftrightarrow\frac{1}{2\pi}X_{1}(\Omega)\,\circled{5}X_{2}(\Omega) \tag{9.35}\]
+
+where
+
+\[x_{1}[n]\ast x_{2}[n]=\sum_{m=-\infty}^{\infty}x_{1}[m]x_{2}[n-m]\]
+
+For two continuous, periodic signals, we define the periodic convolution, denoted by symbol \(\circled{5}\) as1
+
+Footnote 1: In Eq. (8.20), we defined periodic convolution for two discrete, periodic sequences in a different way. Although we are using the same symbol \(\circled{5}\) for both discrete and continuous cases, the meaning will be clear from the context.
+
+\[X_{1}(\Omega)\,\circled{5}X_{2}(\Omega)=\frac{1}{2\pi}\int_{2\pi}X_{1}(u)X_{2}( \Omega-u)\,du\]
+
+The convolution here is not the _linear_ convolution used so far. This is a _periodic_ (or _circular_) convolution applicable to the convolution of two continuous, periodic functions with the same period. The limit of integration in the convolution extends only to one period.
+
+Proof of the time-convolution property is identical to that given in Sec. 5.2 [Eq. (5.19)]. All we have to do is replace \(z\) with \(e^{j\Omega}\). To prove the frequency-convolution property of Eq. (9.35), we have
+
+\[x_{1}[n]x_{2}[n]\Longleftrightarrow\sum_{n=-\infty}^{\infty}x_{1}[n]x_{2}[n] e^{-j\Omega n}=\sum_{n=-\infty}^{\infty}x_{2}[n]\left[\frac{1}{2\pi}\int_{2\pi}X_{1 }(u)e^{-jm}\,du\right]e^{-j\Omega n}\]
+
+Interchanging the order of summation and integration, we obtain
+
+\[x_{1}[n]x_{2}[n]\Longleftrightarrow\frac{1}{2\pi}\int_{2\pi}X_{1}(u)\left[ \sum_{n=-\infty}^{\infty}x_{2}[n]e^{-j(\Omega-u)n}\right]du=\frac{1}{2\pi} \int_{2\pi}X_{1}(u)X_{2}(\Omega-u)\,du\]
+
+**Example 9.11**: **DTFT of an Accumulator System**
+
+If \(x[n]\Longleftrightarrow X(\Omega)\), then show that \(\sum_{k=-\infty}^{n}x[k]\Longleftrightarrow\pi X(0)\sum_{k=- \infty}^{\infty}\delta(\Omega-2\pi\,k)+\frac{e^{j\Omega}}{e^{j\Omega}-1}X( \Omega)\).
+
+\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\)\(\,\,\)\(\,\)\(\,\,\)To begin, we notice that
+
+\[x[n]*u[n]=\sum_{k=-\infty}^{\infty}x[k]u[n-k]=\sum_{k=-\infty}^{n}x[k]\]
+
+Applying the time-convolution property of Eq. (9.34) and pair 10 in Table 9.1, it follows that
+
+\[\sum_{k=-\infty}^{n}x[k]=x[n]*u[n]\Longleftrightarrow X(\Omega)\left(\pi \sum_{k=-\infty}^{\infty}\delta(\Omega-2\pi\,k)+\frac{e^{i\Omega}}{e^{i\Omega }-1}\right)\]
+
+Because of \(2\pi\) periodicity, \(X(0)=X(2\pi\,k)\). Moreover, \(X(\Omega)\delta(\Omega-2\pi\,k)=X(2\pi\,k)\delta(\Omega-2\pi\,k)=X(0)\delta( \Omega-2\pi\,k)\). Hence,
+
+\[\sum_{k=-\infty}^{n}x[k]\Longleftrightarrow\pi X(0)\sum_{k=-\infty}^{\infty }\delta(\Omega-2\pi\,k)+\frac{e^{i\Omega}}{e^{i\Omega}-1}X(\Omega)\]
+
+### 9.8 Using the Frequency-Convolution Property
+
+In Table 9.1, derive pair 9 from pair 8, assuming \(\Omega_{c}\leq\pi/2\). Use the frequency-convolution property.
+
+Parseval's Theorem
+
+If
+
+\[x[n]\Longleftrightarrow X(\Omega)\]
+
+then \(E_{x}\), the energy of \(x[n]\), is given by
+
+\[E_{x}=\sum_{n=-\infty}^{\infty}|x[n]|^{2}=\frac{1}{2\pi}\int_{2\pi}|X(\Omega)| ^{2}\,d\Omega \tag{9.36}\]
+
+To prove this property, we have from Eq. (9.28),
+
+\[X^{*}(\Omega)=\sum_{n=-\infty}^{\infty}x^{*}[n]e^{i\Omega n}\]Now,
+
+\[\sum_{n=-\infty}^{\infty}|x[n]|^{2}=\sum_{n=-\infty}^{\infty}x^{*}[n ]x[n] =\sum_{n=-\infty}^{\infty}x^{*}[n]\left[\frac{1}{2\pi}\int_{2\pi}X( \Omega)e^{i\Omega n}\,d\Omega\right]\] \[=\frac{1}{2\pi}\int_{2\pi}X(\Omega)\left[\sum_{n=-\infty}^{\infty }x^{*}[n]e^{i\Omega n}\right]d\Omega\] \[=\frac{1}{2\pi}\int_{2\pi}X(\Omega)X^{*}(\Omega)\,d\Omega=\frac{1 }{2\pi}\int_{2\pi}\left|X(\Omega)\right|^{2}d\Omega\]
+
+Table 9.2 summarizes Parseval's theorem and the other important properties of the DTFT.
+
+**Example 9.12**: **Using Parseval's Theorem to Find Signal Energy**
+
+Find the energy of \(x[n]=\operatorname{sinc}\left(\Omega_{c}n\right)\), assuming \(\Omega_{c}<\pi\).
+
+From pair 8, Table 9.1, the fundamental band spectrum of \(x[n]\) is
+
+\[\operatorname{sinc}(\Omega_{c}n)\Longleftrightarrow\frac{\pi}{\Omega_{c}} \operatorname{rect}\left(\frac{\Omega}{2\Omega_{c}}\right)\qquad|\Omega|\leq\pi\]
+
+\begin{table}
+\begin{tabular}{l l l} \hline \hline
+**Operation** & \(x[n]\) & \(X(\Omega)\) \\ \hline Linearity & \(a_{1}x_{1}[n]+a_{2}x_{2}[n]\) & \(a_{1}X_{1}(\Omega)+a_{2}X_{2}(\Omega)\) \\ Conjugation & \(x^{*}[n]\) & \(X^{*}(-\Omega)\) \\ Scalar multiplication & \(ax[n]\) & \(aX(\Omega)\) \\ Multiplication by \(n\) & \(nx[n]\) & \(j\frac{dX(\Omega)}{d\Omega}\) \\ Time reversal & \(x[-n]\) & \(X(-\Omega)\) \\ Time shifting & \(x[n-k]\) & \(X(\Omega)e^{-jk\Omega}\) & \(k\) integer \\ Frequency shifting & \(x[n]\,e^{i\Omega_{c}n}\) & \(X(\Omega-\Omega_{c})\) \\ Time convolution & \(x_{1}[n]\,{*}\,x_{2}[n]\) & \(X_{1}(\Omega)X_{2}(\Omega)\) \\ Frequency convolution & \(x_{1}[n]x_{2}[n]\) & \(\frac{1}{2\pi}\int_{2\pi}X_{1}[u]X_{2}[\Omega-u]\,du\) \\ Parseval’s theorem & \(E_{x}=\sum_{n=-\infty}^{\infty}|x[n]|^{2}\) & \(E_{x}=\frac{1}{2\pi}\int_{2\pi}|X(\Omega)|^{2}\,d\Omega\) \\ \hline \hline \end{tabular}
+\end{table}
+Table 9.2: Properties of the DTFTFrom Parseval's theorem [Eq. (9.36)], we have
+
+\[E_{x}=\frac{1}{2\pi}\int_{-\pi}^{\pi}\frac{\pi^{2}}{\Omega_{c}^{2}}\left[\text{ rect}\left(\frac{\Omega}{2\Omega_{c}}\right)\right]^{2}d\Omega\]
+
+Because \(\text{rect}\left(\Omega/2\Omega_{c}\right)=1\) over \(|\Omega|\leq\Omega_{c}\) and is zero otherwise, the preceding integral yields
+
+\[E_{x}=\frac{1}{2\pi}\left(\frac{\pi^{2}}{\Omega_{c}^{2}}\right)\left(2\Omega_{ c}\right)=\frac{\pi}{\Omega_{c}}\]
+
+### 9.4 LTI Discrete-Time System Analysis by Dft
+
+Consider a linear, time-invariant, discrete-time system with the unit impulse response \(h[n]\). We shall find the (zero-state) system response \(y[n]\) for the input \(x[n]\). Let
+
+\[x[n]\Longleftrightarrow X(\Omega)\qquad y[n]\Longleftrightarrow Y(\Omega) \qquad\text{and}\qquad h[n]\Longleftrightarrow H(\Omega)\]
+
+Because \(y[n]=x[n]*h[n]\), it follows from Eq. (9.34) that
+
+\[Y(\Omega)=X(\Omega)H(\Omega) \tag{9.37}\]
+
+This result is similar to that obtained for continuous-time systems. Let us examine the role of \(H(\Omega)\), the DTFT of the unit impulse response \(h[n]\).
+
+Equation (9.37) holds for BIBO-stable systems and also for marginally stable systems if the input does not contain the system's natural mode(s). In other cases, the response grows with \(n\) and is not Fourier-transformable. Moreover, the input \(x[n]\) also has to be DTF-transformable. For cases where Eq. (9.37) does not apply, we use the \(z\)-transform for system analysis.
+
+Equation (9.37) shows that the output signal frequency spectrum is the product of the input signal frequency spectrum and the frequency response of the system. From this equation, we obtain
+
+\[|Y(\Omega)|=|X(\Omega)|\,|H(\Omega)|\qquad\text{and}\qquad\angle Y(\Omega)= \angle X(\Omega)+\angle H(\Omega)\]
+
+This result shows that the output amplitude spectrum is the product of the input amplitude spectrum and the amplitude response of the system. The output phase spectrum is the sum of the input phase spectrum and the phase response of the system.
+
+We can also interpret Eq. (9.37) in terms of the frequency-domain viewpoint, which sees a system in terms of its frequency response (system response to various exponential or sinusoidal components). The frequency domain views a signal as a sum of various exponential or sinusoidal components. The transmission of a signal through a (linear) system is viewed as transmission of various exponential or sinusoidal components of the input signal through the system. This concept can be understood by displaying the input-output relationships by a directed arrow as follows:
+
+\[e^{i\Omega n}\implies H(\Omega)e^{i\Omega n}\]
+
+which shows that the system response to \(e^{i\Omega n}\) is \(H(\Omega)e^{i\Omega n}\), and
+
+\[x[n]=\frac{1}{2\pi}\int_{2\pi}X(\Omega)e^{i\Omega n}d\Omega\]
+
+which shows \(x[n]\) as a sum of everlasting exponential components. Invoking the linearity property, we obtain
+
+\[y[n]=\frac{1}{2\pi}\int_{2\pi}X(\Omega)H(\Omega)e^{i\Omega n}d\Omega\]
+
+which gives \(y[n]\) as a sum of responses to all input components and is equivalent to Eq. (9.37). Thus, \(X(\Omega)\) is the input spectrum and \(Y(\Omega)\) is the output spectrum, given by \(X(\Omega)H(\Omega)\).
+
+**EXAMPLE 9.13**: **LTID System Analysis by the DTFT**
+
+An LTID system is specified by the equation \(y[n]-0.5y[n-1]=x[n]\). Find \(H(\Omega)\), the frequency response of this system. Determine the (zero-state) response \(y[n]\) if the input \(x[n]=(0.8)^{n}u[n]\).
+
+Let \(x[n]\Longleftrightarrow X(\Omega)\) and \(y[n]\Longleftrightarrow Y(\Omega)\). Taking the DTFT of the system's difference equation yields
+
+\[(1-0.5e^{-i\Omega})Y(\Omega)=X(\Omega)\]
+
+According to Eq. (9.37),
+
+\[H(\Omega)=\frac{Y(\Omega)}{X(\Omega)}=\frac{1}{1-e^{-i\Omega}}=\frac{e^{i\Omega }}{e^{i\Omega}-0.5}\]
+
+Also, \(x[n]=(0.8)^{n}u[n]\). Hence,
+
+\[X(\Omega)=\frac{e^{i\Omega}}{e^{i\Omega}-0.8}\]
+
+and
+
+\[Y(\Omega)=X(\Omega)H(\Omega)=\frac{2e^{i\Omega}}{(e^{i\Omega}-0.8)(e^{i\Omega }-0.5)}\]We can express the right-hand side as a sum of two first-order terms (modified partial fraction expansion as discussed in Sec. B.5-6) as follows+:
+
+Footnote †: margin: \(\frac{\mathcal{F}(\Omega)}{\mathcal{F}(\Omega)}\)
+
+\[\frac{Y(\Omega)}{e^{i\Omega}}=\frac{e^{i\Omega}}{(e^{i\Omega}-0.5)(e^{i\Omega}- 0.8)}=\frac{-\frac{5}{3}}{e^{i\Omega}-0.5}+\frac{\frac{8}{3}}{e^{i\Omega}-0.8}\]
+
+Consequently,
+
+\[Y(\Omega) =-\left(\frac{5}{3}\right)\frac{e^{i\Omega}}{e^{i\Omega}-0.5}+ \left(\frac{8}{3}\right)\frac{e^{i\Omega}}{e^{i\Omega}-0.8}\] \[=-\left(\frac{5}{3}\right)\frac{1}{1-0.5e^{-i\Omega}}+\left( \frac{8}{3}\right)\frac{1}{1-0.8e^{-i\Omega}}\]
+
+From entry 2 of Table 9.1, the inverse DTFT of this equation is
+
+\[y[n]=\left[-\tfrac{5}{3}(0.5)^{n}+\tfrac{8}{3}(0.8)^{n}\right]u[n]\]
+
+This example demonstrates the procedure for using the DTFT to determine an LTID system response. It is similar to the Fourier transform method in the analysis of LTIC systems. As in the case of the Fourier transform, this method can be used only if the system is asymptotically or BIBO-stable and if the input signal is DTF-transformable.++ We shall not belabor this method further because it is clumsier and more restrictive than the \(z\)-transform method discussed in Ch. 5.
+
+Footnote ‡: Here, \(Y(\Omega)\) is a function of variable \(e^{i\Omega}\). Hence, \(x=e^{i\Omega}\) for the purpose of comparison with the expression in Sec. B.5-6.
+
+### 9.4-1 Distortionless Transmission
+
+In several applications, digital signals are passed through LTI systems, and we require that the output waveform be a replica of the input waveform. As in the continuous-time case, transmission is said to be distortionless if the input \(x[n]\) and the output \(y[n]\) satisfy the condition
+
+\[y[n]=G_{0}\,x[n-n_{d}]\]
+
+Here, \(n_{d}\), the delay (in samples), is assumed to be integer. Taking the Fourier transform yields
+
+\[Y(\Omega)=G_{0}\,X(\Omega)\,e^{-i\Omega n_{d}}\]
+
+But
+
+\[Y(\Omega)=X(\Omega)\,H(\Omega)\]Therefore,
+
+\[H(\Omega)=G_{0}\,e^{-\beta\Omega n_{d}}\]
+
+This is the frequency response required for distortionless transmission. From this equation, it follows that
+
+\[|H(\Omega)|=G_{0}\qquad\text{and}\qquad\angle H(\Omega)=-\Omega n_{d} \tag{9.38}\]
+
+Thus, for distortionless transmission, the amplitude response \(|H(\Omega)|\) must be a constant, and the phase response \(\angle H(\Omega)\) must be a linear function of \(\Omega\) with slope \(-n_{d}\), where \(n_{d}\) is the delay in the number of samples with respect to input (Fig. 9.13). These are precisely the characteristics of an ideal delay of \(n_{d}\) samples with a gain of \(G_{0}\) [see Eq. (9.31)].
+
+### Measure of Delay Variation
+
+For distortionless transmission, we require a _linear phase_ characteristic. In practice, many systems have a phase characteristic that may be only approximately linear. A convenient way of judging phase linearity is to plot the slope of \(\angle H(\Omega)\) as a function of frequency. This slope is constant for the ideal linear phase (ILP) system, but it may vary with \(\Omega\) in the general case. The slope can be expressed as
+
+\[n_{g}(\Omega)=-\frac{d}{d\Omega}\angle H(\Omega) \tag{9.39}\]
+
+If \(n_{g}(\Omega)\) is constant, all the components are delayed by \(n_{g}\) samples. But if the slope is not constant, the delay \(n_{g}\) varies with frequency. This variation means that different frequency components undergo different amounts of delay, and consequently, the output waveform will not be a replica of the input waveform. As in the case of LTIC systems, \(n_{g}(\Omega)\), as defined in Eq. (9.39), plays an important role in bandpass systems and is called the _group delay_ or _envelope_ delay. Observe that constant \(n_{d}\) implies constant \(n_{g}\). Note that \(\angle H(\Omega)=\phi_{0}-\Omega n_{d}\) also has a constant \(n_{g}\). Thus, constant group delay is a more relaxed condition.
+
+### Distortionless Transmission over Bandpass Systems
+
+As in the case of continuous-time systems, the distortionless transmission conditions can be relaxed for discrete-time bandpass systems. For lowpass systems, the phase characteristic should not only be linear over the band of interest, it should also pass through the origin [Eq. (9.38)]. For bandpass systems, the phase characteristic should be linear over the band of interest, but it need not pass through the origin (\(n_{g}\) should be constant). The amplitude response is required to be constant over the passband. Thus, for distortionless transmission over a bandpass system, the frequency response for positive range of \(\Omega\) is of the form2
+
+Footnote 2: Because the phase function is an odd function of \(\Omega\), if \(\angle H(\Omega)=\phi_{0}-\Omega n_{g}\) for \(\Omega\geq 0\), over the band \(2W\) (centered at \(\Omega_{c}\)), then \(\angle H(\Omega)=-\phi_{0}-\Omega n_{g}\) for \(\Omega<0\) over the band \(2W\) (centered at \(-\Omega_{c}\)).
+
+\[H(\Omega)=G_{0}e^{i(\phi_{0}-\Omega n_{g})}\qquad\Omega\geq 0\]
+
+The proof is identical to that for the continuous-time case in Sec. 7.4-2 and will not be repeated. In using Eq. (9.39) to compute \(n_{g}\), we should ignore jump discontinuities in the phase function.
+
+### 9.4 Ideal and Practical Filters
+
+Ideal filters allow distortionless transmission of a certain band of frequencies and suppress all the remaining frequencies. The general ideal lowpass filter shown in Fig. 9.14 for \(|\Omega|\leq\pi\) allows all components below the cutoff frequency \(\Omega=\Omega_{c}\) to pass without distortion and suppresses all components above \(\Omega_{c}\). Figure 9.15 illustrates ideal highpass and bandpass filter characteristics.
+
+The ideal lowpass filter in Fig. 9.14a has a linear phase of slope \(-n_{d}\), which results in a delay of \(n_{d}\) samples for all its input components of frequencies below \(\Omega_{c}\) rad/sample. Therefore, if the input is a signal \(x[n]\) bandlimited to \(\Omega_{c}\), the output \(y[n]\) is \(x[n]\) delayed by \(n_{d}\); that is,
+
+\[y[n]=x[n-n_{d}]\]
+
+The signal \(x[n]\) is transmitted by this system without distortion, but with delay of \(n_{d}\) samples. For this filter,
+
+\[H(\Omega)=\sum_{m=-\infty}^{\infty}\operatorname{rect}\left(\frac{\Omega-2 \pi m}{2\Omega_{c}}\right)e^{-j\Omega n_{d}}\]
+
+The unit impulse response \(h[n]\) of this filter is obtained from pair 8 (Table 9.1) and the time-shifting property
+
+\[h[n]=\frac{\Omega_{c}}{\pi}\operatorname{sinc}\left[\Omega_{c}(n-n_{d})\right]\]
+
+Because \(h[n]\) is the system response to impulse input \(\delta[n]\), which is applied at \(n=0\), it must be causal (i.e., it must not start before \(n=0\)) for a realizable system. Figure 9.14b shows \(h[n]\) for
+
+Figure 9.14: Ideal lowpass filter: its frequency response and impulse response.
+
+\(\Omega_{c}=\pi/4\) and \(n_{d}=12\). This figure also shows that \(h[n]\) is noncausal, hence unrealizable. Similarly, one can show that other ideal filters (such as the ideal highpass or and bandpass filters depicted in Fig. 9.15) are also noncausal and therefore physically unrealizable.
+
+One practical approach to realize an ideal lowpass filter approximately is to truncate both tails (positive and negative) of \(h[n]\) so that it has a finite length and then delay sufficiently to make it causal (Fig. 9.16). We now synthesize a system with this truncated (and delayed) impulse response. For closer approximation, the truncating window has to be correspondingly wider. The delay required also increases correspondingly. Thus, the price of closer realization is higher delay in the output; this situation is common in noncausal systems.
+
+## 9.5 Dftf Connection with the Ctft
+
+Consider a continuous-time signal \(x_{c}(t)\) (Fig. 9.17a) with the Fourier transform \(X_{c}(\omega)\) bandlimited to \(B\) Hz (Fig. 9.17b). This signal is sampled with a sampling interval \(T\). The sampling rate is at least equal to the Nyquist rate; that is, \(T\leq 1/2B\). The sampled signal \(\overline{x}_{c}(t)\) (Fig. 9.17c) can be
+
+Figure 9.16: Approximate realization of an ideal lowpass filter by truncation of its impulse response.
+
+Figure 9.15: Ideal highpass and bandpass filter frequency response.
+
+expressed as
+
+\[\overline{x}_{c}(t)=\sum_{n=-\infty}^{\infty}x_{c}(nT)\,\delta(t-nT)\]
+
+The continuous-time Fourier transform of the foregoing equation yields
+
+\[\overline{X}_{c}(\omega)=\sum_{n=-\infty}^{\infty}x_{c}(nT)\,e^{-jnT\omega} \tag{9.40}\]
+
+In Sec. 8.1 (Fig. 8.1f), we showed that \(\overline{X}_{c}(\omega)\) is \(X_{c}(\omega)/T\) repeating periodically with a period \(\omega_{s}=2\pi/T\), as illustrated in Fig. 9.17d. Let us construct a discrete-time signal \(x[n]\) such that its \(n\)th sample value is equal to the value of the \(n\)th sample of \(x_{c}(t)\), as depicted in Fig. 9.17e, that is,
+
+\[x[n]=x_{c}(nT) \tag{9.41}\]
+
+Now, \(X(\Omega)\), the DTFT of \(x[n]\), is given by
+
+\[X(\Omega)=\sum_{n=-\infty}^{\infty}x[n]\,e^{-jn\Omega}=\sum_{n=-\infty}^{ \infty}x_{c}(nT)\,e^{-jn\Omega}\]
+
+Figure 9.17: Connection between the DTFT and the Fourier transform.
+
+Comparison of this equation with Eq. (9.40) shows that letting \(\omega T=\Omega\) in \(\overline{X}_{c}(\omega)\) yields \(X(\Omega)\), that is,
+
+\[X(\Omega)=\overline{X}_{c}(\omega)|_{\omega T=\Omega}\]
+
+Alternately, \(X(\Omega)\) can be obtained from \(\overline{X}_{c}(\omega)\) by replacing \(\omega\) with \(\Omega/T\), that is,
+
+\[X(\Omega)=\overline{X}_{c}\left(\frac{\Omega}{T}\right) \tag{9.42}\]
+
+Therefore, \(X(\Omega)\) is identical to \(\overline{X}_{c}(\omega)\), frequency-scaled by factor \(T\), as shown in Fig. 9.17f. Thus, \(\omega=2\pi/T\) in Fig. 9.17d corresponds to \(\Omega=2\pi\) in Fig. 9.17f.
+
+#### Use of DFT and FFT for Numerical Computation of the DTFT
+
+The discrete Fourier transform (DFT), as discussed in Ch. 8, is a tool for computing the samples of the continuous-time Fourier transform (CTFT). Because of the close connection between CTFT and DTFT, as seen in Eq. (9.42), we can also use this same DFT to compute DTFT samples.
+
+In Ch. 8, Eqs. (8.12) and (8.13) relate an \(N_{0}\)-point sequence \(x_{n}\) to another \(N_{0}\)-point sequence \(X_{r}\). Changing the notation \(x_{n}\) to \(x[n]\) in these equations, we obtain
+
+\[X_{r}=\sum_{n=0}^{N_{0}-1}x[n]e^{-jr\Omega_{0}n} \tag{9.43}\]
+
+and
+
+\[x[n]=\frac{1}{N_{0}}\sum_{r=0}^{N_{0}-1}X_{r}e^{jr\Omega_{0}n} \tag{9.44}\]
+
+where \(\Omega_{0}=\frac{2\pi}{N_{0}}\). Comparing Eq. (9.19) with Eq. (9.43), we recognize that \(X_{r}\) is the sample of \(X(\Omega)\) at \(\Omega=r\Omega_{0}\), that is,
+
+\[X_{r}=X(r\Omega_{0})\qquad\Omega_{0}=\frac{2\pi}{N_{0}}\]
+
+Hence, DFT Eqs. (9.43) and (9.44) can be viewed to relate an \(N_{0}\)-point sequence \(x[n]\) to the \(N_{0}\)-point samples of corresponding \(X(\Omega)\). We can now use the efficient algorithm FFT (discussed in Ch. 8) to compute \(X_{r}\) from \(x[n]\), and vice versa.
+
+If \(x[n]\) is not timelimited, we can still find the approximate values of \(X_{r}\) by suitably windowing \(x[n]\). To reduce the error, the window should be tapered and should have sufficient width to satisfy error specifications. In practice, the numerical computation of signals, which are generally non-timelimited, is performed in this manner because of the computational economy of the DFT, especially for signals of long duration.
+
+### Computation of Discrete-Time Fourier Series (DTFS)
+
+The discrete-time Fourier series (DTFS) equations [(9.3) and (9.4)] are identical to the DFT equations [(8.13) and (8.12)] within a scaling constant \(N_{0}\). If we let \(x[n]=N_{0}x_{n}\) and in Eqs. (9.4) and (9.3), we obtain
+
+\[X_{r}=\sum_{n=0}^{N_{0}-1}x_{n}e^{-jr\Omega_{0}n}\qquad\text{and}\qquad x_{n}= \frac{1}{N_{0}}\sum_{r=0}^{N_{0}-1}X_{r}e^{jr\Omega_{0}n}\]
+
+This is precisely the DFT and IDFT of Eqs. (8.12) and (8.13). For instance, to compute the DTFS for the periodic signal in Fig. 9.2a, we use the values of \(x_{n}=x[n]/N_{0}\) as
+
+\[x_{n}=\begin{cases}\frac{1}{32}&0\leq n\leq 4\quad\text{and}\quad 28\leq n \leq 31\\ 0&5\leq n\leq 27\end{cases}\]
+
+Numerical computations in modern digital signal processing are conveniently performed with the discrete Fourier transform, introduced in Sec. 8.5. The DFT computations can be very efficiently executed by using the fast Fourier transform (FFT) algorithm discussed in Sec. 8.6. The DFT is indeed the workhorse of modern digital signal processing. The discrete-time Fourier transform (DTFT) and the inverse discrete-time Fourier transform (IDTFT) can be computed by using the DFT. For an \(N_{0}\)-point signal \(x[n]\), its DFT yields exactly \(N_{0}\) samples of \(X(\Omega)\) at frequency intervals of \(2\pi/N_{0}\). We can obtain a larger number of samples of \(X(\Omega)\) by padding a sufficient number of zero-valued samples to \(x[n]\). The \(N_{0}\)-point DFT of \(x[n]\) gives exact values of the DTFT samples if \(x[n]\) has a finite length \(N_{0}\). If the length of \(x[n]\) is infinite, we need to use the appropriate window function to truncate \(x[n]\).
+
+Because of the convolution property, we can use the DFT to compute the convolution of two signals \(x[n]\) and \(h[n]\), as discussed in Sec. 8.5. This procedure, known as fast convolution, requires padding both signals by a suitable number of zeros, to make the linear convolution of the two signals identical to the circular (or periodic) convolution of the padded signals. Large blocks of data may be processed by sectioning the data into smaller blocks and processing such smaller blocks in sequence. Such a procedure requires smaller memory and reduces the processing time [1].
+
+## 9.6 Generalization of the DTFT
+
+To the \(z\)-Transform
+
+LTID systems can be analyzed by using the DTFT. This method, however, has the following limitations.
+
+1. Existence of the DTFT is guaranteed only for absolutely summable signals. The DTFT does not exist for exponentially or even linearly growing signals. This means that the DTFT method is applicable only for a limited class of inputs.
+2. Moreover, this method can be applied only to asymptotically or BIBO-stable systems; it cannot be used for unstable or even marginally stable systems.
+
+These are serious limitations in the study of LTID system analysis. Actually, it is the first limitation that is also the cause of the second limitation. Because the DTFT is incapable of handling growing signals, it is incapable of handling unstable or marginally stable systems.+ Our goal is, therefore, to extend the DTFT concept so that it can handle exponentially growing signals.
+
+Footnote †: Recall that the output of an unstable system grows exponentially. Also, the output of a marginally stable system to characteristic mode input grows with time.
+
+We may wonder what causes this limitation on DTFT so that it is incapable of handling exponentially growing signals. Recall that in the DTFT, we are using sinusoids or exponentials of the form \(e^{i\Omega n}\) to synthesize an arbitrary signal \(x[n]\). These signals are sinusoids with constant amplitudes. They are incapable of synthesizing exponentially growing signals no matter how many such components we add. Our hope, therefore, lies in trying to synthesize \(x[n]\) by using exponentially growing sinusoids or exponentials. This goal can be accomplished by generalizing the frequency variable \(j\Omega\) to \(\sigma+j\Omega\), that is, by using exponentials of the form \(e^{(\sigma+j\Omega)n}\) instead of exponentials \(e^{i\Omega n}\). The procedure is almost identical to that used in extending the Fourier transform to the Laplace transform.
+
+Let us define a new variable \(\hat{X}(j\Omega)=X(\Omega)\). Hence,
+
+\[\hat{X}(j\Omega)=\sum_{n=-\infty}^{\infty}x[n]\,e^{-j\Omega n} \tag{101}\]
+
+and
+
+\[x[n]=\frac{1}{2\pi}\int_{-\pi}^{\pi}\hat{X}(j\Omega)\,e^{i\Omega n}\,d\Omega\]
+
+Consider now the DTFT of \(x[n]\,e^{-\sigma n}\) (\(\sigma\) real):
+
+\[\mbox{DTFT}\left\{x[n]\,e^{-\sigma n}\right\}=\sum_{n=-\infty}^{\infty}x[n]\, e^{-\sigma n}\,e^{-j\Omega n}=\sum_{n=-\infty}^{\infty}x[n]\,e^{-(\sigma+j\Omega)n}\]
+
+It follows from Eq. (101) that this sum is \(\hat{X}(\sigma+j\Omega)\). Thus,
+
+\[\mbox{DTFT}\left\{x[n]\,e^{-\sigma n}\right\}=\sum_{n=-\infty}^{\infty}x[n]\, e^{-(\sigma+j\Omega)n}=\hat{X}(\sigma+j\Omega) \tag{102}\]
+
+Hence, the inverse DTFT of \(\hat{X}(\sigma+j\Omega)\) is \(x[n]\,e^{-\sigma n}\). Therefore,
+
+\[x[n]\,e^{-\sigma n}=\frac{1}{2\pi}\int_{-\pi}^{\pi}\hat{X}(\sigma+j\Omega)\,e^ {i\Omega n}\,d\Omega\]
+
+Multiplying both sides by \(e^{\sigma n}\) yields
+
+\[x[n]=\frac{1}{2\pi}\int_{-\pi}^{\pi}\hat{X}(\sigma+j\Omega)\,e^{(\sigma+j\Omega )n}\,d\Omega \tag{103}\]
+
+Let us define a new variable \(z\) as
+
+\[z=e^{\sigma+j\Omega}\qquad\mbox{so that}\qquad\ln z=\sigma+j\Omega\qquad\mbox{ and}\qquad\frac{1}{z}\,dz=jd\Omega\]\(z\) plane
+
+Because \(z=e^{\sigma+i\Omega}\) is complex, we can express it as \(z=re^{i\Omega}\), where \(r=e^{\sigma}\). Thus, \(z\) lies on a circle of radius \(r\), and as \(\Omega\) varies from \(-\pi\) to \(\pi\), \(z\) circumambulates along this circle, completing exactly one counterclockwise rotation, as illustrated in Fig. 9.18. Changing to variable \(z\) in Eq. (9.47) yields
+
+\[x[n]=\frac{1}{2\pi j}\oint\hat{X}(\ln z)\,z^{n-1}dz \tag{9.48}\]
+
+and from Eq. (9.46) we obtain
+
+\[\hat{X}(\ln z)=\sum_{n=-\infty}^{\infty}x[n]\,z^{-n} \tag{9.49}\]
+
+where the integral \(\oint\) indicates a contour integral around a circle of radius \(r\) in the counterclockwise direction.
+
+Equations (9.48) and (9.49) are the desired extensions. They are, however, in a clumsy form. For the sake of convenience, we make another notational change by observing that \(\hat{X}(\ln z)\) is a function of \(z\). Let us denote it by a simpler notation \(X[z]\). Thus, Eq. (9.48) becomes
+
+\[x[n]=\frac{1}{2\pi j}\oint X[z]\,z^{n-1}dz \tag{9.50}\]
+
+and Eq. (9.49) becomes
+
+\[X[z]=\sum_{n=-\infty}^{\infty}x[n]\,z^{-n} \tag{9.51}\]
+
+This is the (bilateral) \(z\)-transform pair. Equation (9.50) expresses \(x[n]\) as a continuous sum of exponentials of the form \(z^{n}=e^{(\sigma+i\Omega)n}=r^{n}\,e^{i\Omega n}\). Thus, by selecting a proper value for \(r\) (or \(\sigma\)), we can make the exponential grow (or decay) at any exponential rate we desire.
+
+If we let \(\sigma=0\), we have \(z=e^{i\Omega}\) and
+
+\[X[z]\big{|}_{z=e^{i\Omega}}=\hat{X}(\ln z)\Big{|}_{z=e^{i\Omega}}=\hat{X}(j \Omega)=X(\Omega)\]
+
+Thus, the familiar DTFT is just a special case of the \(z\)-transform \(X[z]\) obtained by letting \(z=e^{i\Omega}\) and assuming that the sum on the right-hand side of Eq. (9.51) converges when \(z=e^{i\Omega}\). This also implies that the ROC for \(X[z]\) includes the unit circle.
+
+Figure 9.18: Contour of integration for the \(z\)-transform.
+
+## 9.7 MATLAB: Working with the Dfts and the Dtft
+
+This section investigates various methods to compute the discrete-time Fourier series (DTFS). Performance of these methods is assessed by using MATLAB's stopwatch and profiling functions. Additionally, the discrete-time Fourier transform (DTFT) is applied to the important topic of finite impulse response (FIR) filter design.
+
+### 9.7-1 Computing the Discrete-Time Fourier Series
+
+Within a scale factor, the DTFS is identical to the DFT. Thus, methods to compute the DFT can be readily used to compute the DTFS. Specifically, the DTFS is the DFT scaled by \(1/N_{0}\). As an example, consider a 50 Hz sinusoid sampled at 1000 Hz over one-tenth of a second.
+
+>> T = 1/1000; N_0 = 100; n = (0:N_0-1)'; >> x = cos(2*pi*50*n*T); The DTFS is obtained by scaling the DFT.
+
+>> X = fft(x)/N_0; f = (0:N_0-1)/(T*N_0); >> stem(f-1/(2*T),fftshift(abs(X)),'k.'); >> axis([-500 500 -0.05 0.55]); xlabel('f [Hz]'); ylabel('|X(f)|'); Figure 9.19 shows a peak magnitude of 0.5 at \(\pm 50\) Hz. This result is consistent with Euler's representation
+
+\[\cos{(2\pi\,50nT)}=\frac{1}{2}e^{j2\pi\,50nT}+\frac{1}{2}e^{-j2\pi\,50nT}\]
+
+Lacking the \(1/N_{0}\) scale factor, the DFT would have a peak amplitude 100 times larger.
+
+The inverse DTFS is obtained by scaling the inverse DFT by \(N_{0}\).
+
+>> x = real(ifft(X)*N_0); stem(n,x,'k.'); >> axis([0 99 -1.1 1.1]); xlabel('n'); ylabel('x[n]'); Figure 9.20 confirms that the sinusoid \(x[n]\) is properly recovered. Although the result is theoretically real, computer round-off errors produce a small imaginary component, which the real command removes.
+
+Figure 9.19: DTFS computed by scaling the DFT.
+
+Although MATLAB's fft command provides an efficient method to compute the DTFS, other important computational methods exist. A matrix-based approach is one popular way to implement Eq. (9.4). Although not as efficient as an FFT-based algorithm, matrix-based approaches provide insight into the DTFS and serve as an excellent model for solving similarly structured problems.
+
+To begin, define \(W_{N_{0}}=e^{i\Omega_{0}}\), which is a constant for a given \(N_{0}\). Substituting \(W_{N_{0}}\) into Eq. (9.4) yields
+
+\[\mathcal{D}_{r}=\frac{1}{N_{0}}\sum_{n=0}^{N_{0}-1}x[n]W_{N_{0}}^{-nr}\]
+
+An inner product of two vectors computes \(\mathcal{D}_{r}\).
+
+\[\mathcal{D}_{r}=\frac{1}{N_{0}}\begin{bmatrix}1&W_{N_{0}}^{-r}&W_{N_{0}}^{-2r} &\ldots&W_{N_{0}}^{-(N_{0}-1)r}\end{bmatrix}\begin{bmatrix}x[0]\\ x[1]\\ x[2]\\ \vdots\\ x[N_{0}-1]\end{bmatrix}\]
+
+Stacking the results for all \(r\) yields
+
+\[\begin{bmatrix}\mathcal{D}_{0}\\ \mathcal{D}_{1}\\ \mathcal{D}_{2}\\ \vdots\\ \mathcal{D}_{N_{0}-1}\end{bmatrix}=\frac{1}{N_{0}}\begin{bmatrix}1&1&1& \ldots&1\\ 1&W_{N_{0}}^{-1}&W_{N_{0}}^{-2}&\ldots&W_{N_{0}}^{-(N_{0}-1)}\\ 1&W_{N_{0}}^{-2}&W_{N_{0}}^{-4}&\ldots&W_{N_{0}}^{-2(N_{0}-1)}\\ \vdots&\vdots&\vdots&\ldots&\vdots\\ 1&W_{N_{0}}^{-(N_{0}-1)}&W_{N_{0}}^{-2(N_{0}-1)}&\ldots&W_{N_{0}}^{-(N_{0}-1)^ {2}}\end{bmatrix}\begin{bmatrix}x[0]\\ x[1]\\ x[2]\\ \vdots\\ x[N_{0}-1]\end{bmatrix}\]
+
+In matrix notation, this equation is compactly written as
+
+\[\mathcal{D}=\frac{1}{N_{0}}\mathbf{W}_{N_{0}}\mathbf{x}\]
+
+Since it is also used to compute the DFT, matrix \(\mathbf{W}_{N_{0}}\) is often called a DFT matrix.
+
+Figure 9.20: Inverse DTFS computed by scaling the inverse DFT.
+
+Let us create an anonymous function to compute the \(N_{0}\)-by-\(N_{0}\) DFT matrix \(\mathbf{W}_{N_{0}}\). Although not used here, the signal-processing toolbox function dftmtx computes the same DFT matrix, although in a less obvious but more efficient fashion.
+
+>> W = @(N_0) (exp(-j*2*pi/N_0)).^((0:N_0-1)'*(0:N_0-1)); While less efficient than FFT-based methods, the matrix approach correctly computes the DTFS.
+
+>> X = W(N_0)*x/N_0; stem(f-1/(2*T),fftshift(abs(X)),'k.'); >> axis([-500 500 -0.05 0.55]); xlabel('f [Hz]'); ylabel('|X(f)|'); The resulting plot is indistinguishable from Fig. 9.19. Problem 9.7-1 investigates a matrix-based approach to compute Eq. (9.3), the inverse DTFS.
+
+### Measuring Code Performance
+
+Writing efficient code is important, particularly if the code is frequently used, requires complicated operations, involves large data sets, or operates in real time. MATLAB provides several tools for assessing code performance. When properly used, the profile function provides detailed statistics that help assess code performance. MATLAB help thoroughly describes the use of the sophisticated profile command.
+
+A simpler method of assessing code efficiency is to measure execution time and compare it with a reference. The MATLAB command tic starts a stopwatch timer. The \(\mathtt{toc}\) command reads the timer. Sandwiching instructions between tic and \(\mathtt{toc}\) returns the elapsed time. For example, the execution time of the 100-point matrix-based DTFS computation is
+
+>> tic; W(N_0)*x/N_0; \(\mathtt{toc}\) \(\mathtt{Elapsed\ time\ is\ 0.004417\ seconds}\). Different machines operate at different speeds with different operating systems and with different background tasks. Therefore, elapsed-time measurements can vary considerably from machine to machine and from execution to execution. For relatively simple and short events like the present case, execution times can be so brief that MATLAB may report unreliable times or fail to register an elapsed time at all.
+
+To increase the elapsed time and therefore the accuracy of the time measurement, a loop is used to repeat the calculation.
+
+>> tic; for i=1:100, W(N_0)*x/N_0; end; \(\mathtt{toc}\) \(\mathtt{Elapsed\ time\ is\ 0.173388\ seconds}\). This elapsed time suggests that each 100-point DTFS calculation takes a little under 2 milliseconds. What exactly does this mean, however? Elapsed time is only meaningful relative to some reference. Let us see what difference occurs by precomputing the DFT matrix, rather than repeatedly using our anonymous function.
+
+>> W100 = W(100); tic; for i=1:100, W100*x/N_0; end; \(\mathtt{toc}\) \(\mathtt{Elapsed\ time\ is\ 0.001199\ seconds}\).
+
+The filter coefficients, or tap weights as they are sometimes called, are expressed by using the variable \(h\) to emphasize that the coefficients themselves represent the impulse response of the filter.
+
+The filter's frequency response is
+
+\[H(\Omega)=\frac{Y(\Omega)}{X(\Omega)}=\sum_{k=0}^{N-1}h_{k}e^{-\beta\Omega k}\]
+
+Since \(H(\Omega)\) is a \(2\pi\)-periodic function of the continuous variable \(\Omega\), it is sufficient to specify \(H(\Omega)\) over a single period (\(0\leq\Omega<2\pi\)).
+
+In many filtering applications, the desired magnitude response \(|H_{d}(\Omega)|\) is known but not the filter coefficients \(h[n]\). The question, then, is one of determining the filter coefficients from the desired magnitude response.
+
+Consider the design of a lowpass filter with cutoff frequency \(\Omega_{c}=\pi/4\). An anonymous function represents the desired ideal frequency response.
+
+>> H_d = @(Omega) (mod(Omega,2*pi)<pi/4)+(mod(Omega,2*pi)>2*pi-pi/4); Since the inverse DTFT of \(H_{d}(\Omega)\) is a sampled sinc function, it is impossible to perfectly achieve the desired response with a causal, finite-length FIR filter. A realizable FIR filter is necessarily an approximation, and an infinite number of possible solutions exist. Thought of another way, \(H_{d}(\Omega)\) specifies an infinite number of points, but the FIR filter only has \(N\) unknown tap weights. In general, we expect a length-\(N\) filter to match only \(N\) points of the desired response over (\(0\leq\Omega<2\pi\)). Which frequencies should be chosen?
+
+A simple and sensible method is to select \(N\) frequencies uniformly spaced on the interval (\(0\leq\Omega<2\pi\)), \((0,2\pi/N,4\pi/N,6\pi/N,\ldots,(N-1)2\pi/N)\). By choosing uniformly spaced frequency samples, the \(N\)-point inverse DFT can be used to determine the tap weights \(h[n]\). Program CH9MP1 illustrates this procedure.
+
+function [h] = CH9MP1(N,H_d); % CH9MP1.m : Chapter 9, MATLAB Program 1 % Function M-file designs a length-N FIR filter by sampling the desired % magnitude response H_d. Phase response is left as zero. % INPUTS: N = desired FIR filter length % H_d = anonymous function that defines the desired magnitude response % OUTPUTS: h = impulse response (FIR filter coefficients)
+
+% Create N equally spaced frequency samples: Omega = linspace(0,2*pi*(1-1/N),N)'; % Sample the desired magnitude response and create h[n]: H = 1.0*H_d(Omega); h = real(ifft(H));
+
+To complete the design, the filter length must be specified. Small values of \(N\) reduce the filter's complexity but also reduce the quality of the filter's response. Large values of \(N\) improve the approximation of \(H_{d}(\Omega)\) but also increase complexity. A balance is needed. We choose an intermediate value of \(N=21\) and use CH9MP1 to design the filter.
+
+>> N = 21; h = CH9MP1(N,H_d); To assess the filter quality, the frequency response is computed by means of program CH5MP1.
+
+* >>Omega=linspace(0,2*pi,1000);samples=linspace(0,2*pi*(1-1/N),N)'; >>H=CH5MP1(h,1,Omega); >>subplot(2,1,1);stem([0:N-1],h,'k.');xlabel('n');ylabel('h[n]'); >>subplot(2,1,2); >>plot(samples,H_d(samples),'k.',Omega,H_d(Omega),'k:',Omega,abs(H),'k'); >>axis([0 2*pi -0.1 1.6]);xlabel('\Omega');ylabel('\H(\backslash\Omega\))|'); >>legend('Samples','Desired','Actual','Location','North');
+
+As shown in Fig. 21, the filter's frequency response intersects the desired response at the sampled values of \(H_{d}(\Omega)\). The overall response, however, has significant ripple between sample points that renders the filter practically useless. Increasing the filter length does not alleviate the ripple problems. Figure 22 shows the case \(N=41\).
+
+To understand the poor behavior of filters designed with CH9MP1, remember that the impulse response of an ideal lowpass filter is a sinc function with the peak centered at zero. Thought of another way, the peak of the sinc is centered at \(n=0\) because the phase of \(H_{d}(\Omega)\) is zero. Constrained to be causal, the impulse response of the designed filter still has a peak at \(n=0\) but cannot include values for negative \(n\). As a result, the sinc function is split in an unnatural way with sharp discontinuities on both ends of \(h[n]\). Sharp discontinuities in the time domain appear as high-frequency oscillations in the frequency domain, which is why \(H(\Omega)\) has significant ripple.
+
+To improve the filter behavior, the peak of the sinc is moved to \(n=(N-1)/2\), the center of the length-\(N\) filter response. In this way, the peak is not split, no large discontinuities are present, and frequency response ripple is consequently reduced. From DFT properties, a cyclic shift of \((N-1)/2\) in the time domain requires a scale factor of \(e^{-\beta\Omega(N-1)/2}\) in the frequency
+
+Figure 21: Length-21 FIR lowpass filter using zero phase.
+
+domain.+ Notice that the scale factor \(e^{-j\Omega(N-1)/2}\) affects only phase, not magnitude, and results in a linear phase filter. Program CH9MP2 implements the procedure.
+
+Footnote †: \({}^{\dagger}\) Technically, the shift property requires \((N-1)/2\) to be an integer, which occurs only for odd-length filters. The next-to-last line of program CH9MP2 implements a correction factor, of sorts, required to accommodate the fractional shifts desired for even-length filters. The mathematical derivation of this correction is nontrivial and is not included here. Those hesitant to use this correction factor have an alternative: simply round \((N-1)/2\) to the nearest integer. Although the rounded shift is slightly off-center for even-length filters, there is usually little or no appreciable difference in the characteristics of the filter. Even so, true centering is desirable because the resulting impulse response is symmetric, which can reduce by half the number of multiplies required to implement the filter.
+
+Figure 9.22: Length-41 FIR lowpass filter using zero phase.
+
+Figure 9.23 shows the results for the \(N=21\) case using CHGMP2 to compute \(h[n]\). As hoped, the impulse response looks like a sinc function with the peak centered at \(n=10\). Additionally, the frequency response ripple is greatly reduced. With CHGMP2, increasing \(N\) improves the quality of the filter, as shown in Fig. 9.24 for the case \(N=41\). While the magnitude response is needed to establish the general shape of the filter response, it is the proper selection of phase that ensures the acceptability of the filter's behavior.
+
+To illustrate the flexibility of the design method, consider a bandpass filter with passband (\(\pi/4<|\Omega|<\pi/2\)).
+
+>> H_d = @(Omega) (mod(Omega,2*pi)>pi/4)&(mod(Omega,2*pi)<pi/2)+... >> (mod(Omega,2*pi)>3*pi/2)&(mod(Omega,2*pi)<7*pi/4); Figure 9.25 shows the results for \(N=50\). Notice that this even-length filter uses a fractional shift and is symmetric about \(n=24.5\).
+
+Although FIR filter design by means of frequency sampling is very flexible, it is not always appropriate. Extreme care is needed for filters, such as digital differentiators and Hilbert transformers, that require special phase characteristics for proper operation. Additionally, if frequency samples occur near jump discontinuities of \(H_{d}(\Omega)\), rounding errors may, in rare cases, disrupt the desired symmetry of the sampled magnitude response. Such cases are corrected by slightly adjusting the location of problematic jump discontinuities or by changing the value of \(N\).
+
+Figure 9.23: Length-21 FIR lowpass filter using linear phase.
+
+Figure 9.24: Length-41 FIR lowpass filter using linear phase.
+
+Figure 9.25: Length-50 FIR bandpass filter using linear phase.
+
+## Chapter 9 Fourier analysis of discrete-time signals
+
+This chapter deals with the analysis and processing of discrete-time signals. For analysis, our approach is parallel to that used in continuous-time signals. We first represent a periodic \(x[n]\) as a Fourier series formed by a discrete-time exponential and its harmonics. Later we extend this representation to an aperiodic signal \(x[n]\) by considering \(x[n]\) to be a limiting case of a periodic signal with period approaching infinity.
+
+Periodic signals are represented by discrete-time Fourier series (DTFS); aperiodic signals are represented by the discrete-time Fourier integral. The development, although similar to that of continuous-time signals, also reveals some significant differences. The basic difference in the two cases arises because a continuous-time exponential \(e^{i\omega t}\) has a unique waveform for every value of \(\omega\) in the range \(-\infty\) to \(\infty\). In contrast, a discrete-time exponential \(e^{i\Omega n}\) has a unique waveform only for values of \(\Omega\) in a continuous interval of \(2\pi\). Therefore, if \(\Omega_{0}\) is the fundamental frequency, then at most \(2\pi\)/\(\Omega_{0}\) exponentials in the Fourier series are independent. Consequently, the discrete-time exponential Fourier series has only \(N_{0}=2\pi\)/\(\Omega_{0}\) terms.
+
+The discrete-time Fourier transform (DTFT) of an aperiodic signal is a continuous function of \(\Omega\) and is periodic with period \(2\pi\). We can synthesize \(x[n]\) from spectral components of \(X(\Omega)\) in any band of width \(2\pi\). In a basic sense, the DTFT has a finite spectral width of \(2\pi\), which makes it bandlimited to \(\pi\) radians.
+
+Linear, time-invariant, discrete-time (LTID) systems can be analyzed by means of the DTFT if the input signals are DTF-transformable and if the system is stable. Analysis of unstable (or marginally stable) systems and/or exponentially growing inputs can be handled by the \(z\)-transform, which is a generalized DTFT. The relationship of the DTFT to the \(z\)-transform is similar to that of the Fourier transform to the Laplace transform. Whereas the \(z\)-transform is superior to the DTFT for analysis of LTID systems, the DTFT is preferable in signal analysis.
+
+If \(H(\Omega)\) is the DTFT of the system's impulse response \(h[n]\), then \(|H(\Omega)|\) is the amplitude response, and \(\angle H(\Omega)\) is the phase response of the system. Moreover, if \(X(\Omega)\) and \(Y(\Omega)\) are the DTFTs of the input \(x[n]\) and the corresponding output \(y[n]\), then \(Y(\Omega)=H(\Omega)X(\Omega)\). Therefore, the output spectrum is the product of the input spectrum and the system's frequency response.
+
+Because of the similarity between the DFT and DTFT relationships, numerical computations of the DTFT of finite-length signals can be handled by using the DFT and the FFT, introduced in Secs. 8.5 and 8.6. For signals of infinite length, we use a window of suitable length to truncate the signal so that the final results are within a given error tolerance.
+
+## Bibliography
+
+* [1] Mitra, S. K. _Digital Signal Processing: A Computer-Based Approach_, 2nd ed. McGraw-Hill, New York, 2001.

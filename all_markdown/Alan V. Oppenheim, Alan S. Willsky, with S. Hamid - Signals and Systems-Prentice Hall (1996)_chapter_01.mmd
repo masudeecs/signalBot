@@ -1,0 +1,938 @@
+## Chapter 1 Introduction
+
+As described in the Foreword, the intuitive notions of signals and systems arise in a rich variety of contexts. Moreover, as we will see in this book, there is an analytical framework--that is, a language for describing signals and systems and an extremely powerful set of tools for analyzing them--that applies equally well to problems in many fields. In this chapter, we begin our development of the analytical framework for signals and systems by introducing their mathematical description and representations. In the chapters that follow, we build on this foundation in order to develop and describe additional concepts and methods that add considerably both to our understanding of signals and systems and to our ability to analyze and solve problems involving signals and systems that arise in a broad array of applications.
+
+### 1 Continuous-Time and Discrete-Time Signals
+
+#### Examples and Mathematical Representation
+
+Signals may describe a wide variety of physical phenomena. Although signals can be represented in many ways, in all cases the information in a signal is contained in a pattern of variations of some form. For example, consider the simple circuit in Figure 1.1. In this case, the patterns of variation over time in the source and capacitor voltages, \(v_{s}\) and \(v_{c}\), are examples of signals. Similarly, as depicted in Figure 1.2, the variations over time of the applied force \(f\) and the resulting automobile velocity \(v\) are signals. As another example, consider the human vocal mechanism, which produces speech by creating fluctuations in acoustic pressure. Figure 1.3 is an illustration of a recording of such a speech signal, obtained byusing a microphone to sense variations in acoustic pressure, which are then converted into an electrical signal. As can be seen in the figure, different sounds correspond to different patterns in the variations of acoustic pressure, and the human vocal system produces intelligible speech by generating particular sequences of these patterns. Alternatively, for the monochromatic picture, shown in Figure 4, it is the pattern of variations in brightness across the image that is important.
+
+Figure 3: Example of a recording of speech. [Adapted from _Applications of Digital Signal Processing_, A.V. Oppenheim, ed. (Englewood Cliffs, N.J.: Prentice-Hall, Inc., 1978), p. 121.] The signal represents acoustic pressure variations as a function of time for the spoken words “should we chase.” The top line of the figure corresponds to the word “should,” the second line to the word “we,” and the last two lines to the word “chase.” (We have indicated the approximate beginnings and endings of each successive sound in each word.)
+
+Figure 1.4: A monochromatic
+
+Signals are represented mathematically as functions of one or more independent variables. For example, a speech signal can be represented mathematically by acoustic pressure as a function of time, and a picture can be represented by brightness as a function of two spatial variables. In this book, we focus our attention on signals involving a single independent variable. For convenience, we will generally refer to the independent variable as time, although it may not in fact represent time in specific applications. For example, in geophysics, signals representing variations with depth of physical quantities such as density, porosity, and electrical resistivity are used to study the structure of the earth. Also, knowledge of the variations of air pressure, temperature, and wind speed with altitude are extremely important in meteorological investigations. Figure 1.5 depicts a typical example of annual average vertical wind profile as a function of height. The measured variations of wind speed with height are used in examining weather patterns, as well as wind conditions that may affect an aircraft during final approach and landing.
+
+Throughout this book we will be considering two basic types of signals: continuous-time signals and discrete-time signals. In the case of continuous-time signals the independent variable is continuous, and thus these signals are defined for a continuum of values
+
+Figure 1.5: Typical annual vertical wind profile. (Adapted from Crawford and Hudson, National Severe Storms Laboratory Report, ESSA ERLTM-NSSL 48, August 1970.)
+
+of the independent variable. On the other hand, discrete-time signals are defined only at discrete times, and consequently, for these signals, the independent variable takes on only a discrete set of values. A speech signal as a function of time and atmospheric pressure as a function of altitude are examples of continuous-time signals. The weekly Dow-Jones stock market index, as illustrated in Figure 6, is an example of a discrete-time signal. Other examples of discrete-time signals can be found in demographic studies in which various attributes, such as average budget, crime rate, or pounds of fish caught, are tabulated against such discrete variables as family size, total population, or type of fishing vessel, respectively.
+
+To distinguish between continuous-time and discrete-time signals, we will use the symbol \(t\) to denote the continuous-time independent variable and \(n\) to denote the discrete-time independent variable. In addition, for continuous-time signals we will enclose the independent variable in parentheses \((\,\cdot\,)\), whereas for discrete-time signals we will use brackets \([\,\cdot\,]\) to enclose the independent variable. We will also have frequent occasions when it will be useful to represent signals graphically. Illustrations of a continuous-time signal \(x(t)\) and a discrete-time signal \(x[n]\) are shown in Figure 7. It is important to note that the discrete-time signal \(x[n]\) is defined _only_ for integer values of the independent variable. Our choice of graphical representation for \(x[n]\) emphasizes this fact, and for further emphasis we will on occasion refer to \(x[n]\) as a discrete-time _sequence_.
+
+A discrete-time signal \(x[n]\) may represent a phenomenon for which the independent variable is inherently discrete. Signals such as demographic data are examples of this. On the other hand, a very important class of discrete-time signals arises from the _sampling_ of continuous-time signals. In this case, the discrete-time signal \(x[n]\) represents successive samples of an underlying phenomenon for which the independent variable is continuous. Because of their speed, computational power, and flexibility, modern digital processors are used to implement many practical systems, ranging from digital autopilots to digital audio systems. Such systems require the use of discrete-time sequences representing sampled versions of continuous-time signals--e.g., aircraft position, velocity, and heading for an
+
+Figure 6: An example of a discrete-time signal: The weekly Dow-Jones stock market index from January 5, 1929, to January 4, 1930.
+
+autopilot or speech and music for an audio system. Also, pictures in newspapers--or in this book, for that matter--actually consist of a very fine grid of points, and each of these points represents a sample of the brightness of the corresponding point in the original image. No matter what the source of the data, however, the signal \(x[n]\) is defined only for integer values of \(n\). It makes no more sense to refer to the \(3\frac{1}{2}\)th sample of a digital speech signal than it does to refer to the average budget for a family with \(2\frac{1}{2}\) family members.
+
+Throughout most of this book we will treat discrete-time signals and continuous-time signals separately but in parallel, so that we can draw on insights developed in one setting to aid our understanding of another. In Chapter 7 we will return to the question of sampling, and in that context we will bring continuous-time and discrete-time concepts together in order to examine the relationship between a continuous-time signal and a discrete-time signal obtained from it by sampling.
+
+#### Signal Energy and Power
+
+From the range of examples provided so far, we see that signals may represent a broad variety of phenomena. In many, but not all, applications, the signals we consider are directly related to physical quantities capturing power and energy in a physical system. For example, if \(v(t)\) and \(i(t)\) are, respectively, the voltage and current across a resistor with resistance \(R\), then the instantaneous power is
+
+\[p(t)\,=\,v(t)i(t)\,=\,\frac{1}{R}v^{2}(t). \tag{1}\]
+
+Figure 7: Graphical representations of (a) continuous-time and (b) discrete-time signals.
+
+Note that for some signals the integral in eq. (6) or sum in eq. (7) might not converge--e.g., if \(x(t)\) or \(x[n]\) equals a nonzero constant value for all time. Such signals have infinite energy, while signals with \(E_{\infty}<\infty\) have finite energy.
+
+In an analogous fashion, we can define the time-averaged power over an infinite interval as
+
+\[P_{\infty}\ \stackrel{{\triangle}}{{=}}\ \lim_{T\to\infty}\frac{1}{2T}\ \bigg{]}^{T}_{-T}\,|x(t)|^{2}\,dt \tag{8}\]
+
+and
+
+\[P_{\infty}\ \stackrel{{\triangle}}{{=}}\ \lim_{N\to\infty}\frac{1}{2N+1}\sum_{n \stackrel{{+}}{{=}}-N}^{+N}|x[n]|^{2} \tag{9}\]
+
+in continuous time and discrete time, respectively. With these definitions, we can identify three important classes of signals. The first of these is the class of signals with finite total energy, i.e., those signals for which \(E_{\infty}<\infty\). Such a signal must have zero average power, since in the continuous time case, for example, we see from eq. (8) that
+
+\[P_{\infty}\ =\ \lim_{T\to\infty}\frac{E_{\infty}}{2T}\ =\ 0. \tag{10}\]
+
+An example of a finite-energy signal is a signal that takes on the value 1 for \(0\ \leq\ t\ \leq\ 1\) and 0 otherwise. In this case, \(E_{\infty}\ =\ 1\) and \(P_{\infty}\ =\ 0\).
+
+A second class of signals are those with finite average power \(P_{\infty}\). From what we have just seen, if \(P_{\infty}>0\), then, of necessity, \(E_{\infty}\ =\ \infty\). This, of course, makes sense, since if there is a nonzero average energy per unit time (i.e., nonzero power), then integrating or summing this over an infinite time interval yields an infinite amount of energy. For example, the constant signal \(x[n]\ =\ 4\) has infinite energy, but average power \(P_{\infty}\ =\ 16\). There are also signals for which neither \(P_{\infty}\) nor \(E_{\infty}\) are finite. A simple example is the signal \(x(t)=t\). We will encounter other examples of signals in each of these classes in the remainder of this and the following chapters.
+
+### 2 Transformations of the Independent Variable
+
+A central concept in signal and system analysis is that of the transformation of a signal. For example, in an aircraft control system, signals corresponding to the actions of the pilot are transformed by electrical and mechanical systems into changes in aircraft thrust or the positions of aircraft control surfaces such as the rudder or ailerons, which in turn are transformed through the dynamics and kinematics of the vehicle into changes in aircraft velocity and heading. Also, in a high-fidelity audio system, an input signal representing music as recorded on a cassette or compact disc is modified in order to enhance desirable characteristics, to remove recording noise, or to balance the several components of the signal (e.g., treble and bass). In this section, we focus on a very limited but important class of elementary signal transformations that involve simple modification of the independent variable, i.e., the time axis. As we will see in this and subsequent sections of this chapter, these elementary transformations allow us to introduce several basic properties of signals and systems. In later chapters, we will find that they also play an important role in defining and characterizing far richer and important classes of systems.
+
+#### Examples of Transformations of the Independent Variable
+
+A simple and very important example of transforming the independent variable of a signal is a _time shift_. A time shift in discrete time is illustrated in Figure 1.8, in which we have two signals \(x[n]\) and \(x[n-n_{0}]\) that are identical in shape, but that are displaced or shifted relative to each other. We will also encounter time shifts in continuous time, as illustrated in Figure 1.9, in which \(x(t-t_{0})\) represents a delayed (if \(t_{0}\) is positive) or advanced (if \(t_{0}\) is negative) version of \(x(t)\). Signals that are related in this fashion arise in applications such as radar, sonar, and seismic signal processing, in which several receivers at different locations observe a signal being transmitted through a medium (water, rock, air, etc.). In this case, the difference in propagation time from the point of origin of the transmitted signal to any two receivers results in a time shift between the signals at the two receivers.
+
+A second basic transformation of the time axis is that of _time reversal_. For example, as illustrated in Figure 1.10, the signal \(x[-n]\) is obtained from the signal \(x[n]\) by a reflection about \(n=0\) (i.e., by reversing the signal). Similarly, as depicted in Figure 1.11, the signal \(x(-t)\) is obtained from the signal \(x(t)\) by a reflection about \(t=0\). Thus, if \(x(t)\) represents an audio tape recording, then \(x(-t)\) is the same tape recording played backward. Another transformation is that of _time scaling_. In Figure 1.12 we have illustrated three signals, \(x(t)\), \(x(2t)\), and \(x(t/2)\), that are related by linear scale changes in the independent variable. If we again think of the example of \(x(t)\) as a tape recording, then \(x(2t)\) is that recording played at twice the speed, and \(x(t/2)\) is the recording played at half-speed.
+
+It is often of interest to determine the effect of transforming the independent variable of a given signal \(x(t)\) to obtain a signal of the form \(x(\alpha t+\beta)\), where \(\alpha\) and \(\beta\) are given numbers. Such a transformation of the independent variable preserves the shape of \(x(t)\), except that the resulting signal may be linearly stretched if \(|\alpha|<1\), linearly compressed if \(|\alpha|>1\), reversed in time if \(\alpha<0\), and shifted in time if \(\beta\) is nonzero. This is illustrated in the following set of examples.
+
+Figure 1.8: Discrete-time signals related by a time shift. In this figure \(n_{0}>0\), so that \(x[n-n_{0}]\) is a delayed version of \(x[n]\) (i.e., each point in \(x[n]\) occurs later in \(x[n-n_{0}]\)).
+
+Figure 1.11: (a) A continuous-time signal \(x(t)\); (b) its reflection \(x(-t)\) about \(t=0\). Figure 1.12: Continuous-time signals related by time scaling.
+
+## Example 1.1
+
+Given the signal \(x(t)\) shown in Figure 13(a), the signal \(x(t+1)\) corresponds to an advance (shift to the left) by one unit along the \(t\) axis as illustrated in Figure 13(b). Specifically, we note that the value of \(x(t)\) at \(t=t_{0}\) occurs in \(x(t+1)\) at \(t=t_{0}-1\).
+
+Figure 13: (a) The continuous-time signal \(x(t)\) used in Examples 1.1–1.3 to illustrate transformations of the independent variable; (b) the time-shifted signal \(x(t+1)\); (c) the signal \(x(-t+1)\) obtained by a time shift and a time reversal; (d) the time-scaled signal \(x(\frac{3}{2}t)\); and (e) the signal \(x(\frac{3}{2}t+1)\) obtained by time-shifting and scaling.
+
+example, the value of \(x(t)\) at \(t=1\) is found in \(x(t+1)\) at \(t=1-1=0\). Also, since \(x(t)\) is zero for \(t<0\), we have \(x(t+1)\) zero for \(t<-1\). Similarly, since \(x(t)\) is zero for \(t>2\), \(x(t+1)\) is zero for \(t>1\).
+
+Let us also consider the signal \(x(-t+1)\), which may be obtained by replacing \(t\) with \(-t\) in \(x(t+1)\). That is, \(x(-t+1)\) is the time reversed version of \(x(t+1)\). Thus, \(x(-t+1)\) may be obtained graphically by reflecting \(x(t+1)\) about the \(t\) axis as shown in Figure 1.13(c).
+
+## Example 1.2
+
+Given the signal \(x(t)\), shown in Figure 1.13(a), the signal \(x(\frac{3}{2}t)\) corresponds to a linear compression of \(x(t)\) by a factor of \(\frac{2}{3}\) as illustrated in Figure 1.13(d). Specifically we note that the value of \(x(t)\) at \(t=t_{0}\) occurs in \(x(\frac{3}{2}t)\) at \(t=\frac{2}{3}t_{0}\). For example, the value of \(x(t)\) at \(t=1\) is found in \(x(\frac{3}{2}t)\) at \(t=\frac{2}{3}\) (\(1)=\frac{2}{3}\). Also, since \(x(t)\) is zero for \(t<0\), we have \(x(\frac{3}{2}t)\) zero for \(t<0\). Similarly, since \(x(t)\) is zero for \(t>2\), \(x(\frac{3}{2}t)\) is zero for \(t>\frac{4}{3}\).
+
+## Example 1.3
+
+Suppose that we would like to determine the effect of transforming the independent variable of a given signal, \(x(t)\), to obtain a signal of the form \(x(\alpha t+\beta)\), where \(\alpha\) and \(\beta\) are given numbers. A systematic approach to doing this is to first delay or advance \(x(t)\) in accordance with the value of \(\beta\), and then to perform time scaling and/or time reversal on the resulting signal in accordance with the value of \(\alpha\). The delayed or advanced signal is linearly stretched if \(|\alpha|<1\), linearly compressed if \(|\alpha|>1\), and reversed in time if \(\alpha<0\).
+
+To illustrate this approach, let us show how \(x(\frac{3}{2}t+1)\) may be determined for the signal \(x(t)\) shown in Figure 1.13(a). Since \(\beta=1\), we first advance (shift to the left) \(x(t)\) by \(1\) as shown in Figure 1.13(b). Since \(|\alpha|=\frac{3}{2}\), we may linearly compress the shifted signal of Figure 1.13(b) by a factor of \(\frac{2}{3}\) to obtain the signal shown in Figure 1.13(e).
+
+In addition to their use in representing physical phenomena such as the time shift in a sonar signal and the speeding up or reversal of an audiotape, transformations of the independent variable are extremely useful in signal and system analysis. In Section 1.6 and in Chapter 2, we will use transformations of the independent variable to introduce and analyze the properties of systems. These transformations are also important in defining and examining some important properties of signals.
+
+#### Periodic Signals
+
+An important class of signals that we will encounter frequently throughout this book is the class of _periodic_ signals. A periodic continuous-time signal \(x(t)\) has the property that there is a positive value of \(T\) for which
+
+\[x(t)\,=\,x(t+T) \tag{1.11}\]
+
+for all values of \(t\). In other words, a periodic signal has the property that it is unchanged by a time shift of \(T\). In this case, we say that \(x(t)\) is _periodic with period \(T\)_. Periodic continuous-time signals arise in a variety of contexts. For example, as illustrated in Problem 2.61, the natural response of systems in which energy is conserved, such as ideal \(LC\) circuits without resistive energy dissipation and ideal mechanical systems without frictional losses, are periodic and, in fact, are composed of some of the basic periodic signals that we will introduce in Section 1.3.
+
+An example of a periodic continuous-time signal is given in Figure 14. From the figure or from eq. (11), we can readily deduce that if \(x(t)\) is periodic with period \(T\), then \(x(t)=x(t+mT)\) for all \(t\) and for any integer \(m\). Thus, \(x(t)\) is also periodic with period \(2T\), \(3T\), \(4T\),... The _fundamental period_\(T_{0}\) of \(x(t)\) is the smallest positive value of \(T\) for which eq. (11) holds. This definition of the fundamental period works, except if \(x(t)\) is a constant. In this case the fundamental period is undefined, since \(x(t)\) is periodic for _any_ choice of \(T\) (so there is no smallest positive value). A signal \(x(t)\) that is not periodic will be referred to as an _aperiodic_ signal.
+
+Periodic signals are defined analogously in discrete time. Specifically, a discrete-time signal \(x[n]\) is periodic with period \(N\), where \(N\) is a positive integer, if it is unchanged by a time shift of \(N\), i.e., if
+
+\[x[n]\,=\,x[n+N] \tag{12}\]
+
+for all values of \(n\). If eq. (12) holds, then \(x[n]\) is also periodic with period \(2N\), \(3N\),... The _fundamental period_\(N_{0}\) is the smallest positive value of \(N\) for which eq. (12) holds. An example of a discrete-time periodic signal with fundamental period \(N_{0}\,=\,3\) is shown in Figure 15.
+
+## Example 4
+
+Let us illustrate the type of problem solving that may be required in determining whether or not a given signal is periodic. The signal whose periodicity we wish to check is given by
+
+\[x(t)\,=\,\left\{\begin{array}{ll}\cos(t)&\mbox{if $t<0$}\\ \sin(t)&\mbox{if $t\,\,\cong\,0$}\end{array}\right.. \tag{13}\]
+
+From trigonometry, we know that \(\cos(t+2\pi)\,=\,\cos(t)\) and \(\sin(t+2\pi)\,=\,\sin(t)\). Thus, considering \(t>0\) and \(t<0\) separately, we see that \(x(t)\) does repeat itself over every interval of length \(2\pi\). However, as illustrated in Figure 16, \(x(t)\) also has a discontinuity at the time origin that does not recur at any other time. Since every feature in the shape of a periodic signal _must_ recur periodically, we conclude that the signal \(x(t)\) is not periodic.
+
+Figure 14: A continuous-time periodic signal.
+
+#### Even and Odd Signals
+
+Another set of useful properties of signals relates to their symmetry under time reversal. A signal \(x(t)\) or \(x[n]\) is referred to as an _even_ signal if it is identical to its time-reversed counterpart, i.e., with its reflection about the origin. In continuous time a signal is even if
+
+\[x(-t)\;=\;x(t), \tag{1.14}\]
+
+while a discrete-time signal is even if
+
+\[x[-n]\;=\;x[n]. \tag{1.15}\]
+
+A signal is referred to as _odd_ if
+
+\[x(-t)\;=\;-x(t), \tag{1.16}\] \[x[-n]\;=\;-x[n]. \tag{1.17}\]
+
+An odd signal must necessarily be \(0\) at \(t\;=\;0\) or \(n\;=\;0\), since eqs. (1.16) and (1.17) require that \(x(0)\;=\;-x(0)\) and \(x[0]\;=\;-x[0]\). Examples of even and odd continuous-time signals are shown in Figure 1.17.
+
+Figure 1.16: The signal \(x(t)\) considered in Example 1.4.
+
+An important fact is that any signal can be broken into a sum of two signals, one of which is even and one of which is odd. To see this, consider the signal
+
+\[\mathfrak{E}v\big{[}\ x(t)\big{]}\ =\ \frac{1}{2}\big{[}\ x(t)\,+\,x(-t)\big{]}, \tag{18}\]
+
+which is referred to as the _even part_ of \(x(t)\). Similarly, the _odd part_ of \(x(t)\) is given by
+
+\[\mathcal{O}d\{x(t)\}\ =\ \frac{1}{2}\big{[}x(t)\,-\,x(-t)\big{]}. \tag{19}\]
+
+It is a simple exercise to check that the even part is in fact even, that the odd part is odd, and that \(x(t)\) is the sum of the two. Exactly analogous definitions hold in the discrete-time case. An example of the even-odd decomposition of a discrete-time signal is given in Figure 18.
+
+### 3 Exponential and sinusoidal signals
+
+In this section and the next, we introduce several basic continuous-time and discrete-time signals. Not only do these signals occur frequently, but they also serve as basic building blocks from which we can construct many other signals.
+
+#### Continuous-Time Complex Exponential
+
+and Sinusoidal Signals
+
+The continuous-time _complex exponential signal_ is of the form
+
+\[x(t)\,=\,Ce^{at}, \tag{20}\]
+
+where \(C\) and \(a\) are, in general, complex numbers. Depending upon the values of these parameters, the complex exponential can exhibit several different characteristics.
+
+##### Real Exponential Signals
+
+As illustrated in Figure 19, if \(C\) and \(a\) are real [in which case \(x(t)\) is called a _real exponential_], there are basically two types of behavior. If \(a\) is positive, then as \(t\) increases \(x(t)\) is a growing exponential, a form that is used in describing many different physical processes, including chain reactions in atomic explosions and complex chemical reactions. If \(a\) is negative, then \(x(t)\) is a decaying exponential, a signal that is also used to describe a wide variety of phenomena, including the process of radioactive decay and the responses of \(RC\) circuits and damped mechanical systems. In particular, as shown in Problems 2.61 and 2.62, the natural responses of the circuit in Figure 1 and the automobile in Figure 2 are decaying exponentials. Also, we note that for \(a=0\), \(x(t)\) is constant.
+
+Figure 19: Continuous-time real exponential \(x(t)\,=\,Ce^{at}\): (a) \(a>0\); (b) \(a<0\).
+
+#### Periodic Complex Exponential and Sinusoidal Signals
+
+A second important class of complex exponentials is obtained by constraining \(a\) to be purely imaginary. Specifically, consider
+
+\[x(t)\,=\,e^{ja_{0}t}. \tag{21}\]
+
+An important property of this signal is that it is periodic. To verify this, we recall from eq. (11) that \(x(t)\) will be periodic with period \(T\) if
+
+\[e^{ja_{0}t}\,=\,e^{ja_{0}(t+T)}. \tag{22}\]
+
+Or, since
+
+\[e^{ja_{0}(t+T)}\,=\,e^{ja_{0}t}e^{ja_{0}T},\]
+
+it follows that for periodicity, we must have
+
+\[e^{ja_{0}T}\,=\,1. \tag{23}\]
+
+If \(\omega_{0}=0\), then \(x(t)=1\), which is periodic for any value of \(T\). If \(\omega_{0}\neq 0\), then the fundamental period \(T_{0}\) of \(x(t)\)--that is, the smallest positive value of \(T\) for which eq. (23) holds--is
+
+\[T_{0}\,=\,\frac{2\pi}{|\omega_{0}|}. \tag{24}\]
+
+Thus, the signals \(e^{ja_{0}t}\) and \(e^{-ja_{0}t}\) have the same fundamental period.
+
+A signal closely related to the periodic complex exponential is the _sinusoidal signal_
+
+\[x(t)\,=\,A\cos(\omega_{0}t+\phi), \tag{25}\]
+
+as illustrated in Figure 20. With seconds as the units of \(t\), the units of \(\phi\) and \(\omega_{0}\) are radians and radians per second, respectively. It is also common to write \(\omega_{0}\,=\,2\pi\,f_{0}\), where \(f_{0}\) has the units of cycles per second, or hertz (Hz). Like the complex exponential signal, the sinusoidal signal is periodic with fundamental period \(T_{0}\) given by eq. (24). Sinusoidal and
+
+Figure 20: Continuous-time sinusoidal signal.
+
+complex exponential signals are also used to describe the characteristics of many physical processes--in particular, physical systems in which energy is conserved. For example, as shown in Problem 2.61, the natural response of an \(LC\) circuit is sinusoidal, as is the simple harmonic motion of a mechanical system consisting of a mass connected by a spring to a stationary support. The acoustic pressure variations corresponding to a single musical tone are also sinusoidal.
+
+By using Euler's relation,2 the complex exponential in eq. (21) can be written in terms of sinusoidal signals with the same fundamental period:
+
+Footnote 2: Euler’s relation and other basic ideas related to the manipulation of complex numbers and exponentials are considered in the mathematical review section of the problems at the end of the chapter.
+
+\[e^{ju_{0}t}\,=\,\cos\omega_{0}t\,+\,j\sin\omega_{0}t. \tag{26}\]
+
+Similarly, the sinusoidal signal of eq. (25) can be written in terms of periodic complex exponentials, again with the same fundamental period:
+
+\[A\cos(\omega_{0}t\,+\,\phi)\,=\,\frac{A}{2}e^{j\phi}e^{ju_{0}t}\,+\,\frac{A}{2 }e^{-j\phi}e^{-ju_{0}t}. \tag{27}\]
+
+Note that the two exponentials in eq. (27) have complex amplitudes. Alternatively, we can express a sinusoid in terms of a complex exponential signal as
+
+\[A\cos(\omega_{0}t\,+\,\phi)\,=\,A\Re\{e^{j(\omega_{0}t+\phi)}\}, \tag{28}\]
+
+where, if \(c\) is a complex number, \(\Re\{c\}\) denotes its real part. We will also use the notation \(g_{m}\{c\}\) for the imaginary part of \(c\), so that, for example,
+
+\[A\sin(\omega_{0}t\,+\,\phi)\,=\,A\delta m\{e^{j(\omega_{0}t+\phi)}\}. \tag{29}\]
+
+From eq. (24), we see that the fundamental period \(T_{0}\) of a continuous-time sinusoidal signal or a periodic complex exponential is inversely proportional to \(|\omega_{0}|\), which we will refer to as the _fundamental frequency._ From Figure 21, we see graphically what this means. If we decrease the magnitude of \(\omega_{0}\), we slow down the rate of oscillation and therefore increase the period. Exactly the opposite effects occur if we increase the magnitude of \(\omega_{0}\). Consider now the case \(\omega_{0}=0\). In this case, as we mentioned earlier, \(x(t)\) is constant and therefore is periodic with period \(T\) for any positive value of \(T\). Thus, the fundamental period of a constant signal is undefined. On the other hand, there is no ambiguity in defining the fundamental frequency of a constant signal to be zero. That is, a constant signal has a zero rate of oscillation.
+
+Periodic signals--and in particular, the complex periodic exponential signal in eq. (21) and the sinusoidal signal in eq. (25)--provide important examples of signals with infinite total energy but finite average power. For example, consider the periodic exponential signal of eq. (21), and suppose that we calculate the total energy and average power in this signal over one period:
+
+\[\begin{split} E_{\text{period}}&\,=\,\int_{0}^{T_{ 0}}|e^{ju_{0}t}|^{2}\,dt\\ &\,=\,\int_{0}^{T_{0}}1\cdot dt\,=\,T_{0},\end{split} \tag{30}\]\[P_{\rm period}\,=\,\frac{1}{T_{0}}E_{\rm period}\,=\,1. \tag{31}\]
+
+Since there are an infinite number of periods as \(t\) ranges from \(-\infty\) to \(+\infty\), the total energy integrated over all time is infinite. However, each period of the signal looks exactly the same. Since the average power of the signal equals 1 over each period, averaging over multiple periods always yields an average power of 1. That is, the complex periodic ex ponential signal has finite average power equal to
+
+\[P_{\times}\,=\,\lim_{T\to\infty}\,\frac{1}{2T}\int_{-T}^{T}\left|e^{j\omega_{0}t }\right|^{2}dt\,=\,1. \tag{32}\]
+
+Problem 3 provides additional examples of energy and power calculations for periodic and aperiodic signals.
+
+Periodic complex exponentials will play a central role in much of our treatment of signals and systems, in part because they serve as extremely useful building blocks for many other signals. We will often find it useful to consider sets of _harmonically related_ complex exponentials--that is, sets of periodic exponentials, all of which are periodic with a common period \(T_{0}\). Specifically, a necessary condition for a complex exponential \(e^{j\omega t}\) to be periodic with period \(T_{0}\) is that
+
+\[e^{j\omega T_{0}}\,=\,1, \tag{33}\]
+
+which implies that \(\omega T_{0}\) is a multiple of \(2\pi\), i.e.,
+
+\[\omega T_{0}\,=\,2\pi\,k,\qquad k\,=\,0,\,\pm 1,\,\pm 2,\,\ldots. \tag{34}\]
+
+Thus, if we define
+
+\[\omega_{0}\,=\,\frac{2\pi}{T_{0}}, \tag{35}\]
+
+we see that, to satisfy eq. (34), \(\omega\) must be an integer multiple of \(\omega_{0}\). That is, a harmonically related set of complex exponentials is a set of periodic exponentials with fundamental frequencies that are all multiples of a single positive frequency \(\omega_{0}\):
+
+\[\phi_{k}(t)\,=\,e^{j\omega_{0}t},\qquad k\,=\,0,\,\pm 1,\,\pm 2,\,\ldots. \tag{36}\]
+
+For \(k\,=\,0\), \(\phi_{k}(t)\) is a constant, while for any other value of \(k\), \(\phi_{k}(t)\) is periodic with fundamental frequency \(|k|\omega_{0}\) and fundamental period
+
+\[\frac{2\pi}{|k|\omega_{0}}\,=\,\frac{T_{0}}{|k|}. \tag{37}\]
+
+The \(k\)th harmonic \(\phi_{k}(t)\) is still periodic with period \(T_{0}\) as well, as it goes through exactly \(|k|\) of its fundamental periods during any time interval of length \(T_{0}\).
+
+Our use of the term "harmonic" is consistent with its use in music, where it refers to tones resulting from variations in acoustic pressure at frequencies that are integer multiples of a fundamental frequency. For example, the pattern of vibrations of a string on an instrument such as a violin can be described as a superposition--i.e., a weighted sum--of harmonically related periodic exponentials. In Chapter 3, we will see that we can build a very rich class of periodic signals using the harmonically related signals of eq. (36) as the building blocks.
+
+### 5 Example 1
+
+It is sometimes desirable to express the sum of two complex exponentials as the product of a single complex exponential and a single sinusoid. For example, suppose we wish to plot the magnitude of the signal \[x(t)\,=\,e^{j2t}\,+\,e^{j3t}.\] (1.38) To do this, we first factor out a complex exponential from the right side of eq. (1.38), where the frequency of this exponential factor is taken as the average of the frequencies of the two exponentials in the sum. Doing this, we obtain \[x(t)\,=\,e^{j2.5t}(e^{-j0.5}\,+\,e^{j0.5t}),\] (1.39) which, because of Euler's relation, can be rewritten as \[x(t)\,=\,2e^{j2.5t}\cos(0.5t).\] (1.40) From this, we can directly obtain an expression for the magnitude of \(x(t)\): \[|x(t)|\,=\,2|\cos(0.5t)|.\] (1.41) Here, we have used the fact that the magnitude of the complex exponential \(e^{j2.5t}\) is always unity. Thus, \(|x(t)|\) is what is commonly referred to as a full-wave rectified sinusoid, as shown in Figure 1.22.
+
+General Complex Exponential SignalsThe most general case of a complex exponential can be expressed and interpreted in terms of the two cases we have examined so far: the real exponential and the periodic complex exponential. Specifically, consider a complex exponential \(Ce^{at}\), where \(C\) is expressed in polar form and \(a\) in rectangular form. That is,
+
+\[C\,=\,|C|e^{j\theta}\]
+
+and
+
+\[a\,=\,r\,+\,j\omega_{0}.\]
+
+Then
+
+\[Ce^{at}\,=\,|C|e^{j\theta}e^{(r+j\omega_{0})t}\,=\,|C|e^{rt}e^{j( \omega_{0}t+\theta)}. \tag{1.42}\]
+
+Using Euler's relation, we can expand this further as
+
+\[Ce^{at}\,=\,|C|e^{rt}\cos(\omega_{0}t+\theta)+\,j|C|e^{rt}\sin( \omega_{0}t+\theta). \tag{1.43}\]
+
+Figure 1.22: The full-wave rectified sinusoid of Example 1.5.
+
+Thus, for \(r\,=\,0\), the real and imaginary parts of a complex exponential are sinusoidal. For \(r>0\) they correspond to sinusoidal signals multiplied by a growing exponential, and for \(r<0\) they correspond to sinusoidal signals multiplied by a decaying exponential. These two cases are shown in Figure 23. The dashed lines in the figure correspond to the functions \(\pm|C|e^{rt}\). From eq. (42), we see that \(|C|e^{rt}\) is the magnitude of the complex exponential. Thus, the dashed curves act as an envelope for the oscillatory curve in the figure in that the peaks of the oscillations just reach these curves, and in this way the envelope provides us with a convenient way to visualize the general trend in the amplitude of the oscillations.
+
+Sinusoidal signals multiplied by decaying exponentials are commonly referred to as _damped sinusoids_. Examples of damped sinusoids arise in the response of \(RLC\) circuits and in mechanical systems containing both damping and restoring forces, such as automotive suspension systems. These kinds of systems have mechanisms that dissipate energy (resistors, damping forces such as friction) with oscillations that decay in time. Examples illustrating such systems and their damped sinusoidal natural responses can be found in Problems 61 and 62.
+
+#### Discrete-Time Complex Exponential and Sinusoidal Signals
+
+As in continuous time, an important signal in discrete time is the _complex exponential signal_ or _sequence_, defined by
+
+\[x[n]\,=\,C\alpha^{n}, \tag{44}\]where \(C\) and \(\alpha\) are, in general, complex numbers. This could alternatively be expressed in the form
+
+\[x[n]\,=\,Ce^{\beta n}, \tag{45}\]
+
+where
+
+\[\alpha\,=\,e^{\beta}.\]
+
+Although the form of the discrete-time complex exponential sequence given in eq. (45) is more analogous to the form of the continuous-time exponential, it is often more convenient to express the discrete-time complex exponential sequence in the form of eq. (44).
+
+#### Real Exponential Signals
+
+If \(C\) and \(\alpha\) are real, we can have one of several types of behavior, as illustrated in Figure 24. If \(|\alpha|>1\) the magnitude of the signal grows exponentially with \(n\), while if \(|\alpha|<1\) we have a decaying exponential. Furthermore, if \(\alpha\) is positive, all the values of \(C\alpha^{n}\) are of the same sign, but if \(\alpha\) is negative then the sign of \(x[n]\) alternates. Note also that if \(\alpha\,=\,1\) then \(x[n]\) is a constant, whereas if \(\alpha\,=\,-1\), \(x[n]\) alternates in value between \(+C\) and \(-C\). Real-valued discrete-time exponentials are often used to describe population growth as a function of generation and total return on investment as a function of day, month, or quarter.
+
+#### Sinusoidal Signals
+
+Another important complex exponential is obtained by using the form given in eq. (45) and by constraining \(\beta\) to be purely imaginary (so that \(|\alpha|\,=\,1\)). Specifically, consider
+
+\[x[n]\,=\,e^{j\omega_{0}n}. \tag{46}\]
+
+As in the continuous-time case, this signal is closely related to the sinusoidal signal
+
+\[x[n]\,=\,A\cos(\omega_{0}n\,+\,\phi). \tag{47}\]
+
+If we take \(n\) to be dimensionless, then both \(\omega_{0}\) and \(\phi\) have units of radians. Three examples of sinusoidal sequences are shown in Figure 25.
+
+As before, Euler's relation allows us to relate complex exponentials and sinusoids:
+
+\[e^{j\omega_{0}n}\,=\,\cos\omega_{0}n\,+\,j\sin\omega_{0}n \tag{48}\]
+
+and
+
+\[A\cos(\omega_{0}n\,+\,\phi)\,=\,\frac{A}{2}\,e^{j\phi}e^{j\omega_{0}n}\,+\, \frac{A}{2}\,e^{-j\phi}e^{-j\omega_{0}n}. \tag{49}\]
+
+The signals in eqs. (46) and (47) are examples of discrete-time signals with infinite total energy but finite average power. For example, since \(|e^{j\omega_{0}n}|Figure 1.24: The real exponential signal \(x[n]=\mathcal{C}\alpha^{n}\): (a) \(\alpha>1\); (b) \(0<\alpha<1\); (c) \(-1<\alpha<0\); (d) \(\alpha<-1\).
+
+#### General Complex Exponential Signals
+
+The general discrete-time complex exponential can be written and interpreted in terms of real exponentials and sinusoidal signals. Specifically, if we write \(C\) and \(\alpha\) in polar form,
+
+Figure 1.25: Discrete-time sinusoidal signals.
+
+viz.,
+
+\[C\,=\,|C|e^{j\theta}\]
+
+and
+
+\[\alpha\,=\,|\alpha|e^{j\omega_{0}},\]
+
+then
+
+\[C\alpha^{n}\,=\,|C||\alpha|^{n}\cos(\omega_{0}n+\theta)\,+\,j|C|| \alpha|^{n}\sin(\omega_{0}n+\theta). \tag{1.50}\]
+
+Thus, for \(|\alpha|=1\), the real and imaginary parts of a complex exponential sequence are sinusoidal. For \(|\alpha|<1\) they correspond to sinusoidal sequences multiplied by a decaying exponential, while for \(|\alpha|>1\) they correspond to sinusoidal sequences multiplied by a growing exponential. Examples of these signals are depicted in Figure 1.26.
+
+#### Periodicity Properties of Discrete-Time Complex Exponentials
+
+While there are many similarities between continuous-time and discrete-time signals, there are also a number of important differences. One of these concerns the discrete-time exponential signal \(e^{j\omega_{0}n}\). In Section 1.3.1, we identified the following two properties of its
+
+Figure 1.26: (a) Growing discrete-time sinusoidal signals; (b) decaying discrete-time sinusoid.
+
+Figure 1.27: Discrete-time sinusoidal sequences for several different frequencies.
+
+According to eq. (1.56), the signal \(e^{j\omega_{0}n}\) is periodic if \(\omega_{0}/2\pi\) is a rational number and is not periodic otherwise. These same observations also hold for discrete-time sinusoids. For example, the signals depicted in Figure 1.25(a) and (b) are periodic, while the signal in Figure 1.25(c) is not.
+
+Using the calculations that we have just made, we can also determine the fundamental period and frequency of discrete-time complex exponentials, where we define the fundamental frequency of a discrete-time periodic signal as we did in continuous time. That is, if \(x[n]\) is periodic with fundamental period \(N\), its fundamental frequency is \(2\pi/N\). Consider, then, a periodic complex exponential \(x[n]=e^{j\omega_{0}n}\) with \(\omega_{0}\neq 0\). As we have just seen, \(\omega_{0}\) must satisfy eq. (1.56) for some pair of integers \(m\) and \(N\), with \(N>0\). In Problem 1.35, it is shown that if \(\omega_{0}\neq 0\) and if \(N\) and \(m\) have no factors in common, then the fundamental period of \(x[n]\) is \(N\). Using this fact together with eq. (1.56), we find that the fundamental frequency of the periodic signal \(e^{j\omega_{0}n}\) is
+
+\[\frac{2\pi}{N}\;=\;\frac{\omega_{0}}{m}. \tag{1.57}\]
+
+Note that the fundamental period can also be written as
+
+\[N\;=\;m\left(\frac{2\pi}{\omega_{0}}\right). \tag{1.58}\]
+
+These last two expressions again differ from their continuous-time counterparts. In Table 1.1, we have summarized some of the differences between the continuous-time signal \(e^{j\omega_{0}t}\) and the discrete-time signal \(e^{j\omega_{0}n}\). Note that, as in the continuous-time case, the constant discrete-time signal resulting from setting \(\omega_{0}\,=\,0\) has a fundamental frequency of zero, and its fundamental period is undefined.
+
+To gain some additional insight into these properties, let us examine again the signals depicted in Figure 1.25. First, consider the sequence \(x[n]=\cos(2\pi n/12)\), depicted in Figure 1.25(a), which we can think of as the set of samples of the continuous-time sinusoid \(x(t)=\cos(2\pi t/12)\) at integer time points. In this case, \(x(t)\) is periodic with fundamental period \(12\) and \(x[n]\) is also periodic with fundamental period \(12\). That is, the values of \(x[n]\) repeat every \(12\) points, exactly in step with the fundamental period of \(x(t)\).
+
+In contrast, consider the signal \(x[n]=\cos(8\pi n/31)\), depicted in Figure 1.25(b), which we can view as the set of samples of \(x(t)=\cos\left(8\pi t/31\right)\) at integer points in time. In this case, \(x(t)\) is periodic with fundamental period 31/4. On the other hand, \(x[n]\) is periodic with fundamental period 31. The reason for this difference is that the discrete-time signal is defined only for integer values of the independent variable. Thus, there is no sample at time \(t=31\)/4, when \(x(t)\) completes one period (starting from \(t=0\)). Similarly, there is no sample at \(t=2\cdot 31\)/4 or \(t=3\cdot 31\)/4, when \(x(t)\) has completed two or three periods, but there is a sample at \(t=4\cdot 31/4=31\), when \(x(t)\) has completed _four_ periods. This can be seen in Figure 1.25(b), where the pattern of \(x[n]\) values does _not_ repeat with each single cycle of positive and negative values. Rather, the pattern repeats after four such cycles, namely, every 31 points.
+
+Similarly, the signal \(x[n]=\cos(n/6)\) can be viewed as the set of samples of the signal \(x(t)=\cos(t/6)\) at integer time points. In this case, the values of \(x(t)\) at integer sample points never repeat, as these sample points never span an interval that is an exact multiple of the period, \(12\pi\), of \(x(t)\). Thus, \(x[n]\) is not periodic, although the eye visually interpolates between the sample points, suggesting the envelope \(x(t)\), which _is_ periodic. The use of the concept of sampling to gain insight into the periodicity of discrete-time sinusoidal sequences is explored further in Problem 1.36.
+
+### Example 1.6
+
+Suppose that we wish to determine the fundamental period of the discrete-time signal
+
+\[x[n]=e^{i(2\pi/3)n}+e^{i(3\pi t/4)n}. \tag{1.59}\]
+
+The first exponential on the right-hand side of eq. (1.59) has a fundamental period of 3. While this can be verified from eq. (1.58), there is a simpler way to obtain that answer. In particular, note that the angle \((2\pi/3)n\) of the first term must be incremented by a multiple of \(2\pi\) for the values of this exponential to begin repeating. We then immediately see that if \(n\) is incremented by 3, the angle will be incremented by a single multiple of \(2\pi\). With regard to the second term, we see that incrementing the angle \((3\pi/4)n\) by \(2\pi\) would require \(n\) to be incremented by 8/3, which is impossible, since \(n\) is restricted to being an integer. Similarly, incrementing the angle by \(4\pi\) would require a noninteger increment of 16/3 to \(n\). However, incrementing the angle by \(6\pi\) requires an increment of 8 to \(n\), and thus the fundamental period of the second term is 8.
+
+Now, for the entire signal \(x[n]\) to repeat, each of the terms in eq. (1.59) must go through an integer number of its own fundamental period. The smallest increment of \(n\) that accomplishes this is 24. That is, over an interval of 24 points, the first term on the right-hand side of eq. (1.59) will have gone through eight of its fundamental periods, the second term through three of its fundamental periods, and the overall signal \(x[n]\) through exactly one of its fundamental periods.
+
+As in continuous time, it is also of considerable value in discrete-time signal and system analysis to consider sets of harmonically related periodic exponentials--that is, periodic exponentials with a common period \(N\). From eq. (1.56), we know that these are precisely the signals which are at frequencies which are multiples of \(2\pi/N\). That is,
+
+\[\phi_{k}[n]=e^{jk(2\pi/N)n},\qquad k=0,\,\pm 1,\ldots. \tag{1.60}\]In the continuous-time case, all of the harmonically related complex exponentials \(e^{jk(2\pi/T)t}\), \(k=0,\,\pm 1,\,\pm 2,\,\ldots\), are distinct. However, because of eq. (1.51), this is _not_ the case in discrete time. Specifically,
+
+\[\begin{split}\phi_{k+N}[n]&=\,e^{j(k+N)(2\pi/N)n} \\ &=\,e^{jk(2\pi/N)n}e^{j2\pi n}\,=\,\phi_{k}[n].\end{split} \tag{1.61}\]
+
+This implies that there are only \(N\) distinct periodic exponentials in the set given in eq. (1.60). For example,
+
+\[\begin{split}\phi_{0}[n]&=1,\,\phi_{1}[n]\,=\,e^{ j2\pi n/N},\,\phi_{2}[n]\,=\,e^{j4\pi n/N},\,\ldots,\,\phi_{N-1}[n]\,=\,e^{j2\pi(N-1)n/N} \end{split} \tag{1.62}\]
+
+are all distinct, and any other \(\phi_{k}[n]\) is identical to one of these (e.g., \(\phi_{N}[n]\,=\,\phi_{0}[n]\) and \(\phi_{-1}[n]\,=\,\phi_{N-1}[n]\)).
+
+### 1.4 The Unit Impulse and Unit Step Functions
+
+In this section, we introduce several other basic signals--specifically, the unit impulse and step functions in continuous and discrete time--that are also of considerable importance in signal and system analysis. In Chapter 2, we will see how we can use unit impulse signals as basic building blocks for the construction and representation of other signals. We begin with the discrete-time case.
+
+#### The Discrete-Time Unit Impulse and Unit Step Sequences
+
+One of the simplest discrete-time signals is the _unit impulse_ (or _unit sample_), which is defined as
+
+\[\begin{split}\delta[n]&=\,\left\{\begin{array}{ ll}0,&n\neq 0\\ 1,&n\,=\,0\end{array}\right.\end{split} \tag{1.63}\]
+
+and which is shown in Figure 1.28. Throughout the book, we will refer to \(\delta[n]\) interchangeably as the unit impulse or unit sample.
+
+A second basic discrete-time signal is the discrete-time _unit step_, denoted by \(u[n]\) and defined by
+
+\[\begin{split} u[n]&=\,\left\{\begin{array}{ll}0,&n<0 \\ 1,&n\,\,\geq\,0\end{array}\right..\end{split} \tag{1.64}\]
+
+The unit step sequence is shown in Figure 1.29.
+
+Figure 1.28: Discrete-time unit impulse (sample).
+
+There is a close relationship between the discrete-time unit impulse and unit step. In particular, the discrete-time unit impulse is the _first difference_ of the discrete-time step
+
+\[\delta[n]\,=\,u[n]-u[n-1]. \tag{65}\]
+
+Conversely, the discrete-time unit step is the _running sum_ of the unit sample. That is,
+
+\[u[n]\,=\,\sum_{m\,=\,-\,\infty}^{n}\delta[m]. \tag{66}\]
+
+Equation (66) is illustrated graphically in Figure 30. Since the only nonzero value of the unit sample is at the point at which its argument is zero, we see from the figure that the running sum in eq. (66) is \(0\) for \(n<0\) and \(1\) for \(n\,\geq\,0\). Furthermore, by changing the variable of summation from \(m\) to \(k\,=\,n-m\) in eq. (66), we find that the discrete-time unit step can also be written in terms of the unit sample as
+
+\[u[n]\,=\,\sum_{k\,=\,\infty}^{0}\delta[n-k],\]
+
+or equivalently,
+
+\[u[n]\,=\,\sum_{k\,=\,0}^{\infty}\delta[n-k]. \tag{67}\]
+
+Figure 30: Running sum of eq. (66): (a) \(n<0\); (b) \(n>0\).
+
+Equation (67) is illustrated in Figure 31. In this case the nonzero value of \(\delta[n-k]\) is at the value of \(k\) equal to \(n\), so that again we see that the summation in eq. (67) is \(0\) for \(n<0\) and \(1\) for \(n\,\geq\,0\).
+
+An interpretation of eq. (67) is as a superposition of delayed impulses; i.e., we can view the equation as the sum of a unit impulse \(\delta[n]\) at \(n\,=\,0\), a unit impulse \(\delta[n-1]\) at \(n\,=\,1\), another, \(\delta[n-2]\), at \(n\,=\,2\), etc. We will make explicit use of this interpretation in Chapter 2.
+
+The unit impulse sequence can be used to sample the value of a signal at \(n\,=\,0\). In particular, since \(\delta[n]\) is nonzero (and equal to \(1\)) only for \(n\,=\,0\), it follows that
+
+\[x[n]\delta[n]\,=\,x[0]\delta[n]. \tag{68}\]
+
+More generally, if we consider a unit impulse \(\delta[n-n_{0}]\) at \(n\,=\,n_{0}\), then
+
+\[x[n]\delta[n-n_{0}]\,=\,x[n_{0}]\delta[n-n_{0}]. \tag{69}\]
+
+This sampling property of the unit impulse will play an important role in Chapters 2 and 7.
+
+#### The Continuous-Time Unit Step
+
+and Unit Impulse Functions
+
+The continuous-time _unit step function_\(u(t)\) is defined in a manner similar to its discrete-time counterpart. Specifically,
+
+\[u(t)\,=\,\left\{\begin{array}{ll}0,&t<0\\ 1,&t>0\end{array},\right. \tag{70}\]
+
+as is shown in Figure 32. Note that the unit step is discontinuous at \(t=0\). The continuous-time _unit impulse function_\(\delta(t)\) is related to the unit step in a manner analogous
+
+Figure 31: Relationship given in eq. (67): (a) \(n<0\); (b) \(n>0\).
+
+to the relationship between the discrete-time unit impulse and step functions. In particular, the continuous-time unit step is the _running integral_ of the unit impulse
+
+\[u(t)\,=\,\int_{-\infty}^{t}\delta(\tau)\,d\tau. \tag{71}\]
+
+This also suggests a relationship between \(\delta(t)\) and \(u(t)\) analogous to the expression for \(\delta[n]\) in eq. (65). In particular, it follows from eq. (71) that the continuous-time unit impulse can be thought of as the _first derivative_ of the continuous-time unit step:
+
+\[\delta(t)\,=\,\frac{du(t)}{dt}. \tag{72}\]
+
+In contrast to the discrete-time case, there is some formal difficulty with this equation as a representation of the unit impulse function, since \(u(t)\) is discontinuous at \(t=0\) and consequently is formally not differentiable. We can, however, interpret eq. (72) by considering an approximation to the unit step \(u_{\Delta}(t)\), as illustrated in Figure 33, which rises from the value \(0\) to the value \(1\) in a short time interval of length \(\Delta\). The unit step, of course, changes values instantaneously and thus can be thought of as an idealization of \(u_{\Delta}(t)\) for \(\Delta\) so short that its duration doesn't matter for any practical purpose. Formally, \(u(t)\) is the limit of \(u_{\Delta}(t)\) as \(\Delta\,\to\,0\). Let us now consider the derivative
+
+\[\delta_{\Delta}(t)\,=\,\frac{du_{\Delta}(t)}{dt}, \tag{73}\]
+
+as shown in Figure 34.
+
+Figure 33: Continuous approximation to the unit step, \(u_{\Delta}(t)\).
+
+Figure 34: Derivative of \(u_{\Delta}(t)\).
+
+As with the discrete-time impulse, the continuous-time impulse has a very important sampling property. In particular, for a number of reasons it will be important to consider the product of an impulse and more well-behaved continuous-time functions \(x(t)\). The interpretation of this quantity is most readily developed using the definition of \(\delta(t)\) according to eq. (1.74). Specifically, consider
+
+\[x_{1}(t)\,=\,x(t)\delta_{\Delta}(t).\]
+
+In Figure 39(a) we have depicted the two time functions \(x(t)\) and \(\delta_{\Delta}(t)\), and in Figure 39(b) we see an enlarged view of the nonzero portion of their product. By construction, \(x_{1}(t)\) is zero outside the interval \(0\,\leq\,t\,\leq\,\Delta\). For \(\Delta\) sufficiently small so that \(x(t)\) is approximately constant over this interval,
+
+\[x(t)\delta_{\Delta}(t)\,\approx\,x(0)\delta_{\Delta}(t).\]
+
+Since \(\delta(t)\) is the limit as \(\Delta\,\to\,0\) of \(\delta_{\Delta}(t)\), it follows that
+
+\[x(t)\delta(t)\,=\,x(0)\delta(t). \tag{1.76}\]
+
+By the same argument, we have an analogous expression for an impulse concentrated at an arbitrary point, say, \(t_{0}\). That is,
+
+\[x(t)\delta\,(t-t_{0})\,=\,x(t_{0})\delta(t-t_{0}).\]Although our discussion of the unit impulse in this section has been somewhat informal, it does provide us with some important intuition about this signal that will be useful throughout the book. As we have stated, the unit impulse should be viewed as an idealization. As we illustrate and discuss in more detail in Section 2.5, any real physical system has some inertia associated with it and thus does not respond instantaneously to inputs. Consequently, if a pulse of sufficiently short duration is applied to such a system, the system response will not be noticeably influenced by the pulse's duration or by the details of the shape of the pulse, for that matter. Instead, the primary characteristic of the pulse that will matter is the net, integrated effect of the pulse--i.e., its area. For systems that respond much more quickly than others, the pulse will have to be of much shorter duration before the details of the pulse shape or its duration no longer matter. Nevertheless, for any physical system, we can always find a pulse that is "short enough." The unit impulse then is an idealization of this concept--the pulse that is short enough for _any_ system. As we will see in Chapter 2, the response of a system to this idealized pulse plays a crucial role in signal and system analysis, and in the process of developing and understanding this role, we will develop additional insight into the idealized signal.3
+
+Figure 1.39: The product \(x(t)\delta_{\Delta}(t)\): (a) graphs of both functions; (b) enlarged view of the nonzero portion of their product.
+
+## Example 1.7
+
+Consider the discontinuous signal \(x(t)\) depicted in Figure 1.40(a). Because of the relationship between the continuous-time unit impulse and unit step, we can readily calculate and graph the derivative of this signal. Specifically, the derivative of \(x(t)\) is clearly \(0\), except at the discontinuities. In the case of the unit step, we have seen [eq. (1.72)] that differentiation gives rise to a unit impulse located at the point of discontinuity. Furthermore, by multiplying both sides of eq. (1.72) by any number \(k\), we see that the derivative of a unit step with a discontinuity of size \(k\) gives rise to an impulse of area \(k\) at the point of discontinuity. This rule also holds for any other signal with a jump discontinuity, such as \(x(t)\) in Figure 1.40(a). Consequently, we can sketch its derivative \(\dot{x}(t)\), as in Figure 1.40(b), where an impulse is placed at each discontinuity of \(x(t)\), with area equal to the size of the discontinuity. Note, for example, that the discontinuity in \(x(t)\) at \(t=2\) has a value of \(-3\), so that an impulse scaled by \(-3\) is located at \(t=2\) in the signal \(\dot{x}(t)\).
+
+Figure 1.40: (a) The discontinuous signal \(x(t)\) analyzed in Example 1.7; (b) its derivative \(\dot{x}(t)\); (c) depiction of the recovery of \(x(t)\) as the running integral of \(\dot{x}(t)\), illustrated for a value of \(t\) between \(0\) and \(1\).
+
+As a check of our result, we can verify that we can recover \(x(t)\) from \(\dot{x}(t)\). Specifically, since \(x(t)\) and \(\dot{x}(t)\) are both zero for \(t\,\leq\,0\), we need only check that for \(t\,>\,0\),
+
+\[x(t)\,=\,\int_{0}^{t}\dot{x}(\tau)\,d\tau. \tag{77}\]
+
+As illustrated in Figure 40(c), for \(t\,<\,1\), the integral on the right-hand side of eq. (77) is zero, since none of the impulses that constitute \(\dot{x}(t)\) are within the interval of integration. For \(1\,<\,t\,<\,2\), the first impulse (located at \(t\,=\,1\)) is the only one within the integration interval, and thus the integral in eq. (77) equals \(2\), the area of this impulse. For \(2\,<\,t\,<\,4\), the first two impulses are within the interval of integration, and the integral accumulates the sum of both of their areas, namely, \(2\,-\,3\,=\,-\,1\). Finally, for \(t\,>\,4\), all three impulses are within the integration interval, so that the integral equals the sum of all three areas--that is, \(2\,-\,3\,+\,2\,=\,+\,1\). The result is exactly the signal \(x(t)\) depicted in Figure 40(a).
+
+### 5 Continuous-time and discrete-time systems
+
+Physical systems in the broadest sense are an interconnection of components, devices, or subsystems. In contexts ranging from signal processing and communications to electromechanical motors, automotive vehicles, and chemical-processing plants, a _system_ can be viewed as a process in which input signals are transformed by the system or cause the system to respond in some way, resulting in other signals as outputs. For example, a high-fidelity system takes a recorded audio signal and generates a reproduction of that signal. If the hi-fi system has tone controls, we can change the tonal quality of the reproduced signal. Similarly, the circuit in Figure 1 can be viewed as a system with input voltage \(v_{s}(t)\) and output voltage \(v_{c}(t)\), while the automobile in Figure 2 can be thought of as a system with input equal to the force \(f(t)\) and output equal to the velocity \(v(t)\) of the vehicle. An image-enhancement system transforms an input image into an output image that has some desired properties, such as improved contrast.
+
+A _continuous-time system_ is a system in which continuous-time input signals are applied and result in continuous-time output signals. Such a system will be represented pictorially as in Figure 41(a), where \(x(t)\) is the input and \(y(t)\) is the output. Alternatively, we will often represent the input-output relation of a continuous-time system by the notation
+
+\[x(t)\,\to\,y(t). \tag{78}\]
+
+Figure 41: (a) Continuous-time system; (b) discrete-time system.
+
+Similarly, a _discrete-time system_--that is, a system that transforms discrete-time inputs into discrete-time outputs--will be depicted as in Figure 1.41(b) and will sometimes be represented symbolically as
+
+\[x[n]\,\to\,y[n]. \tag{1.79}\]
+
+In most of this book, we will treat discrete-time systems and continuous-time systems separately but in parallel. In Chapter 7, we will bring continuous-time and discrete-time systems together through the concept of sampling, and we will develop some insights into the use of discrete-time systems to process continuous-time signals that have been sampled.
+
+#### Simple Examples of Systems
+
+One of the most important motivations for the development of general tools for analyzing and designing systems is that systems from many different applications have very similar mathematical descriptions. To illustrate this, we begin with a few simple examples.
+
+**Example 1.8**: Consider the \(RC\) circuit depicted in Figure 1. If we regard \(v_{s}(t)\) as the input signal and \(v_{c}(t)\) as the output signal, then we can use simple circuit analysis to derive an equation describing the relationship between the input and output. Specifically, from Ohm's law, the current \(i(t)\) through the resistor is proportional (with proportionality constant \(1/R\)) to the voltage drop across the resistor; i.e.,
+
+\[i(t)\,=\,\frac{v_{s}(t)-v_{c}(t)}{R}. \tag{1.80}\]
+
+Similarly, using the defining constitutive relation for a capacitor, we can relate \(i(t)\) to the rate of change with time of the voltage across the capacitor:
+
+\[i(t)\,=\,C\frac{dv_{c}(t)}{dt}. \tag{1.81}\]
+
+Equating the right-hand sides of eqs. (1.80) and (1.81), we obtain a differential equation describing the relationship between the input \(v_{s}(t)\) and the output \(v_{c}(t)\):
+
+\[\frac{dv_{c}(t)}{dt}+\frac{1}{RC}v_{c}(t)\,=\,\frac{1}{RC}v_{s}(t). \tag{1.82}\]
+
+## Example 1.9
+
+Consider Figure 1.2, in which we regard the force \(f(t)\) as the input and the velocity \(v(t)\) as the output. If we let \(m\) denote the mass of the automobile and \(m\rho v\) the resistance due to friction, then equating acceleration--i.e., the time derivative of velocity--with net force divided by mass, we obtain
+
+\[\frac{dv(t)}{dt}\,=\,\frac{1}{m}\left[\,f(t)-\rho v(t)\right], \tag{1.83}\]i.e.,
+
+\[\frac{dv(t)}{dt}+\frac{\rho}{m}v(t)=\frac{1}{m}f(t). \tag{1.84}\]
+
+Examining and comparing eqs. (1.82) and (1.84) in the above examples, we see that the input-output relationships captured in these two equations for these two very different physical systems are basically the same. In particular, they are both examples of first-order linear differential equations of the form
+
+\[\frac{dy(t)}{dt}+ay(t)=bx(t), \tag{1.85}\]
+
+where \(x(t)\) is the input, \(y(t)\) is the output, and \(a\) and \(b\) are constants. This is one very simple example of the fact that, by developing methods for analyzing general classes of systems such as that represented by eq. (1.85), we will be able to use them in a wide variety of applications.
+
+### Example 1.10
+
+As a simple example of a discrete-time system, consider a simple model for the balance in a bank account from month to month. Specifically, let \(y[n]\) denote the balance at the end of the \(n\)th month, and suppose that \(y[n]\) evolves from month to month according to the equation
+
+\[y[n]=1.01y[n-1]+x[n], \tag{1.86}\]
+
+or equivalently,
+
+\[y[n]-1.01y[n-1]=x[n], \tag{1.87}\]
+
+where \(x[n]\) represents the net deposit (i.e., deposits minus withdrawals) during the \(n\)th month and the term \(1.01y[n-1]\) models the fact that we accrue 1% interest each month.
+
+### Example 1.11
+
+As a second example, consider a simple digital simulation of the differential equation in eq. (1.84) in which we resolve time into discrete intervals of length \(\Delta\) and approximate \(dv(t)/dt\) at \(t=n\Delta\) by the first backward difference, i.e.,
+
+\[\frac{v(n\Delta)-v((n-1)\Delta)}{\Delta}.\]
+
+In this case, if we let \(v[n]=v(n\Delta)\) and \(f[n]=f(n\Delta)\), we obtain the following discrete-time model relating the sampled signals \(f[n]\) and \(v[n]\):
+
+\[v[n]-\frac{m}{(m+\rho\Delta)}v[n-1]=\frac{\Delta}{(m+\rho\Delta)}f[n]. \tag{1.88}\]
+
+Comparing eqs. (1.87) and (1.88), we see that they are both examples of the same general first-order linear difference equation, namely,
+
+\[y[n]+ay[n-1]=bx[n]. \tag{1.89}\]As the preceding examples suggest, the mathematical descriptions of systems from a wide variety of applications frequently have a great deal in common, and it is this fact that provides considerable motivation for the development of broadly applicable tools for signal and system analysis. The key to doing this successfully is identifying classes of systems that have two important characteristics: (1) The systems in this class have properties and structures that we can exploit to gain insight into their behavior and to develop effective tools for their analysis; and (2) many systems of practical importance can be accurately modeled using systems in this class. It is on the first of these characteristics that most of this book focuses, as we develop tools for a particular class of systems referred to as linear, time-invariant systems. In the next section, we will introduce the properties that characterize this class, as well as a number of other very important basic system properties.
+
+The second characteristic mentioned in the preceding paragraph is of obvious importance for any system analysis technique to be of value in practice. It is a well-established fact that a wide range of physical systems (including those in Examples 1.8-1.10) can be well modeled within the class of systems on which we focus in this book. However, a critical point is that _any_ model used in describing or analyzing a physical system represents an idealization of that system, and thus, any resulting analysis is only as good as the model itself. For example, the simple linear model of a resistor in eq. (1.80) and that of a capacitor in eq. (1.81) are idealizations. However, these idealizations are quite accurate for real resistors and capacitors in many applications, and thus, analyses employing such idealizations provide useful results and conclusions, as long as the voltages and currents remain within the operating conditions under which these simple linear models are valid. Similarly, the use of a linear retarding force to represent frictional effects in eq. (1.83) is an approximation with a range of validity. Consequently, although we will not address this issue in the book, it is important to remember that an essential component of engineering practice in using the methods we develop here consists of identifying the range of validity of the assumptions that have gone into a model and ensuring that any analysis or design based on that model does not violate those assumptions.
+
+#### Interconnections of Systems
+
+An important idea that we will use throughout this book is the concept of the interconnection of systems. Many real systems are built as interconnections of several subsystems. One example is an audio system, which involves the interconnection of a radio receiver, compact disc player, or tape deck with an amplifier and one or more speakers. Another is a digitally controlled aircraft, which is an interconnection of the aircraft, described by its equations of motion and the aerodynamic forces affecting it; the sensors, which measure various aircraft variables such as accelerations, rotation rates, and heading; a digital autopilot, which responds to the measured variables and to command inputs from the pilot (e.g., the desired course, altitude, and speed); and the aircraft's actuators, which respond to inputs provided by the autopilot in order to use the aircraft control surfaces (rudder, tail, ailerons) to change the aerodynamic forces on the aircraft. By viewing such a system as an interconnection of its components, we can use our understanding of the component systems and of how they are interconnected in order to analyze the operation and behavior of the overall system. In addition, by describing a system in terms of an interconnection of simpler subsystems, we may in fact be able to define useful ways in which to synthesize complex systems out of simpler, basic building blocks.
+
+While one can construct a variety of system interconnections, there are several basic ones that are frequently encountered. A _series_ or _cascade interconnection_ of two systems is illustrated in Figure 1.42(a). Diagrams such as this are referred to as _block diagrams._ Here, the output of System 1 is the input to System 2, and the overall system transforms an input by processing it first by System 1 and then by System 2. An example of a series interconnection is a radio receiver followed by an amplifier. Similarly, one can define a series interconnection of three or more systems.
+
+A _parallel interconnection_ of two systems is illustrated in Figure 1.42(b). Here, the same input signal is applied to Systems 1 and 2. The symbol "\(\oplus\)" in the figure denotes addition, so that the output of the parallel interconnection is the sum of the outputs of Systems 1 and 2. An example of a parallel interconnection is a simple audio system with several microphones feeding into a single amplifier and speaker system. In addition to the simple parallel interconnection in Figure 1.42(b), we can define parallel interconnections of more than two systems, and we can combine both cascade and parallel interconnections
+
+Figure 1.42: Interconnection of two systems: (a) series (cascade) interconnection; (b) parallel interconnection; (c) series-parallel interconnection.
+
+to obtain more complicated interconnections. An example of such an interconnection is given in Figure 1.42(c).4
+
+Footnote 4: On occasion, we will also use the symbol \(\otimes\) in our pictorial representation of systems to denote the operation of multiplying two signals (see, for example, Figure 4.26).
+
+Another important type of system interconnection is a _feedback interconnection_, an example of which is illustrated in Figure 1.43. Here, the output of System 1 is the input to System 2, while the output of System 2 is fed back and added to the external input to produce the actual input to System 1. Feedback systems arise in a wide variety of applications. For example, a cruise control system on an automobile senses the vehicle's velocity and adjusts the fuel flow in order to keep the speed at the desired level. Similarly, a digitally controlled aircraft is most naturally thought of as a feedback system in which differences between actual and desired speed, heading, or altitude are fed back through the autopilot in order to correct these discrepancies. Also, electrical circuits are often usefully viewed as containing feedback interconnections. As an example, consider the circuit depicted in Figure 1.44(a). As indicated in Figure 1.44(b), this system can be viewed as the feedback interconnection of the two circuit elements.
+
+Figure 1.44: (a) Simple electrical circuit; (b) block diagram in which the circuit is depicted as the feedback interconnection of two circuit elements.
+
+### Basic System Properties
+
+In this section we introduce and discuss a number of basic properties of continuous-time and discrete-time systems. These properties have important physical interpretations and relatively simple mathematical descriptions using the signals and systems language that we have begun to develop.
+
+#### Systems with and without Memory
+
+A system is said to be _memoryless_ if its output for each value of the independent variable at a given time is dependent only on the input at that same time. For example, the system specified by the relationship
+
+\[y[n]\,=\,(2x[n]\,-\,x^{2}[n])^{2} \tag{90}\]
+
+is memoryless, as the value of \(y[n]\) at any particular time \(n_{0}\) depends only on the value of \(x[n]\) at that time. Similarly, a resistor is a memoryless system; with the input \(x(t)\) taken as the current and with the voltage taken as the output \(y(t)\), the input-output relationship of a resistor is
+
+\[y(t)\,=\,Rx(t), \tag{91}\]
+
+where \(R\) is the resistance. One particularly simple memoryless system is the _identity system,_ whose output is identical to its input. That is, the input-output relationship for the continuous-time identity system is
+
+\[y(t)\,=\,x(t),\]
+
+and the corresponding relationship in discrete time is
+
+\[y[n]\,=\,x[n].\]
+
+An example of a discrete-time system with memory is an _accumulator_ or _summer_
+
+\[y[n]\,=\,\sum_{k\,=\,-\,\infty}^{n}x[k], \tag{92}\]
+
+and a second example is a _delay_
+
+\[y[n]\,=\,x[n-1]. \tag{93}\]
+
+A capacitor is an example of a continuous-time system with memory, since if the input is taken to be the current and the output is the voltage, then
+
+\[y(t)\,=\,\frac{1}{C}\,\int_{-\,\infty}^{t}x(\tau)\,d\tau, \tag{94}\]
+
+where \(C\) is the capacitance.
+
+Roughly speaking, the concept of memory in a system corresponds to the presence of a mechanism in the system that retains or stores information about input values at timesother than the current time. For example, the delay in eq. (93) must retain or store the preceding value of the input. Similarly, the accumulator in eq. (92) must "remember" or store information about past inputs. In particular, the accumulator computes the running sum of all inputs up to the current time, and thus, at each instant of time, the accumulator must add the current input value to the preceding value of the running sum. In other words, the relationship between the input and output of an accumulator can be described as
+
+\[y[n]\,=\,\sum_{k\,=\,-\,\infty}^{n-1}x[k]\,+\,x[n], \tag{95}\]
+
+or equivalently,
+
+\[y[n]\,=\,y[n\,-\,1]\,+\,x[n]. \tag{96}\]
+
+Representated in the latter way, to obtain the output at the current time \(n\), the accumulator must remember the running sum of previous input values, which is exactly the preceding value of the accumulator output.
+
+In many physical systems, memory is directly associated with the storage of energy. For example, the capacitor in eq. (94) stores energy by accumulating electrical charge, represented as the integral of the current. Thus, the simple \(RC\) circuit in Example 8 and Figure 1 has memory physically stored in the capacitor. Similarly, the automobile in Figure 2 has memory stored in its kinetic energy. In discrete-time systems implemented with computers or digital microprocessors, memory is typically directly associated with storage registers that retain values between clock pulses.
+
+While the concept of memory in a system would typically suggest storing _past_ input and output values, our formal definition also leads to our referring to a system as having memory if the current output is dependent on _future_ values of the input and output. While systems having this dependence on future values might at first seem unnatural, they in fact form an important class of systems, as we discuss further in Section 6.3.
+
+#### Invertibility and Inverse Systems
+
+A system is said to be _invertible_ if distinct inputs lead to distinct outputs. As illustrated in Figure 4(a) for the discrete-time case, if a system is invertible, then an _inverse system_ exists that, when cascaded with the original system, yields an output \(w[n]\) equal to the input \(x[n]\) to the first system. Thus, the series interconnection in Figure 4(a) has an overall input-output relationship which is the same as that for the identity system.
+
+An example of an invertible continuous-time system is
+
+\[y(t)\,=\,2x(t), \tag{97}\]
+
+for which the inverse system is
+
+\[w(t)\,=\,\frac{1}{2}\,y(t). \tag{98}\]
+
+This example is illustrated in Figure 4(b). Another example of an invertible system is the accumulator of eq. (92). For this system, the difference between two successive values of the output is precisely the last input value. Therefore, in this case, the inverse system is
+
+\[w[n]\,=\,y[n]-y[n-1], \tag{1.99}\]
+
+as illustrated in Figure 1.45(c). Examples of noninvertible systems are
+
+\[y[n]\,=\,0, \tag{1.100}\]
+
+that is, the system that produces the zero output sequence for any input sequence, and
+
+\[y(t)\,=\,x^{2}(t), \tag{1.101}\]
+
+in which case we cannot determine the sign of the input from knowledge of the output.
+
+The concept of invertibility is important in many contexts. One example arises in systems for encoding used in a wide variety of communications applications. In such a system, a signal that we wish to transmit is first applied as the input to a system known as an encoder. There are many reasons for doing this, ranging from the desire to encrypt the original message for secure or private communication to the objective of providing some redundancy in the signal (for example, by adding what are known as parity bits) so that any errors that occur in transmission can be detected and, possibly, corrected. For _lossless_ coding, the input to the encoder must be exactly recoverable from the output; i.e., the encoder must be invertible.
+
+#### Causality
+
+A system is _causal_ if the output at any time depends only on values of the input at the present time and in the past. Such a system is often referred to as being _nonanticipative,_ as
+
+Figure 1.45: Concept of an inverse system for: (a) a general invertible system; (b) the invertible system described by eq. (1.97); (c) the invertible system defined in eq. (1.92).
+
+the system output does not anticipate future values of the input. Consequently, if two inputs to a causal system are identical up to some point in time \(t_{0}\) or \(n_{0}\), the corresponding outputs must also be equal up to this same time. The \(RC\) circuit of Figure 1.1 is causal, since the capacitor voltage responds only to the present and past values of the source voltage. Similarly, the motion of an automobile is causal, since it does not anticipate future actions of the driver. The systems described in eqs. (1.92) - (1.94) are also causal, but the systems defined by
+
+\[y[n]\,=\,x[n]-\,x[n\,+1] \tag{1.102}\]
+
+and
+
+\[y(t)\,=\,x(t\,+\,1) \tag{1.103}\]
+
+are not. All memoryless systems are causal, since the output responds only to the current value of the input.
+
+Although causal systems are of great importance, they do not by any means constitute the only systems that are of practical significance. For example, causality is not often an essential constraint in applications in which the independent variable is not time, such as in image processing. Furthermore, in processing data that have been recorded previously, as often happens with speech, geophysical, or meteorological signals, to name a few, we are by no means constrained to causal processing. As another example, in many applications, including historical stock market analysis and demographic studies, we may be interested in determining a slowly varying trend in data that also contain high-frequency fluctuations about that trend. In this case, a commonly used approach is to average data over an interval in order to smooth out the fluctuations and keep only the trend. An example of a noncausal averaging system is
+
+\[y[n]\,=\,\frac{1}{2M\,+\,1}\,\sum_{k\,=\,-M}^{+M}x[n\,-\,k]. \tag{1.104}\]
+
+## Example 1.12
+
+When checking the causality of a system, it is important to look carefully at the input-output relation. To illustrate some of the issues involved in doing this, we will check the causality of two particular systems.
+
+The first system is defined by
+
+\[y[n]\,=\,x[-n]. \tag{1.105}\]
+
+Note that the output \(y[n_{0}]\) at a positive time \(n_{0}\) depends only on the value of the input signal \(x[-n_{0}]\) at time \((-n_{0})\), which is negative and therefore in the past of \(n_{0}\). We may be tempted to conclude at this point that the given system is causal. However, we should always be careful to check the input-output relation for _all_ times. In particular, for \(n\,<\,0\), e.g. \(n\,=\,-4\), we see that \(y[-4]\,=\,x[4]\), so that the output at this time depends on a future value of the input. Hence, the system is not causal.
+
+It is also important to distinguish carefully the effects of the input from those of any other functions used in the definition of the system. For example, consider the system
+
+\[y(t)\,=\,x(t)\cos(t\,+\,1). \tag{1.106}\]In this system, the output at any time \(t\) equals the input at that same time multiplied by a number that varies with time. Specifically, we can rewrite eq. (1.106) as
+
+\[y(t)\,=\,x(t)g(t),\]
+
+where g(t) is a time-varying function, namely \(g(t)\,=\,\cos(t\,+\,1)\). Thus, only the current value of the input \(x(t)\) influences the current value of the output \(y(t)\), and we conclude that this system is causal (and, in fact, memoryless).
+
+#### Stability
+
+_Stability_ is another important system property. Informally, a stable system is one in which small inputs lead to responses that do not diverge. For example, consider the pendulum in Figure 1.46(a), in which the input is the applied force \(x(t)\) and the output is the angular deviation \(y(t)\) from the vertical. In this case, gravity applies a restoring force that tends to return the pendulum to the vertical position, and frictional losses due to drag tend to slow it down. Consequently, if a small force \(x(t)\) is applied, the resulting deflection from vertical will also be small. In contrast, for the inverted pendulum in Figure 1.46(b), the effect of gravity is to apply a force that tends to _increase_ the deviation from vertical. Thus, a small applied force leads to a large vertical deflection causing the pendulum to topple over, despite any retarding forces due to friction.
+
+The system in Figure 1.46(a) is an example of a stable system, while that in Figure 1.46(b) is unstable. Models for chain reactions or for population growth with unlimited food supplies and no predators are examples of unstable systems, since the system response grows without bound in response to small inputs. Another example of an unstable system is the model for a bank account balance in eq. (1.86), since if an initial deposit is made (i.e., \(x[0]\,=\,\) a positive amount) and there are no subsequent withdrawals, then that deposit will grow each month without bound, because of the compounding effect of interest payments.
+
+Figure 1.46: (a) A stable pendulum; (b) an unstable inverted pendulum.
+
+There are also numerous examples of stable systems. Stability of physical systems generally results from the presence of mechanisms that dissipate energy. For example, assuming positive component values in the simple \(RC\) circuit of Example 1.8, the resistor dissipates energy and this circuit is a stable system. The system in Example 1.9 is also stable because of the dissipation of energy through friction.
+
+The preceding examples provide us with an intuitive understanding of the concept of stability. More formally, if the input to a stable system is bounded (i.e., if its magnitude does not grow without bound), then the output must also be bounded and therefore cannot diverge. This is the definition of stability that we will use throughout this book. For example, consider applying a constant force \(f(t)=F\) to the automobile in Figure 1.2, with the vehicle initially at rest. In this case the velocity of the car will increase, but not without bound, since the retarding frictional force also increases with velocity. In fact, the velocity will continue to increase until the frictional force exactly balances the applied force; so, from eq. (1.84), we see that this terminal velocity value \(V\) must satisfy
+
+\[\frac{\rho}{m}V=\frac{1}{m}F, \tag{1.107}\]
+
+i.e.,
+
+\[V=\frac{F}{\rho}. \tag{1.108}\]
+
+As another example, consider the discrete-time system defined by eq. (1.104), and suppose that the input \(x[n]\) is bounded in magnitude by some number, say, \(B\), for all values of \(n\). Then the largest possible magnitude for \(y[n]\) is also \(B\), because \(y[n]\) is the average of a finite set of values of the input. Therefore, \(y[n]\) is bounded and the system is stable. On the other hand, consider the accumulator described by eq. (1.92). Unlike the system in eq. (1.104), this system sums _all_ of the past values of the input rather than just a finite set of values, and the system is unstable, since the sum can grow continually even if \(x[n]\) is bounded. For example, if the input to the accumulator is a unit step \(u[n]\), the output will be
+
+\[y[n]=\sum_{k=-\infty}^{n}u[k]=(n+1)u[n].\]
+
+That is, \(y[0]=1\), \(y[1]=2\), \(y[2]=3\), and so on, and \(y[n]\) grows without bound.
+
+### Example 1.13
+
+If we suspect that a system is unstable, then a useful strategy to verify this is to look for a _specific_ bounded input that leads to an unbounded output. Finding one such example enables us to conclude that the given system is unstable. If such an example does not exist or is difficult to find, we must check for stability by using a method that does not utilize specific examples of input signals. To illustrate this approach, let us check the stability of two systems,
+
+\[S_{1}\colon y(t)=tx(t) \tag{1.109}\]\[S_{2}\colon\,y(t)\,=\,e^{x(t)}. \tag{1.110}\]
+
+In seeking a specific counterexample in order to disprove stability, we might try simple bounded inputs such as a constant or a unit step. For system \(S_{1}\) in eq. (1.109), a constant input \(x(t)=1\) yields \(y(t)=t\), which is unbounded, since no matter what finite constant we pick, \(|y(t)|\) will exceed that constant for some \(t\). We conclude that system \(S_{1}\) is unstable.
+
+For system \(S_{2}\), which happens to be stable, we would be unable to find a bounded input that results in an unbounded output. So we proceed to verify that all bounded inputs result in bounded outputs. Specifically, let \(B\) be an arbitrary positive number, and let \(x(t)\) be an arbitrary signal bounded by \(B\); that is, we are making no assumption about \(x(t)\), except that
+
+\[|x(t)|<B, \tag{1.111}\]
+
+or
+
+\[-B<x(t)<B, \tag{1.112}\]
+
+for all \(t\). Using the definition of \(S_{2}\) in eq. (1.110), we then see that if \(x(t)\) satisfies eq. (1.111), then \(y(t)\) must satisfy
+
+\[e^{-B}<|y(t)|<e^{B}. \tag{1.113}\]
+
+We conclude that if any input to \(S_{2}\) is bounded by an arbitrary positive number \(B\), the corresponding output is guaranteed to be bounded by \(e^{B}\). Thus, \(S_{2}\) is stable.
+
+The system properties and concepts that we have introduced so far in this section are of great importance, and we will examine some of these in more detail later in the book. There remain, however, two additional properties--time invariance and linearity--that play a particularly central role in the subsequent chapters of the book, and in the remainder of this section we introduce and provide initial discussions of these two very important concepts.
+
+#### Time Invariance
+
+Conceptually, a system is time invariant if the behavior and characteristics of the system are fixed over time. For example, the \(RC\) circuit of Figure 1.1 is time invariant if the resistance and capacitance values \(R\) and \(C\) are constant over time: We would expect to get the same results from an experiment with this circuit today as we would if we ran the identical experiment tomorrow. On the other hand, if the values of \(R\) and \(C\) are changed or fluctuate over time, then we would expect the results of our experiment to depend on the time at which we run it. Similarly, if the frictional coefficient \(b\) and mass \(m\) of the automobile in Figure 1.2 are constant, we would expect the vehicle to respond identically independently of when we drive it. On the other hand, if we load the auto's trunk with heavy suitcases one day, thus increasing \(m\), we would expect the car to behave differently than at other times when it is not so heavily loaded.
+
+The property of time invariance can be described very simply in terms of the signals and systems language that we have introduced. Specifically, a system is time invariant if a time shift in the input signal results in an identical time shift in the output signal. That is, if \(y[n]\) is the output of a discrete-time, time-invariant system when \(x[n]\) is the input, then \(y\left[n-n_{0}\right]\) is the output when \(x\left[n-n_{0}\right]\) is applied. In continuous time with \(y(t)\) the output corresponding to the input \(x(t)\), a time-invariant system will have \(y\left(t-t_{0}\right)\) as the output when \(x\left(t-t_{0}\right)\) is the input.
+
+To see how to determine whether a system is time invariant or not, and to gain some insight into this property, consider the following examples:
+
+**Example 1.14**: Consider the continuous-time system defined by
+
+\[y(t)\,=\,\sin\left[\,x(t)\right]. \tag{1.114}\]
+
+To check that this system is time invariant, we must determine whether the time-invariance property holds for _any_ input and _any_ time shift \(t_{0}\). Thus, let \(x_{1}(t)\) be an arbitrary input to this system, and let
+
+\[y_{1}(t)\,=\,\sin\left[\,x_{1}(t)\right] \tag{1.115}\]
+
+be the corresponding output. Then consider a second input obtained by shifting \(x_{1}(t)\) in time:
+
+\[x_{2}(t)\,=\,x_{1}\left(t-t_{0}\right). \tag{1.116}\]
+
+The output corresponding to this input is
+
+\[y_{2}(t)\,=\,\sin\left[\,x_{2}(t)\right]\,=\,\sin\left[\,x_{1} \left(t-t_{0}\right)\right]. \tag{1.117}\]
+
+Similarly, from eq. (1.115),
+
+\[y_{1}(t-t_{0})\,=\,\sin\left[\,x_{1}\left(t-t_{0}\right)\right]. \tag{1.118}\]
+
+Comparing eqs. (1.117) and (1.118), we see that \(y_{2}(t)\,=\,y_{1}\left(t-t_{0}\right)\), and therefore, this system is time invariant.
+
+**Example 1.15**: As a second example, consider the discrete-time system
+
+\[y[n]\,=\,nx[n]. \tag{1.119}\]
+
+This is a time-varying system, a fact that can be verified using the same formal procedure as that used in the preceding example (see Problem 1.28). However, when a system is suspected of being time varying, an approach to showing this that is often very useful is to seek a counterexample--i.e., to use our intuition to find an input signal for which the condition of time invariance is violated. In particular, the system in this example represents a system with a time-varying gain. For example, if we know that the current input value is \(1\), we cannot determine the current output value without knowing the current time.
+
+Consequently, consider the input signal \(x_{1}[n]=\delta[n]\), which yields an output \(y_{1}[n]\) that is identically \(0\) (since \(n\delta[n]\,=\,0\)). However, the input \(x_{2}[n]\,=\,\delta[n-1]\) yields the output \(y_{2}[n]\,=\,n\delta[n-1]\,=\,\delta[n-1]\). Thus, while \(x_{2}[n]\) is a shifted version of \(x_{1}[n]\), \(y_{2}[n]\) is _not_ a shifted version of \(y_{1}[n]\).
+
+While the system in the preceding example has a time-varying gain and as a result is a time-varying system, the system in eq. (1.97) has a constant gain and, in fact, is time invariant. Other examples of time-invariant systems are given by eqs. (1.91)-(1.104). The following example illustrates a time-varying system.
+
+### Example 1.16
+
+Consider the system
+
+\[y(t)\,=\,x(2t). \tag{1.120}\]
+
+This system represents a time scaling. That is, \(y(t)\) is a time-compressed (by a factor of 2) version of \(x(t)\). Intuitively, then, any time shift in the input will also be compressed by a factor of 2, and it is for this reason that the system is not time invariant. To demonstrate this by counterexample, consider the input \(x_{1}(t)\) shown in Figure 1.47(a) and the resulting output \(y_{1}(t)\) depicted in Figure 1.47(b). If we then shift the input by 2--i.e., consider \(x_{2}(t)\,=\,x_{1}(t\,-\,2)\), as shown in Figure 1.47(c)--we obtain the resulting output
+
+Figure 1.47: (a) The input \(x_{1}(t)\) to the system in Example 1.16; (b) the output \(y_{1}(t)\) corresponding to \(x_{1}(t)\); (c) the shifted input \(x_{2}(t)\,=\,x_{1}(t\,-\,2)\); (d) the output \(y_{2}(t)\) corresponding to \(x_{2}(t)\); (e) the shifted signal \(y_{1}(t\,-\,2)\). Note that \(y_{2}(t)\neq y_{1}(t\,-\,2)\), showing that the system is not time invariant.
+
+\(y_{2}(t)\,=\,x_{2}(2t)\) shown in Figure 47(d). Comparing Figures 47(d) and (e), we see that \(y_{2}(t)\neq y_{1}(t-2)\), so that the system is not time invariant. (In fact, \(y_{2}(t)\,=\,y_{1}(t-1)\), so that the output time shift is only half as big as it should be for time invariance, due to the time compression imparted by the system.)
+
+#### Linearity
+
+A _linear system,_ in continuous time or discrete time, is a system that possesses the important property of superposition: If an input consists of the weighted sum of several signals, then the output is the superposition--that is, the weighted sum--of the responses of the system to each of those signals. More precisely, let \(y_{1}(t)\) be the response of a continuous-time system to an input \(x_{1}(t)\), and let \(y_{2}(t)\) be the output corresponding to the input \(x_{2}(t)\). Then the system is linear if:
+
+* The response to \(x_{1}(t)\,+\,x_{2}(t)\) is \(y_{1}(t)\,+\,y_{2}(t)\).
+* The response to \(ax_{1}(t)\) is \(ay_{1}(t)\), where \(a\) is any complex constant.
+
+The first of these two properties is known as the _additivity_ property; the second is known as the _scaling_ or _homogeneity_ property. Although we have written this description using continuous-time signals, the same definition holds in discrete time. The systems specified by eqs. (1.91)-(1.100), (1.102)-(1.104), and (1.119) are linear, while those defined by eqs. (1.101) and (1.114) are nonlinear. Note that a system can be linear without being time invariant, as in eq. (1.119), and it can be time invariant without being linear, as in eqs. (1.101) and (1.114).
+
+The two properties defining a linear system can be combined into a single statement:
+
+\[\mbox{continuous time: }ax_{1}(t)\,+\,bx_{2}(t)\, \to\,ay_{1}(t)\,+\,by_{2}(t), \tag{1.121}\] \[\mbox{discrete time: }ax_{1}[n]\,+\,bx_{2}[n]\, \to\,ay_{1}[n]\,+\,by_{2}[n]. \tag{1.122}\]
+
+Here, \(a\) and \(b\) are any complex constants. Furthermore, it is straightforward to show from the definition of linearity that if \(x_{k}[n]\), \(k\,=\,1,\,2,\,3,\ldots\), are a set of inputs to a discrete-time linear system with corresponding outputs \(y_{k}[n]\), \(k\,=\,1,\,2,\,3,\,\ldots\), then the response to a linear combination of these inputs given by
+
+\[x[n]\,=\,\sum_{k}a_{k}x_{k}[n]\,=\,a_{1}x_{1}[n]\,+\,a_{2}x_{2}[n]\,+\,a_{3}x _{3}[n]\,+\,\ldots \tag{1.123}\]
+
+is
+
+\[y[n]\,=\,\sum_{k}a_{k}y_{k}[n]\,=\,a_{1}y_{1}[n]\,+\,a_{2}y_{2}[n]\,+\,a_{3}y _{3}[n]\,+\,\ldots. \tag{1.124}\]
+
+This very important fact is known as the _superposition property_, which holds for linear systems in both continuous and discrete time.
+
+A direct consequence of the superposition property is that, for linear systems, an input which is zero for all time results in an output which is zero for all time. For example, if \(x[n]\,\rightarrow\,y[n]\), then the homogeneity property tells us that
+
+\[0\,=\,0\cdot x[n]\,\rightarrow\,0\cdot y[n]\,=\,0. \tag{1.125}\]In the following examples we illustrate how the linearity of a given system can be checked by directly applying the definition of linearity.
+
+### Example 1.17
+
+Consider a system \(S\) whose input \(x(t)\) and output \(y(t)\) are related by
+
+\[y(t)\,=\,tx(t)\]
+
+To determine whether or not \(S\) is linear, we consider two arbitrary inputs \(x_{1}(t)\) and \(x_{2}(t)\).
+
+\[x_{1}(t)\,\to\,y_{1}(t)\,=\,tx_{1}(t)\] \[x_{2}(t)\,\to\,y_{2}(t)\,=\,tx_{2}(t)\]
+
+Let \(x_{3}(t)\) be a linear combination of \(x_{1}(t)\) and \(x_{2}(t)\). That is,
+
+\[x_{3}(t)\,=\,ax_{1}(t)+bx_{2}(t)\]
+
+where \(a\) and \(b\) are arbitrary scalars. If \(x_{3}(t)\) is the input to \(S\), then the corresponding output may be expressed as
+
+\[y_{3}(t)\,=\,tx_{3}(t)\] \[\,=\,t(ax_{1}(t)+bx_{2}(t))\] \[\,=\,atx_{1}(t)+btx_{2}(t)\] \[\,=\,ay_{1}(t)+by_{2}(t)\]
+
+We conclude that the system \(S\) is linear.
+
+### Example 1.18
+
+Let us apply the linearity-checking procedure of the previous example to another system \(S\) whose input \(x(t)\) and output \(y(t)\) are related by
+
+\[y(t)\,=\,x^{2}(t)\]
+
+Defining \(x_{1}(t)\), \(x_{2}(t)\), and \(x_{3}(t)\) as in the previous example, we have
+
+\[x_{1}(t)\,\to\,y_{1}(t)\,=\,x_{1}^{2}(t)\] \[x_{2}(t)\,\to\,y_{2}(t)\,=\,x_{2}^{2}(t)\]
+
+and
+
+\[x_{3}(t)\,\to\,y_{3}(t) \,=\,x_{3}^{2}(t)\] \[\,=\,(ax_{1}(t)\,+\,bx_{2}(t))^{2}\] \[\,=\,a^{2}x_{1}^{2}(t)\,+\,b^{2}x_{2}^{2}(t)\,+\,2abx_{1}(t)x_{2} (t)\] \[\,=\,a^{2}y_{1}(t)\,+\,b^{2}y_{2}(t)\,+\,2abx_{1}(t)x_{2}(t)\]
+
+Clearly, we can specify \(x_{1}(t)\), \(x_{2}(t)\), \(a\), and \(b\) such that \(y_{3}(t)\) is not the same as \(ay_{1}(t)\,+\,by_{2}(t)\). For example, if \(x_{1}(t)\,=\,1\), \(x_{2}(t)\,=\,0\), \(a\,=\,2\), and \(b\,=\,0\), then \(y_{3}(t)\,=\,(2x_{1}(t))^{2}\,=\,4\), but \(2y_{1}(t)\,=\,2(x_{1}(t))^{2}\,=\,2\). We conclude that the system \(S\) is not linear.
+
+### Example 1.19
+
+In checking the linearity of a system, it is important to remember that the system must satisfy both the additivity and homogeneity properties and that the signals, as well as any scaling constants, are allowed to be complex. To emphasize the importance of these points, consider the system specified by
+
+\[y[n]\,=\,\langle\Omega\mathrm{e}\{x[n]\}. \tag{1.126}\]
+
+As shown in Problem 1.29, this system is additive; however, it does not satisfy the homogeneity property, as we now demonstrate. Let
+
+\[x_{1}[n]\,=\,r[n]\,+\,js[n] \tag{1.127}\]
+
+be an arbitrary complex input with real and imaginary parts \(r[n]\) and \(s[n]\), respectively, so that the corresponding output is
+
+\[y_{1}[n]\,=\,r[n]. \tag{1.128}\]
+
+Now, consider scaling \(x_{1}[n]\) by a complex number, for example, \(a=j\); i.e., consider the input
+
+\[x_{2}[n]\,=\,jx_{1}[n]\,=\,j(r[n]\,+\,js[n]) \tag{1.129}\] \[\,=\,-s[n]\,+\,jr[n].\]
+
+The output corresponding to \(x_{2}[n]\) is
+
+\[y_{2}[n]\,=\,\langle\Omega\mathrm{e}\{x_{2}[n]\}\,=\,-s[n], \tag{1.130}\]
+
+which is not equal to the scaled version of \(y_{1}[n]\),
+
+\[ay_{1}[n]\,=\,jr[n]. \tag{1.131}\]
+
+We conclude that the system violates the homogeneity property and hence is not linear.
+
+### Example 1.20
+
+Consider the system
+
+\[y[n]\,=\,2x[n]\,+\,3. \tag{1.132}\]
+
+This system is not linear, as can be verified in several ways. For example, the system violates the additivity property: If \(x_{1}[n]\,=\,2\) and \(x_{2}[n]\,=\,3\), then
+
+\[x_{1}[n]\,\to\,y_{1}[n]\,=\,2x_{1}[n]\,+\,3\,=\,7, \tag{1.133}\] \[x_{2}[n]\,\to\,y_{2}[n]\,=\,2x_{2}[n]\,+\,3\,=\,9. \tag{1.134}\]
+
+However, the response to \(x_{3}[n]\,=\,x_{1}[n]\,+\,x_{2}[n]\) is
+
+\[y_{3}[n]\,=\,2[x_{1}[n]\,+\,x_{2}[n]]\,+\,3\,=\,13, \tag{1.135}\]
+
+which does not equal \(y_{1}[n]\,+\,y_{2}[n]\,=\,16\). Alternatively, since \(y[n]\,=\,3\) if \(x[n]\,=\,0\), we see that the system violates the "zero-in/zero-out" property of linear systems given in eq. (1.125).
+
+It may seem surprising that the system in the above example is nonlinear, since eq. (1.132) is a linear equation. On the other hand, as depicted in Figure 1.48, the output of this system can be represented as the sum of the output of a linear system and another signal equal to the _zero-input response_ of the system. For the system in eq. (1.132), the linear system is
+
+\[x[n]\,\to\,2x[n],\]
+
+and the zero-input response is
+
+\[y_{0}[n]\,=\,3.\]There are, in fact, large classes of systems in both continuous and discrete time that can be represented as in Figure 48--i.e., for which the overall system output consists of the superposition of the response of a linear system with a zero-input response. As shown in Problem 47, such systems correspond to the class of _incrementally linear systems_--i.e., systems in continuous or discrete time that respond linearly to _changes_ in the input. In other words, the _difference_ between the responses to any two inputs to an incrementally linear system is a linear (i.e., additive and homogeneous) function of the _difference_ between the two inputs. For example, if \(x_{1}[n]\) and \(x_{2}[n]\) are two inputs to the system specified by eq. (132), and if \(y_{1}[n]\) and \(y_{2}[n]\) are the corresponding outputs, then
+
+\[y_{1}[n]-y_{2}[n]=2x_{1}[n]+3-\{2x_{2}[n]+3\}=2\big{\{}\,x_{1}[n]-x_{2}[n]\big{\}}. \tag{136}\]
+
+### 7 Summary
+
+In this chapter, we have developed a number of basic concepts related to continuous-time and discrete-time signals and systems. We have presented both an intuitive picture of what signals and systems are through several examples and a mathematical representation for signals and systems that we will use throughout the book. Specifically, we introduced graphical and mathematical representations of signals and used these representations in performing transformations of the independent variable. We also defined and examined several basic signals, both in continuous time and in discrete time. These included complex exponential signals, sinusoidal signals, and unit impulse and step functions. In addition, we investigated the concept of periodicity for continuous-time and discrete-time signals.
+
+In developing some of the elementary ideas related to systems, we introduced block diagrams to facilitate our discussions concerning the interconnection of systems, and we defined a number of important properties of systems, including causality, stability, time invariance, and linearity.
+
+The primary focus in most of this book will be on the class of linear, time-invariant (LTI) systems, both in continuous time and in discrete time. These systems play a particularly important role in system analysis and design, in part due to the fact that many systems encountered in nature can be successfully modeled as linear and time invariant. Furthermore, as we shall see in the following chapters, the properties of linearity and time invariance allow us to analyze in detail the behavior of LTI systems.
+
+Figure 48: Structure of an incrementally linear system. Here, \(y_{0}[n]\) is the zero-input response of the system.

@@ -1,0 +1,565 @@
+## Chapter Design of Analog and Digital Filters
+
+### 10.1 Introduction
+
+Earlier we saw that when we apply an input to a system, it is modified or transformed at the output. Typically, we would like to design the system such that it modifies the input in a specified manner. When the system is designed to remove certain unwanted components of the input signal, it is usually referred to as a filter. When the unwanted components are described in terms of their frequency content, the filters, as discussed in Chapter 4, are referred to as frequency-selective filters. Although many applications require only simple filters that can be designed using a brute-force method, the design of more complicated filters requires the use of sophisticated design techniques. In this chapter, we consider some techniques for the design of both continuous-time and discrete-time frequency-selective filters.
+
+As noted in Chapter 4, an ideal frequency-selective filter passes certain frequencies without any change and completely stops the other frequencies. The range of frequencies that are passed without attenuation is the pass-band of the filter, and the range of frequencies that are not passed constitutes the stop band. Thus, for ideal filters in the continuous-time case, the magnitude transfer function of the filter is given by \(\left|H\left(\omega\right)\right|=1\) in the passband and \(\left|H\left(\omega\right)\right|=0\) in the stop band. Frequency-selective filters are classified as low-pass, high-pass, band-pass, or band-stop filters, depending on the band of frequencies that are either passed through without attenuation or are completely stopped. Figure 10.1.1 shows the characteristics of these filters.
+
+Similar definitions carry over to discrete-time filters, with the distinction that the frequency range of interest in this case is \(0\leq\Omega<2\pi\), since \(H\left(\Omega\right)\) is now a periodic function with period \(2\pi\). Figure 10.1.2 shows the discrete-time counterparts of the filters shown in Fig. 10.1.1.
+
+In practice, we cannot obtain filter characteristics with abrupt transitions between passbands and stop bands, as shown in Figures 10.1.1 and 10.1.2. This can easily be* [100] M. C. C. Collins, "The \(\pi^{+}\pi^{-}\) production cross section in the \(\pi^{+}\pi^{-}\) final state", _Phys. Rev. D_ **58** (1998) 114502, doi:10.1103/PhysRevD.58.114502, arXiv:hep-ph/9709234.
+
+seen by considering the impulse response of the ideal low-pass filter, which is noncausal and hence not physically realizable. To obtain practical filters, we therefore have to relax our requirements on \(\left|H\left(\omega\right)\right|\) (or \(\left|H\left(\Omega\right)\right|\)) in the passbands and stop bands, by permitting deviations from the ideal response, as well as specifying a transition band between the pass bands and stop bands. Thus, for a continuous-time low-pass filter, the specifications can be of the form
+
+\[1-\delta_{1}\leq\left|H\left(\omega\right)\right|\leq 1+\delta_{1},\qquad \left|\omega\right|\leq\omega_{p} \tag{10.1.1}\]
+
+\[\left|H\left(\omega\right)\right|\leq\delta_{2},\qquad\left|\omega_{s}\right| \leq\omega\]
+
+where \(\omega_{p}\) and \(\omega_{s}\) are the passband and stop band cutoff frequencies, respectively. The range of frequencies between \(\omega_{p}\) and \(\omega_{s}\) is the transition band. This is depicted in Figure 10.1.3.
+
+Often, the filter is specified to have a peak gain of unity. The corresponding specifications for the filter frequency response can be easily determined from Figure 10.1.3 by amplitude scaling by a factor of \(1/(1+\delta_{1})\). Specifications for discrete-time filters are given in a corresponding manner as
+
+\[\left|\left|H\left(\Omega\right)\right|-1\right|\leq\delta_{1},\qquad\left| \Omega\right|\leq\Omega_{p} \tag{10.1.2}\]
+
+\[\left|H\left(\Omega\right)\right|\leq\delta_{2},\qquad\Omega_{s}\leq\left| \Omega\right|\leq\pi\]
+
+Given a set of specifications, filter design consists of obtaining an analytical approximation to the desired filter characteristics in the form of a filter transfer function given as \(H\left(s\right)\) for continuous-time systems and \(H\left(z\right)\) for discrete-time systems. Once the transfer function has been determined, we can obtain a realization of the filter, as discussed in earlier chapters. We discuss the design of two standard analog filters in Section 10.3 and consider digital filter design in Section 10.4.
+
+Figure 10.1.3: Specification for practical low-pass filter.
+
+In our discussion of filter design, we confine ourselves to low-pass filters, since, as is shown in the next section, a low-pass filter can be converted to one of the other types of filters by using appropriate frequency transformations. Thus, given a specification for any other type of filter, we can convert these specifications into an equivalent one for a low-pass filter, obtain the corresponding transfer function \(H\left(s\right)\) (or \(H\left(z\right)\)), and convert it back into the desired range.
+
+### Frequency Transformations
+
+As indicated before, frequency transformations are useful for converting a frequency-selective filter from one type to another. For example, suppose we are given a continuous-time low-pass filter transfer function \(H\left(s\right)\) with a normalized cutoff frequency of unity. We now verify that the transformation that converts it into a low-pass filter with a cutoff frequency \(\omega_{c}\) is given by
+
+\[s^{\#}=s\omega_{c} \tag{10.2.1}\]
+
+where \(s^{\#}\) represents the transformed frequency variable. Since
+
+\[\omega^{\#}=\omega\omega_{c} \tag{10.2.2}\]
+
+it is clear that the frequency range \(0\leq 1\omega\omega\leq 1\) is mapped into the range \(0\leq 1\omega^{\#}\leq\omega_{c}\). Thus, \(H\left(s^{\#}\right)\) represents a low-pass filter with a cutoff frequency of \(\omega_{c}\).
+
+More generally, the transformation
+
+\[s^{\#}=s\frac{\omega_{c}^{\#}}{\omega_{c}} \tag{10.2.3}\]
+
+transforms a low-pass filter with a cutoff frequency \(\omega_{c}\) to a low-pass filter with a cutoff frequency of \(\omega_{c}^{\#}\).
+
+Similarly, the transformation
+
+\[s^{\#}=\frac{\omega_{c}}{s} \tag{10.2.4}\]
+
+transforms a normalized low-pass filter to a high-pass filter with a cutoff frequency of \(\omega_{c}\). This can be easily verified by noting that in this case; we have
+
+\[\omega^{\#}=-\ \frac{\omega_{c}}{\omega} \tag{10.2.5}\]
+
+so that the point \(\left|\omega\right|=1\) corresponds to the point \(\left|\omega^{\#}\right|=\omega_{c}\). Also the range \(\left|\omega\right|\leq 1\) is mapped onto the ranges defined by \(\omega_{c}\leq 1\omega^{\#}\leq\infty\).
+
+Next we consider the transformation of the normalized low-pass filter to a band-pass filter with upper and lower cutoff frequencies given by \(\omega_{c_{2}}\) and \(\omega_{c_{1}}\), respectively. The required transformation is given in terms of the bandwidth of the filter
+
+\[\mathrm{BW}=\omega_{c_{2}}-\omega_{c_{1}} \tag{10.2.6}\]and the frequency
+
+\[\omega_{0}=\sqrt{\omega_{c_{2}}\omega_{c_{1}}} \tag{10.2.7}\]
+
+as
+
+\[s=\frac{\omega_{0}}{\mathrm{BW}}(\frac{s^{\#}}{\omega_{0}}+\frac{\omega_{0}}{s^{ \#}}) \tag{10.2.8}\]
+
+This transformation maps \(\omega=0\) into the points \(\omega^{\#}=\pm\omega_{0}\) and segment \(|\omega|\leq 1\) to segments \(\omega_{c_{2}}\geq|\omega^{\#}|\geq\omega_{c_{1}}\).
+
+Finally, the band-stop filter is obtained through the transformation
+
+\[\bar{s}=\frac{\mathrm{BW}}{\omega_{0}(\frac{s^{\#}}{\omega_{0}}+\frac{\omega_{ 0}}{s^{\#}})} \tag{10.2.9}\]
+
+where \(\mathrm{BW}\) and \(\omega_{0}\) are defined similarly to the case of the band-pass filter. The transformations are summarized in Table 10-1.
+
+We now consider similar transformations for the discrete-time problem. Thus, suppose that we are given a discrete-time low-pass filter with a cutoff frequency \(\Omega_{c}\) and we want to obtain a low-pass filter with cutoff frequency \(\Omega_{c}^{\#}\). The required transformation is given by
+
+\[z^{\#}=\frac{z-\alpha}{1-\alpha z} \tag{10.2.10}\]
+
+More conventionally this is written as
+
+\[(z^{\#})^{-1}=\frac{z^{-1}-\alpha}{1-\alpha z^{-1}} \tag{10.2.11}\]
+
+\begin{table}
+\begin{tabular}{l c} \hline Filter Type & Transformation \\ Low-Pass & \(\frac{s^{\#}}{\omega_{c}}\) \\ High-Pass & \(\frac{\omega_{c}}{s^{\#}}\) \\ Band-Pass & \(\frac{\omega_{0}}{\mathrm{BW}}(\frac{s^{\#}}{\omega_{0}}+\frac{\omega_{0}}{s^ {\#}})\), & \(\omega_{0}=\sqrt{\omega_{c_{2}}\omega_{c_{1}}}\) \\ Band-Stop & \(\frac{\mathrm{BW}}{\omega_{0}(\frac{s^{\#}}{\omega_{0}}+\frac{\omega_{0}}{s^ {\#}})}\), & \(\mathrm{BW}=\omega_{c_{2}}-\omega_{c_{1}}\) \\ \hline \end{tabular}
+\end{table}
+Table 10-1: Frequency transformations from low-pass analog filter response.
+
+### Design of Analog Filters
+
+The design of practical filters starts with a prescribed set of specifications, such as those given in Equation (10.1.1) or depicted in Figure 10.1.2. Whereas there are procedures available for the design of several different analog filters, we consider the design of two standard filters, namely, the Butterworth and Chebyshev filters. The Butterworth filter provides an approximation to a low-pass characteristic that approaches zero smoothly. The Chebyshev filter provides an approximation that oscillates in the passband but is monotone decreasing in the transition and stop bands.
+
+#### The Butterworth Filter
+
+The Butterworth filter is characterized by the magnitude function
+
+\[\left|H\left(\omega\right)\right|^{2}=\frac{1}{1+\left(\omega\right)^{2N}} \tag{10.3.1}\]
+
+where \(N\) denotes the order of the filter. It is clear from Equation (10.3.1) that the magnitude is a monotonic decreasing function of \(\omega\), with its maximum value of unity occurring at \(\omega=0\). For \(\omega=1\), the magnitude is equal to \(1/\sqrt{2}\), for all values of \(N\). Thus, the normalized Butterworth filter has a 3-dB cutoff frequency of unity.
+
+Figure 10.3.1 shows a plot of the magnitude characteristic of this filter as a function of \(\omega\) for various values of \(N\). Parameter \(N\) determines how closely the Butterworth characteristic approximates the ideal filter. Clearly, the approximation improves as \(N\) is increased.
+
+The Butterworth approximation is called a maximally flat approximation since, for a given \(N\), the maximal number of derivatives of the magnitude function is zero at the origin. In fact, the first \(2N-1\) derivatives of \(\left|H(\omega)\right|\) are zero at \(\omega=0\), as we can see by expanding \(\left|H\left(\omega\right)\right|\) in a power series about \(\omega=0\):
+
+\[\left|H\left(\omega\right)\right|^{2}=1-\frac{1}{2}\omega^{2N}+\frac{3}{8} \omega^{4N}-\ \cdots \tag{10.3.2}\]
+
+To obtain the filter transfer function \(H\left(s\right)\), we use
+
+\[H\left(s\right)H\left(-s\right)\big{|}_{s=j\omega} = \left|H\left(\omega\right)\right|^{2}\] \[= \frac{1}{1+\left[\frac{\left(j\omega\right)^{2}}{j^{2}}\right]^{N}}\]
+
+so that
+
+\[H\left(s\right)H\left(-s\right)=\frac{1}{1+\left(\frac{s}{j}\right)^{2N}} \tag{10.3.4}\]From Equation (10.3.4), it is clear that the poles of \(H\left(s\right)\) are given by the roots of the equation
+
+\[(\frac{s}{j})^{2N} = -1\] \[= \exp\left[\,j(2k-1)\pi\right],\ \ \ \ \ \ k=0,\,1,\,2,\,\ldots\,,\,2N-1\]
+
+It follows that the roots are given by
+
+\[s_{k}=\exp[j(2k+N-1)\pi/2N\,]\ \ \ \ \ \ k=0,\,1,\,2,\,\ldots\,,\,2N-1 \tag{10.3.6}\]
+
+By substituting \(s_{k}=\sigma_{k}+j\omega_{k}\), we can write the real and imaginary parts as
+
+\[\sigma_{k} = \cos\frac{2k+N-1}{2}N\pi\] \[= \sin(\frac{2k-1}{N}\,\frac{\pi}{2})\] \[\omega_{k} = \sin\frac{2k+N-1}{2}N\pi\] \[= \cos(\frac{2k-1}{N}\,\frac{\pi}{2})\]
+
+Figure 10.3.1: Magnitude plot of normalized Butterworth filter.
+
+As can be seen from Equation (10.3.6), Equation (10.3.5) has \(2\,N\) roots spaced uniformly around the unit circle at intervals of \(\pi/2N\) radians. Since \(2k+1\) cannot be even, it is clear that there are no roots on the \(j\omega\) axis, so that there are exactly \(N\) roots each in the left and right half planes. Now the poles and zeros of \(H\left(s\right)\) are the mirror images of the poles and zeros of \(H\left(-s\right)\). In order to get a stable transfer function, we thus simply associate the roots in the left half plane with \(H\left(s\right)\).
+
+As an example, for \(N=3\), from Equation (10.3.6), the roots are located at
+
+\[s_{0}=\exp\left[\,j\frac{\pi}{3}\,\right],\qquad s_{1}=\exp\left[\,j\frac{2\pi }{3}\,\right],\qquad s_{2}=\exp\left[\,j\pi\right],\]
+
+\[s_{3}=\exp\left[\,j\frac{4\pi}{3}\,\right],\qquad s_{4}=\exp\left[\,j\frac{5 \pi}{3}\,\right],\qquad s_{5}=1\]
+
+as shown in Figure 10.3.2.
+
+To get a stable transfer function, choose as the poles of \(H\left(s\right)\), the left-half plane roots so that
+
+\[H\left(s\right)=\frac{1}{[\,s-\exp\left[\,j2\pi/3\right]][s-\exp\left[\,j\pi \right]][s-\exp\left[\,j\,4\pi/3\right]]} \tag{10.3.8}\]
+
+The denominator can be expanded to yield
+
+\[H\left(s\right)=\frac{1}{\left(s^{2}+s+1\right)\left(s+1\right)} \tag{10.3.9}\]
+
+Table 10-3 lists the denominator of the Butterworth transfer function in factored form for values of \(N\) ranging from \(N=1\) to \(N=8\). When these factors are multiplied, the result is a polynomial of the form
+
+\[D\left(s\right)=a_{N}s^{N}+a_{N-1}s^{N-1}+\ \cdots\ +a_{1}s+1 \tag{10.3.10}\]
+
+These coefficients are listed in Table 10-4 for \(N=1\) to \(N=8\).
+
+Figure 10.3.2: Roots of the Butterworth polynomial for \(N=3\).
+
+To obtain a filter with 3-dB cutoff at \(\omega_{c}\), we replace \(s\) in \(H(s)\) by \(s/\omega_{c}\). The corresponding magnitude characteristic is
+
+\[|H(\omega)|^{\,2}=\frac{1}{1+(\omega/\omega_{c})^{2N}} \tag{10.3.11}\]
+
+Let us now consider the design of a low-pass Butterworth filter to satisfy the following specifications:
+
+\[|H(\omega)| \geq 1-\delta_{1},\qquad|\omega|\leq\omega_{p} \tag{10.3.12}\] \[\leq \delta_{2},\qquad\qquad|\omega|>\omega_{s}\]
+
+Since the Butterworth filter is defined by the parameters \(N\) and \(\omega_{c}\), we need two equations to determine these quantities. From the monotone nature of the magnitude response, it is clear that the specifications are satisfied if we choose
+
+\[|H(\omega_{p})|=1-\delta_{1} \tag{10.3.13}\]
+
+and
+
+\[|H(\omega_{s})|=\delta_{2} \tag{10.3.14}\]
+
+Substituting these relations in Equation (10.3.11) yields
+
+\begin{table}
+\begin{tabular}{l l l l l l l l l} \hline \(n\) & \(a_{1}\) & \(a_{2}\) & \(a_{3}\) & \(a_{4}\) & \(a_{5}\) & \(a_{6}\) & \(a_{7}\) & \(a_{8}\) \\ \hline
+1 & 1 & & & & & & & & \\
+2 & \(\sqrt{2}\) & 1 & & & & & & & \\
+3 & 2 & 2 & 1 & & & & & & \\
+4 & 2.613 & 3.414 & 2.613 & 1 & & & & & \\
+5 & 3.236 & 5.236 & 5.236 & 3.236 & 1 & & & & \\
+6 & 3.864 & 7.464 & 9.141 & 7.464 & 3.864 & 1 & & & \\
+7 & 4.494 & 10.103 & 14.606 & 14.606 & 10.103 & 4.494 & 1 & & \\
+8 & 5.126 & 13.128 & 21.828 & 25.691 & 21.848 & 13.138 & 5.126 & 1 & \\ \hline \end{tabular}
+\end{table}
+Table 10: 3: Butterworth polynomials (factored form).
+
+\begin{table}
+\begin{tabular}{l l} \hline \(n\) & \\ \hline
+1 & \(s+1\) \\
+2 & \(s^{2}+\sqrt{2}\,s+1\) \\
+3 & \((s^{2}+s+1)(s+1)\) \\
+4 & \((s^{2}+0.76536s+1)(s^{2}+1.84776s+1)\) \\
+5 & \((s+1)(s^{2}+0.6180s+1)(s^{2}+1.6180s+1)\) \\
+6 & \((s^{2}+0.5176s+1)(s^{2}+\sqrt{2}\,s+1)(s^{2}+1.9318s+1)\) \\
+7 & \((s+1)(s^{2}+0.4450s+1)(s^{2}+1.2456s+1)(s^{2}+1.8022s+1)\) \\
+8 & \((s^{2}+0.3986s+1)(s^{2}+1.1110s+1)(s^{2}+1.6630s+1)(s^{2}+1.9622s+1)\) \\ \hline \end{tabular}
+\end{table}
+Table 10: 4: Butterworth polynomials.
+
+\[\left(\frac{\omega_{p}}{\omega_{c}}\right)^{2N}=\left(\frac{1}{1-\delta_{1}} \right)^{2}-1\]
+
+and
+
+\[\left(\frac{\omega_{s}}{\omega_{c}}\right)^{2N}=\frac{1}{\delta_{2}^{2}}-1\]
+
+Eliminating \(\omega_{c}\) from these two equations and solving for \(N\) yields
+
+\[N=\frac{1}{2}\frac{\log\frac{\delta_{1}(2-\delta_{1})\,\delta_{2}^{2}}{(1- \delta_{1}^{2})(1-\delta_{2}^{2})}}{\log\,\omega_{p}/\omega_{s}} \tag{10.3.15}\]
+
+Since \(N\) must be an integer, we round up the value of \(N\) obtained from Equation (10.3.15) to the nearest integer. This value of \(N\) can now be used in either Equation (10.3.13) or Equation (10.3.14) to determine \(\omega_{c}\). If \(\omega_{c}\) is determined from Equation (10.3.13), the passband specifications are met exactly, whereas the stop-band specifications are exceeded. But if we use Equation (10.3.14) to determine \(\omega_{c}\), the reverse is true. The steps in finding \(H\left(s\right)\) are summarized:
+
+1. Determine \(N\) from Equation (10.3.15) using the values of \(\delta_{1}\), \(\delta_{2}\), \(\omega_{p}\), and \(\omega_{s}\), and round up to the nearest integer.
+2. Determine \(\omega_{c}\) using either Equation (10.3.13) or (10.3.14).
+3. For the value of \(N\) calculated in step 1, determine the denominator polynomial of the normalized Butterworth filter using either Table 10-3 or Table 10-4 (for values of \(N\leq 8\)), or by using Equation (10.3.8) and form \(H\left(s\right)\).
+4. Find the unnormalized transfer function by replacing \(s\) in \(H\left(s\right)\) found in step 3 by \(s/\omega_{c}\). The filter so obtained will have a dc gain of unity. If some other dc gain is desired, \(H\left(s\right)\) must be multiplied by the desired gain.
+
+**Example 10.3.1**: Design a Butterworth filter to have an attenuation no more than 1 dB for \(\mid\omega\mid\leq 1000\) rad/s and at least 10 dB for \(\mid\omega\mid\geq 5000\) rad/s. From the specifications, we have
+
+\[20\log_{10}(1-\delta_{1})=-1,\qquad\text{and}\quad 20\,\log_{10}\,\delta_{2}=-10\]
+
+so that \(\delta_{1}=0.108749\) and \(\delta_{2}=0.31623\). Substituting these values, along with \(\omega_{p}=1000\) and \(\omega_{s}=5000\) into Equation (10.3.15) yields a value for \(N\) of 1.012. Thus, we choose \(N\) to be 2 and obtain the normalized filter from Table 10-3 as
+
+\[H\left(s\right)=\frac{1}{\hat{s}^{2}+1.4142s+1}\]
+
+Substituting \(N=2\) in Equation (10.3.14) yields \(\omega_{c}=2886.75\) rad/s. The unnormalized filter is therefore equal to \[H(s) =\frac{1}{(s/2886.75)^{2}+1.4142(s/2886.75)+1}\] \[=\frac{(2886.75)^{2}}{s^{2}+4082.48s+(2886.75)^{2}}\]
+
+Figure 10.3.3 shows a plot of the magnitude of the filter as a function of \(\omega\). As can be seen from the plot, the filter meets the stop-band specifications, and the passband specifications are exceeded.
+
+#### The Chebyshev Filter
+
+The Butterworth filter provides a good approximation to the ideal low-pass characteristic for values of \(\omega\) near zero, but has a low falloff rate in the transition band. We now consider the Chebyshev filter, which has ripples in the passband, but has a sharper cut-off in the transition band. Thus, for filters of the same order, the Chebyshev filter has a smaller transition band than the Butterworth filter. Since the derivation of the Chebyshev approximation is quite complicated, we do not give the details here, but only present the steps needed to determine \(H(s)\) from the specifications.
+
+The Chebyshev filter is based on the Chebyshev cosine polynomials, defined as
+
+\[C_{N}(\omega) =\cos{(N\ \cos^{-1}\ \omega)},\qquad|\omega|\leq 1 \tag{10.3.16}\] \[=\cosh{(N\ \cosh^{-1}\ \omega)},\quad|\omega|>1\]
+
+The Chebyshev polynomials are also defined by the recursion formula \[C_{N}(\omega)=2\omega C_{N-1}(\omega)-C_{N-2}(\omega) \tag{10.3.17}\]
+
+with \(C_{0}(\omega)=1\), and \(C_{1}(\omega)=\omega\).
+
+The Chebyshev low-pass characteristic of order \(N\) is defined in terms of \(C_{N}(\omega)\) as
+
+\[|H(\omega)|^{2}=\frac{1}{1+\varepsilon^{2}C_{N}^{2}(\omega)} \tag{10.3.18}\]
+
+To determine the behavior of this characteristic, we note that for any \(N\), the zeros of \(C_{N}(\omega)\) are located in the interval \(|\omega|\leq 1\). Further, for \(|\omega|\leq 1\), \(|C_{N}(\omega)|\leq 1\) and for \(|\omega|>1\), \(|C_{N}(\omega)|\) increases rapidly as \(|\omega|\) becomes large. It follow that in the interval \(|\omega|\leq 1\), \(|H(\omega)|^{2}\) oscillates about unity such that the maximum value is \(1\) and the minimum is \(1/(1+\varepsilon^{2})\). As \(|\omega|\) increases, \(|H(\omega)|^{2}\) approaches zero rapidly, thus providing an approximation to the ideal low-pass characteristic.
+
+The magnitude characteristic corresponding to the Chebyshev filter is shown in Figure 10.3.4. As can be seen from the figure, \(|H(\omega)|\) ripples between \(1\) and \(1/\sqrt{1+\varepsilon^{2}}\). Since \(C_{N}^{2}(1)=1\) for all \(N\), it follows that for \(\omega=1\),
+
+\[|H(1)|=\frac{1}{\sqrt{1+\varepsilon^{2}}} \tag{10.3.19}\]
+
+For large values of \(\omega\), that is, in the stop band, we can approximate \(|H(\omega)|\) as
+
+\[|H(\omega)|=\frac{1}{\varepsilon C_{N}(\omega)} \tag{10.3.20}\]
+
+The dB attenuation (or loss) from the value at \(\omega=0\) can thus be written as
+
+\[\text{loss} = -20\log_{10}|H(\omega)| \tag{10.3.21}\] \[= 20\log\varepsilon+20\log C_{N}(\omega)\]
+
+Figure 10.3.4: Magnitude characteristic of the Chebyshev approximation.
+
+For large \(\omega\), \(C_{N}(\omega)\) can be approximated by \(2^{N-1}\omega^{N}\), so that we have
+
+\[\mbox{loss}=20\,\log\epsilon+\,6(N-1)+20\,N\log\omega \tag{10.3.22}\]
+
+Equations (10.3.19) and (10.3.22) can be used to determine the two parameters \(N\) and \(\epsilon\), required for the Chebyshev filter. Parameter \(\epsilon\) is determined by using the passband specifications in Equation (10.3.19). This value for \(\epsilon\) is then used in Equation (10.3.22) along with the stop-band specifications to determine \(N\). In order to find \(H(s)\), we introduce the parameter
+
+\[\beta=\frac{1}{N}\mbox{sinh}^{-1}\frac{1}{\epsilon} \tag{10.3.23}\]
+
+The poles of \(H(s)\), \(s_{k}=\sigma_{k}+j\omega_{k}\), \(k=0\), \(1\), \(\ldots\), \(N-1\), are given by
+
+\[\sigma_{k} =\sin\biggl{(}\frac{2k-1}{N}\biggr{)}\frac{\pi}{2}\mbox{sinh}\,\beta\] \[\omega_{k} =\cos\biggl{(}\frac{2k-1}{N}\biggr{)}\frac{\pi}{2}\cosh\beta \tag{10.3.24}\]
+
+It follows that the poles are located on an ellipse in the \(s\) plane given by
+
+\[\frac{\sigma_{k}^{2}}{\mbox{sinh}^{2}\,\beta}+\frac{\omega_{k}^{2}}{\mbox{cosh }^{2}\,\beta}=1 \tag{10.3.25}\]
+
+The major semiaxis of the ellipse is on the \(j\omega\)-axis, the minor semiaxis is on the \(\sigma\) axis, and the foci are at \(\omega=\pm 1\), as shown in Figure 10.3.5. The 3-dB cutoff frequency occurs at the point where the ellipse intersects the \(j\omega\) axis, that is, at \(\omega=\cosh\beta\).
+
+It is clear from Equation (10.3.24) that the Chebyshev poles are related to the Butterworth poles of the same order. The relation between these poles is shown in Figure 10.3.6 for \(N=3\) and can be used to determine the locations of the Chebyshev poles geometrically. The corresponding \(H(s)\) is obtained from the left-half plane poles.
+
+Figure 10.3.5: Poles of the Chebyshev filter.
+
+**Example 10.3.2**: We consider the same problem as in Example 10.3.1. In order to design the Chebyshev filter, let us normalize \(\alpha_{p}\) to 1, so that \(\alpha_{s}=5\). From the passband specifications, we have, from Equation (10.3.19),
+
+\[20\,\log_{10}\frac{1}{\sqrt{1+\epsilon^{2}}}=-1\]
+
+from which \(\epsilon=0.509\). From Equation 10.3.22, it follows that
+
+\[10=20\,\log_{10}0.509+6(N-1)+20N\,\log_{10}5\]
+
+from which we get a value of \(N=1.0943\). Thus we again use a value of \(N=2\). Parameter \(\beta\) can be determined from Equation (10.3.23) to be equal to \(0.714\). To find the Chebyshev poles, we determine the poles for the corresponding Butterworth filter of the same order and multiply the real parts by \(\sinh\,\beta\) and the imaginary parts by \(\cosh\,\beta\). From Table 10-3, the poles of the normalized Butterworth filter are given by
+
+\[\frac{s}{\omega_{p}}= -\frac{1}{\sqrt{2}}\,\pm j\frac{1}{\sqrt{2}}\]
+
+where \(\omega_{p}=1000\). The Chebyshev poles are obtained as
+
+\[s= -\frac{1000}{\sqrt{2}}(\sinh\,0.714)\,\pm j\frac{1000}{\sqrt{2}}( \cosh\,0.714)\] \[= -545.31\,\pm j\,892.92\]
+
+Figure 10.3.6: Relation between the Chebyshev and Butterworth poles for \(N=3\).
+
+Thus, \(H\left(s\right)\) is given by
+
+\[H\left(s\right)=\frac{1}{\left(s+545.31\right)^{2}+\left(892.92\right)^{2}}\]
+
+The corresponding filter with a dc gain of unity is given as
+
+\[H\left(s\right)=\frac{\left(545.31\right)^{2}+\left(892.92\right)^{2}}{\left(s+5 45.31\right)^{2}+\left(892.92\right)^{2}}\]
+
+The magnitude characteristic for this filter is shown in Figure 10.3.7.
+
+An approximation to the ideal low-pass characteristic, which, for a given filter order, has an even smaller transition band than the Chebyshev filter, can be obtained in terms of the Jacobi elliptic sine functions. The resulting filter is called an elliptic filter. The design of this filter is somewhat complicated and is not discussed here. We note, however, that the magnitude characteristic of the elliptic filter has ripples in both pass-band and stop band. Figure 10.3.8 shows a typical elliptic-filter characteristic.
+
+In recent years, digital filters have supplanted analog filters in many applications because of their higher reliability, flexibility, and superior performance. The digital filter is designed to alter the spectral characteristics of a discrete-time input signal in a specified manner, in much the same manner as the analog filter does for continuous-time signals. The specifications for the filter are given in terms of the discrete-time Fourier-transform variable \(\Omega\) and the design procedure consists of determining the discrete-time transfer function \(H(z)\) that meets these specifications. We refer to \(H\left(z\right)\) as the digital filter.
+
+In certain applications in which a continuous-time signal is to be filtered, the analog filter, for the reasons given, is implemented as a digital filter. Such an implementation involves an analog-to digital conversion of the continuous-time signal to obtain a digital signal that is filtered using a digital filter. The output of the digital filter is then converted back into a continuous-time signal by a digital-to-analog converter. In obtaining such an equivalent digital realization of an analog filter, the specifications for the analog filter, which are in terms of the continuous-time Fourier-transform variable \(\omega\), must be transformed into an equivalent set of specifications in terms of variable \(\Omega\).
+
+As we saw earlier, digital systems (and, hence, digital filters,) can be either FIR or IIR types. The FIR digital filter, of course, has no counterpart in the analog domain. However, as we saw in previous sections, there are several well-established techniques for designing IIR filters. It would appear reasonable, therefore, to try and use these techniques for the design of IIR digital filters. In the next section, we discuss two commonly used methods for designing IIR digital filters based on analog-filter design techniques. For reasons discussed in the previous section, we confine our discussions to the design of low-pass filters. The procedure essentially involves converting the given digital-filter specifications to equivalent analog specifications, designing an analog-filter to meet these specifications and finally converting the analog-filter transfer function \(H_{a}(s)\) into an equivalent discrete-time transfer function \(H\left(z\right)\).
+
+#### Design of IIR Digital Filters Using Impulse Invariance
+
+A fairly straightforward method for establishing an equivalence between a discrete-time system and a corresponding analog system is to require that the responses of the two systems to a test input match in a certain sense. To obtain a meaningful match, we assume that output \(y_{a}(t)\) of the continuous-time system is sampled at an appropriate rate \(T\). We can then require that the sampled output \(y_{a}(nT)\) be equal to output \(y\left(n\right)\) of the discrete-time system. If we now choose the test input as a unit impulse, we require that the impulse responses of the two systems be the same at the sampling instants, so that
+
+Figure 10.3.8: Magnitude characteristic of an elliptic filter.
+
+While the impulse-invariant technique is fairly straightforward to use, it suffers from one disadvantage, namely, that we are in essence obtaining a discrete-time system from a continuous-time system by the process of sampling. We recall that sampling introduces aliasing and that the frequency response corresponding to sequence \(h_{a}(nT)\) is obtained from Equation (7.5.9) as
+
+\[H\left(\Omega\right)=\frac{1}{T}\sum_{k\;=\;-\infty}^{\infty}H_{a}(\Omega+\; \frac{2\pi}{T}\;\;k) \tag{10.4.3}\]
+
+so that
+
+\[H\left(\Omega\right)=\frac{1}{T}\;H_{a}\left(\Omega\right) \tag{10.4.4}\]
+
+only if
+
+\[H_{a}(\omega)=0,\qquad|\omega|\geq\frac{\pi}{T} \tag{10.4.5}\]
+
+which is not the case with practical low-pass filters. Thus, the resulting digital filter does not exactly meet the original design specifications.
+
+It may appear that one way to reduce aliasing effects is to decrease the sampling interval \(T\). However, since the analog passband cutoff frequency is given by \(\omega_{p}=\Omega_{p}/T\), decreasing \(T\) has the effect of increasing \(\omega_{p}\), thus increasing aliasing. It follows, therefore, that the choice of \(T\) has no effect on the performance of the digital filter and can be chosen to be unity.
+
+For implementing an analog filter as a digital filter, we can follow exactly the same procedure as before except that step 1 is not required since the specifications are now given directly in the analog domain. From Equation (10.4.2), when the analog filter is sufficiently band-limited, the corresponding digital filter has a gain of \(1/T\), which can become extremely high for low values of \(T\). Generally, therefore, the resulting transfer function \(H\left(z\right)\) is multiplied by \(T\). The choice of \(T\) is usually determined by hardware considerations. We illustrate the procedure by the following example.
+
+**Example 10.4.1**: Find the digital equivalent of the analog Butterworth filter derived in Example 10.3.1 using the impulse-invariant method.
+
+From Example 10.3.1, we have
+
+\[H\left(s\right)=\frac{\left(2886.75\right)^{2}}{s^{2}+4082.48s+\left(2886.75 \right)^{2}}\]
+
+From Table 10-5, we can determine the equivalent \(Z\)-transfer function as
+
+\[H\left(z\right)=\frac{2886.75z\;\exp[-4082.48T\;]\sin\;2886.75T}{z^{2}-2z\exp[- 4082.48T\;]\cos\;2886.75T\;+\;\exp[-8164.96T\;]}\]
+
+If the sampling interval is assumed to be \(T=0.1\)ms, we get
+
+\[H\left(z\right)=\frac{9.67z}{z^{2}-1.275z+0.442}\]
+
+**Example 10.4.2**: We consider the design of a Butterworth low-pass digital filter to meet the following specifications. The passband magnitude should be constant to within 2 dB for frequencies below \(0.2\pi\) radians and the stop-band magnitude in the range \(0.4\pi<\Omega<\pi\) should be less than \(-10\) dB. Assume that the magnitude at \(\Omega=0\) is normalized to unity.
+
+With \(\Omega_{p}=0.2\pi\) and \(\Omega_{s}=0.4\pi\), since the Butterworth filter has a monotone magnitude characteristic, it is clear that to meet the specifications, we must have
+
+\[20\,\log_{10}\,\,|H(0.2\pi)|\,=-2\quad\text{ or }\quad\quad|H(0.2\pi)|\,^{2}=10^{-0.2}\]
+
+and
+
+\[20\,\log_{10}\,\,|H(0.4\pi)|\,=-10\quad\text{ or }\quad\quad|H(0.4\pi)|\,^{2}=10^{-1}\]
+
+For the impulse-invariant design technique, we obtain the equivalent analog domain specifications by setting \(\omega=\Omega T\), with \(T=1\), so that
+
+\[|H_{a}(0.2\pi)|\,^{2} =10^{-0.2}\] \[|H_{a}(0.4\pi)|\,^{2} =10^{-1}\]
+
+For the Butterworth filter,
+
+\[|H_{a}(j\omega)|\,^{2}=\frac{1}{1+(\omega/\omega_{c})^{2N}}\]
+
+where \(\omega_{c}\) and \(N\) must be determined from the specifications. This yields the two equations
+
+\[1+(\frac{0.2\pi}{\omega_{c}})^{2N} =10^{0.2}\] \[1+(\frac{0.4\pi}{\omega_{c}})^{2N} =10\]
+
+Solving for \(N\) gives \(N=1.9718\), so that we choose \(N=2\). With this value of \(N\), we can solve for \(\omega_{c}\) from either of the two last equations. If we use the first equation, we just meet the passband specifications, but more than meet the stop-band specifications, whereas if we use the second equation, the reverse is true. Assuming we use the first equation, we get
+
+\[\omega_{c}=0.7185\text{ rad/s}\quad\quad.\]
+
+The corresponding Butterworth filter is given by
+
+\[H_{a}(s)=\frac{1}{(s/\omega_{c})^{2}+\sqrt{2}\,(s/\omega_{c})+1}=\frac{0.5162} {s^{2}+1.016s+0.5162}\]
+
+with impulse response
+
+\[h_{a}(t)=1.01\,\exp\,[-0.508t\,]\,\sin\,0.508\,\,\,t\]
+
+The impulse response of the digital filter obtained by sampling \(h_{a}(t)\) with \(T=1\) is\[h\left(n\right)=1.01\,\exp\left[\,-0.508n\,\right]\,\sin\,0.508\,n\]
+
+By taking the corresponding \(Z\)-transform and normalizing so that magnitude at \(\Omega=0\) is unity, we obtain
+
+\[H\left(z\right)=\frac{0.5854z}{z^{2}\,-1.051z\,+\,0.362}\]
+
+Figure 10.4.1 shows a plot of \(\,\left|H\left(\Omega\right)\right|\,\) for \(\Omega\) in the range \(\left[0,\pi/2\right]\). For this particular example, the analog filter is sufficiently band-limited, so that the effects of aliasing are not noticeable. This is not true in general. One possibility in such a case is to choose a higher value of \(N\) than is obtained from the specifications.
+
+#### IIR Design Using the Bilinear Transformation
+
+As stated earlier, digital-filter design based on analog filters involves converting discrete-domain specifications into the analog domain. The impulse-invariant design does this by using the transformation
+
+\[\omega=\Omega\,/T\]
+
+or, equivalently,
+
+\[z=\exp\left[\,Ts\,\right]\]
+
+We saw, however, that because of the nature of this mapping as discussed in Section 8.7, the impulse-invariant design leads to aliasing problems. One approach to overcoming aliasing is to use a transformation that maps the \(Z\)-domain onto a domain that is similar to the \(s\) domain, in that the unit circle in the \(z\) plane maps into the vertical axis in the new domain, the interior of the unit circle maps onto the open left half plane and the exterior onto the open right half plane. We can then treat this new plane as if it were the "analog" domain and use standard techniques for obtaining the equivalent analog filter. The specific transformation that we use is
+
+\[s=\frac{2}{T}\ \frac{1-z^{-1}}{1+z^{-1}} \tag{10.4.6}\]
+
+or, equivalently,
+
+\[z=\frac{1+(T/2)s}{1-(T/2)s} \tag{10.4.7}\]
+
+where \(T\) is a parameter that can be chosen to be any convenient value. It can easily be verified by setting \(z=r\exp\left[j\Omega\right]\) that this transformation, which is referred to as the bilinear transformation, does indeed satisfy the three requirements that we mentioned earlier. We have
+
+\[s =\sigma+j\omega=\frac{2}{T}\ \frac{1-r\ \exp\left[-j\Omega\right]}{1 +r\ \exp\left[-j\Omega\right]}\] \[=\frac{2}{T}\ \frac{1-r^{2}}{1+r^{2}+2r\ \cos\ \Omega}+j\ \frac{2}{T}\ \frac{r\ \sin\ \Omega}{1+r^{2}+2r\ \cos\ \Omega}\]
+
+For \(r<1\), clearly, \(\sigma>0\), and for \(r>1\), we have \(\sigma<0\). For \(r=1\), s is purely imaginary with
+
+\[\omega=\frac{2}{T}\ \frac{\sin\ \Omega}{2(1+\cos\ \Omega)}=\frac{2}{T}\ \tan\ \frac{\Omega}{2}\]
+
+This relationship is plotted in Figure 10.4.2.
+
+Procedure for obtaining the digital filter \(H\left(z\right)\) can be summarized as follows:
+
+1. From the given digital-filter specifications, find the corresponding analog-filter specifications by using the relation \[\omega=\frac{2}{T}\ \tan\ \frac{\Omega}{2}\] (10.4.8) where \(T\) can be chosen arbitrarily, e.g., \(T=2\).
+
+2. Find the corresponding analog-filter function \(H_{a}(s)\). Find the equivalent digital filter as \[H(z)=H_{a}(s)\big{|}_{s=\frac{2}{T}\frac{1-z^{-1}}{1+z^{-1}}}\] (10.4.9) The following example illustrates the use of the bilinear transform in digital filter design.
+
+We consider the problem of Example 10.4.1, but will now obtain a Butterworth design using the bilinear transform method. With \(T=2\), we determine the corresponding passband and stop-band cutoff frequencies in the analog domain as \[\omega_{p}=\tan\frac{0.2\pi}{2}=0.3249\] \[\omega_{s}=\tan\frac{0.4\pi}{2}=0.7265\] To meet the specifications, we now set \[1+(\frac{0.3249}{\omega_{c}})^{2N}=10^{-0.2}\] \[1+(\frac{0.7265}{\omega_{c}})^{2N}=10^{-1}\] and solve for \(N\) to get \(N=1.695\). Choosing \(N=2\) and determining \(\omega_{c}\) as before gives \[\omega_{c}=0.4195\] The corresponding analog filter is \[H_{a}(s)=\frac{0.176}{s^{2}+0.593s+0.176}\] We can now obtain the digital-filter \(H(z)\) with gain at \(\Omega=0\) normalized to be unity as \[H(z)=H_{a}(s)\big{|}_{s=\frac{1+z^{-1}}{1-z^{-1}}}=\frac{0.1355(z+1)^{2}}{z^{ 2}-2.174z+1.716}\]
+
+Figure 10.4.3 shows the magnitude characteristic of the digital filter for \(\Omega\) in the range \([0,\pi/2]\).
+
+#### FIR Filter Design
+
+We have noted in our earlier discussions that it is desirable that a filter have a linear phase characteristic. Although an IIR digital filter does not in general have a linear phase, we can obtain such a characteristic with a FIR digital filter. In this section, we consider a technique for the design of FIR digital filters.
+
+We first establish that a FIR digital filter of length \(N\) has a linear phase characteristic provided its impulse response satisfies the symmetry condition
+
+\[h\left(n\right)=h\left(N-1-n\right) \tag{10.4.10}\]
+
+This can be easily verified by determining \(H\left(\Omega\right)\). We consider the case of \(N\) even and \(N\) odd separately. For \(N\) even, we write
+
+\[H\left(\Omega\right) =\sum_{n\,=\,0}^{N-1}h\left(n\right)\,\exp\left[\,-j\Omega n\,\right]\] \[=\sum_{n\,=\,0}^{N/2\,-\,1}h\left(n\right)\,\exp\left[\,-j\Omega n \,\right]+\sum_{n\,=\,N/2}^{N-1}h\left(n\right)\,\exp-j\Omega n\]
+
+Now replace \(n\) by \(N\,-\,n-1\) in the second term in the last equation and use Equation (10.4.10) to get
+
+\[H\left(\Omega\right)=\sum_{n\,=\,0}^{\left(N/2\right)\,-\,1}h\left(n\right)\, \exp\left[\,-j\Omega n\,\right]+\sum_{n\,=\,0}^{\left(N/2\right)\,-\,1}h\left( n\right)\exp\left[\,-j\Omega(N\!-\!1\!-\!n)\right]\]
+
+which can be written as
+
+\[H\left(\Omega\right)=\left\lceil\sum_{n\,=\,0}^{\left(N/2\,-\,1\right)}2\ h \left(n\right)\,\cos\left[\,\Omega(n-\frac{N\!-\!1}{2})\right]\right\rceil \exp\left[\,-j\Omega(\frac{N\!-\!1}{2})\right]\]
+
+Similarly, for \(N\) odd, we can show that
+
+\[H\left(\Omega\right)=\left\lceil h\left(\frac{N\!-\!1}{2}\right)+\sum_{n\,=\,0 }^{\left(N\,-\,3\right)/2}2h\left(n\right)\,\cos\left[\,\Omega(n-\frac{N\!-\! 1}{2})\right]\right\rceil\exp\left[\,-j\Omega(\frac{N\!-\!1}{2})\right]\]
+
+In both these equations, the terms in braces being real represent the magnitude \(\left\lfloor H\left(\Omega\right)\right\rfloor\).
+
+It follows that the system has a linear phase shift, with a corresponding delay of \((N-1)/2\) samples.
+
+Given a desired frequency-response \(H_{d}(\Omega)\), such as an ideal low-pass characteristic, which is symmetric about the origin, the corresponding impulse response \(h_{d}(n)\) is symmetric about the point \(n=0\), but, in general, is of infinite duration. The most direct way of obtaining an equivalent FIR filter of length \(N\) is to just truncate this infinite sequence. This truncation operation, as in our earlier discussion of the DFT in Chapter 9, can be considered to result from multiplying the infinite sequence by a window sequence \(w\left(n\right)\). If \(h_{d}(n)\) is symmetric about \(n=0\), we get a linear phase filter that is, however, non-causal. We can get a causal impulse response by shifting the truncated sequence to the right by \((N-1)/2\) samples. The desired digital-filter \(H\left(z\right)\) is then determined as the \(Z\)-transform of this truncated shifted sequence. We summarize these steps as follows:
+
+1. From the desired frequency-response characteristic \(H_{d}(\Omega)\), find the corresponding impulse response \(h_{d}(n)\).
+2. Multiply \(h_{d}(n)\) by the window function \(w\left(n\right)\).
+3. Find the impulse response of the digital filter as \[h\left(n\right)=h_{d}[\,n-(N-1)/2]\,\,w\left[\,n-(N-1)/2\right]\] and determine \(H\left(z\right)\). Alternatively, we can find the \(Z\)-transform \(H^{\prime}(z)\) of sequence \(h_{d}(n)w\left(n\right)\) and find \(H\left(z\right)\) as \[H\left(z\right)=z^{-(N-1)/2}\,\,H^{\prime}(z)\]
+
+As noted before, we encountered the truncation operation in step 2 in our earlier discussion of the DFT in Chapter 9. There it was pointed out that truncation causes the frequency response of the filter to be smeared.
+
+In general, windows with wide main lobes cause more spreading than those with narrower main lobes. Figure 10.4.4 shows the effect of using the rectangular window on the ideal low-pass filter characteristic. As can be seen from the figure, the transition width of the resulting filter is approximately equal to the main lobe width of the window function and is, hence, inversely proportional to the window length \(N\). The choice of \(N\), therefore, involves a compromise between transition width and filter length.
+
+Figure 10.4.4: Frequency response obtained by using rectangular window on ideal filter response.
+
+The following are some commonly used window functions.
+
+Rectangular:
+
+\[w_{R}(n)=\begin{cases}1,&0\leq n\leq N-1\\ 0,&\text{elsewhere}\end{cases}\] (10.4.11a) Bartlett: \[w_{B}(n)=\begin{cases}\frac{2n}{N-1},&0\leq n\leq\frac{N-1}{2}\\ 2-\frac{2n}{N-1},&\frac{N-1}{2}\leq n\leq N-1\\ 0,&\text{elsewhere}\end{cases} \tag{10.4.11b}\]
+
+Hanning:
+
+\[w_{\text{Han}}(n)=\begin{cases}\frac{1}{2}(1-\cos\ \frac{2\pi n}{N-1}),&0\leq n\leq N-1\\ 0,&\text{elsewhere}\end{cases} \tag{10.4.11c}\]
+
+Hamming:
+
+\[w_{\text{Han}}(n)=\begin{cases}0.54-0.46\cos\ \frac{2\pi n}{N-1},&0\leq n \leq N-1\\ 0,&\text{elsewhere}\end{cases} \tag{10.4.11d}\]
+
+Blackman:
+
+\[w_{\text{Bl}}(n)=\begin{cases}0.42-0.5\cos\ \frac{2\pi n}{N-1}+0.08\cos\ \frac{4\pi n}{N-1},&0\leq n\leq N-1\\ 0,&\text{elsewhere}\end{cases} \tag{10.4.11e}\]
+
+Kaiser:
+
+\[w_{\text{K}}(n)=\begin{cases}\frac{I_{0}\bigg{(}\alpha[(\frac{N-1}{2})^{2}-(n- \frac{N-1}{2})^{2}]^{1/2}\bigg{)}}{I_{0}[\alpha(\frac{N-1}{2})]},&0\leq n\leq N -1\\ 0,&\text{elsewhere}\end{cases} \tag{10.4.11f}\]
+
+where \(I_{0}(x)\) is the modified zero-order Bessel function of the first kind given by \(I_{0}(x)=\int\limits_{0}^{2\pi}\exp[x\ \cos\ \theta]\ d\theta/2\pi\) and \(\alpha\) is a parameter that effects the relative widths of 
+
+Filter function \(H^{\prime}\left(z\right)\) is
+
+\[H^{\prime}(z)=\frac{0.012}{\pi}\ z^{4}+\frac{0.068}{\pi}\ z^{3}+ \frac{0.257}{\pi}\ z^{2}+\frac{0.508}{\pi}\ z+1+\] \[\frac{0.508}{\pi}\ z^{-1}+\frac{0.257}{\pi}\,\ \frac{0.068}{\pi}\,\ \frac{0.012}{\pi}\ z^{-4}\]
+
+Finally, H(z) is obtained as
+
+\[H\left(z\right)=z^{-4}H^{\prime}\left(z\right)=\frac{0.012}{\pi} (1+z^{-8})+\frac{0.068}{\pi}\left(z^{-1}+z^{-7}\right)+\frac{0.257}{\pi}(z^{ -2}+z^{-6})\] \[+\frac{0.508}{\pi}\ (z^{-3}+z^{-5})+z^{-4}\]
+
+The frequency responses of the filters obtained using both the rectangular and Hamming windows are shown in Figure 10.4.5 with the gain at \(\Omega\!=\!0\) normalized to unity. As can be seen from the figure, the response corresponding to the Hamming window is smoother than the one for the rectangular window.
+
+#### Computer-Aided Design of Digital Filters
+
+In recent years, the use of computer-aided design techniques for the design of digital filters has become widespread and several software packages are available for such design. Techniques have been developed for both FIR and IIR filters, which, in general,
+
+Figure 10.4.5: Response of the FIR digital filter of Example 10.4.4. (a) Rectangular window and (b) Hamming window.
+
+involve minimization of a suitably chosen cost function. Given a desired frequency-response characteristic \(H_{d}(\Omega)\), a filter of either the FIR or IIR type and of fixed order is selected. We express the frequency response of this filter, \(H(\Omega)\), in terms of the vector \(\mathbf{a}\) of filter coefficients. The difference between the two responses, which represents the deviation from the desired response, is a function of \(\mathbf{a}\). We associate a cost function with this difference and seek the set of filter coefficients \(\mathbf{a}\) that minimizes this cost function. A typical cost function is of the form
+
+\[J(\mathbf{a})=\int\limits_{-\pi}^{\pi}W(\Omega)\,|\,H_{d}(\Omega)-H(\Omega)\,| ^{2}\;\;d\Omega \tag{10.4.12}\]
+
+where, \(W(\Omega)\) is a nonnegative weighting function that reflects the significance attached to the deviation from the desired response in a particular range of frequencies. \(W(\Omega)\) is chosen to be relatively large over that range of frequencies that is considered to be important.
+
+Quite often, instead of minimizing the deviation at all frequencies, as in Equation (10.4.12), we can choose to do so only at a finite number of frequencies. The cost function then becomes
+
+\[J(\mathbf{a})=\sum\limits_{i\,=\,1}^{M}\;W(\Omega_{i})\;|\,H_{d}(\Omega_{i})- H(\Omega_{i})\,|^{2} \tag{10.4.13}\]
+
+where \(\Omega_{i}\), \(1\leq i\leq M\), are a set of frequency samples over the range of interest. Typically, the minimization problem is quite complex and the resulting equations cannot be solved analytically. An iterative search procedure is usually employed to determine the optimum set of filter coefficients. We start with an arbitrary initial choice for the filter coefficients, and successively adjust them such that the resulting cost function is reduced at each step. The procedure stops when a further adjustment of the coefficients does not result in a reduction in the cost function. Several standard algorithms and software packages are available for determining the optimum filter coefficients.
+
+A popular technique for the design of FIR filters is based on the fact that the frequency response of a linear phase FIR filter can be expressed as a trignometric polynomial similar to the Chebyshev polynomial. The filter coefficients are chosen to minimize the maximum deviation from the desired response. Again, computer programs are available to determine the optimum filter coefficients.
+
+### Summary
+
+* Frequency-selective filters are classified as low-pass, high-pass, band-pass, or band-stop filters.
+* The passband of a filter is the range of frequencies that are passed without attenuation. The stop band is the range of frequencies that are completely attenuated.
+* Filter specifications usually specify the permissible deviation from the ideal characteristic in both passband and stop band, as well as specifying a transition band between the two.
+
+* Filter design consists of obtaining an analytical approximation to the desired filter characteristic in the form of a filter transfer function, given as \(H(s)\) for analog filters, and \(H(z)\) for digital filters.
+* Frequency transformations can be used for converting one type of filter to another.
+* Two popular low-pass analog filters are the Butterworth and Chebyshev filters. The Butterworth filter has a monotone decreasing characteristic that decreases to zero smoothly. The Chebyshev filter has a ripple in the passband but is monotone decreasing in the transition and stop bands.
+* A given set of specifications can be met by a Chebyshev filter of lower order than a Butterworth.
+* The poles of the Butterworth filter are spaced uniformly around the unit circle in the s plane. The poles of the Chebyshev filter are located in an ellipse on the s plane and can be obtained geometrically from the Butterworth poles.
+* Digital filters can be either IIR or FIR.
+* Digital IIR filters can be obtained from equivalent analog designs by using either the impulse invariant technique or the bilinear transformation.
+* Digital filters designed using impulse invariance exhibit distortion due to aliasing. There is no aliasing distortion in using the bilinear transformation method.
+* Digital FIR filters are often chosen to have a linear phase characteristic. One method of obtaining an FIR filter is to determine the impulse response \(h_{d}(n)\) corresponding to the desired filter characteristic \(H_{d}(\Omega)\) and to truncate the resulting sequence by multiplying it by an appropriate window function.
+* For a given filter length, the transition band depends on the window function.
+
+### 10.6 Checklist of Important Terms
+
+\begin{tabular}{l l}
+**Aliasing error** & **Frequency-selective filter** \\
+**Analog filter** & **Frequency transformations** \\
+**Band-pass filter** & **High-pass filter** \\
+**Band-stop filter** & **Impulse invariance** \\
+**Bilinear transformation** & **IIR filter** \\
+**Butterworth filter** & **Linear phase characteristic** \\
+**Chebyshev filter** & **Low-pass filter** \\
+**Digital filter** & **Passband** \\
+**Filter specifications** & **Transition band** \\
+**FIR filter** & **Window function** \\ \end{tabular}
+
+### 10.7 Problems
+
+\begin{tabular}{l l}
+**10.1.** & Design an analog low-pass Butterworth filter to meet the following specifications: attenuation to be less than 2 dB up to 1 kHz and to be at least \(-10\) dB for frequencies greater than 3 kHz.

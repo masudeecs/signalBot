@@ -1,0 +1,865 @@
+## Chapter 4 The Fourier Transform
+
+We saw in Chapter 3 that the Fourier series is a powerful tool in treating various problems involving periodic signals. A first illustration of this fact was given in Section 3.5, where we demonstrated how a LTI system processes a periodic input to produce the output response. More precisely, at any frequency, \(n\omega_{o}\), we showed that the amplitude of the output is equal to the product of the amplitude of the periodic input signal, \(\left.1_{c_{n}}\right|\), and the magnitude of the system function \(\left|H\left(\omega\right)\right|\) evaluated at \(\omega=n\omega_{o}\), and the phase of the output is equal to the sum of the phase of the periodic input signal, \(\star c_{n}\), and the system phase \(\star H\left(\omega\right)\) evaluated at \(\omega=n\omega_{o}\).
+
+In Chapter 3, we were able to decompose any periodic signal with period \(T\) in terms of infinitely many harmonically related complex exponentials of the form \(\exp[jn\omega_{o}t]\). All such harmonics have the common period \(T=2\pi/\omega_{o}\). In this chapter, we consider another powerful mathematical technique, called the Fourier transform, for describing both periodic and nonperiodic signals for which no Fourier series exists. Like the Fourier-series coefficients, the Fourier transform specifies-the spectral content of a signal. Thus, the Fourier transform provides a frequency-domain description of a signal. Besides being useful in analytically representing nonperiodic (aperiodic) signals, the Fourier transform is a valuable tool in the analysis of LTI systems.
+
+It is perhaps difficult to see how some typical aperiodic signals such as
+
+\[u\left(t\right),\quad\exp[\ -t]\ u\left(t\right),\quad\text{rect}\left(t/T\right)\]
+
+could be made up of complex exponentials. Complex exponentials exist for all time and have constant amplitudes, whereas these previous signals do not possess these properties. In spite of this, we will see that such aperiodic signals do have harmonic content; that is, they can be expressed as the superposition of harmonically related exponentials.
+
+In Section 4.2, we use the Fourier series as a stepping-stone to develop the Fourier transform and show that the Fourier transform can be considered as an extension of the Fourier series. In Section 4.3, we consider the properties of the Fourier transform that make it useful in LTI system analysis and provide examples of the calculation of some elementary transform pairs. In Section 4.4, we discuss some applications related to the use of Fourier transform theory in communication systems, signal processing and control systems. In Section 4.5, we introduce the concept of bandwidth and signal duration and discuss several measures for these quantities. Finally, the uncertainty principle is developed and its significance is discussed.
+
+### 4.2 The Continuous-Time Fourier Transform
+
+In Chapter 3, we developed a method (Fourier series) of representing a periodic signal as a weighted sum of exponentials. This representation is valuable in many applications. However, as a tool for analyzing linear systems, it has one serious limitation. Namely, the Fourier series can be used only for periodic inputs (all practical inputs are non-periodic). This limitation can be overcome if we can represent nonperiodic inputs in terms of exponentials. It is possible to accomplish the decomposition of nonperiodic signals into a sum of weighted exponentials through what is known as the Fourier transform, which can be considered as an extension of the Fourier series. We will use a heuristic development, invoking physical arguments to circumvent rigorous mathematics where necessary. As we see in the next subsection, in the case of aperiodic signals, the sum in the Fourier series becomes an integral and each exponential has essentially zero amplitude, but the totality of all these infinitesimal exponentials produces the non-periodic signal.
+
+#### 4.2.1 Development of the Fourier Transform
+
+The generalization of the Fourier series to aperiodic signals was suggested by Fourier himself and can be deduced from examination of the structure of the Fourier series for periodic signals as the period \(T\) approaches infinity. In making the transition from the Fourier series to the Fourier transform, where necessary, we use a heuristic development invoking physical arguments to circumvent some very subtle mathematical concepts. After taking the limit, we will find that the magnitude spectrum of a periodic signal is not a line spectrum (as with a periodic signal), but instead occupies a continuum of frequencies. The same is true of the corresponding phase spectrum.
+
+To clarify how the change from discrete to continuous spectra takes place, consider periodic signal \(\vec{x}\left(t\right)\) shown in Figure 4.2.1. Now think of keeping the waveform of one period of \(\vec{x}\left(t\right)\) unchanged, but carefully and intentionally increase \(T\). In the limit as \(T\rightarrow\infty\), only a single pulse remains because the nearest neighbors have been moved to infinity. We saw in Chapter 3 that increasing \(T\) has two effects on the spectrum of \(\vec{x}\left(t\right)\). The amplitude of the spectrum decreases as \(1/T\), and the spacing between lines decreases as \(2\pi/T\). As \(T\) approaches infinity, the spacing between lines approaches zero. This means that the spectral lines move closer, eventually becoming a continuum.
+
+The overall shapes of the magnitude and phase spectra are determined by the shape of the single pulse that remains in the new signal \(x(t)\), which is aperiodic.
+
+To investigate what happens mathematically, we use the exponential form of the Fourier series representation for \(\vec{x}\left(t\right)\):
+
+\[\vec{x}\left(t\right)=\sum_{n\,=\,-\,\infty}^{\,\infty}c_{n}\exp\left[\,jn\omega _{o}\,t\right] \tag{4.2.1}\]
+
+where
+
+\[c_{n}=\frac{1}{T}\int\limits_{-\,T/2}^{T/2}\vec{x}\left(t\right)\,\exp\left[\, -jn\omega_{o}t\right]\,dt \tag{4.2.2}\]
+
+In the limit as \(T\to\infty\), we see that \(\omega_{o}=2\pi/T\to d\omega\) becomes an infinitesimally small quantity, \(d\omega\), so that
+
+\[\frac{1}{T}\to\frac{d\omega}{2\pi}\]
+
+We argue that in the limit, \(n\omega_{o}\) should be a continuous variable. Then from Equation (4.2.2), the Fourier coefficients per unit frequency interval are
+
+\[\frac{c_{n}}{d\omega}=\frac{1}{2\pi}\int\limits_{t\,=\,-\,\infty}^{\,\infty} \vec{x}\left(t\right)\,\exp\left[\,-j\omega\,t\right]\,dt \tag{4.2.3}\]
+
+Substituting Equation (4.2.3) into Equation (4.2.1), and recognizing that in the limit, the sum becomes an integral and \(\vec{x}\left(t\right)\) approaches \(x\left(t\right)\), we obtain
+
+\[x(t)=\int\limits_{\omega\,=\,-\,\infty}^{\,\infty}\int\limits_{t\,=\,-\, \infty}^{\,\infty}x(t)\,\exp\left[\,-j\omega\,t\right]dt\Biggr{]}_{\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\frequency variable in hertz rather than rad/s. This can be done by an obvious change of variables). \(X(\omega)\) is called the Fourier transform of \(x(t)\). \(X(\omega)\) plays the same role for nonperiodic signals that \(c_{n}\) plays for periodic signals. Thus, \(X(\omega)\), is the spectrum of \(x(t)\) with the exception that \(X(\omega)\) is a continuous function defined for all values of \(\omega\), whereas \(c_{n}\) is defined only for discrete frequencies. Therefore, as mentioned earlier, a nonperiodic signal has a continuous spectrum rather than a line spectrum. \(X(\omega)\) specifies the weight of the complex exponentials used to represent the waveform in Equation (4.2.5) and, in general, is a complex function of the variable \(\omega\). Thus, it can be written as
+
+\[X(\omega)=|X(\omega)|\,\exp\left[\,j\phi(\omega)\right] \tag{4.2.7}\]
+
+The magnitude of \(X(\omega)\) plotted versus \(\omega\) is called the magnitude spectrum of x(t), and \(|X(\omega)|^{2}\) is called the energy spectrum. The angle of \(X(\omega)\) plotted versus \(\omega\) is called the phase spectrum.
+
+In Chapter 3, we saw that for any periodic signal \(x(t)\), there is a one-to-one correspondence between \(x(t)\) and the set of Fourier coefficients \(c_{n}\). Here, too, it can be shown that there is a one-to-one correspondence between \(x(t)\) and \(X(\omega)\), denoted by
+
+\[x(t)\leftrightarrow X(\omega)\]
+
+which is meant to imply that for every \(x(t)\) having a Fourier transform, there is a unique \(X(\omega)\) and vice versa. Some sufficient conditions for the signals to have a Fourier transform are discussed later. We emphasize that while we have used a real-valued signal \(x(t)\) as an artifice in the development of the transform pair, the Fourier-transform relations hold for complex signals as well. With few exceptions, however, we will be concerned primarily with real-valued signals of time.
+
+As a notational convenience, \(X(\omega)\) is often denoted by \(\mathcal{F}\{x(t)\}\) and is read "the Fourier transform of \(x(t)\)." In addition, we adhere to the convention that the Fourier transform is represented by a capital letter that is the same as the lowercase letter denoting the time signal. For example,
+
+\[\mathcal{F}\left\{\,h\left(t\right)\right\}=H(\omega)=\int\limits_{-\infty}^{ \infty}h\left(t\right)\exp\left[-j\omega t\right]\,dt\]
+
+Before we examine further the general properties of the Fourier transform and its physical meaning, let us first introduce a set of sufficient conditions for the existence of the Fourier transform.
+
+#### Existence of the Fourier Transform
+
+The signal \(x(t)\) is said to have a Fourier transform in the ordinary sense if the integral in Equation (4.2.6) converges (i.e., exists). Since
+
+\[|\,\int y(t)\,dt\,\mid\,\leq\int\,|\,y(t)|\,\,dt\]
+
+and \(|\exp\left[-j\omega t\right]|=1\), it follows that Equation (4.2.6) exists if 1. \(x(t)\) is absolutely integrable, and
+2. \(x(t)\) is "well behaved."
+
+The first condition means
+
+\[\int\limits_{-\infty}^{\infty}\left|x(t)\right|\ dt<\infty \tag{4.2.8}\]
+
+A class of signals that satisfy Equation (4.2.8) is that of energy signals. Such signals, in general, are either time-limited or asymptotically time-limited in the sense that \(x(t)\to 0\) as \(t\to\pm\infty\). The Fourier transform of power signals (a class of signals defined in Chapter 1 to have infinite energy content but finite average power) can also be shown to exist, but contains impulses in their transform. Therefore, any signal that is either a power or an energy signal has a Fourier transform.
+
+"Well behaved" means that the signal is not too "wiggly" or, more correctly, that it is of bounded variation. This, simply stated, means that \(x(t)\) can be represented by a curve of finite length in any finite interval of time, or alternatively, that the signal has a finite number of discontinuities, minima, and maxima within any finite interval of time. At a point of discontinuity, \(t_{o}\), the inversion integral Equation (4.2.5) converges to \(\frac{1}{2}[x(t_{o}^{+})+x(t_{o}^{-})]\), otherwise it converges to \(x(t)\). Except for impulses, most signals of interest are well behaved and satisfy Equation (4.2.8).
+
+The conditions for the existence of the Fourier transform of \(x(t)\) given earlier are sufficient conditions. This means that there are signals that violate either one or both conditions and yet possess a Fourier transform. Examples are power signals (unit-step signal, periodic signals, etc. ) that are not absolutely integrable over an infinite interval, impulse trains that are not "well behaved" and are neither power nor energy signals but still have Fourier transforms. We can include signals that do not have Fourier transforms in the ordinary sense, by generalization to transforms in the limit. For example, to obtain the Fourier transform of a constant, we consider \(x(t)=\operatorname{rect}(t/\tau)\) and let \(\tau\to\infty\) after obtaining the Fourier transform.
+
+#### Examples of the Continuous-Time Fourier Transform
+
+In this section, we compute the transform of some commonly encountered time signals.
+
+**Example 4.2.1**: The Fourier transform of the rectangular pulse \(x(t)=\operatorname{rect}(t/\tau)\) is
+
+\[X(\omega) =\int\limits_{-\infty}^{\infty}x(t)\ \exp\left[\,-j\omega\,t\right]\ dt\] \[=\int\limits_{-\tau/2}^{\tau/2}\exp\left[\,-j\omega\,t\,\right]\ dt\] \[=\frac{1}{-j\omega}\bigg{(}\exp\left[\frac{-j\omega\tau}{2}\ \right]-\exp\left[\,\frac{j\omega\tau}{2}\ \right]\bigg{)}\]This can be simplified to
+
+\[X(\omega)=\frac{2}{\omega}\sin\frac{\omega\tau}{2}=\tau\text{ sinc }\frac{\omega\tau}{2\pi}=\tau\text{ Sa }\frac{\omega\tau}{2}\]
+
+Since \(X(\omega)\) is a real-valued function of \(\omega\), its phase is zero for all \(\omega\). The magnitude of \(X(\omega)\) is the same as \(X(\omega)\) and is plotted in Figure 4.2.2.
+
+Clearly, the spectrum of the rectangular pulse extends from \(-\infty<\omega<\infty\). However, from Figure 4.2.2, we see that most of the spectral content of the pulse is contained in the interval \(-2\pi/\tau<\omega<2\pi/\tau\). This interval is labeled the main lobe of the sinc signal. The other portion of the spectrum represents what are called the side lobes of the spectrum. Increasing \(\tau\) results in a shorter main lobe, whereas a smaller \(\tau\) produces a Fourier transform with a wider main lobe.
+
+Consider the triangular pulse defined as
+
+\[\Delta(t/\tau)=\begin{cases}1-\frac{|\,t\,|\,|}{\tau},&|\,t\,|\,\leq\tau\\ 0,&|\,t\,|\,>\tau\end{cases}\]
+
+This pulse is of unit height, centered about \(t=0\), and of width \(2\tau\). The Fourier transform is
+
+\[X(\omega) =\int\limits_{-\infty}^{\infty}\Delta(t\,/\,\tau)\,\exp\,[\,-j \omega t\,]\,\,dt\] \[=\int\limits_{-\tau}^{0}(1+\frac{t}{\tau})\,\exp\,[\,-j\omega t\, ]\,\,dt+\int\limits_{0}^{\tau}(1-\frac{t}{\tau})\,\exp\,[\,-j\omega t\,]\,\,dt\] \[=\int\limits_{0}^{\tau}(1-\frac{t}{\tau})\,\exp\,[\,j\omega t\, ]\,\,dt+\int\limits_{0}^{\tau}(1-\frac{t}{\tau})\,\exp\,[\,-j\omega t\,]\,\,dt\] \[=2\int\limits_{0}^{\tau}(1-\frac{t}{\tau})\cos\omega t\,\,\,dt\]
+
+Figure 4.2.2: Fourier transform of the rectangular pulse. 
+
+We thus have the pair
+
+\[\delta(t)\leftrightarrow 1 \tag{4.2.10}\]
+
+Using the inversion formula, we must clearly have
+
+\[\delta(t)=\frac{1}{2\pi}\int\limits_{-\infty}^{\infty}\exp\left[\left.j\omega \,t\right]\,d\omega\right. \tag{4.2.11}\]
+
+Equation (4.2.11) states that the impulse signal theoretically consists of equal-amplitude sinusoids of all frequencies. This integral is obviously meaningless unless we interpret \(\delta(t)\) as a function specified by its properties rather than an ordinary function having definite values for every \(t\), as we demonstrated in Chapter 1. Equation (4.2.11) can also be written in the following limit form
+
+\[\delta(t)=\lim_{\alpha\rightarrow\infty}\frac{\sin\alpha\,t}{\pi t} \tag{4.2.12}\]
+
+This result can be established by writing Equation (4.2.11) as
+
+\[\delta(t) =\frac{1}{2\pi}\,\lim_{\alpha\rightarrow\infty}\int\limits_{- \alpha}^{\alpha}\exp\left[\left.j\omega\,t\right]\,d\omega\right.\] \[=\frac{1}{2\pi}\,\lim_{\alpha\rightarrow\infty}\frac{2\sin\alpha \,t}{t}\] \[=\lim_{\alpha\rightarrow\infty}\frac{\sin\alpha\,t}{\pi t}\]
+
+We can easily show that \(\int\limits_{-\infty}^{\infty\infty}\exp\left[\left.j\omega\,t\right]d\omega/ 2\pi\right.\) "behaves" like the unit-impulse function by putting it inside an integral, i.e., we evaluate an integral of the form
+
+\[\int\limits_{-\infty}^{\infty\infty}\left[\frac{1}{2\pi}\int\limits_{-\infty}^ {\inftyinfty}\exp\left[\left.j\omega\,t\right]d\omega\right]g\left(t\right)dt\]
+
+where \(g\left(t\right)\) is any arbitrary well-behaved signal that is continuous at \(t=0\) and possesses a Fourier transform \(G(\omega)\). Interchanging orders of integration, we have
+
+\[\frac{1}{2\pi}\int\limits_{-\infty}^{\infty\infty}\int\limits_{-\infty}^{ \infty}g\left(t\right)\exp\left[\left.j\omega\,t\right]dt\right]d\omega=\frac{1 }{2\pi}\int\limits_{-\infty}^{\infty\infty}G\left(-\omega\right)\,d\omega\]
+
+From the inversion formula, it follows that
+
+\[\frac{1}{2\pi}\int\limits_{-\infty}^{\infty}G\left(-\omega\right)\,d\omega= \frac{1}{2\pi}\int\limits_{-\infty}^{\infty}G\left(\omega\right)\,d\omega=g \left(0\right)\]
+
+That is, \(\left(1/2\pi\right)\int\limits_{-\infty}^{\infty\infty}\exp\left[\left.j\omega \,t\right]\,d\omega\right.\) "behaves" like an impulse at \(t=0\).
+
+Another transform pair follows from interchanging the role of \(t\) and \(\omega\) in Equation (4.2.11). The result is
+
+\[\delta(\omega)=\frac{1}{2\pi}\int\limits_{-\infty}^{\infty}\exp\left[\,j\omega t \right]\,dt\]
+
+or
+
+\[1\leftrightarrow 2\pi\,\delta(\omega) \tag{4.2.13}\]
+
+In words, the Fourier transform of a constant is an impulse in the frequency domain. Factor \(2\pi\) arises because we are using radian frequency. If written in terms of frequency in hertz, factor \(2\pi\) disappears (\(\delta(\omega)=\delta(f)/2\pi\)).
+
+**Example 4.2.7**: In this example, we use Equation (4.2.12) and Example 4.2.1 to prove Equation (4.2.13). By letting \(\tau\) go to \(\infty\) in Example 4.2.1, signal \(x\left(t\right)\) approaches \(1\) for all values of \(t\). On the other hand by using Equation (4.2.12), the limit of the transform of rect(\(t/\tau\)) becomes
+
+\[\lim_{\tau\to\infty}\frac{2}{\omega}\,\frac{\sin\omega\tau}{2}=2\,\pi\,\delta(\omega)\]
+
+**Example 4.2.8**: Consider the exponential signal \(x\left(t\right)=\exp[j\omega_{o}t]\). The Fourier transform of this signal is
+
+\[X\left(\omega\right) =\int\limits_{-\infty}^{\infty}\exp\left[\,j\omega_{o}t\,\right] \,\exp\left[\,-j\omega t\,\right]\,dt\] \[=\int\limits_{-\infty}^{\infty}\exp\left[\,-j(\omega-\omega_{o}) t\,\right]\,dt\]
+
+Using the result leading to Equation (4.2.13), we obtain
+
+\[\exp\left[\,j\omega_{o}t\,\right]\leftrightarrow 2\pi\,\delta(\omega-\omega_{o} )\,. \tag{4.2.14}\]
+
+This is an expected result since \(\exp[j\omega_{o}t]\) has energy concentrated at \(\omega_{o}\).
+
+Periodic signals are power signals, and we anticipate, according to the discussion in Section 4.2.2, that the Fourier transform contains impulses (delta functions). In Chapter 3, we examined the spectrum of periodic signals by computing the Fourier-series coefficients. We found that the spectrum consists of a set of lines located at \(\pm\,n\,\omega_{o}\), where \(\omega_{o}\) is the fundamental frequency of the periodic signal. In the following example, we find the Fourier transform of periodic signals and show that the spectra of periodic signals consist of trains of impulses.
+
+\begin{table}
+\begin{tabular}{l l} \hline \(\bar{x}(t)\) & \(x\left(\omega\right)\) \\ \hline
+1. 1 & \(2\pi\,\delta(\omega)\) \\
+2. \(u\left(t\right)\) & \(\pi\,\delta(\omega)+\dfrac{1}{j\omega}\) \\
+3. \(\delta(t)\) & 1 \\
+4. \(\delta(t-t_{o})\) & \(\exp[-j\omega t_{o}]\) \\
+5. \(\operatorname{rect}(t/\tau)\) & \(\tau\,\operatorname{sinc}\,\dfrac{\omega\tau}{2\pi}=\dfrac{2\sin\omega\tau/2}{\omega}\) \\
+6. \(\dfrac{\omega_{B}}{\pi}\,\operatorname{sinc}\,\dfrac{\omega_{B}t}{\pi}=\dfrac{ \sin\omega_{B}t}{\pi t}\) & \(\operatorname{rect}\left(\omega/2\omega_{B}\right)\) \\
+7. \(\operatorname{sgn}t\) & 2 \\
+8. \(\exp[j\omega_{o}t]\) & \(2\pi\,\delta(\omega-\omega_{o})\) \\
+9. \(\sum\limits_{n\,=\,\infty}^{\infty}a_{n}\exp[jn\omega_{o}t]\) & \(2\pi\,\sum\limits_{n\,=\,\infty}^{\infty}a_{n}\,\delta(\omega-n\omega_{o})\) \\
+10. \(\cos\omega_{o}t\) & \(\pi\,\left[\delta(\omega-\omega_{o})+\delta(\omega+\omega_{o})\right]\) \\
+11. \(\sin\omega_{o}t\) & \(\dfrac{\pi}{j}\left[\delta(\omega-\omega_{o})-\delta(\omega+\omega_{o})\right]\) \\
+12. \((\cos\omega_{o}t)u\left(t\right)\) & \(\dfrac{\pi}{2}\left[\delta(\omega-\omega_{o})+\delta(\omega+\omega_{o})\right]+ \dfrac{j\omega}{\omega_{o}^{2}-\omega^{2}}\) \\
+13. \((\sin\omega_{o}t)u\left(t\right)\) & \(\dfrac{\pi}{2j}\left[\delta(\omega-\omega_{o})-\delta(\omega+\omega_{o})\right]+ \dfrac{\omega_{o}}{\omega_{o}^{2}-\omega^{2}}\) \\
+14. \(\cos\omega_{o}t\,\operatorname{rect}\left(t/\tau\right)\) & \(\tau\,\operatorname{sinc}\,\dfrac{(\omega-,\omega_{o})\tau}{2\pi}\) \\
+15. \(\exp[-at]u\left(t\right)\), \(\operatorname{Re}\,\left\{a\,\right\}>0\) & \(\dfrac{1}{a+j\omega}\) \\
+16. \(t\,\exp[-at]u\left(t\right)\), \(\operatorname{Re}\,\left\{a\,\right\}>0\) & \(\left(\dfrac{1}{a+j\omega}\right)^{2}\) \\
+17. \(\dfrac{t^{n-1}}{(n-1)!}\,\exp[-at]\,u\left(t\right)\), \(\operatorname{Re}\,\left\{a\,\right\}>0\) & \(\dfrac{1}{(a+j\omega)^{n}}\) \\
+18. \(\exp[-a\,|\,t\,|\,]\), \(a>0\) & \(\dfrac{2a}{a^{\,2}+\omega^{2}}\) \\ \hline \end{tabular}
+\end{table}
+Table 4.1: Some Selected Fourier Transform Pairs
+
+### Properties of the Fourier Transform
+
+There are a number of useful properties of the Fourier transform that will allow some problems to be solved almost by inspection. In this section we shall summarize many of these properties, some of which may be more or less obvious to the reader.
+
+#### Linearity
+
+If
+
+\[x_{1}(t) \leftrightarrow X_{1}(\omega)\] \[x_{2}(t) \leftrightarrow X_{2}(\omega)\]
+
+then
+
+\[a\,x_{1}(t)+b\,x_{2}(t) \leftrightarrow a\,X_{1}(\omega)+b\,X_{2}(\omega) \tag{4.3.1}\]
+
+where \(a\) and \(b\) are arbitrary constants. This property is the direct result of the linear operation of integration. The linearity property can be easily extended to a linear combination of an arbitrary number of components and simply means that the Fourier transform of a linear combination of an arbitrary number of signals is the same linear combination of the transform of the individual components.
+
+We want to find the Fourier transform of \(\cos\omega_{o}t\). The cosine signal can be written as a sum of two exponentials as follows:
+
+\[\cos\omega_{0}\,t=\frac{1}{2}\left[\,\exp[j\omega_{0}\,t]+\exp[-j\omega_{0}\,t ]\right]\]
+
+Equations (4.3.4) and (4.3.5) ensure that the exponentials of the form \(\exp\left[j\omega t\right]\) combine properly with those of the form \(\exp\left[-j\omega t\right]\) to produce real sinusoids of frequency \(\omega\) for use in the expansion of real-valued time signals. Thus, a real-valued signal \(x\left(t\right)\) can be written in terms of the amplitudes and phases of real sinusoids that constitute the signal.
+
+**Example 4.3.3**: Consider an even and real-valued signal \(x\left(t\right)\). Then its transform \(X\left(\omega\right)\) is
+
+\[X\left(\omega\right) =\int\limits_{-\infty}^{\infty}x\left(t\right)\exp\left[-j\omega t \right]\ dt\] \[=\int\limits_{-\infty}^{\infty}x\left(t\right)\left(\cos\omega t -j\sin\omega t\right)\ dt\]
+
+Since \(x\left(t\right)\cos\omega t\) is an even function of \(t\) and \(x\left(t\right)\sin\omega t\) is an odd function of \(t\), we have
+
+\[X\left(\omega\right)=2\int\limits_{0}^{\infty}x\left(t\right)\cos\omega t\ dt\]
+
+which is a real and even function of \(\omega\). Therefore, the Fourier transform of an even and real-valued time signal is an even and a real-valued signal in the frequency domain.
+
+#### Time Shifting
+
+If
+
+\[x\left(t\right)\leftrightarrow X\left(\omega\right)\]
+
+then
+
+\[x\left(t-t_{0}\right)\leftrightarrow X\left(\omega\right)\exp\left[-j\omega t _{0}\right] \tag{4.3.6}\]
+
+The proof of this property follows from Equation (4.2.6) after suitable substitution of variables. Using the polar form, Equation (4.3.3), Equation (4.3.6) reduces to
+
+\[\mathcal{F}\left\{x\left(t-t_{0}\right)\right\}=\ \left|X\left(\omega\right) \right|\ \exp\left[j\left(\phi\left(\omega\right)-\omega t_{0}\right)\right]\]
+
+The last equation indicates that shifting in time does not alter the amplitude spectrum of the signal. The only effect of time shifting is to introduce a phase shift in the transform that is a linear function of \(\omega\). The result is reasonable because we have already seen that to delay or advance a sinusoid, we have only to adjust the phase. In addition, the energy content of a waveform does not depend on its position in time.
+
+#### Time Scaling
+
+If
+
+\[x\left(t\right)\leftrightarrow X\left(\omega\right)\]then
+
+\[x(\alpha t)\leftrightarrow\frac{1}{|\alpha|}\,X(\frac{\omega}{\alpha}) \tag{4.3.7}\]
+
+where \(\alpha\) is a real constant. The proof follows directly from the definition of the Fourier transform and the appropriate substitution of variables.
+
+Aside from the amplitude factor of \(1/|\alpha|\), linear scaling in time by a factor \(\alpha\) corresponds to a linear scaling in frequency by a factor of \(1/\alpha\). The result can be interpreted physically by considering a typical signal \(x\left(t\right)\) and its Fourier transform \(X(\omega)\), as shown in Figure 4.3.1. If \(|\alpha|<1\), \(x(\alpha t)\) is expanded in time and the signal varies more slowly (becomes smoother) than the original. These slower variations deemphasize the high-frequency components and manifest themselves in more appreciable low-frequency sinusoidal components. That is, time expansion implies frequency compression. Conversely, time compression implies frequency expansion. If \(|\alpha|>1\), \(x(\alpha t)\) is compressed in time and must vary rapidly. Faster time variations are manifested by the presence of higher-frequency components.
+
+This time-expansion frequency-compression has found application in areas such as data transmission from space probes to earth receiving stations. To reduce the amount of noise superimposed on the required signal, it is necessary to keep the bandwidth of the receiver as small as possible. One means to accomplish this is to reduce the bandwidth of the signal, store the data collected by the probe, and then play it back at a slower rate. Because the time-scaling factor is known, the signal can be reproduced at the receiver.
+
+We want to determine the Fourier transform of the pulse \(x(t)=\alpha\,\text{rect}(\alpha t/\tau)\), \(\alpha>0\). The Fourier transform of \(\text{rect}\left(t/\tau\right)\) is, by Example 4.2.1,
+
+\[\mathcal{F}\Bigg{\{}\text{rect}\left(t/\tau\right)\Bigg{\}}=\tau\text{ since}\frac{\omega\tau}{2\pi}\]
+
+By (4.3.7) the Fourier transform of \(\alpha\,\text{rect}\left(\alpha t/\tau\right)\) is
+
+\[\mathcal{F}\Bigg{\{}\alpha\,\text{rect}\left(\alpha t/\tau\right)\Bigg{\}}= \tau\text{ since}\frac{\omega\tau}{2\dot{\alpha}\tau}\]
+
+Note that as we increase parameter \(\alpha\), the rectangular pulse becomes narrower and higher and approaches an impulse as \(\alpha\to\infty\). Correspondingly, the main lobe of the Fourier transform becomes wider and in the limit, \(X(\omega)\) approaches a constant value for all \(\omega\). On the other hand, as \(\alpha\) approaches zero, the rectangular signal approaches 1 for all \(t\) and the transform approaches a delta signal (see Example 4.2.7).
+
+The inverse relationship between time and frequency is encountered in a wide variety of science and engineering applications. In section 4.5, we will cover one application of this relationship, namely, the uncertainty principle.
+
+#### Differentiation
+
+If
+
+\[x\left(t\right)\leftrightarrow X\left(\omega\right)\]
+
+then
+
+\[\frac{dx\left(t\right)}{dt}\leftrightarrow j\omega X\left(\omega\right) \tag{4.3.8}\]
+
+The proof of this property is obtained by direct differentiation of both sides of Equation (4.2.5) with respect to \(t\). The differentiation property can be extended to yield the
+
+Figure 4.3.1: Examples of the time-scaling property: (a) The original signal and its magnitude spectrum, (b) the time-expanded signal and its magnitude spectrum, and (c) the time-compressed signal and the resulting magnitude spectrum.
+
+following:
+
+\[\frac{d^{n}x(t)}{dt^{n}}\leftrightarrow(j\omega)^{n}X\left(\omega\right) \tag{4.3.9}\]
+
+We must be careful when using the differentiation property. First of all, the property does not ensure the existence of \(\mathcal{T}\{dx(t)/dt\}\). However, if it exists, it is given by \(j\omega X\left(\omega\right)\). Second, one cannot always infer that \(X\left(\omega\right)=\mathcal{T}\{dx(t)/dt\}/j\omega\).
+
+Since differentiation in time corresponds to multiplication by \(j\omega\) in the frequency domain, one might conclude that integration should involve division by \(j\omega\) in the frequency domain. This is only true for a certain class of signals. To demonstrate this, consider the signal \(y\left(t\right)=\int\limits_{-\infty}^{t}x\left(\tau\right)d\tau\). With \(Y\left(\omega\right)\) as its transform, we conclude from \(dy\left(t\right)/dt=x\left(t\right)\) and Equation (4.3.8) that \(j\omega Y\left(\omega\right)=X\left(\omega\right)\). For \(Y\left(\omega\right)\) to exist, \(y\left(t\right)\) should satisfy the conditions listed in Section 4.2.2. This is equivalent to \(y\left(\infty\right)=0\), i.e., \(\int\limits_{-\infty}^{\infty}x\left(\tau\right)d\tau=X\left(0\right)=0\). In this case,
+
+\[\int\limits_{-\infty}^{t}x\left(\tau\right)d\tau\leftrightarrow\frac{1}{j \omega}X\left(\omega\right) \tag{4.3.10}\]
+
+This equation implies that integration in the time domain attenuates (deemphasizes) the magnitude of the high-frequency components of the signal. Hence, an integrated signal is smoother than the original signal. This is why integration is sometimes called a smoothing operation.
+
+If \(X\left(0\right)\neq 0\), then signal \(x\left(t\right)\) has a dc component. The corresponding dc component of \(y\left(t\right)\) is \(\frac{1}{2}X\left(0\right)\) (see Example 4.3.10) and according to Equation (4.2.13), the transform should contain \(\delta(\omega)\), that is,
+
+\[\int\limits_{-\infty}^{t}x\left(\tau\right)d\tau\leftrightarrow\pi\,X\left( 0\right)\,\delta(\omega)+\frac{1}{j\omega}x\left(\omega\right) \tag{4.3.11}\]
+
+**Example 4.3.5**: Consider the unit-step funtion. As we saw in Section 1.6, the unit step can be written as
+
+\[u\left(t\right) =\frac{1}{2}+\left\lceil u\left(t\right)-\frac{1}{2}\right\rceil\cdot\] \[=\frac{1}{2}+\frac{1}{2}\operatorname{sgn}t\]
+
+The first term has \(\pi\delta(\omega)\) as its transform. Although \(\operatorname{sgn}t\) does not have a derivative in the regular sense, in Section 1.6, we defined the derivatives of discontinuous signals in terms of the delta function. As a consequence
+
+\[\frac{d}{dt}\left\{\frac{1}{2}\operatorname{sgn}t\right\}=\delta(t)\]
+
+Since \(\operatorname{sgn}t\) has a zero \(\mathrm{d}^{\prime}\) component (odd signal), then applying Equation (4.3.10) yields\[j\omega\mathcal{T}\left[\frac{1}{2}\operatorname{sgn}t\right]=1\]
+
+or
+
+\[\mathcal{T}\left[\frac{1}{2}\operatorname{sgn}t\right]=\frac{1}{j\omega}. \tag{4.3.12}\]
+
+By linearity of the Fourier transform, we obtain
+
+\[u\left(t\right)\leftrightarrow\pi\delta(\omega)+\frac{1}{j\omega} \tag{4.3.13}\]
+
+Therefore, the Fourier transform of the unit-step function contains an impulse at \(\omega=0\) corresponding to the average value of \(\frac{1}{2}\). It also has all the high-frequency components of the signum function reduced by one-half.
+
+#### Energy of Aperiodic Signals
+
+In Section 3.5.6, we related the total average power of a periodic signal to the average power of each frequency component in its Fourier series. We did this through Parseval's theorem. We would like to find the analogous relationship for aperiodic signals. Aperiodic signals are energy signals, and in this section, we show that the energy of these signals can be computed from their transform \(X\left(\omega\right)\). The energy \(E\) is defined as
+
+\[E=\int\limits_{-\infty}^{\infty}\left|x\left(t\right)\right|^{2}\,dt=\int \limits_{-\infty}^{\infty}x\left(t\right)x^{*}\left(t\right)\,dt\]
+
+Using Equation (4.2.5) in the last equation results in
+
+\[E=\int\limits_{-\infty}^{\infty}x\left(t\right)\left[\frac{1}{2\pi}\int \limits_{-\infty}^{\infty}X^{*}(\omega)\,\exp\,\left[-j\omega t\right]d\omega \right]dt\]
+
+Interchanging the order of integration gives
+
+\[E=\frac{1}{2\pi}\int\limits_{-\infty}^{\infty}X^{*}(\omega)\left[\int\limits_ {-\infty}^{\infty}x\left(t\right)\,\exp\,\left[-j\omega t\right]\,dt\right]d\omega\]
+
+\[=\frac{1}{2\pi}\int\limits_{-\infty}^{\infty}\left|X(\omega)\right|^{2}\,d\omega \tag{4.3.14}\]
+
+This relation is Parseval's relation for aperiodic signals. Equation (4.3.14) says that the energy of an aperiodic signal can be computed in the frequency domain by computing the energy per unit frequency, \(\mathcal{E}(\omega)=\left(1X(\omega)\right)^{1/2}/2\pi\)), and integrating over all frequencies. For this reason, \(\mathcal{E}(\omega)\) is often referred to as the energy-density spectrum, or, simply, the energy spectrum of the signal since it measures the frequency distribution of the total energy of \(x\left(t\right)\). We note that th energy spectrum of a signal depends on the magnitude of the spectrum and not on the phase. This fact implies that there are many signals that may have the same energy spectrum. However, for a given signal, there is only one energy spectrum. The energy in an infinitesimal band of frequencies \(d\omega\) is then \(\mathcal{E}(\omega)\,d\omega\), and the energy contained within a band \(\omega_{1}\leq\omega\leq\omega_{2}\) is
+
+\[\Delta E=\int\limits_{\omega_{1}}^{\omega_{2}}\frac{1}{2\pi}\,|\,X\left(\omega \right)|^{2}\,\,d\omega \tag{4.3.15}\]
+
+That is, \(|X\left(\omega\right)|^{2}\) not only allows us to calculate the total energy of \(x\left(t\right)\) using Parseval's relation, but also permits us to calculate the energy in any given frequency band. For real-valued signals, \(|X\left(\omega\right)|^{2}\) is an even function and Equation (4.3.14) can be reduced to
+
+\[E=\frac{1}{\pi}\int\limits_{0}^{\infty}|\,X\left(\omega\right)|^{2}\,\,d\omega \tag{4.3.16}\]
+
+Periodic signals, as defined in Chapter 1, have infinite energy but finite average power. A function that describes the distribution of the average power of the signal as a function of frequency is called the power-density spectrum, or, simply, the power spectrum. In the following, we develop an expression for the power spectral density of power signals and after Section 4.3.9, the modulation property, we give an example to demonstrate how to compute the power spectral density of a periodic signal. Let \(x\left(t\right)\) be a power signal and define \(x_{\tau}\left(t\right)\) as
+
+\[x_{\tau}\left(t\right)=\begin{cases}x\left(t\right),&-\tau<t<\tau\\ 0,&\text{otherwise}\end{cases}\]
+
+\[=x\left(t\right)\text{rect}\left(t/2\tau\right)\]
+
+We also assume that
+
+\[x_{\tau}\left(t\right)\,\,\leftrightarrow\,\,X_{\tau}\left(\omega\right)\]
+
+The average power in signal \(x\left(t\right)\) is
+
+\[P=\lim_{\tau\rightarrow\infty}\left[\frac{1}{2\tau}\int\limits_{-\tau}^{\tau} |x_{\tau}\left(t\right)|^{2}\,dt\right]=\lim_{\tau\rightarrow\infty}\left[ \frac{1}{2\tau}\int\limits_{-\infty}^{\infty}|x_{\tau}\left(t\right)|^{2}\, dt\right] \tag{4.3.17}\]
+
+where the last equality follows from the definition of \(x_{\tau}\left(t\right)\). Using Parseval's relation, Equation (4.3.17) can be written as
+
+\[P =\frac{1}{2\pi}\lim_{\tau\rightarrow\infty}\left[\frac{1}{2\tau} \int\limits_{-\infty}^{\infty}|X_{\tau}\left(\omega\right)|^{2}\,d\omega \right]=\,\frac{1}{2\pi}\int\limits_{-\infty}^{\infty}\lim_{\tau\rightarrow \infty}\left[\frac{|X_{\tau}\left(\omega\right)|^{2}}{2\tau}\right]d\omega \tag{4.3.18}\] \[=\frac{1}{2\pi}\int\limits_{-\infty}^{\infty}S\left(\omega \right)d\omega\]
+
+where\[S(\omega)=\lim_{\tau\rightarrow\infty}\left[\frac{1\,X_{\tau}\left(\omega\right) \,\mid^{2}}{2\tau}\right] \tag{4.3.19}\]
+
+\(S(\omega)\) is referred to as the power-density spectrum, or, simply, power spectrum, of signal \(x(t)\) and represents the distribution, or density, of the power of the signal with frequency. As in the case of the energy spectrum, the power spectrum of a signal depends only on the magnitude of the spectrum and not on the phase.
+
+**Example 4.3.6**: Consider the one-sided exponential signal
+
+\[x(t)=\exp\left[\,-t\,\right]\,u\left(t\right)\]
+
+From Equation (4.2.9),
+
+\[\mid X(\omega)\,\mid^{2}=\frac{1}{1+\omega^{2}}\]
+
+The total energy in this signal is equal to \(\frac{1}{2}\) and can be obtained by either using Equation (1.4.2) or (4.3.14). The energy in the frequency band \(-4<\omega<4\) is
+
+\[\Delta\,E = \frac{1}{\pi}\,\int\limits_{0}^{4}\frac{1}{1+\omega^{2}}\,\,d\omega\] \[= \frac{1}{\pi}\,\tan^{-1}\,\,\omega\,\big{|}_{0}^{4}\simeq\,0.422\]
+
+Thus, approximately \(84\%\) of the total energy content of the signal lies in the frequency band \(-4<\omega<4\). Note that the previous result could not be obtained with knowledge of \(x(t)\) alone.
+
+#### The Convolution
+
+This property plays an important role in the study of LTI systems and their applications. This property states that if
+
+\[x(t) \leftrightarrow X(\omega)\] \[h(t) \leftrightarrow H(\omega)\]
+
+then
+
+\[x(t){\ast}h(t) \leftrightarrow X(\omega)H(\omega) \tag{4.3.20}\]
+
+The proof follows from the definition of the convolution integral, namely,
+
+\[S\left[x(t){\ast}h(t)\right] =\int\limits_{-\infty}^{\infty}\left[\int\limits_{-\infty}^{ \infty}x(\tau)h(t-\tau)\,d\tau\right]\exp\left[\,-j\omega t\,\right]\,dt\]
+
+Interchanging the order of integration and noting that \(x(\tau)\) does not depend on \(t\), we have
+
+\[\mathcal{F}\left\{x\left(t\right)\ast h\left(t\right)\right\}=\int\limits_{- \infty}^{\infty}x\left(\tau\right)\left[\int\limits_{-\infty}^{\infty}h\left(t -\tau\right)\,\exp\left[\,-j\omega t\,\right]\,d\tau\right]dt\]
+
+By the shifting property, Equation (4.3.6), the bracketed term is simply \(H\left(\omega\right)\), \(\exp\left[\,-j\omega t\right]\). Thus,
+
+\[\mathcal{F}\left\{x\left(t\right)\ast h\left(t\right)\right\} =\int\limits_{-\infty}^{\infty}x\left(\tau\right)\,\exp\left[\,-j \omega t\,\right]\,H\left(\omega\right)\,d\tau\] \[=H\left(\omega\right)\int\limits_{-\infty}^{\infty}x\left(\tau \right)\,\exp\left[\,-j\omega t\right]\,d\tau\] \[=H\left(\omega\right)X\left(\omega\right)\]
+
+Thus, a convolution in the time domain is equivalent to multiplication in the frequency domain, which, in many cases, is convenient and can be done by inspection. The use of the convolution property for LTI systems is demonstrated in Figure 4.3.2. The amplitude and phase spectrum of output \(y\left(t\right)\) are related to those of input \(x\left(t\right)\) and impulse response \(h\left(t\right)\) in the following manner:
+
+\[\left|\,Y\left(\omega\right)\,\right|\,=\,\left|\,X\left(\omega\right)\, \right|\,\left|\,H\left(\omega\right)\,\right|\]
+
+Thus, the amplitude spectrum of the input is modified by \(\left|\,H\left(\omega\right)\,\right|\) to produce the amplitude spectrum of the output, and the phase spectrum of the input is changed by \(\triangleleft H\left(\omega\right)\) to produce the phase spectrum of the output.
+
+Quantity \(H\left(\omega\right)\), the Fourier transform of the system impulse response, is generally referred to as the frequency response of the system.
+
+As we have seen in Section 4.2.2, for \(H\left(\omega\right)\) to exist, \(h\left(t\right)\) has to satisfy two conditions. The first condition requires that the impulse response be absolutely integrable. This, in turn, implies that the LTI system is stable. Thus, assuming that \(h\left(t\right)\) is "well behaved," as are essentially all signals of practical significance, we conclude that the frequency response of a stable LTI system exists. If, however, an LTI system is unstable, that is, if
+
+\[\int\limits_{-\infty}^{\infty}\left|\,h\left(t\right)\,\right|\,dt=\infty\]
+
+then the response of the system to complex exponential inputs is infinite and the Fourier
+
+\[y\left(t\right)=\left\lceil\exp\left[\ -bt\right]-\exp\left[\ -ct\right]\right\rceil u\left(t\right)\]
+
+Using the convolution property, the transform of the input is
+
+\[X\left(\omega\right) =\frac{Y(\omega)}{H(\omega)}\] \[=\frac{\left(c-b\right)(j\omega+a)}{(j\omega+b)(j\omega+c)}\] \[=\frac{D}{j\omega+b}+\frac{E}{j\omega+c}\]
+
+where
+
+\[D=a-b\qquad\text{ and }\qquad E=c-a\]
+
+Therefore,
+
+\[x\left(t\right)=\left(a-b\right)\exp\left[\ -b\ t\right]+\left(c-a\right)\exp \left[-c\ t\right]\]
+
+In this example, we use the relation
+
+\[\int\limits_{-\infty}^{t}x(\tau)\ d\tau=x\left(t\right)*u\left(t\right)\]
+
+and the transform of \(u\left(t\right)\) to prove the integration property, Equation (4.3.11). From Equation (4.3.13) and the convolution property, we have
+
+\[\int\limits_{-\infty}^{t}x(\tau)\ d\tau\Biggr{\}}=X\left(\omega \right)\ \left\lceil\pi\delta(\omega)+\frac{1}{j\omega}\right\rceil\] \[=\pi\,X(0)\ \delta(\omega)+\frac{X(\omega)}{j\omega}\]
+
+The last equality follows from the sampling property of the delta function.
+
+Another important relation follows as a consequence of using the convolution property to represent the spectrum of the output of a LTI system, that is,
+
+\[Y(\omega)=X\left(\omega\right)H\left(\omega\right)\]
+
+We then have
+
+\[|\,Y(\omega)|^{2}=1X\left(\omega\right)H\left(\omega\right)|^{2}=|\,X\left( \omega\right)|^{2}\ |\,H\left(\omega\right)|^{2} \tag{4.3.21}\]
+
+This equation shows that the energy-spectrum density of the response of a LTI system is the product of the energy-spectrum density of the input signal and the squared magnitude of the system function. The phase characteristic of the system does not affect the energy-spectrum density of the output, in spite of the fact that, in general, \(H\left(\omega\right)\) is a complex quantity.
+
+#### Duality
+
+We may sometimes have to find the Fourier transform of a time signal that has a form similar to an entry in the transform column in the table of Fourier transforms. We can find the desired transform by using the table backwards. To accomplish that, we write the inversion formula in the following form:
+
+\[\int\limits_{-\infty}^{\infty}X(\omega)\,\exp\left[\,+j\omega t\,\right]d\omega= \,2\pi x\left(t\right)\]
+
+Notice, that there is a symmetry between the last equation and Equation (4.2.6) (the two equations are almost identical except for a sign change in the exponential, a factor of \(2\pi\), and an interchange of the variables involved). This type of symmetry leads to the duality property of the Fourier transform. This property states that if \(x\left(t\right)\) has a transform \(X\left(\omega\right)\), then
+
+\[X\left(t\right)\leftrightarrow 2\pi x\left(-\omega\right) \tag{4.3.22}\]
+
+We prove Equation (4.3.22) by replacing \(t\) by \(-t\) in Equation (4.2.5) to get
+
+\[2\pi x\left(-t\right) =\int\limits_{\omega=-\infty}^{\infty}X\left(\omega\right)\,\exp \left[\,-j\omega t\,\right]d\omega\] \[=\int\limits_{\tau=-\infty}^{\infty}X\left(\tau\right)\,\exp \left[\,-j\omega\,\right]d\tau\]
+
+since \(\omega\) is just a dummy variable for integration. Now replacing \(t\) by \(\omega\) and \(\tau\) by \(t\) gives Equation (4.3.22).
+
+**Example 4.3.11**: Consider the signal
+
+\[x\left(t\right)=\mathrm{Sa}\,\frac{\omega_{B}t}{2}=\mathrm{sinc}\,\frac{ \omega_{B}t}{2\pi}\]
+
+From Equation (4.2.6),
+
+\[\mathcal{T}\left\{\mathrm{Sa}\,\frac{\omega_{B}t}{2}\right\}=\int\limits_{- \infty}^{\infty}\mathrm{Sa}\,\frac{\omega_{B}t}{2}\,\exp\left[\,-j\omega t\, \right]dt\]
+
+This is a very difficult integral to evaluate directly. However, we have found in Example 4.2.1 that
+
+\[\mathrm{rect}(t\,/\tau)\leftrightarrow\tau\,\mathrm{Sa}\,\frac{\omega\tau}{2}\]
+
+Then according to Equation (4.3.22),
+
+\[\mathcal{T}\left\{\mathrm{Sa}\,\frac{\omega_{B}t}{2}\right\}=\frac{2\pi}{ \omega_{B}}\,\mathrm{rect}\left(-\omega/\omega_{B}\right)=\frac{2\pi}{\omega_ {B}}\,\mathrm{rect}\left(\omega/\omega_{B}\right)\]
+
+because the rectangular pulse is an even signal. Note that the transform \(X\left(\omega\right)\) is zero
+
+signal such as \(x\left(t\right)\cos\omega_{0}t\) can be easily computed. These types of signals arise in many communications systems, as we shall see later. Since
+
+\[\cos\omega_{0}\,t=\frac{1}{2}\left[\,\exp\left[\,j\omega_{0}\,t\right]+\,\exp \left[\,-j\omega_{0}\,t\right]\right]\]
+
+then
+
+This result constitutes the fundamental property of modulation and is useful in the spectral analysis of signals obtained from multipliers and modulators.
+
+**Example 4.3.13**: Consider the signal \(x_{s}\left(t\right)\) defined as the product
+
+\[x_{s}\left(t\right)=x\left(t\right)p\left(t\right)\]
+
+where \(p\left(t\right)\) is the periodic impulse train with equal strength impulses, as shown in Figure 4.3.3. Analytically, \(p\left(t\right)\) can be written as
+
+\[p\left(t\right)=\sum_{n\,=\,-\infty}^{\infty}\delta\left(t-nT\right)\]
+
+Using the sampling property of the delta function, we obtain
+
+\[x_{s}\left(t\right)=\sum_{n\,=\,-\infty}^{\infty}x\left(nT\right)\delta\left( t-nT\right)\]
+
+That is, \(x_{s}\left(t\right)\) is a train of impulses spaced \(T\) seconds apart, the strength of the impulses being equal to the sample values of \(x\left(t\right)\). Recall from Example 4.2.10 that the Fourier transform of the periodic impulse train \(p\left(t\right)\) is itself a periodic impulse train. Specifically,
+
+\[P\left(\omega\right)=\frac{2\pi}{T}\,\sum_{n\,=\,-\infty}^{\infty}\delta \left(\omega-\,\frac{2\pi n}{T}\right)\]
+
+Consequently, from the modulation property
+
+\[X_{s}\left(\omega\right) =\frac{1}{2\pi}\,\left[X\left(\omega\right)\ast P\left(\omega \right)\right]\] \[=\frac{1}{T}\sum_{n\,=\,-\infty}^{\infty}X\left(\omega\right) \ast\delta\left(\omega-\,\frac{2\pi n}{T}\right)=\frac{1}{T}\,\sum_{n\,=\,- \infty}^{\infty}X\left(\omega-\,\frac{2\pi n}{T}\right)\]
+That is, \(X_{s}(\omega)\) consists of a periodically repeated replica of \(X\left(\omega\right)\).
+
+**Example 4.3.14**: Consider the system depicted in Figure 4.3.4, where
+
+\[x\left(t\right) =\frac{\sin\left(\omega_{B}t\,/2\right)}{\pi t}\] \[p\left(t\right) =\sum_{n\ =\ -\infty}^{\infty}\delta(t-\frac{n\pi}{\omega_{B}})\] \[h\left(t\right) =\frac{\sin\left(3\omega_{B}t\,/2\right)}{\pi t}\]
+
+The Fourier transform of \(x\left(t\right)\) is the rectangular pulse with width \(\omega_{B}\) and the Fourier transform of the product \(x\left(t\right)p\left(t\right)\) consists of the periodically repeated replica of \(X\left(\omega\right)\), as shown in Figure 4.3.5. Similarly, the Fourier transform of \(h(t)\) is a rectangular pulse with width \(3\omega_{B}\). According to the convolution property, the transform of the output of the system is
+
+\[Y\left(\omega\right) =X_{s}(\omega)\,H\left(\omega\right)\] \[=X\left(\omega\right)\]
+
+or
+
+\[y\left(t\right)=x\left(t\right)\]
+
+Note that since system \(h\left(t\right)\) blocked (filtered) all the undesired components of \(x_{s}(t)\) in order to obtain a scaled version of \(x\left(t\right)\), we refer to such a system as a filter. Filters are important components of any communication or control system. In Chapter 10, we study the design of both analog and digital filters.
+
+**Example 4.3.15**: In this example, we use the modulation property to show that the power spectrum of periodic signal \(x\left(t\right)\) with period \(T\) is
+
+\[S\left(\omega\right)=2\,\pi\,\sum_{n\ =\ -\infty}^{\infty}\ \left|\,c_{n}\, \right|^{2}\ \delta\left(\omega-\ n\omega_{0}\right)\]
+
+where \(c_{n}\) are the Fourier coefficients of \(x\left(t\right)\) and
+
+\[\omega_{0}=\frac{2\pi}{T}\]
+
+Figure 4.3.4: System for Example 4.3.14.
+
+We begin by defining the truncated signal \(x_{\tau}\left(t\right)\) as the product \(x\left(t\right)\operatorname{rect}(t/2\tau)\). By using the modulation property,
+
+\[X_{\tau}\left(\omega\right)=\frac{1}{2\pi}\left[2\tau\operatorname{Sa}\omega \tau*X\left(\omega\right)\right]\]
+
+Substituting Equation (4.2.15) for \(X\left(\omega\right)\) and forming the function \(1X_{\tau}\left(\omega\right)|^{\,2}\), we have
+
+\[\frac{|X_{\tau}\left(\omega\right)|^{\,2}}{2\tau}=\sum_{n\,=\,-\,\infty}^{ \infty}\,\sum_{m\,=\,-\,\infty}^{\infty}2\tau c_{n}c_{m}^{\ast}\operatorname{ Sa}\left[\left(\omega-\,n\omega_{o}\right)\tau\right]\operatorname{Sa}\left[\left( \omega-\,m\omega_{o}\right)\tau\right]\]
+
+The power-density spectrum of periodic signal \(x\left(t\right)\) is obtained by taking the limit of the last expression as \(\tau\to\infty\). It has been observed earlier that as \(\tau\to\infty\), the transform of the rectangular signal approaches \(\delta(\omega)\); therefore, we anticipate that the two sampling functions in the previous expression approach \(\delta(\omega-\,k\omega_{0})\), \(k\!=\!m\) and \(n\). Also, observing that
+
+\[\delta(\omega-\,n\omega_{0})\,\delta(\omega-\,m\omega_{0})=\begin{cases} \delta(\omega-\,n\omega_{0}),&m=n\\ 0,&\text{otherwise}\end{cases}\]
+
+Figure 4.3.5: Spectra associated with signals for Example 4.3.14.
+
+then the power-density spectrum of the periodic signal is
+
+\[S(\omega) =\lim_{\tau\to\infty}\frac{1X_{\tau}\left(\omega\right)1^{2}}{2\tau}\] \[=2\pi\sum_{n\ =\ -\infty}^{\infty}1\,c_{n}\,1^{2}\ \delta(\omega-n\omega_{o})\]
+
+For convenience, a summary of the foregoing properties of the Fourier transform is listed in Table 4.2. These properties are used repeatedly in this chapter and they should be thoroughly understood.
+
+\begin{table}
+\begin{tabular}{l l l} \hline
+1. & \(x\left(t\right)\) & \(X\left(\omega\right)\) \\
+2. & \(\sum_{n\ =\ 1}^{N}\alpha_{n}x_{n}(t)\) & \(\sum_{n\ =\ 1}^{N}\alpha_{n}\bar{X}_{n}(0)\) \\
+3. & \(x\left(-t\right)\) & \(X\left(-\omega\right)\) \\
+4. & \(x^{\ast}(t)\) & \(X^{\ast}(-\omega)\) \\
+5. & \(x\left(t\ -t_{0}\right)\) & \(X(\omega)\,\exp[-j\omega t_{0}]\) \\
+6. & \(x\left(at\right)\) & \(\frac{1}{\mid a\mid}X\left(0/a\right)\) \\
+7. & \(\frac{d^{n}x\left(t\right)}{dt^{n}}\) & \(\left(j\omega 0\right)^{n}\!X\left(\omega\right)\) \\
+8. & \(\int\limits_{\ -\infty}^{\infty}1\,x\left(t\right)1^{2}\ dt\) & \(\frac{1}{2\pi}\int\limits_{\ -\infty}^{\infty}\mid X\left(\omega\right)1^{2}\ d\omega\) \\
+9. & \(x\left(t\right)\ast h\left(t\right)\) & \(X\left(\omega\right)H\left(\omega\right)\) \\
+10. & \(X\left(t\right)\) & \(2\pi x\left(-\omega\right)\) \\
+11. & \(x\left(t\right)m\left(t\right)\) & \(\frac{1}{2\pi}\ X\left(\omega\right)\) * \(M\left(\omega\right)\) \\
+12. & \(x\left(t\right)\,\exp[j\omega_{0}t\,]\) & \(X\left(\omega-\omega_{0}\right)\) \\
+13. & \(\left(-jl\right)^{n}x\left(t\right)\) & \(\frac{d^{n}X\left(\omega\right)}{d\omega^{n}}\) \\
+14. & \(\int\limits_{\ -\infty}^{t}x\left(\tau\right)\,d\tau\) & \(\frac{\bar{X}\left(\omega\right)}{j\omega}+\pi X\left(0\right)\delta(\omega)\) \\ \hline \end{tabular}
+\end{table}
+Table 4.2: Some Selected Properties of the Fourier Transform
+
+### 4.4 Applications of the Fourier Transform
+
+The continuous-time Fourier transform and its discrete counterpart, the discrete-time Fourier transform, which we study in detail in Chapter 7, are very important tools that find extensive applications in communication systems, signal processing, control systems, and many other varieties of physical and engineering disciplines. The important processes of amplitude modulation and frequency multiplexing are examples of the use of the Fourier-transform theory in the analysis and design of communication systems. The sampling theorem is considered to have the most profound effect on information transmission and signal processing, especially in the digital area. The design of filters and compensators that are employed in control systems cannot be done without the help of the Fourier transform. In this section, we discuss some of these applications in more detail.
+
+#### Amplitude Modulation
+
+The goal of all communication systems is to convey information from one point to another. Prior to sending the information signal through the transmission channel, the information signal is converted to a useful form through what is known as the modulation process. There are many specific reasons for this type of conversion. These reasons can be summarized as follows:
+
+1. for efficient transmission,
+2. to overcome hardware limitations,
+3. to reduce noise and interference, and
+4. for efficient spectrum utilization.
+
+Consider the signal multiplier shown in Figure 4.4.1. The output is the product of the information-carrying signal \(x\left(t\right)\) and signal \(m\left(t\right)\), which is referred to as the carrier signal. This scheme is known as amplitude modulation. Depending on \(m\left(t\right)\), there are many forms of amplitude modulation. We concentrate only on the case when \(m\left(t\right)=\cos\omega_{0}t\), which represents a practical form of modulation and is referred to as double-sideband (DSB) amplitude modulation. We will now examine the spectrum of the output (modulated signal) in terms of the spectrum of both \(x\left(t\right)\) and \(m\left(t\right)\).
+
+The output of the multiplier is
+
+\[y\left(t\right)=x\left(t\right)\cos\omega_{0}t\]
+
+Figure 4.4.1: Signal multiplier.
+
+Since \(y\left(t\right)\) is the product of two time signals, convolution in the frequency-domain can be used to obtain the spectrum of \(y\left(t\right)\). The result is
+
+\[Y\left(\omega\right) =\frac{1}{2\pi}\,X\left(\omega\right)*\pi\,\left[\delta(\omega- \omega_{0})+\delta(\omega+\omega_{0})\right]\] \[=\frac{1}{2}\,\left[X\left(\omega-\omega_{0}\right)+X\left(\omega+ \omega_{0}\right)\right].\]
+
+The magnitude spectrum of both \(x\left(t\right)\) and \(y\left(t\right)\) are illustrated in Figure 4.4.2. The part of the spectrum of \(Y\left(\omega\right)\) centered at \(+\omega_{0}\) is the result of convolving \(X\left(\omega\right)\) with \(\delta(\omega-\omega_{0})\), and the part centered at \(-\omega_{0}\) is the result of convolving \(X\left(\omega\right)\) with \(\delta(\omega+\omega_{0})\). This process of shifting the spectrum of the signal by \(\omega_{0}\) is necessary because low-frequency (baseband) information signals cannot be propagated easily by radio waves.
+
+The process of extracting the information signal from the modulated signal is referred to as demodulation. In effect, demodulation shifts back the message spectrum to its original low-frequency location. Synchronous demodulation is one of several techniques used to perform amplitude demodulation. A synchronous demodulator consists of a signal multiplier with the multiplier inputs being the modulated signal and \(\cos\omega_{0}t\). The output of the multiplier is
+
+\[z\left(t\right)=y\left(t\right)\cos\omega_{0}t\qquad.\]
+
+Hence,
+
+\[Z\left(\omega\right)=\frac{1}{2\pi}Y\left(\omega\right)*\pi\left[\delta\left( \omega-\omega_{0}\right)+\delta(\omega+\omega_{0})\right]\]
+
+The result is shown in Figure 4.4.3(a). To extract the original information signal, \(x\left(t\right)\), signal \(z\left(t\right)\) is passed through the system with frequency response \(H\left(\omega\right)\) shown in Figure 4.4.3(b). Such a system is referred to as a low-pass filter since it passes only low-frequency components of the input signal and filters out all frequencies higher than \(\omega_{B}\), where \(\omega_{B}\) is known as the cutoff frequency of the filter. The output of the low-pass filter is illustrated in Figure 4.4.3(c). Note that if \(\left|H\left(\omega\right)\right|=1\), \(\left|\omega 0\right|<\omega_{B}\) and there were no transmission losses involved, then the final signal energy is 1/4 the original
+
+Figure 4.4.2: Information and modulated-signals magnitude spectra.
+
+energy because the total demodulated signal contains energy located at \(\omega=2\,\omega_{o}\) that is eventually discarded by the receiver.
+
+#### Multiplexing
+
+A very useful technique for simultaneously transmitting several information signals involves the assignment of a portion of the final frequency to each signal. This technique is known as frequency-division multiplexing (FDM), and we encounter it almost daily, often without giving it much thought. Larger cities usually have several AM radio and television stations, fire engines, police cruisers, taxicabs, mobile telephones, citizen band radios, and many other sources of radio waves. All these sources are
+
+Figure 4.4.3: Demodulation process: (a) Magnitude spectrum of \(z\,(t)\); (b) the low-pass-filter frequency response; and (c) the extracted information spectrum.
+
+frequency multiplexed into the radio spectrum by means of assigning distinct frequency bands to each signal. The FDM process is very similar to amplitude modulation discussed previously. Consider three band-limited signals with Fourier transforms, as shown in Figure 4.4.4 (extension to \(n\) signals follows in a straightforward manner).
+
+If we modulate \(x_{1}(t)\) with \(\cos\omega_{1}t\), \(x_{2}(t)\), with \(\cos\omega_{2}t\), and \(x_{3}(t)\) with \(\cos\omega_{3}t\), then summing the three modulated signals, we obtain
+
+\[y(t)=x_{1}(t)\cos\omega_{1}t+x_{2}(t)\cos\omega_{2}t+x_{3}(t)\cos\omega_{3}t\]
+
+The frequency spectrum of \(y(t)\) is
+
+\[Y(\omega) =\frac{1}{2}\left[X_{1}(\omega-\omega_{1})+X_{1}(\omega+\omega_{ 1})\right]\] \[\quad+\frac{1}{2}\left[X_{2}(\omega-\omega_{2})+X_{2}(\omega+ \omega_{2})\right]\] \[\quad+\frac{1}{2}\left[X_{3}(\omega-\omega_{3})+X_{3}(\omega+ \omega_{3})\right]\]
+
+which has a spectrum similar to that in Figure 4.4.5. It is important here to make sure that the spectra do not overlap, that is, \(\omega_{1}+W_{1}<\omega_{2}-W_{2}\) and \(\omega_{2}+W_{2}<\omega_{3}-W_{3}\). At the receiving end, some operations must be performed to recover the individual spectra.
+
+Because of the form of \(\left|Y(\omega)\right|\) shown in Figure 4.4.5, in order to capture the spectrum of \(x_{1}(t)\), we would need a system whose frequency response is equal to \(1\) for \(\omega_{1}-W_{1}\leq\omega\leq\omega_{1}+W_{1}\) and zero otherwise. Such a system is called a band-pass filter since it passes only frequencies in the band \(\omega_{1}-W_{1}\leq\omega\leq\omega_{1}+W_{1}\) and suppresses all
+
+Figure 4.4.4: Magnitude spectra for \(x_{1}(t)\), \(x_{2}(t)\) and \(x_{3}(t)\) for the FDM system.
+
+Figure 4.4.5: Magnitude spectrum of \(y(t)\) for the FDM system.
+
+other frequencies. The output of this band-pass filter is then processed as in the case of synchronous amplitude demodulation. A similar procedure can be used to extract \(x_{2}(t)\) or \(x_{3}(t)\). The overall system of modulation, multiplexing, transmission, demultiplexing, and demodulation is illustrated in Figure 4.4.6.
+
+#### The Sampling Theorem
+
+Of all the theorems and techniques of the Fourier transform, the one that has had the most impact on information transmission and processing is the sampling theorem. For a low-pass signal \(x(t)\) that is bandlimited such that it has no frequency components above \(\omega_{B}\) rads/s, the sampling theorem says that \(x(t)\) is uniquely determined by its values at equispaced points in time, \(T\) seconds apart, provided \(T\!<\!\pi/\omega_{B}\). The sampling theorem allows us to completely reconstruct a band-limited signal from instantaneous samples taken at a rate \(\omega_{s}\!=\!2\pi/T\), provided \(\omega_{s}\) is at least as large as \(2\omega_{B}\), which is twice the highest frequency present in the band-limited signal \(x(t)\). The minimum rate \(2\omega_{B}\) is known as the Nyquist rate.
+
+The process of obtaining a set of samples from a continuous function of time, \(x(t)\), is referred to as sampling. The samples can be considered to be obtained by passing \(x(t)\) through a sampler, which is a switch that closes and opens instantaneously at sampling instants \(nT\). When the switch is closed, we obtain a sample \(x(nT)\). At all other times, the output of the sampler is zero. This ideal sampler is a fictitious device, since, in practice, it is impossible to obtain a switch that closes and opens instantaneously. We denote the output of the sampler by \(x_{s}(t)\).
+
+In order to obtain the sampling theorem, we model the sampler output as
+
+\[x_{s}(t)=x(t)\,p(t) \tag{4.4.1}\]
+
+where \(p(t)\) is the periodic impulse train
+
+Figure 4.4.6: Frequency-division multiplexing (FDM) system.
+
+different components, it is clear that the sampling rate should be such that
+
+\[\omega_{s}-\omega_{B}>\omega_{B}\]
+
+Thus, signal \(x(t)\) can be recovered from its samples only if
+
+\[\omega_{s}>2\,\omega_{B} \tag{4.4.6}\]
+
+This is the Nyquist sampling theorem that we stated earlier. The maximum time spacing between samples is
+
+\[T=\frac{\pi}{\omega_{B}} \tag{4.4.7}\]
+
+If \(T\) does not satisfy this condition, the different components of \(X_{s}(\omega)\) overlap and we will not be able to recover \(x(t)\) exactly. This is referred to as aliasing. If \(x(t)\) is not band-limited, there will always be aliasing irrespective of the chosen sampling rate.
+
+The spectrum of a signal (for example, a speech signal) is essentially zero for all frequencies above 5 kHz. The Nyquist sampling rate for such a signal is
+
+\[\omega_{s}=2\,\omega_{B}=2\,(2\pi\times 5\times 10^{3})\] \[\qquad\qquad=2\pi\times 10^{4}\,\mathrm{rad/s}\]
+
+Figure 4.4.8: Time-domain signals and their respective magnitude spectra.
+
+The sample spacing \(T\) is equal to \(2\pi/\omega_{s}=0.1\) ms.
+
+**Example 4.4.14**: Instead of sampling the previous signal at the Nyquist rate of 10 kHz, let us sample it at a rate of 8 kHz. That is,
+
+\[\omega_{s}=2\pi\times 8\times 10^{3}\text{ rads/s}\]
+
+Sampling interval \(T\) is equal to \(2\pi/\omega_{s}=0.125\) ms. The magnitude spectrum of the sampled signal is shown in Figure 4.4.9.
+
+Now if we filter sampled signal \(x_{s}(t)\) using a low-pass filter with a cutoff frequency of 4 kHz, we see that the output spectrum of the filter contains high-frequency components of \(x\left(t\right)\) superimposed on the low-frequency components, i.e., we have aliasing. Aliasing results in a distorted version of the original signal \(x\left(t\right)\). It can be eliminated, in theory, by first low-pass filtering \(x\left(t\right)\) before sampling. In practice, aliasing cannot be eliminated completely because, first, we cannot build a low-pass filter that cuts off all frequency components above a certain frequency. Second, in many applications, signal \(x\left(t\right)\) cannot be low-pass filtered without removing information contained in \(x\left(t\right)\). In such cases, we must take the bandwidth \(\omega_{B}\) of the signal to be sufficiently large so that the aliased components do not seriously distort the reconstructed signal. In some cases, the sampling frequency can be as large as eight or ten times \(\omega_{B}\).
+
+The fact that a band-limited signal can be recovered from its samples can also be demonstrated in the time domain using the concept of interpolation. The spectrum of a band-limited signal is illustrated in Figure 4.4.10(a).
+
+Figure 4.4.9: Magnitude spectrum of the sampled signal.
+
+#### Signal Filtering
+
+Filtering is the process by which the essential and useful part of a signal is separated from extraneous and undesirable components that are generally referred to as noise. The term noise used here refers to either the undesired part of the signal, as in the case of amplitude modulation, or interference signals generated by the electronic devices themselves.
+
+The idea of filtering using LTI systems is based on the convolution property of the Fourier transform discussed in Section 4.3, namely, that for LTI systems, the Fourier transform of the output is the product of the Fourier transform of the input and the frequency response of the system. An ideal frequency-selective filter is one that passes certain frequencies without any change and stops the rest. The range of frequencies that pass through is called the passband of the filter, whereas the range of frequencies that does not pass is referred to as the stop band. In the ideal case, \(\left|H\left(\omega\right)\right|=1\) in a passband, while \(\left|H\left(\omega\right)\right|=0\) in a stop band. Frequency-selective filters are classified according to the functions they perform. The most common types of filters are the following:
+
+1. Low-pass filters are those characterized by a passband that extends from \(\omega=0\) to \(\omega=\omega_{c}\), where \(\omega_{c}\) is called the cutoff frequency of the low-pass filter, Figure 4.4.11(a).
+2. High-pass filters are characterized by a stop band that extends from \(\omega=0\) to \(\omega=\omega_{c}\) and a passband that extends from \(\omega=\omega_{c}\) to infinity, Figure 4.4.11(b).
+3. Band-pass filters are characterized by a passband that extends from \(\omega=\omega_{1}\) to \(\omega=\omega_{2}\), and all other frequencies are stopped, Figure 4.4.11(c).
+4. Band-stop filters stop frequencies extending from \(\omega_{1}\) to \(\omega_{2}\), and pass all other frequencies, Figure 4.4.11(d).
+
+**Example 4.4.15**: Consider the ideal low-pass filter with frequency response
+
+\[H_{lp}(\omega)=\begin{cases}1,&\quad\left|\omega\right|<\omega_{c}\\ 0,&\quad\text{elsewhere}\end{cases}\]
+
+The impulse response of this ideal low-pass filter corresponds to the inverse Fourier transform of frequency response \(H_{lp}(\omega)\) and is given by
+
+\[h_{lp}=\frac{\omega_{c}}{\pi}\text{ sinc}\,\frac{\omega_{c}t}{\pi}\]
+
+Clearly, this filter is noncausal and, hence, is not physically realizable.
+
+The class of filters described so far are referred to as ideal filters because they pass one set of frequencies without any change and completely stop others. Since it is impossible to realize filters with characteristics like those shown in Figure 4.4.11 with abrupt changes from passband to stopband and vice versa, most of the filters we deal with in practice have some transition band, as shown in Figure 4.4.12.
+
+**Example 4.4.16**: Consider the \(RC\) circuit shown below.
+
+The impulse response of this circuit is given by (see Problem 2.17)
+
+\[h\left(t\right)=\frac{\mathrm{i}}{RC}\cdot\exp\left[\ \frac{-t}{RC}\right]u\left(t\right)\]
+
+and the frequency response is
+
+\[H\left(\omega\right)=\frac{1}{1+j\omega RC}\]
+
+Figure 4.4.11: Most common classes of filters.
+
+The amplitude spectrum is given by
+
+\[\left|H\left(\omega\right)\right|^{2}=\frac{1}{1+\left(\omega RC\right)^{2}}\]
+
+and is shown in Figure 4.13. It is clear that the \(RC\) circuit with the output taken as the voltage across the capacitor performs as a low-pass filter. The frequency \(\omega_{c}\) at which the magnitude spectrum \(\left|H\left(\omega\right)\right|=H\left(0\right)/\sqrt{2}\) (3 dB below \(H\left(0\right)\)) is called the band edge or the 3-dB cutoff frequency of the filter (transition between the passband, and the stop-band occurs near \(\omega_{c}\)). Setting \(\left|H\left(\omega\right)\right|=1/\sqrt{2}\), we obtain.
+
+\[\omega_{c}=\frac{1}{RC}\]
+
+If we interchange the positions of the capacitor and the resistor, we obtain a system with impulse response (see Problem 2.18)
+
+\[h\left(t\right)=\delta(t)-\frac{1}{RC}\,\exp\left[\,\frac{-t}{RC}\,\right]u \left(t\right)\]
+
+and frequency response
+
+\[H\left(\omega\right)=\frac{j\omega RC}{1+j\omega RC}\]
+
+Figure 4.4.12: Practical filters.
+
+The amplitude spectrum is given by
+
+\[\left|H\left(\omega\right)\right|^{2}=\frac{\left(\omega RC\right)^{2}}{1+\left( \omega RC\right)^{2}}\]
+
+and is shown in Figure 4.14. It is clear that the \(RC\) circuit with output taken as the voltage across the resistor performs as a high-pass filter. Again, by setting \(\left|H\left(\omega\right)\right|=1/\sqrt{2}\), the cutoff frequency of this high-pass filter can be determined as
+
+\[\omega_{c}=\frac{1}{RC}\]
+
+Filters can be classified as passive or active filters. Passive filters are made of passive elements (resistors, capacitors, and inductors) and active filters use operational amplifiers together with capacitors and resistors. The decision to use a passive filter in preference to an active filter in a certain application depends on several factors such as the following:
+
+1. The range of frequency of operation. Passive filters can operate at higher frequencies, whereas active filters are usually used at lower frequencies.
+2. Weight and size of realization. Active filters can be realized as an integrated circuit on a chip of dimensions 93 \(\times\) 71 mils (1 mil = 0.001 in). Thus, they are superior when considerations of weight and size are important. This is a factor in the design of filters for low-frequency applications where passive filters require large inductors.
+
+Figure 4.4.13: Magnitude spectrum of a low-pass \(RC\) circuit.
+
+3. Sensitivity to parameter changes and stability. Components used in circuits deviate from their nominal values due to tolerances related to their manufacture or due to chemical changes because of thermal and aging effects. Passive filters are always superior to active filters when it comes to sensitivity.
+4. Availability of voltage sources for the operational amplifiers. Operational amplifiers require voltage sources ranging from 1 to about 12 volts for their proper operation. Whether such voltages are available without maintenance is an important consideration.
+
+We consider the design of analog and discrete-time filters in more detail in Chapter 10.
+
+### 4.5 Duration-Bandwidth relationships
+
+In Section 4.3, we discussed the time-scaling property of the Fourier transform. We noticed that time expansion implies frequency compression, and conversely. In this section, we give a quantitative measure to this observation. The width of the signal, in time or in frequency, can be formally defined in many different ways. No one way, or set of ways, is best for all purposes. As long as we use the same definition when working with several signals, we can compare their time durations and spectral widths. If we change definitions, "conversion factors" are needed to compare the time durations and spectral widths involved. The principal purpose of this section is to show that the width of a time signal in seconds (duration) is inversely related to the width of its Fourier transform in hertz (bandwidth). The spectral width of signals is a very important concept in communication systems and signal processing. This is true for two main reasons. First, more and more users are being assigned to increasingly crowded radio-frequency (RF) bands, so that the spectral width required for each has to be considered carefully. Second, the spectral width of signals is important from the equipment design viewpoint since the circuits have to have sufficient bandwidth to accommodate the signal but reject the noise. The remarkable observation is that, independent of shape, there is a lower bound on the duration-bandwidth product of a given signal; this relationship is known as the Uncertainty Principle.
+
+#### Definitions of Duration and Bandwidth
+
+As we mentioned earlier, spectral representation is an efficient and convenient method of representing physical signals. This representation not only simplifies some operations, but also reveals the frequency content of the signal. One characterization of the signal is its spread in the frequency domain, or, simply, its bandwidth.
+
+We will give some engineering definitions for the bandwidth of an arbitrary real-valued time signal. Some of these definitions are fairly generally applicable and others are restricted to a particular application. The reader should keep in mind that there are also other definitions that might be useful, depending on application.
+
+The magnitude spectrum is shown in Figure 4.5.2. Clearly, \(X\left(0\right)=T\), and the 3-dB bandwidth is given by
+
+\[\bar{B}=\frac{1}{T}\]
+
+**Equivalent Bandwidth.** This definition is used in association with band-pass signals with unimodal spectra whose maxima are at the center of the frequency band. The equivalent bandwidth is the width of a fictitious rectangular spectrum such that the energy in that rectangular band is equal to the energy associated with the actual spectrum. In Section 4.3.6, we saw that the energy density is proportional to the magnitude square of the signal spectrum. If \(\omega_{m}\) is the frequency at which the magnitude spectrum has its maximum, we let the energy in the equivalent rectangular band be
+
+\[\text{Equivalent energy}=\frac{2B_{eq}\ |X\left(\omega_{m}\right)|^{\,2}}{2\pi} \tag{4.5.4}\]
+
+The actual energy in the signal is
+
+\[\text{Actual energy}=\frac{1}{2\pi}\int\limits_{-\infty}^{\infty}|X\left( \omega\right)|^{\,2}\ d\omega=\frac{1}{\pi}\int\limits_{0}^{\infty}|X\left( \omega\right)|^{\,2}\ d\omega \tag{4.5.5}\]
+
+Setting Equation (4.5.4) equal to Equation (4.5.5), we have the formula that gives the equivalent bandwidth:
+
+\[B_{eq}=\frac{1}{|X\left(\omega_{m}\right)|^{\,2}}\int\limits_{0}^{\infty}|X \left(\omega\right)|^{\,2}\ \dot{d}\omega. \tag{4.5.6}\]
+
+**Example 4.5.3** The equivalent bandwidth of the signal in Example 4.5.2 is given by
+
+\[B_{eq}=\frac{1}{T^{2}}\int\limits_{0}^{\infty}\frac{1}{\left(1/T\right)^{2}+ \omega^{2}}\ d\omega=\frac{\pi}{2T}\]
+
+**Null-to-Null (Zero-Crossing) Bandwidth.** This definition is appropriate for nonband-limited signals and is defined as the distance between the first null in the envelope of the magnitude spectrum above \(\omega_{m}\) and the first null in the envelope below
+
+Figure 4.5.2: Magnitude spectrum for the signal in Example 4.5.2.
+
+\(\omega_{m}\), where \(\omega_{m}\) is the radian frequency where the magnitude spectrum is maximum. For baseband signals, the spectrum maximum is at \(\omega=0\) and the bandwidth is the distance between the first null and the origin.
+
+**Example 4.5.4**: In Example 4.2.1, we showed that signal \(x\left(t\right)=\mathrm{rect}(t/T)\) has the Fourier transform
+
+\[X\left(\omega\right)=T\ \mathrm{sinc}\ \frac{\omega T}{2\pi}\]
+
+The magnitude spectrum is shown in Figure 4.5.3. From the figure, the null-to-null bandwidth is
+
+\[B=\frac{2\pi}{T}\]
+
+### \(\mathbf{z\%\ Bandwidth}\)
+
+This is defined such that
+
+\[\int\limits_{-B_{z}}^{B_{z}}|X\left(\omega\right)|^{\ 2}\ d\omega=\frac{z}{100}\int \limits_{-\infty}^{\infty}|X\left(\omega\right)|^{\ 2}\ d\omega \tag{4.5.7}\]
+
+For example, \(z=99\) defines the frequency band in which \(99\%\) of the total energy resides. This is similar to the Federal Communication Commission (FCC) definition of the occupied bandwidth, which states that the energy above the upper band edge \(\omega_{2}\) is \(\frac{1}{2}\%\) and the energy below the lower band edge \(\omega_{1}\) is \(\frac{1}{2}\%\), leaving \(99\%\) of the total energy within the occupied band. The \(z\%\) bandwidth is implicitly defined.
+
+### RMS (Gabor) Bandwidth
+
+Probably the most analytically useful definitions of bandwidth are given by various moments of \(X\left(\omega\right)\), or even better, of \(1X\left(\omega\right)|^{\ 2}\). The rms bandwidth of the signal is defined as
+
+Figure 4.5.3: Magnitude spectrum for the signal in Example 4.5.4.
+
+#### The Uncertainty Principle
+
+The Uncertainty Principle states that for any real signal \(x\left(t\right)\) that vanishes at infinity faster than \(1/\sqrt{t}\), that is,
+
+\[\lim_{t\,\pm\infty}\!\!\!\sqrt{t}x\left(t\right)=0 \tag{4.5.10}\]
+
+and for which the duration is defined as in Equation (4.5.9) and the bandwidth is defined as in Equation (4.5.8), product \(TB\) should satisfy the inequality
+
+\[TB\,\geq 1 \tag{4.5.11}\]
+
+In words, \(T\) and \(B\) cannot simultaneously be arbitrary small: a short duration implies a large bandwidth, and a small bandwidth signal must last a long time. This constraint has a wide domain of applications in communication systems, radar, signal and speech processing, and is often interpreted to imply that the uncertainty in the determination of a frequency is on the order of magnitude of the reciprocal of the time taken to measure it. This is the same as the Heisenberg Uncertainty Principle of wave mechanics, which asserts the impossibility of simultaneously specifying the precise position and conjugate momentum of a particle.
+
+The proof of Equation (4.5.11) follows from Parseval's formula, Equation (4.3.14), and Schwarz's inequality
+
+\[|\mathop{\int}\limits_{a}^{b}y_{1}(t)\,y_{2}(t)\ dt\ \ |^{2}\,\leq\,\mathop{ \int}\limits_{a}^{b}y_{1}(t)\,|^{2}\ dt\,\mathop{\int}\limits_{a}^{b}y_{2}(t)\,|^{2}\ dt \tag{4.5.12}\]
+
+where the equality holds if \(y_{1}(t)\) is proportional to \(y_{2}(t)\):
+
+\[y_{2}(t)=ky_{1}(t) \tag{4.5.13}\]
+
+Schwarz's inequality can be easily derived from
+
+\[0\,\leq\,\mathop{\int}\limits_{a}^{b}|\theta\,y_{1}(t)-y_{2}(t)\,|^{2}\ dt= \theta^{2}\mathop{\int}\limits_{a}^{b}|y_{1}(t)\,|^{2}\ dt-2\theta \mathop{\int}\limits_{a}^{b}y_{1}(t)y_{2}^{*}(t)\ dt+\mathop{ \int}\limits_{a}^{b}|y_{2}(t)\,|^{2}\ dt\]
+
+This equation is a nonnegative quadratic form in the variable \(\theta\). For the quadratic form to be nonnegative for all values of \(\theta\), its discriminant must be nonpositive. Setting this condition establishes Equation (4.5.12). If the discriminant equals zero, then for some value \(\theta=k\), the quadratic equals zero. This is possible only if \(ky_{1}(t)-y_{2}(t)=0\) and Equation (4.5.13) follows.
+
+By using Parseval's formula, the bandwidth of the signal can be written as
+
+\[B^{2}=\ \frac{\mathop{\int}\limits_{-\infty}^{\infty}|\,\frac{dx \left(t\right)}{dt}\,|^{2}\ dt}{\mathop{\int}\limits_{-\infty}^{ \infty}|x\left(t\right)\,|^{2}\ dt} \tag{4.5.14}\]
+
+Combining Equation (4.5.14) with Equation (4.5.9) gives
+
+\[\int\limits_{-\infty}^{\infty}t^{2}\ \left|x(t)\right|^{2}\ dt=\frac{1}{2\pi}\int \limits_{-\infty}^{\infty}\left[\{\frac{dA\left(\omega\right)}{d\omega}\}^{2}+A ^{2}(\omega)[\frac{d\phi(\omega)}{d\omega}]^{2}\right]d\omega \tag{4.5.19}\]
+
+Since the left-hand side of Equation (4.5.19) measures the duration of \(x(t)\), we conclude that a high ripple in the amplitude spectrum or in the phase angle of \(X(\omega)\) results in signals with long duration. High ripple results in large absolute values of the derivatives of both the amplitude and phase spectrum, and among all signals with the same amplitude \(A\left(\omega\right)\), the one that minimizes the left-hand side of Equation (4.5.19) has zero (linear) phase.
+
+**Example 4.5.6**: A convenient measure of the duration of \(x\left(t\right)\) is the quantity
+
+\[T=\frac{1}{x(0)}\int\limits_{-\infty}^{\infty}x(t)\ dt\]
+
+Duration \(T\) in this formula can be interpreted as the ratio of the area to its height. Note that if \(x(t)\) represents the impulse response of an LTI system, then \(T\) is a measure of the rise time of the system, which is defined as the ratio of the final value of the step response to the slope of the step response at some appropriate point \(t_{o}\) along the rise (\(t_{o}=0\), in this case). If we define the bandwidth of \(x(t)\) by
+
+\[B=\frac{1}{X(0)}\int\limits_{-\infty}^{\infty}X(\omega)\ d\omega\]
+
+it is easy to show that
+
+\[BT=2\pi\]
+
+### 4.6 Summary
+
+* The Fourier transform of \(x(t)\) is defined by \[X(\omega)=\int\limits_{-\infty}^{\infty}x(t)\ \exp\left[-j\omega t\right]\ dt\]
+* The inverse Fourier transform of \(X(\omega)\) is defined by \[x\left(t\right)=\frac{1}{2\pi}\int\limits_{-\infty}^{\infty}X(\omega)\ \exp\left[\ j\omega t\right]\ d\omega\]
+* \(X(\omega)\) exists if \(x(t)\) is "well behaved" and is absolutely integrable. These conditions are sufficient but not necessary.
+* The magnitude of \(X(\omega)\) plotted versus \(\omega\) is called the magnitude spectrum of \(x\left(t\right)\), and \(\left|\ X(\omega)\right|^{2}\) is called the energy spectrum.
+* The angle of \(X(\omega)\) plotted versus \(\omega\) is called the phase spectrum.

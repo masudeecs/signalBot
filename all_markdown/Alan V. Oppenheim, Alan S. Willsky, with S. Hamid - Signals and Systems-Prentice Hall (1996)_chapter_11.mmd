@@ -1,0 +1,785 @@
+## Chapter Linear Feedback Systems
+
+### 11.0 Introduction
+
+It has long been recognized that in many situations there are particular advantages to be gained by using feedback--that is, by using the output of a system to control or modify the input. For example, it is common in electromechanical systems, such as a motor whose shaft position is to be maintained at a constant angle, to measure the error between the desired and the true position and to use this error in the form of a signal to turn the shaft in the appropriate direction. This is illustrated in Figure 11.1, where we have depicted the use of a dc motor for the accurate pointing of a telescope. In Figure 11.1(a) we have indicated pictorially what such a system would look like, where \(v(t)\) is the input voltage to the motor and \(\theta(t)\) is the angular position of the telescope platform. The block diagram for the motor-driven pointing system is shown in Figure 11.1(b). A feedback system for controlling the position of the telescope is illustrated in Figure 11.1(c), and a block diagram equivalent to this system is shown in Figure 11.1(d). The external, or _reference,_ input to this feedback system is the desired shaft angle \(\theta_{D}\). A potentiometer is used to convert the angle into a voltage \(K_{1}\theta_{D}\) proportional to \(\theta_{D}\). Similarly, a second potentiometer produces a voltage \(K_{1}\theta(t)\) proportional to the actual platform angle. These two voltages are compared, producing an error voltage \(K_{1}\left(\theta_{D}-\theta(t)\right)\), which is amplified and then used to drive the electric motor.
+
+Figure 11.1 suggests two different methods for pointing the telescope. One of these is the feedback system of Figures 11.1(c) and (d). Here, the input that we must provide is the desired reference angle \(\theta_{D}\). Alternatively, if the initial angle, the desired angle, and the detailed electrical and mechanical characteristics of the motor-shaft assembly were known exactly, we could specify the precise history of the input voltage \(v(t)\) that would first accelerate and then decelerate the shaft, bringing the platform to a stop at the desiredFigure 1.1.1: Use of feedback to control the angular position of a telescope: (a) dc motor-driven telescope platform; (b) block diagram of the system in (a); (c) feedback system for pointing the telescope; (d) block diagram of the system in (c) (here, \(K=K_{1}K_{2}\)).
+
+position without the use of feedback, as in Figures 11.1(a) and (b). A system operating in accordance with Figures 11.1(a) and (b) is typically referred to as an _open-loop system,_ in contrast to the _closed-loop system_ of Figures 11.1(c) and (d). In a practical environment, there are clear advantages to controlling the motor-shaft angle with the closed-loop system rather than with the open-loop system. For example, in the closed-loop system, when the shaft has been rotated to the correct position, any disturbance from this position will be sensed, and the resulting error will be used to provide a correction. In the open-loop system, there is no mechanism for providing a correction. As another advantage of the closed-loop system, consider the effect of errors in modeling the characteristics of the motor-shaft assembly. In the open-loop system, a precise characterization of the system is required to design the correct input. In the closed-loop system, the input is simply the desired shaft angle and does not require precise knowledge of the system. This insensitivity of the closed-loop system to disturbances and to imprecise knowledge of the system are two important advantages of feedback.
+
+The control of an electric motor is just one of a great many examples in which feedback plays an important role. Similar uses of feedback can be found in a wide variety of applications, such as chemical process control, automotive fuel systems, household heating systems, and aerospace systems, to name just a few. In addition, feedback is also present in many biological processes and in the control of human motion. For example, when a person reaches for an object, it is usual during the reaching process to monitor visually the distance between the hand and the object so that the velocity of the hand can be smoothly decreased as the distance (i.e., the error) between the hand and the object decreases. The effectiveness of using the system output (hand position) to control the input is clearly demonstrated by alternatively reaching with and without the use of visual feedback.
+
+In addition to its use in providing an error-correcting mechanism that can reduce sensitivity to disturbances and to errors in the modeling of the system that is to be controlled, another important characteristic of feedback is its potential for stabilizing a system that is inherently unstable. Consider the problem of trying to balance a broomstick in the palm of the hand. If the hand is held stationary, small disturbances (such as a slight breeze or inadvertent motion of the hand) will cause the broom to fall over. Of course, if one knows exactly what disturbances will occur, and if one can control the motion of the hand perfectly, it is possible to determine in advance how to move the hand to balance the broom. This is clearly unrealistic; however, by always moving the hand in the direction in which the broom is falling, the broom can be balanced. This, of course, _requires_ feedback in order to sense the direction in which the broom is falling. A second example that is closely related to the balancing of a broom is the problem of controlling a so-called inverted pendulum, which is illustrated in Figure 11.2. As shown, an inverted pendulum consists of a thin rod with a weight at the top. The bottom of the rod is mounted on a cart that can move in either direction along a track. Again, if the cart is kept stationary, the inverted pendulum
+
+Figure 11.2: An inverted pendulum.
+
+will topple over. The problem of stabilizing the pendulum is one of designing a feedback system that will move the cart to keep the pendulum vertical. This example is examined in Problem 11.56. A third example, which again bears some similarity to the balancing of a broom, is the problem of controlling the trajectory of a rocket. In this case, much as the movement of the hand is used to compensate for disturbances in the position of the broom, the direction of the thrust of the rocket is used to correct for changes in aerodynamic forces and wind disturbances that would otherwise cause the rocket to deviate from its course. Again, feedback is important, because these forces and disturbances are never precisely known in advance.
+
+The preceding examples provide some indication of why feedback may be useful. In the next two sections we introduce the basic block diagrams and equations for linear feedback systems and discuss in more detail a number of applications of feedback and control, both in continuous time and in discrete time. We also point out how feedback can have harmful as well as useful effects. These examples of the uses and effects of feedback will give us some insight into how changes in the parameters in a feedback control system lead to changes in the behavior of the system. Understanding this relationship is essential in designing feedback systems that have certain desirable characteristics. With this material as background, we will then develop, in the remaining sections of the chapter, several specific techniques that are of significant value in the analysis and design of continuous-time and discrete-time feedback systems.
+
+### Linear Feedback Systems
+
+The general configuration of a continuous-time LTI feedback system is shown in Figure 11.3(a) and that of a discrete-time LTI feedback system in Figure 11.3(b). Because of
+
+Figure 11.3: Basic feedback system configurations in (a) continuous time and (b) discrete time.
+
+the typical applications in which feedback is utilized, it is natural to restrict the systems in these figures to be causal. This will be our assumption throughout the chapter. In that case, the system functions in Figure 11.3 can be interpreted either as unilateral or as bilateral transforms, and, as a consequence of causality, the ROC's associated with them will always be to the right of the rightmost pole for Laplace transforms and outside the outermost pole for \(z\)-transforms.
+
+It should also be noted that the convention used in Figure 11.3(a) is that \(r(t)\), the signal fed back, is subtracted from the input \(x(t)\) to form \(e(t)\). The identical convention is adopted in discrete time. Historically, this convention arose in tracking-system applications, where \(x(t)\) represented a desired command and \(e(t)\) represented the error between the command and the actual response \(r(t)\). This was the case, for example, in our discussion of the pointing of a telescope. In more general feedback systems, \(e(t)\) and \(e[n]\), the discrete-time counterpart of \(e(t)\), may not correspond to or be directly interpretable as error signals.
+
+The system function \(H(s)\) in Figure 11.3(a) or \(H(z)\) in Figure 11.3(b) is referred to as the _system function of the forward path_ and \(G(s)\) or \(G(z)\) as the _system function of the feedback path_. The system function of the overall system of Figure 11.3(a) or (b) is referred to as the _closed-loop system function_ and will be denoted by \(Q(s)\) or \(Q(z)\). In Sections 9.8.1 and 10.8.1, we derived expressions for the system functions of feedback interconnections of LTI systems. Applying these results to the feedback systems of Figure 11.3, we obtain
+
+\[Q(s) = \frac{Y(s)}{X(s)}\,=\,\frac{H(s)}{1\,+\,G(s)H(s)}, \tag{11.1}\] \[Q(z) = \frac{Y(z)}{X(z)}\,=\,\frac{H(z)}{1\,+\,G(z)H(z)}. \tag{11.2}\]
+
+Equations (11.1) and (11.2) represent the fundamental equations for the study of LTI feedback systems. In the following sections, we use these equations as the basis for gaining insight into the properties of feedback systems and for developing several tools for their analysis.
+
+### Some applications and consequences of feedback
+
+In the introduction, we provided a brief, intuitive look at some of the properties and uses of feedback systems. In this section, we examine a number of the characteristics and applications of feedback in somewhat more quantitative terms, using the basic feedback equations (11.1) and (11.2) as a starting point. Our purpose is to provide an introduction to and an appreciation for the applications of feedback, rather than to develop any of these applications in detail. In the sections that follow, we focus in more depth on several specific techniques for analyzing feedback systems that are useful in a wide range of problems, including many of the applications that we are about to describe.
+
+#### Inverse System Design
+
+In some applications, one would like to synthesize the inverse of a given continuous-time system. Suppose that this system has system function \(P(s)\), and consider the feedback system shown in Figure 11.4. Applying equation (11.1) with \(H(s)\,=\,K\) and \(G(s)\,=\,P(s)\)we find that the closed-loop system function is
+
+\[Q(s)\,=\,\frac{K}{1\,+\,KP(s)}. \tag{11.3}\]
+
+If the gain \(K\) is sufficiently large so that \(KP(s)\gg 1\), then
+
+\[Q(s)\,=\,\frac{1}{P(s)}, \tag{11.4}\]
+
+in which case the feedback system approximates the inverse of the system with system function \(P(s)\).
+
+It is important to note that the result in eq. (11.4) requires that the gain \(K\) be sufficiently high, but is otherwise not dependent on the precise value of the gain. Operational amplifiers are one class of devices that provide this kind of gain and are widely used in feedback systems. One common application of the inversion inherent in eq. (11.4) is in the implementation of integrators. A capacitor has the property that its current is proportional to the derivative of the voltage. By inserting a capacitor in the feedback path around an operational amplifier, the differentiation property of the capacitor is inverted to provide integration. This specific application is explored in more detail in Problems 11.50-11.52.
+
+Although our discussion is for the most part restricted to linear systems, it is worth pointing out that this same basic approach is commonly used in inverting a nonlinearity. For example, systems for which the output is the logarithm of the input are commonly implemented by utilizing the exponential current-voltage characteristics of a diode as feedback around an operational amplifier. This is explored in more detail in Problem 11.53.
+
+#### Compensation for Nonideal Elements
+
+Another common use of feedback is to correct for some of the nonideal properties of the open-loop system. For example, feedback is often used in the design of amplifiers to provide constant-gain amplification in a given frequency band, and in fact, it is this application, pioneered by H. S. Black at Bell Telephone Laboratories in the 1920s, that is generally considered to have been the catalyst for the development of feedback control as a practical and useful system design methodology.
+
+Specifically, consider an open-loop frequency response \(H(j\omega)\) which provides amplification over the specified frequency band, but which is not constant over that range. For example, operational amplifiers or the vacuum tube amplifiers of concern to Black and his colleagues typically provide considerable, but not precisely controlled, amplification.
+
+Figure 11.4: Form of a feedback system used in implementing the inverse of the system with system function \(P(s)\).
+
+While such devices can provide raw amplification levels of several orders of magnitude, the price one pays for this includes uncertain levels of amplification that can fluctuate with frequency, time, temperature, etc., and that can also introduce unwanted phase and nonlinear distortions. What Black proposed was placing such a powerful, but uncertain and erratic, amplifier in a feedback loop as in Figure 13(a) with \(G(s)\) chosen to be constant, i.e., \(G(s)=K\). In this case, assuming the closed-loop system is stable, its frequency response is
+
+\[Q(j\omega)\,=\,\frac{H(j\omega)}{1+KH(j\omega)}. \tag{15}\]
+
+If, over the specified frequency range,
+
+\[\left|KH(j\omega)\right|\gg 1, \tag{16}\]
+
+then
+
+\[Q(j\omega)\simeq\frac{1}{K}. \tag{17}\]
+
+That is, the closed-loop frequency response is constant, as desired. This of course assumes that the system in the feedback path can be designed so that its frequency response \(G(j\omega)\) has a constant gain \(K\) over the desired frequency band, which is precisely what we assumed we could _not_ ensure for \(H(j\omega)\). The difference between the requirement on \(H(j\omega)\) and that on \(G(j\omega)\), however, is that \(H(j\omega)\) must provide amplification, whereas, from eq. (7), we see that for the overall closed-loop system to provide a gain greater than unity, \(K\) must be less than \(1\). That is, \(G(j\omega)\) must be an attenuator over the specified range of frequencies. In general, an attenuator with approximately flat frequency characteristics is considerably easier to realize than an amplifier with approximately flat frequency response (since an attenuator can be constructed from passive elements).
+
+The use of feedback to flatten the frequency response incurs some cost, however, and it is this fact that led to the considerable skepticism with which Black's idea was met. In particular, from eqs. (6) and (7), we see that
+
+\[\left|H(j\omega)\right|\gg\frac{1}{K}\simeq Q(j\omega), \tag{18}\]
+
+so that the closed-loop gain \(1/K\) will be substantially less than the open-loop gain \(\left|H(j\omega)\right|\). This apparently significant loss of gain, attributable to what Black referred to as _degenerate_ or negative feedback, was initially viewed as a serious weakness in his negative-feedback amplifier. Indeed, the effect had been known for many years and had led to the conviction that negative feedback was not a particularly useful mechanism. However, Black pointed out that what one gave up in overall gain was often more than offset by the reduced sensitivity of the overall closed-loop amplifier: The closed-loop system function is essentially equal to eq. (7), independently of variations in \(H(j\omega)\), as long as \(\left|H(j\omega)\right|\) is large enough. Thus, if the open-loop amplifier is initially designed with considerably more gain than is actually needed, the closed-loop amplifier will provide the desired levels of amplification with greatly reduced sensitivity. This concept and its application to extending the bandwidth of an amplifier are explored in Problem 149.
+
+#### Stabilization of Unstable Systems
+
+As mentioned in the introduction, one use of feedback systems is to stabilize systems that, without feedback, are unstable. Examples of this kind of application include the control of the trajectory of a rocket, the regulation of nuclear reactions in a nuclear power plant, the stabilization of an aircraft, and the natural and regulatory control of animal populations.
+
+To illustrate how feedback can be used to stabilize an unstable system, let us consider a simple first-order continuous-time system with
+
+\[H(s)\,=\,\frac{b}{s-a}. \tag{11.9}\]
+
+With \(a>0\), the system is unstable. Choosing the system function \(G(s)\) to be a constant gain \(K\), we see that the closed-loop system function in eq. (11.1) becomes
+
+\[Q(s) = \frac{H(s)}{1+KH(s)} \tag{11.10}\] \[= \frac{b}{s-a+Kb}.\]
+
+The closed-loop system will be stable if the pole is moved into the left half of the \(s\)-plane. This will be the case if
+
+\[Kb>a. \tag{11.11}\]
+
+Thus, we can stabilize the system with a constant gain in the feedback loop if that gain is chosen to satisfy eq. (11.11). This type of feedback system is referred to as a _proportional feedback system_, since the signal that is fed back is proportional to the output of the system.
+
+As another example, consider the second-order system
+
+\[H(s)\,=\,\frac{b}{s^{2}+a}. \tag{11.12}\]
+
+If \(a>0\), the system is an oscillator (i.e., \(H(s)\) has its poles on the \(j\omega\)-axis), and the impulse response of the system is sinusoidal. If \(a<0\), \(H(s)\) has one pole in the left-half plane and one in the right-half plane. Thus, in either case, the system is unstable. In fact, as considered in Problem 11.56, the system function given in eq. (11.12) with \(a<0\) can be used to model the dynamics of the inverted pendulum described in the introduction.
+
+Let us first consider the use of proportional feedback for this second-order system; that is, we take
+
+\[G(s)\,=\,K. \tag{11.13}\]
+
+Substituting into eq. (11.1), we obtain
+
+\[Q(s)\,=\,\frac{b}{s^{2}+(a+Kb)}. \tag{11.14}\]In our discussion of second-order systems in Chapter 6, we considered a transfer function of the form
+
+\[\frac{\omega_{n}^{2}}{s^{2}+2\zeta\omega_{n}s+\omega_{n}^{2}}. \tag{11.15}\]
+
+For such a system to be stable, \(\omega_{n}\) must be real and positive (i.e., \(\omega_{n}^{2}>0\)), and \(\zeta\) must be positive (corresponding to positive damping). From eqs. (11.14) and (11.15), it follows that with proportional feedback we can only influence the value of \(\omega_{n}^{2}\), and consequently, we cannot stabilize the system because we cannot introduce any damping. To suggest a type of feedback that can be used to stabilize this system, recall the mass-spring-dashpot mechanical system described in our examination of second-order systems in Section 6.5.2. We saw that damping in that system was the result of the inclusion of a dashpot, which provided a restoring force proportional to the _velocity_ of the mass. This suggests that we consider _proportional-plus-derivative_ feedback, that is, a \(G(s)\) of the form
+
+\[G(s)\,=\,K_{1}\,+\,K_{2}s, \tag{11.16}\]
+
+which yields
+
+\[Q(s)\,=\,\frac{b}{s^{2}\,+\,bK_{2}s+\big{(}a+K_{1}b\big{)}}. \tag{11.17}\]
+
+The closed-loop poles will be in the left-half plane, and hence, the closed-loop system will be stable as long as we choose \(K_{1}\) and \(K_{2}\) to guarantee that
+
+\[bK_{2}>0,\qquad a\,+\,K_{1}b>0. \tag{11.18}\]
+
+The preceding discussion illustrates how feedback can be used to stabilize continuous-time systems. The stabilization of unstable systems is an important application of feedback for discrete-time systems as well. Examples of discrete-time systems that are unstable in the absence of feedback are models of population growth. To illustrate how feedback can prevent the unimpeded growth of populations, let us consider a simple model for the evolution of the population of a single species of animal. Let \(y[n]\) denote the number of animals in the \(n\)th generation, and assume that without the presence of any impeding influences, the birthrate is such that the population would double each generation. In this case, the basic equation for the population dynamics of the species is
+
+\[y[n]\,=\,2y[n\,-\,1]+\,e[n], \tag{11.19}\]
+
+where \(e[n]\) represents any additions to or deletions from the population that are caused by external influences.
+
+This population model is obviously unstable, with an impulse response that grows exponentially. However, in any ecological system, there are a number of factors that will inhibit the growth of a population. For example, limits on the food supply for the species will manifest themselves through a reduction in population growth when the number of animals becomes large. Similarly, if the species has natural enemies, it is often reasonable to assume that the population of the predators will grow when the population of the prey increases and, consequently, that the presence of natural enemies will retard population growth. In addition to natural influences such as these, there may be effects introduced by humans that are aimed at population control. For example, the food supply or the predator population may fall under human regulation. In addition, stocking lakes with fish or importing animals from other areas can be used to promote growth, and the control of hunting or fishing can also provide a regulative effect. Because all of these influences depend on the size of the population (either naturally or by design), they represent feedback effects.
+
+Based on the preceding discussion, we can separate \(e[n]\) into two parts by means of the equation
+
+\[e[n]\,=\,x[n]-r[n], \tag{11.20}\]
+
+where \(r[n]\) represents the effect of the regulative influences described in the previous paragraph and \(x[n]\) incorporates any other external effects, such as the migration of animals or natural disasters or disease. Note that we have included a minus sign in eq. (11.20). This is consistent with our convention of using negative feedback, and here it also has the physical interpretation that, since the uninhibited growth of the population is unstable, the feedback term plays the role of a _retarding_ influence. To see how the population can be controlled by the presence of this feedback term, suppose that the regulative influences account for the depletion of a fixed proportion \(\beta\) of the population in each generation. Since, according to our model, the surviving fraction of each generation will double in size, it follows that
+
+\[y[n]\,=\,2(1-\beta)y[n-1]+x[n]. \tag{11.21}\]
+
+Comparing eq. (11.21) with eqs. (11.19) and (11.20), we see that
+
+\[r[n]\,=\,2\beta\,y[n-1]. \tag{11.22}\]
+
+The factor of 2 here represents the fact that the depletion of the present population decreases the number of births in the next generation.
+
+This example of the use of feedback is illustrated in Figure 11.5. Here, the system function of the forward path is obtained from eq. (11.19) as
+
+\[H(z)\,=\,\frac{1}{1-2z^{-1}}, \tag{11.23}\]
+
+while from eq. (11.22) the system function of the feedback path is
+
+\[G(z)\,=\,2\beta\,z^{-1}. \tag{11.24}\]
+
+Figure 11.5: Block diagram of a simple feedback model of population dynamics.
+
+Consequently, the closed-loop system function is
+
+\[Q(z)\,=\,\frac{H(z)}{1\,+\,G(z)H(z)}\,=\,\frac{1}{1\,-\,2(1\,-\,\beta)z^{-1}}. \tag{11.25}\]
+
+If \(\beta\,<\,1/2\), the closed-loop system is still unstable, whereas it is stable1 if \(1/2\,<\,\beta\,<\,3/2\).
+
+Footnote 1: Although, in the context of our population example, \(\beta\) could never exceed unity, since \(\beta\,>\,1\) corresponds to removing more than 100% of the population.
+
+Clearly, this example of population growth and control is extremely simplified. For instance, the feedback model of eq. (11.22) does not account for the fact that the part of \(r[n]\) which is due to the presence of natural enemies depends upon the population of the predators, which in turn has its own growth dynamics. Such effects can be incorporated by making the feedback model more complex to reflect the presence of other dynamics in an ecological system, and the resulting models for the evolution of interacting species are extremely important in ecological studies. However, even without the incorporation of these effects, the simple model that we have described here does illustrate the basic ideas of how feedback can prevent both the unlimited proliferation of a species and its extinction. In particular, we can see at an elementary level how human-induced factors can be used. For example, if a natural disaster or an increase in the population of natural enemies causes a drastic decrease in the population of a species, a tightening of limits on hunting or fishing and accelerated efforts to increase the population can be used to decrease \(\beta\) in order to _destabilize_ the system to allow for rapid growth, until a normal-size population is again attained.
+
+Note also that for this type of problem, it is not usually the case that one wants strict stability. If the regulating influences are such that \(\beta\,=\,1/2\), and if all other external influences are zero (i.e., if \(x[n]\,=\,0\)), then \(y[n]\,=\,y[n-1]\). Therefore, as long as \(x[n]\) is small and averages to zero over several generations, a value of \(\beta\,=\,1/2\) will result in an essentially constant population. However, for this value of \(\beta\) the system is unstable, since eq. (11.21) then reduces to
+
+\[y[n]\,=\,y[n\,-\,1]\,+\,x[n]. \tag{11.26}\]
+
+That is, the system is equivalent to an accumulator. Thus, if \(x[n]\) is a unit step, the output grows without bound. Consequently, if a steady trend is expected in \(x[n]\), caused, for example, by a migration of animals into a region, a value of \(\beta\,>\,1/2\) would need to be used to stabilize the system and thus to keep the population within bounds and maintain an ecological balance.
+
+#### 11.2.4 Sampled-Data Feedback Systems
+
+In addition to dealing with problems such as the one just described, discrete-time feedback techniques are of great importance in a wide variety of applications involving continuous-time systems. The flexibility of digital systems has made the implementation of _sampled-data feedback systems_ an extremely attractive option. In such a system, the output of a continuous-time system is sampled, some processing is done on the resulting sequence of samples, and a discrete sequence of feedback commands is generated. This sequence is then converted to a continuous-time signal that is fed back to and subtracted from the external input to produce the actual input to the continuous-time system.
+
+Clearly, the constraint of causality on feedback systems imposes a restriction on the process of converting the discrete-time feedback signal to a continuous-time signal (e.g., ideal lowpass filtering or any noncausal approximation of it is not allowed). One of the most widely used conversion systems is the zero-order hold (introduced in Section 7.1.2). The structure of a sampled-data feedback system involving a zero-order hold is depicted in Figure 11.6(a). In the figure, we have a continuous-time LTI system with system function \(H(s)\) that is sampled to produce a discrete-time sequence
+
+\[p[n]\,=\,y(nT). \tag{11.27}\]
+
+The sequence \(p[n]\) is then processed by a discrete-time LTI system with system function \(G(z)\), and the resulting output is put through a zero-order hold to produce the continuous-time signal
+
+\[z(t)\,=\,d[n]\qquad\text{for}\quad nT\,\,\leq\,t\,<(n\,+\,1)T. \tag{11.28}\]
+
+This signal is subtracted from the external input \(x(t)\) to produce \(e(t)\).
+
+Figure 11.6: (a) A sampled-data feedback system using a zero-order hold; (b) equivalent discrete-time system.
+
+Suppose also that \(x(t)\) is constant over intervals of length \(T\). That is,
+
+\[x(t)\,=\,r[n]\qquad\mbox{for}\quad nT\,\,\leq\,t\,<\,(n\,+\,1)T, \tag{11.29}\]
+
+where \(r[n]\) is a discrete-time sequence. This is an approximation that is usually valid in practice, as the sampling rate is typically fast enough so that \(x(t)\) does not change appreciably over intervals of length \(T\). Furthermore, in many applications, the external input is itself actually generated by applying a zero-order hold operation to a discrete sequence. For example, in systems such as advanced aircraft, the external inputs represent human operator commands that are themselves first processed digitally and then converted back to continuous-time input signals. Because the zero-order hold is a linear operation, the feedback system of Figure 11.6(a) when \(x(t)\) is given by eq. (11.29) is equivalent to the system of Figure 11.6(b).
+
+As shown in Problem 11.60, the discrete-time system with input \(e[n]\) and output \(p[n]\) is an LTI system with system function \(F(z)\) that is related to the continuous-time system function \(H(s)\) by means of a _step-invariant_ transformation. That is, if \(s(t)\) is the step response of the continuous-time system, then the step response \(q[n]\) of the discrete-time system consists of equally spaced samples of \(s(t)\). Mathematically,
+
+\[q[n]\,=\,s(nT)\qquad\mbox{for all $n$.} \tag{11.30}\]
+
+Once we have determined \(F(z)\), we have a completely discrete-time feedback system model (Figure 11.6(b)) exactly capturing the behavior of the continuous-time feedback system (Figure 11.6(a)) at the sampling instants \(t\,=\,nT\), and we can then consider designing the feedback system function \(G(z)\) to achieve our desired objectives. An example of designing such a sampled-data feedback system to stabilize an unstable continuous-time system is examined in detail in Problem 11.60.
+
+#### Tracking Systems
+
+As mentioned in Section 11.0, one of the important applications of feedback is in the design of systems in which the objective is to have the output track or follow the input. There is a broad range of problems in which tracking is an important component. For example, the telescope-pointing problem discussed in Section 11.0 is a tracking problem: The feedback system of Figures 11.1(c) and (d) has as its input the desired pointing angle, and the purpose of the feedback loop is to provide a mechanism for driving the telescope to follow the input. In airplane autopilots the input is the desired flight path of the vehicle, and the autopilot feedback system uses the aircraft control surfaces (rudder, ailerons, and elevator) and thrust control in order to keep the aircraft on the prescribed course.
+
+To illustrate some of the issues that arise in the design of tracking systems, consider the discrete-time feedback system depicted in Figure 11.7(a). The examination of discrete-time tracking systems of this form often arises in analyzing the characteristics of sampled-data tracking systems for continuous-time applications. One example of such a system is a digital autopilot. In Figure 11.7(a), \(H_{p}(z)\) denotes the system function of the system whose output is to be controlled. This system is often referred to as the _plant_, a term that can be traced to applications such as the control of power plants, heating systems, and chemical-processing plants. The system function \(H_{c}(z)\) represents a compensator, which is the element to be designed. Here, the input to the compensator is the tracking error that is, the difference \(e[n]\) between the input \(x[n]\) and the output \(y[n]\). The output of the compensator is the input to the plant (for example, the actual voltage applied to the motor in the feedback system of Figures 11.1(c) and (d) or the actual physical input to the drive system of the rudder of an aircraft).
+
+To simplify notation, let \(H(z)\,=\,H_{c}(z)H_{p}(z)\). In this case, the application of eq. (11.2) yields the relationship
+
+\[Y(z)\,=\,\frac{H(z)}{1+H(z)}X(z). \tag{11.31}\]
+
+Also, since \(Y(z)\,=\,H(z)E(z)\), it follows that
+
+\[E(z)\,=\,\frac{1}{1+H(z)}X(z), \tag{11.32}\]
+
+or, specializing to \(z\,=\,e^{j\omega}\), we obtain
+
+\[E(e^{j\omega})\,=\,\frac{1}{1+H(e^{j\omega})}X(e^{j\omega}). \tag{11.33}\]
+
+Equation (11.33) provides us with some insight into the design of tracking systems. Specifically, for good tracking performance, we would like \(e[n]\) or, equivalently, \(E(e^{j\omega})\) to be small. That is,
+
+\[\frac{1}{1+H(e^{j\omega})}X(e^{j\omega})=0. \tag{11.34}\]
+
+Consequently, for that range of frequencies for which \(X(e^{j\omega})\) is nonzero, we would like \(|H(e^{j\omega})|\) to be large. Thus, we have one of the fundamental principles of feedback system design: Good tracking performance requires a large gain. This desire for a large gain, however, must typically be tempered, for several reasons. One reason is that if the gain is _too_ large, the closed-loop system may have undesirable characteristics (such as too little
+
+Figure 11.7: (a) Discrete-time tracking system; (b) tracking system of (a) with a disturbance \(d[n]\) in the feedback path accounting for the presence of measurement errors.
+
+damping) or might in fact become unstable. This possibility is discussed in the next section and is also addressed by the methods developed in subsequent sections.
+
+In addition to the issue of stability, there are other reasons for wanting to limit the gain in a tracking system. For example, in implementing such a system, we must measure the output \(y[n]\) in order to compare it to the command input \(x[n]\), and any measuring device used will have inaccuracies and error sources (such as thermal noise in the electronics of the device). In Figure 11.7(b), we have included these error sources in the form of a disturbance input \(d[n]\) in the feedback loop. Some simple system function algebra yields the following relationship between \(Y(z)\) and the transforms \(X(z)\) and \(D(z)\) of \(x[n]\) and \(d[n]\):
+
+\[Y(z)\,=\,\left[\frac{H(z)}{1\,+\,H(z)}X(z)\right]-\left[\frac{H(z)}{1\,+\,H(z)} D(z)\right]. \tag{11.35}\]
+
+From this expression, we see that in order to minimize the influence of \(d[n]\) on \(y[n]\), we would like \(H(z)\) to be small so that the second term on the right-hand side of eq. (11.35) is small.
+
+From the preceding development, we see that the goals of tracking and of minimizing the effect of measurement errors are conflicting, and one must take this into account in coming up with an acceptable system design. In general, the design depends on more detailed information concerning the characteristics of the input \(x[n]\) and the disturbance \(d[n]\). For example, in many applications \(x[n]\) has a significant amount of its energy concentrated at low frequencies, while measurement error sources such as thermal noise have a great deal of energy at high frequencies. Consequently, one usually designs the compensator \(H_{c}(z)\) so that \(|H(e^{j\omega})|\) is large at low frequencies and is small for \(\omega\) near \(\pm\,\pi\).
+
+There are a variety of other issues that one must consider in designing tracking systems, such as the presence of disturbances at other points in the feedback loop. (For example, the effect of wind on the motion of an aircraft must be taken into account in designing an autopilot.) The methods of feedback system analysis introduced in this chapter provide the necessary tools for examining each of these issues. In Problem 11.57, we use some of these tools to investigate several other aspects of the problem of designing tracking systems.
+
+#### Destabilization Caused by Feedback
+
+As well as having many applications, feedback can have undesirable effects and can in fact cause instability. For example, consider the telescope-pointing system illustrated in Figure 11. From the discussion in the preceding section, we know that it would be desirable to have a large amplifier gain in order to achieve good performance in tracking the desired pointing angle. On the other hand, as we increase the gain, we are likely to obtain faster tracking response at the expense of a reduction in system damping, resulting in significant overshoot and ringing in response to changes in the desired angle. Furthermore, instability can result if the gain is increased too much.
+
+Another common example of the possible destabilizing effect of feedback is feedback in audio systems. Consider the situation depicted in Figure 11.8(a). Here, a loudspeaker produces an audio signal that is an amplified version of the sounds picked up by a microphone. Note that in addition to other audio inputs, the sound coming from the speaker itself may be sensed by the microphone. How strong this particular signal is depends upon the distance between the speaker and the microphone. Specifically, because of the attenuating properties of air, the strength of the signal reaching the microphone from the speaker decreases as the distance between the speaker and the microphone increases. In addition, due to the finite speed of propagation of sound waves, there is time delay between the signal produced by the speaker and that sensed by the microphone.
+
+This audio feedback system is represented in block diagram form in Figure 11.8(b). Here, the constant \(K_{2}\) in the feedback path represents the attenuation, and \(T\) is the propagation delay. The constant \(K_{1}\) is the amplifier gain. Also, note that the output from the feedback path is _added_ to the external input. This is an example of _positive feedback_. As discussed at the beginning of the section, the use of a negative sign in the definition of the basic feedback system of Figure 11.3 is purely conventional, and positive and negative feedback systems can be analyzed using the same tools. For example, as illustrated in Figure 11.8(c), the feedback system of Figure 11.8(b) can be written as a negative feedback system of Figure 11.8(d).
+
+Figure 11.8: (a) Pictorial representation of the phenomenon of audio feedback; (b) block diagram representation of (a); (c) block diagram in (b) redrawn as a negative feedback system. (_Note:_\(e^{-s\bar{t}}\) is the system function of a \(T\)-second time delay.)
+
+system by adding a minus sign to the feedback-path system function. From this figure and from eq. (11.1), we can determine the closed-loop system function:
+
+\[Q(s)\,=\,\frac{K_{1}}{1-K_{1}K_{2}e^{-sT}}. \tag{136}\]
+
+Later we will return to this example, and, using a technique that we will develop in Section 13, we will show that the system of Figure 8 is unstable if
+
+\[K_{1}K_{2}>1. \tag{137}\]
+
+Since the attenuation due to the propagation of sound through the air decreases (i.e., \(K_{2}\)_increases_) as the distance between the speaker and the microphone decreases, if the microphone is placed too close to the speaker, so that eq. (137) is satisfied, the system will be unstable. The result of this instability is an excessive amplification and distortion of audio signals.
+
+It is interesting to note that positive, or what Black referred to as _regenerative,_ feedback had also been known for some time before he invented his negative feedback amplifier and, ironically, had been viewed as a very useful mechanism (in contrast to the skeptical view of negative feedback). Indeed, positive feedback can be useful. For example, it was already known in the 1920s that the destabilizing influence of positive feedback could be used to generate oscillating signals. This use of positive feedback is illustrated in Problem 134.
+
+In this section, we have described a number of the applications of feedback. These and others, such as the use of feedback in the implementation of recursive discrete-time filters (see Problem 135), are considered in more detail in the problems at the end of the chapter. From our examination of the uses of feedback and the possible stabilizing and destabilizing effects that it can have, it is clear that some care must be taken in designing and analyzing feedback systems to ensure that the closed-loop system behaves in a desirable fashion. Specifically, in Sections 12.3 and 12.6, we have seen several examples of feedback systems in which the characteristics of the closed-loop system can be significantly altered by changing the values of one or two parameters in the feedback system. In the remaining sections of this chapter, we develop several techniques for analyzing the effect of changes in such parameters on the closed-loop system and for designing systems to meet desired objectives such as stability, adequate damping, etc.
+
+### Root-locus analysis of linear feedback systems
+
+As we have seen in a number of the examples and applications we have discussed, a useful type of feedback system is that in which the system has an adjustable gain \(K\) associated with it. As this gain is varied, it is of interest to examine how the poles of the closed-loop system change, since the locations of these poles tell us a great deal about the behavior of the system. For example, in stabilizing an unstable system, the adjustable gain is used to move the poles into the left-half plane for a continuous-time system or inside the unit circle for a discrete-time system. In addition, in Problem 139, we show that feedback can be used to broaden the bandwidth of a first-order system by moving the pole so as to decrease the time constant of the system. Furthermore, just as feedback can be used to relocate the poles to improve system performance, as we saw in Section 11.2.6, there is the potential danger that with an improper choice of feedback a stable system can be destabilized, which is usually undesirable.
+
+In this section, we discuss a particular method for examining the locus (i.e., the path) in the complex plane of the poles of the closed-loop system as an adjustable gain is varied. The procedure, referred to as the _root-locus method,_ is a graphical technique for plotting the closed-loop poles of a rational system function \(Q(s)\) or \(Q(z)\) as a function of the value of the gain. The technique works in an identical manner for both continuous-time and discrete-time systems.
+
+#### An Introductory Example
+
+To illustrate the basic nature of the root-locus method for analyzing a feedback system, let us reexamine the discrete-time example considered in the preceding section and specified by the system functions
+
+\[\mbox{[eq.\,(\ref{eq:11.23})]}\qquad\qquad\qquad H(z)\,=\,\frac{1}{1-2z^{-1}} \,=\,\frac{z}{z-2} \tag{11.38}\]
+
+and
+
+\[\mbox{[eq.\,(\ref{eq:11.24})]}\qquad\qquad\qquad G(z)\,=\,2\beta\,z^{-1}\,=\, \frac{2\beta}{z}, \tag{11.39}\]
+
+where \(\beta\) now is viewed as an adjustable gain. Then, as we noted earlier, the closed-loop system function is
+
+\[\mbox{[eq.\,(\ref{eq:11.25})]}\qquad Q(z)\,=\,\frac{1}{1-2(1-\beta)z^{-1}}\,= \,\frac{z}{z-2(1-\beta)}. \tag{11.40}\]
+
+In this example, it is straightforward to identify the closed-loop pole as being located at \(z\,=\,2(1-\beta)\). In Figure 11.9(a), we have plotted the locus of the pole for the system as \(\beta\) varies from \(0\) to \(+\infty\). In part (b) of the figure, we have plotted the locus as \(\beta\) varies from \(0\) to \(-\infty\). In each plot, we have indicated the point \(z\,=\,2\), which is the open-loop pole [i.e., it is the pole of \(Q(z)\) for \(\beta\,=\,0\)]. As \(\beta\) increases from \(0\), the pole moves to the left of the point \(z\,=\,2\) along the real axis, and we have indicated this by including an arrow on the thick line to show how the pole changes as \(\beta\) is increased. Similarly, for \(\beta\,<\,0\), the pole of \(Q(z)\) moves to the _right_ of \(z\,=\,2\), and the direction of the arrow in Figure 11.9(b) indicates how the pole changes as the magnitude of \(\beta\) increases. For \(1/2<\beta<3/2\), the pole lies inside the unit circle, and thus, the system is stable.
+
+As a second example, consider a continuous-time feedback system with
+
+\[H(s)\,=\,\frac{s}{s-2} \tag{11.41}\]
+
+and
+
+\[G(s)\,=\,\frac{2\beta}{s}, \tag{11.42}\]
+
+where \(\beta\) again represents the adjustable gain. Since \(H(s)\) and \(G(s)\) in this example are algebraically identical to \(H(z)\) and \(G(z)\), respectively, in the preceding example, the same will be true for the closed-loop system function
+
+\[Q(s)\,=\,\frac{s}{s-2(1-\beta)} \tag{11.43}\]
+
+vis-a-vis \(Q(z)\), and the locus of the pole as a function of \(\beta\) will be identical to the locus in that example.
+
+The relationship between these two examples stresses the fact that the locus of the poles is determined by the algebraic expressions for the system functions of the forward and feedback paths and is not inherently associated with whether the system is a continuous-time or discrete-time system. However, the interpretation of the result is intimately connected with its continuous-time or discrete-time context. In the discrete-time case it is the location of the poles in relation to the unit circle that is important, whereas in the continuous-time case it is their location in relation to the imaginary axis. Thus, as we have seen for the discrete-time example in eq. (11.40), the system is stable for 1/2 \(<\beta<\) 3/2, while the continuous-time system of eq. (11.43) is stable for \(\beta>1\).
+
+#### Equation for the Closed-Loop Poles
+
+In the simple example considered in the previous section the root locus was easy to plot, since we could first explicitly determine the closed-loop pole as a function of the gain parameter and then plot the location of the pole as we changed the gain. For more complex
+
+Figure 11.9: Root locus for the closed-loop system of eq. (11.40) as the value of \(\beta\) is varied: (a) \(\beta>0\); (b) \(\beta<0\). Note that we have marked the point \(z=2\) that corresponds to the pole location when \(\beta=0\).
+
+systems, one cannot expect to find such simple closed-form expressions for the closed-loop poles. However, it is still possible to sketch accurately the locus of the poles as the value of the gain parameter is varied from \(-\infty\) to \(+\infty\), without actually solving for the location of the poles for any specific value of the gain. This technique for determining the root locus is extremely useful in gaining insight into the characteristics of a feedback system. Also, as we develop the method, we will see that once we have determined the root locus, there is a relatively straightforward procedure for determining the value of the gain parameter that produces a closed-loop pole at any specified location along the root locus. We will phrase our discussion in terms of the Laplace transform variable \(s\), with the understanding that it applies equally well to the discrete-time case.
+
+Consider a modification of the basic feedback system of Figure 11.3(a), where either \(G(s)\) or \(H(s)\) is cascaded with an adjustable gain \(K\). This is illustrated in Figure 11.10. In either of these cases, the denominator of the closed-loop system function is \(1+KG(s)H(s)\).2 Therefore, the equation for the poles of the closed-loop system are the solutions of the equation
+
+Footnote 2: In the following discussion, we assume for simplicity that there is no pole-zero cancellation in the product \(G(s)H(s)\). The presence of such pole-zero cancellations does not cause any real difficulties, and the procedure we will outline here is easily extended to that case (Problem 11.32). In fact, the simple example at the start of this section [eqs. (11.41) and (11.42)] _does_ involve a pole-zero cancellation, at \(s\,=\,0\).
+
+\[1\,+\,KG(s)H(s)\,=\,0. \tag{11.44}\]Rewriting eq. (11.44), we obtain the basic equation determining the closed-loop poles:
+
+\[G(s)H(s)\,=\,-\frac{1}{K}. \tag{11.45}\]
+
+The technique for plotting the root locus is based on the properties of this equation and its solutions. In the remainder of this section, we will discuss some of these properties and indicate how they can be exploited in determining the root locus.
+
+#### The End Points of the Root Locus: The Closed-Loop
+
+Poles for \(\mathbf{K}\,=\,\mathbf{0}\) and \(|\mathbf{K}|\,=\,+\infty\)
+
+Perhaps the most immediate observation that one can make about the root locus is that obtained by examining eq. (11.45) for \(K=0\) and \(|K|=\infty\). For \(K=0\), the solution of this equation must yield the poles of \(G(s)H(s)\), since \(1/K=\infty\). To illustrate, recall the example given by eqs. (11.41) and (11.42). If we let \(\beta\) play the role of \(K\), we see that eq. (11.45) becomes
+
+\[\frac{2}{s-2}\,=\,-\frac{1}{\beta}. \tag{11.46}\]
+
+Therefore, for \(\beta=0\), the pole of the system will be located at the pole of \(2/(s-2)\) (i.e., at \(s=2\)), which agrees with what we depicted in Figure 11.9.
+
+Suppose now that \(|K|\,=\,\infty\). Then \(1/K\,=\,0\), so that the solutions of eq. (11.45) must approach the _zeros_ of \(G(s)H(s)\). If the order of the numerator of \(G(s)H(s)\) is smaller than that of the denominator, then some of these zeros, equal in number to the difference in order between the denominator and numerator, will be at infinity.
+
+Referring again to eq. (11.46), since the order of the denominator of \(2/(s-2)\) is 1, while the order of the numerator is zero, we conclude that in this example there is one zero at infinity and no zeros in the finite \(s\)-plane. Thus, as \(|\beta|\to\infty\), the closed-loop pole approaches infinity. Again, this agrees with Figure 11.9, in which the magnitude of the pole increases without bound as \(|\beta|\to\infty\) for either \(\beta>0\) or \(\beta<0\).
+
+While the foregoing observations provide us with basic information as to the closed-loop pole locations for the extreme values of \(K\), the following result is the key to our being able to plot the root locus without actually solving for the closed-loop poles as explicit functions of the gain.
+
+#### The Angle Criterion
+
+Consider again eq. (11.45). Since the right-hand side of this equation is real, a point \(s_{0}\) can be a closed-loop pole only if the left-hand side of the equation, i.e., \(G(s_{0})H(s_{0})\), is also real. Writing
+
+\[G(s_{0})H(s_{0})\,=\,\left|G(s_{0})H(s_{0})\right|e^{j\times G(s_{0})H(s_{0})}, \tag{11.47}\]
+
+we see that, for \(G(s_{0})H(s_{0})\) to be real, it must be true that
+
+\[e^{j\times G(s_{0})H(s_{0})}\,=\,\pm 1. \tag{11.48}\]That is, for \(s_{0}\) to be a closed-loop pole, we must have
+
+\[\hbox{\raise 1.5pt\hbox{$\chi$}\kern-1.0pt}G\left(s_{0}\right)H\left(s_{0}\right) \,=\,\hbox{integer multiple of $\pi$}. \tag{11.49}\]
+
+Returning to eq. (11.46), we see immediately that in order for \(2/\left(s_{0}-2\right)\) to be real, it is necessary that \(s_{0}\) be real. For more complex system functions, it is not as easy to determine the values of \(s_{0}\) for which \(G\left(s_{0}\right)H\left(s_{0}\right)\) is real. However, as we will see, the use of the angle criterion given by eq. (11.49), together with the geometric method described in Chapter 9 for evaluating \(\hbox{\raise 1.5pt\hbox{$\chi$}\kern-1.0pt}G\left(s_{0}\right)H\left(s_{0}\right)\), greatly facilitates the determination of the root locus.
+
+The angle criterion given by eq. (11.49) provides us with a direct method for determining whether a point \(s_{0}\) could be a closed-loop pole for _some_ value of the gain \(K\). A further examination of eq. (11.45) gives us a way in which to calculate the value of the gain corresponding to any point on the root locus. Specifically, suppose that \(s_{0}\) satisfies
+
+\[\hbox{\raise 1.5pt\hbox{$\chi$}\kern-1.0pt}G\left(s_{0}\right)H\left(s_{0} \right)\,=\,\hbox{odd multiple of $\pi$}. \tag{11.50}\]
+
+Then \(e^{j\cdot G\left(s_{0}\right)H\left(s_{0}\right)}\,=\,-1\), and from eq. (11.47) we see that
+
+\[G\left(s_{0}\right)H\left(s_{0}\right)\,=\,-\,\left|G\left(s_{0}\right)H\left( s_{0}\right)\right|. \tag{11.51}\]
+
+Substituting eq. (11.51) into eq. (11.45), we find that if
+
+\[K\,=\,\frac{1}{\left|G\left(s_{0}\right)H\left(s_{0}\right)\right|}, \tag{11.52}\]
+
+then \(s_{0}\) is a solution of the equation and hence a closed-loop pole.
+
+Similarly, if \(s_{0}\) satisfies the condition
+
+\[\hbox{\raise 1.5pt\hbox{$\chi$}\kern-1.0pt}G\left(s_{0}\right)H\left(s_{0} \right)\,=\,\hbox{even multiple of $\pi$}, \tag{11.53}\]
+
+then
+
+\[G\left(s_{0}\right)H\left(s_{0}\right)\,=\,\left|G\left(s_{0}\right)H\left(s_ {0}\right)\right|. \tag{11.54}\]
+
+Thus, if
+
+\[K\,=\,-\,\frac{1}{\left|G\left(s_{0}\right)H\left(s_{0}\right)\right|}, \tag{11.55}\]
+
+then \(s_{0}\) is a solution of eq. (11.45) and hence a closed-loop pole.
+
+For the example given in eq. (11.46), if \(s_{0}\) is on the real line and \(s_{0}<2\), then
+
+\[\hbox{\raise 1.5pt\hbox{$\chi$}\kern-1.0pt}\left(\frac{2}{s_{0}-2}\right)=\,-\pi, \tag{11.56}\]
+
+and from eq. (11.52), the value of \(\beta\) for which \(s_{0}\) is the closed-loop pole is
+
+\[\beta\,=\,\frac{1}{\left|\frac{2}{s_{0}-2}\right|}\,=\,\frac{2-s_{0}}{
+
+for points \(s_{0}\) on the real axis. To begin with, the angle contribution from both poles is zero when \(s_{0}\) is on the real axis to the right of \(-1\). Thus,
+
+\[\begin{array}{l}\prec\!\!G\left(s_{0}\right)H\left(s_{0}\right)\,=\,0\,=\,0\, \cdot\,\pi,\qquad s_{0}\mbox{ real and greater than }-1,\end{array} \tag{11.63}\]
+
+and by eq. (11.60), these points are on the root locus for \(K<0\). For points between the two poles, the pole at \(-1\) contributes an angle of \(-\pi\), and the pole at \(-2\) contributes \(0\). Thus,
+
+\[\begin{array}{l}\prec\!\!G\left(s_{0}\right)H\left(s_{0}\right)\,=\,-\,\pi, \qquad s_{0}\mbox{ real, }-2<s_{0}<-1.\end{array} \tag{11.64}\]
+
+These points are on the locus for \(K>0\). Finally, each pole contributes an angle of \(-\pi\) when \(s_{0}\) is real and less than \(-2\), so that
+
+\[\begin{array}{l}\prec\!\!G\left(s_{0}\right)H\left(s_{0}\right)\,=\,-2\,\pi, \qquad s_{0}\mbox{ real and less than }-2.\end{array}\]
+
+Therefore, these points are on the locus for \(K<0\).
+
+Let us now examine points in the upper half of the \(s\)-plane. (Since the impulse responses are real-valued, the complex poles occur in conjugate pairs. Therefore, we can immediately determine the poles in the lower half-plane after we have examined the upper half.) From Figure 11.11, the angle of \(G\left(s_{0}\right)H\left(s_{0}\right)\) at the point \(s_{0}\) is
+
+\[\begin{array}{l}\prec\!\!G\left(s_{0}\right)H\left(s_{0}\right)\,=\,-(\theta \,+\,\phi).\end{array} \tag{11.65}\]
+
+Also, it is clear that as \(s_{0}\) ranges over the upper half-plane (but not the real axis), we have
+
+\[\begin{array}{l}0<\theta\,<\,\pi,\qquad 0<\phi<\pi.\end{array} \tag{11.66}\]
+
+Thus,
+
+\[\begin{array}{l}-2\,\pi<\,\prec\!\!G(s)H(s)<0,\end{array} \tag{11.67}\]
+
+Therefore, we see immediately that _no_ point in the upper half-plane can be on the locus for \(K<0\) [since \(\prec\!\!G(s)H(s)\) never equals an even multiple of \(\pi\)]. In addition, if \(s_{0}\) is to be on the locus for \(K>0\), we must have
+
+\[\begin{array}{l}\prec\!\!G\left(s_{0}\right)H\left(s_{0}\right)\,=\,-( \theta\,+\,\phi)\,=\,-\,\pi,\end{array} \tag{11.68}\]
+
+Figure 11.11: Geometric procedure for evaluating angle criterion in Example 11.1.
+
+or
+
+\[\theta\,=\,\pi\,-\,\phi. \tag{11.69}\]
+
+Examining the geometry of Figure 11.11, we see that this occurs only for those points located on the straight line that is parallel to the imaginary axis and that bisects the line joining the poles at \(-1\) and \(-2\). We have now examined the entire \(s\)-plane and have determined all those points on the root locus. In addition, we know that for \(K\,=\,0\), the closed-loop poles equal the poles of \(G(s)H(s)\), and as \(|K|\to\infty\), the closed-loop poles go to the zeros of \(G(s)H(s)\), which in this case are both at infinity. Putting these results together, we can draw the entire root locus, depicted in Figure 11.12, in which we have indicated the direction of increasing \(|K|\), both for \(K\,>\,0\) and for \(K\,<\,0\).
+
+Note from the figure that for \(K\,>\,0\) there are two branches of the root locus and that the same is true for \(K\,<\,0\). The reason for the existence of two branches is that in this example the closed-loop system is a second-order system and consequently has two poles for any specified value of \(K\). Therefore, the root locus has two branches, each of which traces the location of one of the closed-loop poles as \(K\) is varied, and for any particular value of \(K\), there is one closed-loop pole on each branch. Again, if we wish to calculate the value of \(K\) for which a specific point \(s_{0}\) on the locus is a closed-loop pole, we can use eqs. (11.52) and (11.55).
+
+#### Properties of the Root Locus
+
+The procedure outlined in the preceding subsection provides us, in principle, with a method for determining the root locus for any continuous-time or discrete-time LTI feedback system. That is, we simply determine, graphically or otherwise, all those points that satisfy eq. (11.59) or eq. (11.60). Fortunately, there are a number of other geometric properties concerning root loci that make the sketching of a locus far less tedious. To begin our discussion of these properties, let us assume that we have placed \(G(s)H(s)\) in the standard form
+
+\[G(s)H(s)\,=\,\frac{s^{m}\,+\,b_{m-1}s^{m-1}\,+\,\cdots\,+\,b_{0}}{s^{n}\,+\,a_{ n-1}s^{n-1}\,+\,\cdots\,+\,a_{0}}\,=\,\frac{\prod_{k\,=\,1}^{m}\bigl{(}s\,-\,\beta_{ k}\bigr{)}}{\prod_{k\,=\,1}^{n}\bigl{(}s\,-\,\alpha_{k}\bigr{)}}, \tag{11.70}\]
+
+where the \(\beta_{k}\)'s denote the zeros and the \(\alpha_{k}\)'s denote the poles. In general, these may be complex. Also, from eq. (11.70), we see that we are assuming that the leading coefficient in both the numerator and the denominator of \(G(s)H(s)\) is \(+1\). This can always be achieved by dividing the numerator and denominator by the denominator coefficient of \(s^{n}\) and absorbing the resulting numerator coefficient of \(s^{m}\) into the gain \(K\). For example,
+
+\[K\frac{2s\,+\,1}{3s^{2}\,+\,5s\,+\,2}\,=\,K\frac{\frac{2}{3}s\,+\,\frac{1}{3}}{ s^{2}\,+\,\frac{5}{3}\,s\,+\,\frac{2}{3}}\,=\,\biggl{(}\frac{2}{3}\biggr{)}K \frac{s\,+\,\frac{1}{2}}{s^{2}\,+\,\frac{5}{3}\,s\,+\,\frac{2}{3}}, \tag{11.71}\]
+
+and the quantity \((2/3)K\) is then regarded as the overall gain that is varied in determining the root locus.
+
+We assume, in addition, that
+
+\[m\,\leq\,n, \tag{11.72}\]
+
+which is the case that is usually encountered in practice. (Problem 11.33 considers the case \(m>n\).) The following are some properties that include earlier observations and that aid in sketching the root locus.
+
+**Property 1:** For \(K\,=\,0\), the solutions of eq. (11.45) are the poles of \(G(s)H(s)\). Since we are assuming \(n\) poles, the root locus has \(n\) branches, each one starting (for \(K\,=\,0\)) at a pole of \(G(s)H(s)\).
+
+Property 1 includes the general version of a fact which we noted in Example 11.1: that there is one branch of the root locus for each closed-loop pole. The next property is also simply a restatement of one of our earlier observations.
+
+**Property 2:** As \(|K|\to\infty\), each branch of the root locus approaches a zero of \(G(s)H(s)\). Since we are assuming that \(m\,\leq\,n\), \(n\,-\,m\) of these zeros are at infinity.
+
+**Property 3:** Parts of the real \(s\)-axis that lie to the left of an \(odd\) number of real poles and zeros of \(G(s)H(s)\) are on the root locus for \(K>0\). Parts of the real \(s\)-axis that lie to the left of an \(even\) number (possibly zero) of poles and zeros of \(G(s)H(s)\) are on the root locus for \(K<0\).
+
+We can show that Property 3 is true as follows: From our discussion in Example 11.1 and from Figure 11.13(a), we see that if a point on the real \(s\)-axis is to the right of a real pole or zero of \(G(s)H(s)\), that pole or zero contributes zero to \(\mathcal{AG}(s_{0})H(s_{0})\). On the other hand, if \(s_{0}\) is to the left of a zero, that zero contributes \(+\,\pi\), whereas if \(s_{0}\) is to the left of a pole, we get a contribution of \(-\,\pi\) (since we subtract the pole angles). Hence, if \(s_{0}\) is to the left of an odd number of real poles and zeros, the total contribution of these poles and zeros is an odd multiple of \(\pi\), whereas if \(s_{0}\) is to the left of an even number of real poles and zeros, the total contribution is an even multiple of \(\pi\). From eqs. (11.59) and (11.60), we will have the result stated in Property 3 if we can show that the total contribution from all poles and zeros with nonzero imaginary parts is an even multiple of \(\pi\). The key here is that such poles and zeros occur in complex-conjugate pairs, and we can consider the contribution from each such pair, as illustrated in Figure 11.13(b). The symmetry in the picture clearly indicates that the sum of the angles from this pair to any point \(s_{0}\) on the real axis is precisely \(2\pi\). Summing over all conjugate zero pairs and subtracting the sum over all conjugate pole pairs, we get the desired result. Thus, \(any\) segment of the real line
+
+Figure 11.13: (a) Angle contribution from real poles and zeros to a point on the real axis; (b) total angle contribution from a complex-conjugate pole pair to a point on the real axis.
+
+between real poles or zeros is on the root locus either for \(K>0\) or for \(K<0\), depending on whether it lies to the left of an odd or an even number of poles and zeros of \(G(s)H(s)\).
+
+As one consequence of Properties 1 through 3, consider a segment of the real axis between two poles of \(G(s)H(s)\), with no zeros between these poles. From Property 1 the root locus begins at the poles, and from Property 3 the entire portion of the real axis between the two poles will lie on the root locus for a positive or negative range of values of \(K\). Therefore, as \(|K|\) increases from zero, the two branches of the root locus that begin at these poles move toward each other along the segment of the real axis between the poles. From Property 2, as \(|K|\) increases toward infinity, each branch of the root locus must approach a zero. Since there are no zeros along that portion of the real axis, the only way that this can happen is if the branches break off into the complex plane for \(|K|\) sufficiently large. This is illustrated in Figure 11.12, in which the locus for \(K>0\) has a portion between two real poles. As \(K\) is increased, the root locus eventually leaves the real axis, forming two complex-conjugate branches. Summarizing this discussion, we have the following property of the root locus:
+
+**Property 4:** Branches of the root locus between two real poles must break off into the complex plane for \(|K|\) large enough.
+
+Properties 1-4 serve to illustrate how characteristics of the root locus can be deduced from eqs. (11.45), (11.59), and (11.60). In many cases, plotting the poles and zeros of \(G(s)H(s)\) and then using these four properties suffices to provide a reasonably accurate sketch of the root locus. (See Examples 11.2 and 11.3.) In addition to these properties, however, there are numerous other characteristics of the root locus that allow one to obtain sketches of increasing accuracy. For example, from Property 2, we know that \(n-m\) branches of the root locus approach infinity. In fact, these branches approach infinity at specific angles that can be calculated, and therefore, the branches are asymptotically parallel to lines at these angles. Moreover, it is possible to draw in the asymptotes and then determine the point at which they intersect. These two properties and several others are illustrated in Problems 11.34-11.36 and 11.41-11.42. A more detailed development of the root-locus method can be found in more advanced texts such as those listed in the bibliography at the end of the book.
+
+In the remainder of this section we present two examples, one in continuous time and one in discrete time, that illustrate how the four properties that we have just described allow us to sketch the root locus and to deduce the stability characteristics of a feedback system as the gain \(K\) is varied.
+
+**Example 11.2**
+
+Let
+
+\[G(s)H(s)\,=\,\frac{s-1}{(s+1)(s+2)}. \tag{11.73}\]
+
+From Properties 1 and 2, the root locus for either \(K\) positive or \(K\) negative starts at the points \(s\,=\,-1\) and \(s\,=\,-2\). One branch terminates at the zero at \(s\,=\,1\) and the other at infinity.
+
+Let us first consider \(K>0\). The root locus in this case is illustrated in Figure 11.14(a). From Property 3, we can identify the regions of the real axis that are on the root locus for \(K>0\)--specifically, \(\Re\{s\}<-2\) and \(-1<\Re\{s\}<1\). Therefore, one branch of the root locus for \(K>0\) originates at \(s=-1\) and approaches \(s=1\) as \(K\to\infty\). The other begins at \(s=-2\) and extends to the left toward \(\Re\{s\}=-\infty\) as \(K\to+\infty\).
+
+Thus, we see that for \(K>0\), if \(K\) is sufficiently large, the system will become unstable, as one of the closed-loop poles moves into the right-half plane. The procedure that we have used for sketching the root locus does not, of course, indicate the value of \(K\) for which this instability develops. However, for this particular example, we see that the value of \(K\) for which the instability occurs corresponds to the root locus passing through \(s=0\). Consequently, from eq. (11.52), the corresponding value of \(K\) is
+
+\[K\,=\,\frac{1}{\left|G(0)H(0)\right|}\,=\,2. \tag{11.74}\]
+
+Thus, the system is stable for \(0\,\leq\,K<2\), but is unstable for \(K\,\geq\,2\).
+
+For \(K<0\), the portions of the real axis lying on the root locus are \(\Re\{s\}>1\) and \(-2<\Re\{s\}<-1\). Thus, the root locus again starts at the points \(s=-2\) and \(s=-1\), moving into the region \(-2<\Re\{s\}<-1\). At some point, it breaks off into the complex plane and follows a trajectory such that it returns to the real axis for \(s>1\). Upon the root locus' return to the real axis, one branch moves to the left toward the zero at \(s=1\) and the other to the right toward \(s=\infty\), as indicated in Figure 11.14(b), in which we have displayed an accurate plot of the root locus for \(K<0\).
+
+Figure 11.14: Root locus for Example 11.2: (a) \(K>0\); (b) \(K<0\). The poles of \(G(s)H(s)\) at \(s=-1\) and \(s=-2\) and the zero of \(G(s)H(s)\) at \(s=1\) are indicated in the figure.
+
+Rules can also be developed to indicate the locations at which the root locus leaves and enters the real axis. Even without that precise a description, however, we can sketch the general shape of the root locus in Figure 11.14(b) and can therefore deduce that for \(K<0\), the system also becomes unstable for \(|K|\) sufficiently large.
+
+### Example 11.3
+
+Consider the discrete-time feedback system illustrated in Figure 11.15. In this case,
+
+\[G(z)H(z)\,=\,\frac{z^{-1}}{\left(1-\,\frac{1}{2}\,z^{-1}\right)\!\left(1-\, \frac{1}{4}\,z^{-1}\right)}\,=\,\frac{z}{\left(z-\,\frac{1}{2}\right)\!\left(z -\,\frac{1}{4}\right)}. \tag{11.75}\]
+
+As discussed at the beginning of this section, the techniques for sketching the root locus of a discrete-time feedback system are identical to those used in the continuous-time case. Therefore, in a manner exactly analogous to that of the preceding example, we can deduce the basic form of the root locus for this example, which is illustrated in Figure 11.16. In this case the portion of the real axis between the two poles of \(G(z)H(z)\) (at \(z=1/4\) and \(z=1/2\)) is on the root locus for \(K>0\), and as \(K\) increases the locus breaks off into the complex plane and returns to the axis at some point in the left-half plane. From there, one branch approaches the zero of \(G(z)H(z)\) at \(z=0\), and the other approaches infinity as \(K\to\infty\). The form of the root locus for \(K<0\) consists of two branches on the real axis, one approaching \(0\) and the other infinity.
+
+As we remarked earlier, while the form of the root locus does not depend on whether the system is a continuous-time or discrete-time system, any conclusion regarding stability based on examining the locus certainly does. For this example, we can conclude that for \(|K|\) sufficiently large the system is unstable, since one of the two poles has magnitude greater than \(1\). In particular, from the \(K>0\) root locus in Figure 11.16(a), we see that the transition from stability to instability occurs when one of the closed-loop poles is at \(z\,=\,-1\). From eq. (11.52), the corresponding value of \(K\) is
+
+\[K\,=\,\frac{1}{\left|G(-\,1)H(-\,1)\right|}\,=\,\frac{15}{8}. \tag{11.76}\]
+
+Similarly, from Figure 11.16(b), the stability-instability transition occurs when one of the closed-loop poles is at \(z\,=\,1\), and from eq. (11.55), the corresponding value of \(K\) is
+
+\[K\,=\,-\,\frac{1}{\left|G(1)H(1)\right|}\,=\,-\frac{3}{8}. \tag{11.77}\]
+
+Putting this together, we see that the closed-loop system in Figure 11.16 is stable if
+
+Figure 11.15: Discrete-time feedback system of Example 11.3.
+
+\[-\frac{3}{8}<K<\frac{15}{8} \tag{11.78}\]
+
+and is unstable for \(K\) outside this range.
+
+### The Nyquist Stability Criterion
+
+As developed in Section 11.3, the root-locus technique provides detailed information concerning the location of closed-loop poles as the system gain is varied. From root-locus plots, one can determine the damping and the stability characteristics of the system as \(K\) is varied. Determination of the root locus requires the analytic description of the system
+
+Figure 11.16: Root locus for Example 11.3: (a) \(K>0\); (b) \(K<0\). The poles of \(G(z)H(z)\) at \(z=1/4\) and \(z=1/2\) and the zero of \(G(z)H(z)\) at \(z=0\) are indicated in the figure.
+
+functions of the forward and feedback paths and is applicable only when these transforms are rational. For example, it cannot be directly applied in situations in which our knowledge of the system functions is obtained purely from experimentation.
+
+In this section, we introduce another method for the determination of the stability of feedback systems as a function of an adjustable gain parameter. This technique, referred to as the _Nyquist criterion,_ differs from the root-locus method in two basic ways. Unlike the root-locus method, the Nyquist criterion does _not_ provide detailed information concerning the location of the closed-loop poles as a function of \(K\), but rather, simply determines whether or not the system is stable for any specified value of \(K\). On the other hand, the Nyquist criterion can be applied to nonrational system functions and in situations in which no analytic description of the forward and feedback path system functions is available.
+
+Our objective in this section is to outline the basic ideas behind the Nyquist criterion for both continuous-time and discrete-time systems. As we will see, both the discrete-time and continuous-time Nyquist tests are the result of the same fundamental concept, although, as with the root-locus method, the actual criteria for stability differ because of the differences between continuous and discrete time. More detailed developments of the ideas behind the Nyquist criterion and its use in the design of feedback systems can be found in texts on the analysis and synthesis of feedback systems and automatic control systems, including those listed in the bibliography at the end of the book.
+
+To introduce the method, let us recall that the poles of the closed-loop systems of Figure 11.10 and their discrete-time counterparts are the solutions of the equations
+
+\[1\,+\,KG(s)H(s)\,=\,0\qquad\mbox{(continuous time)} \tag{11.79}\]
+
+and
+
+\[1\,+\,KG(z)H(z)\,=\,0\qquad\mbox{(discrete time)}. \tag{11.80}\]
+
+For discrete-time systems, we want to determine whether any of the solutions of eq. (11.80) lie outside the unit circle, and for continuous-time systems whether any of the solutions of eq. (11.79) lie in the right half of the \(s\)-plane. The Nyquist criterion fixes this by examination of the values of \(G(s)H(s)\) along the \(jo\)-axis and the values of \(G(z)H(z)\) along the unit circle. The basis for this is the encirclement property, which we develop in the following subsection.
+
+#### The Encirclement Property
+
+Consider a general rational function \(W(p)\), where \(p\) is a complex variable,3 and suppose that we plot \(W(p)\) for values of \(p\) along a closed contour in the \(p\)-plane, which we traverse in a clockwise direction. This is illustrated in Figure 11.17 for a function \(W(p)\) that has two zeros and no poles. In Figure 11.17(a) we show a closed contour \(C\) in the \(p\)-plane, and in Figure 11.17(b) we plot the closed contour of the values of \(W(p)\) as \(p\) varies around \(C\).
+
+In this example, there is one zero of \(W(p)\) inside the contour and one zero of \(W(p)\) outside the contour. At any point \(p\) on \(C\), the angle of \(W(p)\) is the sum of the angles of the two vectors \({\bf v}_{1}\) and \({\bf v}_{2}\) to the point \(p\). As we traverse the contour once, the angle \(\phi_{1}\) of the vector from the zero _inside_ the contour encounters a net change of \(-2\pi\) radians, whereas the angle \(\phi_{2}\) of the vector from the zero _outside_ the contour encounters no net change. Thus, on the plot of \(W(p)\), there is a net change in angle of \(-2\pi\). Said another way, the plot of \(W(p)\) in Figure 11.17(b) encircles the origin once in the clockwise direction. More generally, for an arbitrary rational \(W(p)\), as we traverse a closed contour in the clockwise direction, any poles and zeros of \(W(p)\) outside the contour will contribute no net change to the angle of \(W(p)\), whereas each zero inside the contour will contribute a net change of \(-2\pi\) and each pole inside will contribute a net change of \(+2\pi\). Since each net change of \(-2\pi\) in \(W(p)\) corresponds to one clockwise encirclement of the origin in the plot of \(W(p)\), we can state the following basic _encirclement property:_
+
+**Encirclement Property:** As a closed contour \(C\) in the \(p\)-plane is traversed once in the clockwise direction, the corresponding plot of \(W(p)\) for values of \(p\) along the contour encircles the origin in the clockwise direction a net number of times equal to the number of zeros minus the number of poles contained within the contour.
+
+In applying this statement, a counterclockwise encirclement is interpreted as the negative of one clockwise encirclement. For example, if there is one pole and no zeros inside the contour, there will be one counterclockwise, or equivalently, minus-one clockwise, encirclement.
+
+**Example 11.4**: Consider the function
+
+\[W(p)\,=\,\frac{p-1}{(p+1)(p^{2}+p+1)}. \tag{11.81}\]
+
+Figure 11.18: Basic encirclement property for Example 11.4: (a) the contour encircles no poles or zeros and consequently \(W(p)\) has no encirclements of the origin; (b) the contour encircles one pole and therefore \(W(p)\) has one encirclement of the origin; (c) the contour encircles three poles and therefore \(W(p)\) has three encirclements of the origin;
+
+no zeros of \(1\,+\,KG(s)H(s)\), or equivalently, of the function
+
+\[R(s)\,=\,\frac{1}{K}\,+\,G(s)H(s) \tag{11.82}\]
+
+lie in the right half of the \(s\)-plane. Thus, in applying the general result developed in the preceding subsection, we can consider the contour indicated in Figure 11.19. From the plot of \(R(s)\), as \(s\) traverses the contour \(C\) we can obtain a count of the number of zeros minus the number of poles of \(R(s)\) contained within the contour by counting the number of clockwise encirclements of the origin. As \(M\) increases to infinity, this then corresponds to the number of zeros minus the number of poles of \(R(s)\) in the right half of the \(s\)-plane.
+
+Let us examine the evaluation of \(R(s)\) along the contour in Figure 11.19 as \(M\) increases to infinity. Along the semicircular portion of the contour extending into the right-half plane, we must ensure that \(R(s)\) remains bounded as \(M\) increases. Accordingly, we will assume that \(R(s)\) has at least as many poles as zeros. In that case,
+
+\[R(s)\,=\,\frac{b_{n}s^{n}\,+\,b_{n-1}s^{n-1}\,+\,\cdots\,+\,b_{0}}{a_{n}s^{n}\, +\,a_{n-1}s^{n-1}\,+\,\cdots\,+\,a_{0}} \tag{11.83}\]
+
+and
+
+\[\lim_{|s|\,\rightarrow\,\infty}R(s)\,=\,\frac{b_{n}}{a_{n}}\,=\,\text{ constant}. \tag{11.84}\]
+
+Therefore, as \(M\) increases to infinity, the value of \(R(s)\) does not change as we traverse the semicircular part of the contour, and consequently, the constant value along this part is equal to the value of \(R(s)\) at the end points [i.e., \(R(j\omega)\) at \(\omega\,=\,\pm\,\infty\)].
+
+Therefore, the plot of \(R(s)\) along the contour of Figure 11.19 can be obtained by plotting \(R(s)\) along the part of the contour that coincides with the imaginary axis--that is, the plot of \(R(j\omega)\) as \(\omega\) varies from \(-\infty\) to \(+\infty\). Since \(R(j\omega)\) equals \(1/K\,+\,G(j\omega)H(j\omega)\), \(R(s)\) along the contour can be drawn from knowledge of \(G(j\omega)\) and \(H(j\omega)\). If both the forward- and feedback-path systems are stable, \(G(j\omega)\) and \(H(j\omega)\) are simply the frequency-response functions of these systems. However, the encirclement property for the general function \(W(p)\) is simply a property of complex functions; it has nothing to
+
+Figure 11.19: Closed contour containing a portion of the right-half plane; as \(M\rightarrow\infty\), the contour encloses the entire right-half plane.
+
+do with whether \(W(p)\) arose as the Laplace or \(z\)-transform of any signal and, consequently, has nothing to do with regions of convergence. Thus, even if the forward- and feedback-path systems are unstable, if we examine the plot of the _function_\(R(j\omega)=1/K+G(j\omega)H(j\omega)\) for \(-\infty<\omega<\infty\), we know that the net number of clockwise encirclements of the origin will equal the number of zeros minus the number of poles of \(R(s)\) that lie in the right-half plane.
+
+Furthermore, from eq. (11.82), we see that the poles of \(R(s)\) are simply the poles of \(G(s)H(s)\), while the zeros of \(R(s)\) are the closed-loop poles. In addition, since \(G(j\omega)H(j\omega)=R(j\omega)-1/K\), it follows that the plot of \(G(j\omega)H(j\omega)\) encircles the point \(-1/K\)_exactly_ as many times as \(R(j\omega)\) encircles the origin. The plot of \(G(j\omega)H(j\omega)\) as \(\omega\) varies from \(-\infty\) to \(+\infty\) is called the _Nyquist plot_. From the encirclement property, we then see that
+
+\[\begin{array}{ll}\mbox{The number of clockwise}&\mbox{\rm encirclements of the point}\\ -1/K\mbox{ by the Nyquist plot}&=\end{array}\quad\mbox{\rm The number of right-half}\\ \mbox{\rm minus the number of right-half}&\mbox{\rm plane closed-loop poles}\\ \mbox{\rm minus the number of right-half plane poles of $G(s)H(s)$.}\end{array} \tag{11.85}\]
+
+While the open-loop system \(G(s)H(s)\) may have unstable poles, for the closed-loop system to be stable we require no right-half plane closed-loop poles. This yields the _continuous-time Nyquist stability criterion:_
+
+**Continuous-Time Nyquist Stability Criterion:** For the closed-loop system to be stable, the net number of _clockwise_ encirclements of the point \(-1/K\) by the Nyquist plot of \(G(j\omega)H(j\omega)\) must equal _minus_ the number of right-half-plane poles of \(G(s)H(s)\). Equivalently, the net number of _counterclockwise_ encirclements of the point \(-1/K\) by the Nyquist plot of \(G(j\omega)H(j\omega)\) must _equal_ the number of right-half-plane poles of \(G(s)H(s)\).
+
+For example, if the forward- and feedback-path systems are stable, then the Nyquist plot is simply the plot of the frequency response of the cascade of these two systems. In this case, since there are no poles of \(G(s)H(s)\) in the right-half plane, the Nyquist criterion requires that, for stability, the net number of encirclements of the point \(-1/K\) must be zero.
+
+**Example 11.5**
+
+Let
+
+\[G(s)\,=\,\frac{1}{s+1},\qquad H(s)\,=\,\frac{1}{\frac{1}{2}s+1}. \tag{11.86}\]
+
+The Bode plot for \(G(j\omega)H(j\omega)\) is shown in Figure 11.20. The Nyquist plot depicted in Figure 11.21 is constructed directly from the plots of the log magnitude and phase of \(G(j\omega)H(j\omega)\). That is, each point on the Nyquist plot has polar coordinates consisting of the magnitude \(\big{|}G(j\omega)H(j\omega)\big{|}\) and angle \(\spherical G(j\omega)H(j\omega)\) for some value of \(\omega\). The coordinates of \(G(j\omega)H(j\omega)\) for \(\omega<0\) are obtained from the values for \(\omega>0\) through the use of the conjugate symmetry property of \(G(j\omega)H(j\omega)\). This property manifests itself geometrically in a very simple way, which facilitates the sketching of the Nyquist plot for any feedback system composed of systems with Figure 11.20: Bode plot for \(G(j\omega)H(j\omega)\) in Example 11.5.
+
+real impulse responses. Specifically, since \(\big{|}G(-j\omega)H(-j\omega)\big{|}=\big{|}G(j\omega)H(j\omega)\big{|}\) and \(\big{\updownarrow}G(-j\omega)H(-j\omega)=-\updownarrow G(j\omega)H(j\omega)\), the Nyquist plot of \(G(j\omega)H(j\omega)\) for \(\omega\approx 0\) is a reflection about the real axis of the plot for \(\omega\,\geq\,0\). Note also that we have included an arrow on the Nyquist plot in Figure 11.21. This arrow indicates the direction of increasing \(\omega\). That is, it indicates the direction in which the Nyquist plot is traversed (as \(\omega\) varies from \(-\infty\) to \(+\infty\)) for the counting of encirclements in the application of the Nyquist criterion.
+
+In this example there are no right-half-plane open-loop poles, and consequently, the Nyquist criterion requires that, for stability, there be no net encirclements of the point \(-1/K\). Thus, by inspection of Figure 11.21, we see that the closed-loop system will be stable if the point \(-1/K\) falls outside the Nyquist contour--that is, if
+
+\[-\frac{1}{K}\,\leq\,0\qquad\text{or}\qquad-\frac{1}{K}>1, \tag{11.87}\]
+
+which is equivalent to
+
+\[K\,\geq\,0\qquad\text{or}\qquad 0>K>-1. \tag{11.88}\]
+
+Combining these two conditions, we obtain the result that the closed-loop system will be stable for any choice of \(K\) greater than \(-1\).
+
+### Example 11.6
+
+Consider now
+
+\[G(s)H(s)\,=\,\frac{s+1}{(s-1)(\frac{1}{2}s+1)}. \tag{11.89}\]
+
+The Nyquist plot for this system is indicated in Figure 11.22. For this example, \(G(s)H(s)\) has one right-half-plane pole. Thus, for stability we require one counterclockwise encirclement of the point \(-1/K\), which in turn requires that the point \(-1/K\) fall inside the contour. Hence, we will have stability if and only if \(-1<-1/K<0\), that is, if \(K>1\).
+
+In the foregoing discussion, we have introduced and illustrated a form for the Nyquist stability criterion that applies to an extremely large class of feed
+
+Figure 11.22: Nyquist plot for Example 11.6. The arrow on the curve indicates the direction of increasing \(\omega\).
+
+there are a number of refinements and extensions of the criterion that allow it to be used for many other feedback systems as well. For example, as we have developed it, the Nyquist plot can be drawn without any difficulties for stable or unstable \(G(s)H(s)\), as long as there are no poles of \(G(s)H(s)\) exactly _on_ the _jo_-axis. When such poles do occur, the value of \(G(j\omega)H(j\omega)\) is infinite at those points. However, as considered in Problem 11.44, the Nyquist criterion can be modified to allow for poles of \(G(s)H(s)\) on the _jo_-axis. In addition, as mentioned at the beginning of this section, the Nyquist criterion can also be extended to the case in which \(G(s)\) and \(H(s)\) are not rational. For example, it can be shown that if the forward- and feedback-path systems are both stable, the Nyquist criterion is the same when the system functions are nonrational as it is when they are rational. That is, the closed-loop system is stable if there are no net encirclements of the point \(-1/K\). To illustrate the application of the Nyquist criterion for nonrational system functions, we present the following example:
+
+**Example 11.7**: Consider the acoustic feedback example discussed in Section 11.2.6. Referring to Figure 11.8(b), let \(K\,=\,K_{1}\,K_{2}\) and
+
+\[G(s)H(s)\,=\,-e^{-sT}\,=\,e^{-(sT+j\pi)}, \tag{11.90}\]
+
+where we have used the fact that \(e^{-j\pi}\,=\,-1\). In this case,
+
+\[G(j\omega)H(j\omega)\,=\,e^{-j\omega T+\pi)}, \tag{11.91}\]
+
+and as \(\omega\) varies from \(-\infty\) to \(\infty\), \(G(j\omega)H(j\omega)\) traces out a circle of radius \(1\) in the clockwise direction, with one full revolution for every change of \(2\pi/T\) in \(\omega\). This is illustrated in Figure 11.23. Since the forward- and feedback-path systems are stable [the cascade \(G(s)H(s)\) is simply a time delay], the Nyquist stability criterion indicates that the closed-loop system will be stable if and only if \(-1/K\) does not fall inside the unit circle. Equivalently, we require for stability that
+
+\[|K|<1. \tag{11.92}\]
+
+Since \(K_{1}\) and \(K_{2}\) represent an acoustic gain and attenuation, respectively, they are both positive, which yields the stability criterion
+
+\[K_{1}K_{2}<1. \tag{11.93}\]
+
+Figure 11.23: Nyquist plot for Example 11.7.
+
+#### The Nyquist Criterion for Discrete-Time LTI Feedback Systems
+
+As in the continuous-time case, the Nyquist stability criterion for discrete-time systems is based on the fact that the difference in the number of poles and zeros inside a contour, for a rational function, can be determined by examining a plot of the value of the function along the contour. The difference between the continuous-time and discrete-time cases is the choice of the contour. For the discrete-time case, stability of the closed-loop feedback system requires that no zeros of
+
+\[R(z)\,=\,\frac{1}{K}\,+\,G(z)H(z) \tag{11.94}\]
+
+lie outside the unit circle.
+
+Recall that the encirclement property relates to poles and zeros _inside_ any specified contour. On the other hand, in examining the stability of a discrete-time system, we are concerned with the zeros of \(R(z)\)_outside_ the unit circle. Therefore, in order to make use of the encirclement property, we first make a simple modification. Let us consider the rational function
+
+\[\hat{R}(z)\,=\,R\left(\frac{1}{z}\right) \tag{11.95}\]
+
+obtained by replacing \(z\) by its reciprocal. As seen in Problem 10.43, if \(z_{0}\) is a zero (pole) of \(R(z)\), then \(1/z_{0}\) is a zero (pole) of \(\hat{R}(z)\). Since \(1/\left|z_{0}\right|\) is less than 1 if \(\left|z_{0}\right|>1\), any zero or pole of \(R(z)\)_outside_ the unit circle corresponds to a zero or pole of \(\hat{R}(z)\)_inside_ the unit circle.
+
+From the basic encirclement property, we know that as \(z\) traverses the unit circle in a clockwise direction, the net number of clockwise encirclements of the origin by \(\hat{R}(z)\) equals the difference between the number of its zeros and poles inside the unit circle. However, from the previous paragraph, this equals the difference between the number of zeros and poles of \(R(z)\)_outside_ the unit circle. Furthermore, on the unit circle, \(z=e^{j\omega}\) and \(1/z=e^{-j\omega}\). Therefore,
+
+\[\hat{R}(e^{j\omega})\,=\,R(e^{-j\omega}). \tag{11.96}\]
+
+From this, we see that evaluating \(\hat{R}(z)\) as \(z\) traverses the unit circle in the clockwise direction is identical to evaluating \(R(z)\) as \(z\) traverses the unit circle in the _counterclockwise_ direction. In sum, then,
+
+\[\begin{array}{ll}\mbox{The number of clockwise}\\ \mbox{encirclements of the origin}\\ \mbox{by the plot of $R(e^{j\omega})$ as the}\\ \mbox{unit circle is traversed in the}\\ \mbox{counterclockwise direction}\\ \mbox{(e.g., as $\omega$ increases from 0}\\ \mbox{to $2\pi$)}\end{array}\quad\begin{array}{ll}\mbox{The number of zeros of $R(z)$}\\ \mbox{outside the unit circle minus}\\ \mbox{the number of poles of $R(z)$}\\ \mbox{outside the unit circle.}\end{array} \tag{11.97}\]
+
+Much as in the continuous-time case, counting the encirclements of the origin by \(R(e^{j\omega})\) is equivalent to counting the number of encirclements of the point \(-1/K\) by theplot of \(G(e^{j\omega})H(e^{j\omega})\), again referred to as the Nyquist plot, which is graphed as \(\omega\) varies from \(0\) to \(2\pi\). Also, the poles of \(R(z)\) are precisely the poles of \(G(z)H(z)\), and the zeros of \(R(z)\) are the closed-loop poles. Therefore, the encirclement property stated in the preceding paragraph implies that the net number of clockwise encirclements by the Nyquist plot of the point \(-1/K\) equals the number of closed-loop poles outside the unit circle minus the number of poles of \(G(z)H(z)\) outside the unit circle. In order that the closed-loop system be stable, we require no closed-loop poles outside the unit circle. This yields the _discrete-time Nyquist stability criterion_:
+
+**Discrete-Time Nyquist Stability Criterion:** For the closed-loop system to be stable, the net number of _clockwise_ encirclements of the point \(-1/K\) by the Nyquist plot of \(G(e^{j\omega})H(e^{j\omega})\) as \(\omega\) varies from \(0\) to \(2\pi\) must equal _minus_ the number of poles of \(G(z)H(z)\) that lie outside the unit circle. Equivalently, the net number of _counterclockwise_ encirclements of the point \(-1/K\) by the Nyquist plot of \(G(e^{j\omega})H(e^{j\omega})\) as \(\omega\) varies from \(0\) to \(2\pi\) must _equal_ the number of poles of \(G(z)H(z)\) outside the unit circle.
+
+**Example 11.8**
+
+Let
+
+\[G(z)H(z)\,=\,\frac{z^{-2}}{1+\frac{1}{2}z^{-1}}\,=\,\frac{1}{z(z+\frac{1}{2})}. \tag{11.98}\]
+
+The Nyquist plot of this curve is shown in Figure 11.24. Since \(G(z)H(z)\) has no poles outside the unit circle, for the stability of the closed-loop system there must be no encirclements of the point \(-1/K\). From the figure, we see that this will be the case either if \(-1/K<-1\) or if \(-1/K>2\). Thus, the system is stable for \(-1/2<K<1\).
+
+Just as in continuous time, if the forward and feedback paths are stable, then the Nyquist plot can be obtained from the frequency responses \(H(e^{j\omega})\) and \(G(e^{j\omega})\) of these
+
+Figure 11.24: Nyquist plot for Example 11.8. The arrow on the curve indicates the direction in which the curve is traversed as \(\omega\) increases from \(0\) to \(2\pi\).
+
+systems. If the forward and feedback paths are unstable, then the frequency responses are not defined. Nevertheless, the _function_\(G(z)H(z)\) can still be evaluated on the unit circle, and the Nyquist stability criterion can be applied.
+
+As we have seen in this section, the Nyquist stability criterion provides a useful method for determining the range of values of the gain \(K\) for which a continuous-time or discrete-time feedback is stable (or unstable). This criterion and the root-locus method are extremely important tools in the design and implementation of feedback systems, and each has its own uses and limitations. For example, the Nyquist criterion can be applied to nonrational system functions, whereas the root-locus method cannot. On the other hand, root-locus plots allow us to examine not only stability, but also other characteristics of the closed-loop system response, such as damping, oscillation frequency, and so on, which are readily identifiable from the location of the poles of the closed-loop system. In the next section, we introduce an additional tool for the analysis of feedback systems that highlights another important characteristic of closed-loop system behavior.
+
+### Gain and Phase Margins
+
+In this section, we introduce and examine the concept of the _margin of stability_ in a feedback system. It is often of interest not only to know _whether_ a feedback system is stable, but also to determine how much the gain in the system can be perturbed and how much additional phase shift can be added to the system before it becomes unstable. Information such as this is important because in many applications the forward and feedback system functions are known only approximately or may change slightly during operation because of wear, the effect of high temperatures on components, or similar influences.
+
+As an example, consider the telescope-pointing system described in Section 11.0 and illustrated in Figures 11.1(c) and (d). This system consists of a motor, a potentiometer converting the shaft angle to a voltage, and an amplifier that is used to amplify the voltage representing the difference between the desired and the actual shaft angles. Assuming that we have obtained approximate descriptions of each of these components, we can set the amplifier gain so that the system will be stable if these descriptions are accurate. However, the amplifier gain and the constant of proportionality that describes the angle-voltage characteristic of the potentiometer are never known exactly, and therefore, the actual gain in the feedback system may differ from the nominal value assumed in designing the system. Furthermore, the damping characteristics of the motor cannot be determined with absolute precision, and thus, the actual time constant of the motor response may differ from the approximate value in the specification of the system. For example, if the actual motor time constant is larger than the nominal value used in the design, the motor will respond more sluggishly than anticipated, thereby producing an effective time delay in the feedback system. As we have discussed in earlier chapters, and as we will again in Example 11.11, time delays have the effect of increasing the negative phase in the frequency response of a system, and this phase shift can have a destabilizing influence on the system. Because of the possible presence of gain and phase errors such as those we have just described, it is clearly desirable to set the amplifier gain so that there is some margin for error--that is, so that the actual system will remain stable even if it differs somewhat from the approximate model used in the design process.
+
+In this section, we introduce one method for quantifying the margin of stability in a feedback system. To do this, we consider a closed-loop system, depicted in Figure 11.25, that has been designed to be stable based on nominal values for the forward- and feedback-path system functions. For our discussion here, we let \(H(s)\) and \(G(s)\) denote these nominal values. Also, since the basic concepts are identical for both continuous-time and discrete-time systems, we will again focus our development on the continuous-time case, and at the end of the section we illustrate the application of these ideas to a discrete-time example.
+
+To assess the margin of stability in our feedback system, suppose that the actual system is as depicted in Figure 11.26, where we have allowed for the possibility of a gain \(K\) and phase shift \(\phi\) in the feedback path. In the nominal system \(K\) is unity and \(\phi\) is zero, but in the actual system either or both may have a different value. Therefore, it is of interest to know how much variation can be tolerated in these quantities without losing closed-loop system stability. In particular, the _gain margin_ of the feedback system is defined as the minimum amount of additional gain \(K\), with \(\phi=0\), that is required so that the closed-loop system becomes unstable. Similarly, the _phase margin_ is the additional amount of phase shift, with \(K=1\), that is required for the system to be unstable. By convention, the phase margin is expressed as a positive quantity; that is, it equals the magnitude of the additional negative phase shift at which the feedback system becomes unstable.
+
+Since the closed-loop system of Figure 11.25 is stable, the system of Figure 11.26 can become unstable if, as \(K\) and \(\phi\) are varied, at least one pole of the closed-loop system crosses the \(j\omega\)-axis. If a pole of the closed-loop system is on the \(j\omega\)-axis at, say, \(\omega=\omega_{0}\), then at this frequency
+
+\[1+Ke^{-j\phi}G\left(j\omega_{0}\right)H\left(j\omega_{0}\right)=0, \tag{11.99}\]
+
+Figure 11.26: Feedback system containing possible gain and phase deviations from the nominal description depicted in Figure 11.25.
+
+Figure 11.25: Typical feedback system designed to be stable, assuming nominal descriptions for \(H(s)\) and \(G(s)\).
+
+\[Ke^{-j\phi}G\left(j\omega_{0}\right)H\left(j\omega_{0}\right)=\ -1. \tag{11.100}\]
+
+Note that with \(K\ =\ 1\) and \(\phi\ =\ 0\), by our assumption of stability for the nominal feedback system of Figure 11.25, there is no value of \(\omega_{0}\) for which eq. (11.100) is satisfied. The gain margin of this system is the minimum value of \(K>1\) for which eq. (11.100) has a solution for _some_\(\omega_{0}\) with \(\phi\ =\ 0\). That is, the gain margin is the smallest value of \(K\) for which the equation
+
+\[KG\left(j\omega_{0}\right)H\left(j\omega_{0}\right)=\ -1 \tag{11.101}\]
+
+has a solution \(\omega_{0}\). Similarly, the phase margin is the minimum value of \(\phi\) for which eq. (11.100) has a solution for some \(\omega_{0}\) when \(K\ =\ 1\). In other words, the phase margin is the smallest value of \(\phi>0\) for which the equation
+
+\[e^{-j\phi}G\left(j\omega_{0}\right)H\left(j\omega_{0}\right)=\ -1 \tag{11.102}\]
+
+has a solution.
+
+To illustrate the calculation and graphical interpretation of gain and phase margins, we consider the following example.
+
+**Example 11.9**
+
+Let
+
+\[G(s)H(s)\ =\ \frac{4(1+\frac{1}{2}s)}{s(1+2s)(1+0.05s+(0.125s)^{2})}. \tag{11.103}\]
+
+The Bode plot for this example is shown in Figure 11.27. Note that, as discussed in Problem 6.31, the factor of \(1/j\omega\) in \(G(j\omega)H(j\omega)\) contributes \(-90^{\circ}\) (\(-\pi/2\) radians) of phase shift and a 20-dB-per-decade increase in \(|G(j\omega)H(j\omega)|\). To determine the gain margin, we observe that, with \(\phi=0\), the only frequency at which eq. (11.101) can be satisfied is that for which \(\sphericalangle G(j\omega_{0})H(j\omega_{0})=-\pi\). At this frequency, the gain margin in decibels can be identified by inspection of Figure 11.27. We first examine Figure 11.27(b) to determine the frequency \(\omega_{1}\) at which the angle curve crosses the line \(-\pi\) radians. Locating the point at this same frequency in Figure 11.27(a) provides us with the value of \(|G(j\omega_{1})H(j\omega_{1})|\). For eq. (11.101) to be satisfied for \(\omega_{0}\ =\ \omega_{1}\), \(K\) must equal \(1/|G(j\omega_{1})H(j\omega_{1})|\). This value is the gain margin. As illustrated in Figure 11.27(a), the gain margin expressed in decibels can be identified as the amount the log-magnitude curve would have to be shifted up so that the curve intersects the 0-dB line at the frequency \(\omega_{1}\).
+
+In a similar fashion, we can determine the phase margin. Note first that the only frequency at which eq. (11.102) can be satisfied is that for which \(|G(j\omega_{0})H(j\omega_{0})|=1\), or equivalently, \(20\ \log_{10}|G(j\omega_{0})H(j\omega_{0})|=\ 0\). To determine the phase margin, we first find the frequency \(\omega_{2}\) in Figure 11.27(a) at which the log-magnitude curve crosses the 0-dB line. Locating the point at this same frequency in Figure 11.27(b) then provides us with the value of \(\sphericalangle G\left(j\omega_{2}\right)H\left(j\omega_{2}\right)\). For eq. (11.102) to be satisfied for \(\omega_{0}\ =\ \omega_{2}\), the angle of the left-hand side of this equation must be \(-\pi\). The value of \(\phi\) for which this is true is the phase margin. As illustrated in Figure 11.27(b), the phase margin can be identified as the amount the angle curve would have to be lowered so that the curve intersects the line \(-\pi\) at the frequency \(\omega_{2}\).
+
+In determining gain and phase margins, it is not always of interest to identify explicitly the _frequency_ at which the poles will cross the _jo_-axis. As an alternative, we can identify the gain and phase margins from a _log magnitude-phase diagram_. For example, the log magnitude-phase diagram for the system of Figure 11.27 is shown in Figure 11.28. In this figure, we plot \(20\,\log_{10}|G(j\omega)H(j\omega)|\) versus \(\sphericalangle G(j\omega)H(j\omega)\) as \(\omega\) varies from \(0\) to \(+\infty\). Therefore, because of the conjugate symmetry of \(G(j\omega)H(j\omega)\), the plot contains the same information as the Nyquist plot, in which \(\Re\{G(j\omega)H(j\omega)\}\) is plotted versus \(\mathcal{G}m\{G(j\omega)H(j\omega)\}\) for \(-\infty<\omega<\infty\). As we have indicated, the phase margin can be read off by locating the intersection of the log magnitude-phase plot with the 0-dB line. That is, the phase margin is the amount of additional negative phase shift required to shift the log magnitude-phase curve so that it intersects the 0-dB line with exactly \(180^{\circ}\) (\(\pi\) radians) of phase shift. Similarly, the gain margin is directly obtained from the intersection of the log magnitude-phase curve with the line \(-\pi\) radians, and this represents the amount of additional gain needed so that the curve crosses the line \(-\pi\) with a magnitude of 0 dB.
+
+The following examples provide several other elementary illustrations of log magnitude-phase diagrams:
+
+Figure 11.27: Use of Bode plots to calculate gain and phase margins for the system of Example 11.9.
+
+Figure 11.28: Log magnitude-phase plot for the system of Example 11.9.
+
+Figure 11.29: Log magnitude-phase plot for the first-order system of Example 11.10.
+
+In this case, we obtain the log magnitude-phase plot depicted in Figure 11.29. This has a phase margin of \(\pi\), and since the curve does not intersect the line \(-\pi\), the system has infinite gain margin (i.e., we can increase the gain as much as we like and maintain stability). This is consistent with the conclusion that we can draw by examining the system illustrated in Figure 11.30(a). In Figure 11.30(b), we have depicted the root locus for this system with \(\phi=0\) and \(K>0\). From the figure, it is evident that the system is stable for any positive value of \(K\). In addition, if \(K=1\) and \(\phi=\pi\), so that \(e^{j\phi}=-1\), the closed-loop system function for the system of Figure 11.30(a) is \(1/\tau s\), which has a pole at \(s=0\), so that the system is unstable.
+
+### Example 11.11
+
+Suppose we now consider the second-order system
+
+\[H(s)\,=\,\frac{1}{s^{2}+s+1},\qquad G(s)\,=\,1. \tag{11.105}\]
+
+The system \(H(s)\) has an undamped natural frequency of 1 and a damping ratio of 0.5. The log magnitude-phase plot for this system is illustrated in Figure 11.31. Again we have infinite gain margin, but a phase margin of only \(\pi\)/2, since it can be shown by a straightforward calculation that \(\big{|}H(j\omega)\big{|}\,=\,1\) for \(\omega\,=\,1\), and at this frequency \(\measuredangle H(j\omega)=-\pi/2\).
+
+We can now illustrate the type of problem that can be solved using the concepts of gain and phase margins. Suppose that the feedback system specified by eq. (11.105) cannot be realized. Rather, some unavoidable time delay is intro
+
+Figure 11.30: (a) First-order feedback system with possible gain and phase variations in the feedback path; (b) root locus for this system with \(\phi\,=\,0\), \(K>0\).
+
+\(G(s)H(s)=K_{1}K_{2}e^{-(sT+j\pi)}\) is illustrated in Figure 11.32. From the figure, we see that the system has infinite phase margin and a gain margin in decibels of \(-20\,\log_{10}\left(K_{1}K_{2}\right)\) (i.e., this is precisely the gain factor that, when multiplied by \(K_{1}K_{2}\), equals 1).
+
+As indicated at the start of the section, the definitions of the gain and phase margin are the same for discrete-time feedback systems as for continuous-time systems. Specifically, if we have a stable discrete-time feedback system, the gain margin is the minimum amount of additional gain required in the feedback system such that the closed-loop system becomes unstable. Similarly, the phase margin is the minimum amount of additional negative phase shift required for the feedback system to be unstable. The following example illustrates the graphical calculation of phase and gain margins for a discrete-time feedback system; the procedure is essentially the same as for continuous-time systems.
+
+**Example 11.13**: In this example, we illustrate the concept of gain and phase margin for the discrete-time feedback system shown in Figure 11.33. Here,
+
+\[G(z)H(z)=\frac{\frac{7\sqrt{2}}{4}z^{-1}}{1-\frac{7\sqrt{2}}{8}z^{-1}+\frac{49 }{64}z^{-2}}, \tag{11.111}\]
+
+and by direct calculation we can check that the feedback system is stable for \(K=1\) and \(\phi=0\). In Figure 11.34, we have displayed the log magnitude-phase diagram for
+
+Figure 11.33: Discrete-time feedback system of Example 11.13.
+
+the system; that is, we have plotted \(20\)\(\log_{10}|G(e^{j\omega})H(e^{j\omega})|\) versus \(\,\raisebox{-1.29pt}{$\cdot$}\hskip-1.422638pt\times\,\)\(G(e^{j\omega})H(e^{j\omega})\) as \(\omega\) varies from \(0\) to \(2\pi\). The system has a gain margin of \(1.68\) dB and a phase margin of \(0.0685\) radians (\(3.93^{\circ}\)).
+
+In concluding this section, it should be stressed that the gain margin is the _minimum_ value of gain that moves one or more of the closed-loop poles onto the \(j\omega\)-axis in continuous time or the unit circle in discrete time and, consequently, causes the system to become unstable. It is important to note, however, that this does _not_ imply that the system is unstable for _all_ values of gain above the value specified by the gain margin. For example, as illustrated in Problem 11.47, as \(K\) increases, the root locus may move from the left-half plane into the right-half plane and then cross back into the left-half plane. The gain margin provides us with the information about how much the gain can be increased until the poles _first_ reach the \(j\omega\)-axis, but it tells us nothing about the possibility that the system may again be stable for even larger values of the gain. To obtain such information, we must either refer to the root locus or use the Nyquist stability criterion. (See Problem 11.47.).4
+
+Footnote 4: For detailed discussions of this point and also of gain and phase margins and log magnitude-phase diagrams in general, see the texts on feedback listed in the bibliography at the end of the book.
+
+### Summary
+
+In this chapter, we have examined a number of the applications and several techniques for the analysis of feedback systems. We have seen how the use of Laplace and \(z\)-transforms allows us to analyze these systems algebraically and graphically. In Section 11.2 we indicated several of the applications of feedback, including the design of inverse systems,
+
+Figure 1.34: Log magnitude-phase diagram for the discrete-time feedback system of Example 11.13.
+
+the stabilization of unstable systems, and the design of tracking systems. We also saw that feedback can destabilize, as well as stabilize, a system.
+
+In Section 11.3, we described the root-locus method for plotting the poles of the closed-loop system as a function of a gain parameter. Here, we found that the geometric evaluation of the phase of a rational Laplace transform or \(z\)-transform allowed us to gain a significant amount of insight into the properties of the root locus. These properties often permit us to obtain a reasonably accurate sketch of the root locus without performing complex calculations.
+
+In contrast to the root-locus method, the Nyquist criterion of Section 11.4 is a technique for determining the stability of a feedback system, again as a function of a variable gain, _without_ obtaining a detailed description of the location of the closed-loop poles. The Nyquist criterion is applicable to nonrational system functions and thus can be used when all that is available are experimentally determined frequency responses. The same is true of the gain and phase margins described in Section 11.5. These quantities provide a measure of the margin of stability in a feedback system and therefore are of importance to designers in that they allow them to determine how robust a feedback system is to discrepancies between estimates of the forward- and feedback-path system functions and their actual values.
+
+## Chapter 11 Problems
+
+The first section of problems belongs to the basic category, and the answers are provided in the back of the book. The remaining three sections contain problems belonging to the basic, advanced, and extension categories, respectively.
+
+## 12 Basic Problems With Answers
+
+1. Consider the interconnection of discrete-time LTI systems shown in Figure P11.1. Express the overall system function for this interconnection in terms of \(H_{0}(z)\), \(H_{1}(z)\), and \(G(z)\).
+
+**Figure P11.1**

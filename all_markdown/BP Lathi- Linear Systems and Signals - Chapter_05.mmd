@@ -1,0 +1,1726 @@
+## Chapter 5 Discrete-Time System Analysis Using the \(z\)-Transform
+
+The counterpart of the Laplace transform for discrete-time systems is the \(z\)-transform. The Laplace transform converts integro-differential equations into algebraic equations. In the same way, the \(z\)-transforms changes difference equations into algebraic equations, thereby simplifying the analysis of discrete-time systems. The \(z\)-transform method of analysis of discrete-time systems parallels the Laplace transform method of analysis of continuous-time systems, with some minor differences. In fact, we shall see that _the \(z\)-transform is the Laplace transform in disguise_.
+
+The behavior of discrete-time systems is similar to that of continuous-time systems (with some differences). The frequency-domain analysis of discrete-time systems is based on the fact (proved in Sec. 3.8-2) that the response of a linear, time-invariant, discrete-time (LTID) system to an everlasting exponential \(z^{n}\) is the same exponential (within a multiplicative constant) given by \(H[z]z^{n}\). We then express an input \(x[n]\) as a sum of (everlasting) exponentials of the form \(z^{n}\). The system response to \(x[n]\) is then found as a sum of the system's responses to all these exponential components. The tool that allows us to represent an arbitrary input \(x[n]\) as a sum of (everlasting) exponentials of the form \(z^{n}\) is the \(z\)-transform.
+
+### 5.1 The \(z\)-Transform
+
+We define \(X[z]\), the direct \(z\)-transform of \(x[n]\), as
+
+\[X[z]=\sum_{n=-\infty}^{\infty}x[n]z^{-n} \tag{5.1}\]
+
+where \(z\) is a complex variable. The signal \(x[n]\), which is the inverse \(z\)-transform of \(X[z]\), can be obtained from \(X[z]\) by using the following inverse \(z\)-transformation:
+
+\[x[n]=\frac{1}{2\pi j}\oint X[z]z^{n-1}\,dz \tag{5.2}\]
+
+The symbol \(\oint\) indicates an integration in counterclockwise direction around a closed path in the complex plane (see Fig. 5.1). We derive this \(z\)-transform pair later, in Ch. 9, as an extension of the discrete-time Fourier transform pair.
+
+As in the case of the Laplace transform, we need not worry about this integral at this point because inverse \(z\)-transforms of many signals of engineering interest can be found in a \(z\)-transform table. The direct and inverse \(z\)-transforms can be expressed symbolically as
+
+\[X[z]=\mathcal{Z}\{x[n]\}\qquad\text{and}\qquad x[n]=\mathcal{Z}^{-1}\{X[z]\}\]
+
+or simply as
+
+\[x[n]\Longleftrightarrow X[z]\]
+
+Note that
+
+\[\mathcal{Z}^{-1}[\mathcal{Z}\{x[n]\}]=x[n]\qquad\text{and}\qquad\mathcal{Z} [\mathcal{Z}^{-1}\{X[z]\}]=X[z]\]
+
+Linearity of the \(z\)-Transform
+
+Like the Laplace transform, the \(z\)-transform is a linear operator. If
+
+\[x_{1}[n]\Longleftrightarrow X_{1}[z]\qquad\text{and}\qquad x_{2}[n] \Longleftrightarrow X_{2}[z]\]
+
+then
+
+\[a_{1}x_{1}[n]+a_{2}x_{2}[n]\Longleftrightarrow a_{1}X_{1}[z]+a_{2}X_{2}[z]\]
+
+The proof is trivial and follows from the definition of the \(z\)-transform. This result can be extended to finite sums.
+
+### The Unilateral \(z\)-Transform
+
+For the same reasons discussed in Ch. 4, we find it convenient to consider the unilateral \(z\)-transform. As seen for the Laplace case, the bilateral transform has some complications because of the non-uniqueness of the inverse transform. In contrast, the unilateral transform has a unique inverse. This fact simplifies the analysis problem considerably, but at a price: the unilateral version can handle only causal signals and systems. Fortunately, most of the practical cases are causal. The more general _bilateral \(z\)-transform_ is discussed later, in Sec. 5.8. In practice, the term \(z\)-_transform_ generally means _the unilateral \(z\)-transform_.
+
+In a basic sense, there is no difference between the unilateral and the bilateral \(z\)-transform. The unilateral transform is the bilateral transform that deals with a subclass of signals starting at \(n=0\) (causal signals). Hence, the definition of the unilateral transform is the same as that of the bilateral [Eq. (5.1)], except that the limits of the sum are from \(0\) to \(\infty\):
+
+\[X[z]=\sum_{n=0}^{\infty}x[n]z^{-n} \tag{5.3}\]
+
+The expression for the inverse \(z\)-transform in Eq. (5.2) remains valid for the unilateral case also.
+
+### The Region of Convergence (ROC) of \(X[z]\)
+
+The sum in Eq. (5.1) [or Eq. (5.3)] defining the direct \(z\)-transform \(X[z]\) may not converge (exist) for all values of \(z\). The values of \(z\) (the region in the complex plane) for which the sum in Eq. (5.1) converges (or exists) are called the _region of existence,_ or more commonly the _region of convergence_ (ROC), for \(X[z]\). This concept will become clear in the following example.
+
+## Chapter 5 Discrete-time system analysis using the Z-transform
+
+### 5.1 Bilateral z-Transform of a Causal Exponential
+
+Find the \(z\)-transform and the corresponding ROC for the signal \(\gamma^{n}u[n]\).
+
+By definition,
+
+\[X[z]=\sum_{n=0}^{\infty}\gamma^{n}u[n]z^{-n}\]
+
+Since \(u[n]=1\) for all \(n\geq 0\),
+
+\[X[z]=\sum_{n=0}^{\infty}\left(\frac{\gamma}{z}\right)^{n}=1+\left(\frac{ \gamma}{z}\right)+\left(\frac{\gamma}{z}\right)^{2}+\left(\frac{\gamma}{z} \right)^{3}+\cdot\cdot\cdot+\cdot\cdot\cdot \tag{5.4}\]
+
+It is helpful to remember the geometric progression and its sum [see Sec. B.8-3]:
+
+\[1+x+x^{2}+x^{3}+\cdot\cdot\cdot=\frac{1}{1-x}\qquad\text{if}\quad|x|<1\]
+
+Applying this relationship to Eq. (5.4) yields
+
+\[X[z] =\frac{1}{1-\frac{\gamma}{z}}\qquad\left|\frac{\gamma}{z}\right|<1\] \[=\frac{z}{z-\gamma}\qquad|z|>|\gamma| \tag{5.5}\]
+
+Observe that \(X[z]\) exists only for \(|z|>|\gamma|\). For \(|z|<|\gamma|\), the sum in Eq. (5.4) does not converge; it goes to infinity. Therefore, the ROC of \(X[z]\) is the shaded region outside the circle of radius \(|\gamma|\), centered at the origin, in the \(z\)-plane, as depicted in Fig. 5.1b.
+
+Figure 5.1: \(\gamma^{n}u[n]\) and the region of convergence of its \(z\)-transform.
+
+\begin{table}
+\begin{tabular}{l l l} \hline
+**No.** & \(\mathbf{x[n]}\) & \(\mathbf{X[z]}\) \\ \hline
+1 & \(\delta[n-k]\) & \(z^{-k}\) \\
+2 & \(u[n]\) & \(\dfrac{z}{z-1}\) \\
+3 & \(nu[n]\) & \(\dfrac{z}{(z-1)^{2}}\) \\
+4 & \(n^{2}u[n]\) & \(\dfrac{z(z+1)}{(z-1)^{3}}\) \\
+5 & \(n^{3}u[n]\) & \(\dfrac{z(z^{2}+4z+1)}{(z-1)^{4}}\) \\
+6 & \(\gamma^{n}u[n]\) & \(\dfrac{z}{z-\gamma}\) \\
+7 & \(\gamma^{n-1}u[n-1]\) & \(\dfrac{1}{z-\gamma}\) \\
+8 & \(n\gamma^{n}u[n]\) & \(\dfrac{\gamma z}{(z-\gamma)^{2}}\) \\
+9 & \(n^{2}\gamma^{n}u[n]\) & \(\dfrac{\gamma z(z+\gamma)}{(z-\gamma)^{3}}\) \\
+10 & \(\dfrac{n(n-1)(n-2)\cdot\cdot\cdot(n-m+1)}{\gamma^{m}m!}\gamma^{n}u[n]\) & \(\dfrac{z}{(z-\gamma)^{m+1}}\) \\
+11a & \(|\gamma|^{n}\cos\,\beta n\,u[n]\) & \(\dfrac{z(z-|\gamma|\cos\,\beta)}{z^{2}-(2|\gamma|\cos\,\beta)z+|\gamma|^{2}}\) \\
+11b & \(|\gamma|^{n}\sin\,\beta n\,u[n]\) & \(\dfrac{z|\gamma|\sin\,\beta}{z^{2}-(2|\gamma|\cos\,\beta)z+|\gamma|^{2}}\) \\
+12a & \(r|\gamma|^{n}\cos\,(\beta n+\theta)u[n]\) & \(r\Xi[z\cos\,\theta-|\gamma|\cos\,(\beta-\theta)]\) \\
+12b & \(r|\gamma|^{n}\cos\,(\beta n+\theta)u[n]\) & \(\dfrac{(0.5re^{i\theta})z}{z-\gamma}+\dfrac{(0.5re^{-j\theta})z}{z-\gamma^{*}}\) \\
+12c & \(r|\gamma|^{n}\cos\,(\beta n+\theta)u[n]\) & \(\dfrac{z(Az+B)}{z^{2}+2az+|\gamma|^{2}}\) \\ \end{tabular}
+\end{table}
+Table 5.1: Select (Unilateral) \(z\)-Transform Pairsthen
+
+\[|X[z]|\leq\sum_{n=0}^{\infty}\left(\frac{r_{0}}{|z|}\right)^{n}=\frac{1}{1-\frac{ r_{0}}{|z|}}\qquad|z|>r_{0}\]
+
+Therefore, \(X[z]\) exists for \(|z|>r_{0}\). Almost all practical signals satisfy Eq. (5.6) and are therefore \(z\)-transformable. Some signal models (e.g., \(\gamma^{n^{2}}\)) grow faster than the exponential signal \(r_{0}^{n}\) (for any \(r_{0}\)) and do not satisfy Eq. (5.6) and therefore are not \(z\)-transformable. Fortunately, such signals are of little practical or theoretical interest. Even such signals over a finite interval are \(z\)-transformable.
+
+**EXAMPLE 5.2 Bilateral z-Transform**
+
+Find the \(z\)-transforms of: **(a)**\(\delta[n]\), **(b)**\(u[n]\), **(c)**\(\cos\ \beta nu[n]\), and **(d)** the signal shown in Fig. 5.2.
+
+Recall that by definition
+
+\[X[z]=\sum_{n=0}^{\infty}x[n]z^{-n}=x[0]+\frac{x[1]}{z}+\frac{x[2]}{z^{2}}+ \frac{x[3]}{z^{3}}+\cdot\cdot\cdot \tag{5.7}\]
+
+**(a)** For \(x[n]=\delta[n]\), \(x[0]=1\) and \(x[2]=x[3]=x[4]=\cdot\cdot\cdot=0\). Therefore,
+
+\[\delta[n]\Longleftrightarrow 1\qquad\mbox{for all $z$}\]
+
+**(b)** For \(x[n]=u[n]\), \(x[0]=x[1]=x[3]=\cdot\cdot\cdot=1\). Therefore,
+
+\[X[z]=1+\frac{1}{z}+\frac{1}{z^{2}}+\frac{1}{z^{3}}+\cdot\cdot\cdot\]This geometric sum simplifies [see Sec. B.8-3] to
+
+\[X[z] =\frac{1}{1-\frac{1}{z}} \left|\frac{1}{z}\right|<1\] \[=\frac{z}{z-1} \left|z\right|>1\]
+
+Therefore,
+
+\[u[n]\Longleftrightarrow\frac{z}{z-1} \left|z\right|>1\] **(c)** Recall that \(\cos\ \beta n=(e^{i\beta n}+e^{-j\beta n})/2\). Moreover, according to Eq. (5.5),
+
+\[e^{\pm j\beta n}u[n]\Longleftrightarrow\frac{z}{z-e^{\pm j\beta}} \left|z\right|>|e^{\pm j\beta}|=1\]
+
+Therefore,
+
+\[X[z]=\frac{1}{2}\left[\frac{z}{z-e^{i\beta}}+\frac{z}{z-e^{-j\beta}}\right]= \frac{z(z-\cos\ \beta)}{z^{2}-2z\cos\ \beta+1}\qquad|z|>1\]
+
+**(d)** Here \(x[0]=x[1]=x[2]=x[3]=x[4]=1\) and \(x[5]=x[6]=\cdot\cdot\cdot=0\). Therefore, according to Eq. (5.7),
+
+\[X[z]=1+\frac{1}{z}+\frac{1}{z^{2}}+\frac{1}{z^{3}}+\frac{1}{z^{4}}=\frac{z^{4 }+z^{3}+z^{2}+z+1}{z^{4}}\qquad\text{ for all }z\neq 0\]
+
+We can also express this result in a more compact form by summing the geometric progression on the right-hand side of the foregoing equation. From the result in Sec. B.8-3 with \(r=1/z,m=0\), and \(n=4\), we obtain
+
+\[X[z]=\frac{\left(\frac{1}{z}\right)^{5}-\left(\frac{1}{z}\right)^{0}}{\frac{1 }{z}-1}=\frac{z}{z-1}(1-z^{-5})\]
+
+## Appendix C Bilateral z-Transform
+
+### 5.1 Bilateral z-Transform
+
+* Find the \(z\)-transform of a signal shown in Fig. 5.3.
+* Use pair 12a (Table 5.1) to find the \(z\)-transform of \(x[n]=20.65(\sqrt{2})^{n}\cos[(\pi/4)n-1.415]u[n]\).
+
+We can determine \(a_{1}\) and \(a_{2}\) by clearing fractions. Or we may use a shortcut. For example, to determine \(a_{2}\), we multiply both sides of Eq. (5.10) by \(z\) and let \(z\to\infty\). This yields
+
+\[0=-3-0+0+a_{2}\ \ \ \Longrightarrow\ \ \ a_{2}=3\]
+
+This result leaves only one unknown, \(a_{1}\), which is readily determined by letting \(z\) take any convenient value, say, \(z=0\), on both sides of Eq. (5.10). This produces
+
+\[\frac{12}{8}=3+\frac{1}{4}+\frac{a_{1}}{4}-\frac{3}{2}\]
+
+which yields \(a_{1}=-1\). Therefore,
+
+\[\frac{X[z]}{z}=\frac{-3}{z-1}-\frac{2}{(z-2)^{3}}-\frac{1}{(z-2)^{2}}+\frac{3} {z-2}\]
+
+and
+
+\[X[z]=-3\frac{z}{z-1}-2\frac{z}{(z-2)^{3}}-\frac{z}{(z-2)^{2}}+3\frac{z}{z-2}\]
+
+Now the use of Table 5.1, pairs 6 and 10, yields
+
+\[x[n] = \left[-3-2\frac{n(n-1)}{8}(2)^{n}-\frac{n}{2}(2)^{n}+3(2)^{n} \right]u[n]\] \[= -\bigg{[}3+\frac{1}{4}(n^{2}+n-12)2^{n}\bigg{]}u[n]\]
+
+**(c) Complex Poles.**
+
+\[X[z]=\frac{2z(3z+17)}{(z-1)(z^{2}-6z+25)}=\frac{2z(3z+17)}{(z-1)(z-3-j4)(z-3+ j4)}\]
+
+The poles of \(X[z]\) are 1, 3 + j4, and 3 - j4. Whenever there are complex-conjugate poles, the problem can be worked out in two ways. In the first method we expand \(X[z]\) into (modified) first-order partial fractions. In the second method, rather than obtain one factor corresponding to each complex-conjugate pole, we obtain quadratic factors corresponding to each pair of complex-conjugate poles. This procedure is explained next.
+
+Method of First-Order Factors
+
+\[\frac{X[z]}{z}=\frac{2(3z+17)}{(z-1)(z^{2}-6z+25)}=\frac{2(3z+17)}{(z-1)(z-3- j4)(z-3+j4)}\]
+
+We find the partial fraction of \(X[z]/z\) using the Heaviside "cover-up" method:
+
+\[\frac{X[z]}{z}=\frac{2}{z-1}+\frac{1.6e^{-j2.246}}{z-3-j4}+\frac{1.6e^{j2.246} }{z-3+j4}\]and
+
+\[X[z]=2\frac{z}{z-1}+(1.6e^{-j2.246})\frac{z}{z-3-j4}+(1.6e^{j2.246})\frac{z}{z-3+j4}\]
+
+The inverse transform of the first term on the right-hand side is \(2u[n]\). The inverse transform of the remaining two terms (complex conjugate poles) can be obtained from pair 12b (Table 5.1) by identifying \(r/2=1.6\), \(\theta=-2.246\) rad, \(\gamma=3+j4=5e^{0.927}\), so that \(|\gamma|=5\), \(\beta=0.927\). Therefore,
+
+\[x[n]=[2+3.2(5)^{n}\cos{(0.927n-2.246)}]u[n]\]
+
+Method of Quadratic Factors
+
+\[\frac{X[z]}{z}=\frac{2(3z+17)}{(z-1)(z^{2}-6z+25)}=\frac{2}{z-1}+\frac{Az+B}{z ^{2}-6z+25}\]
+
+Multiplying both sides by \(z\) and letting \(z\rightarrow\infty\), we find
+
+\[0=2+A\Longrightarrow A=-2\]
+
+and
+
+\[\frac{2(3z+17)}{(z-1)(z^{2}-6z+25)}=\frac{2}{z-1}+\frac{-2z+B}{z^{2}-6z+25}\]
+
+To find \(B\), we let \(z\) take any convenient value, say, \(z=0\). This step yields
+
+\[\frac{-34}{25}=-2+\frac{B}{25}\Longrightarrow B=16\]
+
+Therefore,
+
+\[\frac{X[z]}{z}=\frac{2}{z-1}+\frac{-2z+16}{z^{2}-6z+25}\]
+
+and
+
+\[X[z]=\frac{2z}{z-1}+\frac{z(-2z+16)}{z^{2}-6z+25}\]
+
+We now use pair 12c, where we identify \(A=-2\), \(B=16\), \(|\gamma|=5\), and \(a=-3\). Therefore,
+
+\[r=\sqrt{\frac{100+256-192}{25-9}}=3.2,\quad\beta=\cos^{-1}\left(\frac{3}{5} \right)=0.927\,\mathrm{rad}\]
+
+and
+
+\[\theta=\tan^{-1}\left(\frac{-10}{-8}\right)=-2.246\,\mathrm{rad}\]
+
+so that
+
+\[x[n]=[2+3.2(5)^{n}\cos{(0.927n-2.246)}]u[n]\]
+### 5.1 Inverse \(z\)-Transform by Power Series Expansion
+
+By definition,
+
+\[X[z] = \sum_{n=0}^{\infty}x[n]z^{-n}\] \[= x[0]+\frac{x[1]}{z}+\frac{x[2]}{z^{2}}+\frac{x[3]}{z^{3}}+\cdot\cdot\cdot\] \[= x[0]z^{0}+x[1]z^{-1}+x[2]z^{-2}+x[3]z^{-3}+\cdot\cdot\cdot\]
+
+This result is a power series in \(z^{-1}\). Therefore, if we can expand \(X[z]\) into the power series in \(z^{-1}\), the coefficients of this power series can be identified as \(x[0]\), \(x[1]\), \(x[2]\), \(x[3]\), \(\ldots\). A rational \(X[z]\) can be expanded into a power series of \(z^{-1}\) by dividing its numerator by the denominator. Consider, for example,
+
+\[X[z]=\frac{z^{2}(7z-2)}{(z-0.2)(z-0.5)(z-1)}=\frac{7z^{3}-2z^{2}}{z^{3}-1.7z^{2}+ 0.8z-0.1}\]To obtain a series expansion in powers of \(z^{-1}\), we divide the numerator by the denominator as follows:
+
+\[z^{3}-1.7z^{2}+0.8z-0.1\,\frac{7+9.9z^{-1}+11.23z^{-2}+11.87z^{-3}+ \cdots}{7z^{3}-2z^{2}}\] \[\frac{7z^{3}-11.9z^{2}+\ \ 5.60z-\ \ 0.7}{9.9z^{2}-\ \ 5.60z+\ \ 0.7}\] \[\frac{9.9z^{2}-16.83z+\ \ 7.92-0.99z^{-1}}{11.23z-\ \ 7.22+0.99z^{-1}}\] \[\frac{11.23z-19.09+8.98z^{-1}}{11.87-7.99z^{-1}}\]
+
+Thus,
+
+\[X[z]=\frac{z^{2}(7z-2)}{(z-0.2)(z-0.5)(z-1)}=7+9.9z^{-1}+11.23z^{-2}+11.87z^{-3 }+\cdots\]
+
+Therefore,
+
+\[x[0]=7,\,x[1]=9.9,\,x[2]=11.23,\,x[3]=11.87,\ldots\]
+
+Although this procedure yields \(x[n]\) directly, it does not provide a closed-form solution. For this reason, it is not very useful unless we want to know only the first few terms of the sequence \(x[n]\).
+
+### 5.3 Inverse \(z\)-Transform by Long Division
+
+Using long division to find the power series in \(z^{-1}\), show that the inverse \(z\)-transform of \(z/(z-0.5)\) is \((0.5)^{n}u[n]\) or \((2)^{-n}u[n]\).
+
+### 5.3 Relationship Between \(h[n]\) and \(H[z]\)
+
+For an LTID system, if \(h[n]\) is its unit impulse response, then from Eq. (3.39), where we defined \(H[z]\), the system transfer function, we write
+
+\[H[z]=\sum_{n=-\infty}^{\infty}h[n]z^{-n} \tag{5.11}\]
+
+For causal systems, the limits on the sum are from \(n=0\) to \(\infty\). This equation shows that the transfer function \(H[z]\) is the \(z\)-transform of the impulse response \(h[n]\) of an LTID system; that is,
+
+\[h[n]\Longleftrightarrow H[z]\]
+
+This important result relates the time-domain specification \(h[n]\) of a system to \(H[z]\), the frequency-domain specification of a system. The result is parallel to that for LTIC systems.
+
+### 5.2 Some Properties of the \(z\)-Transform
+
+The \(z\)-transform properties are useful in the derivation of \(z\)-transforms of many functions and also in the solution of linear difference equations with constant coefficients. Here we consider a few important properties of the \(z\)-transform.
+
+In our discussion, the variable \(n\) appearing in signals, such as \(x[n]\) and \(y[n]\), may or may not stand for time. However, in most applications of our interest, \(n\) is proportional to time. For this reason, we shall loosely refer to the variable \(n\) as time.
+
+#### Time-Shifting Properties
+
+In the following discussion of the shift property, we deal with shifted signals \(x[n]u[n],x[n-k]u[n-k],x[n-k]u[n]\), and \(x[n+k]u[n]\). Unless we physically understand the meaning of such shifts, our understanding of the shift property remains mechanical rather than intuitive or heuristic. For this reason, using a hypothetical signal \(x[n]\), we have illustrated various shifted signals for \(k=1\) in Fig. 5.4.
+
+Right Shift (Delay)
+
+If
+
+\[x[n]u[n]\Longleftrightarrow X[z]\]
+
+then
+
+\[x[n-1]u[n-1]\Longleftrightarrow\frac{1}{z}X[z] \tag{5.12}\]
+
+In general,
+
+\[x[n-m]u[n-m]\Longleftrightarrow\frac{1}{z^{m}}X[z] \tag{5.13}\]
+
+Moreover,
+
+\[x[n-1]u[n]\Longleftrightarrow\frac{1}{z}X[z]+x[-1] \tag{5.14}\]
+
+Repeated application of this property yields
+
+\[x[n-2]u[n]\Longleftrightarrow\frac{1}{z}\left[\frac{1}{z}X[z]+x[-1]\right]+x[ -2]=\frac{1}{z^{2}}X[z]+\frac{1}{z}x[-1]+x[-2]\]
+
+In general, for integer value of \(m\),
+
+\[x[n-m]u[n]\Longleftrightarrow z^{-m}X[z]+z^{-m}\sum_{n=1}^{m}x[-n]z^{n} \tag{5.15}\]A look at Eqs. (5.12) and (5.14) shows that they are identical except for the extra term \(x[-1]\) in Eq. (5.14). We see from Figs. 5.4c and 5.4d that \(x[n-1]u[n]\) is the same as \(x[n-1]u[n-1]\) plus \(x[-1]\delta[n]\). Hence, the difference between their transforms is \(x[-1]\).
+
+Figure 5.4: A signal \(x[n]\) and its shifted versions.
+
+**Proof.** For the integer value of \(m\),
+
+\[\mathcal{Z}\{x[n-m]u[n-m]\}=\sum_{n=0}^{\infty}x[n-m]u[n-m]z^{-n}\]
+
+Recall that \(x[n-m]u[n-m]=0\) for \(n<m\) so that the limits on the summation on the right-hand side can be taken from \(n=m\) to \(\infty\). Therefore,
+
+\[\mathcal{Z}\{x[n-m]u[n-m]\} =\sum_{n=m}^{\infty}x[n-m]z^{-n}\] \[=\sum_{r=0}^{\infty}x[r]z^{-(r+m)}\] \[=\frac{1}{z^{m}}\sum_{r=0}^{\infty}x[r]z^{-r}=\frac{1}{z^{m}}X[z]\]
+
+To prove Eq. (5.15), we have
+
+\[\mathcal{Z}\{x[n-m]u[n]\} =\sum_{n=0}^{\infty}x[n-m]z^{-n}=\sum_{r=-m}^{\infty}x[r]z^{-(r+m)}\] \[=z^{-m}\left[\sum_{r=-m}^{-1}x[r]z^{-r}+\sum_{r=0}^{\infty}x[r]z^ {-r}\right]\] \[=z^{-m}\sum_{n=1}^{m}x[-n]z^{n}+z^{-m}X[z]\]
+
+Left Shift (Advance)
+
+If
+
+\[x[n]u[n]\Longleftrightarrow X[z]\]
+
+then
+
+\[x[n+1]u[n]\Longleftrightarrow zX[z]-zx[0]\]
+
+Repeated application of this property yields
+
+\[x[n+2]u[n]\Longleftrightarrow z[z(X[z]-zx[0])-x[1]]=z^{2}X[z]-z^{2}x[0]-zx[1]\]
+
+and for the integer value of \(m\),
+
+\[x[n+m]u[n]\Longleftrightarrow z^{m}X[z]-z^{m}\sum_{n=0}^{m-1}x[n]z^{-n} \tag{5.16}\]
+
+**Proof.** By definition,
+
+\[\mathcal{Z}\{x[n+m]u[n]\} =\sum_{n=0}^{\infty}x[n+m]z^{-n}\] \[=\sum_{r=m}^{\infty}x[r]z^{-(r-m)}\] \[=z^{m}\sum_{r=m}^{\infty}x[r]z^{-r}\] \[=z^{m}\bigg{[}\sum_{r=0}^{\infty}x[r]z^{-r}-\sum_{r=0}^{m-1}x[r]z^ {-r}\bigg{]}\] \[=z^{m}X[z]-z^{m}\sum_{r=0}^{m-1}x[r]z^{-r}\]
+
+**Example 5.4**: \(z\)**-Transform Using the Right-Shift Property**
+
+Find the \(z\)-transform of the signal \(x[n]\) depicted in Fig. 5.5.
+
+The signal \(x[n]\) can be expressed as a product of \(n\) and a gate pulse \(u[n]-u[n-6]\). Therefore,
+
+\[x[n]=n[u[n]-u[n-6]]=nu[n]-nu[n-6]\]
+
+We cannot find the \(z\)-transform of \(nu[n-6]\) directly by using the right-shift property [Eq. (5.13)]. So we rearrange it in terms of \((n-6)u[n-6]\) as follows:
+
+\[x[n] =nu[n]-(n-6+6)u[n-6]\] \[=nu[n]-(n-6)u[n-6]-6u[n-6]\]
+
+Figure 5.5: Signal for Ex. 5.4.
+
+### 5.2-3 \(z\)-Domain Differentiation Property (Multiplication by \(n\))
+
+Multiplying a signal by \(n\) in the time domain produces differentiation in the \(z\)-domain. That is, if
+
+\[x[n]u[n]\Longleftrightarrow X[z]\]
+
+then
+
+\[nx[n]u[n]\Longleftrightarrow-z\frac{d}{dz}X[z] \tag{5.18}\]
+
+**Proof.**
+
+\[-z\frac{d}{dz}X[z] =-z\frac{d}{dz}\sum_{n=0}^{\infty}x[n]z^{-n}\] \[=-z\sum_{n=0}^{\infty}-nx[n]z^{-n-1}\] \[=\sum_{n=0}^{\infty}nx[n]z^{-n}=\mathcal{Z}\{nx[n]u[n]\}\]
+
+**Drill 5.7**: **Using the \(z\)-Domain Differentiation Property**
+
+Use Eq. (5.18) to derive pairs 3 and 4 in Table 5.1 from pair 2. Similarly, derive pairs 8 and 9 from pair 6.
+
+### 5.2-4 Time-Reversal Property
+
+If
+
+\[x[n]\Longleftrightarrow X[z]\]
+
+then+
+
+Footnote †: \({}^{\dagger}\) For complex signal \(x[n]\), the time-reversal property is modified as follows:
+
+\[x^{*}[-n]\Longleftrightarrow X^{*}[1/z^{*}]\]
+
+\[x[n]\Longleftrightarrow X[z]\]
+
+then \[x[-n]\Longleftrightarrow X[1/z]\]
+
+**Proof.**
+
+\[\mathcal{Z}\{x[-n]\}=\sum_{n=-\infty}^{\infty}x[-n]z^{-n}\]Changing the sign of the dummy variable \(n\) yields
+
+\[\mathcal{Z}\{x[-n]\} =\sum_{n=-\infty}^{\infty}x[n]z^{n}\] \[=\sum_{n=-\infty}^{\infty}x[n](1/z)^{-n}\] \[=X[1/z]\]
+
+The region of convergence is also inverted; that is, if the ROC of \(x[n]\) is \(|z|>|\gamma|\), then the ROC of \(x[-n]\) is \(|z|<1/|\gamma|\).
+
+[breakable]
+
+**DRIL 5.8**: **Using the Time-Reversal Property**
+
+Use the time-reversal property and pair 2 in Table 5.1 to show that \(u[-n]\Longleftrightarrow-1/(z-1)\) with the ROC \(|z|<1\).
+
+### 5.2-5 Convolution Property
+
+The time-convolution property states that if2
+
+Footnote 2: There is also the frequency-convolution property, which states that
+
+\[x_{1}[n]x_{2}[n]\Longleftrightarrow\frac{1}{2\pi j}\oint X_{1}[u]X_{2}\left[ \frac{z}{u}\right]u^{-1}\,du\]
+
+then (_time convolution_)
+
+\[x_{1}[n]*x_{2}[n]\Longleftrightarrow X_{1}[z]X_{2}[z] \tag{5.19}\]
+
+**Proof.** This property applies to causal as well as noncausal sequences. We shall prove it for the more general case of noncausal sequences, where the convolution sum ranges from \(-\infty\) to \(\infty\).
+
+We have
+
+\[\mathcal{Z}\{x_{1}[n]*x_{2}[n]\} =\mathcal{Z}\left[\sum_{m=-\infty}^{\infty}x_{1}[m]x_{2}[n-m]\right]\] \[=\sum_{n=-\infty}^{\infty}z^{-n}\sum_{m=-\infty}^{\infty}x_{1}[m]x _{2}[n-m]\]Interchanging the order of summation, we have
+
+\[\mathcal{Z}[x_{1}[n]*x_{2}[n]] =\sum_{m=-\infty}^{\infty}x_{1}[m]\sum_{n=-\infty}^{\infty}x_{2}[n- m]z^{-n}\] \[=\sum_{m=-\infty}^{\infty}x_{1}[m]\sum_{r=-\infty}^{\infty}x_{2}[ r]z^{-(r+m)}\] \[=\sum_{m=-\infty}^{\infty}x_{1}[m]z^{-m}\sum_{r=-\infty}^{\infty} x_{2}[r]z^{-r}\] \[=X_{1}[z]X_{2}[z]\]
+
+LTID System Response
+
+It is interesting to apply the time-convolution property to the LTID input-output equation \(y[n]=x[n]*h[n]\). Since \(h[n]\Longleftrightarrow H[z]\), it follows from Eq. (5.19) that
+
+\[Y[z]=X[z]H[z] \tag{5.20}\]
+
+### 5.9 Using the Convolution Property
+
+Use the time-convolution property and appropriate pairs in Table 5.1 to show that \(u[n]*u[n-1]=nu[n]\).
+
+Initial and Final Values
+
+For a causal \(x[n]\), the initial value theorem states that
+
+\[x[0]=\lim_{z\rightarrow\infty}X[z]\]
+
+This result follows immediately from Eq. (5.7).
+
+If \((z-1)X[z]\) has no poles outside the unit circle, then the final value theorem states that
+
+\[\lim_{N\rightarrow\infty}x[N]=\lim_{z\to 1}(z-1)X[z]\]
+
+This can be shown from the fact that
+
+\[x[n]-x[n-1]\Longleftrightarrow\left\{1-\frac{1}{z}\right\}X[z]=\frac{(z-1)X[z]}{z}\]
+
+and
+
+\[\frac{(z-1)X[z]}{z}=\sum_{n=-\infty}^{\infty}\{x[n]-x[n-1]\}z^{-n}\]and
+
+\[\lim_{z\to 1}\frac{(z-1)X[z]}{z}=\lim_{z\to 1}(z-1)X[z]=\lim_{z\to 1}\lim_{N\to\infty}\sum_{n=- \infty}^{N}\{x[n]-x[n-1]\}z^{-n}=\lim_{N\to\infty}x[N]\]
+
+All these properties of the \(z\)-transform are listed in Table 5.2.
+
+\begin{tabular}{l l l} \hline
+**Operation** & \(x[n]\) & \(X[z]\) \\ \hline Addition & \(x_{1}[n]+x_{2}[n]\) & \(X_{1}[z]+X_{2}[z]\) \\ Scalar multiplication & \(ax[n]\) & \(aX[z]\) \\ Right shifting & \(x[n-m]u[n-m]\) & \(\frac{1}{z^{n}}X[z]\) \\  & \(x[n-m]u[n]\) & \(\frac{1}{z^{n}}X[z]+\frac{1}{z^{m}}\sum_{n=1}^{m}x[-n]z^{n}\) \\  & \(x[n-1]u[n]\) & \(\frac{1}{z}X[z]+x[-1]\) \\  & \(x[n-2]u[n]\) & \(\frac{1}{z^{2}}X[z]+\frac{1}{z}x[-1]+x[-2]\) \\  & \(x[n-3]u[n]\) & \(\frac{1}{z^{3}}X[z]+\frac{1}{z^{2}}x[-1]+\frac{1}{z}x[-2]+x[-3]\) \\ Left shifting & \(x[n+m]u[n]\) & \( z^{m}X[z]-z^{m}\sum_{n=0}^{m-1}x[n]z^{-n}\) \\  & \(x[n+1]u[n]\) & \( zX[z]-zx[0]\) \\  & \(x[n+2]u[n]\) & \( z^{2}X[z]-z^{2}x[0]-zx[1]\) \\  & \(x[n+3]u[n]\) & \( z^{3}X[z]-z^{3}x[0]-z^{2}x[1]-zx[2]\) \\ Multiplication by \(\gamma^{n}\) & \(\gamma^{n}x[n]u[n]\) & \( X\left[\frac{z}{\gamma}\right]\) \\ Multiplication by \(n\) & \(nx[n]u[n]\) & \(-z\frac{d}{dz}X[z]\) \\ Time reversal & \(x[-n]\) & \( X[1/z]\) \\ Time convolution & \(x_{1}[n]*x_{2}[n]\) & \( X_{1}[z]X_{2}[z]\) \\ Initial value & \(x[0]\) & \(\lim_{z\to\infty}X[z]\) \\ Final value & \(\lim_{N\to\infty}x[N]\) & \(\lim_{z\to 1}(z-1)X[z]\) & Poles of \((z-1)X[z]\) \\  & & inside the unit circle \\ \hline \end{tabular}
+
+\begin{table}
+\begin{tabular}{l l l} \hline
+**Operation** & \(x[n]\) & \(X[z]\) \\ \hline Addition & \(x_{1}[n]+x_{2}[n]\) & \( X_{1}[z]+X_{2}[z]\) \\ Scalar multiplication & \(ax[n]\) & \( aX[z]\) \\ Right shifting & \(x[n-m]u[n-m]\) & \(\frac{1}{z^{m}}X[z]\) \\  & \(x[n-m]u[n]\) & \(\frac{1}{z^{m}}X[z]+\frac{1}{z
+
+### 5.3 \(z\)-Transform Solution of Linear Difference Equations
+
+The time-shifting (left-shift or right-shift) property has set the stage for solving linear difference equations with constant coefficients. As in the case of the Laplace transform with differential equations, the \(z\)-transform converts difference equations into algebraic equations that are readily solved to find the solution in the \(z\) domain. Taking the inverse \(z\)-transform of the \(z\)-domain solution yields the desired time-domain solution. The following examples demonstrate the procedure.
+
+**Example 5.5**: \(z\)**-Transform Solution of a Linear Difference Equation**
+
+Solve
+
+\[y[n+2]-5y[n+1]+6y[n]=3x[n+1]+5x[n]\]
+
+if the initial conditions are \(y[-1]=11/6\), \(y[-2]=37/36\), and the input \(x[n]=(2)^{-n}u[n]\).
+
+As we shall see, difference equations can be solved by using the right-shift or the left-shift property. Because the difference equation here is in advance form, the use of the left-shift property in Eq. (5.16) may seem appropriate for its solution. Unfortunately, this left-shift property requires a knowledge of auxiliary conditions \(y[0]\), \(y[1]\), \(\ldots\), \(y[N-1]\) rather than of the initial conditions \(y[-1]\), \(y[-2]\), \(\ldots\), \(y[-n]\), which are generally given. This difficulty can be overcome by expressing the difference equation in delay form (obtained by replacing \(n\) with \(n-2\)) and then using the right-shift property.2 The resulting delay-form difference equation is
+
+Footnote 2: Another approach is to find \(y[0]\), \(y[1]\), \(y[2]\), \(\ldots\), \(y[N-1]\) from \(y[-1]\), \(y[-2]\), \(\ldots\), \(y[-n]\) iteratively, as in Sec. 3.5-1, and then apply the left-shift property to the advance-form difference equation.
+
+\[y[n]-5y[n-1]+6y[n-2]=3x[n-1]+5x[n-2] \tag{5.21}\]
+
+We now use the right-shift property to take the \(z\)-transform of this equation. But before proceeding, we must be clear about the meaning of a term like \(y[n-1]\) here. Does it mean \(y[n-1]u[n-1]\) or \(y[n-1]u[n]\)? In any equation, we must have some time reference \(n=0\), and every term is referenced from this instant. Hence, \(y[n-k]\) means \(y[n-k]u[n]\). Remember also that although we are considering the situation for \(n\geq 0\), \(y[n]\) is present even before \(n=0\) (in the form of initial conditions). Now
+
+\[y[n]u[n] \Longleftrightarrow Y[z]\] \[y[n-1]u[n] \Longleftrightarrow \frac{1}{z}Y[z]+y[-1]=\frac{1}{z}Y[z]+\frac{11}{6}\] \[y[n-2]u[n] \Longleftrightarrow \frac{1}{z^{2}}Y[z]+\frac{1}{z}y[-1]+y[-2]=\frac{1}{z^{2}}Y[z]+ \frac{11}{6z}+\frac{37}{36}\]
+
+Noting that for causal input \(x[n]\),
+
+\[x[-1]=x[-2]=\cdot\cdot\cdot=x[-n]=0\]We obtain
+
+\[x[n]=(2)^{-n}u[n]=(2^{-1})^{n}u[n]=(0.5)^{n}u[n]\Longleftrightarrow\frac{z}{z-0.5}\]
+
+\[x[n-1]u[n] \Longleftrightarrow\frac{1}{z}X[z]+x[-1]=\frac{1}{z}\frac{z}{z-0.5}+ 0=\frac{1}{z-0.5}\] \[x[n-2]u[n] \Longleftrightarrow\frac{1}{z^{2}}X[z]+\frac{1}{z}x[-1]+x[-2]= \frac{1}{z^{2}}X[z]+0+0=\frac{1}{z(z-0.5)}\]
+
+In general,
+
+\[x[n-r]u[n]\Longleftrightarrow\frac{1}{z^{r}}X[z]\]
+
+Taking the \(z\)-transform of Eq. (5.21) and substituting the foregoing results, we obtain
+
+\[Y[z]-5\left[\frac{1}{z}Y[z]+\frac{11}{6}\right]+6\left[\frac{1}{z^{2}}Y[z]+ \frac{11}{6z}+\frac{37}{36}\right]=\frac{3}{z-0.5}+\frac{5}{z(z-0.5)}\]
+
+or
+
+\[\left(1-\frac{5}{z}+\frac{6}{z^{2}}\right)Y[z]-\left(3-\frac{11}{z}\right)= \frac{3}{z-0.5}+\frac{5}{z(z-0.5)} \tag{5.22}\]
+
+from which we obtain
+
+\[(z^{2}-5z+6)Y[z]=\frac{z(3z^{2}-9.5z+10.5)}{(z-0.5)}\]
+
+so that
+
+\[Y[z]=\frac{z(3z^{2}-9.5z+10.5)}{(z-0.5)(z^{2}-5z+6)}\]
+
+and
+
+\[\frac{Y[z]}{z}=\frac{3z^{2}-9.5z+10.5}{(z-0.5)(z-2)(z-3)}=\frac{(26/15)}{z-0.5 }-\frac{(7/3)}{z-2}+\frac{(18/5)}{z-3}\]
+
+Therefore,
+
+\[Y[z]=\frac{26}{15}\left(\frac{z}{z-0.5}\right)-\frac{7}{3}\left(\frac{z}{z-2} \right)+\frac{18}{5}\left(\frac{z}{z-3}\right)\]
+
+and
+
+\[y[n]=\left[\frac{26}{15}(0.5)^{n}-\frac{7}{3}(2)^{n}+\frac{18}{5}(3)^{n}\right] u[n] \tag{5.23}\]
+
+This example demonstrates the ease with which linear difference equations with constant coefficients can be solved by the \(z\)-transform. This method is general: it can be used to solve a single difference equation or a set of simultaneous difference equations of any order as long as the equations are linear with constant coefficients.
+
+**Comment.**
+
+Sometimes, instead of initial conditions \(y[-1]\), \(y[-2]\), \(\ldots\), \(y[-n]\), auxiliary conditions \(y[0]\), \(y[1]\), \(\ldots\), \(y[N-1]\) are given to solve a difference equation. In this case, the equation can be solved by expressing it in the advance form and then using the left-shift property (see Drill 5.11).
+
+**Drill 5.10**: \(\mathbf{z}\)**-Transform Solution of a Linear Difference Equation**
+
+Solve the following equation if the initial conditions \(y[-1]=2\), \(y[-2]=0\), and the input \(x[n]=u[n]\):
+
+\[y[n+2]-\frac{5}{6}y[n+1]+\frac{1}{6}y[n]=5x[n+1]-x[n]\]
+
+**Answer**
+
+\[y[n]=\left[12-15\left(\frac{1}{2}\right)^{n}+\frac{14}{3}\left(\frac{1}{3} \right)^{n}\right]u[n]\]
+
+**Drill 5.11**: **Difference Equation Solution Using \(y[0]\), \(y[1]\), \(\ldots\), \(y[N-1]\)**
+
+Solve the following equation if the auxiliary conditions are \(y[0]=1\), \(y[1]=2\), and the input \(x[n]=u[n]\):
+
+\[y[n]+3y[n-1]+2y[n-2]=x[n-1]+3x[n-2]\]
+**Answer**
+
+\[y[n]=\left[\frac{2}{3}+2(-1)^{n}-\frac{5}{3}(-2)^{n}\right]u[n]\]
+
+**Zero-Input and Zero-State Components**
+
+In Ex. 5.5 we found the total solution of the difference equation. It is relatively easy to separate the solution into zero-input and zero-state components. All we have to do is to separate the response into terms arising from the input and terms arising from initial conditions (IC). We can separate the response in Eq. (5.22) as follows:
+
+\[\left(1-\frac{5}{z}+\frac{6}{z^{2}}\right)Y[z]-\underbrace{\left(3-\frac{11}{ z}\right)}_{\text{IC terms}}=\underbrace{\frac{3}{z-0.5}+\frac{5}{z(z-0.5)}}_{\text{input terms}}\]Therefore,
+
+\[\left(1-\frac{5}{z}+\frac{6}{z^{2}}\right)Y[z]=\underbrace{\left(3-\frac{11}{z} \right)}_{\text{IC terms}}+\underbrace{\frac{(3z+5)}{z(z-0.5)}}_{\text{input terms}}\]
+
+Multiplying both sides by \(z^{2}\) yields
+
+\[(z^{2}-5z+6)Y[z]=\underbrace{z(3z-11)}_{\text{IC terms}}+\underbrace{\frac{z(3z +5)}{z-0.5}}_{\text{input terms}}\]
+
+and
+
+\[Y[z]=\underbrace{\frac{z(3z-11)}{z^{2}-5z+6}}_{\text{zero-input response}}+\underbrace{\frac{z(3z+5)}{(z-0.5)(z^{2}-5z+6)}}_{\text{ zero-state response}}\]
+
+We expand both terms on the right-hand side into modified partial fractions to yield
+
+\[Y[z]=\underbrace{\left[5\left(\frac{z}{z-2}\right)-2\left(\frac{z}{z-3} \right)\right]}_{\text{zero-input response}}+\underbrace{\left[\frac{26}{15} \left(\frac{z}{z-0.5}\right)-\frac{22}{3}\left(\frac{z}{z-2}\right)+\frac{28 }{5}\left(\frac{z}{z-3}\right)\right]}_{\text{zero-state response}}\]
+
+and
+
+\[y[n] =\underbrace{\left(5(2)^{n}-2(3)^{n}\right)u[n]}_{\text{ zero-input response}}+\underbrace{\left(\frac{26}{15}(0.5)^{n}-\frac{22}{3}(2)^{n}+\frac{28}{5}(3)^{n} \right)u[n]}_{\text{zero-state response}}\] \[=\left[-\tfrac{7}{3}(2)^{n}+\tfrac{18}{5}(3)^{n}+\tfrac{26}{15} (0.5)^{n}\right]u[n]\]
+
+which agrees with the result in Eq. (5.23).
+
+[style=style=style,frame=my
+
+### 5.3-1 Zero-State Response of LTID Systems: The Transfer Function
+
+Consider an \(N\)th-order LTID system specified by the difference equation
+
+\[Q[E]y[n]=P[E]x[n]\]
+
+or
+
+\[(E^{N}+a_{1}E^{N-1}+\cdot\cdot\cdot+a_{N-1}E+a_{N})y[n]\] \[=(b_{0}E^{N}+b_{1}E^{N-1}+\cdot\cdot\cdot+b_{N-1}E+b_{N})x[n]\]
+
+or
+
+\[y[n+N]+a_{1}y[n+N-1]+\cdot\cdot\cdot+a_{N-1}y[n+1]+a_{N}y[n]\] \[=b_{0}x[n+N]+\cdot\cdot\cdot+b_{N-1}x[n+1]+b_{N}x[n] \tag{5.24}\]
+
+We now derive the general expression for the zero-state response: that is, the system response to input \(x[n]\) when all the initial conditions \(y[-1]=y[-2]=\cdot\cdot\cdot=y[-N]=0\) (zero state). The input \(x[n]\) is assumed to be causal so that \(x[-1]=x[-2]=\cdot\cdot\cdot=x[-N]=0\).
+
+Equation (5.24) can be expressed in delay form as
+
+\[y[n]+a_{1}y[n-1]+\cdot\cdot+a_{N}y[n-N]\] \[=b_{0}x[n]+b_{1}x[n-1]+\cdot\cdot\cdot+b_{N}x[n-N] \tag{5.25}\]
+
+Because \(y[-r]=x[-r]=0\) for \(r=1,2,\ldots,N\),
+
+\[y[n-m]u[n]\Longleftrightarrow\frac{1}{z^{m}}Y[z]\] \[x[n-m]u[n]\Longleftrightarrow\frac{1}{z^{m}}X[z]\qquad m=1,2, \ldots,N\]
+
+Now the \(z\)-transform of Eq. (5.25) is given by
+
+\[\left(1+\frac{a_{1}}{z}+\frac{a_{2}}{z^{2}}+\cdot\cdot\cdot+\frac{a_{N}}{z^{N }}\right)Y[z]=\left(b_{0}+\frac{b_{1}}{z}+\frac{b_{2}}{z^{2}}+\cdot\cdot\cdot +\frac{b_{N}}{z^{N}}\right)X[z]\]
+
+Multiplication of both sides by \(z^{N}\) yields
+
+\[(z^{N}+a_{1}z^{N-1}+\cdot\cdot\cdot+a_{N-1}z+a_{N})Y[z]\] \[=(b_{0}z^{N}+b_{1}z^{N-1}+\cdot\cdot\cdot+b_{N-1}z+b_{N})X[z]\]
+
+Therefore,
+
+\[Y[z] =\left(\frac{b_{0}z^{N}+b_{1}z^{N-1}+\cdot\cdot\cdot+b_{N-1}z+b_{ N}}{z^{N}+a_{1}z^{N-1}+\cdot\cdot\cdot+a_{N-1}z+a_{N}}\right)X[z]\] \[=\frac{P[z]}{Q[z]}X[z]\]We have shown in Eq. (5.20) that \(Y[z]=X[z]H[z]\). Hence, it follows that
+
+\[H[z]=\frac{P[z]}{Q[z]}=\frac{b_{0}z^{N}+b_{1}z^{N-1}+\cdot\cdot\cdot+b_{N-1}z+b_ {N}}{z^{N}+a_{1}z^{N-1}+\cdot\cdot\cdot+a_{N-1}z+a_{N}} \tag{5.26}\]
+
+As in the case of LTIC systems, this result leads to an alternative definition of the LTID system transfer function as the ratio of \(Y[z]\) to \(X[z]\) (assuming all initial conditions zero).
+
+\[H[z]\equiv\frac{Y[z]}{X[z]}=\frac{\mathcal{Z}[\text{zero-state response}]}{\mathcal{Z}[\text{input}]}\]
+
+### Alternate Interpretation of the \(z\)-Transform
+
+So far we have treated the \(z\)-transform as a machine that converts linear difference equations into algebraic equations. There is no physical understanding of how this is accomplished or what it means. We now discuss more intuitive interpretation and meaning of the \(z\)-transform.
+
+In Ch. 3, Eq. (3.38), we showed that the LTID system response to an everlasting exponential \(z^{n}\) is \(H[z]z^{n}\). If we could express every discrete-time signal as a linear combination of everlasting exponentials of the form \(z^{n}\), we could readily obtain the system response to any input. For example, if
+
+\[x[n]=\sum_{k=1}^{K}X[z_{k}]z_{k}^{n} \tag{5.27}\]
+
+the response of an LTID system to this input is given by
+
+\[y[n]=\sum_{k=1}^{K}X[z_{k}]H[z_{k}]z_{k}^{n}\]
+
+Unfortunately, a very small class of signals can be expressed in the form of Eq. (5.27). However, we can express almost all signals of practical utility as a sum of everlasting exponentials over a continuum of values of \(z\). This is precisely what the \(z\)-transform in Eq. (5.2) does.
+
+\[x[n]=\frac{1}{2\pi j}\oint X[z]z^{n-1}\,dz \tag{5.28}\]
+
+Invoking the linearity property of the \(z\)-transform, we can find the system response \(y[n]\) to input \(x[n]\) in Eq. (5.28) as+
+
+Footnote †: In computing \(y[n]\), the contour along which the integration is performed is modified to consider the ROC of \(X[z]\) as well as \(H[z]\). We ignore this consideration in this intuitive discussion.
+
+\[y[n]=\frac{1}{2\pi j}\oint X[z]H[z]z^{n-1}\,dz=\mathcal{Z}^{-1}\{X[z]H[z]\}\]
+
+Clearly,
+
+\[Y[z]=X[z]H[z]\]
+
+This viewpoint of finding the response of LTID system is illustrated in Fig. 5.6a. Just as in continuous-time systems, we can model discrete-time systems in the transformed manner by representing all signals by their \(z\)-transforms and all system components (or elements) by their transfer functions, as shown in Fig. 5.6b.
+
+The result \(Y[z]=H[z]X[z]\) greatly facilitates derivation of the system response to a given input. We shall demonstrate this assertion by an example.
+
+## Example 5.6 Transfer Function to Find the Zero-State Response
+
+Find the response \(y[n]\) of an LTID system described by the difference equation
+
+\[y[n+2]+y[n+1]+0.16y[n]=x[n+1]+0.32x[n]\]
+
+or
+
+\[(E^{2}+E+0.16)y[n]=(E+0.32)x[n]\]
+
+for the input \(x[n]=(-2)^{-n}u[n]\) and with all the initial conditions zero (system in the zero state).
+
+From the difference equation, we find
+
+\[H[z]=\frac{P[z]}{Q[z]}=\frac{z+0.32}{z^{2}+z+0.16}\]
+
+For the input \(x[n]=(-2)^{-n}u[n]=[(-2)^{-1}]^{n}u(n)=(-0.5)^{n}u[n]\),
+
+\[X[z]=\frac{z}{z+0.5}\]
+
+and
+
+\[Y[z]=X[z]H[z]=\frac{z(z+0.32)}{(z^{2}+z+0.16)(z+0.5)}\]
+
+Figure 5.6: The transformed representation of an LTID system.
+
+Therefore,
+
+\[\frac{Y[z]}{z} =\frac{(z+0.32)}{(z^{2}+z+0.16)(z+0.5)}=\frac{(z+0.32)}{(z+0.2)(z+0.8 )(z+0.5)}\] \[=\frac{2/3}{z+0.2}-\frac{8/3}{z+0.8}+\frac{2}{z+0.5}\]
+
+so that
+
+\[Y[z]=\frac{2}{3}\left(\frac{z}{z+0.2}\right)-\frac{8}{3}\left(\frac{z}{z+0.8} \right)+2\left(\frac{z}{z+0.5}\right)\]
+
+and
+
+\[y[n]=\left[\tfrac{2}{3}(-0.2)^{n}-\tfrac{8}{3}(-0.8)^{n}+2(-0.5)^{n}\right]u[n]\]
+
+## Chapter 5 Transfer Function of a Unit Delay
+
+Show that the transfer function of a unit delay is \(1/z\).
+
+If the input to the unit delay is \(x[n]u[n]\), then its output (Fig. 5.7) is given by
+
+\[y[n]=x[n-1]u[n-1]\]
+
+The \(z\)-transform of this equation yields [see Eq. (5.12)]
+
+\[Y[z]=\frac{1}{z}X[z]=H[z]X[z]\]
+
+It follows that the transfer function of the unit delay is
+
+\[H[z]=\frac{1}{z}\]
+
+### 5.3.2 Stability
+
+Equation (5.26) shows that the denominator of \(H[z]\) is \(Q[z]\), which is apparently identical to the characteristic polynomial \(Q[\gamma]\) defined in Ch. 3. Does this mean that the denominator of \(H[z]\) is the characteristic polynomial of the system? This may or may not be the case: if \(P[z]\) and \(Q[z]\) in Eq. (5.26) have any common factors, they cancel out, and the effective denominator of \(H[z]\) is not necessarily equal to \(Q[z]\). Recall also that the system transfer function \(H[z]\), like \(h[n]\), is defined in terms of measurements at the external terminals. Consequently, \(H[z]\) and \(h[n]\) are both external descriptions of the system. In contrast, the characteristic polynomial \(Q[z]\) is an internal description. Clearly, we can determine only external stability, that is, BIBO stability, from \(H[z]\). If all the poles of \(H[z]\) are within the unit circle, all the terms in \(h[n]\) are decaying exponentials, and as shown in Sec. 3.9, \(h[n]\) is absolutely summable. Consequently, the system is BIBO-stable. Otherwise the system is BIBO-unstable.
+
+If \(P[z]\) and \(Q[z]\) do not have common factors, then the denominator of \(H[z]\) is identical to \(Q[z]\).2 The poles of \(H[z]\) are the characteristic roots of the system. We can now determine internal stability. The internal stability criterion in Sec. 3.9-2 can be restated in terms of the poles of \(H[z]\), as follows.
+
+Footnote 2: There is no way of determining whether any common factors in \(P[z]\) and \(Q[z]\) were canceled out. This is because in our derivation of \(H[z]\), we generally get the final result after the cancellations have been effected. When we use internal description of the system to derive \(Q[z]\), however, we find pure \(Q[z]\) unaffected by any common factor in \(P[z]\).
+
+1. An LTID system is asymptotically stable if and only if all the poles of its transfer function \(H[z]\) are within the unit circle. The poles may be repeated or simple.
+2. An LTID system is unstable if and only if either one or both of the following conditions exist: (i) at least one pole of \(H[z]\) is outside the unit circle; (ii) there are repeated poles of \(H[z]\) on the unit circle.
+
+3. An LTID system is marginally stable if and only if there are no poles of \(H[z]\) outside the unit circle, and there are some simple poles on the unit circle.
+
+**Drill 5.14**: **Transfer Function to Determine Stability**
+
+Show that an _accumulator_ whose impulse response is \(h[n]=u[n]\) is marginally stable but BIBO-unstable.
+
+### 5.3-3 Inverse Systems
+
+If \(H[z]\) is the transfer function of a system \(\mathcal{S}\), then \(\mathcal{S}_{i}\), its inverse system, has a transfer function \(H_{i}[z]\) given by
+
+\[H_{i}[z]=\frac{1}{H[z]}\]
+
+This follows from the fact the inverse system \(\mathcal{S}_{i}\) undoes the operation of \(\mathcal{S}\). Hence, if \(H[z]\) is placed in cascade with \(H_{i}[z]\), the transfer function of the composite system (identity system) is unity. For example, an _accumulator_ whose transfer function is \(H[z]=z/(z-1)\) and a _backward difference system_ whose transfer function is \(H_{i}[z]=(z-1)/z\) are inverse of each other. Similarly if
+
+\[H[z]=\frac{z-0.4}{z-0.7}\]
+
+its inverse system transfer function is
+
+\[H_{i}[z]=\frac{z-0.7}{z-0.4}\]
+
+as required by the property \(H[z]H_{i}[z]=1\). Hence, it follows that
+
+\[h[n]*h_{i}[n]=\delta[n]\]
+
+**Drill 5.15**: **Inverse Systems**
+
+Find the impulse responses of an accumulator and a first-order backward difference system. Show that the convolution of the two impulse responses yields \(\delta[n]\).
+
+### 5.4 System Realization
+
+Because of the similarity between LTIC and LTID systems, conventions for block diagrams and rules of interconnection for LTID are identical to those for continuous-time (LTIC) systems. It is not necessary to rederive these relationships. We shall merely restate them to refresh the reader's memory.
+
+system is \(H_{1}[z]+H_{2}[z]\). For a feedback system (as in Fig. 4.18d), the transfer function is \(G[z]/(1+G[z]H[z])\).
+
+We now consider a systematic method for realization (or simulation) of an arbitrary \(N\)th-order LTID transfer function. Since realization is basically a synthesis problem, there is no unique way of realizing a system. A given transfer function can be realized in many different ways. We present here the two forms of _direct realization_. Each of these forms can be executed in several other ways, such as cascade and parallel. Furthermore, a system can be realized by the transposed version of any known realization of that system. This artifice doubles the number of system realizations. A transfer function \(H[z]\) can be realized by using time delays along with adders and multipliers.
+
+We shall consider a realization of a general \(N\)th-order causal LTID system, whose transfer function is given by
+
+\[H[z]=\frac{b_{0}z^{N}+b_{1}z^{N-1}+\cdot\cdot\cdot\cdot+b_{N-1}z+b_{N}}{z^{N}+a _{1}z^{N-1}+\cdot\cdot\cdot+a_{N-1}z+a_{N}} \tag{5.29}\]
+
+This equation is identical to the transfer function of a general \(N\)th-order proper LTIC system given in Eq. (4.36). The only difference is that the variable \(z\) in the former is replaced by the variable \(s\) in the latter. Hence, the procedure for realizing an LTID transfer function is identical to that for the LTIC transfer function with the basic element \(1/s\) (integrator) replaced by the element \(1/z\) (unit delay). The reader is encouraged to follow the steps in Sec. 4.6 and rederive the results for the LTID transfer function in Eq. (5.29). Here we shall merely reproduce the realizations from Sec. 4.6 with integrators (\(1/s\)) replaced by unit delays (\(1/z\)).
+
+The direct form I (DFI) is shown in Fig. 5.8a, the canonic direct form (DFII) is shown in Fig. 5.8b and the transpose of canonic direct is shown in Fig. 5.8c. The DFII and its transpose are canonic because they require \(N\) delays, which is the minimum number needed to implement the \(N\)th-order LTID transfer function in Eq. (5.29). In contrast, the form DFI is a noncanonic because it generally requires \(2N\) delays. The DFII realization in Fig. 5.8b is also called a _canonic direct_ form.
+
+**Example 5.8**: **Canonical Realizations of Transfer Functions**
+
+Find the canonic direct and the transposed canonic direct realizations of the following transfer functions: **(a)**\(\frac{2}{z+5}\), **(b)**\(\frac{4z+28}{z+1}\), **(c)**\(\frac{z}{z+7}\), and **(d)**\(\frac{4z+28}{z^{2}+6z+5}\).
+
+All four of these transfer functions are special cases of \(H[z]\) in Eq. (5.29).
+
+**(a)**
+
+\[H[z]=\frac{2}{z+5}\]
+
+For this case, the transfer function is of the first order (\(N=1\)); therefore, we need only one delay for its realization. The feedback and feedforward coefficients are
+
+\[a_{1}=5\qquad\text{and}\qquad b_{0}=0,\quad b_{1}=2\]We use Fig. 5.8 as our model and reduce it to the case of \(N=1\). Figure 5.9a shows the canonic direct (DFII) form, and Fig. 5.9b its transpose. The two realizations are almost the same. The minor difference is that in the DFII form, the gain \(2\) is provided at the output, and in the transpose, the same gain is provided at the input.
+
+In a similar way, we realize the remaining transfer functions.
+
+**(b)**
+
+\[H[z]=\frac{4z+28}{z+1}\]
+
+In this case also, the transfer function is of the first order (\(N=1\)); therefore, we need only one delay for its realization. The feedback and feedforward coefficients are
+
+\[a_{1}=1\qquad\text{and}\qquad b_{0}=4,\quad b_{1}=28\]
+
+Figure 5.10 illustrates the canonic direct and its transpose for this case.\({}^{\dagger}\)
+
+Transfer functions with \(N=M\) may also be expressed as a sum of a constant and a strictly proper transfer function. For example,
+
+\[H[z]=\frac{4z+28}{z+1}=4+\frac{24}{z+1}\]
+
+Hence, this transfer function can also be realized as two transfer functions in parallel.
+
+\[H[z]=\frac{z}{z+7}\]
+
+Here \(N=1\) and \(b_{0}=1,b_{1}=0\) and \(a_{1}=7\). Figure 5.11 shows the direct and the transposed realizations. Observe that the realizations are almost alike.
+
+\[H[z]=\frac{4z+28}{z^{2}+6z+5}\]
+
+This is a second-order system (\(N=2\)) with \(b_{0}=0\), \(b_{1}=4\), \(b_{2}=28\), \(a_{1}=6\), \(a_{2}=5\). Figure 5.12 shows the canonic direct and transposed canonic direct realizations.
+
+Figure 5.11: Realization of \(z/(z+7)\): **(a)** canonic direct form and **(b)** its transpose.
+
+Figure 5.12: Realization of \((4z+28)/(z^{2}+6z+5)\): **(a)** canonic direct form and **(b)** its transpose.
+
+### 5.16 Realization of a Second-Order Transfer Function
+
+Realize the transfer function
+
+\[H[z]=\frac{2z}{z^{2}+6z+25}\]
+
+### Realization of Finite Impulse Response (FIR) Filters
+
+So far we have been quite general in our development of realization techniques. They can be applied to infinite impulse response (IIR) or FIR filters. For FIR filters, the coefficients \(a_{i}=0\) for all \(i\neq 0\).\({}^{\dagger}\) Hence, FIR filters can be readily implemented by means of the schemes developed so far by eliminating all branches with \(a_{i}\) coefficients. The condition \(a_{i}=0\) implies that all the poles of a FIR filter are at \(z=0\).
+
+**EXAMPLE 5.9 Realization of an FIR Filter**
+
+Realize \(H[z]=(z^{3}+4z^{2}+5z+2)/z^{3}\) using canonic direct and transposed forms.
+
+We can express \(H[z]\) as
+
+\[H[z]=\frac{z^{3}+4z^{2}+5z+2}{z^{3}}\]For \(H[z]\), \(b_{0}=1\), \(b_{1}=4\), \(b_{2}=5\), and \(b_{3}=2\). Hence, we obtain the canonic direct realization, shown in Fig. 5.13a. We have shown the horizontal orientation because it is easier to see that this filter is basically a tapped delay line. That is why this structure is also known as a _tapped delay line_ or _transversal filter_. Figure 5.13b shows the corresponding transposed implementation.
+
+### Cascade and Parallel Realizations, Complex and Repeated Poles
+
+The considerations and observations for cascade and parallel realizations as well as complex and multiple poles are identical to those discussed for LTIC systems in Sec. 4.6-3.
+
+### Cascade and Parallel Realizations of a Transfer Function
+
+Find canonic direct realizations of the following transfer function by using the cascade and parallel forms. The specific cascade decomposition is as follows:
+
+\[H[z]=\frac{z+3}{z^{2}+7z+10}=\left(\frac{z+3}{z+2}\right)\left(\frac{1}{z+5}\right)\]
+
+### Do All Realizations Lead to the Same Performance?
+
+For a given transfer function, we have presented here several possible different realizations (DFI, canonic form DFII, and its transpose). There are also cascade and parallel versions, and there are many possible grouping of the factors in the numerator and the denominator of \(H[z]\), leading to different realizations. We can also use various combinations of these forms in implementing different subsections of a system. Moreover, the transpose of each version doubles the number. However, this discussion by no means exhausts all the possibilities. Transforming variables affords limitless potential realizations of the same transfer function.
+
+Theoretically, all these realizations are equivalent; that is, they lead to the same transfer function. This, however, is true only when we implement them with infinite precision. In practice, finite wordlength restriction causes each realization to behave differently in terms of sensitivity to parameter variation, stability, frequency response distortion error, and so on. These effects are serious for higher-order transfer functions, which require correspondingly higher numbers of delay elements. The finite wordlength errors that plague these implementations are coefficient quantization, overflow errors, and round-off errors. From a practical viewpoint, parallel and cascade forms using low-order filters minimize the effects of finite wordlength. Parallel and certain cascade forms are numerically less sensitive than the canonic direct form to small parameter variations in the system. In the canonic direct form structure with large \(N\), a small change in a filter coefficient due to parameter quantization results in a large change in the location of the poles and the zeros of the system. Qualitatively, this difference can be explained by the fact that in a direct form (or its transpose), all the coefficients interact with each other, and a change in any coefficient will be magnified through its repeated influence from feedback and feedforward connections. In a parallel realization, in contrast, a change in a coefficient will affect only a localized segment; the case of a cascade realization is similar. For this reason, the most popular technique for minimizing finite wordlength effects is to design filters by using cascade or parallel forms employing low-order filters. In practice, high-order filters are realized by using multiple second-order sections in cascade, because second-order filters not only are easier to design but are less susceptible to coefficient quantization and round-off errors, and their implementations allow easier data word scaling to reduce the potential overflow effects of data word-size growth. A cascaded system using second-order building blocks usually requires fewer multiplications for a given filter frequency response [1].
+
+There are several ways to pair the poles and zeros of an \(N\)th-order \(H[z]\) into a cascade of second-order sections, and several ways to order the resulting sections. Quantizing error will be different for each combination. Although several papers published provide guidelines in predicting and minimizing finite wordlength errors, it is advisable to resort to computer simulation of the filter design. This way, one can vary filter hardware characteristic, such as coefficient wordlengths, accumulator register sizes, sequencing of cascaded sections, and input signal sets. Such an approach is both reliable and economical [1].
+
+### 5.5 Frequency Response of Discrete-Time Systems
+
+For (asymptotically or BIBO-stable) continuous-time systems, we showed that the system response to an input \(e^{i\omega t}\) is \(H(j\omega)e^{i\omega t}\) and that the response to an input \(\cos\omega t\) is \(|H(j\omega)|\cos[\omega t+\angle H(j\omega)]\). Similar results hold for discrete-time systems. We now show that for an (asymptotically or BIBO-stable) LTID system, the system response to an input \(e^{i\Omega n}\) is \(H[e^{i\Omega}]e^{i\Omega n}\) and the response to an input \(\cos\Omega n\) is \(|H[e^{i\Omega}]|\cos\left(\Omega n+\angle H[e^{i\Omega}]\right)\).
+
+The proof is similar to the one used for continuous-time systems. In Sec. 3.8-2, we showed that an LTID system response to an (everlasting) exponential \(z^{n}\) is also an (everlasting) exponential \(H[z]z^{n}\). This result is valid only for values of \(z\) for which \(H[z]\), as defined in Eq. (5.11), exists (converges). As usual, we represent this input-output relationship by a directed arrow notation as
+
+\[z^{n}\Longrightarrow H[z]z^{n} \tag{5.30}\]
+
+Setting \(z=e^{i\Omega}\) in this relationship yields
+
+\[e^{i\Omega n}\Longrightarrow H[e^{i\Omega}]e^{i\Omega n} \tag{5.31}\]
+
+Noting that \(\cos\Omega n\) is the real part of \(e^{i\Omega n}\), use of Eq. (3.34) yields
+
+\[\cos\Omega n\Longrightarrow\mathrm{Re}\left\{H[e^{i\Omega}]e^{i\Omega n}\right\} \tag{5.32}\]
+
+Expressing \(H[e^{i\Omega}]\) in the polar form
+
+\[H[e^{i\Omega}]=|H[e^{i\Omega}]|e^{i\angle H[e^{i\Omega}]}\]
+
+Eq. (5.32) can be expressed as
+
+\[\cos\Omega n\Longrightarrow|H[e^{i\Omega}]|\cos\left(\Omega n+\angle H[e^{i \Omega}]\right)\]In other words, the system response \(y[n]\) to a sinusoidal input \(\cos\,\Omega n\) is given by
+
+\[y[n]=|H[e^{i\Omega}]|\cos\,(\Omega n+\angle H[e^{i\Omega}])\]
+
+Following the same argument, the system response to a sinusoid \(\cos\,(\Omega n+\theta)\) is
+
+\[y[n]=|H[e^{i\Omega}]|\cos\,(\Omega n+\theta+\angle H[e^{i\Omega}]) \tag{5.33}\]
+
+This result is valid only for BIBO-stable or asymptotically stable systems. The frequency response is meaningless for BIBO-unstable systems (which include marginally stable and asymptotically unstable systems). This follows from the fact that the frequency response in Eq. (5.31) is obtained by setting \(z=e^{i\Omega}\) in Eq. (5.30). But, as shown in Sec. 3.8-2 [Eqs. (3.38) and (3.39)], the relationship of Eq. (5.30) applies only for values of \(z\) for which \(H[z]\) exists. For BIBO-unstable systems, the ROC for \(H[z]\) does not include the unit circle where \(z=e^{i\Omega}\). This means, for BIBO-unstable systems, that \(H[z]\) is meaningless when \(z=e^{i\Omega}\).1
+
+Footnote 1: This may also be argued as follows. For BIBO-unstable systems, the zero-input response contains nondecaying natural mode terms of the form \(\cos\Omega_{0}n\) or \(\gamma^{n}\cos\Omega_{0}n\) (\(\gamma>1\)). Hence, the response of such a system to a sinusoid \(\cos\Omega n\) will contain not just the sinusoid of frequency \(\Omega\) but also nondecaying natural modes, rendering the concept of frequency response meaningless. Alternately, we can argue that when \(z=e^{i\Omega}\), a BIBO-unstable system violates the dominance condition \(|\gamma_{i}|<|e^{i\Omega}|\) for all \(i\), where \(\gamma_{i}\) represents \(i\)th characteristic root of the system.
+
+This important result shows that the response of an asymptotically or BIBO-stable LTID system to a discrete-time sinusoidal input of frequency \(\Omega\) is also a discrete-time sinusoid of the same frequency. _The amplitude of the output sinusoid is \(|H[e^{i\Omega}]|\) times the input amplitude, and the phase of the output sinusoid is shifted by \(\angle H[e^{i\Omega}]\) with respect to the input phase_. Clearly, \(|H[e^{i\Omega}]|\) is the amplitude gain, and a plot of \(|H[e^{i\Omega}]|\) versus \(\Omega\) is the amplitude response of the discrete-time system. Similarly, \(\angle H[e^{i\Omega}]\) is the phase response of the system, and a plot of \(\angle H[e^{i\Omega}]\) versus \(\Omega\) shows how the system modifies or shifts the phase of the input sinusoid. Note that \(H[e^{i\Omega}]\) incorporates the information of both amplitude and phase responses and therefore is called the _frequency responses_ of the system.
+
+### Steady-State Response to Causal Sinusoidal Input
+
+As in the case of continuous-time systems, we can show that the response of an LTID system to a causal sinusoidal input \(\cos\,\Omega n\,u[n]\) is \(y[n]\) in Eq. (5.33), plus a natural component consisting of the characteristic modes (see Prob. 5.5-9). For a stable system, all the modes decay exponentially, and only the sinusoidal component in Eq. (5.33) persists. For this reason, this component is called the sinusoidal _steady-state_ response of the system. Thus, \(y_{ss}[n]\), the steady-state response of a system to a causal sinusoidal input \(\cos\,\Omega n\,u[n]\), is
+
+\[y_{ss}[n]=|H[e^{i\Omega}]|\cos\,(\Omega n+\angle H[e^{i\Omega}])u[n]\]
+
+System Response to Sampled Continuous-Time Sinusoids
+
+So far we have considered the response of a discrete-time system to a discrete-time sinusoid \(\cos\,\Omega n\) (or exponential \(e^{i\Omega n}\)). In practice, the input may be a sampled continuous-time sinusoid \(\cos\,\omega t\) (or an exponential \(e^{i\omega t}\)). When a sinusoid \(\cos\,\omega t\) is sampled with sampling interval \(T\), the resulting 
+
+Substituting for \(H[e^{i\Omega}]\), it follows that
+
+\[|H[e^{i\Omega}]|^{2}=\left(\frac{1}{1-0.8e^{-j\Omega}}\right)\left(\frac{1}{1-0.8 e^{i\Omega}}\right)=\frac{1}{1.64-1.6\cos\ \Omega}\]
+
+which matches the result found earlier.
+
+Figure 5.14 shows plots of amplitude and phase response as functions of \(\Omega\). We now compute the amplitude and the phase response for the various inputs.
+
+**(a)** Since \(1^{n}=(e^{i\Omega})^{n}\) with \(\Omega=0\), the amplitude response is \(H[e^{i0}]\). From Eq. (5.35) we obtain
+
+\[H[e^{i0}]=\frac{1}{\sqrt{1.64-1.6\cos\left(0\right)}}=\frac{1}{\sqrt{0.04}}=5 =5\angle 0\]
+
+Therefore,
+
+\[|H[e^{i0}]|=5\qquad\mbox{and}\qquad\angle H[e^{i0}]=0\]
+
+These values also can be read directly from Figs. 5.14a and 5.14b, respectively, corresponding to \(\Omega=0\). Therefore, the system response to input 1 is
+
+\[y[n]=5(1^{n})=5\qquad\mbox{for all }n\]
+
+Figure 5.14: Frequency response of the LTID system.
+
+**(b)** For \(x[n]=\cos\left[(\pi/6)n-0.2\right]\), \(\Omega=\pi/6\). According to Eqs. (5.35) and (5.36),
+
+\[|H[e^{i\pi/6}]|=\frac{1}{\sqrt{1.64-1.6\cos\frac{\pi}{6}}}=1.983\] \[\angle H[e^{i\pi/6}]=-\tan^{-1}\left[\frac{0.8\sin\frac{\pi}{6}}{ 1-0.8\cos\frac{\pi}{6}}\right]=-0.916\,\mathrm{rad}\]
+
+These values also can be read directly from Figs. 5.14a and 5.14b, respectively, corresponding to \(\Omega=\pi/6\). Therefore,
+
+\[y[n]=1.983\cos\left(\frac{\pi}{6}n-0.2-0.916\right)=1.983\cos\left(\frac{\pi }{6}n-1.116\right)\]
+
+Figure 5.15 shows the input \(x[n]\) and the corresponding system response.
+
+**(c)** A sinusoid \(\cos 1500t\) sampled every \(T\) seconds (\(t=nT\)) results in a discrete-time sinusoid
+
+\[x[n]=\cos 1500nT\]
+
+For \(T=0.001\), the input is
+
+\[x[n]=\cos\left(1.5n\right)\]
+
+Figure 5.15: Sinusoidal input and the corresponding output of the LTID system.
+
+In this case, \(\Omega=1.5\). According to Eqs. (5.35) and (5.36),
+
+\[|H[e^{i1.5}]| =\frac{1}{\sqrt{1.64-1.6\cos{(1.5)}}}=0.809\] \[\angle H[e^{i1.5}] =-\tan^{-1}\left[\frac{0.8\sin{(1.5)}}{1-0.8\cos{(1.5)}}\right]=-0.7 02\;\mathrm{rad}\]
+
+These values also could be read directly from Fig. 5.14 corresponding to \(\Omega=1.5\). Therefore,
+
+\[y[n]=0.809\cos{(1.5n-0.702)}\]
+
+Frequency Response Plots Using MATLAB
+
+MATLAB makes it easy to compute and plot magnitude and phase responses directly using a system's transfer function. As the following code demonstrates, there is no need to derive separate expressions for the magnitude and phase responses.
+
+>> Omega = linspace(-pi,pi,400); H = 0(z) z./(z-0.8); >> subplot(1,2,1); plot(Omega,abs(H(exp(1j*Omega))),'k'); axis tight; >> xlabel('\Omega'); ylabel('|H[e^{j \Omega}]|'); >> subplot(1,2,2); plot(Omega,angle(H(exp(1j*Omega))*180/pi),'k'); axis tight; >> xlabel('\Omega'); ylabel('\angle H[e^{j \Omega}][deg]'); The resulting plots, shown in Fig. 5.16, confirm the earlier results of Fig. 5.14.
+
+Figure 5.16: MATLAB-generated magnitude and phase responses for Ex. 5.10.
+
+**Comment:** Figures 5.14 and 5.16 show amplitude and phase response plots as functions of \(\Omega\). These plots as well as Eqs. (5.35) and (5.36) indicate that the frequency response of a discrete-time system is a continuous (rather than discrete) function of frequency \(\Omega\). There is no contradiction here. This behavior is merely an indication of the fact that the frequency variable \(\Omega\) is continuous (takes on all possible values) and therefore the system response exists at every value of \(\Omega\).
+
+**Drill. 5.18**: **Frequency Response of Difference Equation**
+
+For a system specified by the equation
+
+\[y[n+1]-0.5y[n]=x[n]\]
+
+find the amplitude and the phase response. Find the system response to sinusoidal input \(\cos[1000t-(\pi/3)]\) sampled every \(T=0.5\) ms.
+
+**Answer**
+
+\[|H[e^{i\Omega}]| =\frac{1}{\sqrt{1.25-\cos\Omega}}\] \[\mathcal{L}H[e^{i\Omega}] =-\tan^{-1}\left[\frac{\sin\ \Omega}{\cos\Omega-0.5}\right]\] \[y[n] =1.639\cos\left(0.5n-\frac{\pi}{3}-0.904\right)=1.639\cos\left(0. 5n-1.951\right)\]
+
+**Drill. 5.19**: **Frequency Response of an Ideal Delay System**
+
+Show that for an ideal delay (\(H[z]=1/z\)), the amplitude response \(|H[e^{i\Omega}]|=1\), and the phase response \(\mathcal{L}H[e^{i\Omega}]=-\Omega\). Thus, a pure time delay does not affect the amplitude gain of sinusoidal input, but it causes a phase shift (delay) of \(\Omega\) radians in a discrete sinusoid of frequency \(\Omega\). Thus, for an ideal delay, the phase shift of the output sinusoid is proportional to the frequency of the input sinusoid (linear phase shift).
+
+### 5.5-1 The Periodic Nature of Frequency Response
+
+In Ex. 5.10 and Fig. 5.14, we saw that the frequency response \(H[e^{i\Omega}]\) is a periodic function of \(\Omega\). This is not a coincidence. Unlike continuous-time systems, all LTID systems have periodic frequency response. This is seen clearly from the nature of the expression of the frequencyresponse of an LTID system. Because \(e^{\pm j2\pi m}=1\) for all integer values of \(m\) [see Eq. (B.10)],
+
+\[H[e^{j\Omega}]=H\bigl{[}e^{j(\Omega+2\pi\,m)}\bigr{]}\qquad m\ {\rm integer}\]
+
+Therefore, the frequency response \(H[e^{j\Omega}]\) is a periodic function of \(\Omega\) with a period \(2\pi\). This is the mathematical explanation of the periodic behavior. The physical explanation that follows provides a much better insight into the periodic behavior.
+
+### Non-uniqueness of Discrete-Time Sinusoid Waveforms
+
+A continuous-time sinusoid \(\cos\,\omega t\) has a unique waveform for every real value of \(\omega\) in the range \(0\) to \(\infty\). Increasing \(\omega\) results in a sinusoid of ever-increasing frequency. Such is not the case for the discrete-time sinusoid \(\cos\,\Omega n\) because
+
+\[\cos\,[(\Omega\pm 2\pi\,m)n]=\cos\,\Omega n\qquad m\ {\rm integer}\]
+
+and
+
+\[e^{i(\Omega\pm 2\pi\,m)n}=e^{j\Omega n}\qquad m\ {\rm integer}\]
+
+This shows that the discrete-time sinusoids \(\cos\,\Omega n\) (and exponentials \(e^{i\Omega n}\)) separated by values of \(\Omega\) in integral multiples of \(2\pi\) are identical. The reason for the periodic nature of the frequency response of an LTID system is now clear. Since the sinusoids (or exponentials) with frequencies separated by interval \(2\pi\) are identical, the system response to such sinusoids is also identical and, hence, is periodic with period \(2\pi\).
+
+This discussion shows that the discrete-time sinusoid \(\cos\,\Omega n\) has a unique waveform only for the values of \(\Omega\) in the range \(-\pi\) to \(\pi\). This band is called the _fundamental band_. Every frequency \(\Omega\), no matter how large, is identical to some frequency, \(\Omega_{a}\), in the fundamental band (\(-\pi\leq\Omega_{a}<\pi\)), where
+
+\[\Omega_{a}=\Omega-2\pi\,m\qquad-\pi\leq\Omega_{a}<\pi\quad{\rm and}\quad m\ {\rm integer} \tag{5.38}\]
+
+The integer \(m\) can be positive or negative. We use Eq. (5.38) to plot the fundamental band frequency \(\Omega_{a}\) versus the frequency \(\Omega\) of a sinusoid (Fig. 5.17a). The frequency \(\Omega_{a}\) is modulo \(2\pi\) value of \(\Omega\).
+
+All these conclusions are also valid for exponential \(e^{i\Omega n}\).
+
+### All Discrete-Time Signals Are Inherently Bandlimited
+
+This discussion leads to the surprising conclusion that all discrete-time signals are inherently bandlimited, with frequencies lying in the range \(-\pi\) to \(\pi\) radians per sample. In terms of frequency \({\cal F}=\Omega/2\pi\), where \({\cal F}\) is in cycles per sample, all frequencies \({\cal F}\) separated by an integer number are identical. For instance, all discrete-time sinusoids of frequencies \(0.3\), \(1.3\), \(2.3\), \(\ldots\) cycles per sample are identical. The fundamental range of frequencies is \(-0.5\) to \(0.5\) cycles per sample.
+
+Any discrete-time sinusoid of frequency beyond the fundamental band, when plotted, appears and behaves, in every way, like a sinusoid having its frequency in the fundamental band. It is impossible to distinguish between the two signals. Thus, in a basic sense, discrete-time frequencies beyond \(|\Omega|=\pi\) or \(|{\cal F}|=1/2\) do not exist. Yet, in a "mathematical" sense, we must admit the existence of sinusoids of frequencies beyond \(\Omega=\pi\). What does this mean?
+
+## Further Reduction in the Frequency Range
+
+Because \(\cos\left(-\Omega n+\theta\right)=\cos\left(\Omega n-\theta\right)\), a frequency in the range \(-\pi\) to 0 is identical to the frequency (of the same magnitude) in the range 0 to \(\pi\) (but with a change in phase sign). Consequently the _apparent frequency_ for a discrete-time sinusoid of any frequency is equal to some value in the range 0 to \(\pi\). Thus, \(\cos\left(8.7\pi\,n+\theta\right)=\cos\left(0.7\pi\,n+\theta\right)\), and the apparent frequency is \(0.7\pi\). Similarly,
+
+\[\cos\left(9.6\pi\,n+\theta\right)=\cos\left(-0.4\pi\,n+\theta\right)=\cos \left(0.4\pi\,n-\theta\right)\]
+
+Hence, the frequency \(9.6\pi\) is identical (in every respect) to frequency \(-0.4\pi\), which, in turn, is equal (within the sign of its phase) to frequency \(0.4\pi\). In this case, the apparent frequency reduces to \(|\Omega_{a}|=0.4\pi\). We can generalize the result to say that the apparent frequency of a discrete-time sinusoid \(\Omega\) is \(|\Omega_{a}|\), as found from Eq. (5.38), and if \(\Omega_{a}<0\), there is a phase reversal. Figure 5.17b plots \(\Omega\) versus the apparent frequency \(|\Omega_{a}|\). The shaded bands represent the ranges of \(\Omega\) for which there is a phase reversal, when represented in terms of \(|\Omega_{a}|\). For example, the apparent frequency for both the sinusoids \(\cos\left(2.4\pi+\theta\right)\) and \(\cos\left(3.6\pi\,+\theta\right)\) is \(|\Omega_{a}|=0.4\pi\), as seen from Fig. 5.17b. But \(2.4\pi\) is in a clear band and \(3.6\pi\) is in a shaded band. Hence, these sinusoids appear as \(\cos\left(0.4\pi+\theta\right)\) and \(\cos\left(0.4\pi\,-\theta\right)\), respectively.
+
+Although every discrete-time sinusoid can be expressed as having frequency in the range from 0 to \(\pi\), we generally use the frequency range from \(-\pi\) to \(\pi\) instead of 0 to \(\pi\) for two reasons. First, exponential representation of sinusoids with frequencies in the range 0 to \(\pi\) requires a frequency range \(-\pi\) to \(\pi\). Second, even when we are using a trigonometric representation, we generally need the frequency range \(-\pi\) to \(\pi\) to have exact identity (without phase reversal) of a higher-frequency sinusoid.
+
+For certain practical advantages, in place of the range \(-\pi\) to \(\pi\), we often use other contiguous ranges of width \(2\pi\). The range 0 to \(2\pi\), for instance, is used in many applications. It is left as an exercise for the reader to show that the frequencies in the range from \(\pi\) to \(2\pi\) are identical to those in the range from \(-\pi\) to 0.
+
+## Example 5.11 Apparent Frequency
+
+Express the following signals in terms of their apparent frequencies: **(a)**\(\cos\left(0.5\pi\,n+\theta\right)\), **(b)**\(\cos\left(1.6\pi\,n+\theta\right)\), **(c)**\(\sin\left(1.6\pi\,n+\theta\right)\), **(d)**\(\cos\left(2.3\pi\,n+\theta\right)\), and **(e)**\(\cos\left(34.699\,n+\theta\right)\).
+
+**(a)**\(\Omega=0.5\pi\) is in the reduced range already. This is also apparent from Fig. 5.17a or 5.17b. Because \(\Omega_{a}=0.5\pi\), there is no phase reversal, and the apparent sinusoid is \(\cos\left(0.5\pi\,n+\theta\right)\).
+
+**(b)** We express \(1.6\pi=-0.4\pi+2\pi\) so that \(\Omega_{a}=-0.4\pi\) and \(|\Omega_{a}|=0.4\). Also, \(\Omega_{a}\) is negative, implying sign change for the phase. Hence, the apparent sinusoid is \(\cos\left(0.4\pi\,n-\theta\right)\). This fact is also apparent from Fig. 5.17b.
+
+**(c)** We first convert the sine form to cosine form as \(\sin\left(1.6\pi\,n\,+\theta\right)=\cos\left(1.6\pi\,n-(\pi/2)+\theta\right)\). In part **(b)**, we found \(\Omega_{a}=-0.4\pi\). Hence, the apparent sinusoid is \(\cos\left(0.4\pi\,n+(\pi/2)-\theta\right)=-\sin\left(0.4\pi\,n-\theta\right)\). In this case, both the phase and the amplitude change signs.
+
+**(d)**\(2.3\pi=0.3\pi+2\pi\) so that \(\Omega_{a}=0.3\pi\). Hence, the apparent sinusoid is \(\cos\left(0.3\pi\,n+\theta\right)\).
+
+**(e)** We have \(34.699=-3+6(2\pi)\). Hence, \(\Omega_{a}=-3\), and the apparent frequency \(|\Omega_{a}|=3\) rad/sample. Because \(\Omega_{a}\) is negative, there is a sign change of the phase. Hence, the apparent sinusoid is \(\cos{(3n-\theta)}\).
+
+**Drill 5.20** **Apparent Frequency**
+
+Show that the sinusoids having frequencies \(\Omega\) of **(a)**\(2\pi\), **(b)**\(3\pi\), **(c)**\(5\pi\), **(d)**\(3.2\pi\), **(e)**\(22.1327\), and **(f)**\(\pi+2\) can be expressed, respectively, as sinusoids of frequencies **(a)** 0, **(b)**\(\pi\), **(c)**\(\pi\), **(d)**\(0.8\pi\), **(e)**\(3\), and **(f)**\(\pi-2\). Show that in cases **(d)**, **(e)**, and **(f)**, phase changes sign.
+
+### 5.5-2 Aliasing and Sampling Rate
+
+The non-uniqueness of discrete-time sinusoids and the periodic repetition of the same waveforms at intervals of \(2\pi\) may seem innocuous, but in reality it leads to a serious problem for processing continuous-time signals by digital filters. A continuous-time sinusoid \(\cos{\omega t}\) sampled every \(T\) seconds (\(t=nT\)) results in a discrete-time sinusoid \(\cos{\omega nT}\), which is \(\cos{\Omega n}\) with \(\Omega=\omega T\). The discrete-time sinusoids \(\cos{\Omega n}\) have unique waveforms only for the values of frequencies in the range \(\Omega<\pi\) or \(\omega T<\pi\). Therefore, samples of continuous-time sinusoids of two (or more) different frequencies can generate the same discrete-time signal, as shown in Fig. 5.18. _This phenomenon is known as aliasing because through sampling, two entirely different analog sinusoids take on the same "discrete-time" identity.\({}^{\dagger}\)_
+
+Aliasing causes ambiguity in digital signal processing, which makes it impossible to determine the true frequency of the sampled signal. Consider, for instance, digitally processing
+
+Figure 5.18: Demonstration of the aliasing effect.
+
+a continuous-time signal that contains two distinct components of frequencies \(\omega_{1}\) and \(\omega_{2}\). The samples of these components appear as discrete-time sinusoids of frequencies \(\Omega_{1}=\omega_{1}T\) and \(\Omega_{2}=\omega_{2}T\). If \(\Omega_{1}\) and \(\Omega_{2}\) happen to differ by an integer multiple of \(2\pi\) (if \(\omega_{2}-\omega_{1}=2k\pi/T\)), the two frequencies will be read as the same (lower of the two) frequency by the digital processor.3 As a result, the higher-frequency component \(\omega_{2}\) not only is lost for good (by losing its identity to \(\omega_{1}\)), but also it reincarnates as a component of frequency \(\omega_{1}\), thus distorting the true amplitude of the original component of frequency \(\omega_{1}\). Hence, the resulting processed signal will be distorted. Clearly, aliasing is highly undesirable and should be avoided. To avoid aliasing, the frequencies of the continuous-time sinusoids to be processed should be kept within the fundamental band \(\omega T\leq\pi\) or \(\omega\leq\pi/T\). Under this condition the question of ambiguity or aliasing does not arise because any continuous-time sinusoid of frequency in this range has a unique waveform when it is sampled. Therefore, if \(\omega_{h}\) is the highest frequency to be processed, then, to avoid aliasing,
+
+Footnote 3: In the case shown in Fig. 5.18, \(\omega_{1}=12\pi\), \(\omega_{2}=2\pi\), and \(T=0.2\). Hence, \(\omega_{2}-\omega_{1}=10\pi T=2\pi\), and the two frequencies are read as the same frequency \(\Omega=0.4\pi\) by the digital processor.
+
+\[\omega_{h}<\frac{\pi}{T}\]
+
+If \(f_{h}\) is the highest frequency in hertz, \(f_{h}=\omega_{h}/2\pi\), and we avoid aliasing if
+
+\[f_{h}<\frac{1}{2T}\qquad\mbox{or}\qquad T<\frac{1}{2f_{h}} \tag{5.39}\]
+
+This shows that discrete-time signal processing places the limit on the highest frequency \(f_{h}\) that can be processed for a given value of the sampling interval \(T\). Fortunately, we can process a signal of any frequency (without aliasing) by choosing a suitably small value of \(T\). Since the sampling frequency \(f_{s}\) is the reciprocal of the sampling interval \(T\), we can also express Eq. (5.39) as
+
+\[f_{s}=\frac{1}{T}>2f_{h}\qquad\mbox{or}\qquad f_{h}<\frac{f_{s}}{2} \tag{5.40}\]
+
+This result is a special case of the well-known _sampling theorem_ (to be proved in Ch. 8). It states that for a discrete-time system to process a continuous-time sinusoid, the sampling rate must be greater than twice the frequency (in hertz) of the sinusoid. In short, _a sampled sinusoid must have a minimum of two samples per cycle_.4 For sampling rates below this minimum value, the output signal will be aliased, which means it will be mistaken for a sinusoid of lower frequency.
+
+Footnote 4: Strictly speaking, we must have more than two samples per cycle.
+
+### Anti-aliasing Filter
+
+If the sampling rate fails to satisfy Eq. (5.40), aliasing occurs, causing the frequencies beyond \(f_{s}/2\) Hz to masquerade as lower frequencies to corrupt the spectrum at frequencies below \(f_{s}/2\). To avoid such a corruption, a signal to be sampled is passed through an _anti-aliasing_ filter of bandwidth \(f_{s}/2\) prior to sampling. This operation ensures the condition of Eq. (5.40). The drawback of such a filter is that we lose the spectral components of the signal beyond frequency \(f_{s}/2\), which is preferable to the aliasing corruption of the signal at frequencies below \(f_{s}/2\). Chapter 8 presents a detailed analysis of the aliasing problem.
+
+### 5.12 Maximum Sampling Interval
+
+Determine the maximum sampling interval \(T\) that can be used in a discrete-time oscillator that generates a sinusoid of 50 kHz.
+
+Here the highest significant frequency \(f_{h}=50\) kHz. Therefore from Eq. (5.39),
+
+\[T<\frac{1}{2f_{h}}=10\,\mu\mathrm{s}\]
+
+The sampling interval must be less than \(10\,\mu\mathrm{s}\). The sampling frequency is \(f_{s}=1/T>100\) kHz.
+
+**EXAMPLE 5.13 Maximum Frequency Without Aliasing**
+
+A discrete-time amplifier uses a sampling interval \(T=25\,\mu\mathrm{s}\). What is the highest frequency of a signal that can be processed with this amplifier without aliasing?
+
+From Eq. (5.39)
+
+\[f_{h}<\frac{1}{2T}=20\,\mathrm{kHz}\]
+
+### 5.6 Frequency Response from Pole-Zero Locations
+
+The frequency responses (amplitude and phase responses) of a system are determined by pole-zero locations of the transfer function \(H[z]\). Just as in continuous-time systems, it is possible to determine quickly the amplitude and the phase response and to obtain physical insight into the filter characteristics of a discrete-time system by using a graphical technique. The general \(N\)th-order transfer function \(H[z]\) in Eq. (5.26) can be expressed in factored form as
+
+\[H[z]=b_{0}\,\frac{(z-z_{1})(z-z_{2})\cdot\cdot\cdot(z-z_{N})}{(z-\gamma_{1})(z -\gamma_{2})\cdot\cdot\cdot(z-\gamma_{N})}\]
+
+We can compute \(H[z]\) graphically by using the concepts discussed in Sec. 4.10. The directed line segment from \(z_{i}\) to \(z\) in the complex plane (Fig. 5.19a) represents the complex number \(z-z_{i}\). The length of this segment is \(|z-z_{i}|\) and its angle with the horizontal axis is \(\angle(z-z_{i})\).
+
+To compute the frequency response \(H[e^{i\Omega}]\) we evaluate \(H[z]\) at \(z=e^{i\Omega}\). But for \(z=e^{i\Omega}\), \(|z|=1\) and \(\angle z=\Omega\) so that \(z=e^{i\Omega}\) represents a point on the unit circle at an angle \(\Omega\) with the horizontal. We now connect all zeros (\(z_{1}\), \(z_{2}\), \(\ldots\),\(z_{N}\)) and all poles (\(\gamma_{1}\), \(\gamma_{2}\), \(\ldots\), \(\gamma_{N}\)) to the point \(e^{i\Omega}\), as indicated inFig. 5.19b. Let \(r_{1}\), \(r_{2}\), \(\ldots\), \(r_{N}\) be the lengths and \(\phi_{1}\), \(\phi_{2}\), \(\ldots\), \(\phi_{N}\) be the angles, respectively, of the straight lines connecting \(z_{1}\), \(z_{2}\), \(\ldots\), \(z_{N}\) to the point \(e^{i\Omega}\). Similarly, let \(d_{1}\), \(d_{2}\), \(\ldots\), \(d_{N}\) be the lengths and \(\theta_{1}\), \(\theta_{2}\), \(\ldots\), \(\theta_{N}\) be the angles, respectively, of the lines connecting \(\gamma_{1}\), \(\gamma_{2}\), \(\ldots\), \(\gamma_{N}\) to \(e^{i\Omega}\). Then
+
+\[H[e^{i\Omega}]=H[z]|_{z=e^{i\Omega}} =b_{0}\frac{(r_{1}e^{i\phi_{1}})(r_{2}e^{i\phi_{2}})\cdot\cdot \cdot(r_{N}e^{i\phi_{N}})}{(d_{1}e^{i\phi_{1}})(d_{2}e^{i\phi_{2}})\cdot\cdot \cdot(d_{N}e^{i\phi_{N}})}\] \[=b_{0}\frac{r_{1}r_{2}\cdot\cdot\cdot r_{N}}{d_{1}d_{2}\cdot \cdot\cdot d_{N}}e^{i[(\phi_{1}+\phi_{2}+\cdots+\phi_{N})-(\theta_{1}+\theta_ {2}+\cdots+\theta_{N})]}\]
+
+Therefore (assuming \(b_{0}>0\)),
+
+\[|H[e^{i\Omega}]|=b_{0}\frac{r_{1}r_{2}\cdot\cdot\cdot r_{N}}{d_{1}d_{2}\cdot \cdot\cdot d_{N}}=b_{0}\frac{\text{product of the distances of zeros to }e^{i\Omega}}{\text{product of distances of poles to }e^{i\Omega}} \tag{5.41}\]
+
+and
+
+\[\angle H[e^{i\Omega}] =(\phi_{1}+\phi_{2}+\cdot\cdot\cdot+\phi_{N})-(\theta_{1}+\theta _{2}+\cdot\cdot\cdot+\theta_{N})\] \[=\text{sum of zero angles to }e^{i\Omega}-\text{sum of pole angles to }e^{i\Omega}\]
+
+In this manner, we can compute the frequency response \(H[e^{i\Omega}]\) for any value of \(\Omega\) by selecting the point on the unit circle at an angle \(\Omega\). This point is \(e^{i\Omega}\). To compute the frequency response \(H[e^{i\Omega}]\), we connect all poles and zeros to this point and use the foregoing equations to determine \(|H[e^{i\Omega}]|\) and \(\angle H[e^{i\Omega}]\). We repeat this procedure for all values of \(\Omega\) from \(0\) to \(\pi\) to obtain the frequency response.
+
+Figure 5.19: Vector representations of **(a)** complex numbers and **(b)** factors of \(H[z]\).
+
+## Chapter 5 Discrete-time system analysis using the Z-transform
+
+### 5.1 Controlling Gain by Placement of Poles and Zeros
+
+The nature of the influence of pole and zero locations on the frequency response is similar to that observed in continuous-time systems, with minor differences. In place of the imaginary axis of the continuous-time systems, we have the unit circle in the discrete-time case. The nearer the pole (or zero) is to a point \(e^{i\Omega}\) (on the unit circle) representing some frequency \(\Omega\), the more influence that pole (or zero) yields on the amplitude response at that frequency because the length of the vector joining that pole (or zero) to the point \(e^{i\Omega}\) is small. The proximity of a pole (or a zero) has a similar effect on the phase response. From Eq. (5.41), it is clear that to enhance the amplitude response at a frequency \(\Omega\), we should place a pole as close as possible to the point \(e^{i\Omega}\) (which is on the unit circle).1 Similarly, to suppress the amplitude response at a frequency \(\Omega\), we should place a zero as close as possible to the point \(e^{i\Omega}\) on the unit circle. Placing repeated poles or zeros will further enhance their influence.
+
+Footnote 1: The closest we can place a pole is on the unit circle at the point representing \(\Omega\). This choice would lead to infinite gain, but should be avoided because it will render the system marginally stable (BIBO-unstable). The closer the point to the unit circle, the more sensitive the system gain to parameter variations.
+
+Total suppression of signal transmission at any frequency can be achieved by placing a zero on the unit circle at a point corresponding to that frequency. This observation is used in the notch (bandstop) filter design.
+
+Placing a pole or a zero at the origin does not influence the amplitude response because the length of the vector connecting the origin to any point on the unit circle is unity. However, a pole (or a zero) at the origin adds angle \(-\Omega\) (or \(\Omega\)) to \(\angle H[e^{i\Omega}]\). Hence, the phase spectrum \(-\Omega\) (or \(\Omega\)) is a linear function of frequency and therefore represents a pure time delay (or time advance) of \(T\) seconds (see Drill 5.19). Therefore, a pole (a zero) at the origin causes a time delay (or a time advance) of \(T\) seconds in the response. There is no change in the amplitude response.
+
+For a stable system, all the poles must be located inside the unit circle. The zeros may lie anywhere. Also, for a physically realizable system, \(H[z]\) must be a proper fraction, that is, \(N\geq M\). If, to achieve a certain amplitude response, we require \(M>N\), we can still make the system realizable by placing a sufficient number of poles at the origin to make \(N=M\). This will not change the amplitude response, but it will increase the time delay of the response.
+
+In general, a pole at a point has the opposite effect of a zero at that point. Placing a zero closer to a pole tends to cancel the effect of that pole on the frequency response.
+
+### 5.2 Lowpass Filters
+
+A lowpass filter generally has a maximum gain at or near \(\Omega=0\), which corresponds to point \(e^{i0}=1\) on the unit circle. Clearly, placing a pole inside the unit circle near the point \(z=1\) (Fig. 5.20a) would result in a lowpass response.2 The corresponding amplitude and phase response appear in Fig. 5.20a. For smaller values of \(\Omega\), the point \(e^{i\Omega}\) (a point on the unit circle at an angle \(\Omega\)) is closer to the pole, and consequently the gain is higher. As \(\Omega\) increases, the distance of the point \(e^{i\Omega}\) from the pole increases. Consequently the gain decreases, resulting in a lowpass characteristic. Placing a zero at the origin does not change the amplitude response but it does modify the phase response, as illustrated in Fig. 5.20b. Placing a zero at \(z=-1\), however, changes both the amplitude and the phase response (Fig. 5.20c). The point \(z=-1\) corresponds to frequency
+
+### Frequency Response from Pole-Zero Locations
+
+Figure 5.20: Various pole-zero configurations and the corresponding frequency responses.
+
+\(\Omega=\pi\) (\(z=e^{i\Omega}=e^{i\pi}=-1\)). Consequently, the amplitude response now becomes more attenuated at higher frequencies, with a zero gain at \(\Omega=\pi\). We can approach ideal lowpass characteristics by using more poles staggered near \(z=1\) (but within the unit circle). Figure 5.20d shows a third-order lowpass filter with three poles near \(z=1\) and a third-order zero at \(z=-1\), with corresponding amplitude and phase response. For an ideal lowpass filter, we need an enhanced gain at every frequency in the band (\(0,\,\Omega_{c}\)). This can be achieved by placing a continuous wall of poles (requiring an infinite number of poles) opposite this band.
+
+### Highpass Filters
+
+A highpass filter has a small gain at lower frequencies and a high gain at higher frequencies. Such a characteristic can be realized by placing a pole or poles near \(z=-1\) because we want the gain at \(\Omega=\pi\)  to be the highest. Placing a zero at \(z=1\) further enhances suppression of gain at lower frequencies. Figure 5.20e shows a possible pole-zero configuration of the third-order highpass filter with corresponding amplitude and phase responses.
+
+In the following two examples, we shall realize analog filters by using digital processors and suitable interface devices (C/D and D/C), as shown in Fig. 3.2. At this point, we shall examine the design of a digital processor with the transfer function \(H[z]\) for the purpose of realizing bandpass and bandstop filters in the following examples.
+
+As Fig. 3.2 shows, the C/D device samples the continuous-time input \(x(t)\) to yield a discrete-time signal \(x[n]\), which serves as the input to \(H[z]\). The output \(y[n]\) of \(H[z]\) is converted to a continuous-time signal \(y(t)\) by a D/C device. We also saw in Eq. (5.34) that a continuous-time sinusoid of frequency \(\omega\), when sampled, results in a discrete-time sinusoid \(\Omega=\omega T\).
+
+Because \(f_{h}=500\), we require \(T<1/1000\) [see Eq. (5.39)]. Let us select \(T=10^{-3.\dagger}\)  Recall that the analog frequencies \(\omega\) correspond to digital frequencies \(\Omega=\omega T\). Hence, analog frequencies \(\omega=0\) and \(1000\pi\)  correspond to \(\Omega=0\) and \(\pi\), respectively. The gain is required to be zero at these frequencies. Hence, we need to place zeros at \(e^{i\Omega}\) corresponding to \(\Omega=0\) and \(\Omega=\pi\). For \(\Omega=0\), \(z=e^{i\Omega}=1\); for \(\Omega=\pi\), \(e^{i\Omega}=-1\). Hence, there must be zeros at \(z=\pm 1\). Moreover, we need enhanced response at the resonant frequency \(\omega=250\pi\), which corresponds to \(\Omega=\pi/4\), which, in turn, corresponds to \(z=e^{i\Omega}=e^{i\pi/4}\). Therefore, to enhance the frequency response at \(\omega=250\pi\), we place a pole in the vicinity of \(e^{i\pi/4}\). Because this is a complex pole, we also need its conjugate near \(e^{-i\pi/4}\), as indicated in Fig. 5.21a. Let us choose these poles \(\gamma_{1}\) and \(\gamma_{2}\) as
+
+\[\gamma_{1}=|\gamma\,|e^{i\pi/4}\qquad\text{and}\qquad\gamma_{2}=|\gamma\,|e^{ -i\pi/4}\]where \(|\gamma|<1\) for stability. The closer \(\gamma\) is to the unit circle, the more sharply peaked is the response around \(\omega=250\pi\). We also have zeros at \(\pm 1\). Hence,
+
+\[H[z]=K\frac{(z-1)(z+1)}{(z-|\gamma|e^{j\pi/4})(z-|\gamma|e^{-j\pi/4})}=K\frac{z^ {2}-1}{z^{2}-\sqrt{2}|\gamma|z+|\gamma|^{2}}\]
+
+For convenience, we shall choose \(K=1\). The amplitude response is given by
+
+\[|H[e^{j\Omega}]|=\frac{|e^{j2\Omega}-1|}{|e^{j\Omega}-|\gamma|e^{j\pi/4}||e^{ j\Omega}-|\gamma|e^{-j\pi/4}|}\]
+
+Now, by using Eq. (5.37), we obtain
+
+\[|H[e^{j\Omega}]|^{2}=\frac{2(1-\cos 2\Omega)}{\left[1+|\gamma|^{2}-2| \gamma|\cos\left(\Omega-\frac{\pi}{4}\right)\right]\left[1+|\gamma|^{2}-2| \gamma|\cos\left(\Omega+\frac{\pi}{4}\right)\right]}\]
+
+Figure 5.21: Designing a bandpass filter.
+
+Figure 5.21b shows the amplitude response as a function of \(\omega\), as well as \(\Omega=\omega T=10^{-3}\omega\) for values of \(|\gamma|=0.83\), 0.96, and 1. As expected, the gain is zero at \(\omega=0\) and at 500 Hz (\(\omega=1000\pi\)). The gain peaks at about 125 Hz (\(\omega=250\pi\)). The resonance (peaking) becomes pronounced as \(|\gamma|\) approaches 1. Figure 5.21c shows a canonical realization of this filter, which follows from the transfer function \(H[z]\).
+
+### Multiple Magnitude Response Curves Using MATLAB
+
+By defining an anonymous function of the two variables \(z\) and \(\gamma\) in MATLAB, it is straightforward to duplicate the three magnitude response curves in Fig. 5.21b, corresponding to the cases \(\gamma=0.83\), 0.96, and 1.
+
+The result, shown in Fig. 5.22, confirms the earlier result of Fig. 5.21b. Phase response curves can be generated with minor modification to the MATLAB code.
+
+Figure 5.22: MATLAB-generated magnitude response curves for Ex. 5.14.
+
+### Example 5.15 Bandstop Filter by Pole-Zero Placement
+
+Design a second-order notch filter to have zero transmission at 250 Hz and a sharp recovery of gain to unity on both sides of 250 Hz. The highest significant frequency to be processed is \(f_{h}=400\,\) Hz.
+
+In this case, \(T<1/2f_{h}=1.25\times 10^{-3}\). Let us choose \(T=10^{-3}\). For the frequency 250 Hz, \(\Omega=2\pi\,(250)T=\pi/2\). Thus, the frequency 250 Hz is represented by a point \(e^{i\Omega}=e^{i\pi/2}=j\) on the unit circle, as depicted in Fig. 5.23a. Since we need zero transmission at this frequency, we must place a zero at \(z=e^{i\pi/2}=j\) and its conjugate at \(z=e^{-j\pi/2}=-j\). We also require a sharp recovery of gain on both sides of frequency 250 Hz. To accomplish this goal, we place two poles close to the two zeros, to cancel out the effect of the two zeros as we move away from the point \(j\) (corresponding to frequency 250 Hz). For this reason, let us use poles at \(\pm ja\) with \(a<1\) for stability. The closer the poles are to zeros (the closer the \(a\) to 1), the faster is the gain recovery on either side of 250 Hz. The resulting transfer function is
+
+\[H[z]=K\frac{(z-j)(z+j)}{(z-ja)(z+ja)}=K\frac{z^{2}+1}{z^{2}+a^{2}}\]
+
+The dc gain (gain at \(\Omega=0\), or \(z=1\) ) of this filter is
+
+\[H[1]=K\frac{2}{1+a^{2}}\]
+
+Because we require a dc gain of unity, we must select \(K=(1+a^{2})/2\). The transfer function is therefore
+
+\[H[z]=\frac{(1+a^{2})(z^{2}+1)}{2(z^{2}+a^{2})}\]
+
+and according to Eq. (5.37),
+
+\[|H[e^{i\Omega}]|^{2} =\frac{(1+a^{2})^{2}}{4}\frac{(e^{i2\Omega}+1)(e^{-j2\Omega}+1)}{ (e^{i2\Omega}+a^{2})(e^{-j2\Omega}+a^{2})}\] \[=\frac{(1+a^{2})^{2}(1+\cos 2\Omega)}{2(1+a^{4}+2a^{2}\cos 2 \Omega)}\]
+
+Figure 5.23b shows \(|H[e^{i\Omega}]|\) for values of \(a=0.3\), \(0.6\), and \(0.95\). Figure 5.23c shows a realization of this filter.
+
+Figure 5.23: Designing a notch (bandstop) filter.
+
+For the sake of generality, we are assuming a noncausal system. The argument and the results are also valid for causal systems. The output \(y(t)\) of the system in Fig. 5.24b is
+
+\[y(t)=\int_{-\infty}^{\infty}x(\tau)h_{a}(t-\tau)\,d\tau\qquad\qquad=\lim_{ \Delta\tau\to 0}\sum_{m=-\infty}^{\infty}x(m\Delta\tau)h_{a}(t-m\Delta\tau) \Delta\tau\]
+
+For our purpose, it is convenient to use the notation \(T\) for \(\Delta\tau\). Assuming \(T\) (the sampling interval) to be small enough, such a change of notation yields
+
+\[y(t)=T\sum_{m=-\infty}^{\infty}x(mT)h_{a}(t-mT)\]
+
+The response at the \(n\)th sampling instant is \(y(nT)\) obtained by setting \(t=nT\) in the equation is
+
+\[y(nT)=T\sum_{m=-\infty}^{\infty}x(mT)h_{a}[(n-m)T] \tag{5.42}\]
+
+In Fig. 5.24a, the input to \(H[z]\) is \(x(nT)=x[n]\). If \(h[n]\) is the unit impulse response of \(H[z]\), then \(y[n]\), the output of \(H[z]\), is given by
+
+\[y[n]=\sum_{m=-\infty}^{\infty}x[m]h[n-m] \tag{5.43}\]
+
+If the two systems are to be equivalent, \(y(nT)\) in Eq. (5.42) must be equal to \(y[n]\) in Eq. (5.43). Therefore,
+
+\[h[n]=Th_{a}(nT) \tag{5.44}\]
+
+This is the time-domain criterion for equivalence of the two systems.2 According to this criterion, \(h[n]\), the unit impulse response of \(H[z]\) in Fig. 5.24a, should be \(T\) times the samples of \(h_{a}(t)\), the unit impulse response of the system in Fig. 5.24b. This is known as the _impulse invariance criterion_ of filter design.
+
+Footnote 2: Because \(T\) is a constant, some authors ignore the factor \(T\), which yields a simplified criterion \(h[n]=h_{a}(nT)\). Ignoring \(T\) merely scales the amplitude response of the resulting filter.
+
+Strictly speaking, this realization guarantees the output equivalence only at the sampling instants, that is, \(y(nT)=y[n]\), and that also requires the assumption that \(T\to 0\). Clearly, this criterion leads to an approximate realization of \(H_{a}(s)\). However, it can be shown that when the frequency response of \(|H_{a}(jo)|\) is bandlimited, the realization is exact [2], provided the sampling rate is high enough to avoid any aliasing (\(T<1/2f_{h}\)).
+
+## Realization of Rational \(H(s)\)
+
+If we wish to realize an analog filter with transfer function
+
+\[H_{a}(s)=\frac{c}{s-\lambda}\]
+
+The procedure of finding \(H[z]\) can be systematized for any \(N\)th-order system. First we express an \(N\)th-order analog transfer function \(H_{a}(s)\) as a sum of partial fractions as2
+
+Footnote 2: Assuming \(H_{a}(s)\) has simple poles. For repeated poles, the form changes accordingly. Entry 6 in Table 5.3 is suitable for repeated poles.
+
+\[H_{a}(s)=\sum_{i=1}^{n}\frac{c_{i}}{s-\lambda_{i}}\]
+
+Then the corresponding \(H[z]\) is given by
+
+\[H[z]=T\sum_{i=1}^{n}\frac{c_{i}z}{z-e^{\lambda_{i}T}}\]
+
+This transfer function can be readily realized, as explained in Sec. 5.4. Table 5.3 lists several pairs of \(H_{a}(s)\) and their corresponding \(H[z]\). For instance, to realize a digital integrator, we examine its \(H_{a}(s)=1/s\). From Table 5.3, corresponding to \(H_{a}(s)=1/s\) (pair 2), we find \(H[z]=Tz/(z-1)\). This is exactly the result we obtained in Ex. 3.9 using another approach.
+
+Note that the frequency response \(H_{a}(j\omega)\) of a practical analog filter cannot be bandlimited. Consequently, all these realizations are approximate.
+
+### Choosing the Sampling Interval \(T\)
+
+The impulse-invariance criterion (5.44) was derived under the assumption that \(T\to 0\). Such an assumption is neither practical nor necessary for satisfactory design. Avoiding of aliasing is the most important consideration for the choice of \(T\). In Eq. (5.39), we showed that for a sampling interval \(T\) seconds, the highest frequency that can be sampled without aliasing is \(1/2T\) Hz or \(\pi/T\) radians per second. This implies that \(H_{a}(j\omega)\), the frequency response of the analog filter in Fig. 5.24b should not have spectral components beyond frequency \(\pi/T\) radians per second. In other words, to avoid aliasing, the frequency response of the system \(H_{a}(s)\) must be bandlimited to \(\pi/T\) radians per second. We shall see later in Ch. 7 that frequency response of a realizable LTIC system cannot be bandlimited; that is, the response generally exists for all frequencies up to \(\infty\). Therefore, it is impossible to digitally realize an LTIC system exactly without aliasing. The saving grace is that the frequency response of every realizable LTIC system decays with frequency. This allows for a compromise in digitally realizing an LTIC system with an acceptable level of aliasing. The smaller the value of \(T\), the smaller the aliasing, and the better the approximation. Since it is impossible to make \(|H_{a}(j\omega)|\) zero, we are satisfied with making it negligible beyond the frequency \(\pi/T\). As a rule of thumb [3], we choose \(T\) such that \(|H_{a}(j\omega)|\) at the frequency \(\omega=\pi/T\) is less than a certain fraction (often taken as 1%) of the peak value of \(|H_{a}(j\omega)|\). This ensures that aliasing is negligible. The peak \(|H_{a}(j\omega)|\) usually occurs at \(\omega=0\) for lowpass filters and at the band center frequency \(\omega_{c}\) for bandpass filters.
+
+### 5.16 Butterworth Filter Design by the Impulse-Invariance Method
+
+Design a digital filter to realize a first-order lowpass Butterworth filter with the transfer function
+
+\[H_{a}(s)=\frac{\omega_{c}}{s+\omega_{c}}\qquad\omega_{c}=10^{5} \tag{5.46}\]
+
+For this filter, we find the corresponding \(H[z]\) according to Eq. (5.45) (or pair 5 in Table 5.3) as
+
+\[H[z]=\frac{\omega_{c}Tz}{z-e^{-\omega_{c}T}} \tag{5.47}\]
+
+Next, we select the value of \(T\) by means of the criterion according to which the gain at \(\omega=\pi/T\) drops to 1% of the maximum filter gain. However, this choice results in such a good design that aliasing is imperceptible. The resulting amplitude response is so close to the desired response that we can hardly notice the aliasing effect in our plot. For the sake of demonstrating the aliasing effect, we shall deliberately select a 10% criterion (instead of 1%). We have
+
+\[|H_{a}(j\omega)|=\left|\frac{\omega_{c}}{\sqrt{\omega^{2}+\omega_{c}^{2}}}\right|\]
+
+In this case \(|H_{a}(j\omega)|_{\max}=1\), which occurs at \(\omega=0\). Use of 10% criterion leads to \(|H_{a}(\pi/T)|=0.1\). Observe that
+
+\[|H_{a}(j\omega)|\approx\frac{\omega_{c}}{\omega}\qquad\omega\gg\omega_{c}\]
+
+Hence,
+
+\[|H_{a}(\pi/T)|\approx\frac{\omega_{c}}{\pi/T}=0.1\quad\Longrightarrow\quad \pi/T=10\omega_{c}=10^{6}\]
+
+Thus, the 10% criterion yields \(T=10^{-6}\pi\). The 1% criterion would have given \(T=10^{-7}\pi\). Substitution of \(T=10^{-6}\pi\) in Eq. (5.47) yields
+
+\[H[z]=\frac{0.3142z}{z-0.7304} \tag{5.48}\]
+
+A canonical realization of this filter is shown in Fig. 5.26a.
+
+To find the frequency response of this digital filter, we rewrite \(H[z]\) as
+
+\[H[z]=\frac{0.3142}{1-0.7304z^{-1}}\]
+
+Therefore,
+
+\[H[e^{j\omega T}]=\frac{0.3142}{1-0.7304e^{-j\omega T}}=\frac{0.3142}{(1-0.73 04\cos\omega T)+j0.7304\sin\omega T}\]The corresponding magnitude response is
+
+\[|H[e^{i\omega T}]| =\frac{0.3142}{\sqrt{(1-0.7304\cos\omega T)^{2}+(0.7304\sin\omega T) ^{2}}}\] \[=\frac{0.3142}{\sqrt{1.533-1.4608\cos\omega T}} \tag{5.49}\]
+
+Figure 5.26: An example of filter design by the impulse-invariance method: **(a)** filter realization, **(b)** amplitude response, and **(c)** phase response.
+
+and the phase response is
+
+\[\angle H[e^{j\omega T}]=-\tan^{-1}\left(\frac{0.7304\,\sin\omega T}{1-0.7304\,\cos \omega T}\right) \tag{5.50}\]
+
+This frequency response differs from the desired response \(H_{a}(j\omega)\) because aliasing causes frequencies above \(\pi/T\) to appear as frequencies below \(\pi/T\). This generally results in increased gain for frequencies below \(\pi/T\). For instance, the realized filter gain at \(\omega=0\) is \(H[e^{j0}]=H[1]\). This value, as obtained from Eq. (5.48), is 1.1654 instead of the desired value 1. We can partly compensate for this distortion by multiplying \(H[z]\) or \(H[e^{j\omega T}]\) by a normalizing constant \(K=H_{a}(0)/H[1]=1/1.1654=0.858\). This forces the resulting gain of \(H[e^{j\omega T}]\) to be equal to 1 at \(\omega=0\). The normalized \(H_{n}[z]=0.858H[z]=0.858(0.1\pi z/(z-0.7304))\). The amplitude response in Eq. (5.49) is multiplied by \(K=0.858\) and plotted in Fig. 5.26b over the frequency range \(0\leq\omega\leq\pi/T=10^{6}\). The multiplying constant \(K\) has no effect on the phase response in Eq. (5.50), which is shown in Fig. 5.26c.
+
+Also, the desired frequency response, according to Eq. (5.46) with \(\omega_{c}=10^{5}\), is
+
+\[H_{a}(j\omega)=\frac{\omega_{c}}{j\omega+\omega_{c}}=\frac{10^{5}}{j\omega+10 ^{5}}\]
+
+Therefore,
+
+\[|H_{a}(j\omega)|=\frac{10^{5}}{\sqrt{\omega^{2}+10^{10}}}\qquad\mbox{and} \qquad\angle H_{a}(j\omega)=-\tan^{-1}\frac{\omega}{10^{5}}\]
+
+This desired amplitude and phase response are plotted (dotted) in Figs. 5.26b and 5.26c for comparison with realized digital filter response. Observe that the amplitude response behavior of the analog and the digital filter is very close over the range \(\omega\leq\omega_{c}=10^{5}\). However, for higher frequencies, there is considerable aliasing, especially in the phase spectrum. Had we used the 1% rule, the realized frequency response would have been closer over another decade of the frequency range.
+
+### Impulse Invariance by MATLAB
+
+We can readily use the MATLAB impinvar command to confirm our digital filter designed by the impulse-invariance method.
+
+>> omegac = 10^5; Ba = [omega]; Aa = [1 omegac]; Fs = 10^6/pi; >> [B,A] = impinvar(Ba,Aa,Fs) B = 0.3142 A = 1.0000 -0.7304 This confirms our earlier result of Eq. (5.48) that the digital filter transfer function is
+
+\[H[z]=\frac{0.3142z}{z-0.7304}\]
+
+### 5.22 Filter Design by the Impulse-Invariance Method
+
+Design a digital filter to realize an analog transfer function
+
+\[H_{a}(s)=\frac{20}{s+20}\]
+
+**Answer**
+
+\(H[z]=\frac{20Tz}{z-e^{-20T}}\) with \(T=\frac{\pi}{2000}\)
+
+### 5.8 The Bilateral z-Transform
+
+Situations involving noncausal signals or systems cannot be handled by the (unilateral) \(z\)-transform discussed so far. Such cases can be analyzed by the _bilateral_ (or two-sided) \(z\)-transform defined in Eq. (5.1) as
+
+\[X[z]=\sum_{n=-\infty}^{\infty}x[n]z^{-n}\]
+
+As in Eq. (5.2), the inverse \(z\)-transform is given by
+
+\[x[n]=\frac{1}{2\pi j}\oint X[z]z^{n-1}\,dz\]
+
+These equations define the bilateral \(z\)-transform. Earlier, we showed that
+
+\[\gamma^{n}u[n]\Longleftrightarrow\frac{z}{z-\gamma}\qquad|z|>|\gamma| \tag{5.51}\]
+
+In contrast, the \(z\)-transform of the signal \(-\gamma^{n}u[-(n+1)]\), illustrated in Fig. 5.27a, is
+
+\[\mathcal{Z}\{-\gamma^{n}u[-(n+1)]\} =\sum_{-\infty}^{-1}-\gamma^{n}z^{-n}=\sum_{-\infty}^{-1}-\left( \frac{\gamma}{z}\right)^{n}\] \[=-\left[\frac{z}{\gamma}+\left(\frac{z}{\gamma}\right)^{2}+ \left(\frac{z}{\gamma}\right)^{3}+\dots\right]\] \[=1-\left[1+\frac{z}{\gamma}+\left(\frac{z}{\gamma}\right)^{2}+ \left(\frac{z}{\gamma}\right)^{3}+\dots\right]\] \[=1-\frac{1}{1-\frac{z}{\gamma}}\qquad\left|\frac{z}{\gamma} \right|\prec 1\] \[=\frac{z}{z-\gamma}\qquad|z|\prec|\gamma|\]Therefore,
+
+\[{\cal Z}\{-\gamma^{n}u[-(n+1)]\}=\frac{z}{z-\gamma}\qquad|z|<|\gamma| \tag{5.52}\]
+
+A comparison of Eqs. (5.51) and (5.52) shows that the \(z\)-transform of \(\gamma^{n}u[n]\) is identical to that of \(-\gamma^{n}u[-(n+1)]\). The regions of convergence, however, are different. In the former case, \(X[z]\) converges for \(|z|>|\gamma|\); in the latter, \(X[z]\) converges for \(|z|<|\gamma|\) (see Fig. 5.27b). Clearly, the inverse transform of \(X[z]\) is not unique unless the region of convergence is specified. If we add the restriction that all our signals be causal, however, this ambiguity does not arise. The inverse transform of \(z/(z-\gamma)\) is \(\gamma^{n}u[n]\) even without specifying the ROC. Thus, in the unilateral transform, we can ignore the ROC in determining the inverse \(z\)-transform of \(X[z]\).
+
+As in the case of the bilateral Laplace transform, if \(x[n]=\sum_{i=1}^{k}x_{i}[n]\), then the ROC for \(X[z]\) is the intersection of the ROCs (region common to all ROCs) for the transforms \(X_{1}[z],X_{2}[z],\ldots,X_{k}[z]\).
+
+The preceding results lead to the conclusion (similar to that for the Laplace transform) that if \(z=\beta\) is the largest magnitude pole for a causal sequence, its ROC is \(|z|>|\beta|\). If \(z=\alpha\) is the smallest magnitude nonzero pole for an anticausal sequence, its ROC is \(|z|<|\alpha|\).
+
+### Region of Convergence for Left-Sided and Right-Sided Sequences
+
+Let us first consider a finite duration sequence \(x_{f}[n]\), defined as a sequence that is nonzero for \(N_{1}\leq n\leq N_{2}\), where both \(N_{1}\) and \(N_{2}\) are finite numbers and \(N_{2}>N_{1}\). Also,
+
+\[X_{f}[z]=\sum_{n=N_{1}}^{N_{2}}x_{f}[n]z^{-n}\]
+
+For example, if \(N_{1}=-2\) and \(N_{2}=1\), then
+
+\[X_{f}[z]=x_{f}[-2]z^{2}+x_{f}[-1]z+x_{f}[0]+\frac{x_{f}[1]}{z}\]
+
+Figure 5.27: **(a) \(-\gamma^{n}u[-(n+1)]\) and (b) the region of convergence (ROC) of its \(z\)-transform.**
+
+Assuming all the elements in \(x_{f}[n]\) are finite, we observe that \(X_{f}[z]\) has two poles at \(z=\infty\) because of terms \(x_{f}[-2]z^{2}+x_{f}[-1]z\) and one pole at \(z=0\) because of term \(x_{f}[1]/z\). Thus, a finite-duration sequence could have poles at \(z=0\) and \(z=\infty\). Observe that \(X_{f}[z]\) converges for all values of \(z\) except possibly \(z=0\) and \(z=\infty\).
+
+This means that the ROC of a general signal \(x[n]+x_{f}[n]\) is the same as the ROC of \(x[n]\) with the possible exception of \(z=0\) and \(z=\infty\).
+
+A _right-sided_ sequence is zero for \(n<N_{2}<\infty\) and a left-sided sequence is zero for \(n>N_{1}>-\infty\). A causal sequence is always a right-sided sequence, but the converse is not necessarily true. An anticausal sequence is always a left-sided sequence, but the converse is not necessarily true. A _two-sided_ sequence is of infinite duration and is neither right-sided nor left-sided.
+
+A right-sided sequence \(x_{r}[n]\) can be expressed as \(x_{r}[n]=x_{c}[n]+x_{f}[n]\), where \(x_{c}[n]\) is a causal signal and \(x_{f}[n]\) is a finite-duration signal. Therefore, the ROC for \(x_{r}[n]\) is the same as the ROC for \(x_{c}[n]\) except possibly \(z=\infty\). If \(z=\beta\) is the largest magnitude pole for a right-sided sequence \(x_{r}[n]\), its ROC is \(|\beta|<|z|\leq\infty\). Similarly, a left-sided sequence can be expressed as \(x_{l}[n]=x_{a}[n]+x_{f}[n]\), where \(x_{a}[n]\) is an anticausal sequence and \(x_{f}[n]\) is a finite-duration signal. Therefore, the ROC for \(x_{l}[n]\) is the same as the ROC for \(x_{a}[n]\) except possibly \(z=0\). Thus, if \(z=\alpha\) is the smallest magnitude nonzero pole for a left-sided sequence, its ROC is \(0\leq|z|<|\alpha|\).
+
+**Example 5.17**: **Bilateral \(z\)-Transform**
+
+Determine the bilateral \(z\)-transform of
+
+\[x[n]=\underbrace{(0.9)^{n}u[n]}_{x_{1}[n]}+\underbrace{(1.2)^{n}u[-(n+1)]}_{ x_{2}[n]}\]
+
+From the results in Eqs. (5.51) and (5.52), we have
+
+\[X_{1}[z] =\frac{z}{z-0.9} |z|>0.9\] \[X_{2}[z] =\frac{-z}{z-1.2} |z|<1.2\]
+
+The common region where both \(X_{1}[z]\) and \(X_{2}[z]\) converge 
+
+**Example 5.18**: **Inverse Bilateral \(z\)-Transform**
+
+Find the inverse bilateral \(z\)-transform of
+
+\[X[z]=\frac{-z(z+0.4)}{(z-0.8)(z-2)}\]
+
+if the ROC is **(a)**\(|z|>2\), **(b)**\(|z|<0.8\), and **(c)**\(0.8<|z|<2\).
+
+Since the ROC is \(|z|>2\), both terms correspond to causal sequences and
+
+\[x[n]=[(0.8)^{n}-2(2)^{n}]u[n]\]
+
+This sequence appears in Fig. 5.29a.
+
+Figure 5.28: **(a)** Signal \(x[n]\) and **(b)** ROC of \(X[z]\).
+
+**(b)** In this case, \(|z|<0.8\), which is less than the magnitudes of both poles. Hence, both terms correspond to anticausal sequences, and
+
+\[x[n]=[-(0.8)^{n}+2(2)^{n}]u[-(n+1)]\]
+
+This sequence appears in Fig. 5.29b.
+
+**(c)** In this case, \(0.8<|z|<2\); the part of \(X[z]\) corresponding to the pole at \(0.8\) is a causal sequence, and the part corresponding to the pole at \(2\) is an anticausal sequence:
+
+\[x[n]=(0.8)^{n}u[n]+2(2)^{n}u[-(n+1)]\]
+
+This sequence appears in Fig. 5.29c.
+
+**Figure 5.29** Three possible inverse transforms of \(X[z]\).
+
+### 5.8 The Bilateral \(z\)-Transform
+
+#### Inverse Transform by Expansion of \(X[z]\) in Power Series of \(z\)
+
+We have
+
+\[X[z]=\sum_{n}x[n]z^{-n}\]
+
+For an anticausal sequence, which exists only for \(n\leq-1\), this equation becomes
+
+\[X[z]=x[-1]z+x[-2]z^{2}+x[-3]z^{3}+\cdots\]
+
+We can find the inverse \(z\)-transform of \(X[z]\) by dividing the numerator polynomial by the denominator polynomial, both in ascending powers of \(z\), to obtain a polynomial in ascending powers of \(z\). Thus, to find the inverse transform of \(z/(z-0.5)\) (when the ROC is \(|z|<0.5\)), we divide \(z\) by \(-0.5+z\) to obtain \(-2z-4z^{2}-8z^{3}-\cdots\). Hence, \(x[-1]=-2,x[-2]=-4,x[-3]=-8\), and so on.
+
+### Properties of the Bilateral \(z\)-Transform
+
+Properties of the bilateral \(z\)-transform are similar to those of the unilateral transform. We shall merely state the properties here, without proofs, for \(x_{i}[n]\Longleftrightarrow X_{i}[z]\).
+
+Linearity
+
+\[a_{1}x_{1}[n]+a_{2}x_{2}[n]\Longleftrightarrow a_{1}X_{1}[z]+a_{2}X_{2}[z]\]
+
+The ROC for \(a_{1}X_{1}[z]+a_{2}X_{2}[z]\) is the region common to (intersection of) the ROCs for \(X_{1}[z]\) and \(X_{2}[z]\).
+
+Shift
+
+\[x[n-m]\Longleftrightarrow\frac{1}{z^{m}}X[z]\qquad m\,\text{is positive or negative integer}\]
+
+The ROC for \(X[z]/z^{m}\) is the ROC for \(X[z]\) except for the addition or deletion of \(z=0\) or \(z=\infty\) caused by the factor \(1/z^{m}\).
+
+## Chapter 5 Discrete-time system analysis using the Z-transform
+
+### 5.8 Using the Bilateral \(z\)-Transform for Analysis of LTID Systems
+
+Because the bilateral \(z\)-transform can handle noncausal signals, we can use this transform to analyze noncausal linear systems. The zero-state response \(y[n]\) is given by
+
+\[y[n]=\mathcal{Z}^{-1}\{X[z]H[z]\}\]
+
+provided \(X[z]H[z]\) exists. The ROC of \(X[z]H[z]\) is the region in which both \(X[z]\) and \(H[z]\) exist, which means that the region is the common part of the ROC of both \(X[z]\) and \(H[z]\).
+
+**Example 5.19**: **Zero-State Response by Bilateral \(z\)-Transform**
+
+For a causal system specified by the transfer function
+
+\[H[z]=\frac{z}{z-0.5}\]
+
+find the zero-state response to input
+
+\[x[n] =(0.8)^{n}u[n]+2(2)^{n}u[-(n+1)]\] \[X[z] =\frac{z}{z-0.8}-\frac{2z}{z-2}=\frac{-z(z+0.4)}{(z-0.8)(z-2)}\]
+
+The ROC corresponding to the causal term is \(|z|>0.8\), and that corresponding to the anticausal term is \(|z|<2\). Hence, the ROC for \(X[z]\) is the common region, given by \(0.8<|z|<2\). Hence,
+
+\[X[z]=\frac{-z(z+0.4)}{(z-0.8)(z-2)}\qquad 0.8<|z|<2\]
+
+Therefore,
+
+\[Y[z]=X[z]H[z]=\frac{-z^{2}(z+0.4)}{(z-0.5)(z-0.8)(z-2)}\]
+
+Since the system is causal, the ROC of \(H[z]\) is \(|z|>0.5\). The ROC of \(X[z]\) is \(0.8<|z|<2\). The common region of convergence for \(X[z]\) and \(H[z]\) is \(0.8<|z|<2\). Therefore,
+
+\[Y[z]=\frac{-z^{2}(z+0.4)}{(z-0.5)(z-0.8)(z-2)}\qquad 0.8<|z|<2\]
+
+Expanding \(Y[z]\) into modified partial fractions yields
+
+\[Y[z]=-\frac{z}{z-0.5}+\frac{8}{3}\left(\frac{z}{z-0.8}\right)-\frac{8}{3} \left(\frac{z}{z-2}\right)\qquad 0.8<|z|<2\]
+
+Since the ROC extends outward from the pole at \(0.8\), both poles at \(0.5\) and \(0.8\) correspond to causal sequence. The ROC extends inward from the pole at \(2\). Hence, the pole at \(2\) corresponds to anticausal sequence. Therefore,
+
+\[y[n]=\left[-(0.5)^{n}+\tfrac{8}{3}(0.8)^{n}\right]u[n]+\tfrac{8}{3}(2)^{n}u[- (n+1)]\]
+**Example 5.20**: **Zero-State Response for an Input with No \(z\)-Transform**
+
+For the system in Ex. 5.19, find the zero-state response to input
+
+\[x[n]=\underbrace{(0.8)^{n}u[n]}_{x_{1}[n]}+\underbrace{(0.6)^{n}u[-(n+1)]}_{x_{ 2}[n]}\]
+
+The \(z\)-transforms of the causal and anticausal components \(x_{1}[n]\) and \(x_{2}[n]\) of the output are
+
+\[X_{1}[z]=\frac{z}{z-0.8} |z|>0.8\] \[X_{2}[z]=\frac{-z}{z-0.6} |z|<0.6\]
+
+Observe that a common ROC for \(X_{1}[z]\) and \(X_{2}[z]\) does not exist. Therefore, \(X[z]\) does not exist. In such a case we take advantage of the superposition principle and find \(y_{1}[n]\) and \(y_{2}[n]\), the system responses to \(x_{1}[n]\) and \(x_{2}[n]\), separately. The desired response \(y[n]\) is the sum of \(y_{1}[n]\) and \(y_{2}[n]\). Now
+
+\[H[z]=\frac{z}{z-0.5} |z|>0.5\] \[Y_{1}[z]=X_{1}[z]H[z]=\frac{z^{2}}{(z-0.5)(z-0.8)} |z|>0.8\] \[Y_{2}[z]=X_{2}[z]H[z]=\frac{-z^{2}}{(z-0.5)(z-0.6)} 0.5<|z|<0.6\]
+
+Expanding \(Y_{1}[z]\) and \(Y_{2}[z]\) into modified partial fractions yields
+
+\[Y_{1}[z]=-\frac{5}{3}\left(\frac{z}{z-0.5}\right)+\frac{8}{3} \left(\frac{z}{z-0.8}\right) |z|>0.8\] \[Y_{2}[z]=5\left(\frac{z}{z-0.5}\right)-6\left(\frac{z}{z-0.6} \right) 0.5<|z|<0.6\]
+
+Therefore,
+
+\[y_{1}[n]=\left[-\frac{5}{3}(0.5)^{n}+\frac{8}{3}(0.8)^{n}\right] u[n]\] \[y_{2}[n]=5(0.5)^{n}u[n]+6(0.6)^{n}u[-(n+1)]\]
+
+and
+
+\[y[n]=y_{1}[n]+y_{2}[n]=\left[\frac{10}{3}(0.5)^{n}+\frac{8}{3}(0.8)^{n}\right] u[n]+6(0.6)^{n}u[-(n+1)]\]
+
+### 5.9 Connecting the Laplace and \(z\)-Transforms
+
+We now show that discrete-time systems also can be analyzed by means of the Laplace transform. In fact, we shall see that _the \(z\)-transform is the Laplace transform in disguise_ and that discrete-time systems can be analyzed as if they were continuous-time systems.
+
+So far we have considered the discrete-time signal as a sequence of numbers and not as an electrical signal (voltage or current). Similarly, we considered a discrete-time system as a mechanism that processes a sequence of numbers (input) to yield another sequence of numbers (output). The system was built by using delays (along with adders and multipliers) that delay sequences of numbers. A digital computer is a perfect example: every signal is a sequence of numbers, and the processing involves delaying sequences of numbers (along with addition and multiplication).
+
+Now suppose we have a discrete-time system with transfer function \(H[z]\) and input \(x[n]\). Consider a continuous-time signal \(x(t)\) such that its \(n\)th sample value is \(x[n]\), as shown in Fig. 5.30.1 Let the sampled signal be \(\overline{x}(t)\), consisting of impulses spaced \(T\) seconds apart with the \(n\)th impulse of strength \(x[n]\). Thus,
+
+Footnote 11: We can construct such \(x(t)\) from the sample values, as will be explained in Ch. 8.
+
+\[\overline{x}(t)=\sum_{n=0}^{\infty}x[n]\delta(t-nT)\]
+
+Figure 5.30 shows \(x[n]\) and the corresponding \(\overline{x}(t)\). The signal \(x[n]\) is applied to the input of a discrete-time system with transfer function \(H[z]\), which is generally made up of delays, adders, and scalar multipliers. Hence, processing \(x[n]\) through \(H[z]\) amounts to operating on the sequence \(x[n]\) by means of delays, adders, and scalar multipliers. Suppose for \(\overline{x}(t)\) samples, we perform operations identical to those performed on the samples of \(x[n]\) by \(H[z]\). For this purpose, we need a continuous-time system with transfer function \(H(s)\) that is identical in structure to the discrete-time system \(H[z]\) except that the delays in \(H[z]\) are replaced by elements that delay continuous-time signals (such as voltages or currents). There is no other difference between realizations of \(H[z]\) and \(H(s)\). If a continuous-time impulse \(\delta(t)\) is applied to such a delay of \(T\) seconds, the output will be \(\delta(t-T)\). The continuous-time transfer function of such a delay is \(e^{-sT}\) [see Eq. (4.30)]. Hence, the delay elements with transfer function \(1/z\) in the realization of \(H[z]\) will be replaced by the delay elements with transfer function \(e^{-sT}\) in the realization of the corresponding \(H(s)\). This is the sameas \(z\) being replaced by \(e^{sT}\). Therefore, \(H(s)=H[e^{sT}]\). Let us now apply \(x[n]\) to the input of \(H[z]\) and apply \(\overline{x}(t)\) at the input of \(H[e^{sT}]\). Whatever operations are performed by the discrete-time system \(H[z]\) on \(x[n]\) (Fig. 5.30a) are also performed by the corresponding continuous-time system \(H[e^{sT}]\) on the impulse sequence \(\overline{x}(t)\) (Fig. 5.30b). The delaying of a sequence in \(H[z]\) would amount to delaying of an impulse train in \(H[e^{sT}]\). Adding and multiplying operations are the same in both cases. In other words, one-to-one correspondence of the two systems is preserved in every aspect. Therefore if \(y[n]\) is the output of the discrete-time system in Fig. 5.30a, then \(\overline{y}(t)\), the output of the continuous-time system in Fig. 5.30b, would be a sequence of impulse whose \(n\)th impulse strength is \(y[n]\). Thus,
+
+\[\overline{y}(t)=\sum_{n=0}^{\infty}y[n]\delta(t-nT)\]
+
+The system in Fig. 5.30b, being a continuous-time system, can be analyzed via the Laplace transform. If
+
+\[\overline{x}(t)\Longleftrightarrow\overline{X}(s)\qquad\text{and}\qquad \overline{y}(t)\Longleftrightarrow\overline{Y}(s)\]
+
+Figure 5.30: Connection between the Laplace transform and the \(z\)-transform.
+
+then
+
+\[\overline{Y}(s)=H[e^{sT}]\overline{X}(s) \tag{5.53}\]
+
+Also,
+
+\[\overline{X}(s)=\mathcal{L}\left[\sum_{n=0}^{\infty}x[n]\delta(t-nT)\right]\]
+
+Now because the Laplace transform of \(\delta(t-nT)\) is \(e^{-snT}\),
+
+\[\overline{X}(s)=\sum_{n=0}^{\infty}x[n]e^{-snT}\qquad\text{ and }\qquad \overline{Y}(s)=\sum_{n=0}^{\infty}y[n]e^{-snT}\]
+
+Substitution of these expressions into Eq. (5.53) yields
+
+\[\sum_{n=0}^{\infty}y[n]e^{-snT}=H[e^{sT}]\left[\sum_{n=0}^{\infty}x[n]e^{-snT}\right]\]
+
+By introducing a new variable \(z=e^{sT}\), this equation can be expressed as
+
+\[\sum_{n=0}^{\infty}y[n]z^{-n}=H[z]\sum_{n=0}^{\infty}x[n]z^{-n}\]
+
+or
+
+\[Y[z]=H[z]X[z]\]
+
+where
+
+\[X[z]=\sum_{n=0}^{\infty}x[n]z^{-n}\qquad\text{ and }\qquad Y[z]=\sum_{n=0}^{ \infty}y[n]z^{-n}\]
+
+It is clear from this discussion that the \(z\)-transform can be considered to be the Laplace transform with a change of variable \(z=e^{sT}\) or \(s=(1/T)\ln z\). Note that the transformation \(z=e^{sT}\) transforms the imaginary axis in the \(s\) plane (\(s=j\omega\)) into a unit circle in the \(z\) plane (\(z=e^{sT}=e^{j\omega nT}\), or \(|z|=1\)). The LHP and RHP in the \(s\)-plane map into the inside and the outside, respectively, of the unit circle in the \(z\) plane.
+
+### 5.10 MATLAB: Discrete-Time IIR Filters
+
+Recent technological advancements have dramatically increased the popularity of discrete-time filters. Unlike their continuous-time counterparts, the performance of discrete-time filters is not affected by component variations, temperature, humidity, or age. Furthermore, digital hardware is easily reprogrammed, which allows convenient change of device function. For example, certain digital hearing aids are individually programmed to match the required response of a user.
+
+Typically, discrete-time filters are categorized as infinite-impulse response (IIR) or finite-impulse response (FIR). A popular method to obtain a discrete-time IIR filter is by transformation of a corresponding continuous-time filter design. MATLAB greatly assists this process. Although discrete-time IIR filter design is the emphasis of this section, methods for discrete-time FIR filter design are considered in Sec. 9.7.
+
+### 5.10-1 Frequency Response and Pole-Zero Plots
+
+Frequency response and pole-zero plots help characterize filter behavior. Similar to continuous-time systems, rational transfer functions for realizable LTID systems are represented in the \(z\)-domain as
+
+\[H[z]=\frac{Y[z]}{X[z]}=\frac{B[z]}{A[z]}=\frac{\sum_{k=0}^{N}b_{k}z^{-k}}{\sum_{k =0}^{N}a_{k}z^{-k}}=\frac{\sum_{k=0}^{N}b_{k}z^{N-k}}{\sum_{k=0}^{N}a_{k}z^{N-k}} \tag{5.54}\]
+
+When only the first (\(N_{1}+1\)) numerator coefficients are nonzero and only the first (\(N_{2}+1\)) denominator coefficients are nonzero, Eq. (5.54) simplifies to
+
+\[H[z]=\frac{Y[z]}{X[z]}=\frac{B[z]}{A[z]}=\frac{\sum_{k=0}^{N_{1}}b_{k}z^{-k}}{ \sum_{k=0}^{N_{2}}a_{k}z^{-k}}=\frac{\sum_{k=0}^{N_{1}}b_{k}z^{N_{1}-k}}{\sum_ {k=0}^{N_{2}}a_{k}z^{N_{2}-k}}z^{N_{2}-N_{1}} \tag{5.55}\]
+
+The form of Eq. (5.55) has many advantages. It can be more efficient than Eq. (5.54); it still works when \(N_{1}=N_{2}=N\); and it more closely conforms to the notation of built-in MATLAB discrete-time signal-processing functions.
+
+The right-hand side of Eq. (5.55) is a form that is convenient for MATLAB computations. The frequency response \(H[e^{i\Omega}]\) is obtained by letting \(z=e^{i\Omega}\), where \(\Omega\) has units of radians. Often, \(\Omega=\omega T\), where \(\omega\) is the continuous-time frequency in radians per second and \(T\) is the sampling period in seconds. Defining length-(\(N_{2}+1\)) coefficient vector \(\mathbf{A}=[a_{0},a_{1},\ldots,a_{N_{2}}]\) and length-(\(N_{1}+1\)) coefficient vector \(\mathbf{B}=[b_{0},b_{1},\ldots,b_{N_{1}}]\), program CH5MP1 computes \(H[e^{i\Omega}]\) by using Eq. (5.55) for each frequency in the input vector \(\mathbf{\Omega}\).
+
+function [H] = CH5MP1(B,A,Omega); % CH5MP1.m : Chapter 5, MATLAB Program 1 % Function M-file computes frequency response for LTID systems % INPUTS: B = vector of feedforward coefficients % A = vector of feedback coefficients % Omega = vector of frequencies [rad], typically -pi<=Omega<=pi % OUTPUS: H = frequency response N_1 = length(B)-1; N_2 = length(A)-1; H = polyval(B,exp(1j*Omega))./polyval(A,exp(1j*Omega)).*...  exp(1j*Omega*(N_2-N_1)); Note that owing to MATLAB's indexing scheme, A(k) corresponds to coefficient \(a_{k-1}\) and B(k) corresponds to coefficient \(b_{k-1}\). It is also possible to use the signal-processing toolbox function freqz to evaluate the frequency response of a system described by Eq. (5.55). Under special circumstances, the control system toolbox function bode can also be used.
+
+Program CH5MP2 computes and plots the poles and zeros of an LTID system described by Eq. (5.55), again using vectors \(\mathbf{B}\) and \(\mathbf{A}\).
+
+function [p,z] = CH5MP2(B,A); % CH5MP2.m : Chapter 5, MATLAB Program 2 % Function M-file computes and plots poles and zeros for LTID systems % INPUTS: B = vector of feedforward coefficients % A = vector of feedback coefficients
+
+N_1 = length(B)-1; N_2 = length(A)-1; p = roots([A,zeros(1,N_1-N_2)]); z = roots([B,zeros(1,N_2-N_1)]); ucirc = exp(1j*linspace(0,2*pi,200)); % Compute unit circle for plot plot(real(p),imag(p),'xk',real(z),imag(z),'ok',real(ucirc),imag(ucirc),'k:'); xlabel('Real'); ylabel('Image'); ax = axis; dx = 0.05*(ax(2)-ax(1)); dy = 0.05*(ax(4)-ax(3)); axis(ax+[-dx,dx,-dy,dy]); axis equal; The right-hand side of Eq. (5.55) helps explain how the roots are computed. When \(N_{1}\neq N_{2}\), the term \(z^{N_{2}-N_{1}}\) implies additional roots at the origin. If \(N_{1}>N_{2}\), the roots are poles, which are added by concatenating A with zeros(N_1-N_2,1); since \(N_{2}-N_{1}\leq 0\), zeros(N_2-N_1,1) produces the empty set and B is unchanged. If \(N_{2}>N_{1}\), the roots are zeros, which are added by concatenating B with zeros(N_2-N_1,1); since \(N_{1}-N_{2}\leq 0\), zeros(N_1-N_2,1) produces the empty set and A is unchanged. Poles and zeros are indicated with black x's and o's, respectively. For visual reference, the unit circle is also plotted. The last two lines in CH5MP2 expand the plot axis box so that root locations are not obscured and also ensure that the real and imaginary axes are drawn to the same scale.
+
+### Transformation Basics
+
+Transformation of a continuous-time filter to a discrete-time filter begins with the desired continuous-time transfer function
+
+\[H(s)=\frac{Y(s)}{X(s)}=\frac{B(s)}{A(s)}=\frac{\sum_{k=0}^{M}b_{k+N-M}s^{M-k}} {\sum_{k=0}^{N}a_{k}s^{N-k}}\]
+
+As a matter of convenience, \(H(s)\) is represented in factored form as
+
+\[H(s)=\frac{b_{N-M}}{a_{0}}\frac{\prod_{k=1}^{M}(s-z_{k})}{\prod_{k=1}^{N}(s-p_ {k})} \tag{5.56}\]
+
+where \(z_{k}\) and \(p_{k}\) are the system poles and zeros, respectively.
+
+A mapping rule converts the rational function \(H(s)\) to a rational function \(H[z]\). Requiring that the result be rational ensures that the system realization can proceed with only delay, sum, and multiplier blocks. There are many possible mapping rules. For obvious reasons, good transformations tend to map the \(\omega\) axis to the unit circle, \(\omega=0\) to \(z=1\), \(\omega=\infty\) to \(z=-1\), and the left half-plane to the interior of the unit circle. Put another way, sinusoids map to sinusoids, zero frequency maps to zero frequency, high frequency maps to high frequency, and stable systems map to stable systems.
+
+Section 5.9 suggests that the \(z\)-transform can be considered to be a Laplace transform with a change of variable \(z=e^{sT}\) or \(s=(1/T)\ln z\), where \(T\) is the sampling interval. It is tempting, therefore, to convert a continuous-time filter to a discrete-time filter by substituting \(s=(1/T)\ln z\) into \(H(s)\), or \(H[z]=H(s)|_{s=(1/T)\ln z}\). This approach is impractical, however, since the resulting \(H[z]\) is not rational and therefore cannot be implemented by using standard blocks. Although not considered here, the so-called matched-\(z\) transformation relies on the relationship \(z=e^{sT}\) to transform system poles and zeros, so the connection is not completely without merit.
+
+### Transformation by First-Order Backward Difference
+
+Consider the transfer function \(H(s)=Y(s)/X(s)=s\), which corresponds to the first-order continuous-time differentiator
+
+\[y(t)=\frac{d}{dt}x(t)\]
+
+An approximation that resembles the fundamental theorem of calculus is the first-order backward difference
+
+\[y(t)=\frac{x(t)-x(t-T)}{T}\]
+
+For sampling interval \(T\) and \(t=nT\), the corresponding discrete-time approximation is
+
+\[y[n]=\frac{x[n]-x[n-1]}{T}\]
+
+which has transfer function
+
+\[H[z]=Y[z]/X[z]=\frac{1-z^{-1}}{T}\]
+
+This implies a transformation rule that uses the change of variable \(s=(1-z^{-1})/T\) or \(z=1/(1-sT)\). This transformation rule is appealing since the resulting \(H[z]\) is rational and has the same number of poles and zeros as \(H(s)\). Section 3.4 discusses this transformation strategy in a different way in describing the kinship of difference equations to differential equations.
+
+After some algebra, substituting \(s=(1-z^{-1})/T\) into Eq. (5.56) yields
+
+\[H[z]=\left(\frac{b_{N-M}\prod_{k=1}^{M}(1/T-z_{k})}{a_{0}\prod_{k=1}^{N}(1/T- p_{k})}\right)\frac{\prod_{k=1}^{M}\left(1-\frac{1}{1-T_{k}}z^{-1}\right)}{ \prod_{k=1}^{N}\left(1-\frac{1}{1-Tp_{k}}z^{-1}\right)} \tag{5.57}\]
+
+The discrete-time system has \(M\) zeros at \(1/(1-Tz_{k})\) and \(N\) poles at \(1/(1-Tp_{k})\). This transformation rule preserves system stability but does not map the \(\omega\) axis to the unit circle (see Prob. 5.7-10).
+
+MATLAB program CH5MP3 uses the first-order backward difference method of Eq. (5.57) to convert a continuous-time filter described by coefficient vectors \(\mathbf{A}=[a_{0},a_{1},\ldots,a_{N}]\) and \(\mathbf{B}=[b_{N-M},b_{N-M+1},\ldots,b_{N}]\) into a discrete-time filter. The form of the discrete-time filter follows Eq. (5.55).
+
+function [Bd,Ad] = CH5MP3(B,A,T); % CH5MP3.m : Chapter 5, MATLAB Program 3 % Function M-file first-order backward difference transformation % of a continuous-time filter described by B and A into a discrete-time filter. % INPUTS: B = vector of continuous-time filter feedforward coefficients % A = vector of continuous-time filter feedback coefficients % T = sampling interval % OUTPUTS: Bd = vector of discrete-time filter feedforward coefficients % Ad = vector of discrete-time filter feedback coefficients z = roots(B); p = roots(A); % s-domain roots gain = B(1)/A(1)*prod(1/T-z)/prod(1/T-p); zd = 1./(1-T*z); pd = 1./(1-T*p); % z-domain roots Bd = gain*poly(zd); Ad = poly(pd);
+
+### 5.10-4 **Bilinear Transformation**
+
+The bilinear transformation is based on a better approximation than first-order backward differences. Again, consider the continuous-time integrator
+
+\[y(t)=\frac{d}{dt}x(t)\]
+
+Represent signal \(x(t)\) as
+
+\[x(t)=\int_{t-T}^{t}\frac{d}{d\tau}x(\tau)\,d\tau+x(t-T)\]
+
+Letting \(t=nT\) and replacing the integral with a trapezoidal approximation yield
+
+\[x(nT)=\frac{T}{2}\left[\frac{d}{dt}x(nT)+\frac{d}{dt}x(nT-T)\right]+x(nT-T)\]
+
+Substituting \(y(t)\) for \((d/dt)x(t)\), the equivalent discrete-time system is
+
+\[x[n]=\frac{T}{2}(y[n]+y[n-1])+x[n-1]\]
+
+From \(z\)-transforms, the transfer function is
+
+\[H[z]=\frac{Y[z]}{X[z]}=\frac{2(1-z^{-1})}{T(1+z^{-1})}\]
+
+The implied change of variable \(s=2(1-z^{-1})/T(1+z^{-1})\) or \(z=(1+sT/2)/(1-sT/2)\) is called the bilinear transformation. Not only does the bilinear transformation result in a rational function \(H[z]\), the \(\omega\) axis is correctly mapped to the unit circle (see Prob. 5.6-18a).
+
+After some algebra, substituting \(s=2(1-z^{-1})/T(1+z^{-1})\) into Eq. (5.56) yields
+
+\[H[z]=\left(\frac{b_{N-M}\prod_{k=1}^{M}(2/T-z_{k})}{a_{0}\prod_{k=1}^{N}(2/T-p _{k})}\right)\frac{\prod_{k=1}^{M}\left(1-\frac{1+z_{k}T/2}{1-z_{k}T/2}z^{-1} \right)}{\prod_{k=1}^{N}\left(1-\frac{1+p_{k}T/2}{1-p_{k}T/2}z^{-1}\right)}(1+ z^{-1})^{N-M} \tag{5.58}\]
+
+In addition to the \(M\) zeros at \((1+z_{k}T/2)/(1-z_{k}T/2)\) and \(N\) poles at \((1+p_{k}T/2)/(1-p_{k}T/2)\), there are \(N-M\) zeros at minus 1. Since practical continuous-time filters require \(M\leq N\) for stability, the number of added zeros is thankfully always nonnegative.
+
+MATLAB program CH5MP4 converts a continuous-time filter described by coefficient vectors \(\mathbf{A}=[a_{0},a_{1},\ldots,a_{N}]\) and \(\mathbf{B}=[b_{N-M},b_{N-M+1},\ldots,b_{N}]\) into a discrete-time filter by using the bilinear transformation of Eq. (5.58). The form of the discrete-time filter follows Eq. (5.55). If available, it is also possible to use the signal-processing toolbox function bilinear to perform the bilinear transformation.
+
+ function [Bd,Ad] = CH5MP4(B,A,T);  % CH5MP4.m : Chapter 5, MATLAB Program 4  % Function M-file bilinear transformation of a continuous-time filter  % described by vectors B and A into a discrete-time filter.  % Length of B must not exceed A.  % INPUTS: B = vector of continuous-time filter feedforward coefficients  % A = vector of continuous-time filter feedback coefficients  % T = sampling interval  % OUTPUTS: Bd = vector of discrete-time filter feedforward coefficients  % Ad = vector of discrete-time filter feedback coefficients
+
+ if (length(B)>length(A)),  disp('Numerator order must not exceed denominator order.');  return  end  z = roots(B); p = roots(A); % s-domain roots  gain = real(B(1)/A(1)*prod(2/T-z)/prod(2/T-p));  zd = (1+z*T/2)./(1-z*T/2); pd = (1+p*T/2)./(1-p*T/2); % z-domain roots  Bd = gain*poly([zd;-ones(length(A)-length(B),1)]); Ad = poly(pd);  As with most high-level languages, MATLAB supports general if-structures:  if expression,  statements;  elseif expression,  statements;  else,  statements;  end In the program CH5MP4, the if statement tests \(M>N\). When true, an error message is displayed and the return command terminates program execution to prevent errors.
+
+### 5.10-5 **Bilinear Transformation with Prewarping**
+
+The bilinear transformation maps the entire infinite-length \(\omega\) axis onto the finite-length unit circle (\(z=e^{i\Omega}\)) according to \(\omega=(2/T)\tan{(\Omega/2)}\) (see Prob. 5.6-18b). Equivalently, \(\Omega=2\arctan(\omega T/2)\). The nonlinearity of the tangent function causes a frequency compression, commonly called frequency warping, that distorts the transformation.
+
+To illustrate the warping effect, consider the bilinear transformation of a continuous-time lowpass filter with cutoff frequency \(\omega_{c}=2\pi\,3000\) rad/s. If the target digital system uses a sampling rate of 10 kHz, then \(T=1/(10,000)\) and \(\omega_{c}\) maps to \(\Omega_{c}=2\arctan\left(\omega_{c}T/2\right)=1.5116\). Thus, the transformed cutoff frequency is short of the desired \(\Omega_{c}=\omega_{c}T=0.6\pi=1.8850\).
+
+Cutoff frequencies are important and need to be as accurate as possible. By adjusting the parameter \(T\) used in the bilinear transform, one continuous-time frequency can be exactly mapped to one discrete-time frequency; the process is called prewarping. Continuing the last example, adjusting \(T=(2/\omega_{c})\tan\left(\Omega_{c}/2\right)\approx 1/6848\) achieves the appropriate prewarping to ensure \(\omega_{c}=2\pi\,3000\) maps to \(\Omega_{c}=0.6\pi\).
+
+### Example: Butterworth Filter Transformation
+
+To illustrate the transformation techniques, consider a continuous-time 10th-order Butterworth lowpass filter with cutoff frequency \(\omega_{c}=2\pi\,3000\), as designed in Sec. 4.12. First, we determine continuous-time coefficient vectors **A** and **B**.
+
+>> omega_c = 2*pi*3000; N=10; >> poles = roots([(1)*omega_c)^(-2*N),zeros(1,2*N-1),1]); >> poles = poles(find(poles<0)); >> B = 1; A = poly(poles); A = A/A(end);
+
+Programs CH5MP3 and CH5MP4 are used to perform first-order forward difference and bilinear transformations, respectively.
+
+>> Omega = linspace(0,pi,200); T = 1/10000; Omega_c = omega_c*T; >> [B1,A1] = CH5MP3(B,A,T); % First-order backward difference transformation >> [B2,A2] = CH5MP4(B,A,T); % Bilinear transformation >> [B3,A3] = CH5MP4(B,A,2/omega_c*tan(Omega_c/2)); % Bilinear with prewarping
+
+Magnitude responses are computed using CH5MP1 and then plotted.
+
+>> H1mag = abs(CH5MP1(B1,A1,Omega)); >> H2mag = abs(CH5MP1(B2,A2,Omega)); >> H3mag = abs(CH5MP1(B3,A3,Omega)); >> plot(Omega,(Omega<=Omega_c),'k',Omega,Himag,'k-.',... >> Omega,H2mag,'k-',Omega,H3mag,'k:'); >> axis([0 pi -.05 1.5]); >> xlabel('\Omega [rad]'); ylabel('Magnitude Response'); >> legend('Ideal','FOBD','BLT','Prewarp BLT','location','best');
+
+The result of each transformation method is shown in Fig. 5.31, where FOBD and BLT stand for first-order backward difference and bilinear transformation, respectively.
+
+Although the first-order backward difference results in a lowpass filter, the method causes significant distortion that makes the resulting filter unacceptable with regard to cutoff frequency. The bilinear transformation is better, but, as predicted, the cutoff frequency falls short of the desired value. Bilinear transformation with prewarping properly locates the cutoff frequency and produces a very acceptable filter response.
+
+### 5.10-7 Problems Finding Polynomial Roots
+
+Numerically, it is difficult to accurately determine the roots of a polynomial. Consider, for example, a simple polynomial that has a root at minus 1 repeated four times, \((s+1)^{4}=s^{4}+4s^{3}+6s^{2}+4s+1\). The MATLAB roots command returns a surprising result:
+
+>> roots([1 4 6 4 1])'  ans = -1.0002 -1.0000-0.0002i -1.0000+0.0002i -0.9998 Even for this low-degree polynomial, MATLAB does not return the true roots.
+
+The problem worsens as polynomial degree increases. The bilinear transformation of the 10th-order Butterworth filter, for example, should have 10 zeros at minus 1. Figure 5.32 shows that the zeros, computed by CH5MP2 with the roots command, are not correctly located.
+
+When possible, programs should avoid root computations that may limit accuracy. For example, results from the transformation programs CH5MP3 and CH5MP4 are more accurate if the true transfer function poles and zeros are passed directly as inputs rather than the polynomial coefficient vectors. When roots must be computed, result accuracy should always be verified.
+
+### 5.10-8 Using Cascaded Second-Order Sections to Improve Design
+
+The dynamic range of high-degree polynomial coefficients is often large. Adding the difficulties associated with factoring a high-degree polynomial, it is little surprise that high-order designs are difficult.
+
+As with continuous-time filters, performance is improved by using a cascade of second-order sections to design and realize a discrete-time filter. Cascades of second-order sections are also more robust to the coefficient quantization that occurs when discrete-time filters are implemented on fixed-point digital hardware.
+
+To illustrate the performance possible with a cascade of second-order sections, consider a 180th-order transformed Butterworth discrete-time filter with cutoff frequency \(\Omega_{c}=0.6\pi\approx 1.8850\). Program CH5MP5 completes this design, taking care to initially locate poles and zeros without root computations.
+
+Figure 5.31: Comparison of various transformation techniques.
+
+% CHSMP5.m : Chapter 5, MATLAB Program 5 % Script M-file designs a 180th-order Butterworth lowpass discrete-time filter % with cutoff Omega_c = 0.6*pi using 90 cascaded second-order filter sections.
+
+omega_0 = 1; % Use normalized cutoff frequency for analog prototype psi = [0.5:1:90]*pi/180; % Butterworth pole angles Omega_c = 0.6*pi; % Discrete-time cutoff frequency Omega = linspace(0,pi,1000); % Frequency range for magnitude response Hmag = zeros(90,1000); p = zeros(1,180); z = zeros(1,180); % Pre-allocation for stage = 1:90,  Q = 1/(2*cos(psi(stage))); % Compute Q for stage  B = omega_0^2; A = [1 omega_0/Q omega_0^2]; % Compute stage coefficients  [B1,A1] = CHSPM4(B,A,2/omega_0*tan(0.6*pi/2)); % Transform stage to DT  p(stage*2-1:stage*2) = roots(A1); % Compute z-domain poles for stage  z(stage*2-1:stage*2) = roots(B1); % Compute z-domain zeros for stage  Hmag(stage,:) = abs(CHSPM1(B1,A1,Omega)); % Compute stage mag response end ucirc = exp(j*linspace(0,2*pi,200)); % Compute unit circle for pole-zero plot figure; plot(real(p),imag(p),'kx',real(z),imag(z),'ok',real(ucirc),imag(ucirc),'k:'); axis equal; xlabel('Real'); ylabel('Image'); figure; plot(Omega,prod(Hmag),'k'); axis([0 pi -0.05 1.05]); xlabel('\Omega [rad]'); ylabel('Magnitude Response'); The figure command preceding each plot command opens a separate window for each plot.
+
+The filter's pole-zero plot is shown in Fig. 5.33, along with the unit circle, for reference. All 180 zeros of the cascaded design are properly located at minus 1. The wall of poles provides an amazing approximation to the desired brick-wall response, as shown by the magnitude response in Fig. 5.34. It is virtually impossible to realize such high-order designs with continuous-time filters, which adds another reason for the popularity of discrete-time filters. Still, the design is not
+
+Figure 5.32: Pole-zero plot computed by using roots.
+
+trivial; even functions from the MATLAB signal-processing toolbox fail to properly design such a high-order discrete-time Butterworth filter.
+
+### 5.11 Summary
+
+In this chapter we discussed the analysis of linear, time-invariant, discrete-time (LTID) systems by means of the \(z\)-transform. The \(z\)-transform changes the difference equations of LTID systems into algebraic equations. Therefore, solving these difference equations reduces to solving algebraic equations.
+
+The transfer function \(H[z]\) of an LTID system is equal to the ratio of the \(z\)-transform of the output to the \(z\)-transform of the input when all initial conditions are zero. Therefore, if \(X[z]\) is the \(z\)-transform of the input \(x[n]\) and \(Y[z]\) is the \(z\)-transform of the corresponding output \(y[n]\)
+
+Figure 5.34: Magnitude response for a 180th-order discrete-time Butterworth filter.
+
+Figure 5.33: Pole-zero plot for 180th-order discrete-time Butterworth filter.
+
+(when all initial conditions are zero), then \(Y[z]=H[z]X[z]\). For an LTID system specified by the difference equation \(Q[E]y[n]=P[E]x[n]\), the transfer function \(H[z]=P[z]/Q[z]\). Moreover, \(H[z]\) is the \(z\)-transform of the system impulse response \(h[n]\). We showed in Ch. 3 that the system response to an everlasting exponential \(z^{n}\) is \(H[z]z^{n}\).
+
+We may also view the \(z\)-transform as a tool that expresses a signal \(x[n]\) as a sum of exponentials of the form \(z^{n}\) over a continuum of the values of \(z\). Using the fact that an LTID system response to \(z^{n}\) is \(H[z]z^{n}\), we find the system response to \(x[n]\) as a sum of the system's responses to all the components of the form \(z^{n}\) over the continuum of values of \(z\).
+
+LTID systems can be realized by scalar multipliers, adders, and time delays. A given transfer function can be synthesized in many different ways. We discussed canonical, transposed canonical, cascade, and parallel forms of realization. The realization procedure is identical to that for continuous-time systems with \(1/s\) (integrator) replaced by \(1/z\) (unit delay).
+
+The majority of the input signals and practical systems are causal. Consequently, we are required to deal with causal signals most of the time. Restricting all signals to the causal type greatly simplifies \(z\)-transform analysis; the ROC of a signal becomes irrelevant to the analysis process. This special case of \(z\)-transform (which is restricted to causal signals) is called the unilateral \(z\)-transform. Much of the chapter deals with this transform. Section 5.8 discusses the general variety of the \(z\)-transform (bilateral \(z\)-transform), which can handle causal and noncausal signals and systems. In the bilateral transform, the inverse transform of \(X[z]\) is not unique, but depends on the ROC of \(X[z]\). Thus, the ROC plays a crucial role in the bilateral \(z\)-transform.
+
+In Sec. 5.9, we showed that discrete-time systems can be analyzed by the Laplace transform as if they were continuous-time systems. In fact, we showed that the \(z\)-transform is the Laplace transform with a change in variable.
+
+## References
+
+* [1] Lyons, R. G. _Understanding Digital Signal Processing_. Addison-Wesley, Reading, MA, 1997.
+* [2] Oppenheim, A. V., and R. W. Schafer. _Discrete-Time Signal Processing_, 2nd ed. Prentice-Hall, Upper Saddle River, NJ, 1999.
+* [3] Mitra, S. K. _Digital Signal Processing_, 2nd ed. McGraw-Hill, New York, 2001.

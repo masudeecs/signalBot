@@ -1,0 +1,585 @@
+## Chapter 6 Discrete-Time Systems
+
+### 6.1 Introduction
+
+In the preceding chapters, we discussed techniques for the analysis of analog or continuous-time signals and systems. In this and subsequent chapters, we consider corresponding techniques for the analysis of discrete-time signals and systems.
+
+Discrete-time signals, as the name implies, are signals that are defined only at discrete instants of time. Examples of discrete-time signals are the number of children born on a specific day in a year, the population of the United States as obtained by a census, the interest on a bank account, etc. A second type of discrete-time signal occurs when an analog signal is converted into a discrete-time signal by the process of _sampling_. (We will have more to say about sampling later.) An example is the digital recording of audio signals. Another example is a telemetering system in which data from several measurement sensors is transmitted over a single channel by _time-sharing_.
+
+In either case, we represent the discrete-time signal as a sequence of values \(x\left(t_{n}\right)\), where the \(t_{n}\) correspond to the time instants at which the signal is defined. We can also write the sequence as \(x\left(n\right)\), with \(n\) assuming only integer.values.
+
+As with continuous-time signals, we usually represent discrete-time signals in functional form; for example,
+
+\[x\left(n\right)=\frac{1}{2}\,\cos\,3n \tag{6.1.1}\]
+
+Alternatively, if the signal is nonzero only over a finite interval, we can list the values of the signal as the elements of a sequence. Thus, the function shown in Figure 6.1.1 can be written as
+
+\[x\left(n\right)=\{\,\frac{1}{4},\,\,\frac{1}{2},\,\,\frac{1}{3},\,0,\,\,\frac{ 3}{4},\,-\,\frac{1}{2}\,\} \tag{6.1.2}\]where the arrow indicates the value for \(n=0\). In this notation, it is assumed that all values not listed are zero. For causal sequences, in which the first entry represents the value at \(n=0\), we omit the arrow.
+
+The sequence shown in Equation (6.1.2) is an example of a _finite-length_ sequence. The length of the sequence is given by the number of terms in the sequence. Thus, Equation (6.1.2) represents a six-point sequence.
+
+For integer values of \(k\), the sequence \(x\left(n-k\right)\) represents sequence \(x\left(n\right)\) shifted by \(k\) samples. The shift is to the right if \(k>0\) and to the left if \(k<0\). Sequence \(x\left(n\right)\) is periodic with period \(N\) if
+
+\[x\left(n+N\right)=x\left(n\right) \tag{6.1.3}\]
+
+for \(N\) an integer.
+
+### 6.2 Elementary Discrete-Time Signals
+
+We saw that continuous-time signals can be represented in terms of elementary signals such as the delta function, unit-step function, exponentials and sine and cosine waveforms. We now consider the discrete-time equivalents of these signals. We will see that these discrete-time signals have characteristics similar to those of their continuous-time counterparts, but with some significant differences. As with continuous-time systems, the analysis of discrete-time linear systems to arbitrary inputs is considerably simplified by expressing the inputs in terms of elementary time functions.
+
+#### Discrete Impulse and Step Functions
+
+We define the unit-impulse function in discrete time as
+
+\[\delta\left(n\right)=\begin{cases}1,&n=0\\ 0,&n\neq 0\end{cases} \tag{6.2.1}\]
+
+as shown in Figure 6.2.1. We refer to \(\delta\left(n\right)\) as the unit sample occurring at \(n=0\), and the shifted function \(\delta(n-k)\) as the unit sample occurring at \(n=k\).
+
+\[\delta\left(n-k\right)=\begin{cases}1,&n=k\\ 0,&n\neq k\end{cases} \tag{6.2.2}\]
+
+Whereas \(\delta\left(n\right)\) is somewhat similar to the continuous-time impulse function \(\delta(t)\), we
+
+Figure 6.1.1: Example of a discrete-time sequence.
+
+note that the magnitude of the discrete impulse is always finite. Thus, there are no analytical difficulties in defining \(\delta(n)\).
+
+The unit-step sequence shown in Figure 6.2.2 is defined as
+
+\[u\left(n\right)=\begin{cases}1,&n\geq 0\\ 0,&n<0\end{cases} \tag{6.2.3}\]
+
+The discrete-time delta function and step functions have properties somewhat similar to their continuous-time counterparts. For example, the _first difference_ of the unit-step function is
+
+\[u\left(n\right)-u\left(n-1\right)=\delta(n) \tag{6.2.4}\]
+
+If we compute the sum from \(-\infty\) to \(n\) of the \(\delta\) function, as can be seen from Figure 6.2.3, we get the unit step function:
+
+\[\sum_{k\,=\,-\infty}^{n}\delta(k) =\begin{cases}0,&n<0\\ 1,&n\geq 0\end{cases} \tag{6.2.5}\] \[=u\left(n\right)\]
+
+By replacing \(k\) by \(n-k\), we can write Equation (6.2.5) as
+
+\[\sum_{k\,=\,0}^{\infty}\delta(n-k)=u\left(n\right) \tag{6.2.6}\]
+
+From Equations (6.2.4) and (6.2.5), we see that in discrete-time systems, the first difference, in a sense, takes the place of the first derivative in continuous-time systems, and the sum operator replaces the integral.
+
+Figure 6.2.1: (a) The unit sample or \(\delta\)-function. (b) The shifted \(\delta\)-function.
+
+Other analogous properties of the \(\delta\) function follow easily. For any arbitrary sequence \(x\left(n\right)\), we have
+
+\[x\left(n\right)\,\delta(n-k)=x\left(k\right)\,\delta(n-k) \tag{6.2.7}\]
+
+Since we can write \(x\left(n\right)\) as
+
+\[x\left(n\right)=\ \cdots+x\left(-1\right)\,\delta(n+1)+x\left(0\right)\,\delta(n )+x\left(1\right)\,\delta(n-1)+\ \cdots\]
+
+it follows that
+
+\[x\left(n\right)=\sum_{k\ =\ -\infty}^{\infty\ \infty}x\left(k\right)\,\delta(n -k) \tag{6.2.8}\]
+
+Thus, Equation (6.2.6) is a special case of Equation (6.2.8).
+
+#### Exponential Sequences
+
+The exponential sequence in discrete time is given by
+
+\[x\left(n\right)=C\,\alpha^{n} \tag{6.2.9}\]
+
+where, in general, \(C\) and \(\alpha\) are complex numbers. The fact that this is a direct analog of the exponential function in continuous time can be seen by writing \(\alpha=\exp\left[\,\beta\right]\), so that
+
+\[x\left(n\right)=C\,\exp\left[\,\beta n\,\right] \tag{6.2.10}\]
+
+For \(C\) and \(\alpha\) real, \(x\left(n\right)\) increases with increasing \(n\) if \(\left|\alpha\right|>1\). Similarly, if \(\left|\alpha\right|<1\), we have a decreasing exponential. Suppose \(\beta\) in Equation (6.2.10) is purely imaginary, so that we have
+
+\[x\left(n\right)=C\,\exp\left[\,j\Omega_{0}\,n\,\right] \tag{6.2.11}\]
+
+This signal is closely related to the discrete-time sine and cosine waveforms
+
+\[x_{1}\left(n\right)=C\,\sin(\Omega_{0}\,n+\phi)\] \[x_{2}\left(n\right)=C\,\cos(\Omega_{0}\,n+\phi) \tag{6.2.12}\]
+
+If we assume that \(n\) is dimensionless, then \(\Omega_{0}\) has units of radians.
+
+Figure 6.2.3: Summing the \(\delta\) function (a) \(n<0\) (b) \(n\geq 0\).
+
+Then \(x\left(n\right)\) is periodic with period \(N\) since
+
+\[x\left(n+N\right)=x_{1}\left(n+pN_{1}\right)+x_{2}\left(n+qN_{2}\right)=x_{1} \left(n\right)+x_{2}\left(n\right)\]
+
+Since we can always find integers \(p\) and \(q\) to satisfy Equation (6.2.15), it follows that the sum of two discrete-time periodic sequences is also periodic.
+
+**Example 6.2.3**: Let
+
+\[x\left(n\right) =\cos\,\frac{7\pi}{9}n\,+\sin(\frac{3\pi}{7}n\,+\,\frac{1}{2})\] \[\cdot\] \[\quad-\frac{1}{2j}\,\exp\left[-j/2\right]\,\exp\left[-j\frac{3 \pi}{7}n\,\right]\]
+
+It can easily be verified that the first two terms are periodic with period \(N_{1}=18\) and the last two terms are periodic with period \(N_{2}=14\), so that \(x\left(n\right)\) is periodic with period \(N=126\).
+
+Let \(x_{k}\left(n\right)\) define the set of functions
+
+\[x_{k}\left(n\right)=\exp\left[\,jk\Omega_{0}\,n\,\right]\qquad k=0,\,\pm 1,\, \pm 2,\,\ldots\,. \tag{6.2.16}\]
+
+with \(\Omega_{0}=2\pi/N\), so that \(x_{k}\left(n\right)\) represents the \(k\)th harmonic of fundamental signal \(x_{1}\left(n\right)\). In the case of continuous-time signals, we saw that the set of harmonics \(\exp\left[\,jk\left(2\pi/T\right)t\,\right]\), \(k=0,\,\pm 1,\,\pm 2,\,\ldots\,\) are all distinct, so that we have an infinite number of harmonics. However, in the discrete-time case, since
+
+\[x_{k\,+N}\left(n\right)=\exp\left[\,j\left(k\,+N\right)\left(\frac{2\pi}{N} \right)n\,\right]=\exp\left[\,j2\pi n\,\right]\exp\left[\,(jk)\,\left(\frac{2 \pi}{N}\right)n\,\right]=x_{k}\left(n\right) \tag{6.2.17}\]
+
+there are only \(N\) distinct waveforms in the set given by Equation (6.2.16). These correspond to the frequencies \(\Omega_{k}=2\pi k/N\quad\text{for}\quad k=0,\,1,\,\ldots,\,N-1\). Since \(\Omega_{k\,+N}=\Omega_{k}+2\pi\), waveforms that are separated in frequency by \(2\pi\) radians are identical. As we will see later, this has implications in the Fourier analysis of discrete-time periodic signals.
+
+Finally, suppose we sample a continuous periodic waveform \(\exp\left[\,j\omega_{0}t\,\right]\) at equally spaced instants \(t=nT\) to get the sequence
+
+\[x\left(n\right)=\exp\left[\,jn\omega_{0}T\,\right]\]
+
+From our previous discussion, we see that \(x\left(n\right)\) is periodic only if \(\omega_{0}T/2\pi\) is a rational number. For example, if
+
+\[x\left(t\right)=\exp\left[\,j25t\,\right]\]
+
+then
+
+\[x\left(n\right)=\exp\left[\,j25Tn\,\right]\]is periodic only if \(2ST/2\pi\) is rational. Thus, a choice of \(T=\pi\) yields a periodic sequence, whereas \(T=3\) results in an aperiodic sequence.
+
+#### Scaling of Discrete-Time Signals
+
+In subsequent discussions, we have occasion to consider signals that have been either amplitude or time scaled. While amplitude scaling is no different than in the continuous-time case, time scaling must be interpreted with care, since discrete-time signals are defined only for integer values of the time variable. We illustrate this by considering a few examples.
+
+Let
+
+\[x\left(n\right)=\exp\left[\begin{array}{c}\frac{-n}{2}\end{array}\right]u \left(n\right)\]
+
+and suppose we want to find (a) \(2x\left(5n/3\right)\) and (b) \(x\left(2n\right)\).
+
+With \(y\left(n\right)=2x\left(5n/3\right)\), we have
+
+\[y\left(0\right)=2x\left(0\right)=2,\qquad y\left(1\right)=2x\left(\frac{5}{3} \right)=0,\qquad y\left(2\right)=2x\left(\frac{10}{3}\right)=0,\]
+
+\[y\left(3\right)=2x\left(5\right)=2\exp\left[-\frac{5}{2}\right],\qquad y\left( 4\right)=2x\left(\frac{10}{3}\right)=0,\quad\text{ etc.}\]
+
+Here we have assumed that \(x\left(n\right)\) is zero if \(n\) is not an integer. It is clear that the general expression for \(y\left(n\right)\) is
+
+\[y\left(n\right)=\begin{cases}2\exp\left[\begin{array}{c}-5n\\ 6\end{array}\right],\qquad n=0,\;3,\;6\;\ldots\\ 0,\qquad\qquad\qquad\text{otherwise}\end{cases}\]
+
+Similarly, with \(z\left(n\right)=x\left(2n\right)\), we have
+
+\[z\left(0\right)=x\left(0\right)=1,\qquad z\left(1\right)=x\left(2\right)=\exp \left[\begin{array}{c}-1\end{array}\right],\qquad z\left(3\right)=x\left(6 \right)=\exp\left[\begin{array}{c}-3\end{array}\right]\quad\text{etc.}\]
+
+The general expression for \(z\left(n\right)\) is, therefore,
+
+\[z\left(n\right)=\begin{cases}\exp\left[\begin{array}{c}-n\end{array}\right],\qquad n\geq 0\\ 0,\qquad\qquad\qquad n<0\end{cases}\]
+
+This example shows that for discrete-time signals, time scaling does not yield just a stretched or compressed version of the original signal, but may give a totally different waveform.
+
+Let
+
+\[x\left(n\right)=\begin{cases}1,\qquad n\;\text{ even}\\ -1,\qquad n\;\text{ odd}\end{cases}\]
+
+### Discrete-Time Systems
+
+A discrete-time system is one in which all the signals are discrete-time signals. That is, a discrete-time system transforms discrete-time inputs into discrete-time outputs. Such concepts as linearity, time invariance, causality, etc. which we defined for continuous-time systems carry over to discrete-time systems. As in our discussion of continuous-time systems, we consider only linear time-invariant (or _shift-invariant_) systems in discrete-time.
+
+Again, as with continuous-time systems, we can use either a time-domain or a frequency-domain characterization of a discrete-time system. In this section, we consider the time-domain characterization of discrete-time systems using (a) the impulse-response and (b) the difference equation representations.
+
+#### System Impulse Response and the Convolution Sum
+
+Consider a linear shift-invariant discrete-time system with input \(x\left(n\right)\). We saw in Section 6.2.1 that any arbitrary signal \(x\left(n\right)\) can be written as the weighted sum of shifted unit-sample functions:
+
+\[x\left(n\right)=\sum_{k\ =\ -\infty}^{\infty}x\left(k\right)\ \delta\left(n-k\right) \tag{6.3.1}\]
+
+It follows, therefore, that we can use the linearity property of the system to determine its response to \(x\left(n\right)\) in terms of its response to a unit-sample input. Let \(h\left(n\right)\) denote the response of the system measured at time \(n\) to a unit impulse applied at time zero. If we apply a shifted impulse \(\delta\left(n-k\right)\) occurring at time \(k\), then by the assumption of shift invariance, the response of the system at time \(n\) is given by \(h\left(n-k\right)\). If the input is amplitude scaled by a factor \(x\left(k\right)\), then, again, by linearity, so is the output. If we now fix \(n\) and let \(k\) vary from \(-\infty\) to \(\infty\) and take the sum, it follows from Equation (6.3.1) that the output of the system at time \(n\), \(y\left(n\right)\), is given in terms of the input as
+
+\[y\left(n\right)=\sum_{k\ =\ -\infty}^{\infty}x\left(k\right)\ h\left(n-k\right) \tag{6.3.2}\]
+
+As in the case of continuous-time systems, the impulse response is determined assuming that the system has no initial energy; otherwise the linearity property does not hold (why?), so that \(y\left(n\right)\) as determined by using Equation (6.3.2) corresponds to only the forced response of the system.
+
+The right-hand side of Equation (6.3.2) is referred to as the _convolution sum_ of the two sequences \(x\left(n\right)\) and \(h\left(n\right)\) and is represented symbolically as \(x\left(n\right)*h\left(n\right)\). By replacing \(k\) by \(n-k\) in Equation (6.3.2), the output can also be written as
+
+\[y\left(n\right) =\sum_{k\ =\ -\infty}^{\infty}x\left(n-k\right)\ h\left(k\right)\] \[=h\left(n\right)*x\left(n\right) \tag{6.3.3}\]
+
+so that the convolution operation is commutative.
+
+For causal systems, it is clear that
+
+\[h\left(n\right)=0,\qquad n<0 \tag{6.3.4}\]
+
+so that Equation (6.3.2) can be written as
+
+\[y\left(n\right)=\sum_{k\,=\,-\,\infty}^{n}x\left(k\right)\,h\left(n\,-k\right) \tag{6.3.5}\]
+
+or, in the equivalent form,
+
+\[y\left(n\right)=\sum_{k\,=\,0}^{\infty}x\left(n\,-\,k\right)\,h\left(k\right) \tag{6.3.6}\]
+
+For continuous-time systems, we saw that the impulse response is, in general, the sum of several complex exponentials. Consequently, the impulse response is nonzero over any finite interval of time (except, possibly, at isolated points), and is generally referred to as an _infinite impulse response_ (IIR). With discrete-time systems, on the other hand, the impulse response can become identically zero after a few samples. Such systems are said to have a _finite impulse response_ (FIR). Thus, discrete-time systems can be either IIR or FIR.
+
+We can interpret Equation (6.3.2) in a manner similar to the continuous-time case. For a fixed value of \(n\), we consider the product of the two sequences \(x\left(k\right)\) and \(h\left(n\,-\,k\right)\), where \(h\left(n\,-\,k\right)\) is obtained from \(h\left(k\right)\) by first reflecting \(h\left(k\right)\) about the origin and then shifting to the right by \(n\) if \(n\) is positive, or to the left by \(\left|n\,\right|\) if \(n\) is negative. This is illustrated in Figure (6.3.1). Output \(y\left(n\right)\) for this value of \(n\) is determined by summing the values of the sequence \(x\left(k\right)h\left(n\,-\,k\right)\).
+
+Figure 6.3.1: Convolution operation of Equation (6.3.2). (a) \(x\left(k\right)\), (b) \(h\left(k\right)\), (c) \(h\left(n\,-\,k\right)\), and (d) \(x\left(k\right)h\left(n\,-\,k\right)\).
+
+Since both sequences are finite, we can perform the convolution easily by setting up a table of values of \(h\left(k\right)\) and \(x\left(n-k\right)\) for the relevant values of \(n\), and using
+
+\[y\left(n\right)=\sum_{k\,=\,0}^{n\,}h\left(k\right)x\left(n-k\right)\]
+
+as shown in Table 6.1 The entries for \(x\left(n-k\right)\) in the table are obtained by first reflecting \(x\left(k\right)\) about the origin to form \(x\left(-k\right)\), and successively shifting the resulting sequence by \(1\) to the right. All entries not explicitly shown are assumed to be zero. \(y\left(n\right)\) is determined by multiplying the entries in the rows corresponding to \(h\left(k\right)\) and \(x\left(n-k\right)\) and summing the results. Thus, to find \(y\left(0\right)\), multiply the entries in rows \(2\) and \(4\); for
+
+Figure 6.3.2: Signals for Example 6.3.2.
+
+Finally, we note that just as with the convolution integral, the convolution sum defined in Equation (6.3.2) is additive, distributive, and commutative. This enables us to determine the impulse response of series or parallel combinations of systems in terms of their individual impulse responses, as shown in Figure 6.3.3.
+
+Consider the system shown in Figure 6.3.4 with
+
+\[h_{1}(n) =\delta(n)-a\delta(n-1)\] \[h_{2}(n) =(\frac{1}{2})^{n}\,u\,(n)\] \[h_{3}(n) =a^{n}\,u\,(n)\] \[h_{4}(n) =(n-1)u\,(n)\] and \[h_{5}(n) =\delta(n)+n\,\,u\,(n-1)+\delta(n-2)\]
+
+Figure 6.3.3: Impulse responses of series and parallel combinations.
+
+double sum over \(r\) and \(m\): \[y\left(n\right)=\sum_{k\,=\,-\infty}^{\infty}x_{1}\left(k\right)\,x_{2}\left(n-k \right)=\sum_{r\,=\,-\infty}^{\infty}\sum_{m\,=\,0}^{N-1}x_{1}\left(r\,\,N+m \right)x_{2}\left(n-rN-m\right)\] Since both sequences on the right side are periodic with period \(N\), we have \[y\left(n\right)=\sum_{r\,=\,-\infty}^{\infty}\sum_{m\,=\,0}^{N-1}x_{1}\left(m \right)x_{2}\left(n-m\right)\] For a fixed value of \(n\), the inner sum is a constant, and, thus, the infinite sum on the right does not converge. In order to get around this problem, as in continuous time, we define a different form of convolution for periodic signals, namely, periodic convolution, as \[y\left(n\right)=\sum_{k\,=\,0}^{N-1}x_{1}\left(k\right)x_{2}\left(n-k\right)\] (6.4.1) Note that the sum on the right has only \(N\) terms. We denote this operation as \[y\left(n\right)=x_{1}\left(n\right)\ast x_{2}\left(n\right)\] (6.4.2) By replacing \(k\) by \(n-k\) in Equation (6.4.1), we obtain the equivalent form: \[y\left(n\right)=\sum_{k\,=\,0}^{N-1}x_{1}\left(n-k\right)x_{2}\left(k\right)\] (6.4.3) We emphasize that the convolution is defined only for sequences with the same period. We recall that since the convolution of Equation (6.3.2) represents the output of a linear system, it is usual to call this a _linear convolution_ in order to distinguish it from the convolution of Equation (6.4.1). It is clear that \(y\left(n\right)\) as defined in Equation (6.4.1) is periodic since \[y\left(n+N\right)=\sum_{k\,=\,0}^{N-1}x_{2}\left(n+N-k\right)x_{1}\left(k \right)=y\left(n\right)\] (6.4.4) so that \(y\left(n\right)\) has to be evaluated only for \(0\leq n\leq N-1\). It can also be easily verified that the sum can be taken over any one period (see Problem 6.10). That is, \[y\left(n\right)=\sum_{k\,=\,N_{0}}^{N_{0}+N-1}x_{1}\left(k\right)x_{2}\left(n -k\right)\] (6.4.5) The convolution operation of Equation (6.4.1) involves the shifted sequence \(x_{2}\left(n-k\right)\), which is obtained from \(x_{2}\left(n\right)\) by successive shifts to the right. However, we are interested only in values of \(n\) in the range \(0\leq n\leq N-1\). On each successive shift, the first value in this range is replaced by the value at \(-1\). Since the sequence is periodic, this is the same as the value at \(N-1\), as shown in the example in Figure 6.4.1. We can assume, therefore, that on each successive shift, each entry in the sequence moves one place to the right, and the last entry moves into the first place. Such a shift is known as a _periodic_, or _circular_, shift.
+
+From Equation (6.4.1), \(y(n)\) can be explicitly written as
+
+\[y(n)=x_{1}(0)x_{2}(n)+x_{1}(1)x_{2}(n-1)+\ \cdots\ \ +x_{1}(N-1)x_{2}(n-N+1)\]
+
+We can use the tabular form of Example 6.3.5 to calculate \(y(n)\). However, since the sum is taken only over values of \(n\) from \(0\) to \(N-1\), the table has to have only \(N\) columns. We consider an example to illustrate this.
+
+**Example 6.4.1**: We consider the convolution of the _periodic extensions_ of two sequences:
+
+\[x(n)=\{1,2,0,-1\}\quad\text{ and }\quad\quad h(n)=\{1,3,-1,-2\}\]
+
+so that \(y(n)\) is periodic with period \(N=4\). The convolution table of Table 6.3 illustrates the steps involved in determining \(y(n)\). For \(n=0,\,1,\,2,\,3,\,\) rows \(2\) through \(5\) list the values \(x(n-k)\) obtained by circular shifts \(x(n)\). Rows \(6\) through \(9\) list the values of \(h(k)\,x(n-k)\). \(y(n)\) is determined by summing the entries in each column corresponding to these rows.
+
+\begin{table}
+\begin{tabular}{l c c c c} \hline \(n\) & \(0\) & \(1\) & \(2\) & \(3\) \\ \hline \(x(n)\) & \(1\) & \(2\) & \(0\) & \(-1\) \\ \(x(n-1)\) & \(-1\) & \(1\) & \(2\) & \(0\) \\ \(x(n-2)\) & \(0\) & \(-1\) & \(1\) & \(2\) \\ \(x(n-3)\) & \(2\) & \(0\) & \(-1\) & \(1\) \\ \(h(0)x(n)\) & \(1\) & \(2\) & \(0\) & \(-1\) \\ \(h(1)x(n-1)\) & \(-3\) & \(3\) & \(6\) & \(0\) \\ \(h(2)x(n-2)\) & \(0\) & \(1\) & \(-1\) & \(-2\) \\ \(h(3)x(n-3)\) & \(-4\) & \(0\) & \(2\) & \(-2\) \\ \(y(n)\) & \(-6\) & \(6\) & \(7\) & \(-5\) \\ \hline \end{tabular}
+\end{table}
+Table 6.3: Periodic Convolution of Example 6.4.1.
+
+Figure 6.4.1: Shifting of periodic sequences.
+
+### Difference Equation Representation
+
+Of Discrete-Time Systems
+
+Earlier we saw that we can characterize a continuous-time system in terms of a differential equation relating the output and its derivatives to the input and its derivatives. The discrete-time counterpart of this characterization is the difference equation, which, for linear time-invariant systems, is of the form
+
+\[\sum_{k\,=\,0}^{N}\,a_{k}y\,(n-k)=\sum_{k\,=\,0}^{M}\,b_{k}\,x\,(n-k),\qquad n \geq\ 0 \tag{6.5.1}\]
+
+where \(a_{k}\) and \(b_{k}\) are known constants.
+
+By defining the operator
+
+\[D^{k}y\,(n)=y\,(n-k) \tag{6.5.2}\]
+
+we can write Equation (6.5.1) in operator notation as
+
+\[\sum_{k\,=\,0}^{N}\,a_{k}\ D^{k}\ y\,(n)=\sum_{k\,=\,0}^{M}b_{k}D^{k}x(n) \tag{6.5.3}\]
+
+We note that an alternate form of the difference equation, Equation (6.5.1), is sometimes given as
+
+\[\sum_{k\,=\,0}^{N}\,a_{k}\ y\,(n+k)=\sum_{k\,=\,0}^{M}\,b_{k}\ x(n+k),\qquad n \geq\ 0 \tag{6.5.4}\]
+
+In this form, if the system is causal, we must have \(M\leq\ N\).
+
+The solution to either Equation (6.5.1) or (6.5.4) can be determined, in analogy with the differential equation, as the sum of two components: (a) the homogeneous solution, which depends on the initial conditions that are assumed to be known, and (b) the particular solution, which depends on the input.
+
+Before we explore this approach to finding the solution to Equation (6.5.1), let us consider an alternate approach by rewriting Equation (6.5.1) as
+
+\[y\,(n)=\frac{1}{a_{0}}\,[\sum_{k\,=\,0}^{M}\,b_{k}\,x\,(n-k)-\sum_{k\,=\,1}^{N }\,a_{k}y\,(n-k)] \tag{6.5.5}\]
+
+In this equation, \(x\,(n-k)\) are known. If \(y\,(n-k)\) are also known, then \(y\,(n)\) can be determined. Setting \(n=0\) in Equation (6.5.5) yields
+
+\[y\,(0)=\frac{1}{a_{0}}\,[\sum_{k\,=\,0}^{M}\,b_{k}\,x\,(-k)-\sum_{k\,=\,1}^{N }\,a_{k}y\,(-k)] \tag{6.5.6}\]
+
+Quantities \(y\,(-k)\), for \(k\,=\,1\), \(2\), \(\ldots\), \(N\), represent the initial conditions for the difference equation and are therefore assumed to be known. Thus, since all the terms on the right-hand side are known, we can determine \(y\,(0)\).
+
+We now let \(n=1\) in Equation (6.5.5) to get
+
+\[y\,(1)=\frac{1}{a_{0}}\,[\sum_{k\,=\,0}^{M}\,b_{k}\,x\,(1-k)-\sum_{k\,=\,1}^{ N}\,a_{k}y\,(1-k)]\]
+
+Since these roots are distinct, the homogeneous solution is of the form \[y_{h}(n)=A_{1}(\frac{1}{2})^{n}+A_{2}(\frac{1}{3})^{n}+A_{3}\ (\frac{1}{4})^{n}\] Substitution of the initial conditions then gives the following equations for unknown constants \(A_{1}\), \(A_{2}\), and \(A_{3}\): \[2A_{1}+3A_{2}+4A_{3}=6\] \[4A_{1}+9A_{2}+16A_{3}=6\] \[8A_{1}+27A_{2}+64A_{3}=-2\] with the solution \[A_{1}=7,\qquad A_{2}=-\ \frac{10}{3},\qquad A_{3}=\frac{\dot{1}}{2}\] The homogeneous solution, therefore, is equal to \[y_{h}(n)=7(\frac{1}{2})^{n}-\frac{10}{3}(\frac{1}{3})^{n}-\frac{1}{2}(\frac{1 }{4})^{n}\] \(\blacksquare\)
+
+**Example 6.5.3**: Consider the equation
+
+\[y(n)-\frac{5}{4}\ y(n-1)+\frac{1}{2}\ y(n-2)-\frac{1}{16}\ y(n-3)=0\]
+
+with the same initial conditions as in the previous example. The characteristic equation is
+
+\[1-\frac{5}{4}\ \alpha^{-1}+\frac{1}{2}\ \alpha^{-2}-\frac{1}{16}\ \alpha^{-3}=0\]
+
+with roots
+
+\[\alpha_{1}=\frac{\dot{1}}{2}\,\qquad\alpha_{2}=\frac{1}{2},\qquad\alpha_{3}= \frac{1}{4}\]
+
+Therefore, we write the homogeneous solution as
+
+\[y_{h}(n)=A_{1}(\frac{1}{2})^{n}+A_{2}n(\frac{1}{2})^{n}+A_{3}(\frac{1}{4})^{n}\]
+
+Substituting the initial conditions and solving the resulting equations gives
+
+\[A_{1}=\frac{9}{2},\qquad A_{2}=\frac{5}{4},\qquad A_{3}=-\frac{1}{8}\]
+
+so that the homogeneous solution is
+
+\[y_{h}(n)=\frac{9}{2}\ (\frac{1}{2})^{n}+\frac{5n}{4}\ (\frac{1}{2})^{n}-\frac{1}{8}( \frac{1}{4})^{n}\]
+
+#### The Particular Solution
+
+We now consider the determination of the particular solution for the difference equation
+
+\[\sum_{k=0}^{N}a_{k}\,y(n-k)=\sum_{k=0}^{M}b_{k}\,x(n-k) \tag{6.5.11}\]We note that the right side of this equation is the weighted sum of input \(x\left(n\right)\) and its delayed versions. Therefore, we can obtain \(y_{p}(n)\), the particular solution to Equation (6.5.11), by first determining \(\overline{y}(n)\), the particular solution to the equation
+
+\[\sum_{k\;=\;0}^{N}\;a_{k}\;\overline{y}(n-k)=x\left(n\right) \tag{6.5.12}\]
+
+Use of the principle of superposition then enables us to write
+
+\[y_{p}(n)=\sum_{k\;=\;0}^{M}\;b_{k}\;\overline{y}(n-k) \tag{6.5.13}\]
+
+To find \(\overline{y}(n)\), we assume that \(\overline{y}(n)\) is a linear combination of \(x\left(n\right)\) and its delayed versions \(x\left(n-1\right)\), \(x\left(n-2\right)\), etc. For example, if \(x\left(n\right)\) is a constant, so is \(x\left(n-k\right)\) for any \(k\). Therefore, \(\overline{y}(n)\) is also a constant. Similarly, if \(x\left(n\right)\) is an exponential function of the form \(\beta^{n}\), \(\overline{y}(n)\) is also an exponential of the same form. If
+
+\[x\left(n\right)=\sin\;\Omega_{0}\;n\]
+
+then
+
+\[x\left(n-k\right)=\sin\;\Omega_{0}\left(n-k\right)=\cos\;\Omega_{0}\;k\;\sin \;\Omega_{0}\;n-\sin\;\Omega_{0}k\;\cos\;\Omega_{0}\;n\]
+
+Correspondingly, we have
+
+\[\overline{y}(n)=A\;\sin\;\Omega_{0}\;n+B\;\cos\;\Omega_{0}\;n\]
+
+We get the same form for \(\overline{y}(n)\) when
+
+\[x\left(n\right)=\cos\;\Omega_{0}\;n\]
+
+We can determine the unknown constants in the assumed solution by substituting in the difference equation and equating like terms.
+
+As in the solution of differential equations, the assumed form for the particular solution has to be modified if the forcing function is of the same form as one of the characteristic solutions by multiplying by an appropriate power of \(n\).
+
+**Example 6.5.4**: Consider the difference equation
+
+\[y\left(n\right)-\frac{3}{4}\;y\left(n-1\right)+\frac{1}{8}\;y\left(n-2\right)= 2^{{}^{\prime}}\sin\;\frac{n\pi}{2}\]
+
+with initial conditions
+
+\[y\left(-1\right)=2\;\;\;\;\;\;\;\;\text{and}\;\;\;\;\;\;\;\;\;y\left(-2 \right)=4\]
+
+We assume the particular solution to be
+
+\[y_{p}(n)=A\;\sin\;\frac{n\pi}{2}+B\;\cos\;\frac{n\pi}{2}\]
+
+Then
+
+\[y_{p}(n-1)=A\;\sin\;\frac{(n-1)\pi}{2}+B\;\cos\;\frac{(n-1)\pi}{2}\]By using trigonometric identities, it can easily be verified that
+
+\[\sin\ \frac{(n-1)\pi}{2}=-\cos\ \frac{n\pi}{2}\qquad\mbox{and}\quad\cos\ \ \frac{(n-1)\pi}{2}=\sin\ \frac{n\pi}{2}\]
+
+so that
+
+\[y_{p}(n-1)=-A\ \cos\ \frac{n\pi}{2}+B\ \sin\ \frac{n\pi}{2}\]
+
+Similarly \(y_{p}(n-2)\) can be shown to be
+
+\[y_{p}(n-2) = -A\ \cos\ \frac{(n-1)\pi}{2}+B\ \sin\ \frac{(n-1)\pi}{2}\] \[= -A\ \sin\ \frac{n\pi}{2}-B\ \cos\ \frac{n\pi}{2}\]
+
+Substitution in the difference equation yields
+
+\[(A-\frac{3}{4}\ B-\frac{1}{8}A)\ \sin\ \frac{n\pi}{2}+(B+\frac{3}{4}\ A-\frac{1}{8} \ B)\cos\ \frac{n\pi}{2}=2\ \sin\ \frac{n\pi}{2}\]
+
+Equating like terms gives the following equations for the unknown constants \(A\) and \(B\):
+
+\[A-\frac{3}{4}\ B-\frac{1}{8}\ A=2\]
+
+\[B+\frac{3}{4}\ A-\frac{1}{8}\ B=0\]
+
+with solution
+
+\[A=\frac{112}{85}\qquad\mbox{and}\qquad B=-\frac{96}{85}\]
+
+so that the particular solution is
+
+\[y_{p}(n)=\frac{112}{85}\ \sin\ \frac{n\pi}{2}-\frac{96}{85}\ \cos\ \frac{n\pi}{2}\]
+
+To find the homogeneous solution, we write the characteristic equation for the difference equation as
+
+\[1-\frac{3}{4}\ \alpha^{-1}+\frac{1}{8}\ \alpha^{-2}=0\]
+
+Since the characteristic roots are
+
+\[\alpha_{1}=\frac{1}{4}\qquad\mbox{and}\qquad\alpha_{2}=\frac{1}{2}\]
+
+the homogeneous solution is given by
+
+\[y_{h}(n)=A_{1}(\frac{1}{4})^{n}+A_{2}(\frac{1}{2})^{n}\]
+
+so that the total solution is given by
+
+\[y(n)=A_{1}(\frac{1}{4})^{n}+A_{2}(\frac{1}{2})^{n}+\frac{112}{85}\ \sin\ \frac{n\pi}{2}-\frac{96}{85}\ \cos\ \frac{n\pi}{2}\]
+
+Figure 6.6.3: Alternate simulation diagram for \(N\)th-order system.
+
+\[v(n)-0.25v\left(n-1\right)-0.25v\left(n-2\right)+0.0625v\left(n-3\right)=x(n)\]
+
+and
+
+\[y\left(n\right)=v\left(n\right)+0.5v\left(n-1\right)-v\left(n-2\right)+0.25v \left(n-3\right)\]
+
+Figure 6.6.4 gives the simulation diagram using these two equations.
+
+### 6.7 State-Variable Representation of Discrete-Time Systems
+
+As with continuous-time systems, use of state variables permits a more complete description of the system in discrete time. We define the state of a discrete-time system as the minimum amount of information needed to determine the future output states of the system. If we denote the state by the \(N\)-dimensional vector
+
+\[\mathbf{v}(n)=[v_{1}(n)\ v_{2}(n)\ \cdot\cdot\cdot\ \ v_{N}(n)]^{T} \tag{6.7.1}\]
+
+the state-space description of a single-input single-output time-invariant discrete-time
+
+Figure 6.6.4: Alternative simulation diagram for Example 6.6.2.
+
+Figure 6.7.1: Simulation diagrams for Example 6.7.1.
+
+\[y\left(n\right) =0.25\,\hat{\psi}_{1}\left(n\right)-\hat{\psi}_{2}\left(n\right)+0.5 \,\hat{\psi}_{3}\left(n\right)+\hat{\psi}_{3}\left(n+1\right) \tag{6.7.6d}\] \[=-0.1875\,\hat{\psi}_{1}\left(n\right)-0.75\,\hat{\psi}_{2}\left(n \right)+0.75\,\hat{\psi}_{3}\left(n\right)+x\left(n\right)\]
+
+where the last step follows by substituting Equation (6.7.4c). In vector-matrix format, we can write
+
+\[\hat{\Psi}\left(n+1\right) =\begin{bmatrix}0&1&0\\ 0&0&1\\ -0.0625&0.25&0.25\end{bmatrix}\hat{\Psi}\left(n\right)+\begin{bmatrix}0\\ 0\\ 1\end{bmatrix}x\left(n\right) \tag{6.7.7}\] \[y\left(n\right) =\left[-0.1875\,\,\,-0.75\,\,\,0.75\right]\,\hat{\Psi}\left(n \right)+x\left(n\right)\]
+
+so that
+
+\[\hat{\text{A}}=\begin{bmatrix}0&1&0\\ 0&0&1\\ -0.0625&0.25&0.25\end{bmatrix},\quad\hat{\mathbf{b}}=\begin{bmatrix}0\\ 0\\ 1\end{bmatrix},\quad\mathbf{c}=\left[-0.1875\,\,\,-0.75\,\,\,0.75\right],\quad d =1 \tag{6.7.8}\]
+
+This is the second canonical form of the state equations. 
+
+By generalizing the results of the last example to the system of Equation (6.6.2), we can show that the first form of the state equations yields
+
+\[\mathbf{A}=\begin{bmatrix}-a_{1}&1&\cdot&\cdot&0\\ -a_{2}&0&\cdot&\cdot&0\\ \cdot&\cdot&\cdot&\cdot&\cdot\\ \cdot&\cdot&\cdot&\cdot&\cdot\\ \cdot&\cdot&\cdot&\cdot&\cdot\\ \cdot&\cdot&\cdot&\cdot&\cdot\\ -a_{N}&0&\cdot&\cdot&0\end{bmatrix},\quad\mathbf{b}=\begin{bmatrix}b_{1}-a_{ 1}&b_{0}\\ b_{2}-a_{2}&b_{0}\\ \cdot&\cdot&\cdot\\ \cdot&\cdot\\ \cdot&\cdot\\ b_{N}-a_{N}&b_{0}\end{bmatrix},\quad\mathbf{c}=\begin{bmatrix}1\\ 0\\ 0\\ \\[y\left(n\right)=\hat{\mathfrak{C}}\,\hat{\psi}(n)+\hat{d}\,x\left(n\right)\]
+
+there exists a nonsingular matrix \(\mathbf{P}\) of dimension \(N\times N\) such that
+
+\[\mathbf{v}(n)=\mathbf{P}\hat{\psi}\left(n\right) \tag{6.7.13}\]
+
+It can easily be verified that the following relations hold:
+
+\[\hat{\mathbf{A}}=\mathbf{P}\mathbf{A}\mathbf{P}^{-1},\qquad\hat{\mathbf{b}}= \mathbf{P}^{-1}\mathbf{b},\qquad\hat{\mathfrak{C}}=\mathbf{c}\mathbf{P},\qquad \hat{d}=d \tag{6.7.14}\]
+
+#### Solution of State-Space Equations
+
+We can find the solution to the equation
+
+\[\mathbf{v}(n+1)=\mathbf{A}\mathbf{v}(n)+\mathbf{b}x\left(n\right),\qquad n\geq 0 ;\qquad\mathbf{v}(0)=\mathbf{v}_{0} \tag{6.7.15}\]
+
+by iteration. Thus, setting \(n=0\) in Equation (6.7.15) gives
+
+\[\mathbf{v}(1)=\mathbf{A}\mathbf{v}(0)+\mathbf{b}x\left(0\right)\]
+
+For \(n=1\), we have
+
+\[\mathbf{v}(2) =\mathbf{A}\mathbf{v}(1)+\mathbf{b}x\left(1\right)\] \[=\mathbf{A}[\mathbf{A}\mathbf{v}(0)+\mathbf{b}x\left(0\right)]+ \mathbf{b}x\left(1\right)\] \[=\mathbf{A}^{2}\,\mathbf{v}(0)+\mathbf{A}\mathbf{b}x\left(0 \right)+\mathbf{b}x\left(1\right)\]
+
+which can be written as
+
+\[\mathbf{v}(2)=\mathbf{A}^{2}\,\mathbf{v}(0)+\sum_{j\,=\,0}^{1}\mathbf{A}^{2-j -1}\mathbf{b}x\left(j\right)\]
+
+By continuing this procedure, it is clear that the solution for general \(n\) is given by
+
+\[\mathbf{v}(n)=\mathbf{A}^{n}\mathbf{v}(0)+\sum_{j\,=\,0}^{n-1}\mathbf{A}^{n-j -1}\mathbf{b}x\left(j\right) \tag{6.7.16}\]
+
+The first term in the solution corresponds to the initial-condition response and the second term, which is the convolution sum of \(\mathbf{A}^{n-1}\) and \(\mathbf{b}x\left(n\right)\), corresponds to the forced response of the system. Quantity \(\mathbf{A}^{n}\), which defines how the state changes as time progresses, represents the state-transition matrix for the discrete-time system \(\mathbf{\Phi}(n)\). In terms of \(\mathbf{\Phi}(n)\), Equation (6.7.16) can be written as
+
+\[\mathbf{v}(n)=\mathbf{\Phi}\left(n\right)\,\mathbf{v}(0)+\sum_{j\,=\,0}^{n-1 }\mathbf{\Phi}(n-j-1)\,\,\mathbf{b}x\left(j\right) \tag{6.7.17}\]
+
+It is clear that the first step in obtaining the solution to the state equations is the determination of \(\mathbf{A}^{n}\). We can use the Cayley-Hamilton theorem for this purpose.
+
+**Example 6.7.2**: Consider the following system
+
+\[v_{1}(n+1)=v_{2}(n) \tag{6.7.18}\]\[v_{2}(n+1)=\frac{1}{8}v_{1}(n)-\frac{1}{4}v_{2}(n)+x(n)\]
+
+\[y(n)=v_{1}(n)\]
+
+By using the Cayley-Hamilton theorem as in Chapter 2, we can write
+
+\[\mathbf{A}^{n}=\alpha_{0}(n)\mathbf{I}+\alpha_{1}(n)\mathbf{A} \tag{6.7.19}\]
+
+Replacing \(\mathbf{A}\) in Equation (6.7.19) by its eigenvalues \(-\frac{1}{2}\) and \(\frac{1}{4}\) leads to the following two equations:
+
+\[\alpha_{0}(n)-\frac{1}{2}\alpha_{1}(n)=(-\frac{1}{2})^{n}\]
+
+and
+
+\[\alpha_{1}(n)+\frac{1}{4}\alpha_{1}(n)=(\frac{1}{4})^{n}\]
+
+so that
+
+\[\alpha_{0}(n)=\frac{2}{3}\ (\frac{1}{4})^{n}+\frac{1}{3}\ (-\frac{1}{2})^{n}\]
+
+\[\alpha_{1}(n)=\frac{4}{3}\ (\frac{1}{4})^{n}-\frac{4}{3}\ (-\frac{1}{2})^{n}\]
+
+Substituting in Equation (6.7.16) gives
+
+\[\mathbf{A}^{n}=\begin{bmatrix}\frac{2}{3}\ (\frac{1}{4})^{n}+\frac{1}{3}\ (-\frac{1}{2})^{n}&\frac{4}{3}\ ( \frac{1}{4})^{n}-\frac{4}{3}\ (-\frac{1}{2})^{n}\\ \frac{1}{6}\ (\frac{1}{4})^{n}-\frac{1}{6}\ (-\frac{1}{2})^{n}&\frac{1}{3}\ ( \frac{1}{4})^{n}+\frac{2}{3}\ (-\frac{1}{2})^{n}\end{bmatrix} \tag{6.7.20}\]
+
+Let us determine the unit-step response of the system of Example 6.7.2 for the case when \(\mathbf{v}(0)=[1-1]^{T}\). Substituting in Equation (6.7.16) gives
+
+\[\mathbf{v}(n)=\mathbf{A}^{n}\!\!\left[\begin{array}{c}1\\ -1\end{array}\right]+\!\!\!\sum_{j=\ 0}^{n-1}\mathbf{A}^{n-j-1}\left[\begin{array}{c}0\\ 1\end{array}\right]\ (1)\]
+
+\[=\begin{bmatrix}-\ \frac{2}{3}\ (\frac{1}{4})^{n}+\frac{5}{3}\ (-\frac{1}{2})^{n}\\ -\frac{1}{6}\ (\frac{1}{4})^{n}-\frac{5}{6}\ (-\frac{1}{2})^{n}\end{bmatrix}+ \!\!\!\sum_{j=\ 0}^{n-1}\ \left[\begin{array}{c}\frac{4}{3}\ (\frac{1}{4})^{n-j-1}-\frac{4}{3}\ (-\frac{1}{2})^{n-j-1}\\ \frac{1}{3}\ (\frac{1}{4})^{n-j-1}+\frac{2}{3}\ (-\frac{1}{2})^{n-j-1}\end{array}\right]\]
+
+Putting the second term in closed form yields
+
+\[\mathbf{v}(n)=\begin{bmatrix}-\ \frac{2}{3}\ (\frac{1}{4})^{n}+\frac{5}{3}\ (-\frac{1}{2})^{n}\\ -\frac{1}{6}\ (\frac{1}{4})^{n}-\frac{5}{6}\ (-\frac{1}{2})^{n}\end{bmatrix}+ \begin{bmatrix}\frac{8}{9}+\frac{8}{9}\ (-\frac{1}{2})^{n}-\frac{16}{9}\ (\frac{1}{4})^{n}\\ \frac{8}{9}-\frac{4}{9}\ (-\ \frac{1}{2})^{n}-\frac{4}{9}\ (\frac{1}{4})^{n}\end{bmatrix}\]
+
+The first term corresponds to the initial-condition response and the second term to the forced response. Combining the two terms yields the total response as 
+
+### Stability of Discrete-Time Systems
+
+As with continuous-time systems, an important property associated with discrete-time systems is that of system stability. We can extend our definition of stability to the discrete-time case by saying that a discrete-time system is input-output stable if a bounded input produces a bounded output. That is, if
+
+\[\left|x\left(n\right)\right|\leq\ M<\infty \tag{6.8.1}\]
+
+then
+
+\[\left|y\left(n\right)\right|\leq\ L<\infty\]
+
+By using a similar procedure as in the case of continuous-time systems, we can obtain a condition for stability in terms of the system impulse response. Given a system with impulse response \(h\left(n\right)\), output \(y\left(n\right)\) corresponding to any input \(x\left(n\right)\) is given by the convolution sum:
+
+\[y\left(n\right)=\sum_{k\ =\ -\infty}^{\infty}h\left(k\right)x\left(n-k\right) \tag{6.8.2}\]
+
+By using the Schwarz inequality, it can be shown that the discrete-time system is stable if the impulse response is absolutely summable. That is, if
+
+\[\sum_{k\ =\ -\infty}^{\infty}\left|\ h\left(k\right)\right|<\infty \tag{6.8.3}\]
+
+For causal systems, the condition for stability becomes
+
+\[\sum_{k\ =\ 0}^{\infty}\left|\ h\left(k\right)\right|<\infty \tag{6.8.4}\]
+
+We can obtain equivalent conditions in terms of the locations of the characteristic values of the system. We recall that for a causal system described by a difference equation, the solution consists of terms of the form \(n^{k}\alpha^{n}\), \(k=0\), \(1\ \ldots\ M\), where \(\alpha\) denotes a characteristic value of multiplicity \(M\). It is clear that if \(\left|\alpha\right|\geq 1\), the response is not bounded for all inputs. Thus, for a system to be stable, all the characteristic values must have magnitude less than \(1\). That is, they must all lie inside a circle of unity radius in the complex plane.
+
+For the state-variable representation, we saw that the solution depends on the state-transition matrix \(\mathbf{A}^{n}\). The form of \(\mathbf{A}^{n}\) is determined by the eigenvalues or characteristic values of matrix \(\mathbf{A}\). Suppose we obtain the difference equation relating output \(y\left(n\right)\) to input \(x\left(n\right)\) by eliminating the state variables from Equations (6.7.2a) and (6.7.2b). It can be verified that the characteristic values of this equation are exactly the same as those of matrix \(\mathbf{A}\). (We leave the proof of this relation as an exercise for the reader. See Problem 6.31). It follows, therefore, that a system described by state equations is stable if the eigenvalues of \(\mathbf{A}\) lie inside the unit circle in the complex plane.
+
+### Summary
+
+* A discrete-time (DT) signal is defined only at discrete instants of time.
+* A DT signal is usually represented as a sequence of values \(x\left(n\right)\) for integer values of \(n\).
+* A DT signal \(x\left(n\right)\) is periodic with period \(N\) if \(x\left(n+N\right)=x\left(n\right)\) for some integer \(N\).
+* The DT unit-step and impulse functions are related as \[u\left(n\right)=\sum_{k\,=\,-\infty}^{n}\delta\left(k\right)\] \[\delta(n)=u\left(n\right)-u\left(n-1\right)\]
+* Any DT signal \(x\left(n\right)\) can be expressed in terms of shifted impulse functions as \[x\left(n\right)=\sum_{k\,=\,-\infty}^{\infty}x\left(k\right)\delta(n-k)\]
+* The complex exponential \(x\left(n\right)=\exp\left[\,j\Omega_{0}\,n\,\right]\) is periodic only if \(\Omega_{0}\,/2\pi\) is a rational number.
+* The set of harmonic signals \(x_{k}(n)=\exp\left[\,jk\Omega_{0}\,n\,\right]\) consists of only \(N\) distinct waveforms.
+* Time scaling of DT signals may yield a signal that is completely different.
+* Concepts such as linearity, memory, time invariance, and causality in DT systems are similar to those in continuous-time systems.
+* A DT LTI system is completely characterized by its impulse response.
+* Output \(y\left(n\right)\) of an LTI DT system is obtained as the convolution of input \(x\left(n\right)\) and the system impulse response \(h\left(n\right)\) as \[y\left(n\right)=h\left(n\right)*x\left(n\right)=\sum_{m\,=\,-\infty}^{\infty}h \left(m\right)x\left(n-m\right)\]
+* The convolution sum gives only the forced response of the system.
+* The periodic convolution of two periodic sequences \(x_{1}(n)\) and \(x_{2}(n)\) is given by \[x_{1}(n)*x_{2}(n)=\sum_{k\,=\,0}^{N-1}x_{1}(n-k)\ x_{2}(k)\]
+* An alternate representation of a DT system is in terms of the difference equation (DE): \[\sum_{k\,=\,0}^{N}a_{k}y(n-k)=\sum_{k\,=\,0}^{M}b_{k}x\left(n-k\right),\qquad n\geq 0\]
+* The DE can be solved either analytically or by iterating from known initial conditions. The analytical solution consists of two parts, the homogeneous (zero-input) solution and the particular (zero-state) solution. The homogeneous solution is determined by the roots of the characteristic equation. The particular solution is of the same form as input \(x\left(n\right)\) and its delayed versions.
+
+* The impulse response is obtained by solving the system DE with input \(x\left(n\right)=\delta(n)\) and all initial conditions zero.
+* The simulation diagram for an DT system can be obtained from the DE using summers, coefficient multipliers, and delays as building blocks.
+* The state equations for an LTI DT system can be obtained from the simulation diagram by assigning a state to the output of each delay. The equations are of the form \[\mathbf{v}(n+1) =\mathbf{Av}(n)+\mathbf{b}x\left(n\right)\] \[y\left(n\right) =\mathbf{cv}(n)+dx\left(n\right)\]
+* As in the CT case, for a given DT system, we can obtain several equivalent simulation diagrams and, hence, several equivalent state representations.
+* The solution of the state equation is given by \[\mathbf{v}(n)=\mathbf{\Phi}\left(n\right)\ \mathbf{v}(n)+\sum_{j=0}^{n-1} \mathbf{\Phi}(n-j-1)\ \mathbf{b}x\left(j\right)\] \[y\left(n\right)=\mathbf{cv}(n)+dx\left(n\right)\] where \[\mathbf{\Phi}(n)=\mathbf{A}^{n}\] is the state-transition matrix and can be evaluated using the Cayley-Hamilton theorem.
+* The following conditions for the BIBO stability of a DT LTI system are equivalent: (a) \(\sum_{k=-\infty}^{\infty}|h\left(k\right)|<\infty\) (b) The roots of the characteristic equation are inside the unit circle. (c) The eigenvalues of A are inside the unit circle.
+
+### CHECKLIST OF IMPORTANT TERMS
+
+\begin{tabular}{l l}
+**Cayley-Hamilton theorem** & **Particular solution** \\
+**Characteristic equation** & **Periodic convolution** \\
+**Coefficient multiplier** & **Periodic signal** \\
+**Complex exponential** & **Simulation diagram** \\
+**Convolution sum** & **State equations** \\
+**Delay** & **State variables** \\
+**Difference equation** & **Summer** \\
+**Discrete-time signal** & **Transition matrix** \\
+**Homogeneous solution** & **Unit impulse function** \\
+**Impulse response** & **Unit-step function** \\ \end{tabular}

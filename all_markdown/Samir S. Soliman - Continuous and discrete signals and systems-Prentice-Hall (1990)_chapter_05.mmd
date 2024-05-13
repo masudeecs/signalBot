@@ -1,0 +1,1024 @@
+## Chapter 5 The Laplace Transform
+
+### 5.1 Introduction
+
+In Chapters 3 and 4, we saw how frequency-domain methods are extremely useful in the study of signals and LTI systems. It was demonstrated that Fourier analysis reduces the convolution operation required to compute the output of LTI systems to just the product of the Fourier transform of the input signal and the frequency response of the system. One of the problems we can run into is that many of the input signals we would like to use do not have Fourier transforms. Examples are \(\exp\left[\alpha t\right]\!u\left(t\right)\), \(\alpha>0\); \(\exp\left[-\alpha t\right]\), \(-\infty<t<\infty\); \(tu\left(t\right)\); and other time signals that are not absolutely integrable. If we are confronted, say, with a system that is driven by a ramp-function input, is there any method of solution other than the time-domain techniques of Chapter 2? This difficulty could be resolved by extending the Fourier transform so that signal \(x\left(t\right)\) is expressed as a sum of complex exponentials, \(\exp\left[st\right]\), where the frequency variable is \(s=\sigma+j\omega\), and, thus, is not restricted to the imaginary axis only. This is equivalent to multiplying the signal by an exponential convergent factor. For example, \(\exp\left[-\sigma t\right]\!\exp\left[\alpha t\right]\!u\left(t\right)\) satisfies Dirichlet's conditions for \(\sigma>\alpha\) and, therefore, should have a generalized or extended Fourier transform. Such an extended transform is known as the bilateral Laplace transform, named after French mathematician Pierre Simon De Laplace. In this chapter, we define the bilateral Laplace transform and use the definition to determine a set of bilateral transform pairs for some basic signals.
+
+As mentioned in Chapter 2, any signal \(x\left(t\right)\) can be written as the sum of causal and noncausal signals. The causal part of \(x\left(t\right)\), \(x\left(t\right)\!u\left(t\right)\), has a special Laplace transform that we refer to as the unilateral Laplace transform, or, simply, the Laplace transform. The unilateral Laplace transform is more often used than the bilateral Laplace transform, not only because most of the signals occurring in practice are causal signals, but also because the response of a causal LTI system to a causal input is also causal. In Section 5.3, we define the unilateral Laplace transform and provide some examples to illustratehow to evaluate such transforms. In Section 5.4, we demonstrate how to evaluate the bilateral Laplace transform using the unilateral Laplace transform.
+
+As with other transforms, the Laplace transform possesses a set of valuable properties. These properties are used repeatedly in various applications. Because of their importance, we devote Section 5.5 for the development of the properties of the Laplace transform and give examples to illustrate their use.
+
+Finding the inverse Laplace transform is as important as finding the transform itself. The inverse Laplace transform is defined in terms of a contour integral. In general, such an integral is not easy to evaluate and requires the use of some theorems from the subject of complex variables that are beyond the scope of this text. In Section 5.6, we use the technique of partial fractions to find the inverse Laplace transform for the class of signals that have rational transforms (that is, can be expressed as the ratio of two polynomials).
+
+In Section 5.7, we develop techniques to determine the simulation diagrams of continuous-time systems. In Section 5.8, we discuss some applications of the Laplace transform such as in the solution of differential equations, applications to circuit analysis, and applications to control. In Section 5.9, we cover the solution of the state equations in the frequency domain. Finally, in Section 5.10, we discuss the stability of LTI systems in the \(s\) domain.
+
+### 5.2 The bilateral Laplace transform
+
+The bilateral, or two-sided, Laplace transform of real-valued signal \(x\left(t\right)\) is defined as
+
+\[X_{B}(s)\ \Delta\int\limits_{-\infty}^{\infty}x\left(t\right)\exp\left[ \neg st\right]\ dt \tag{5.2.1}\]
+
+where the complex variable \(s\) is, in general, of the form \(s=\sigma+j\omega\), with \(\sigma\) and \(\omega\) the real and imaginary parts, respectively. When \(\sigma=0\), \(s=j\omega\), and Equation (5.2.1) becomes the Fourier transform of \(x\left(t\right)\), while with \(\sigma\neq 0\), the bilateral Laplace transform is the Fourier transform of the signal \(x\left(t\right)\exp\left[\neg\sigma t\right]\). For convenience, we sometimes denote the bilateral Laplace transform in operator form as \(\mathcal{L}_{B}\left[x\left(t\right)\right]\) and denote the transform relationship between \(x\left(t\right)\) and \(X_{B}(s)\) as
+
+\[x\left(t\right)\leftrightarrow X_{B}(s) \tag{5.2.2}\]
+
+A number of bilateral Laplace transforms are now evaluated to illustrate the relationship between the bilateral Laplace and Fourier transforms.
+
+**Example 5.2.1**: Consider signal \(x\left(t\right)=\exp\left[\neg at\right]\mu\left(t\right)\). From the definition of the bilateral Laplace transform,
+
+\[X_{B}(s) =\int\limits_{-\infty}^{\infty}\exp\left[\neg at\right]\exp \left[\neg st\right]\mu\left(t\right)\ dt\] \[=\int\limits_{0}^{\infty}\exp\left[\neg(s+a)t\right]\ dt\]\[=\frac{1}{s+a}\]
+
+As stated earlier, we can look at this bilateral Laplace transform as the Fourier transform of signal \(\exp\left[-at\right]\exp\left[-\sigma t\right]\mu\left(t\right)\). This signal has a Fourier transform only if \(\sigma>-a\). Thus, \(X_{B}(s)\) exists only if \(\operatorname{Re}\{s\}>-\)\(a\). 
+
+In general, the bilateral Laplace transform converges for some values of \(\operatorname{Re}\{s\}\) and not for others. The values of \(s\) for which the bilateral Laplace transform converges, i.e.,
+
+\[\int\limits_{-\infty}^{\infty}\mid x\left(t\right)\mid\exp\left[-\operatorname {Re}\{s\}t\right]\,dt<\infty \tag{5.2.3}\]
+
+is called the region of absolute convergence, or, simply, the region of convergence, and is abbreviated as ROC. It should be stressed that the region of convergence depends on given signal \(x\left(t\right)\). For instance, in the above example, ROC is defined by \(\operatorname{Re}\{s\}>-a\) whether \(a\) is positive or negative. Note also that even though the bilateral Laplace transform exists for all values of \(a\), the Fourier transform exists only if \(a>0\).
+
+If we restrict our attention to time signals whose Laplace transforms are rational functions of \(s\), i.e., \(X_{B}(s)=N\left(s\right)/D\left(s\right)\), then clearly \(X_{B}(s)\) does not converge at the zeros of polynomial \(D\left(s\right)\) (poles of \(X_{B}(s)\)), which leads us to conclude that for rational Laplace transforms, the ROC should not contain any poles.
+
+**Example 5.2.2**: In this example, we show that two signals can have the same algebraic expression for their bilateral Laplace transform but different ROCs. Consider the signal
+
+\[x\left(t\right)=-\exp\left[-at\right]\mu\left(-t\right)\]
+
+Its bilateral Laplace transform is
+
+\[X_{B}(s)= -\int\limits_{-\infty}^{\infty}\exp\left[-(s+a)t\right]\mu\left(- t\right)\,dt\] \[= -\int\limits_{-\infty}^{0}\exp\left[-(s+a)t\right]\,dt\]
+
+For this integral to converge, we require that \(\operatorname{Re}\{s+a\}<0\) or \(\operatorname{Re}\{s\}<-a\), and the bilateral Laplace transform is
+
+\[X_{B}(s)=\frac{1}{s+a}\]
+
+In spite of the fact that the algebraic expressions for the bilateral Laplace transform of the two signals in Examples 5.2.1 and 5.2.2 are identical, the two transforms have different ROCs. From these examples, we can conclude that for signals that exist for positive time only, the signal behavior for positive time puts a lower bound on the allowable values of \(\operatorname{Re}\{s\}\), whereas for signals that exist for negative time, the signal behavior for negative time puts an upper bound on the allowable values of \(\operatorname{Re}\{s\}\). For a given \(X_{B}(s)\), there can be more than one corresponding \(x\left(t\right)\) depending on the ROC; in other words, the correspondence between \(x(t)\) and \(X_{B}(s)\) is not one-to-one unless the ROC is specified.
+
+A convenient way to display the ROC is in the complex \(s\) plane as shown in Figure 5.2.1. The horizontal axis is usually referred to as the \(\sigma\) axis, and the vertical axis is normally referred to as the \(j\omega\) axis. The shaded region in Figure 5.2.1(a) represents the set of points in the \(s\) plane corresponding to the region of convergence for the signal in Example 5.2.1, and the shaded region in Figure 5.2.1(b) represents the region of convergence for the signal in Example 5.2.2.
+
+The ROC can also provide us with information about whether \(x(t)\) is Fourier transformable or not. Since the Fourier transform is obtained from the bilateral Laplace transform by setting \(\sigma=0\), the region of convergence in this case is a single line (\(j\omega\) axis). Therefore, if the ROC for \(X_{B}(s)\) includes the \(j\omega\) axis, \(x(t)\) is Fourier transformable. If not, then the Fourier transform does not exist.
+
+**Example 5.2.3**: Consider the sum of the two real exponentials:
+
+\[x(t)=3\,\exp\left[-2t\right]u(t)+4\,\exp\left[\,t\,]u(-t)\]
+
+Note that for signals that exist for both positive and negative time, the signal behavior for negative time puts an upper bound on the allowable values of \(\mathrm{Re}\{s\}\), and the signal behavior for positive time puts a lower bound on the allowable \(\mathrm{Re}\{s\}\). Therefore, we expect to obtain a strip as ROC for such signals. The bilateral Laplace transform is
+
+Figure 5.2.1: \(s\)-Plane representation of the bilateral Laplace transform.
+
+\[X_{B}(t)=\int\limits_{0}^{\infty}3\,\exp\left[\,-\,(s+2)t\right]\,dt+\int\limits_{- \infty}^{0}4\,\exp\left[\,-(s-1)t\right]\,dt\]
+
+The first integral converges for \(\mathrm{Re}\{s\}>-2\), the second integral converges for \(\mathrm{Re}\{s\}<1\), and the algebraic expression for the bilateral Laplace transform is
+
+\[X_{B}(s) =\frac{3}{s+2}-\frac{4}{s-1}\] \[=\frac{-s-11}{(s+2)(s-1)}\,,\qquad-2<\mathrm{Re}\{s\}<1\]
+
+### The Unilateral Laplace Transform
+
+Transform \(X_{B}(s)\) defined in Equation (5.2.1) is the bilateral Laplace transform because it deals with \(x\left(t\right)\) over the entire interval \(-\infty\) to \(\infty\). All practical signals are causal (start at some finite instant, usually taken as the origin, \(t=0\)). Moreover, if we restrict ourselves to causal inputs and causal systems, the outputs are causal too. The bilateral Laplace transform of a causal signal is known as the unilateral Laplace transform, or, simply, the Laplace transform (from now on, we omit the word "unilateral" except where it is needed to avoid ambiguity), and is defined as
+
+\[X\left(s\right)=\int\limits_{0}^{\infty}x\left(t\right)\,\exp\left[\,-st \right]\,dt \tag{5.3.1}\]
+
+Some texts use as a lower limit, \(t=0^{+}\) or \(t=0\). All three lower limits are equivalent if \(x\left(t\right)\) does not contain a singularity function at \(t=0\). This is because there is no contribution to the area under the function \(x\left(t\right)\,\exp\left[\,-st\right]\) at \(t=0\) even if \(x\left(t\right)\) is discontinuous at that point.
+
+Therefore, the unilateral Laplace transform is a bilateral Laplace transform for a subclass of signals that begin at \(t=0\) (causal signals). The fact that we are dealing with a subclass of signals makes the process of finding the inverse Laplace transform much easier. We have seen that if we use the bilateral Laplace transform, unless we specify the ROC, the correspondence between \(x\left(t\right)\) and \(X_{B}(s)\) is not unique. However, if we restrict the signals to be causal, then, given \(X\left(s\right)\), there is only one \(x\left(t\right)\) associated with it. This observation simplifies the system-analysis problem considerably, but the price of this simplification is that we cannot analyze noncausal systems or use noncausal inputs.
+
+In this example, we find the unilateral Laplace transform of the following signals:
+
+\[x_{1}(t)=A,\qquad x_{2}(t)=\delta(t),\qquad x_{3}(t)=\exp\left[\,j2t\right], \qquad x_{4}(t)=\cos 2t,\qquad x_{5}(t)=\sin 2t\]
+
+From Equation (5.3.1),
+
+\[X_{1}(s)=\int\limits_{0^{-}}^{\infty}A\,\exp\left[\,-st\right]\,dt=\frac{A}{s },\qquad\mathrm{Re}\{\ s\}>0\]\[X_{2}(s) =\int\limits_{0^{\infty}}^{\infty}\delta(t)\,\exp\,[\,-\bar{s}t\,]\ dt=1,\quad\text{for all}\ \ s\] \[X_{3}(s) =\int\limits_{0^{\infty}}^{\infty}\exp\,[\,j2t\,]\,\exp\,[\,-st\,]\ dt\] \[=\frac{1}{s-j\,2}\] \[=\frac{s}{s^{2}+4}+j\,\frac{2}{s^{2}+4},\quad\quad\text{Re}\{\ s \}>0\]
+
+Since \(\cos 2t=\text{Re}\{\,\exp\,[\,j2t\,]\}\) and \(\sin 2t=\text{Im}\{\,\exp\,[\,j2t\,]\}\), using the linearity of the integral operation, we have
+
+\[X_{4}(s) =\text{Re}\left\{\frac{1}{s-j\,2}\right\}=\frac{s}{s^{2}+4},\quad \text{Re}\{\ s\}>0\] \[X_{5}(s) =\text{Im}\left\{\frac{1}{s-j\,2}\right\}=\frac{2}{s^{2}+4},\quad \text{Re}\{\ s\}>0\]
+
+Table 5.1 lists some of the important unilateral Laplace transform pairs. These are used repeatedly throughout the applications.
+
+### Bilateral Transforms Using Unilateral Transforms
+
+The bilateral Laplace transform can be evaluated using the unilateral Laplace transform if we express signal \(x(t)\) as the sum of two signals. The first part represents the behavior of \(x(t)\) in the interval (\(-\infty\),0) and the second part represents the behavior of \(x(t)\) in the interval \([0,\infty)\). In general, any signal that does not contain any singularities (delta function or its derivatives) at \(t=0\) can be written as the sum of a causal part \(x_{+}(t)\) and a noncausal part \(x_{-}(t)\), i.e.,
+
+\[x(t)=x_{+}(t)\,u(t)+x_{-}(t)\,u(-t) \tag{5.4.1}\]
+
+Taking the bilateral Laplace transform of both sides, we have
+
+\[X_{B}(s)=X_{+}(s)+\int\limits_{-\infty^{\infty}}^{0^{\tau}}x_{-}(t)\,\exp\,[ \,-st]\ dt\]
+
+Using the variable substitution \(t=-\tau\) yields
+
+\[X_{B}(s)=X_{+}(s)+\int\limits_{0^{\tau}}^{\infty}x_{-}(-\tau)\exp\,[\,s\tau]\ d\tau\]
+
+If \(x\left(t\right)\) does not have any singularities at \(t=0\), then the lower limit in the second term 
+
+**Example 5.4.1**: The bilateral Laplace transform of signal \(x(t)=\exp\left[\,at\right]u\left(-t\right)\), \(a>0\), is
+
+\[X_{B}(s) =\measuredangle\left\{\exp\left[\,-at\,\right]u\left(t\right)\right\}_ {s\,\rightarrow\,-s}\] \[=\left(\frac{1}{s+a}\right)_{s\,\rightarrow\,-s}=\frac{-1}{s-a},\quad\quad\text{Re}\left\{\,s\,\right\}<a\]
+
+Note that the unilateral Laplace transform of \(\exp\left[\,at\right]u\left(-t\right)\) is zero. __
+
+**Example 5.4.2**: According to Equation (5.4.2), the bilateral Laplace transform of
+
+\[x(t)=A\ \exp\left[\,-at\,\right]u\left(t\right)+Bt^{2}\exp\left[\,-bt\,\right]u \left(-t\right),\quad\quad a\text{ and }b>0\]
+
+is
+
+\[X_{B}(s) =\frac{A}{s+a}+\measuredangle\left\{B\left(-t\right)^{2}\ \exp\left[\, bt\,\right]u\left(t\right)\right\}_{s\,\rightarrow\,-s}\] \[=\frac{A}{s+a}+\left(B\ \frac{2!}{\left(s-b\right)^{2}}\right)_{s\, \rightarrow\,-s},\quad\text{Re}\left\{\,s\,\right\}>-a\,\curvearrow\, \text{Re}\left\{s\,\right\}<-b\] \[=\frac{A}{s+a}+\frac{2B}{\left(s+b\right)^{2}},\quad\quad-a<\text {Re}\left\{s\,\right\}<-b\]
+
+where \(\measuredangle\left\{B\left(-t\right)^{2}\ \exp\left[\, bt\,\right]u\left(t\right)\right\}\) follows from entry 7 in Table 5.1. __
+
+Not all signals possess a bilateral Laplace transform. For example, the periodic exponential \(\exp\left[\,j\omega_{0}\,t\,\right]\) does not have a bilateral Laplace transform because
+
+\[\measuredangle_{B}\left\{\exp\left[\,j\omega_{0}t\right]\right\} =\int\limits_{-\infty}^{\infty}\exp\left[\,-(s-j\omega_{0})t\, \right]\,dt\] \[=\int\limits_{-\infty}^{0}\exp\left[\,-(s\,-j\omega_{0})t\, \right]\,dt+\int\limits_{0}^{\infty}\exp\left[\,-(s\,-j\omega_{0})t\,\right]\,dt\]
+
+For the first integral to converge, we need \(\text{Re}\left\{s\,\right\}<0\), and for the second integral to converge we need \(\text{Re}\left\{s\,\right\}>0\). These two restrictions are contradictory and there is no value of \(s\) for which the transform converges.
+
+In the remainder of this chapter, we restrict our attention to the unilateral Laplace transform, which we simply refer to as the Laplace transform.
+
+### Properties of the unilateral Laplace Transform
+
+There are a number of useful properties of the unilateral Laplace transform that will allow some problems to be solved almost by inspection. In this section we summarize many of these properties, some of which may be more or less obvious to the reader. By using these properties, it is possible to drive many of the transform pairs in Table 5.1. In this section we list several of these properties and provide outlines of their proof.
+
+#### 5.5.1 Linearity
+
+If
+
+\[x_{1}(t) \leftrightarrow X_{1}(s)\] \[x_{2}(t) \leftrightarrow X_{2}(s)\]
+
+then
+
+\[ax_{1}(t)+bx_{2}(t)\leftrightarrow aX_{1}(s)+bX_{2}(s) \tag{5.5.1}\]
+
+where \(a\) and \(b\) are arbitrary constants. This property is the direct result of the linear operation of integration. The linearity property can be easily extended to a linear combination of an arbitrary number of components and simply means that the Laplace transform of a linear combination of an arbitrary number of signals is the same linear combination of the transform of the individual components. The ROC associated with a linear combination of terms is the intersection of the ROCs for the individual terms.
+
+**Example 5.5.1**: We want to find the Laplace transform of
+
+\[(A+B\exp{[-bt]})u\left(t\right)\]
+
+From Table 5.1, we have the transform pair
+
+\[u\left(t\right)\leftrightarrow\frac{1}{s}\qquad\text{and}\qquad\exp\ \left[-bt\right]u\left(t\right) \leftrightarrow\frac{1}{s+b}\]
+
+Thus, using linearity, we obtain the transform pair
+
+\[Au\left(t\right)+B\exp{[-bt]}u\left(t\right)\leftrightarrow\frac{A}{s}+\frac {B}{s+b}=\frac{\overset{\cdot}{\left(A+B\right)s+Ab}}{s\left(s+b\right)}\]
+
+The ROC is the intersection of \(\operatorname{Re}\{s\}>-b\) and \(\operatorname{Re}\{s\}>0\), and, hence, is given by \(\operatorname{Re}\{s\}>\max\ (-b,0)\).
+
+#### 5.5.2 Time Shifting
+
+If \(x\left(t\right)\leftrightarrow X\left(s\right)\), then for any positive real number \(t_{0}\),
+
+\[x\left(t-t_{0}\right)u\left(t-t_{0}\right)\leftrightarrow\exp{[-t_{0}\,s]}X \left(s\right) \tag{5.5.2}\]Signal \(x\left(t-t_{0}\right)u\left(t-t_{0}\right)\) is a \(t_{0}\)-second right shift of \(x\left(t\right)u\left(t\right)\). Therefore, a shift in time to the right corresponds to multiplication by \(\exp\left[-t_{0}\,s\right]\) in the Laplace-transform domain. The proof follows from Equation (5.3.1) with \(x\left(t-t_{0}\right)\)\(u\left(t-t_{0}\right)\) substituted for \(x\left(t\right)\), to obtain
+
+\[\begin{split}\pounds\left[x\left(t-t_{0}\right)u\left(t-t_{0} \right)\right]&=\int\limits_{0^{-}}^{\infty}x\left(t-t_{0} \right)u\left(t-t_{0}\right)\exp\left[-st\right]\,dt\\ &=\int\limits_{t_{0}}^{\infty}x\left(t-t_{0}\right)\exp[-st]\,dt \end{split}\]
+
+Using the transformation of variables \(t=\tau+t_{0}\), we have
+
+\[\begin{split}\pounds\left[x\left(t-t_{0}\right)u\left(t-t_{0} \right)\right]&=\int\limits_{0^{-}}^{\infty}x\left(\tau\right) \exp\left[-s\left(\tau+t_{0}\right)\right]\,d\tau\\ &=\exp\left[-t_{0}\,s\right]\int\limits_{0^{-}}^{\infty}x\left( \tau\right)\exp\left[-s\tau\right]\,d\tau\\ &=\exp\left[-t_{0}\,s\right]X\left(s\right)\end{split}\]
+
+Note that all values \(s\) in the ROC of \(x\left(t\right)\) are also in the ROC of \(x\left(t-t_{0}\right)\). Therefore, the ROC associated with \(x\left(t-t_{0}\right)\) is the same as the ROC associated with \(x\left(t\right)\).
+
+**Example 5.5.2**: Consider the rectangular pulse \(x\left(t\right)=\text{rect}(\left(t-a\right)/2a)\). This signal can be written as
+
+\[\text{rect}(\left(t-a\right)/2a)=u\left(t\right)-u\left(t-2a\right)\]
+
+Using linearity and time shifting, the Laplace transform of \(x\left(t\right)\) is
+
+\[X\left(s\right)=\frac{1}{s}-\exp\left[-2as\right]\frac{1}{s}=\frac{1-\exp\left[ -2as\right]}{s},\quad\text{Re}\left\{s\right\}\ >0\]
+
+It should be clear that this property holds for a right shift only. For example, the Laplace transform of \(x\left(t+t_{0}\right)\), for \(t_{0}>0\), cannot be expressed in terms of the Laplace transform of \(x\left(t\right)\). (Why?)
+
+#### 5.5.3 Shifting in the \(s\) Domain
+
+If
+
+\[x\left(t\right)\leftrightarrow X\left(s\right)\]
+
+then
+
+\[\exp\left[\,s_{0}\,t\,\right]x\left(t\right)\leftrightarrow X\left(s-s_{0}\right) \tag{5.5.3}\]
+
+The proof follows directly from the definition of the Laplace transform. Since the new transform is a shifted version of \(X\left(s\right)\), for any \(s\) that is in the ROC of \(x\left(t\right)\), the values \(s+\text{Re}\left\{s_{0}\right\}\) are in the ROC of \(\exp\left[\,s_{0}t\,\right]x\left(t\right)\).
+
+**Example 5.5.3**: By using entry 8 in Table 5.1 and Equation (5.5.3), the Laplace transform of
+
+\[x(t)=A\ \exp\left[\,-at\right]\cos\left(\omega_{0}t+\theta\right)u(t)\]
+
+is
+
+\[X(s) =\] \[=\] \[=\] \[=\] \[=\] \[=\] \[=\] \[=\]
+
+#### Time Scaling
+
+If
+
+\[x(t)\leftrightarrow X(s),\ \ \ \ \ \ \mathrm{Re}\{\,s\,\}>\sigma_{1}\]
+
+then for any positive real number \(\alpha\),
+
+\[x(\alpha t)\leftrightarrow\frac{1}{\alpha}\,X(\frac{s}{\alpha}),\ \ \ \ \ \mathrm{Re}\{\,s\,\}>\alpha\sigma_{1} \tag{5.5.4}\]
+
+The proof follows directly from the definition of the Laplace transform and the appropriate substitution of variables.
+
+Aside from the amplitude factor of \(1/\alpha\), linear scaling in time by a factor \(\alpha\) corresponds to a linear scaling in the \(s\) plane by a factor of \(1/\alpha\). Also, for any value of \(s\) in the ROC of \(x(t)\), the value \(s/\alpha\) will be in the ROC of \(x(\alpha t)\), that is, the ROC associated with \(x(\alpha t)\) is a compressed (\(\alpha>1\)) or expanded (\(\alpha<1\)) version of the ROC of \(x(t)\).
+
+**Example 5.5.4**: Consider the time-scaled unit-step signal \(u(\alpha t)\), where \(\alpha\) is an arbitrary positive number. The Laplace transform of \(u(\alpha t)\) is
+
+\[\mathcal{L}\left\{u\left(\alpha t\right)\right\}=\ \frac{1}{\alpha}\ \frac{1}{s/\alpha}=\frac{1}{s},\ \ \ \ \ \mathrm{Re}\{\,s\,\}>0.\]
+
+This result is anticipated since \(u\left(\alpha t\right)=u\left(t\right)\) for \(\alpha>0\)
+
+#### Differentiation in the Time Domain
+
+If
+
+\[x(t)\leftrightarrow X(s)\]then
+
+\[\frac{dx\left(t\right)}{dt}\overset{}{\longleftrightarrow}s\,X\left(s\right)-x \left(0^{-}\right) \tag{5.5.5}\]
+
+The proof of this property is obtained by computing the transform of \(dx\left(t\right)/dt\). This transform is
+
+\[\hat{x}\left\{\frac{dx\left(t\right)}{dt}\right\}=\int\limits_{0}^{\infty} \frac{dx\left(t\right)}{dt}\,\exp\left[\,-st\right]\,dt\]
+
+Integrating by parts yields
+
+\[\hat{x}\left\{\frac{dx\left(t\right)}{dt}\right\}=\exp\left[\,-st\right]\,x \left(t\right)\,\int_{0^{-}}^{\infty}x\left(t\right)\left(-s\right)\,\exp \left[\,-st\right]\,dt\]
+
+\[=\lim_{t\rightarrow\infty}\left\lceil\exp\left[\,-st\right]\,x\left(t\right) \right\rceil-x\left(0^{-}\right)+s\,X\left(s\right)\]
+
+The assumption that \(X\left(s\right)\) exists implies that
+
+\[\lim_{t\rightarrow\infty}\left\lceil\exp\left[\,-st\right]\,x\left(t\right) \right\rceil=0\]
+
+for \(s\) in the ROC. Thus,
+
+\[\hat{x}\left\{\frac{dx\left(t\right)}{dt}\right\}=\ s\,X\left(s\right)-x \left(0^{-}\right)\]
+
+Therefore, a differentiation in the time domain is equivalent to multiplication by \(s\) in the \(s\) domain. This permits replacing operations of calculus by simple algebraic operations on transforms.
+
+The differentiation property can be extended to yield the following:
+
+\[\frac{d^{n}x\left(t\right)}{dt^{n}}\leftrightarrow s^{n}\,X\left(s\right)-s^{ n-1}\,x\left(0^{-}\right)-\ldots-sx^{\left(n-2\right)}\left(0^{-}\right)-x^{ \left(n-1\right)}\left(0^{-}\right) \tag{5.5.6}\]
+
+Generally speaking, differentiation in the time domain is the most important property (next to linearity). The differentiation-in-time property makes the Laplace transform useful in applications such as solving differential equations. Specifically, we can use the Laplace transform to convert any linear differential equation with constant coefficients into an algebraic equation.
+
+As mentioned earlier, for rational Laplace transforms, the ROC does not contain any poles. Now if \(X\left(s\right)\) has a first-order pole at \(s=0\), multiplying by \(s\), as in Equation (5.5.5), may cancel that pole and results in a new ROC that contains the ROC of \(x\left(t\right)\). Therefore, in general, the ROC associated with \(dx\left(t\right)/dt\) normally contains the ROC associated with \(x\left(t\right)\) and can be larger if \(X\left(s\right)\) has a first-order pole at \(s=0\).
+
+The unit step function \(x\left(t\right)=u\left(t\right)\) has the transform \(X\left(s\right)=1/s\), with an ROC defined by \(\operatorname{Re}\left\{s\right\}>0\). The derivative of \(u\left(t\right)\) is the unit-impulse function whose Laplace transform is unity for all \(s\) with associated ROC extending over the entire \(s\) plane.
+
+The differential equation governing the circuit is
+
+\[R\,i\left(t\right)+\frac{1}{C}\int\limits_{0}^{t}i\left(\tau\right)\,d\tau=v \left(t\right)\]
+
+Input \(v\left(t\right)\) can be represented in terms of unit-step functions as
+
+\[v\left(t\right)=V_{0}\left[u\left(t-a\right)-u\left(t-b\right)\right]\]
+
+Taking the Laplace transform of both sides of the differential equation yields
+
+\[RI\left(s\right)+\frac{I\left(s\right)}{Cs}=\frac{V_{0}}{s}\left[\exp\left[-as \right]-\exp\left[-bs\right]\right]\]
+
+Solving for \(I\left(s\right)\), we obtain
+
+\[I\left(s\right)=\frac{V_{0}/R}{s+1/RC}\left[\exp\left[-as\right]-\exp\left[-sb \right]\right]\]
+
+By using the shift in time property, current \(i\left(t\right)\) is obtained as
+
+\[i\left(t\right)=\frac{V_{0}}{R}\left[\exp\left[\right.\frac{-\left(t-a\right) }{RC}\right]u\left(t-a\right)-\exp\left[\right.\frac{-\left(t-b\right)}{RC} \left.\right]u\left(t-b\right)\right]\]
+
+The solution is shown in Figure 5.5.2.
+
+#### Integration in the Time Domain
+
+Since differentiation in the time domain corresponds to multiplication by \(s\) in the s domain, one might conclude that integration in the time domain should involve division by \(s\). This is always true if the integral of \(x\left(t\right)\) does not grow faster than an exponential of the form A \(\exp\left[-at\right]\), that is,
+
+\[\lim_{t\rightarrow\infty}\exp\left[-st\right]\int\limits_{0^{-}}^{t}x\left( \tau\right)\,d\tau=0\]
+
+for all s such that \(\mathrm{Re}\{s\}>a\).
+
+Figure 5.5.1: Circuit for Example 5.5.8.
+
+The integration property can be stated as follows: for any causal signal \(x(t)\), if
+
+\[y(t)=\int_{0^{-}}^{t}x(\tau)\;d\tau\]
+
+then
+
+\[Y(s)=\frac{1}{s}\;X(s) \tag{5.5.7}\]
+
+To prove this result, we start with
+
+\[X(s)=\int_{0^{-}}^{\infty}x(t)\;\exp\left[\,-st\right]\;dt\]
+
+Dividing both sides by \(s\) yields
+
+\[\frac{X(s)}{s}=\int_{0^{-}}^{\infty}x(t)\;\frac{\exp\left[\,-st\right]}{s}\;dt\]
+
+Integrating the right-hand side by parts, we have
+
+\[\frac{X(s)}{s}=y(t)\;\frac{\exp\left[\,-st\right]}{s}\;\int_{0^{-}}^{\infty}y (t)\;\exp\left[\,-st\,\right]\;dt\]
+
+The first term on the right-hand side evaluates to zero at both limits, at the upper limit by assumption and at the lower limit because \(y(0^{-})=0\), so that
+
+\[\frac{X(s)}{s}=\pounds\left\{y(t)\right\}\]
+
+Thus, integration in the time domain is equivalent to division by \(s\) in the \(s\) domain. Integration and differentiation in the time domain are two of the most commonly used properties of the Laplace transform. They can be used to convert the integration and differentiation operations into division or multiplication by \(s\), respectively. Division and multiplication are algebraic operations and, hence, are much easier to perform.
+
+Figure 5.5.2: The current waveform in Example 5.5.8.
+
+#### Differentiation in the \(s\) Domain
+
+Differentiating both sides of Equation (5.3.1) with respect to \(s\), we have
+
+\[\frac{d\dot{X}(s)}{ds}=\int\limits_{0^{\infty}}^{\infty}(-t)\,x\left(t\right)\, \exp\left[\,-st\right]\,dt\]
+
+Consequently,
+
+\[-t\,x\left(t\right)\leftrightarrow\frac{d\,X\left(s\right)}{ds} \tag{5.5.8}\]
+
+Since differentiating \(X\left(s\right)\) does not add new poles (it may increase the order of some existing poles), the ROC associated with \(-tx\left(t\right)\) is the same as the the ROC associated with \(x\left(t\right)\).
+
+By repeated application of Equation (5.5.8), it follows that
+
+\[\left(-t\right)^{n}\,x\left(t\right)\leftrightarrow\frac{d^{n}X\left(s \right)}{ds^{n}} \tag{5.5.9}\]
+
+**Example 5.5.9**: The Laplace transform of the unit ramp function \(r\left(t\right)=tu\left(t\right)\) can be obtained using Equation (5.5.8) as
+
+\[R\left(s\right)= -\frac{d}{ds}\,\int\limits_{0^{\infty}}^{\infty}\left[u\left(t \right)\right]\] \[= -\frac{d}{ds}\,\frac{1}{s}=\frac{1}{s^{2}}\]
+
+Applying Equation (5.5.9), we have, in general,
+
+\[t^{n}\,u\left(t\right)\leftrightarrow\frac{n\,!}{s^{n+1}} \tag{5.5.10}\]
+
+#### Modulation
+
+If
+
+\[x\left(t\right)\leftrightarrow X\left(s\right)\]
+
+then for any real number \(\omega\),
+
+\[x\left(t\right)\cos\omega t \leftrightarrow\frac{1}{2}\,\left[X\left(s+j\omega\right)+X\left( s-j\omega\right)\right] \tag{5.5.11}\] \[x\left(t\right)\sin\omega t \leftrightarrow\frac{j}{2}\,\left[X\left(s+j\omega\right)-X \left(s-j\omega\right)\right] \tag{5.5.12}\]
+
+The proof follows from Euler's formula\[\exp\left[\left.j\omega t\right]=\cos\omega t+j\sin\omega t\right.\]
+
+and the application of the shifting property in the \(s\) domain.
+
+The Laplace transform of \(\left(\cos\omega t\right)u\left(t\right)\) is obtained from the Laplace transform of \(u\left(t\right)\) using the modulation property as follows:
+
+\[\mathcal{L}\left\{\left(\cos\omega t\right)u\left(t\right)\right\} =\frac{1}{2}\left(\frac{1}{s+j\omega}+\frac{1}{s-j\omega}\right)\] \[=\frac{s}{s^{2}+\omega^{2}}\]
+
+Similarly, the Laplace transform of \(\exp\left[\left.-at\right]\sin\omega t\right.u\left(t\right)\) is obtained from the Laplace transform of \(\exp\left[\left.-at\right]u\left(t\right)\) and the modulation property as
+
+\[\mathcal{L}\left\{\exp\left[\left.-at\right]\left(\sin\omega t \right)u\left(t\right)\right\} =\frac{j}{2}\left(\frac{1}{s+j\omega+a}-\frac{1}{s-j\omega+a}\right)\right\] \[=\frac{\omega}{\left(s+a\right)^{2}+\omega^{2}}\]
+
+#### Convolution
+
+This property is one of the most widely used properties in the study and analysis of linear systems. The use of this property reduces the complexity of evaluating the convolution integral to simple multiplication. The convolution property states that if
+
+\[x\left(t\right) \leftrightarrow X\left(s\right)\] \[h\left(t\right) \leftrightarrow H\left(s\right)\]
+
+then
+
+\[x\left(t\right)*h\left(t\right) \leftrightarrow X\left(s\right)H\left(s\right) \tag{5.5.13}\]
+
+where the convolution of \(x\left(t\right)\) and \(h\left(t\right)\) is given by
+
+\[x\left(t\right)*h\left(t\right)=\int\limits_{-\infty}^{\infty}x\left(\tau \right)h\left(t-\tau\right)\,d\tau\]
+
+Since both \(h\left(t\right)\) and \(x\left(t\right)\) are causal signals, the convolution in this case can be reduced to
+
+\[x\left(t\right)*h\left(t\right)=\int\limits_{0^{-}}^{\infty}x\left(\tau \right)h\left(t-\tau\right)\,d\tau\]
+
+Taking the Laplace transform of both sides results in the transform pair \[x(t)*h(t)\leftrightarrow\int\limits_{0^{-}}^{\infty}\left[\int\limits_{0^{-}}^{ \infty}x(\tau)h(t-\tau)\ d\tau\right]\exp\left[-st\right]\,dt\]
+
+Interchanging the order of the integrals, we have
+
+\[x(t)*h(t)\leftrightarrow\int\limits_{0^{-}}^{\infty}x(\tau)\left[\int\limits_{ 0^{-}}^{\infty}h(t-\tau)\exp\left[-st\right]\,dt\right]d\tau\]
+
+Using the change of variables \(\mu=t-\tau\) in the second integral, and noting that \(h(\mu)=0\) for \(\mu<0\) yields
+
+\[x(t)*h(t)\leftrightarrow\int\limits_{0^{-}}^{\infty}x(\tau)\exp\left[-s\tau \right]\left[\int\limits_{0^{-}}^{\infty}h(\mu)\exp\left[-s\mu\right]\,d\mu \right]d\tau\]
+
+or
+
+\[x(t)*h(t)\leftrightarrow X(s)H(s)\]
+
+The ROC associated with \(X(s)H(s)\) is the intersection of the ROCs of \(X(s)\) and \(H(s)\). However, because of the multiplication process involved, a zero-pole cancellation can occur that results in a larger ROC than the intersection of the ROCs of \(X(s)\) and \(H(s)\). In general, the ROC of \(X(s)H(s)\) includes the intersection of the ROC's of \(X(s)\) and \(H(s)\) and can be larger if zero-pole cancellation occurs in the process of multiplying the two transforms.
+
+**Example 5.5.11**: The integration property can be proved using the convolution property since
+
+\[\int\limits_{-\infty}^{t}x(\tau)\ d\tau=x(t)*u(t)\]
+
+Therefore, the transform of the integral of \(x(t)\) is the product of \(X(s)\) and the transform of \(u(t)\), which is \(1/s\).
+
+**Example 5.5.12**: Let \(x(t)\) be the rectangular pulse rect(\((t-a)/2a\)) centered at \(t=a\) and with width \(2a\). The convolution of this pulse with itself can be obtained easily with the help of the convolution property.
+
+From Example 5.5.2, the transform of \(x(t)\) is
+
+\[X(s)=\frac{1-\exp\left[-2as\right]}{s}\]
+
+The transform of the convolution is
+
+\[Y(s)=X^{2}(s) =\left[\frac{1-\exp\left[-2as\right]}{s}\right]^{2}\] \[=\frac{1}{s^{2}}-\frac{2\exp\left[-2as\right]}{s^{2}}+\frac{\exp \left[-4\,as\right]}{s^{2}}\]
+
+Taking the inverse Laplace transform of both sides, and recognizing that \(1/s^{2}\) is the transform of \(tu\left(t\right)\) yields
+
+\[y\left(t\right)=x\left(t\right)\ast x\left(t\right) =tu\left(t\right)-2\left(t-2a\right)u\left(t-2a\right)+\left(t-4a \right)u\left(t-4a\right)\] \[=r\left(t\right)-2r\left(t-2a\right)+r\left(t-4a\right)\]
+
+This signal is illustrated in Figure 5.5.3 and is a triangular pulse, as expected.
+
+In Equation (5.5.13), \(H\left(s\right)\) is called the transfer function of the system whose impulse response is \(h\left(t\right)\). This function is the \(s\) domain representation of the LTI system and describes the "transfer" from the input in the \(s\) domain, \(X\left(s\right)\), to the output in the \(s\) domain, \(Y\left(s\right)\), assuming no initial energy in the system at \(t=0^{-}\). Dividing both sides of Equation (5.5.13) by \(X\left(s\right)\), provided that \(X\left(s\right)\neq 0\), gives
+
+\[H\left(s\right)=\frac{Y\left(s\right)}{X\left(s\right)} \tag{5.5.14}\]
+
+That is, the transfer function is equal to the ratio of transform \(Y\left(s\right)\) of the output to transform \(X\left(s\right)\) of the input. Equation (5.5.14) allows us to determine the impulse response of the system from a knowledge of response \(y\left(t\right)\) to any nonzero input \(x\left(t\right)\).
+
+Suppose that input \(x\left(t\right)=\exp\left[-2t\right]u\left(t\right)\) is applied to a relaxed (zero initial conditions) LTI system. The output of the system is
+
+\[y\left(t\right)=\frac{2}{3}\left(\text{ }\exp\left[-t\right]+\exp\left[-2t \right]-\exp\left[-3t\right]\right)u\left(t\right)\]
+
+Then
+
+\[X\left(s\right)=\frac{1}{s+2}\]
+
+and
+
+\[Y\left(s\right)=\frac{2}{3\left(s+1\right)}+\frac{2}{3\left(s+2\right)}-\frac {2}{3\left(s+3\right)}\]
+
+Using Equation (5.5.14), we conclude that the transfer function \(H\left(s\right)\) of the system is
+
+\[H\left(s\right)=\frac{2}{3}+\frac{2\left(s+2\right)}{3\left(s+1\right)}-\frac {2\left(s+2\right)}{3\left(s+3\right)}\]
+
+Figure 5.5.3: Convolution of two rectangular signals.
+
+\[=\frac{2(s^{2}+6s+7)}{3(s+1)(s+3)}\] \[=\frac{2}{3}\ \left[1+\frac{1}{s+1}+\frac{1}{s+3}\right]\]
+
+from which
+
+\[h\left(t\right)=\frac{2}{3}\ \delta(t)+\frac{2}{3}\ \biggl{[}\exp\left[-t\right]+ \exp\left[-3t\right]\biggr{]}\mu\left(t\right)\]
+
+**Example 5.5.14**: Consider the LTI system described by the following differential equation
+
+\[y^{"}(t)+2y^{"}(t)-y^{"}(t)+5y(t)=3x^{"}(t)+x\left(t\right)\]
+
+Assuming that the system was initially relaxed and taking the Laplace transform of both sides, we obtain
+
+\[s^{3}Y\left(s\right)+2s^{2}Y\left(s\right)-sY\left(s\right)+5Y\left(s\right)=3 sX\left(s\right)+X\left(s\right)\]
+
+Solving for \(H\left(s\right)=Y\left(s\right)/X\left(s\right)\), we have
+
+\[H\left(s\right)=\frac{3s+1}{s^{3}+2s^{2}-s+5}\]
+
+#### Initial-Value Theorem
+
+Let \(x\left(t\right)\) be infinitely differentiable on an interval around \(x(0^{+})\) (an infinitesimal interval); then
+
+\[x\left(0^{+}\right)=\lim_{s\rightarrow\infty}s\,X\left(s\right) \tag{5.5.15}\]
+
+Equation (5.5.15) implies that the behavior of \(x\left(t\right)\) for small \(t\) is determined by the behavior of \(X\left(s\right)\) for large \(s\). This is another aspect of the inverse relationship between time- and frequency-domain variables. To establish this result, we expand \(x\left(t\right)\) in a Maclaurin series (Taylor series about \(t=0^{+}\)) to obtain
+
+\[x\left(t\right)=\left[x\left(0^{+}\right)+x^{\prime}\left(0^{+}\right)t+ \,\cdot\,\cdot\,\cdot\,+x^{\left(n\right)}\left(0^{+}\right)\frac{t^{\,n}}{n \,!}+\,\cdot\,\cdot\,\right]\mu\left(t\right)\]
+
+where \(x^{\left(n\right)}(0^{+})\) denotes the \(n\)th derivative of \(x\left(t\right)\) evaluated at \(t=0^{+}\). Taking the Laplace transform of both sides yields
+
+\[X\left(s\right) =\frac{x(0^{+})}{s}+\frac{x^{\prime}(0^{+})}{s^{2}}+\,\cdot\, \cdot\,\cdot\,+\frac{x^{\left(n\right)}(0^{+})}{s^{\,n\,+1}}+\,\cdot\,\cdot\,\cdot\] \[=\,\sum_{n\,=\,0}^{\infty}x^{\left(n\right)}(0^{+})\frac{1}{s^{\, n\,+1}}\]
+
+Multiplying both sides by \(s\) and taking the limit as \(s\rightarrow\infty\) proves the initial-value theorem. As a generalization, multiplying by \(s^{\,n+1}\) and taking the limit as \(s\rightarrow\infty\), yields\[x^{(n)}(0^{+})=\lim_{s\to\infty}\left[s^{n+1}X(s)-s^{n}x\left(0^{+}\right)-s^{n-1 }x^{{}^{\prime}}(0^{+})-\ \cdots\ -sx^{(n-1)}(0^{+})\right] \tag{5.5.16}\]
+
+This more general form of the initial-value theorem is simplified if \(x^{(n)}(0^{+})=0\) for \(n<N\). In this case,
+
+\[x^{(N)}(0^{+})=\lim_{s\to\infty}s^{N+1}\,X(s) \tag{5.5.17}\]
+
+This property is useful since it allows us to compute the initial value of the signal \(x(t)\) and its derivatives directly from the Laplace transform \(X(s)\) without having to find the inverse \(x(t)\). Note that the right-hand side of Equation (5.5.15) can exist without the existence of \(x(0^{+})\). Therefore, the initial-value theorem should be applied only when \(x\left(0^{+}\right)\) exists. Note also that the initial-value theorem produces \(x\left(0^{+}\right)\) not \(x\left(0^{-}\right)\).
+
+**Example 5.5.15**: The initial value of the signal whose Laplace transform is given by
+
+\[X(s)=\frac{cs+d}{(s-a)(s-b)},\qquad a\neq b\]
+
+is
+
+\[x(0^{+})=\lim_{s\to\infty}s\ \frac{cs+d}{(s-a)(s-b)}=c\]
+
+The result can be verified by determining \(x(t)\) first and then substituting \(t=0^{+}\). For this example, the inverse Laplace transform of \(X(s)\) is
+
+\[x\left(t\right)=\frac{c}{a-b}\ \left[a\exp\left[\,at\right]-b\,\exp[bt] \right]\!u\left(t\right)+\frac{d}{a-b}\ \left[\exp\left[\,at\right]-\exp\left[\,bt\right] \right]\!u\left(t\right)\]
+
+so that \(x\left(0^{+}\right)=c\). Note that \(x\left(0^{-}\right)=0\).
+
+#### Final-Value Theorem
+
+The final-value theorem allows us to compute the limit of signal \(x\left(t\right)\) as \(t\to\infty\) from its Laplace transform as follows:
+
+\[\lim_{t\to\infty}x\left(t\right)=\lim_{s\to 0}s\ X(s) \tag{5.5.18}\]
+
+The final-value theorem is useful in some applications, such as control theory, where we may need to find the final value (steady-state value) of the output of the system without solving for the time-domain function. Equation (5.5.18) can be proved using the differentiation-in-time domain property:
+
+\[\int\limits_{0^{-}}^{\infty}x^{\prime}(t)\exp\left[\,-st\right]\,dt=s\ X\left(s \right)-x\left(0^{-}\right) \tag{5.5.19}\]
+
+Taking the limit as \(s\to 0\) of both sides of Equation (5.5.19) yields
+
+\[\lim_{s\to 0}\int\limits_{0^{-}}^{\infty}x^{\prime}(t)\exp\left[\,-st\right]\,dt \ =\ \lim_{s\to 0}\left[\!\!\!\!\!\!\!\!or
+
+\[\int\limits_{0^{-}}^{\infty}x^{{}^{\prime}}(t)\ dt=\lim_{s\to 0}\left[s\ X(s)-x(0^{-})\right]\]
+
+Assuming that \(\lim\limits_{t\to\infty}x(t)\) exists, this becomes
+
+\[\lim\limits_{t\to\infty}x(t)-x(0^{-})=\lim\limits_{s\to 0}\ s\ X(s)-x(0^{-})\]
+
+which, after simplification, results in Equation (5.5.18). One must be careful in using the final-value theorem since the \(\lim\limits_{s\to 0}\ s\ X(s)\) can exist even though \(x(t)\) does not have a limit as \(t\to\infty\). Hence, it is important to know that \(\lim\limits_{t\to\infty}x(t)\) exists before applying the final-value theorem. For example, if
+
+\[X(s)=\frac{s}{s^{2}+\omega^{2}}\]
+
+then
+
+\[\lim\limits_{s\to 0}\ s\ X(s)=\lim\limits_{s\to 0}\frac{s^{2}}{s^{2}+\omega^{2}}=0\]
+
+But \(x(t)=\cos\omega t\), and \(\cos\omega t\) does not have a limit as \(t\to\infty\) (\(\cos\omega t\) oscillates between \(+1\) and \(-1\)). Why do we have a discrepancy? To use the final-value theorem, we need the point \(s=0\) to be in the ROC of \(s\ X(s)\) (otherwise we can not substitute \(s=0\) in \(sX(s)\)). We have seen earlier that for rational-function Laplace transforms, the ROC should not contain any poles. Therefore, to use the final-value theorem, all the poles of \(sX(s)\) must be in the left-hand side of the \(s\) plane. In our example, \(sX(s)\) has two poles on the imaginary axis.
+
+**Example 5.5.16**: Input \(x(t)=Au(t)\) is applied to an automatic position-control system whose transfer function is
+
+\[H(s)=\frac{c}{s\left(s+b\right)+c}\]
+
+The final value of output \(y(t)\) is obtained as
+
+\[\lim\limits_{t\to\infty}y(t) =\lim\limits_{s\to 0}\ s\ Y(s)=\lim\limits_{s\to 0}\ s\ X(s)H(s)\] \[\equiv\lim\limits_{s\to 0}\ s\ \left[\ \frac{A}{s}\ \frac{c}{s\left(s+b \right)+c}\right]\] \[=A\]
+
+assuming that the zeros of \(s^{2}+bs+c\) are in the left half-plane. Thus, after a sufficiently long time, the output follows (tracks) input \(x(t)\).
+
+**Example 5.5.17**: Suppose we are interested in the value of the integral
+
+\[\int\limits_{0^{-}}^{\infty}t^{n}\ \exp\left[\ -at\right]\ dt\]Consider the integral
+
+\[y(t)=\int_{0^{-}}^{t}\tau^{n}\,\exp\left[\,-a\,\tau\right]\,d\tau=\int_{0^{-}}^{t} x(\tau)\,d\tau\]
+
+Note that the final value of \(y\left(t\right)\) is the quantity of interest, that is,
+
+\[\lim_{t\,\rightarrow\,\infty}\,y\left(t\right)=\lim_{s\,\to 0}\,s\,\frac{1}{s}X(s)= \lim_{s\,\to 0}\,X(s)\]
+
+From Table 5.1,
+
+\[X(s)=\frac{n\,!}{\left(s+a\right)^{n+1}}\]
+
+Therefore,
+
+\[\int_{0^{-}}^{\infty}t^{n}\,\exp\left[\,-at\right]\,dt=\frac{n\,!}{a^{n+1}}\]
+
+Table 5.2 summarizes the properties of the Laplace transform. These properties, along with the transform pairs in Table 5.1, can be used to derive other transform pairs.
+
+\begin{table}
+\begin{tabular}{l l l} \hline
+1. & \(x\left(t\right)\) & \(X\left(s\right)\) \\
+2. & \(\sum\limits_{n\,=\,1}^{N}\alpha_{n}x_{n}(t)\) & \(\sum\limits_{n\,=\,1}^{N}\alpha_{n}X_{n}(s)\) \\
+3. & \(x\left(t\!-\!t_{0}\right)\) & \(X(s)\,\exp\left[\,-t_{0}\,s\,\right]\) \\
+4. & \(\exp\left[\,s_{0}t\right]x\left(t\right)\) & \(X\left(s-s_{0}\right)\) \\
+5. & \(x\left(\alpha t\right)\), \(\alpha>0\) & \(\frac{1}{\alpha}X\!\left(\frac{s}{\alpha}\right)\) \\
+6. & \(\frac{dx\left(t\right)}{dt}\) & \(s\,X(s)-x(0^{-})\) \\
+7. & \(\int_{0^{-}}^{t}x\left(\tau\right)\,d\tau\) & \(\frac{1}{s}\,X\left(s\right)\) \\
+8. & \(t\,x\left(t\right)\) & \(-\,\frac{dX\left(s\right)}{ds}\) \\
+9. & \(x\left(t\right)\cos\omega_{0}t\) & \(\frac{1}{2}[X\left(s-j\omega_{0}\right)+X\left(s+j\omega_{0}\right)]\) \\
+10. & \(x\left(t\right)\sin\omega_{0}t\) & \(\frac{1}{2j}[X\left(s-j\omega_{0}\right)-X\left(s+j\omega_{0}\right)]\) \\
+11. & \(x\left(t\right)*h\left(t\right)\) & \(X\left(s\right)H\left(s\right)\) \\
+12. & \(x\left(0^{+}\right)\) & \(\lim_{s\,\rightarrow\,\infty}\,s\,X\left(s\right)\) \\
+13. & \(\lim_{t\,\rightarrow\,\infty}\,x\left(t\right)\) & \(\lim_{s\,\rightarrow\,0}\,s\,X(s)\) \\ \hline \end{tabular}
+\end{table}
+Table 5.2: Some Selected Properties of the Laplace Transform
+
+### The Inverse Laplace Transform
+
+We saw in Section 5.2 that with \(s=\sigma+j\omega\), such that \(\mathrm{Re}\{s\}\) is inside the ROC, the Laplace transform of \(x\left(t\right)\) can be interpreted as the Fourier transform of the exponentially weighted signal \(x\left(t\right)\)\(\exp\left[\,-\sigma t\,\right]\), that is,
+
+\[X\left(\sigma+j\omega\right)=\int\limits_{-\infty}^{\infty}x\left(t\right)\, \exp\left[\,-\sigma t\,\right]\,\exp\left[\,-j\omega t\,\right]\,dt\]
+
+Using the inverse Fourier-transform relationship given in Equation (4.2.5), we can find \(x\left(t\right)\exp\left[\,-\sigma t\,\right]\) as
+
+\[x\left(t\right)\exp\left[\,-\sigma t\,\right]=\frac{1}{2\pi}\int\limits_{- \infty}^{\infty}X\left(\sigma+j\omega\right)\,\exp\left[\,j\omega t\,\right]\,d\omega\]
+
+Multiplying by \(\exp\left[\,\sigma t\,\right]\), we obtain
+
+\[x\left(t\right)=\frac{1}{2\pi}\int\limits_{-\infty}^{\infty}X\left(\sigma+j \omega\right)\,\exp\left[\,(\sigma+j\omega)t\,\right]\,d\omega\]
+
+Using the change of variables \(s=\sigma+j\omega\), we obtain the inverse Laplace-transform equation:
+
+\[x\left(t\right)=\frac{1}{2\pi j}\int\limits_{\sigma-j\infty}^{\sigma+j\infty}X \left(s\right)\,\exp\left[\,st\,\right]\,ds \tag{5.6.1}\]
+
+The integral in Equation (5.6.1) is evaluated along the straight line \(\sigma+j\omega\) in the complex plane from \(\sigma-j\infty\) to \(\sigma+j\infty\), where \(\sigma\) is any fixed real number for which \(\mathrm{Re}\{s\}=\sigma\) is a point in the ROC of \(X\left(s\right)\). Thus, the integral is evaluated along a straight line that is parallel to the imaginary axis and at a distance \(\sigma\) from it.
+
+Evaluation of the integral in Equation (5.6.1) requires the use of contour integration in the complex plane that is not only difficult, but also outside of the scope of this text; hence, we will avoid using Equation (5.6.1) to compute the inverse Laplace transform. In many cases of interest, the Laplace transform can be expressed in the form
+
+\[X\left(s\right)=\frac{N\left(s\right)}{D\left(s\right)} \tag{5.6.2}\]
+
+where \(N\left(s\right)\) and \(D\left(s\right)\) are polynomials in \(s\) given by
+
+\[N\left(s\right) =b_{m}s^{m}+b_{m-1}s^{s-1}+\;\cdots\;+b_{1}s+b_{0}\] \[D\left(s\right) =a_{n}s^{n}+a_{n-1}s^{n-1}+\;\cdots\;+a_{1}s+a_{0},\;\;\;a_{n}\; \neq 0\]
+
+Function \(X\left(s\right)\) given by Equation (5.6.2) is said to be a rational function of \(s\) since it is a ratio of two polynomials. We assume that \(m<n\), that is, the degree of \(N\left(s\right)\) is strictly less than the degree of \(D\left(s\right)\). In this case, the rational function is proper in \(s\). If \(m=n\), i.e., when the rational function is improper, we can use long division to reduce it to a proper rational function. For proper rational transforms, the inverse Laplace transform can be determined by utilizing partial-fraction expansion techniques. Actually, this iswhat we did in some simple cases, ad hoc and without difficulty. Appendix D is devoted to the subject of partial fractions. We recommend that the reader not familiar with partial fractions review Appendix D before studying the following examples.
+
+**Example 5.6.1**: To find the inverse Laplace transform of
+
+\[X\left(s\right)=\frac{2s+1}{\left(s^{3}+3s^{2}-4s\right)}\]
+
+we factor polynomial \(D\left(s\right)=s^{3}+3s^{2}-4s\) and use the partial-fractions form:
+
+\[X\left(s\right)=\frac{A_{1}}{s}+\frac{A_{2}}{s+4}+\frac{A_{3}}{s-1}\]
+
+Using Equation (D.2), coefficients \(A_{i,}\)\(i=1,\)\(2,\)\(3,\) are
+
+\[A_{1}=-\frac{1}{4}\]
+
+\[A_{2}=\frac{7}{20}\]
+
+\[A_{3}=\frac{3}{5}\]
+
+and the inverse Laplace transform is
+
+\[x\left(t\right)=-\frac{1}{4}\ u\left(t\right)+\frac{7}{20}\ \exp\left[-4\ t \right]u\left(t\right)+\frac{3}{5}\ \exp\left[\ t\right]u\left(t\right)\]
+
+**Example 5.6.2**: In this example, we consider the case where we have repeated factors. The Laplace transform is given by
+
+\[X\left(s\right)=\frac{2s^{2}-3s}{s^{3}-4s^{2}+5s-2}\]
+
+Denominator \(D\left(s\right)=s^{3}-4s^{2}+5s-2\) can be factored as
+
+\[D\left(s\right)=\left(s-2\right)\left(s-1\right)^{2}\]
+
+Since we have a repeated factor of order 2, the corresponding partial fractions are
+
+\[X\left(s\right)=\frac{B}{s-2}+\frac{A_{2}}{\left(s-1\right)^{2}}+\frac{A_{1}} {s-1}\]
+
+Coefficient \(B\) can be obtained using Equation (D.2) as
+
+\[B=2\]
+
+Coefficients \(A_{i}\), \(i=1,\)\(2,\) are obtained using Equations (D.3) and (D.4):
+
+\[A_{2}=1\]\[A_{1} =\frac{d}{ds}\left(\frac{2s^{2}-3s}{s-2}\right)\Big{|}_{s=1}\] \[=\ \frac{(s-2)(4s-3)-(2s^{2}-3s)}{(s-2)^{2}}\Big{|}_{s=1}.=0\] so that \[X(s)=\frac{2}{s-2}+\frac{1}{(s-1)^{2}}\] The inverse Laplace transform is \[x(t)=2\exp\left[\,2t\right]u(t)+t\,\exp\left[\,t\right]u(t)\]
+
+In this example, we treat the case of complex conjugate poles (irreducible second-degree factors). Transform \(X(s)\) is given by
+
+\[X(s)=\frac{s+3}{s^{2}+4s+13}\]
+
+Since we cannot factor the denominator, we complete the square as follows:
+
+\[D(s)=(s+2)^{2}+3^{2}\]
+
+Then \(X(s)\) is
+
+\[X(s)=\frac{s+2}{(s+2)^{2}+3^{2}}+\frac{1}{(s+2)^{2}+3^{2}}\]
+
+By using the shifting property of the transform, or, alternatively, by using entries 12 and 13 in Table 5.1, the inverse Laplace transform is
+
+\[x(t)=\exp\left[-2t\right](\cos 3t)u(t)+\frac{1}{3}\,\exp\left[\,-2t\right]( \sin 3t)u(t)\]
+
+As an example of repeated complex conjugate poles, consider the rational function
+
+\[X(s)=\frac{5s^{3}-3s^{2}+7s-3}{(s^{2}+1)^{2}}\]
+
+Writing \(X(s)\) in the partial-fractions form, we have
+
+\[X(s)=\frac{A_{1}s+B_{1}}{s^{2}+1}+\frac{A_{2}s+B_{2}}{(s^{2}+1)^{2}}\]
+
+and, therefore,
+
+\[5s^{3}-3s^{2}+7s-3=(A_{1}s+B_{1})(s^{2}+1)+A_{2}s+B_{2}\]
+
+Comparing the coefficients of the different powers of \(s\), we obtain
+
+\[A_{1}=5,\qquad B_{1}=-3,\qquad A_{2}=2,\qquad B_{2}=0\]
+
+The transfer function in Equation (5.7.3) can also be realized in the second canonical form if we express Equation (5.7.2) as
+
+\[Y\left(s\right) = \frac{\sum\limits_{i\ =\ 0}^{M}b_{i}s^{i}}{s^{N}+\sum\limits_{i\ =\ 0}^{N-1}a_{i}s^{i}}\ X\left(s\right)\] \[= \left(\sum\limits_{i\ =\ 0}^{M}b_{i}s^{i}\right)\ V\left(s\right) \tag{5.7.5}\]
+
+where
+
+\[V\left(s\right)=\frac{1}{s^{N}+\sum\limits_{i\ =\ 0}^{N-1}a_{i}s^{i}}\ X\left(s\right) \tag{5.7.6}\]
+
+or
+
+\[\left(s^{N}+\sum\limits_{i\ =\ 0}^{N-1}a_{i}s^{i}\right)\ V\left(s\right)=X \left(s\right) \tag{5.7.7}\]
+
+Therefore, we can generate \(Y\left(s\right)\) in two steps. First, we generate \(V\left(s\right)\) from Equation (5.7.7) and then use Equation (5.7.5) to generate \(Y\left(s\right)\) from \(V\left(s\right)\). The result is shown in Figure 5.7.2. Again, this figure is similar to Figure 2.5.5 except that each integrator is replaced by its transfer function \(1/s\).
+
+Figure 5.7.1: Simulation diagram using the first canonical form.
+
+**Example 5.7.1**: The two canonical realization forms for the system with the transfer function
+
+\[H\left(s\right)=\frac{s^{2}-3s+2}{s^{3}+6s^{2}+11s+6}\]
+
+are shown in Figures 5.7.3 and 5.7.4, respectively.
+
+**Figure 5.7.3**: Simulation diagram using first canonical form for Example 5.7.1.
+
+As we saw earlier, the Laplace transform is a useful tool to compute the system transfer function if the system is described by its differential equation or if the output is expressed explicitly in terms of the input. The situation changes considerably in cases where the system consists of a large number of components or elements that are interconnected to form the complete system. In such cases, it is convenient to represent a system by suitably interconnected subsystems, each of which can be analyzed easily. Three of the most common interconnections are series (cascade), parallel, and feedback.
+
+In the case of cascade interconnections, as shown in Figure 5.7.5,
+
+\[Y_{1}(s)\ =\ H_{1}(s)\,X(s)\]
+
+and
+
+\[Y_{2}(s)\ =\ H_{2}(s)\,Y_{1}(s)\] \[=\ [H_{2}(s)\,H_{1}(s)]\,X(s)\]
+
+which shows that the combined transfer function is given by
+
+\[H(s)=H_{1}(s)\ H_{2}(s) \tag{5.7.8}\]
+
+In deriving the above relationship, we assumed that there is no initial energy in either system, and, furthermore, when the output of one subsystem is connected to the input of
+
+Figure 5.7.4: Simulation diagram using second canonical form for Example 5.7.1.
+
+the other subsystem, the latter does not load (affect the behavior) of the former. In short, the transfer function of first subsystem \(H_{1}(s)\) is computed under the assumption that subsystem \(H_{2}(s)\) is not connected. In other words, the input/output relationship of the first subsystem remains unchanged regardless of whether \(H_{2}(s)\) is connected to it or not. If this assumption is not satisfied, \(H_{1}(s)\) must be computed under loading conditions, i.e., when \(H_{2}(s)\) is connected.
+
+If there are \(N\) systems connected in cascade, then their overall transfer function is
+
+\[H(s)\ =\ H_{1}(s)\,H_{2}(s)\ldots H_{N}(s) \tag{5.7.9}\]
+
+Using the convolution property, the impulse response of the overall system is
+
+\[h(t)=h_{1}(t)*h_{2}(t)*\ldots*h_{N}(t) \tag{5.7.10}\]
+
+If two subsystems are connected in parallel, as shown in Figure 5.7.6, and each subsystem has no initial energy, then output \(Y(s)\) is given by
+
+\[Y(s) =\ Y_{1}(s)+Y_{2}(s)\] \[=\ H_{1}(s)\,X(s)+H_{2}(s)\,X(s)\] \[=[H_{1}(s)+H_{2}(s)]\,X(s)\]
+
+and the overall transfer function is
+
+\[H(s)=H_{1}(s)+H_{2}(s) \tag{5.7.11}\]
+
+For \(N\) subsystems connected in parallel, the overall transfer function is
+
+\[H(s)=H_{1}(s)+H_{2}(s)+\ldots+\overset{\cdot}{H_{N}}(s) \tag{5.7.12}\]
+
+By using the linearity of the Laplace transform, the impulse response of the overall system is
+
+\[h(t)=h_{1}(t)+h_{2}(t)+\ldots+\ h_{N}(t) \tag{5.7.13}\]
+
+These two results are consistent with the results obtained in Chapter 2 for the same interconnections.
+
+**Example 5.7.2**: The transfer function of the system described in Example 5.7.1 can also be written as
+
+\[H(s)=\frac{s-1}{s+1}\ \frac{s-2}{s+2}\ \frac{1}{s+3}\]
+
+Figure 5.7.6: Parallel interconnection of two subsystems.
+
+This system can be realized as a cascade of three subsystems, as shown in Figure 5.7.7. Each subsystem is composed of a pole-zero combination. The same system can be realized in parallel, too. This can be done by expanding \(H\left(s\right)\) using the partial-fractions technique as follows:
+
+\[H\left(s\right)=\frac{3}{s+1}-\frac{12}{s+2}+\frac{10}{s+3}\]
+
+A parallel interconnection is shown in Figure 5.7.8.
+
+The connection in Figure 5.7.9 is called a positive feedback system. The output of system \(H_{1}(s)\) is fed back to input through system \(H_{2}(s)\), and, hence, the name feedback connection. Note that if the feedback loop is disconnected, the transfer function from \(X(s)\) to \(Y(s)\) is \(H_{1}(s)\) and, hence, \(H_{1}(s)\) is called the open-loop transfer function. The system with transfer function \(H_{2}(s)\) is called a feedback system. The whole system is called a closed-loop system.
+
+We assume that each system has no initial energy and that the feedback system does not load the open-loop system. Let \(e\left(t\right)\) be the input signal to system \(H_{1}(s)\). Then
+
+\[[\,s^{2}\,Y(s)-2s-1\,]+5[sY(s)-2]+6Y(s)=\frac{1}{s+1}\]
+
+Solving for \(Y(s)\) yields
+
+\[Y(s) = \frac{2s^{2}+13s+12}{(s+1)(s^{2}+5s+6)}\] \[= \frac{1}{2(s+1)}+\frac{6}{s+2}-\frac{9}{2(s+3)}\]
+
+Taking the inverse Laplace transform yields
+
+\[y(t)=\left(\frac{1}{2}\,\exp{[\,-t\,]}+6\,\exp{[\,-2t\,]}-\frac{9}{2}\,\exp{[ \,-3t\,]}\right)\mu\left(t\right)\]
+
+Solution of higher-order differential equations can be obtained using the same procedure.
+
+#### Application to \(Rlc\) Circuit Analysis
+
+In the analysis of circuits, the Laplace transform can be carried one step further by transforming the circuit itself rather than the differential equation. The \(s\)-domain current-voltage equivalent relations for arbitrary \(R\), \(L\), and \(C\) are as follows.
+
+##### 5.8.2 **Resistors.**
+
+The \(s\)-domain current-voltage characteristic of a resistor with a resistance \(R\) is obtained by taking the Laplace transform of the current-voltage relation in the time domain to yield
+
+\[V_{R}(s)=RI_{R}(s) \tag{5.8.1}\]
+
+##### 5.8.3 **Inductors.**
+
+For an inductor with inductance \(L\), the \(s\)-domain characterization is
+
+\[V_{L}(s)=sL\,I_{L}(s)-L\,i_{L}(0^{-}) \tag{5.8.2}\]
+
+That is, an energized inductor (an inductor with nonzero initial conditions) at \(t=0^{-}\) is equivalent to an unenergized inductor at \(t=0^{-}\) in series with an impulsive voltage source with strength \(Li_{L}(0^{-})\). This impulsive source is called an initial-condition generator. Alternatively, Equation (5.8.2) can also be written as
+
+\[I_{L}(s)=\frac{1}{sL}V_{L}(s)+\frac{i_{L}(0^{-})}{s} \tag{5.8.3}\]
+
+That is, an energized inductor at \(t=0^{-}\) is equivalent to an unenergized inductor at \(t=0^{-}\) in parallel with a step-function current source. The height of the step function is \(i_{L}(0^{-})\).
+
+##### 5.8.4 **Capacitors.**
+
+For a capacitor with capacitance \(C\), the \(s\)-domain relation between current \(I_{C}(s)\) and voltage \(V_{C}(s)\) is \[I_{C}(s)=sC\ V_{C}(s)-Cv_{C}(0^{-}) \tag{5.8.4}\]
+
+That is, a charged capacitor (a capacitor with nonzero initial conditions) at \(t=0^{-}\) is equivalent to an uncharged capacitor at \(t=0^{-}\) in parallel with an impulsive current source. The strength of the impulsive source is \(Cv(0^{-})\). This impulse source is called an initial-condition generator. Equation (5.8.4) can also be written as
+
+\[V_{C}(s)=\frac{1}{sC}\ I_{C}(s)+\frac{v_{c}(0^{-})}{s} \tag{5.8.5}\]
+
+Thus, a charged capacitor can be replaced by an uncharged capacitor in series with a step-function voltage source. The height of the step function is \(v_{c}(0^{-})\).
+
+We can similarly write Kirchhoff's laws in the s domain. The equivalent statement of the current law is that at any node of an equivalent circuit, the algebraic sum of the currents in the \(s\) domain is zero, i.e.,
+
+\[\sum_{k}I_{k}(s)=0 \tag{5.8.6}\]
+
+The voltage law states that around any loop in an equivalent circuit, the algebraic sum of the voltages in the \(s\) domain is zero, i.e.,
+
+\[\sum_{k}V_{k}(s)=0 \tag{5.8.7}\]
+
+Caution must be exercised when assigning the polarity of the initial-condition generators.
+
+Consider the circuit shown in Figure 5.8.1(a) with \(i_{L}(0^{-})=1\), \(v_{C}(0^{-})=2\), and \(x\left(t\right)=u\left(t\right)\). The equivalent \(s\)-domain circuit is shown in Figure 5.8.1(b).
+
+Writing the node equation at node 1, we obtain
+
+\[2-\frac{Y(s)-1/s-2}{2+s}-sY(s)-Y(s)=0\]
+
+Solving for \(Y\left(s\right)\) yields
+
+\[Y\left(s\right) =\frac{2s^{2}+6s+1}{s(s^{2}+3s+3)}\] \[=\frac{1}{3s}+\frac{5s/3+5}{(s+3/2)^{2}+(\sqrt{3}\ /2)^{2}}\] \[=\frac{1}{3s}+\frac{5}{3}\ \frac{s+3/2}{(s+3/2)^{2}+(\sqrt{3}\ /2)^{2}}+ \frac{5}{\sqrt{3}\ }\frac{\sqrt{3}\ /2}{(s+3/2)^{2}+(\sqrt{3}\ /2)^{2}}.\]
+
+Taking the inverse Laplace transform of both sides, we obtain
+
+\[y\left(t\right)=\frac{1}{3}\ u\left(t\right)+\frac{5}{3}\ \exp\left[\ \frac{-3t}{2}\right]\left(\cos\frac{\sqrt{3}}{2}t\right)u\left(t\right)+\ \frac{5}{\sqrt{3}}\ \exp\left[\ \frac{- \bar{3}t}{2}\right]\left(\sin\frac{\sqrt{3}}{2}t\right)\ u\left(t\right)\]
+
+The analysis of any circuit can be carried out using this procedure.
+
+#### Application to Control
+
+One of the major applications of the Laplace transform is in the study of control systems. Many important and practical problems can be formulated as control problems. Examples can be found in many areas such as communications systems, radar systems, and speed control.
+
+Consider the control system shown in Figure 5.8.2. The system is composed of two subsystems. The first subsystem is called the plant and has a known transfer function \(H(s)\). The second subsystem is called the controller and is designed to achieve certain system performance. The input to the system is reference signal \(r\left(t\right)\). Signal \(w\left(t\right)\) is introduced to model any disturbance (noise) in the system. The difference between the reference and the output is an error signal
+
+\[e(t)=r\left(t\right)-y\left(t\right)\]
+
+This error signal is applied to the controller, whose function is to force the error signal to zero as \(t\rightarrow\infty\), that is,
+
+\[\lim_{t\rightarrow\infty}e(t)=0\]
+
+This condition implies that the system output follows reference signal \(r\left(t\right)\). This type of system performance is called tracking in the presence of disturbance \(w(t)\). The following example demonstrates how to design the controller to achieve the tracking effect.
+
+Figure 5.8.1: Circuit for Example 5.8.2.
+
+**Example 5.8.3**: Suppose that the LTI system we have to control has transfer function
+
+\[H(s)=\frac{N(s)}{D\left(s\right)} \tag{5.8.8}\]
+
+Let the input be \(r\left(t\right)=Au\left(t\right)\) and the disturbance be \(w\left(t\right)=Bu\left(t\right)\) where \(A\) and \(B\) are constants. Because of linearity, we can divide the problem into two simpler problems, one with input \(r\left(t\right)\), and the other with input \(w\left(t\right)\). That is, output \(y\left(t\right)\) is expressed as the sum of two components. The first component is due to input \(r\left(t\right)\) when \(w\left(t\right)=0\), and is labeled \(y_{1}\left(t\right)\). It can be easily verified that
+
+\[Y_{1}(s)=\frac{H_{c}(s)H(s)}{1+H_{c}(s)H(s)}\ R\left(s\right)\]
+
+where \(R\left(s\right)\) is the Laplace transform of \(r\left(t\right)\). The second component is due to \(w\left(t\right)\) when \(r\left(t\right)=0\) and has the Laplace transform
+
+\[Y_{2}(s)=\frac{H(s)}{1+H_{c}(s)H(s)}\ W(s)\]
+
+where \(W\left(s\right)\) is the Laplace transform of disturbance \(w\left(t\right)\). The complete output has the Laplace transform
+
+\[Y(s) =Y_{1}(s)+Y_{2}(s)\] \[=\frac{H_{c}(s)H(s)}{1+H_{c}(s)H(s)}\ R\left(s\right)+\frac{H \left(s\right)}{1+H_{c}(s)H(s)}\ W(s)\] \[\equiv\frac{H\left(s\right)\left[H_{c}(s)\ A+B\right]}{s\left[+H _{c}(s)H(s)\right]} \tag{5.8.9}\]
+
+We have to design \(H_{c}(s)\) such that \(r\left(t\right)\) tracks \(y\left(t\right)\), that is,
+
+\[\lim_{t\rightarrow\infty}y\left(t\right)=A\]
+
+Let \(H_{c}(s)=N_{c}(s)/D_{c}(s)\). Then we can write
+
+\[Y(s)=\frac{N\left(s\right)\left[N_{c}(s)\ A+D_{c}(s)B\ \right]}{s\left[D\left(s \right)D_{c}(s)+N(s)N_{c}(s)\right]}\]
+
+Figure 5.8.2: Block diagram of a control system.
+
+Let us assume that the real parts of all the zeros of \(D\left(s\right)D_{c}(s)+N\left(s\right)N_{c}(S)\) are strictly negative. By using the final-value theorem, it follows that
+
+\[\lim_{t\rightarrow\infty}\,y\left(t\right) = \lim_{s\to 0}\,sY(s) \tag{5.8.10}\] \[= \lim_{s\to 0}\,\frac{N\left(s\right)\left[N_{c}(s)\,A+D_{c}(s)B \right]}{D\left(s\right)D_{c}(s)+N(s)N_{c}(s)}\]
+
+For this to be equal to \(A\), one needs that \(\lim_{s\to 0}\,D_{c}(s)=0\) or \(D_{c}(s)\) has a zero at \(s=0\). Substituting in the expression for \(Y\left(s\right)\), we obtain
+
+\[\lim_{t\rightarrow\infty}\,y\left(t\right)=\frac{N\left(0\right)N_{c}(0)\,A}{ N\left(0\right)N_{c}(0)}=A\]
+
+Consider the control system shown in Figure 5.8.3. This system represents an automatic position-control system that can be used in a tracking antenna or in an antiaircraft gun mount. The input \(r\left(t\right)\) is the desired angular position of the object to be tracked and the output is the position of the antenna.
+
+The first subsystem is an amplifier with transfer function \(H_{1}(s)=8\) and the second subsystem is a motor with transfer function \(H_{2}(s)=1/s\left(s+\alpha\right)\), where \(0<\alpha<\sqrt{32}\). Let us investigate the step response of the system as the parameter \(\alpha\) changes. The output \(Y\left(s\right)\) is
+
+\[Y\left(s\right) = \frac{1}{s}\,H\left(s\right)=\frac{H_{1}(s)\,H_{2}(s)}{s[1+H_{1} \left(s\right)H_{2}(s)]}\] \[= \frac{8}{s\left(s^{2}+\alpha\,s+8\right)}\] \[= \frac{1}{s}-\frac{s+\alpha}{s^{2}+\alpha\,s+8}\]
+
+The restriction \(0<\alpha<\sqrt{32}\) is chosen to ensure that the roots of the polynomial \(s^{2}+\alpha\,s+8\) are complex numbers and lie in the left half-plane. The reason for this becomes clear in Section 5.10.
+
+The step response of this system is obtained by taking the inverse Laplace transform of \(Y\left(s\right)\) to yield
+
+Figure 5.8.3: Block diagram of a tracking antenna.
+
+\[y\left(t\right)=\left(1-\exp\left[\ \frac{-\alpha\ t}{2}\right]\ \left\{\cos\ \left[\sqrt{8-\left(\frac{\alpha}{2}\right)^{2}}t\right]\right.\right.\] \[\left.\left.+\ \frac{\alpha}{2\sqrt{8-\left(\frac{\alpha}{2}\right)^{2}}} \ \sin\ \left[\sqrt{8-\left(\frac{\alpha}{2}\right)^{2}}t\right]\ \ \right)\ u\left(t\right)\right.\]
+
+The step response \(y\left(t\right)\) for two values of \(\alpha\), namely, \(\alpha=2\) and \(\alpha=3\), are shown in Figure 5.8.4. Note that the response is oscillatory with overshoots of 30% and 14%, respectively. The time required for the response to rise from 10% to 90% of its final value is called the rise time. The first system has a rise time of 0.48 s and the second system has a rise time of 0.60 s. Systems with longer rise times are inferior (sluggish) to those with shorter rise times. Reducing the rise time increases the overshoot, however, such high overshoots may not be acceptable in some applications.
+
+Figure 5.8.4: Step response of an antenna tracking system.
+
+### 5.9 State Equations and the Laplace Transform
+
+We saw that the Laplace transform is an efficient and convenient tool in solving differential equations. In Chapter 2, we introduced the concept of state variables and demonstrated that any LTI system can be described by a set of first-order differential equations called state equations.
+
+Using the differentiation-in-time-domain property of the Laplace transform, this set of differential equations can be reduced to a set of algebraic equations. Consider the LTI system described by
+
+\[\mathbf{v}^{{}^{\prime}}(t)=\mathbf{A}\mathbf{v}(t)+\mathbf{b}x\left(t\right) \tag{5.9.1}\]
+
+\[y\left(t\right)=\mathbf{c}\mathbf{v}(t)+d\,x\left(t\right) \tag{5.9.2}\]
+
+Taking the Laplace transform of Equation (5.9.1), we obtain
+
+\[s\,\mathbf{V}(s)-\mathbf{v}(0^{-})\ =\ \mathbf{A}\mathbf{V}(s)+\mathbf{b}\,X \left(s\right)\]
+
+which can be written as
+
+\[\left(s\,\mathbf{I}-\mathbf{A}\right)\mathbf{V}(s)=\mathbf{v}(0^{-})+\mathbf{ b}\,X\left(s\right)\]
+
+where \(\mathbf{I}\) is the unit matrix. Left multiplying both sides by the inverse of \(\left(s\,\mathbf{I}-\mathbf{A}\right)\), we obtain
+
+\[\mathbf{V}(s)=\left(s\,\mathbf{I}-\mathbf{A}\right)^{-1}\,\mathbf{v}(0^{-})+ \left(s\,\mathbf{I}-\mathbf{A}\right)^{-1}\,\mathbf{b}\,X\left(s\right) \tag{5.9.3}\]
+
+The Laplace transform of the output equation is
+
+\[Y\left(s\right)=\mathbf{c}\mathbf{V}(s)+d\,X\left(s\right)\]
+
+Substituting for \(\mathbf{V}(s)\) from Equation (5.9.3), we obtain
+
+\[Y\left(s\right)=\mathbf{c}\left(s\,\mathbf{I}-\mathbf{A}\right)^{-1}\mathbf{ v}(0^{-})+\left[\mathbf{c}\left(s\,\mathbf{I}-\mathbf{A}\right)^{-1}\mathbf{b}+d \right]\!\!X\left(s\right) \tag{5.9.4}\]
+
+The first term is the transform of the output when the input is set to zero and is identified as the Laplace transform of the zero-input component of \(y\left(t\right)\). The second term is the Laplace transform of the output when the initial state vector is zero and is identified as the Laplace transform of the zero-state component of \(y\left(t\right)\). In Chapter 2, we saw that the solution to Equation (5.9.1) is given by (see Equation (2.6.11) with \(t_{0}=0^{-}\))
+
+\[\mathbf{v}(t)=\exp\left[\,\mathbf{A}t\,\right]\,\mathbf{v}(0^{-})+\int\limits_ {0^{-}}^{t}\exp\left[\,\mathbf{A}(t-\tau)\right]\,\mathbf{b}x\left(\tau\right) \,d\tau \tag{5.9.5}\]
+
+The integral on the right side of Equation (5.9.5) represents the convolution of signals \(\exp\left[\,\mathbf{A}t\,\right]\) and \(\mathbf{b}x\left(t\right)\). Thus, the Laplace transformation of Equation (5.9.5) yields
+
+\[\mathbf{V}(s)=\measuredangle\left\{\exp\left[\,\mathbf{A}t\right]\right\}\, \mathbf{v}(0^{-})+\measuredangle\left\{\exp\left[\,\mathbf{A}t\right]\right\}\, \mathbf{b}X\left(s\right) \tag{5.9.6}\]
+
+Comparison of Equations (5.9.3) and (5.9.6) shows that
+
+Taking the inverse Laplace transform, we obtain
+
+\[h\left(t\right)=2\left[\delta(t)+3\,\exp\,\left[-t\right]\mu\left(t\right)-5\,\exp \,\left[\,t\,\right]\mu\left(t\right)\right]\]
+
+The zero-input response of the system is
+
+\[Y_{1}(s) =\mathbf{c}\left(s\mathbf{I}-\mathbf{A}\right)^{-1}\mathbf{v}(0^{-})\] \[=\frac{-2(s+13)}{(s+1)(s-1)}\]
+
+and the zero-state response is
+
+\[Y_{2}(s) =(\mathbf{s}\mathbf{I}-\mathbf{A})^{-1}\mathbf{b}X\left(s\right) +2X\left(s\right)\] \[=\frac{2s^{2}-4s-24}{(s+1)(s-1)}\ X(s)\]
+
+The overall response is
+
+\[Y(s)=\frac{-2(s+13)}{(s+1)(s-1)}+\frac{2s^{2}-4s-18}{(s+1)(s-1)}\ X\left(s\right)\]
+
+The step response of this system is obtained by substituting \(X\left(s\right)=1/s\), so that
+
+\[Y(s) =\frac{-2(s+13)}{(s+1)(s-1)}+\frac{2s^{2}-4s-18}{s\left(s+1\right) (s-1)}\] \[=\frac{-30s-18}{s\left(s+1\right)(s-1)}\] \[=\frac{18}{s}+\frac{6}{s+1}-\frac{24}{s-1}\]
+
+Taking the inverse Laplace transform of both sides yields
+
+\[y\left(t\right)=\left[18+6\,\exp\,\left[-t\right]-24\,\exp\,\left[\,t\right] \right]\mu\left(t\right)\]
+
+**Example 5.9.2**: Let us find the state-transition matrix of the system in Example 5.9.1. The resolvent matrix is
+
+\[\mathbf{\Phi}(s)=\left[\frac{s-3}{\left(s+1\right)\left(s-1\right)}\qquad \frac{4}{\left(s+1\right)\left(s-1\right)}\right]\]
+
+The various elements of \(\mathbf{\Phi}(t)\) are obtained by taking the inverse Laplace transform of each entry in the matrix \(\mathbf{\Phi}(s)\). Doing so, we obtain
+
+\[\mathbf{\Phi}(t)=\left[\begin{matrix}2\exp\left[-t\right]-\exp\left[\,t\, \right]&-2\exp\left[-t\,\right]+2\exp\left[\,t\,\right]\\ \exp\left[-t\right]-\exp\left[\,t\,\right]&-\exp\left[-t\right]+2\exp\left[\,t \,\right]\end{matrix}\right]\mu\left(t\right)\]
+
+### Stability in the \(s\)- Domain
+
+Stability is an important issue in system design. In Chapter 2, we showed that the stability of a system can be examined either through the impulse response of the system or through the eigenvalues of the state-transition matrix. Specifically, we demonstrated that for a stable system, the output as well as all internal variables should remain bounded for any bounded input. A system that satisfies this condition is called a bounded-input bounded-output (BIBO) stable system.
+
+Stability can also be examined in the \(s\)-domain through transfer function \(H(s)\). The transfer function for any LTI system of the type we have been discussing always has the form of a ratio of two polynomials in \(s\). Since any polynomial can be factored in terms of its roots, the rational transfer function can always be written in the following form (assuming that the degree of \(N(s)\) is less than the degree of \(D(s)\))
+
+\[H(s)=\frac{A_{1}}{s-s_{1}}+\frac{A_{2}}{s-s_{2}}+\ldots+\frac{A_{N}}{s-s_{N}} \tag{5.10.1}\]
+
+The zeros \(s_{k}\) of the denominator are the poles of \(H(s)\) and, in general, may be complex numbers. If the coefficients of the governing differential equation are real, then the complex roots occur in conjugate pairs. If all the poles are distinct, then they are simple poles. If one of the poles corresponds to a repeated factor of the form \((s-s_{k})^{m}\), then it is a multiple-order pole with order \(m\). The impulse response of the system, \(h(t)\), is obtained by taking the inverse Laplace transform of Equation (5.10.1). From entry 6 in Table 5.1, the \(k\)th pole contributes the term \(h_{k}(t)=A_{k}\,\exp\left[\,s_{k}t\,\right]\) to \(h(t)\). Thus, the behavior of the system depends on the location of the pole in the \(s\)-plane. A pole can be in the left half of the \(s\)-plane, on the imaginary axis, or in the right half of the \(s\)-plane. Also, it may be a simple or multiple-order pole. The following is a discussion of the effects of the location and order of the pole on the stability of LTI systems.
+
+1. _Simple Poles in the Left Half Plane_. In this case the pole has the form \[s_{k}=\sigma_{k}+j\ \omega_{k},\qquad\sigma_{k}<0\] and the impulse-response component of the system, \(h_{k}(t)\), corresponding to this pole is \[h_{k}(t) =A_{k}\,\exp\left[\,(\sigma_{k}+j\omega_{k})t\,\right]+A_{k}^{*}\, \exp[(\sigma_{k}-j\omega_{k})t\,]\] (5.10.2) \[=\,\mid A_{k}\,\mid\,\exp\left[\,\sigma_{k}t\,\right](\exp\left[\,j (\omega_{k}t+\beta_{k})\,\right]+\exp\left[\,-j(\omega_{k}t+\beta_{k})\,\right])\] \[=2\,\mid A_{k}\,\mid\,\exp\left[\,\sigma_{k}t\,\right]\,\cos\,( \omega_{k}t+\beta_{k}),\qquad\sigma_{k}<0\] where \[A_{k}=\,\mid A_{k}\,\mid\,\exp\left[\,j\beta_{k}\,\right]\] As \(t\) increases, this component of the impulse response decays to zero, and thus results in a stable system. Therefore, systems with only simple poles in the left half plane are stable.
+
+2. _Simple Poles on the Imaginary Axis_. This case can be considered as a special case of Equation (5.10.2) with \(\sigma_{k}=0\). The \(k\)th component in the impulse response is then \[h_{k}(t)=2\,|\,A_{k}\,|\,\cos\,(\omega_{k}t+\beta_{k})\] Note that there is no exponential damping; that is, the response does not decay as time progresses. It may appear that the response to the bounded input is also bounded. This is not true if the system is excited by a cosine function with the same frequency \(\omega_{k}\). In this case, a multiple-order pole of the form. \[\frac{Bs}{(s^{2}+\omega_{k}^{2})^{2}}\] appears in the Laplace transform of the output. This term gives rise to a time response: \[\frac{B}{2\omega_{k}}\,\,t\,\sin\omega_{k}t\] which increases without bound as \(t\) increases. Physically, \(\omega_{k}\) is the natural frequency of the system. If the input frequency matches the natural frequency of the system, the system resonates and the output grows without bound. An example is the lossless (nonresistive) \(LC\) circuit. A system with poles on the imaginary axis is sometimes called a marginally stable system.
+3. _Simple Poles in the Right Half Plane_. If the system function has poles in the right half plane, then the system response is of the form \[h_{k}(t)=2\,|\,A_{k}\,|\,\exp\,[\,\sigma_{k}t\,]\,\cos\,(\omega_{t}+\beta_{k}),\,\,\,\,\,\,\,\,\,\,\,\,\sigma_{k}>0\] Because of the increasing exponential term, the output of the system increases without bound, even for bounded input. Systems for which poles are in the right half plane are unstable.
+4. _Multiple-Order Poles in the Left Half Plane_. A pole of order \(m\) in the left half plane gives rise to a response of the form (see entry 7 in Table 5.1) \[h_{k}=1\,A_{k}\,|\,t^{m}\,\exp\,[\,\sigma_{k}t\,]\,\cos\,(\omega_{k}t+\beta_{ k}),\,\,\,\,\,\,\,\,\,\,\,\,\sigma_{k}<0\] For negative values of \(\sigma_{k}\), the exponential function decreases faster than the polynomial \(t^{m}\). Thus, the response decays as \(t\) increases, and a system with such poles is stable.
+5. _Multiple-Order Poles on the Imaginary Axis_. In this case, the response of the system takes the form \[h_{k}=1\,A_{k}\,|\,t^{m}\,\cos\,(\omega_{k}t+\beta_{k})\] This term increases with time, and, therefore, the system is unstable.
+6. _Multiple-Order Poles in the Right Half Plane_. The system response is \[h_{k}=1\,A_{k}\,|\,\,t^{m}\,\exp\,[\,\sigma_{k}t\,]\,\cos\,(\omega_{k}t+\beta _{k}),\,\,\,\,\,\,\,\,\,\,\sigma_{k}>0\]Because \(\sigma_{k}>0\), the response increases with time, and, therefore, the system is unstable.
+
+In summary, a lumped LTI system is stable if all its poles are in the open left half plane (the region of the complex plane consisting of all points to the left of the \(j\omega\)-axis, but not including the \(j\omega\)-axis). It is marginally stable if it has simple poles on the \(j\omega\)-axis. The LTI system is unstable if it has poles in the right half plane or multiple poles on the \(j\omega\)-axis.
+
+### Summary
+
+* The bilateral Laplace transform of \(x\left(t\right)\) is defined by \[X_{B}(s)=\int\limits_{-\infty}^{\infty}x\left(t\right)\,\exp\left[\,-st\, \right]\,dt\]
+* The values of \(s\) for which \(X\left(s\right)\) converges (\(X\left(s\right)\) exists) constitute the region of convergence (ROC).
+* Transformation \(x\left(t\right)\leftrightarrow X\left(s\right)\) is not one to one unless the ROC is specified.
+* The unilateral Laplace transform is defined as \[X\left(s\right)=\int\limits_{0^{-}}^{\infty}x\left(t\right)\exp\left[\,-st\, \right]\,dt\] The bilateral and the unilateral Laplace transforms are related by \[X_{B}(s)=X_{+}(s)+\mathcal{L}\Bigg{\{}x_{-}(-t)u\left(t\right)\Bigg{\}}_{s \rightarrow-s}\] where \(X_{+}(s)\) is the unilateral Laplace transform of the causal part of \(x\left(t\right)\), and \(x_{-}(t)\) is the noncausal part of \(x\left(t\right)\).
+* Differentiation in the time domain is equivalent to multiplication by \(s\) in the \(s\)-domain, that is, \[\mathcal{L}\Bigg{\{}\frac{dx\left(t\right)}{dt}\Bigg{\}}=sX\left(s\right)-x \left(0^{-}\right)\cdot\]
+* Integration in the time domain is equivalent to division by \(s\) in the \(s\)-domain, that is, \[\mathcal{L}\big{\{}\int\limits_{-\infty}^{t}x\left(\tau\right)\,d\tau\big{\}}= \frac{X\left(s\right)}{s}\]
+* Convolution in the time domain is equivalent to multiplication in the \(s\)-domain, that is, \[y\left(t\right)=x\left(t\right)*h\left(t\right)\ \leftrightarrow\ Y\left(s\right)=X\left(s\right)H\left(s\right)\]* The initial-value theorem allows us to compute the initial value of signal \(x(t)\) and its derivatives directly from \(X(s)\): \[x^{(n)}(0^{+})=\lim_{s\to\infty}\,[\,s^{n+1}x(s)-s^{n}x(0^{+})-s^{n-1}x^{\cdot} \,(0^{+})-\cdot\cdot\cdot-sx^{(n-1)}\,(0^{+})]\]
+* The final-value theorem enables us to find the final value of \(x(t)\) from \(X(s)\): \[\lim_{t\to\infty}x(t)=\lim_{s\to 0}s\,X(s)\]
+* Partial-fraction expansion can be used to find the inverse Laplace transform of signals whose Laplace transforms are rational functions of \(s\).
+* There are many applications of the Laplace transform; among them are solution of differential equations, analysis of electrical circuits, and control systems.
+* If two subsystems with transfer functions \(H_{1}(s)\) and \(H_{2}(s)\) are connected in parallel, then the overall transfer function \(H(s)\) is \[H(s)=H_{1}(s)+H_{2}(s)\]
+* If two subsystems with transfer functions \(H_{1}(s)\) and \(H_{2}(s)\) are connected in series, then the overall transfer function \(H(s)\) is \[H(s)=H_{1}(s)H_{2}(s)\]
+* The closed-loop transfer function of a negative-feedback system with open-loop transfer function \(H_{1}(s)\) and feedback transfer function \(H_{2}(s)\) is \[H(s)=\frac{H_{1}(s)}{1+H_{1}(s)H_{2}(s)}\]
+* Simulation diagrams for LTI systems can be obtained in the frequency domain. These diagrams can be used to obtain state-variables representations.
+* The solution to the state equation can be written in the \(s\) domain as \[\mathbf{V}(s) =\mathbf{\Phi}(s)\,\mathbf{v}(0^{-})+\mathbf{\Phi}(s)\,\mathbf{b }X(s)\] \[Y(s) =\mathbf{c}\mathbf{V}(s)+d\,X(s)\]
+* Matrix \(\mathbf{\Phi}(s)\) is called the resolvent matrix and is given by \[\mathbf{\Phi}(s)=(s\mathbf{I}-\mathbf{A})^{-1}=\measuredangle\{\exp\,[\,\mathbf{A} t\,]\}\]
+* The transfer function of a system can be written as \[H(s)=\mathbf{c}\,\mathbf{\Phi}(s)\,\mathbf{b}+d\]
+* An LTI system is stable if all its poles are in the open left half plane. It is marginally stable if it has only simple poles on the \(j\omega\)-axis; otherwise it is unstable.

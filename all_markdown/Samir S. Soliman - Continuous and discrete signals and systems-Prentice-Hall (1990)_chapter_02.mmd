@@ -1,0 +1,1077 @@
+## Chapter 2 Continuous-Time Systems
+
+### 2.1 Introduction
+
+Every physical system is broadly characterized by its ability to accept an input such as voltage, current, force, pressure, displacement, etc. and to produce an output in response to this input. For example, a radar receiver is an electronic system whose input is the reflection of an electromagnetic signal from the target and whose output is a video signal displayed on the radar screen. Another example is a robot system whose input is an electric control signal and whose output is the robot motion or action. A third example is a filter whose input is a signal corrupted by noise and interference and whose output is the desired signal. In brief, a system can be viewed as a process that results in transforming input signals into output signals.
+
+We are interested in both continuous-time and discrete-time systems. A continuous-time system is one in which continuous-time input signals are transformed into continuous-time output signals. Such a system is represented pictorially as shown in Figure 2.1.1(a), where \(x\left(t\right)\) is the input, and \(y\left(t\right)\) is the output. Similarly, a discrete-time system is one that transforms discrete-time inputs into discrete-time outputs and is shown in Figure 2.1.1(b). The case of continuous-time systems is treated in this chapter and that of discrete-time systems in Chapter 6.
+
+When studying the behavior of systems, the procedure is to model mathematically each element that comprises the system and then to consider the interconnection of elements. The result is described mathematically either in the time domain, as we see in this chapter, or in the frequency domain, as we see in Chapters 3 and 4.
+
+In this chapter, we show that the analysis of linear systems can be reduced to the study of response of the system to basic input signals.
+
+### 2.2 Classification of Continuous-Time Systems
+
+Our intent in this section is to lend additional substance to the concept of systems by discussing the classification of systems according to the way the system interacts with the input signal. This interaction, which defines the model for the system, can be linear or nonlinear, time-invariant or time-varying, memoryless or with memory, causal or noncausal, stable or unstable, and deterministic or nondeterministic. For the most part we are concerned with linear, time-invariant, deterministic systems. In this section, we briefly examine the properties of each of these classes.
+
+#### Linear and Nonlinear Systems
+
+When the system is linear, the superposition principle can be applied. This important fact is precisely the reason that the techniques of linear-system analysis have been so well developed. Superposition simply implies that the response resulting from several input signals can be computed as the sum of the responses resulting from each input signal acting alone. Mathematically, the superposition principle can be stated as follows. Let \(y_{1}(t)\) be the response of a continuous-time system to an input \(x_{1}(t)\) and \(y_{2}(t)\) be the response corresponding to the input \(x_{2}(t)\). Then the system is linear (follows the principle of superposition) if
+
+1. the response to \(x_{1}(t)+x_{2}(t)\) is \(y_{1}(t)+y_{2}(t)\); and
+2. the response to \(\alpha\,x_{1}(t)\) is \(\alpha\,y_{1}(t)\), where \(\alpha\) is any arbitrary constant.
+
+The first property is referred to as the additivity property; the second is referred to as the homogeneity property. These two properties defining a linear system can be combined into a single statement as
+
+\[\alpha x_{1}(t)+\beta\,x_{2}(t)\rightarrow\alpha\,y_{1}(t)+\beta\,y_{2}(t) \tag{2.2.1}\]
+
+where the notation \(x(t)\to y(t)\) represents the input/output relation of a continuous-time system. A system is said to be nonlinear if Equation (2.2.1) is not valid for at least one set of \(x_{1}(t)\), \(x_{2}(t)\), \(\alpha\), and \(\beta\).
+
+**Example 2.2.1**: Consider the voltage divider shown in Figure 2.2.1 with \(R_{1}=R_{2}\). For input \(x(t)\) and output \(y(t)\), this is a linear system. The input/output relation can be explicitly written as
+
+\[y(t)=\frac{R_{2}}{R_{1}+R_{2}}\,\,x(t)=\frac{1}{2}\,\,x(t)\]
+
+Figure 2.1.1: Examples of continuous-time and discrete-time systems.
+
+**Example 2.2.2**: We want to determine which of the following systems is linear:
+
+\[y(t)=K\ \frac{dx(t)}{dt} \tag{2.2.2}\] \[y(t)=\ \exp\left[x(t)\right] \tag{2.2.3}\]
+
+For part (a), consider the input
+
+\[x(t)=ax_{1}(t)+\ bx_{2}(t) \tag{2.2.4}\]
+
+The corresponding output is
+
+\[y(t)=K\ \frac{d}{dt}\left[ax_{1}(t)+bx_{2}(t)\right]\]
+
+which can be written as
+
+\[y\left(t\right)= K\ a\ \frac{d}{dt}x_{1}(t)\ +\ K\ b\ \frac{d}{dt}x_{2}(t)\] \[=ay_{1}(t)\ +\ by_{2}(t)\]
+
+where
+
+\[y_{1}(t)=K\frac{d}{dt}\ x_{1}(t)\]
+
+and
+
+\[y_{2}(t)=K\frac{d}{dt}\ x_{2}(t)\]
+
+so that the system described by Equation (2.2.2) is linear.
+
+Comparing Equation (2.2.2) with
+
+\[v(t)=L\ \frac{di(t)}{dt}\]
+
+we conclude that an ideal inductor with input \(i\left(t\right)\) (current through the inductor) and output \(v\left(t\right)\) (voltage across the inductor) is a linear system (element). Similarly, we can show that a system that performs integration is a linear system (see Problem 2.1(f)). Hence, an ideal capacitor is a linear (element) system.
+
+For part (b), we investigate the response of the system to the input in Equation (2.2.4):
+
+\[y(t) =\exp\left[ax_{1}(t)+bx_{2}(t)\right]\] \[=\exp\left[ax_{1}(t)\right]\ \exp\left[bx_{2}(t)\right]\] \[\neq\ ay_{1}(t)+by_{2}(t)\]
+
+Therefore, the system characterized by Equation (2.2.3) is nonlinear.
+
+\[y\left(t\right)=y\left(t_{0}\right)\exp\left[-\frac{R_{1}R_{2}}{L(R_{1}+R_{2})} \left(t-t_{0}\right)\right]\]
+
+\[+\ \frac{\alpha R_{2}}{L(R_{1}+R_{2})}\ \int\limits_{t_{0}}^{t}\exp\left[-\frac{R_{1}R_{2}} {L(R_{1}+R_{2})}\ (t-\tau)\right]x_{1}(\tau)\ d\tau\]
+
+\[+\ \frac{\beta R_{2}}{L(R_{1}+R_{2})}\ \int\limits_{t_{0}}^{t}\exp\left[-\ \frac{R_{1}R_{2}}{R_{1}+R_{2}}\ (t-\tau)\right]\ x_{2}(\tau)\ d\tau\]
+
+\[\neq\alpha y_{1}(t)+\beta y_{2}(t)\]
+
+This may seem surprising, since inductors and resistors are linear elements. The system in Figure 2.2.2 violates a very important property of linear systems, namely, zero input should yield zero output. Therefore, if \(y_{0}=0\), then the system is linear.
+
+The concept of linearity is very important in systems theory. The principle of superposition can be invoked to determine the response of a linear system to an arbitrary input if that input can be decomposed into the sum (possibly an infinite sum) of several basic signals. The response to each basic signal can be computed separately and added to compute the overall system response. This technique is used repeatedly through the text and in most cases yields closed-form mathematical results. This is not possible for nonlinear systems.
+
+Many physical systems, when analyzed in detail, demonstrate nonlinear behavior. In such situations, a solution for a given set of initial conditions and excitation can be found either analytically or with the aid of a computer. Frequently, it is required to determine the behavior of the system in the neighborhood of this solution. A common technique of treating such problems is to approximate the system by a linear model that is valid in the neighborhood of the operating point. This technique is referred to as linearization. Some important examples are the small-signal analysis technique applied to transistor circuits and the small-signal model of a simple pendulum.
+
+#### Time-Varying and Time-Invariant Systems
+
+A system is said to be time-invariant if a time shift in the input signal causes an identical time shift in the output signal. Specifically, if \(y\left(t\right)\) is the output corresponding to input \(x\left(t\right)\), a time-invariant system will have \(y\left(t-t_{0}\right)\) as the output when \(x\left(t-t_{0}\right)\) is the input. That is, the rule used to compute the system output does not depend on the time at which the input is applied.
+
+The procedure for testing whether a system is time-invariant or not is summarized in the following steps:1. Let \(y_{1}(t)\) be the output corresponding to \(x_{1}(t)\).
+2. Consider a second input, \(x_{2}(t)\), obtained by shifting \(x_{1}(t)\), \[x_{2}(t)=x_{1}(t-t_{0})\] and find the output \(y_{2}(t)\) corresponding to the input \(x_{2}(t)\).
+3. From step 1, find \(y_{1}(t-t_{0})\) and compare with \(y_{2}(t)\).
+4. If \(y_{2}(t)=y_{1}(t-t_{0})\), then the system is time-invariant, otherwise it is a time-varying system.
+
+**Example 2.2.4**: We want to determine which of the following systems is time-invariant:
+
+1. \(y(t)=\cos\,x(t)\) 2. \(y(t)=x(t)\cos\,t\) Consider the system in part (a), \(y(t)=\cos\,x(t)\). From the steps listed before:
+
+1. For input \(x_{1}(t)\), the output is \[y_{1}(t)=\cos\,x_{1}(t)\] (2.2.7)
+2. Consider the second input, \(x_{2}(t)=x_{1}(t-t_{0})\). The corresponding output is \[y_{2}(t) =\cos\,x_{2}(t)\] \[=\cos\,x_{1}(t-t_{0})\] (2.2.8)
+3. From Equation (2.2.7) \[y_{1}(t-t_{0})=\cos\,x_{1}(t-t_{0})\] (2.2.9)
+4. Comparison of Equations (2.2.8) and (2.2.9) shows that the system \(y(t)=\cos\,x(t)\) is time-invariant. Now consider the system in part (b), \(y(t)\!=\!x(t)\,\cos\,t\):
+
+1. For input \(x_{1}(t)\), the output is \[y_{1}(t)=x_{1}(t)\cos\,t\] (2.2.10)
+2. Consider the second input \(x_{2}(t)=x_{1}(t-t_{0})\). The corresponding output is \[y_{2}(t) =\,x_{2}(t)\cos\,t\] \[=x_{1}(t-t_{0})\cos\,t\] (2.2.11)
+3. From Equation (2.2.10), \[y_{1}(t-t_{0})=x_{1}(t-t_{0})\cos\,(t-t_{0})\neq y_{2}(t)\] (2.2.12)
+4. Comparison of Equations (2.2.11) and (2.2.12) leads to the conclusion that the system is not time-invariant.
+
+#### Systems With and Without Memory
+
+For most systems, the inputs and outputs are functions of the independent variable. A system is said to be memoryless, or instantaneous, if the present value of the output depends only on the present value of the input. For example, a resistor is a memoryless system, since with input \(x\left(t\right)\) taken as the current and output \(y\left(t\right)\) taken as the voltage, the input/output relationship is
+
+\[y(t)=\ Rx\left(t\right)\]
+
+where \(R\) is the resistance. Thus, the value of \(y\left(t\right)\) at any instant depends only on the value of \(x\left(t\right)\) at that instant. On the other hand, a capacitor is an example of a system with memory. With input taken as the current and output as the voltage, the input/output relationship in the case of the capacitor is
+
+\[y(t)=\frac{1}{C}\ \int\limits_{-\infty}^{t}x\left(\tau\right)\,d\tau\]
+
+where \(C\) is the capacitance. It is obvious that the output at any time \(t\) depends on the entire past history of the input. If the system is memoryless, or instantaneous, then the input/output relationship can be written in the form
+
+\[y(t)=\ F(x(t)) \tag{2.2.13}\]
+
+For linear systems, this relation reduces to
+
+\[y\left(t\right)=k\left(t\right)x\left(t\right)\]
+
+and if the system is also time-invariant, we have
+
+\[y\left(t\right)=k\,x\left(t\right)\]
+
+where \(k\) is a constant.
+
+An example of a linear time-invariant memoryless system is the mechanical damper. The linear dependence between force \(f\left(t\right)\) and velocity \(v\left(t\right)\) is
+
+\[v\left(t\right)=\frac{1}{D}\ f\left(t\right)\]
+
+where \(D\) is the damping constant.
+
+A system whose response at instant \(t\) is completely determined by the input signals over the past \(T\) seconds (interval from \(\left(t-T\right)\) to \(t\)) is a finite-memory system having a memory of length \(T\) units of time.
+
+The output of a communication channel \(y\left(t\right)\) is related to its input \(x\left(t\right)\) by
+
+\[y(t)=\sum\limits_{i=0}^{N}a_{i}\,x(t-T_{i})\]
+
+It is clear that the output \(y\left(t\right)\) of the channel at time \(t\) depends not only on the input at time \(t\), but also on the past history of \(x\left(t\right)\), e.g.,\[y\left(0\right)=a_{0}\,x(0)+\ a_{1}\,x(-T_{1})+\ \cdots\ +\ a_{n}\,x(-T_{n})\]
+
+Therefore, this system has a finite memory of \(T=\max_{i}(T_{i})\).
+
+#### Causal Systems
+
+A system is causal, or nonanticipatory (also known as physically realizable), if the output at any time \(t_{0}\) depends only on values of the input for \(t\)<\(t_{0}\). Equivalently, if two inputs to a causal system are identical up to some time \(t_{0}\), the corresponding outputs must also be equal up to this same time since a causal system cannot predict if the two inputs will be different after \(t_{0}\) (in the future). Mathematically, if
+
+\[x_{1}(t)=x_{2}(t);\quad t<t_{0}\]
+
+and the system is causal, then
+
+\[y_{1}(t)=y_{2}(t);\quad\ t<t_{0}\]
+
+A system is said to be noncausal or anticipatory if it is not causal.
+
+We want to determine whether the following continuous-time systems are causal or noncausal:
+
+1. \(y(t)=x(t+2)\)
+2. \(y(t)=x(t-2)\)
+
+The system in part (a) is noncausal since the value of \(y\left(t\right)\) of the output at time \(t\) depends on the future value of the input.
+
+The fact that this system is not causal can also be seen by considering the response of the system to the 1-s pulse shown in Figure 2.3(a). The output \(y\left(t\right)\) resulting from the input pulse is shown in Figure 2.3(b). Since the output pulse appears before the input pulse is applied, the system is noncausal. The system with the input/output relationship \(y\left(t\right)=x\left(t+2\right)\) is called an ideal predictor. Most physicists would argue that systems such as the ideal predictor do not exist, therefore, noncausal systems are sometimes called physically unrealizable systems.
+
+Figure 2.3: Input and outputs for Example 2.2.6.
+
+On the other hand, the system \(y\left(t\right)=x\left(t-2\right)\) is causal since the value of the output at time \(t\) depends only on the value of the input at time \(t-2\). If we apply the pulse shown in Figure 2.2.3(a) to this system, the output is shown in Figure 2.2.3(c). It is clear that the system delays the input by two units of time. In fact, the system delays all inputs by two units of time and it is an example of an ideal delay system.
+
+Consider the RC circuit shown in Figure 2.2.4. This RC circuit can be viewed as a continuous-time system with input \(x\left(t\right)\) equal to current source \(i\left(t\right)\) and with output \(y\left(t\right)\) equal to the voltage across the capacitor. Assume that \(y\left(t_{0}\right)=0\).
+
+By Kirchhoff's current law,
+
+\[i_{C}(t)+i_{R}(t)=x\left(t\right) \tag{2.14}\]
+
+where \(i_{C}(t)\) and \(i_{R}(t)\) are the currents in the capacitor and resistor, respectively. Also
+
+\[i_{C}(t)=\;\;C\frac{dv_{C}(t)}{dt}\;\;=C\;\;\frac{dy(t)}{dt}\]
+
+and
+
+\[i_{R}(t)=\frac{1}{R}\;\;v_{C}(t)=\frac{1}{R}\;\;y(t)\]
+
+Inserting the last two equations into Equation (2.14), we get the following differential equation:
+
+\[C\;\frac{dy\left(t\right)}{dt}+\frac{\dot{1}}{R}\;\;y(t)=x(t) \tag{2.15}\]
+
+The differential equation, Equation (2.15), is the input/output differential equation describing the system. The complete solution is of the form
+
+\[y(t)=\int\limits_{t_{0}}^{t}\frac{1}{C}\;\exp\left[-\frac{\dot{1}}{RC}\;\left( t-\tau\right)\right]\;x(\tau)\;d\tau;\qquad t\geq t_{0} \tag{2.16}\]
+
+Now suppose that \(x\left(t\right)=0\) for all \(t\leq t_{1}\), where \(t_{1}\) is such that \(t_{1}>t_{0}\). Then \(x\left(\tau\right)=0\) for all \(t_{0}<\tau<t_{\dot{1}}\) and the integral in Equation (2.16) is zero when \(t<t_{1}\). Hence, \(y\left(t\right)=0\) for all \(t<t_{1}\), so the RC circuit shown is a causal system. Note that if the upper limit of the integral of Equation (2.16) were \(t+\varepsilon\), where \(\varepsilon>0\), then the circuit shown would be noncausal.
+
+Figure 2.2.4: RC circuit for Example 2.2.7:
+
+#### Invertibility and Inverse Systems
+
+A system is invertible if by observing the output, we can determine its input. That is, we can construct an inverse system that when cascaded with the given system, as illustrated in Figure 2.2.5, yields an output equal to the original input to the given system. In other words, the inverse system "undoes" what the given system does to input \(x\left(t\right)\). So the effect of the given system can be eliminated by cascading it with its inverse system. Note that if two different inputs result in the same output, then the system is not invertible. The inverse of a causal system is not necessarily causal, in fact, it may not exist at all in any conventional sense. The use of the concept of a system inverse in the following chapters is primarily for mathematical convenience and does not require that such a system be physically realizable.
+
+We want to determine if each of the following systems is invertible. If it is, we will construct the inverse system. If it is not, we will find two input signals to the system that have the same output.
+
+1. \(y(t)=2\,x(t)\)
+2. \(y(t)=\cos\,x(t)\)
+3. \(y(t)=\int\limits_{-\infty}^{t}x(\tau)\ d\tau\); \(y(-\infty)=0\)
+4. \(y(t)=x(t+1)\)
+
+For part (a), system \(y(t)=2x\left(t\right)\) is invertible with the inverse
+
+\[z(t)=\frac{1}{2}\ y(t)\]
+
+This idea is demonstrated in Figure 2.2.6.
+
+For part (b), system \(y\left(t\right)=\cos\,x\left(t\right)\) is noninvertible since \(x\left(t\right)\) and \(x\left(t\right)+2\pi\) give the same output.
+
+For part (c), system \(y(t)=\int\limits_{-\infty}^{t}x(\tau)d\tau\), \(y(-\infty)=0\), is invertible and the inverse system
+
+Figure 2.2.6: Inverse system for part (a) of Example 2.2.8.
+
+Figure 2.2.5: Concept of an inverse system.
+
+is the differentiator
+
+\[z(t)=\frac{d}{dt}\ y(t)\]
+
+For part (d), system \(y\left(t\right)=x\left(t+1\right)\) is invertible and the inverse system is the one-unit delay
+
+\[z(t)=y\left(t-1\right)\]
+
+In some applications, it is necessary to perform preliminary processing on the received signal to transform it into a signal that is easy to work with. If the preliminary processing is invertible, it can have no effect on the performance of the overall system (see Problem 2.13).
+
+#### Stable Systems
+
+One of the most important concepts in the study of systems is the notion of stability. Whereas many different types of stability can be defined, in this section, we consider only one type, namely, bounded-input bounded-output (BIBO) stability. BIBO stability involves the behavior of the output response resulting from the application of a bounded input.
+
+Signal \(x\left(t\right)\) is said to be bounded if its magnitude does not grow without bound, i.e.,
+
+\[\left|x\left(t\right)\right|<B\ <\infty,\quad\text{ for all }\ t\]
+
+A system is BIBO stable if, for any bounded input \(x\left(t\right)\), the response \(y\left(t\right)\) is also bounded. That is,
+
+\[\left|x\left(t\right)\right|<B_{1}<\infty\quad\text{ implies }\quad\left|y\left(t\right)\right|<B_{2}<\infty\]
+
+We want to determine which of these systems is stable:
+
+1. \(y(t)=\exp\left[x\left(t\right)\right]\)
+2. \(y(t)=\int\limits_{-\infty}^{t}x\left(\tau\right)\,d\tau\)
+
+For the system of part (a), a bounded input \(x\left(t\right)\) such that \(\left|x\left(t\right)\right|<B\), results in an output \(y\left(t\right)\) with magnitude
+
+\[\left|y\left(t\right)\right|=\left|\ \exp\left[x\left(t\right)\right]\right|=\exp \left[x\left(t\right)\right]\leq\exp\left[B\right]<\infty\]
+
+Therefore, the output is also bounded and the system is stable.
+
+For part (b), consider a bounded input \(x\left(t\right)\) such that \(\left|x\left(t\right)\right|<B\). The magnitude of the output \(y\left(t\right)\) is
+
+\[\left|y\left(t\right)\right| =\left|\int\limits_{-\infty}^{t}x\left(t\right)\,dt\right|\] \[\leq\int\limits_{-\infty}^{t}\left|x\left(t\right)\right|\ dt \leq B\int\limits_{-\infty}^{t}dt\]The integral on the right-hand side diverges (evaluates to \(\infty\)); therefore, this system is unstable.
+
+### Linear Time-Invariant Systems
+
+In the previous section we have discussed a number of basic system properties. Two of these, linearity and time invariance, play a fundamental role in signal and system analysis because of the many physical phenomena that can be modeled by linear time-invariant systems and because a mathematical analysis of the behavior of such systems can be carried out in a fairly straightforward manner. In this section, we develop an important and useful representation for linear time-invariant (LTI) systems. This forms the foundation for linear-system theory and different transforms encountered throughout the text.
+
+A fundamental problem in system analysis is determining the response to some specified input. Analytically, this can be answered in many different ways. One obvious way is to solve the differential equation describing the system, subject to the specified input and initial conditions. In the following section, we introduce a second method that exploits the linearity and time invariance of the system. This development results in an important integral known as the convolution integral. In Chapters 3 and 4, we consider frequency-domain techniques to analyze LTI systems.
+
+#### The Convolution Integral
+
+Linear systems are governed by the superposition principle. In short, if input \(x\left(t\right)\) can be expressed as
+
+\[x\left(t\right)=a_{1}\,\phi_{1}(t)+a_{2}\,\phi_{2}(t)+\ \cdot\cdot\cdot\ +a_{n}\,\phi_{n}(t)=\sum_{i=1}^{n}a_{i}\,\phi_{i}(t)\]
+
+and if the response to \(\phi_{i}(t)\) is \(y_{i}(t)\), then the system response to input \(x\left(t\right)\) is
+
+\[y\left(t\right)=\sum_{i=1}^{n}a_{i}\,y_{i}(t)\]
+
+Thus, we can obtain the system response \(y\left(t\right)\) to an arbitrary input \(x\left(t\right)\) by expressing \(x\left(t\right)\) in terms of a set of basic signals, \(\phi_{1}(t)\), \(\phi_{2}(t)\), \(\ldots\), and summing the system response to each of these basic signals. By the term "basic signals," we mean signals that satisfy the following:
+
+1. All the signals should have an analytic representation.
+2. It should be possible to represent any arbitrary input as a weighted sum of these basic signals.
+3. The system response to all these basic signals should be representable by the same analytic form.
+
+In Section 1.6, we demonstrated that the unit-step and unit-impulse functions can be used as building blocks to represent arbitrary signals. In fact, the sifting property of the \(\delta\) function, Equation (1.6.7), repeated here for convenience,
+
+\[x(t)=\int\limits_{-\infty}^{\infty}x(\tau)\ \delta(t-\tau)d\tau \tag{2.3.1}\]
+
+shows that any signal \(x(t)\) can be expressed as a continuum sum of weighted impulses.
+
+Now consider a continuous-time system with input \(x(t)\). Using the superposition property of linear systems (Equation 2.2.1), output \(y(t)\) can be expressed as a linear combination.of the responses of the system to shifted impulse signals, that is,
+
+\[y(t)=\int\limits_{-\infty}^{\infty}x(\tau)\ h(t,\tau)\ d\tau \tag{2.3.2}\]
+
+where \(h(t,\tau)\) denotes the response of a linear system to the shifted impulse \(\delta(t-\tau)\). In other words, \(h(t,\tau)\) is the output of the system at time \(t\) in response to input \(\delta(t-\tau)\) applied at time \(\tau\). If, in addition to being linear, the system is also time-invariant, then \(h(t,\tau)\) should not depend on \(\tau\), but rather on \(t-\tau\), i.e., \(h(t,\tau)=h(t-\tau)\). This is because the time-invariance property implies that if \(h(t)\) is the response to \(\delta(t)\), then the response to \(\delta(t-\tau)\) is simply \(h(t-\tau)\). Thus, Equation (2.3.2) becomes
+
+\[y(t)=\int\limits_{-\infty}^{\infty}x(\tau)\ h(t-\tau)\ d\tau \tag{2.3.3}\]
+
+The function \(h(t)\) is called the impulse response of the LTI system and it represents the output of the system at time \(t\) due to a unit-impulse input occurring at \(t=0\) when the system is relaxed (zero initial conditions).
+
+The integral relationship expressed in Equation (2.3.3) is called the convolution integral of signals \(x(t)\) and \(h(t)\) and relates the input and output of the system by means of the system impulse response. This operation is represented symbolically as
+
+\[y(t)=x(t)*h(t) \tag{2.3.4}\]
+
+One consequence of this representation is that the LTI system is completely characterized by its impulse response. It is important to know that the convolution
+
+\[y(t)=x(t)*h(t)\]
+
+does not exist for all possible signals. The sufficient conditions for the convolution of two signals \(x(t)\) and \(h(t)\) to exist are:
+
+1. Both \(x(t)\) and \(h(t)\) must be absolutely integrable over the interval \((-\infty,0]\).
+2. Both \(x(t)\) and \(h(t)\) must be absolutely integrable over the interval \([0,\infty)\).
+3. Either \(x(t)\) or \(h(t)\) or both must be absolutely integrable over the interval \((-\infty,\ \infty)\). Signal \(x(t)\) is called absolutely integrable over the interval \([a,\,b]\) if \[\int\limits_{a}^{b}|\ x(t)|\ dt<\infty\] (2.3.5)For example, the convolutions \(\sin\omega t*\cos\omega t\), \(\exp\left[t\right]*\exp\left[t\right]\), and \(\exp\left[t\right]*\exp\left[-t\right]\) do not exist. Continuous-time convolution satisfies some important properties. In particular, continuous-time convolution is
+
+_Commutative._
+
+\[x\left(t\right)*h\left(t\right)=h\left(t\right)*x\left(t\right)\]
+
+This property is proved by variable substitution. The property implies that the roles of input signal and impulse response are interchangeable.
+
+_Associative._
+
+\[x\left(t\right)*h_{1}\left(t\right)*h_{2}\left(t\right) =\left[x\left(t\right)*h_{1}\left(t\right)\right]*h_{2}\left(t\right)\] \[=x\left(t\right)*\left[h_{1}\left(t\right)*h_{2}\left(t\right)\right]\]
+
+This property is proved by changing the orders of integration. The associative property implies that a cascade combination of LTI systems can be replaced by a single system whose impulse response is the convolution of the individual impulse responses.
+
+_Distributive._
+
+\[x\left(t\right)*\left[h_{1}\left(t\right)+h_{2}\left(t\right)\right]=\left[x \left(t\right)*h_{1}\left(t\right)\right]+x\left(t\right)*h_{2}\left(t\right)\]
+
+This property follows directly as a result of the linear property of integration. The distributive property states that a parallel combination of LTI systems is equivalent to a single system whose impulse response is the sum of the individual impulse responses in the parallel configuration. These properties are illustrated in Figure 2.3.1.
+
+Some interesting and useful additional properties of convolution integrals can be obtained by considering convolution with singularity signals, particularly the unit step, unit impulse, and unit doublet. From the defining relationships given in Chapter 1, it can be shown that
+
+\[x\left(t\right)*\delta\left(t\right)=\int\limits_{-\infty}^{\infty}x\left( \tau\right)\delta\left(t-\tau\right)d\tau=x\left(t\right) \tag{2.3.6}\]
+
+Therefore, an LTI system with impulse response \(h\left(t\right)=\delta\left(t\right)\) is the identity system. Since
+
+\[x\left(t\right)*u\left(t\right)=\int\limits_{-\infty}^{\infty}x\left(\tau \right)u\left(t-\tau\right)d\tau=\int\limits_{-\infty}^{t}x\left(\tau\right)d\tau \tag{2.3.7}\]
+
+Consequently, an LTI system with impulse response \(h\left(t\right)=u\left(t\right)\) is a perfect integrator. Also
+
+\[x\left(t\right)*\delta^{\prime}\left(t\right)=\int\limits_{-\infty}^{\infty} x\left(\tau\right)\delta^{\prime}\left(t-\tau\right)d\tau=x^{\prime}\left(t\right) \tag{2.3.8}\]
+
+so that an LTI system with impulse response \(h\left(t\right)=\delta^{\prime}\left(t\right)\) is a perfect differentiator.
+
+**Example 2.3.1**: The output \(y\left(t\right)\) of an optimum receiver in a communication system is related to its input \(x\left(t\right)\) by
+
+\[y\left(t\right)=\int\limits_{t-T}^{t}x\left(\tau\right)s\left(T-t+\tau\right)\,d \tau,\qquad 0\leq t\leq T \tag{2.3.9}\]
+
+where \(s\left(t\right)\) is a known signal with duration \(T.\) Comparison of Equation (2.3.9) with Equation (2.3.3) yields
+
+\[h\left(t-\tau\right) =s\left(T-t+\tau\right),\quad 0<t-\tau<T\] \[=0,\qquad\qquad\qquad\text{elsewhere}\]
+
+or
+
+\[h\left(t\right) =s\left(T-t\right),\qquad 0\ <t<T\] \[=0,\qquad\qquad\qquad\text{elsewhere}\]
+
+Such a system is called a matched filter. The system impulse response is \(s\left(t\right)\) reflected and shifted by \(T\) (system is matched to \(s\left(t\right)\)).
+
+Figure 2.3.1: Properties of continuous-time convolution.
+
+**Example 2.3.4**: Suppose we want to determine the convolution
+
+\[y\left(t\right)=\operatorname{rect}\left((t-a)/2a\right)*\left[\,\delta\left(t+2a \right)-\delta\left(t-2a\right)\right]\]
+
+Note that Equation (2.3.6) can also be written as
+
+\[x\left(t\right)*\,\delta\left(t-a\right)=x\left(t-a\right)\]
+
+Combining this property with the distributive property of the convolution integral yields
+
+\[y\left(t\right)=\operatorname{rect}\left((t+a)/2a\right)-\operatorname{rect} \left((t-3a)/2a\right)\]
+
+Figure 2.3.2 illustrates the respective functions.
+
+These and other earlier examples point out the differences between the following three operations:
+
+\[x\left(t\right)\,\delta\left(t-a\right)=x\left(a\right)\,\delta\left(t-a\right)\]
+
+\[\int\limits_{-\infty}^{\infty}x\left(t\right)\,\delta\left(t-a\right)\,dt=x \left(a\right)\]
+
+\[x\left(t\right)*\,\delta\left(t-a\right)=x\left(t-a\right)\]
+
+The result of the first (sampling property of \(\delta(t)\)) is a delta function with strength \(x\left(a\right)\), the result of the second (sifting property of the delta function) is the value of the signal
+
+Figure 2.3.2: Signals for Example 2.3.4.
+
+\(x(t)\) at \(t=a\), and the result of the third (convolution property of the delta function) is a shifted version of \(x(t)\).
+
+**Example 2.3.5**: The convolution has the property that the area of the convolution integral is equal to the product of the areas of the two signals entering into the convolution. The area can be computed by integrating Equation (2.3.3) over the interval \(-\infty<t<\infty\), giving
+
+\[\int\limits_{-\infty}^{\infty}y(t)\ dt=\int\limits_{-\infty}^{\infty}\int \limits_{-\infty}^{\infty}x(\tau)\ h(t-\tau)\ d\tau\ dt\]
+
+Interchanging the orders of integration results in
+
+\[\int\limits_{-\infty}^{\infty}y(t)\ dt =\int\limits_{-\infty}^{\infty}x(\tau)\left[\int\limits_{-\infty }^{\infty}h(t-\tau)\ dt\right]d\tau\] \[=\int\limits_{-\infty}^{\infty}x(\tau)[\text{area under }h(t)]\ d\tau\] \[=\text{area under }x(t)\times\text{area under }h(t)\]
+
+This result is generalized later when we discuss Fourier and Laplace transforms, but for the moment, we can use it as a tool to quickly check the answer of a convolution integral.
+
+#### Graphical Interpretation of Convolution
+
+Calculating \(x(t)*h(t)\) is conceptually no more difficult than ordinary integration when the two signals are continuous for all \(t\). Often, however, one or both of the signals is defined in a piecewise fashion, and the graphical interpretation of convolution becomes especially helpful. We list in what follows the steps of this graphical aid to computing the convolution integration. These steps demonstrate how the convolution is computed graphically in the interval \(t_{i-1}\leq t\leq t_{i}\), where the interval \([t_{i}-1,\ t_{i}]\) is chosen such that the product \(x(\tau)\ h(t-\tau)\) has the same analytical form. The steps are repeated as many times as necessary until \(x(t)*h(t)\) is computed for all \(t\).
+
+_Step 1._ For an arbitrary, but fixed value of \(t\) in the interval \([t_{i-1},t_{i}]\), plot \(x(\tau)\), \(h(t-\tau)\), and the product \(g(t,\tau)=x(\tau)\ h(t-\tau)\) as a function of \(\tau\). Note that \(h(t-\tau)\) is a folded and shifted version of \(h(\tau)\) and is equal to \(h(-\tau)\) shifted to the right by \(t\) seconds.
+
+_Step 2._ Integrate the product \(g(t,\tau)\) as a function of \(\tau\). Note that the integrand \(g(t,\tau)\) depends on \(t\) and \(\tau\), the latter being the variable of integration, which disappears after the integration is completed and the limits are imposed on the result. The integration can be viewed as the area under the curve represented by the integrand.
+
+This procedure is illustrated by the following four examples.
+
+Figure 2.3.3: Graphical interpretation of the convolution for Example 2.3.6.
+
+**Example 2.3.6**: Consider the signals in Figure 2.3.3(a), where
+
+\[x\left(t\right)=A\ \exp\left[-t\right],\ \ \ \ \ 0\ <t<\infty\]
+
+\[h\left(t\right)=\frac{t}{T},\ \ \ \ \ \ \ 0\ <t<T\]
+
+Figure 2.3.3(b) shows \(x\left(\tau\right)\), \(h\left(t-\tau\right)\), and \(x\left(\tau\right)h\left(t-\tau\right)\) with \(t<0\). The value of \(t\) always equals the distance from the origin of \(x\left(\tau\right)\) to the shifted origin of \(h\left(-\tau\right)\) indicated by the dashed line. We see that the signals do not overlap, hence, the integrand equals zero and
+
+\[x\left(t\right)\ast h\left(t\right)=0,\ \ \ \ \ t<0\]
+
+When \(0\leq t\leq T\), as shown in Figure 2.3.3(c), the signals overlap for \(0\leq\tau\leq t\), so \(t\) becomes the upper limit of integration and
+
+\[x\left(t\right)\ast h\left(t\right)=\overset{t}{\underset{0}{\overset{}{ \int}}}A\exp\left[-\tau\right]\ \frac{t-\tau}{T}\ \ d\ \tau\]
+
+\[=\frac{A}{T}\left[-\ 1+\exp\left[-t\right]\right]\ \ \ \ \ 0=t\leq T\]
+
+Finally, when \(t>T\), as shown in Figure 2.3.3(d), the signals overlap for \(t-T\leq\tau\leq t\) and
+
+\[x\left(t\right)\ast h\left(t\right)=\overset{t}{\underset{t-T}{\overset{}{ \int}}}A\exp\left[-\tau\right]\ \frac{t-\tau}{T}\ \ d\tau\]
+
+\[=\frac{A}{T}\ \left[-\ 1+\exp\left[-T\right]\right]\exp\left[-(t-T)\right],\ \ \ \ \ \ t>T\]
+
+The complete result is plotted in Figure 2.3.3(e). The plot shows that convolution is a smoothing operation in the sense that \(x\left(t\right)\ast h\left(t\right)\) is smoother than either of the original signals.
+
+**Example 2.3.7**: Let us determine the convolution
+
+\[y\left(t\right)=\operatorname{rect}\left(t/2a\right)\ast\operatorname{rect} \left(t/2a\right)\]
+
+Figure 2.3.4 illustrates the overlapping of the two rectangular pulses for different values of \(t\) and the resulting signal \(y\left(t\right)\). The result is expressed analytically as\[y\left(t\right)=\begin{cases}0_{,}&t<-2a\\ t+2a,&-2a<t<0\\ 2a-t,&0<t<2a\\ 0_{,}&t>2a\end{cases}\]
+
+or, in more compact form,
+
+\[y\left(t\right) =\begin{cases}2a-|t\mid,&|t\mid<2a\\ 0,&|t\mid>2a\end{cases}\] \[=2a\;\Delta(t/2a)\]
+
+Figure 2.3.4: Graphical solution of Example 2.3.7.
+
+\[y\left(t\right)=(3-t)^{2}/2.\]
+
+For \(t>3\), the product \(x(\tau)h\left(t-\tau\right)\) is always zero. In summary,
+
+\[\bar{y}\left(t\right)=\left\{\begin{array}{ll}0_{\cdot\cdot\cdot}&\bar{t}<0\\ \dfrac{t^{2}}{2},&0<t<1\\ 3t-t^{2}-\dfrac{3}{2},&1<t<2\\ \dfrac{(3-t)^{2}}{2},&2<t<3\\ 0,&t>3\end{array}\right.\]
+
+### 2.4 Properties of Linear Time-Invariant Systems
+
+The impulse response of an LTI system represents a complete description of the characteristics of the system. In this section, we examine the system properties discussed in Section 2.2 in terms of the system impulse response.
+
+Figure 2.3.6: Convolution of \(x\left(t\right)\) and \(h\left(t\right)\) in Example 2.3.9.
+
+#### Memoryless LTI Systems
+
+In Section 2.2.3, we defined a system to be memoryless if its output at any time depends only on the value of the input at the same time. There we saw that a memoryless time-invariant system obeys an input/output relation of the form
+
+\[y\left(t\right)=K\,x\left(t\right) \tag{2.4.1}\]
+
+for some constant \(K\). By setting \(x\left(t\right)=\delta(t)\) in Equation (2.4.1), we see that this system has the impulse response
+
+\[h\left(t\right)=K\,\delta(t) \tag{2.4.2}\]
+
+#### Causal LTI Systems
+
+As was mentioned in Section 2.2.4, the output of a causal system depends only on the present and past values of the input. Using the convolution integral, we can relate this property to a corresponding property of the impulse response of an LTI system. Specifically, for a continuous-time system to be causal, \(y\left(t\right)\) must not depend on \(x\left(\tau\right)\) for \(\tau>t\). From Equation (2.3.3), we can see that this is the case if
+
+\[h\left(t\right)=0\quad\text{ for }\quad t<\ 0 \tag{2.4.3}\]
+
+In this case, the convolution integral becomes
+
+\[y\left(t\right) =\int\limits_{-\infty}^{t}x\left(\tau\right)\,h\left(t-\tau \right)\,d\tau\] \[=\int\limits_{0}^{\infty}h\left(\tau\right)x\left(t-\tau\right) \,d\tau \tag{2.4.4}\]
+
+As an example, system \(h\left(t\right)=u\left(t\right)\) is causal, but the system \(h\left(t\right)=\delta(t+t_{0})\), \(t_{0}>0\), is noncausal.
+
+In general, \(x\left(t\right)\) is called a causal signal if
+
+\[x\left(t\right)=0,\qquad t<0\]
+
+The signal is anticausal if \(x\left(t\right)=0\) for \(t\geq 0\). Any signal that does not contain any singularities (a delta function or its derivatives) at \(t=0\) can be written as the sum of a causal part \(x^{+}(t)\) and anticausal part \(x^{-}(t)\), i.e.,
+
+\[x\left(t\right)=x^{+}(t)+x^{-}(t)\]
+
+For example, the exponential \(x\left(t\right)=\exp\left[-t\right]\) can be written as
+
+\[x\left(t\right)=\exp\left[-t\right]u\left(t\right)+\exp\left[-t\right]u\left( -t\right)\]
+
+where the first term represents the causal part of \(x\left(t\right)\), and the second term represents the anticausal part of \(x\left(t\right)\). Note that multiplying the signal by the unit step ensures that the resulting signal is causal.
+
+#### Invertible LTI Systems
+
+Consider a continuous-time LTI system with impulse response \(h\left(t\right)\). In Section 2.2.5, we mentioned that the system is invertible only if we can design an inverse system that, when connected in cascade with the original system, yields an output equal to the system input. If \(h_{1}(t)\) represents the impulse response of the inverse system, then in terms of the convolution integral, we must, therefore, have
+
+\[y\left(t\right)=h_{1}(t)*h\left(t\right)*x\left(t\right)=x\left(t\right)\]
+
+From Equation (2.3.6), we conclude that \(h_{1}(t)\) must satisfy
+
+\[h_{1}(t)*h(t)=h\left(t\right)*h_{1}(t)=\delta(t) \tag{2.4.5}\]
+
+As an example, the LTI system with \(h_{1}(t)=\delta(t+t_{0})\) is the inverse of the system \(h\left(t\right)=\delta(t-t_{0})\).
+
+#### Stable LTI Systems
+
+A continuous-time system is stable if every bounded input produces a bounded output. In order to relate this property to the impulse response of LTI systems, consider a bounded input \(x\left(t\right)\), i.e., \(\left|x\left(t\right)\right|<B\) for all \(t\). Suppose that this input is applied to an LTI system with impulse response \(h(t)\). By using Equation (2.3.3), the magnitude of the output is
+
+\[\left|y\left(t\right)\right| =\ \mid\int\limits_{-\infty}^{\infty}h\left(\tau\right)x\left(t- \tau\right)d\tau\ \mid\] \[\leq\int\limits_{-\infty}^{\infty}\left|h\left(\tau\right)\right| \ \left|x\left(t-\tau\right)\right|\ d\tau\] \[\leq B\ \int\limits_{-\infty}^{\infty}\left|h\left(\tau\right) \right|\ d\tau\ \ \ \ . \tag{2.4.6}\]
+
+Therefore, the system is stable if
+
+\[\int\limits_{-\infty}^{\infty}\left|h\left(\tau\right)\right|\ d\tau<\infty \tag{2.4.7}\]
+
+i.e., a sufficient condition for bounded-input bounded-output stability of an LTI system is that its impulse response is absolutely integrable. For example, the system with \(h\left(t\right)=\exp\left[-t\right]u\left(t\right)\) is stable, whereas the system with \(h\left(t\right)=u\left(t\right)\) is unstable.
+
+The response of the RC circuit in Example 2.2.7 was described in terms of a differential equation. In general, the response of many physical systems can be described by differential equations. Examples of such systems are electric networks comprising ideal resistors, capacitors, and inductors; mechanical systems made of small springs, dampers and the like. In Section 2.5.1 we consider systems with linear input/output differential equations with constant coefficients and show that such systems can be realized (or simulated) using adders, multipliers and integrators. We shall give also some examples to demonstrate how to determine the impulse response of LTI systems described by linear'constant-coefficients differential equations. In Chapters 4 and 5 we shall present an easier and straight forward method to determine the impulse response of LTI, namely, using the transform techniques.
+
+#### Linear Constant-Coefficients Differential Equations
+
+Consider the continuous-time system described by the following input/output differential equation:
+
+\[\frac{d^{N}y\left(t\right)}{dt^{N}}+\sum_{i=0}^{N-1}a_{i}\ \frac{d^{i}y\left(t \right)}{dt^{i}}=\sum_{i=0}^{M}b_{i}\ \frac{d^{i}x\left(t\right)}{dt^{i}} \tag{2.5.1}\]
+
+where coefficients \(a_{i}\), \(i=1\), \(2\), \(\ldots\), \(N-1\), \(b_{j}\), \(j=1\), \(\ldots\), \(M\) are real constants, and N \(>\) M. In operator form, the last equation can be written as
+
+\[\left(D^{N}+\sum_{i=0}^{N-1}a_{i}D^{i}\ \right)y\left(t\right)=\left(\sum_{i=0 }^{M}b_{i}D^{i}\right)x\left(t\right) \tag{2.5.2}\]
+
+where \(D\) represents the differentiation operator that transforms \(y\left(t\right)\) into its derivative \(y^{\prime}(t)\). To solve Equation (2.5.2), one needs the \(N\) initial conditions:
+
+\[y\left(t_{0}\right)\text{, }y^{\prime}(t_{0})\text{, }\ldots\text{, }y^{\left(N-1 \right)}\left(t_{0}\right)\]
+
+where \(t_{0}\) is some instant at which input \(x(t)\) is applied to the system, and \(y^{\left(i\right)}(t)\) is the \(i\)th derivative of \(y\left(t\right)\).
+
+The integer \(N\) is the order or dimension of the system. Note that if the \(i\)th derivative of the input \(x\left(t\right)\) contains an impulse or a derivative of an impulse, then to solve Equation (2.5.2) for \(t>t_{0}\), it is necessary to know the initial conditions at time \(t=t_{0}\). The reason is that the output \(y\left(t\right)\) and its derivatives up to order \(N-1\) can change instantaneously at time \(t=t_{0}\). So initial conditions must be taken just prior to time \(t_{0}\).
+
+Although we assume that the reader has some exposure to solution techniques for ordinary linear differential equations, we work out a first-order case (\(N\)=1) to review the usual method of solving linear constant-coefficients differential equations.
+
+Consider the first-order LTI system that is described by the first-order differential equation
+
+\[\frac{d\,y\left(t\right)}{dt}+a\,y\left(t\right)=bx\left(t\right) \tag{2.5.3}\]where \(a\) and \(b\) are arbitrary constants. The complete solution to Equation (2.5.3) consists of the sum of the particular solution, \(y_{p}(t)\), and the homogeneous solution, \(y_{h}(t)\):
+
+\[y\left(t\right)=y_{p}(t)+y_{h}(t) \tag{2.5.4}\]
+
+The homogeneous differential equation
+
+\[\frac{d\ y\left(t\right)}{d\ t}+a\ y\left(t\right)=0\]
+
+has a solution in the form
+
+\[y_{h}(t)=C\ \exp\left[-a\ t\right]\]
+
+Using the integrating factor method, the particular solution is
+
+\[y_{p}(t)=\int\limits_{t_{0}}^{t}\exp\left[-a\left(t-\tau\right)\right]\,bx\left( \tau\right)\,d\tau,\qquad t\geq t_{0}\]
+
+Therefore, the general solution is
+
+\[y\left(t\right)=C\ \exp\left[-at\right]+\int\limits_{t_{0}}^{t}\exp\left[-a \left(t-\tau\right)\right]\,bx\left(\tau\right)\,d\tau,\qquad t\geq t_{0} \tag{2.5.5}\]
+
+Note that in Equation (2.5.5), the constant \(C\) has not been determined yet. In order to have the output completely determined, we have to know the initial condition \(y\left(t_{0}\right)\). Let
+
+\[y\left(t_{0}\right)=y_{0}\]
+
+Then, from Equation (2.5.5),
+
+\[y_{0}=C\ \exp\left[-at_{0}\right]\]
+
+Therefore, for \(t\geq t_{0}\),
+
+\[y\left(t\right)=y_{0}\ \exp\left[-a\left(t-t_{0}\right)\right]+\int\limits_{t_{0}}^ {t}\exp[-a\left(t-\tau\right)]\ b\ x\left(\tau\right)\,d\tau\]
+
+If for \(t<t_{0}\), \(x\left(t\right)=0\), then the solution consists of only the homogeneous part:
+
+\[y\left(t\right)=y_{0}\ \exp\left[-a\left(t-t_{0}\right)\right]\qquad t<t_{0}\]
+
+Combining the solutions for \(t>t_{0}\) and \(t<t_{0}\), we have
+
+\[y\left(t\right)=y_{0}\ \exp\left[\ -a\left(t-t_{0}\right)\right]+\int\limits_{t_{0} }^{t}\exp\left[-a\left(t-\tau\right)\right]\ b\ x\left(\tau\right)\,d\tau]\ u\left(t-t_{0}\right) \tag{2.5.6}\]
+
+Since a linear system has the property that zero input produces zero output, the previous system is nonlinear if \(y_{0}\neq 0\). This can be easily seen by letting \(x\left(t\right)=0\) in Equation (2.5.6) to yield
+
+\[y\left(t\right)=y_{0}\ \exp\left[-a\left(t-t_{0}\right)\right]\]If \(y_{0}=0\), the system is not only linear, but also time-invariant (verify).
+
+#### Basic System Components
+
+Any finite-dimensional linear time-invariant continuous-time system given by Equation (2.5.1) with \(M\leq N\) can be realized or simulated using adders, subtractors, scalar multipliers, and integrators. These components can be implemented using resistors, capacitors, and operational amplifiers.
+
+##### The Integrator.
+
+A basic element in the theory and practice of system engineering is the integrator. Mathematically, the input/output relation describing the integrator shown in Figure 2.5.1 is
+
+\[y\left(t\right)=y\left(t_{0}\right)+\int\limits_{t_{0}}^{t}x\left(\tau\right) \,d\tau,\qquad t\geq t_{0} \tag{2.5.7}\]
+
+The input/output differential equation of the integrator is
+
+\[\frac{dy\left(t\right)}{dt}=x\left(t\right) \tag{2.5.8}\]
+
+If \(y\left(t_{0}\right)=0\), then the integrator is said to be at rest.
+
+##### Adders, Subractors, and Scalar Multipliers.
+
+These operations are illustrated in Figure 2.5.2.
+
+Figure 2.5.2: Basic components: (a) adder, (b) subtractor, and (c) scalar multiplier.
+
+**Example 2.5.2**: Consider the system given by the interconnection in Figure 2.5.3. Denote the output of the first integrator in the figure by \(v(t)\). The input to this integrator is
+
+\[\frac{dv(t)}{dt}=-a_{\,1}\,v\left(t\right)-a_{\,0}\,y\left(t\right)+b_{\,0}\,x \left(t\right) \tag{2.5.9}\]
+
+Also, since \(dy\left(t\right)/dt\) is the input to the second integrator, we can write
+
+\[\frac{dy\left(t\right)}{dt}=v\left(t\right) \tag{2.5.10}\]
+
+Differentiating both sides of Equation (2.5.10) and using Equation (2.5.9), we get
+
+\[\frac{d^{2}y\left(t\right)}{dt^{\,2}}=-a_{\,1}\,\,\frac{dy\left(t\right)}{dt}-a_ {\,0}\,y\left(t\right)+b_{\,0}\,x\left(t\right) \tag{2.5.11}\]
+
+Equation (2.5.11) is the input/output differential equation of the system in Figure 2.5.3.
+
+#### Simulation Diagrams for Continuous-Time Systems
+
+Consider the linear time-invariant system that is described by Equation (2.5.2). This system can be realized in several different ways. Depending on the application, a particular one of these realizations may be preferable. In this section, we derive two different canonical realizations; each canonical form leads to a different realization, but they are equivalent. To derive the first canonical form, we assume that \(M=N\) and rewrite Equation (2.5.2) as
+
+\[D^{\,N}(y-b_{N}\,x)+D^{N-1}(a_{N-1}\,y-b_{N-1}\,x)+\ldots\]
+
+\[+D(a_{\,1}\,y-b_{\,1}\,x)+a_{\,0}\,y-b_{\,0}\,x=0 \tag{2.5.12}\]
+
+Multiplying by \(D^{\,-N}\) and rearranging gives
+
+\[D^{\,-N}=\frac{dy\left(t\right)}{dt^{\,2}}=-a_{\,1}\,\,\frac{dy\left(t\right)} {dt}-a_{\,0}\,y\left(t\right)+b_{\,0}\,x\left(t\right) \tag{2.5.13}\]
+
+Figure 2.5.3: Realization of the system in Example 2.5.2.
+
+Variables \(v^{(N-1)}(t),\ldots,v\left(t\right)\) that are used in constructing \(y\left(t\right)\) and \(x\left(t\right)\) in Equations (2.5.14) and (2.5.15), respectively, are produced by successively integrating \(v^{(N)}(t)\). The simulation diagram corresponding to Equations (2.5.14) and (2.5.15) is given in Figure 2.5.5. We refer to this form of representation as the second canonical form.
+
+Note that in this form, the input of any integrator is exactly the same as the output of the preceding integrator. For example, if the output of two successive integrators (counting from the right-hand side) are \(v_{m}\) and \(v_{m+1}\), respectively, then
+
+\[v^{\prime}{}_{m}(t)=v_{m+1}(t)\]
+
+This fact is used in Section 2.6.4 to develop state-variables representations which have useful properties.
+
+**Example 2.5.3**: We obtain a simulation diagram for the LTI system described by the following linear constant-coefficients differential equation:
+
+\[y^{\prime\prime}(t)-4\,y^{\prime}(t)+y\left(t\right)=4\,x^{\prime}(t)+2\,x(t)\]
+
+where \(y\left(t\right)\) is the output, and \(x\left(t\right)\) is the input to the system. We first rewrite this equation as
+
+\[D^{2}\,y\left(t\right)=4\,D\,\left[x\left(t\right)+y\left(t\right)\right]+ \left[2x\left(t\right)-y\left(t\right)\right]\]
+
+Integrating both sides of the last equation twice with respect to \(t\) yields
+
+\[y\left(t\right)=D^{-1}\,\left[4\,x\left(t\right)+4y\left(t\right)\right]+D^{-2 }\left[2x\left(t\right)-y\left(t\right)\right]\]
+
+Figure 2.5.5: Simulation diagram using the second canonical form.
+
+A simulation diagram using the first canonical form is given in Figure 2.5.6(a). The simulation diagram using the second canonical form is shown in Figure 2.5.6(b). 
+
+In Section 2.6, we demonstrate how to use these two canonical forms to derive two different state-variable representations.
+
+Figure 2.5.6: Simulation diagram of the second-order system in Example 2.5.3.
+
+#### Finding the Impulse Response
+
+The system impulse response can be determined from the differential equation describing the system. In later chapters, we find the impulse response using transform techniques. We defined the impulse response \(h\left(t\right)\) as the response \(y\left(t\right)\) when \(x\left(t\right)=\delta(t)\) and \(y\left(t\right)=0,-\infty<t<0\). The following examples demonstrate the procedure for determining the impulse response from the system differential equation.
+
+**Example 2.5.4**: Consider the system governed by
+
+\[2\,y^{\prime}(t)+4y\left(t\right)=3x\left(t\right)\]
+
+Setting \(x\left(t\right)=\delta(t)\) results in the response \(y\left(t\right)=h\left(t\right)\). Therefore, \(h\left(t\right)\) should satisfy the following differential equation:
+
+\[2\,h^{\prime}(t)+4h\left(t\right)=3\delta(t) \tag{2.5.16}\]
+
+The homogeneous part of the solution to this first order differential equation is
+
+\[h\left(t\right)=C\,\exp\left[-2t\right]\,u\left(t\right) \tag{2.5.17}\]
+
+We predict that the particular solution is zero, the motivation for this being that \(h\left(t\right)\) cannot contain a delta function. Otherwise, \(h^{\prime}(t)\) would have a derivative of a delta function that is not a part of the right-hand side of Equation (2.5.16). To find the constant \(C\), we substitute Equation (2.5.17) into Equation (2.5.16) to get
+
+\[2\,\,\frac{d}{dt}\,\,\left(C\,\exp\left[-2\,t\right]u\left(t\right)\right)+4 \,C\,\,\exp\left[-2\,t\right]\,u\left(t\right)=3\,\,\delta\left(t\right)\]
+
+Simplifying this expression results in
+
+\[2\,C\,\,\exp\left[-2\,t\right]\,\,\delta\left(t\right)=3\delta\left(t\right)\]
+
+which, by using the sampling property of the \(\delta\) function, is equivalent to
+
+\[2\,C\,\,\,\delta\left(t\right)=3\delta\left(t\right)\]
+
+so that \(C=1.5\). We, therefore, have
+
+\[h\left(t\right)=1.5\,\exp\left[-2t\right]u\left(t\right)\,\,\,\,.\]
+
+In general, it can be shown that for \(x\left(t\right)=\delta(t)\), the particular solution of Equation (2.5.2) is of the form
+
+\[h_{p}(t)=\begin{cases}\sum\limits_{i=0}^{M-N}\,\,\delta^{(i)}(t),&M\geq N\\ 0,&M<N\end{cases}\]
+
+where \(\delta^{(i)}(t)\) is the \(i\)th derivative of the \(\delta\) function. Since in most cases of practical interest, \(N\geq M\), it follows that the particular solution is at most a \(\delta\) function.
+
+**Example 2.5.5**: Consider the first-order system
+
+\[2\,y^{\prime}\left(t\right)+4y(t)=3x(t)+x^{\prime}\left(t\right)\]
+
+The system impulse response should satisfy the following differential equation:
+
+\[2h^{\prime}\left(t\right)+4h\left(t\right)=3\,\delta(t)+\delta^{\prime}\left(t\right)\]
+
+Let us assume a particular solution of the form:
+
+\[h_{p}(t)=C_{\,2}\,\,\delta(t)\]
+
+and, therefore, the general solution is
+
+\[h\left(t\right)=C_{\,1}\,\exp\left[-2t\right]u\left(t\right)+C_{\,2}\,\,\delta (t) \tag{2.5.18}\]
+
+The delta function in the particular solution must be present so that \(2h^{\prime}(t)\) contributes \(\delta^{\prime}(t)\) to the left-hand side. Substituting Equation (2.5.18) in the system differential equation yields
+
+\[2\left[C_{\,1}\,\delta(t)+C_{\,2}\,\,\delta^{\prime}(t)\right]+4\,C_{\,2}\,\, \delta(t)=3\,\delta(t)+\delta^{\prime}(t)\]
+
+Equating coefficients of \(\delta(t)\) and \(\delta^{\prime}(t)\) gives the following two equations:
+
+\[2C_{\,1}+4C_{\,2}=3\]
+
+\[2C_{\,2}=1\]
+
+Therefore,
+
+\[C_{\,1}=C_{\,2}=\frac{1}{2}\]
+
+**Example 2.5.6**: Consider the second-order system
+
+\[y^{\prime\prime}\left(t\right)+4\,y^{\prime}\left(t\right)+3\,y\left(t\right)= 2x\left(t\right)+x^{\prime}\left(t\right)\]
+
+The system impulse response should satisfy the following differential equation:
+
+\[h^{\prime\prime}\left(t\right)+4\,h^{\prime}\left(t\right)+3y\left(t\right)= 2\,\delta(t)+\delta^{\prime}\left(t\right)\]
+
+The homogeneous solution is
+
+\[h(t)=\left[C_{\,1}\,\exp\left[\,-3t\right]+C_{\,2}\,\exp\left[\,-t\right] \right]u\left(t\right) \tag{2.5.19}\]
+
+Again, we predict that the particular solution is zero, since if \(h(t)\) contains a delta function, \(h^{\prime\prime}(t)\) would contribute \(\delta^{\prime\prime}(t)\) to the left-hand side. To find the coefficients \(C_{\,1}\) and \(C_{\,2}\), we substitute Equation (2.5.19) in the differential equation to obtain
+
+\[C_{\,1}=0\quad\text{and}\quad\quad C_{\,2}=1\]
+
+In Chapters 4 and 5, we use transform methods to find the impulse response in a much easier manner.
+
+### State-Variable Representation
+
+In our previous discussions, we have characterized linear time-invariant systems by either their impulse response functions or by differential equations relating their inputs and outputs. Frequently, the impulse response is the most convenient method of system description. By knowing the input of the system over the interval \(-\infty<t<\infty\), the output of the system is obtained by forming the convolution integral. In the case of the differential-equation representation, the output is determined in terms of a set of initial conditions. If we want to find the output over some interval \(t_{0}\leq t<t_{1}\), we must know not only the input over this interval, but also a certain number of initial conditions that must be sufficient to describe how any past inputs (i.e. for \(t\leq t_{0}\)) affect the output of the system in the interval \(t_{0}\leq t<t_{1}\).
+
+In this section, we discuss the method of state-variable representation of systems. The representation of systems in this form has many advantages:
+
+1. It provides an insight into the behavior of the system that neither the impulse response nor the differential-equation methods do.
+2. It can be easily adapted for analog and digital computer solution.
+3. It can be extended to nonlinear and time-varying systems.
+4. It allows us to handle systems with many inputs and outputs.
+
+The computer solution feature by itself is the reason that state-variable methods are widely used in analyzing highly complex systems.
+
+We define the state of the system as the minimal amount of information that is sufficient to determine the output of the system for all \(t\geq t_{0}\), provided that the input to the system is also known for all times \(t\geq t_{0}\). The variables that contain this information are called the state variables. Given the state of the system at \(t_{0}\) and the input from \(t_{0}\) to \(t_{1}\), we can find both the output and the state at \(t_{1}\). Note that this definition of the state of the system applies only to causal systems (future inputs cannot affect the output).
+
+#### State Equations
+
+Consider the single-input single-output second-order continuous-time system described by Equation (2.5.11). Figure 2.5.3 depicts a realization of the system. Since integrators are elements with memory (contain information about the past history of the system), it is natural to choose the outputs of integrators as the state of the system at any time \(t\). Note that a continuous-time system of dimension \(N\) is be realized by \(N\) integrators and is, therefore, completely represented by \(N\) state variables. It is often advantageous to think of the state variables as the components of an \(N\)-dimensional vector referred to as state vector \(\mathbf{v}(t)\). Throughout the book **boldface** lowercase letters are used to denote vectors and **boldface** uppercase letters are used to denote matrices. In the example under consideration, we define the components of the state vector \(\mathbf{v}(t)\) as
+
+\[v_{1}(t) =y(t)\] \[v_{2}(t) =v^{\prime}{}_{1}(t)\]
+
+In matrix form, this becomes
+
+\[\mathbf{v}^{\prime}(t)=\begin{bmatrix}0&\dfrac{1}{C}\\ \frac{-1}{L}&\frac{-R}{L}\end{bmatrix}\mathbf{v}(t)+\begin{bmatrix}0\\ \dfrac{1}{L}\end{bmatrix}x(t)\]
+
+\[y\left(t\right)=\left[\begin{array}{cc}1&0\end{array}\right]\mathbf{v}(t)\]
+
+If we assume \(C=\frac{\dot{1}}{2}\) and \(L=R=1\), we have
+
+\[\begin{array}{l}\mathbf{v}^{\prime}(t)=\begin{bmatrix}0&2\\ -1&-1\end{bmatrix}&\mathbf{v}(t)+\begin{bmatrix}0\\ 1\end{bmatrix}x(t)\\ y\left(t\right)=\begin{bmatrix}1&0\end{array}\right]\mathbf{v}(t)\end{array}\]
+
+#### Time-Domain Solution of the State Equations
+
+Consider the single-input single-output linear time-invariant continuous-time system described by the following state equation:
+
+\[\mathbf{v}^{\prime}(t)=\mathbf{A}\mathbf{v}(t)+\mathbf{b}x(t) \tag{2.6.5}\]
+
+\[y\left(t\right)=\mathbf{c}\mathbf{v}(t)+dx\left(t\right) \tag{2.6.6}\]
+
+The state vector \(\mathbf{v}(t)\)is an explicit function of time, but it also depends implicitly on the initial state \(\mathbf{v}(t_{0})=\mathbf{v}_{0}\), the initial time \(t_{0}\), and the input \(x\left(t\right)\). Solving the state equations means finding that functional dependence. From this, we can compute the output \(y\left(t\right)\) by using Equation (2.6.6).
+
+As a natural generalization of the solution to the scalar first-order differential equation, we would expect that the solution to the homogeneous matrix-differential equation to be of the form
+
+\[\mathbf{v}(t)=\exp\left[\begin{array}{cc}\mathbf{A}t\end{array}\right] \mathbf{v}_{0}\]
+
+where \(\exp\left[\begin{array}{cc}\mathbf{A}t\end{array}\right]\) is an \(N\times N\) matrix exponential of time functions and is defined by the matrix power series
+
+\[\exp\left[\begin{array}{cc}\mathbf{A}t\end{array}\right]=\mathbf{I}+ \mathbf{A}t+\mathbf{A}^{2}\ \frac{\dot{t}^{2}}{2!}+\mathbf{A}^{3}\frac{t^{3}}{3!}+\ \cdots\ +\mathbf{A}^{k}\ \frac{\dot{t}^{k}}{k!}+\ \cdots \tag{2.6.7}\]
+
+where \(\mathbf{I}\) is the \(N\times N\) identity matrix. Using this definition we can establish the following properties:
+
+\[\exp\left[\begin{array}{cc}\mathbf{A}(t_{1}+t_{2})\end{array}\right]=\exp \left[\begin{array}{cc}\mathbf{A}t_{1}\end{array}\right]\exp\left[\begin{array} []{cc}\mathbf{A}t_{2}\end{array}\right] \tag{2.6.8}\]
+
+and
+
+\[\left[\exp\left[\begin{array}{cc}\mathbf{A}t\end{array}\right]\right]^{-1}= \exp\left[\begin{array}{cc}-\mathbf{A}t\end{array}\right] \tag{2.6.9}\]
+
+To prove Equation (2.6.8), we expand \(\exp[\mathbf{A}t_{1}]\) and \(\exp[\mathbf{A}t_{2}]\) in power series and 
+
+\[\mathbf{v}(t)=\exp\left[\mathbf{A}(t-t_{0})\right]\,\mathbf{v}_{0}+\int\limits_{t_{ 0}}^{t}\exp\left[\mathbf{A}(t-\tau)\right]\,\mathbf{b}x\left(\tau\right)\,d\tau \tag{2.6.13}\]
+
+The matrix exponential \(\exp\left[\mathbf{A}t\right]\) is called the state transition matrix and is denoted by \(\mathbf{\Phi}(t)\). The complete output response \(y\left(t\right)\) is obtained by substituting Equation (2.6.13) into Equation (2.6.6). The result is given by
+
+\[y\left(t\right)=\mathbf{c}\,\,\mathbf{\Phi}(t-t_{0})\,\,\mathbf{v}_{0}+\int \limits_{t_{0}}^{t}\mathbf{c}\,\,\mathbf{\Phi}(t-\tau)\,\,\mathbf{b}\,\,x\left( \tau\right)\,d\tau+d\,\,x\left(t\right),\,\,\,t\geq t_{0} \tag{2.6.14}\]
+
+Using the sifting property of the unit impulse \(\delta(t)\), Equation (2.6.14) can be rewritten as
+
+\[y\left(t\right)=\mathbf{c}\,\,\mathbf{\Phi}(t-t_{0})\,\,\mathbf{v}_{0}+\int \limits_{t_{0}}^{t}\left\{\mathbf{c}\,\,\mathbf{\Phi}(t-\tau)\mathbf{b}+d\, \,\delta(t-\tau)\right\}\,\,x\left(\tau\right)\,d\tau,\qquad t\geq t_{0} \tag{2.6.15}\]
+
+Observe that the complete solution is the sum of two terms. The first term is the response when input \(x\left(t\right)\) is zero and is called the zero-input response. The second term is the response when the initial state \(\mathbf{v}_{0}\) is zero and is called the zero-state response. Further inspection of the zero-state response reveals that this term is the convolution of input \(x\left(t\right)\) with \(\mathbf{c}\,\mathbf{\Phi}(t)+d\,\,\delta(t)\). Comparing this result with Equation (2.3.3), we conclude that the impulse response \(h\left(t\right)\) of the system is
+
+\[h\left(t\right)=\begin{bmatrix}\mathbf{c}\,\,\mathbf{\Phi}(t)\,\,\mathbf{b}+ d\,\,\delta(t)&t\geq t_{0}\\ 0&\text{otherwise}\end{bmatrix} \tag{2.6.16}\]
+
+That is, the impulse response is composed of two terms. The first term is due to the contribution of the state-transition matrix, and the second term is a straight-through path from input to output. Equation (2.6.16) can be used to compute the impulse response directly from the coefficient matrices of the state model of the system.
+
+Consider the linear time-invariant continuous-time system described by the differential equation
+
+\[y^{\prime\prime}(t)+y^{\prime}(t)-2\,\,y\left(t\right)=x\left(t\right)\]
+
+The state space model for this system is
+
+\[\mathbf{v}^{\prime}(t)=\begin{bmatrix}0&1\\ 2&-1\end{bmatrix}\quad\mathbf{v}(t)+\begin{bmatrix}0\\ 1\end{bmatrix}\quad x\left(t\right)\]
+
+To determine the zero-input response of the system to a specified initial condition vector
+
+\[\mathbf{v}_{0}=\begin{bmatrix}1\\ 0\end{bmatrix}\]
+
+we have to calculate \(\mathbf{\Phi}\left(t\right)\). The powers of matrix \(\mathbf{A}\) are 
+
+**Example 2.6.3**: Given the continuous-time system
+
+\[\mathbf{v}^{\prime}(t)=\begin{bmatrix}-1&0&0\\ 0&-4&4\\ 0&-1&0\end{bmatrix}\ \mathbf{v}(t)\ +\ \begin{bmatrix}1\\ 1\\ 1\end{bmatrix}\ x(t)\]
+
+\[y(t)=[-1\ \ \ 2\ \ 0]\ \ \mathbf{v}(t)\]
+
+we compute the transition matrix and the impulse response of the system. By using Equation (2.6.7), we have
+
+\[\mathbf{\Phi}(t)=\begin{bmatrix}1&0&0\\ 0&1&0\\ 0&0&1\end{bmatrix}+\begin{bmatrix}-t&0&0\\ 0&-4t&4t\\ 0&-t&0\end{bmatrix}+\begin{bmatrix}\dfrac{t^{2}}{2}&0&0\\ 0&6t^{2}&-8t^{2}\\ 0&2t^{2}&-2t^{2}\end{bmatrix}+\ \cdots\]
+
+\[=\begin{bmatrix}1-t+\dfrac{t^{2}}{2}+\ \cdots&0&0\\ 0&1-4t+6t^{2}+\ \cdots&4t-8t^{2}+\ \cdots\\ 0&-t+2t^{2}+\ \cdots&1-2t^{2}+\ \cdots\end{bmatrix}\]
+
+By using Equation (2.6.16), the system impulse response is
+
+\[h\left(t\right)=[-1\ \ \ 2\ \ 0]\ \ \mathbf{\Phi}(t)\ \begin{bmatrix}1\\ 1\\ 1\end{bmatrix}=3-11t+\dfrac{33}{2}\ t^{2}+\ \cdots\]
+
+It is clear from Equations (2.6.13), (2.6.15), and (2.6.16) that in order to determine \(\mathbf{v}(t)\), \(y(t)\), or \(h\left(t\right)\), we have to first obtain \(\exp\left[\mathbf{A}t\right]\). The last two examples demonstrate how to use the power series method to find \(\mathbf{\Phi}(t)\!=\!\exp\left[\mathbf{A}t\right]\). Although the method is straightforward and the form is acceptable, the major problem is that it is usually not possible to recognize a closed form corresponding to this solution. Another method that can be used comes from the Cayley-Hamilton theorem. This theorem states that any arbitrary \(N\times N\) matrix \(\mathbf{A}\) satisfies its characteristic equation, that is,
+
+\[\det(\mathbf{A}-\lambda\mathbf{I})=0\]
+
+The Cayley-Hamilton theorem gives a means of expressing any power of a matrix \(\mathbf{A}\) in terms of a linear combination of \(\mathbf{A}^{m}\) for \(m=0,\,1,\,\ldots\,\,,\,N-1\).
+
+**Example 2.6.4**: Given
+
+\[\mathbf{A}=\begin{bmatrix}5&4\\ 1&2\end{bmatrix}\]
+
+Then,\[\det(\mathbf{A}-\lambda\,\mathbf{I})=\lambda^{2}-7\lambda+6\]
+
+and the given matrix satisfies
+
+\[\mathbf{A}^{2}-7\,\mathbf{A}+6\,\mathbf{I}=\mathbf{0}\]
+
+Therefore \(\mathbf{A}^{2}\) can be expressed in terms of \(\mathbf{A}\) and \(\mathbf{I}\) by
+
+\[\mathbf{A}^{2}=7\,\mathbf{A}-6\,\mathbf{I} \tag{2.6.17}\]
+
+Also \(\mathbf{A}^{3}\) can be found by multiplying Equation (2.6.17) by \(\mathbf{A}\) and then using Equation (2.6.17) again:
+
+\[\mathbf{A}^{3} =7\,\mathbf{A}^{2}-6\,\mathbf{A}=7(7\,\mathbf{A}-6\,\mathbf{I})-6 \,\mathbf{A}\] \[=43\,\mathbf{A}-42\,\mathbf{I}\]
+
+Similarly any power of \(\mathbf{A}\) can be found as a linear combination of \(\mathbf{A}\) and \(\mathbf{I}\) by this method. We can also determine \(\mathbf{A}^{-1}\) if it exists, by multiplying Equation (2.6.17) by \(\mathbf{A}^{-1}\) and rearranging terms to obtain
+
+\[\mathbf{A}^{-1}=\frac{1}{6}\left[\,7\,\mathbf{I}-\mathbf{A}\right]\]
+
+It follows from our previous discussion that we can use the Cayley-Hamilton theorem to write \(\exp\left[\mathbf{A}t\right]\) as a linear combination of the terms \((\mathbf{A}t)^{i}\), \(i=0\), \(1\), \(2\), \(\ldots\), \(N-1\), so that
+
+\[\exp\left[\,\mathbf{A}t\,\right]=\sum_{i=0}^{N-1}\gamma_{i}(t)\,\,\mathbf{A}^ {i} \tag{2.6.18}\]
+
+If \(\mathbf{A}\) has distinct eigenvalues \(\lambda_{i}\), we can obtain \(\gamma_{j}(t)\) by solving the set of equations
+
+\[\exp\left[\,\lambda_{j}t\,\right]=\sum_{i=0}^{N-1}\gamma_{i}(t)\,\,\lambda_{j }^{i}\quad\,j=1,\,\,\cdots\,,\,N \tag{2.6.19}\]
+
+For the case of repeated eigenvalues, the procedure is a little more complex as can be seen later (see Appendix C for details).
+
+Suppose that we want to find the transition matrix for the system with
+
+\[\mathbf{A}=\begin{bmatrix}-3&1&0\\ 1&-3&0\\ 0&0&-3\end{bmatrix}\]
+
+using the Cayley-Hamilton method. First, we calculate the eigenvalues of \(\mathbf{A}\) as \(\lambda_{1}=-2\), \(\lambda_{2}=-3\), and \(\lambda_{3}=-4\). It follows from the Cayley-Hamilton theorem that we can write \(\exp[\mathbf{A}t]\) as
+
+\[\exp\left[\mathbf{A}t\right]=\gamma_{0}(t)\,\mathbf{I}+\gamma_{1}(t)\mathbf{A }+\gamma_{2}(t)\,\,\mathbf{A}^{2}\]
+
+where the coefficients \(\gamma_{0}(t)\), \(\gamma_{1}(t)\), and \(\gamma_{2}(t)\) are the solution of the following set of equations\[\exp\left[-2t\right] =\gamma_{0}(t)-2\gamma_{1}(t)+4\gamma_{2}(t)\] \[\exp\left[-3t\right] =\gamma_{0}(t)-3\gamma_{1}(t)+9\gamma_{2}(t)\] \[\exp\left[-4t\right] =\gamma_{0}(t)-4\gamma_{1}(t)+16\gamma_{2}(t)\] from which \[\gamma_{0}(t) =3\exp\left[-4t\right]-8\exp\left[-3t\right]+6\exp\left[-2t\right]\] \[\gamma_{1}(t) =\frac{5}{2}\exp\left[-4t\right]-6\exp\left[-3t\right]+\frac{7}{2 }\exp\left[-2t\right]\] \[\gamma_{2}(t) =\frac{1}{2}(\exp\left[-4t\right]-2\exp\left[-3t\right]+\exp\left[ -2t\right])\] Thus, \(\exp\left[\mathbf{A}t\right]\) is \[\exp\left[\mathbf{A}t\right] =\gamma_{0}(t)\begin{bmatrix}1&0&0\\ 0&1&0\\ 0&0&1\end{bmatrix}+\gamma_{1}(t)\begin{bmatrix}-3&1&0\\ 1&-3&0\\ 0&0&-3\end{bmatrix}+\gamma_{2}(t)\begin{bmatrix}10&-6&0\\ -6&10&0\\ 0&0&9\end{bmatrix}\] \[=\begin{bmatrix}\frac{1}{2}\exp\left[-4t\right]+\frac{1}{2}\exp \left[-2t\right]&-\frac{1}{2}\exp\left[-4t\right]+\frac{1}{2}\exp\left[-2t \right]&0\\ -\frac{1}{2}\exp\left[-4t\right]+\frac{1}{2}\exp\left[-2t\right]&\frac{1}{2} \exp\left[-4t\right]+\frac{1}{2}\exp\left[-2t\right]&0\\ 0&0&\exp\left[-3t\right]\end{bmatrix}\]
+
+**Example 2.6.6**: Let us repeat Example 2.6.5 for the system with
+
+\[\mathbf{A}=\begin{bmatrix}-1&0&0\\ 0&-4&4\\ 0&-1&0\end{bmatrix}\]
+
+This matrix has \(\lambda_{1}=-1\), and \(\lambda_{2}=\lambda_{3}=-2\).
+
+Thus,
+
+\[\mathbf{\Phi}\left(t\right)=\exp\left[\mathbf{A}t\right]=\gamma_{0}(t)\ \mathbf{I}+\gamma_{1}(t)\ \mathbf{A}+\gamma_{2}(t)\ \mathbf{A}^{2}\]
+
+The coefficients \(\gamma_{0}(t)\), \(\gamma_{1}(t)\), and \(\gamma_{2}(t)\) are obtained by using
+
+\[\exp\left[\lambda t\right]=\gamma_{0}(t)+\gamma_{1}(t)\lambda+\gamma_{2}(t)\ \lambda^{2} \tag{2.6.20}\]
+
+However, when we use \(\lambda=-1\), \(-2\), and \(-2\) in this equation, we get
+
+\[\exp\left[-t\right]=\gamma_{0}(t)-\gamma_{1}(t)+\gamma_{2}(t)\] \[\exp\left[-2t\right]=\gamma_{0}(t)-2\gamma_{1}(t)+4\gamma_{2}(t)\] \[\exp\left[-2t\right]=\gamma_{0}(t)-2\gamma_{1}(t)+4\gamma_{2}(t)\]
+
+Since one eigenvalue is repeated, we have only two equations in three unknowns. Tocompletely determine \(\gamma_{0}(t)\), \(\gamma_{1}(t)\) and \(\gamma_{2}(t)\) we need another equation, which we can generate by differentiating Equation (2.6.20) with respect to \(\lambda\) to obtain
+
+\[t\,\exp\left[\lambda t\right]=\gamma_{1}(t)+2\gamma_{2}(t)\lambda\]
+
+Thus, the coefficients \(\gamma_{0}(t)\), \(\gamma_{1}(t)\), and \(\gamma_{2}(t)\) are obtained as the solution to the following three equations
+
+\[\exp\left[-t\right] = \gamma_{0}(t)-\gamma_{1}(t)+\gamma_{2}(t)\] \[\exp\left[-2t\right] = \gamma_{0}(t)-2\gamma_{1}(t)+4\gamma_{2}(t)\] \[t\exp\left[-2t\right] = \gamma_{1}(t)-4\gamma_{2}(t)\]
+
+Solving for \(\gamma_{i}(t)\), yields
+
+\[\gamma_{0}(t) = 4\,\exp\left[-t\right]-3\,\exp\left[-2t\right]-2t\,\exp\left[-2t\right]\] \[\gamma_{1}(t) = 4\,\exp\left[-t\right]-4\,\exp\left[-2t\right]-3t\,\exp\left[-2t\right]\] \[\gamma_{2}(t) = \exp\left[-t\right]-\exp\left[-2t\right]-t\,\exp\left[-2t\right]\]
+
+so that \(\mathbf{\Phi}\left(t\right)\) is
+
+\[\mathbf{\Phi}\left(t\right) = \gamma_{0}(t)\begin{bmatrix}1&0&0\\ 0&1&0\\ 0&0&0\end{bmatrix}+\gamma_{1}(t)\begin{bmatrix}-1&0&0\\ 0&-4&4\\ 0&-1&0\end{bmatrix}+\gamma_{2}(t)\begin{bmatrix}1&0&0\\ 0&12&-16\\ 0&4&-4\end{bmatrix}\] \[= \begin{bmatrix}\exp\left[-t\right]&0&0&0\\ 0&\exp\left[-2t\right]-2t\exp\left[-2t\right]&4t\exp\left[-2t\right]\\ 0&-t\exp\left[-2t\right]&-4\exp\left[-t\right]+4\exp\left[-2t\right]+4t\,\exp \left[-2t\right]\end{bmatrix}\]
+
+Other methods for calculating \(\mathbf{\Phi}\left(t\right)\) are available. The reader should keep in mind that no one method is easiest in all applications.
+
+The state transition matrix possesses several properties. We list some of these properties in the following:
+
+1. Transition property \[\mathbf{\Phi}\left(t_{2}-t_{0}\right)=\mathbf{\Phi}\left(t_{2}-t_{1}\right)\, \mathbf{\Phi}\left(t_{1}-t_{0}\right)\] (2.6.21)
+2. Inversion property \[\mathbf{\Phi}\left(t_{0}-t\right)=\mathbf{\Phi}^{-1}(t-t_{0})\] (2.6.22)
+3. Separation property \[\mathbf{\Phi}\left(t-t_{0}\right)=\mathbf{\Phi}\left(t\right)\,\mathbf{\Phi} ^{-1}(t_{0})\] (2.6.23)
+
+These properties can be easily established by using the properties of the matrix exponential \(\exp\left[\Lambda t\right]\), namely, Equations (2.6.8) and (2.6.9). For instance, the proof of the transition property follows from \[\mathbf{\Phi}\left(t_{2}-t_{0}\right) =\exp\left[\mathbf{A}(t_{2}-t_{0})\right]\] \[=\exp\left[\mathbf{A}(t_{2}-t_{1}+t_{1}-t_{0})\right]\] \[=\exp\left[\mathbf{A}(t_{2}-t_{1})\right]\exp\left[\mathbf{A}(t_{ 1}-t_{0})\right]\] \[=\mathbf{\Phi}\left(t_{2}-t_{1}\right)\mathbf{\Phi}(t_{1}-t_{0})\]
+
+The inversion property follows directly from (2.6.9). Finally, the separation property is obtained by substituting \(t_{2}=t\) and \(t_{1}=0\) in Equation (2.6.21) and then using the inversion property.
+
+#### State Equations in First Canonical Form
+
+In Section 2.5, we discussed techniques to derive two different canonical simulation diagrams for an LTI system. These simulation diagrams can be used to develop two state-variable representations. The state equation in the first canonical form is obtained by choosing as a state variable the output of each integrator in Figure 2.5.4. In this case, the state equations have the form
+
+\[y\left(t\right) =v_{1}\left(t\right)+b_{N}\ x\left(t\right)\] \[v^{\prime}{}_{1}\left(t\right) =-a_{N-1}\ y\left(t\right)+v_{2}\left(t\right)+b_{N-1}\ x\left(t\right)\] \[v^{\prime}{}_{2}\left(t\right) =-a_{N-2}\ y\left(t\right)+v_{3}\left(t\right)+b_{N-2}\ x\left(t\right)\] \[\cdot\] \[\cdot\] \[\cdot\] \[\cdot\] \[\cdot\] \[\cdot\] \[\cdot\] \[v^{\prime}{}_{N-1}\left(t\right) =-a_{1}\ y\left(t\right)+v_{N}\left(t\right)+b_{1}\ x\left(t\right)\] \[v^{\prime}{}_{N}\left(t\right) =-a_{0}\ y\left(t\right)+b_{0}\ x\left(t\right) \tag{2.6.24}\]
+
+By using the first equation in Equation (2.6.24) to eliminate \(y\left(t\right)\), the differential equations for the state variables can be written in the following matrix form:
+
+\[\begin{bmatrix}v^{\prime}{}_{1}\left(t\right)\\ v^{\prime}{}_{2}\left(t\right)\\ \cdot\\ \cdot\\ \cdot\\ v^{\prime}{}_{N}\left(t\right)\end{bmatrix}=\begin{bmatrix}-a_{N-1}&1&0& \cdot&\cdot&\cdot&0\\ -a_{N-2}&0&1&\cdot&\cdot&0\\ \cdot&\cdot&\cdot&\cdot&\cdot&0\\ \cdot&\cdot&\cdot&\cdot&\cdot&\cdot\\ \cdot&\cdot&\cdot&\cdot&\cdot&\cdot&\cdot\\ -a_{1}&0&0&\cdot&\cdot&1\\ -a_{0}&0&0&\cdot&\cdot&0\end{bmatrix}\left[\begin{array}{c}v_{1}\left(t \right)\\ v_{2}\left(t\right)\\ \cdot\\ \cdot\\ v_{N-1}\left(t\right)\\ v_{N}\left(t\right)\end{array}\right]+\begin{bmatrix}b_{N-1}-a_{N-1}&b_{N}\\ b_{N-2}-a_{N-2}&b_{N}\\ \cdot\\ \cdot\\ b_{1}-a_{1}\ b_{N}\\ b_{0}-a_{0}\ b_{N}\end{bmatrix}x\left(t\right) \tag{2.6.25}\]
+
+We call this the first canonical form for the state equations. Note that this form contains ones above the diagonal and the first column of matrix \(\mathbf{A}\) consists of the negatives of the coefficients \(a_{i}\). Also, the output \(y\left(t\right)\) can be written in terms of the state vector \(\mathbf{v}\)_(t)_\[y\left(t\right)=\left[1\begin{array}{ccc}0&\cdots&0\right]\left[\begin{array}{c}v_{ 1}(t)\\ v_{2}(t)\\ \vdots\\ \vdots\\ v_{N}(t)\end{array}\right]+b_{N}\ x(t)\.\]
+
+Note this form of state-variable representation can be written down directly from the original Equation (2.5.1)
+
+**Example 2.6.7**: The first-canonical-form state-variable representation of the LTI system described by
+
+\[2y^{\prime\prime}(t)+4y^{\prime}(t)+3y\left(t\right)=4x^{\prime}(t)+2x(t)\]
+
+is
+
+\[y\left(t\right)=\left[1\begin{array}{cc}0\end{array}\right]\left[\begin{array} []{c}v_{1}(t)\\ v_{2}(t)\end{array}\right]\]
+
+**Example 2.6.8**: The LTI system described by
+
+\[y^{\prime\prime\prime}(t)-2y^{\prime\prime\prime}(t)+y^{\prime}(t)+4y(t)=x^{ \prime\prime\prime}(t)+5x(t)\]
+
+has the following first canonical representation
+
+\[y\left(t\right)=\left[1\begin{array}{cc}0\end{array}\right]\left[\begin{array} []{c}v_{1}(t)\\ v_{2}(t)\\ v_{3}(t)\end{array}\right]+\begin{array}{c}x(t)\end{array}\]
+
+#### State Equations in Second Canonical Form
+
+Another state-variable form can be obtained from the simulation diagram of Figure 2.5.5. Here, again, the state variables are chosen to be the output of each integrator. The equations for the state variables are now
+
+\[v^{\prime}_{1}(t)=v_{2}(t)\]\[\begin{split} v^{\prime}{}_{2}(t)&=v_{3}(t)\\ &\cdot\\ &\cdot\\ &\cdot\\ \cdot v^{\prime}{}_{N-1}(t)&=v_{N}(t)\\ \v^{\prime}{}_{N}(t)&=-a_{N-1}\ v_{N}(t)-a_{N-2}\ v_{ N-1}(t)-\cdots\ -a_{0}\ v_{1}(t)+x(t)\\ y(t)&=b_{0}\ v_{1}(t)+b_{1}v_{2}(t)+\ \cdots+b_{N-1}\ v_{N}(t)+\\ &\qquad\qquad b_{N}(x(t)-a_{0}\ v_{\ |}(t)-a_{\ |}\ v_{2}(t)-\cdots\ -a_{N-1}\ v_{N}(t))\end{split} \tag{2.6.27}\]
+
+In matrix form Equation (2.6.27) can be written as
+
+\[\begin{split}\frac{d}{dt}\begin{bmatrix}v_{1}(t)\\ v_{2}(t)\\ \cdot\\ v_{N}(t)\end{bmatrix}&=\begin{bmatrix}0&1&0&\cdot&\cdot&\cdot&0\\ 0&0&1&\cdot&\cdot&\cdot&0\\ \cdot&\cdot&\cdot&\cdot&\cdot&\cdot&\cdot\\ \cdot&\cdot&\cdot&\cdot&\cdot&\cdot&\cdot\\ \cdot&\cdot&\cdot&\cdot&\cdot&\cdot&\cdot\\ 0&0&0&\cdot&\cdot&\cdot&1\\ \cdot a_{0}&-a_{1}&-a_{2}&\cdot&\cdot&\cdot&\cdot&-a_{N-1}\end{bmatrix} \begin{bmatrix}v_{1}(t)\\ v_{2}(t)\\ \cdot\\ \cdot\\ v_{N}(t)\end{bmatrix}+\begin{bmatrix}0\\ 0\\ \cdot\\ \cdot\\ \cdot\\ v_{N}(t)\end{bmatrix}&x(t)\\ y(t)&=[(b_{0}-a_{0}\,b_{N})\,(b_{1}-a_{1}\,b_{N})\cdots\ (b_{N-1}-a_{N-1}b_{N})]\begin{bmatrix}v_{1}(t)\\ v_{2}(t)\\ \cdot\\ \cdot\\ v_{N}(t)\end{bmatrix}+b_{N}x(t).\end{split} \tag{2.6.28}\]
+
+This representation is called the second canonical form. Note that in this representation, the ones are above the diagonal but the a's go across the bottom row of the \(N\times N\) transition matrix. The second canonical state representation form can be written directly upon inspection of the original differential equation describing the system.
+
+**Example 2.6.9**: The second canonical form of the state equation of the system described by
+
+\[y^{\prime\prime\prime\prime}(t)-2y^{\prime\prime}(t)+y^{\prime}(t)+4y(t)=x^{ \prime\prime\prime\prime}(t)+5x(t)\,\]
+
+is given by
+
+\[y(t)=[-3\quad-1\quad 2]\begin{bmatrix}v_{1}(t)\\ v_{2}(t)\\ v_{3}(t)\end{bmatrix}+x(t)\,\]The first and second canonical forms are only two of many possible state-variable representations of a continuous-time system. In other words, the state-variable representation of a continuous-time system is not unique. For an N-dimensional system, there are an infinite number of state models that represent that system. However, all N-dimensional state models are equivalent in the sense that they have exactly the same input/output relationship. Mathematically, a set of state equations with state vector \(\mathbf{v}(t)\) can be transformed to a new set with state vector \(\mathbf{q}(t)\) by using a transformation \(\mathbf{P}\) such that
+
+\[\mathbf{q}(t)=\mathbf{P}\ \mathbf{v}(t) \tag{2.6.30}\]
+
+where \(\overset{\cdot}{\mathbf{P}}\) is an invertible \(N\times N\) matrix so that \(\mathbf{v}(t)\) can be obtained from \(\mathbf{q}(t)\). It can be shown (see Problem 2.34) that the new state and output equations are
+
+\[\mathbf{q}^{\prime}(t) =\mathbf{A}_{1}\ \mathbf{q}(t)+\mathbf{b}_{1}\ x(t) \tag{2.6.31}\] \[y\left(t\right) =\mathbf{c}_{1}\ \mathbf{q}(t)+d_{1}\ x(t) \tag{2.6.32}\]
+
+where
+
+\[\mathbf{A}_{1}=\mathbf{P}\,\mathbf{A}\,\mathbf{P}^{-1},\quad\mathbf{b}_{1}= \mathbf{P}\,b,\quad\mathbf{c}_{1}=\mathbf{c}\ \mathbf{P}^{-1},\quad d_{1}=d \tag{2.6.33}\]
+
+The only restriction on \(\mathbf{P}\) is the existence of its inverse. Since there are an infinite number of such matrices, we conclude that we can generate an infinite number of equivalent N-dimensional state models.
+
+If we envisage \(\mathbf{v}(t)\) as a vector with N coordinates, the transformation in Equation (2.6.30) represents a coordinate transformation that takes the old state coordinates and maps them to the new state coordinates. The new state model can have one or more of the coefficients \(\mathbf{A}_{1}\), \(\mathbf{b}_{1}\), and \(\mathbf{c}_{1}\) in a special form. Such forms result in a significant simplification in the solution of certain classes of problems. Examples are the diagonal form and the two canonical forms discussed in this chapter.
+
+**Example 2.6.10**: The state equations of a certain system are given by
+
+\[\begin{bmatrix}v^{\prime}{}_{1}(t)\\ v^{\prime}{}_{2}(t)\end{bmatrix}=\begin{bmatrix}4&2\\ 2&4\end{bmatrix}\ \begin{bmatrix}v_{1}(t)\\ v_{2}(t)\end{bmatrix}+\begin{bmatrix}1\\ 2\end{bmatrix}\ x(t)\]
+
+We need to find the state equations for this system in terms of the new state variables \(q_{1}\) and \(q_{2}\) where
+
+\[\begin{bmatrix}q_{1}(t)\\ q_{2}(t)\end{bmatrix}=\begin{bmatrix}1&1\\ 1&-1\end{bmatrix}\ \begin{bmatrix}v_{1}(t)\\ v_{2}(t)\end{bmatrix}\]
+
+The state equations for the state variable \(\mathbf{q}\) is given by Equation (2.6.31) where
+
+\[\mathbf{A}_{1}=\mathbf{P}\mathbf{A}\mathbf{P}^{-1}=\begin{bmatrix}1&1\\ 1&-1\end{bmatrix}\begin{bmatrix}4&2\\ 2&4\end{bmatrix}\begin{bmatrix}1&1\\ 1&-1\end{bmatrix}^{-1}\]\[=\left[\begin{array}{cc}1&1\\ 1&-1\end{array}\right]\left[\begin{array}{cc}4&2\\ 2&4\end{array}\right]\left[\begin{array}{cc}\frac{1}{2}&\frac{1}{2}\\ \frac{1}{2}&-\frac{1}{2}\end{array}\right]\]
+
+\[=\left[\begin{array}{cc}6&0\\ 0&2\end{array}\right]\]
+
+and
+
+\[\mathbf{b}_{1}=\mathbf{Pb}=\left[\begin{array}{cc}1&1\\ 1&-1\end{array}\right]\left[\begin{array}{cc}1\\ 2\end{array}\right]=\left[\begin{array}{c}3\\ -1\end{array}\right]\]
+
+Let us find the matrix \(\mathbf{P}\) that transforms the second canonical form state equations
+
+\[\left[\begin{array}{c}v^{\prime}{}_{1}(t)\\ v^{\prime}{}_{2}(t)\end{array}\right]=\left[\begin{array}{cc}0&1\\ -2&-3\end{array}\right]\left[\begin{array}{c}v_{1}(t)\\ v_{2}(t)\end{array}\right]+\left[\begin{array}{c}0\\ 1\end{array}\right]\,x(t)\]
+
+into the first canonical form state equations
+
+\[\left[\begin{array}{c}q^{\prime}{}_{1}(t)\\ q^{\prime}{}_{2}(t)\end{array}\right]=\left[\begin{array}{cc}-3&1\\ -2&0\end{array}\right]\left[\begin{array}{c}q{}_{1}(t)\\ q{}_{2}(t)\end{array}\right]+\left[\begin{array}{c}7\\ 2\end{array}\right]\,x(t)\]
+
+We desire the transformation such that \(\mathbf{PAP^{-1}}\)=\(\mathbf{A}_{1}\) or
+
+\[\mathbf{PA}=\mathbf{A}_{1}\mathbf{P}\]
+
+Substituting for \(\mathbf{A}\) and \(\mathbf{A}_{1}\), we obtain
+
+\[\left[\begin{array}{cc}p{}_{11}&p{}_{12}\\ p{}_{21}&p{}_{22}\end{array}\right]\left[\begin{array}{cc}0&1\\ -2&-3\end{array}\right]=\left[\begin{array}{cc}-3&1\\ -2&0\end{array}\right]\left[\begin{array}{cc}p{}_{11}&p{}_{12}\\ p{}_{21}&p{}_{22}\end{array}\right]\]
+
+Equating the four elements on the two sides, we obtain
+
+\[-2p{}_{12} = -3p{}_{11}+p{}_{21}\] \[p{}_{11}-3p{}_{12} = -3p{}_{12}+p{}_{22}\] \[-2p{}_{22} = -2p{}_{11}\] \[p{}_{21}-3p{}_{22} = -2p{}_{12}\]
+
+The reader will immediately recognize that the second and third equations are identical. Similarly, the first and fourth equations are identical. Hence, two equations may be discarded. This leaves us with only two equations and four unknowns. Note also that the constraint \(\mathbf{Pb=b}_{1}\) provides us with the following two additional equations:\[p_{11}=7\]
+
+\[p_{21}=2\]
+
+Solving these four equations simultaneously yields
+
+\[\mathbf{P}=\begin{bmatrix}7&\dfrac{19}{2}\\ 2&7\end{bmatrix}\]
+
+#### 2.6.5 \(\cdot\)Stability Considerations
+
+Earlier in this section, we found a general expression for the state vector \(\mathbf{v}(t)\) of the system with state matrix \(\mathbf{A}\) and initial state \(\mathbf{v}_{0}\). The solution consists of two components, the first component (zero-input) being due to the initial state \(\mathbf{v}_{0}\), and the second component (zero-state) due to input \(x(t)\). For the continuous-time system to be stable, it is required that not only the output but also all signals internal to the system remain bounded when a bounded input is applied. If at least one of the state variables grows without bound, then the system is unstable.
+
+Since the set of eigenvalues of the matrix \(\mathbf{A}\) determines the behavior of \(\exp\left[\mathbf{A}t\right]\) and \(\exp\left[\mathbf{A}t\right]\) is used in evaluating the two components in the expression for the state vector \(\mathbf{v}(t)\), we expect the eigenvalues of \(\mathbf{A}\) to play an important role in determining the stability of the system. Indeed, there exists a technique to test the stability of continuous-time systems without solving for the state vector. This technique follows from the Cayley-Hamilton theorem. We saw earlier that using this theorem, we can write the elements of \(\exp\left[\mathbf{A}t\right]\), and hence the components of the state vector, as functions of the exponentials \(\exp\left[\lambda_{1}t\right]\), \(\exp\left[\lambda_{2}t\right]\), \(\cdots\), \(\exp\left[\lambda_{N}t\right]\), where \(\lambda_{i}\), \(i\) =1, 2,..., \(N\), are the eigenvalues of the matrix \(\mathbf{A}\). For these terms to be bounded, the real part of \(\lambda_{i}\), \(i\) =1, 2,..., \(N\), must be negative. Thus, the condition for stability of a continuous-time system is that all eigenvalues of the state-transition matrix should have negative real parts.
+
+The above conclusion also follows from the fact that the eigenvalues of \(\mathbf{A}\) are identical with the roots of the characteristic equation associated with the differential equation describing the model.
+
+Consider the continuous-time system whose state matrix is
+
+\[\mathbf{A}=\begin{bmatrix}2&-1\\ 4&-3\end{bmatrix}\]
+
+The eigenvalues of \(\mathbf{A}\) are \(\lambda_{1}=2\) and \(\lambda_{2}=-1\), and, hence, the system is unstable.
+
+Consider the system described by the equations
